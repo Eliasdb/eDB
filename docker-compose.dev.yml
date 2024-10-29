@@ -1,0 +1,64 @@
+services:
+    db:
+        image: mysql:latest
+        container_name: my-mysql-db
+        environment:
+            MYSQL_ROOT_PASSWORD: my-secret-pw
+            MYSQL_DATABASE: myapp_db
+            MYSQL_USER: myappuser
+            MYSQL_PASSWORD: myuserpassword
+        ports:
+            - '3306:3306'
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - app-network
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.dev
+        image: vue-node-app-backend:dev
+        container_name: vue-node-app-backend-dev
+        volumes:
+            - ./backend:/app # Syncs code for hot reloading
+            - /app/node_modules # Avoids overwriting node_modules
+        environment:
+            - DATABASE_URL=mysql://myappuser:myuserpassword@db:3306/myapp_db
+        ports:
+            - '9100:9100'
+        depends_on:
+            db:
+                condition: service_healthy
+        networks:
+            - app-network
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.dev
+        image: vue-node-app-frontend:dev
+        container_name: vue-node-app-frontend-dev
+        volumes:
+            - ./frontend:/app # Syncs code changes
+            - /app/node_modules # Prevents overwriting node_modules
+        ports:
+            - '8081:80'
+        environment:
+            - NODE_ENV=development
+        depends_on:
+            - backend
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mysql_data:

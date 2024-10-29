@@ -1,0 +1,26 @@
+# Use the official Node.js image
+FROM node:18 AS dev
+
+# Set the working directory
+WORKDIR /app
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy package.json and pnpm-lock.yaml
+COPY package*.json pnpm-lock.yaml ./
+
+# Install all dependencies
+RUN pnpm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port used by Vue CLI (default 8080)
+EXPOSE 8080
+
+# Set environment to development
+ENV NODE_ENV=development
+
+# Start the development server with hot reloading
+CMD ["pnpm", "serve"]
