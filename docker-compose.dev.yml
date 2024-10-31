@@ -3,10 +3,10 @@ services:
         image: mysql:latest
         container_name: my-mysql-db
         environment:
-            MYSQL_ROOT_PASSWORD: my-secret-pw
-            MYSQL_DATABASE: myapp_db
-            MYSQL_USER: myappuser
-            MYSQL_PASSWORD: myuserpassword
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
         ports:
             - '3306:3306'
         volumes:
@@ -29,7 +29,7 @@ services:
             - ./backend:/app # Syncs code for hot reloading
             - /app/node_modules # Avoids overwriting node_modules
         environment:
-            - DATABASE_URL=mysql://myappuser:myuserpassword@db:3306/myapp_db
+            DATABASE_URL: ${DATABASE_URL}
         ports:
             - '9100:9100'
         depends_on:
@@ -50,7 +50,7 @@ services:
         ports:
             - '8081:80'
         environment:
-            - NODE_ENV=development
+            NODE_ENV: development
         depends_on:
             - backend
         networks:
