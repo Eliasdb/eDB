@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    annotations:
+        kompose.cmd: kompose -f docker-compose.dev.yml convert
+        kompose.version: 1.34.0 (HEAD)
+    labels:
+        io.kompose.service: frontend
+    name: frontend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            io.kompose.service: frontend
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            annotations:
+                kompose.cmd: kompose -f docker-compose.dev.yml convert
+                kompose.version: 1.34.0 (HEAD)
+            labels:
+                io.kompose.service: frontend
+        spec:
+            containers:
+                - env:
+                      - name: NODE_ENV
+                        value: development
+                  image: vue-node-app-frontend:dev
+                  name: vue-node-app-frontend-dev
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 80
+                        protocol: TCP
+                  volumeMounts:
+                      - mountPath: /app
+                        name: frontend-cm0
+                      - mountPath: /app/node_modules
+                        name: frontend-claim1
+            restartPolicy: Always
+            volumes:
+                - configMap:
+                      name: frontend-cm0
+                  name: frontend-cm0
+                - name: frontend-claim1
+                  persistentVolumeClaim:
+                      claimName: frontend-claim1

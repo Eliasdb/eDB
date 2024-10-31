@@ -28,8 +28,9 @@ RUN pnpm add -g nodemon ts-node
 COPY . .
 
 # Copy the wait-for-it.sh script
-COPY wait-for-it.sh /wait-for-it.sh
+COPY /wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
+
 # Run migrations first, then start the application with nodemon
-CMD ["/bin/sh", "-c", "/wait-for-it.sh db -- npx prisma migrate deploy --schema=src/prisma/schema.prisma && npx prisma generate --schema=src/prisma/schema.prisma && nodemon --watch src --exec 'npx ts-node src/app.ts'"]
+CMD ["/bin/sh", "-c", "npx prisma migrate deploy --schema=src/prisma/schema.prisma && npx prisma generate --schema=src/prisma/schema.prisma && nodemon --watch src --exec 'npx ts-node src/app.ts'"]
