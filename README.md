@@ -32,6 +32,10 @@ This project aims to create a full stack application with a frontend, backend, a
 -   **Docker**: Containerization platform to run the frontend, backend, and database in separate containers.
 -   **Docker Compose**: Tool for defining and running multi-container Docker applications.
 -   **Kubernetes**: Container orchestration platform for managing containerized applications.
+    -   **Minikube**: Tool for running a local Kubernetes cluster for development and testing.
+    -   **kubectl**: Command-line tool for interacting with Kubernetes clusters.
+    -   **Kompose**: Tool for converting Docker Compose files to Kubernetes resource manifests.
+    -   **Helm** (optional for future enhancements): Package manager for Kubernetes to simplify deployments and manage configurations.
 
 ### Current Goals
 
@@ -40,3 +44,5 @@ This project aims to create a full stack application with a frontend, backend, a
     - Utilize tools such as Minikube to test Kubernetes locally.
 2. **Deploy to Production**:
     - Deploy the Kubernetes cluster to a production environment with minimal or no cost.
+3. **CI/CD**:
+    - Integrate CI/CD pipelines for continuous deployment.
