@@ -28,3 +28,12 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Certificates and Keys
+*.key
+*.crt
+*.csr
+*.pem
+*.crl
+*.ext
+*.srl
