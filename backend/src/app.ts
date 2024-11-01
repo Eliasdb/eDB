@@ -8,12 +8,10 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Update your route paths as needed
-app.use('/api/users', userRoutes);
+app.use('/users', userRoutes);
 
-// Change health route if necessary
 app.get('/health', (req, res) => {
-    res.status(200).send('Healthy');
+    res.status(200).send('Healthyyy');
 });
 
 app.get('/api', (req, res) => {

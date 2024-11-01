@@ -5,5 +5,5 @@ metadata:
         io.kompose.service: backend
     name: backend-cm0
 data:
-    NODE_ENV: 'production'
+    NODE_ENV: 'development'
     APP_PORT: '9100'

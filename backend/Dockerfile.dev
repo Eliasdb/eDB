@@ -7,22 +7,20 @@ WORKDIR /app
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Set SHELL, PNPM_HOME, and PATH for global installations
+# Set environment variables
 ENV SHELL=/bin/sh
 ENV PNPM_HOME="/root/.pnpm"
-ENV PATH="${PNPM_HOME}:${PATH}"
+ENV PATH="/app/node_modules/.bin:${PNPM_HOME}:${PATH}"
+ENV NODE_ENV=development
 
 # Install netcat-openbsd for database checks
 RUN apt-get update && apt-get install -y netcat-openbsd
 
 # Copy package.json and lock file
-COPY package*.json ./
+COPY package*.json pnpm-lock.yaml ./
 
-# Install dependencies
+# Install dependencies (including devDependencies)
 RUN pnpm install
-
-# Install nodemon and ts-node globally for hot reloading
-RUN pnpm add -g nodemon ts-node
 
 # Copy the rest of the application code
 COPY . .
@@ -31,6 +29,5 @@ COPY . .
 COPY /wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-
-# Run migrations first, then start the application with nodemon
-CMD ["/bin/sh", "-c", "npx prisma migrate deploy --schema=src/prisma/schema.prisma && npx prisma generate --schema=src/prisma/schema.prisma && nodemon --watch src --exec 'npx ts-node src/app.ts'"]
+# Start the application
+CMD ["pnpm", "run", "dev:start"]

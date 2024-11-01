@@ -11,8 +11,7 @@ node_modules
 .env.*.local
 .env
 
-secret.yaml
-db-secrets.yaml
+*-secrets.yaml
 
 # Log files
 npm-debug.log*
@@ -37,3 +36,5 @@ pnpm-debug.log*
 *.crl
 *.ext
 *.srl
+
+logs.txt
