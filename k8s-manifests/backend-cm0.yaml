@@ -7,4 +7,3 @@ metadata:
 data:
     NODE_ENV: 'production'
     APP_PORT: '9100'
-    DATABASE_URL: 'mysql://myappuser:myuserpassword@db:3306/myapp_db'

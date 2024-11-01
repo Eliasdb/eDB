@@ -43,7 +43,7 @@ spec:
                                 key: DATABASE_URL
                   readinessProbe:
                       httpGet:
-                          path: /health
+                          path: /api/health
                           port: 9100
                       initialDelaySeconds: 5
                       periodSeconds: 10
@@ -51,7 +51,7 @@ spec:
                       failureThreshold: 3
                   livenessProbe:
                       httpGet:
-                          path: /health
+                          path: /api/health
                           port: 9100
                       initialDelaySeconds: 15
                       periodSeconds: 20
