@@ -7,11 +7,20 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use('/api/users', userRoutes);
+
+app.use('/users', userRoutes);
+
+app.get('/health', (req, res) => {
+    res.status(200).send('Healthyyy');
+});
+
+app.get('/api', (req, res) => {
+    res.status(200).send('API root is working');
+});
 
 const PORT = 9100;
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
 
 app.get('/api/health', (req, res) => {
