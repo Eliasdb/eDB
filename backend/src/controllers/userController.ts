@@ -1,9 +1,15 @@
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
 import { RequestHandler } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import prisma from '../database';
+dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not defined');
+}
+
+const JWT_SECRET: Secret = process.env.JWT_SECRET;
 
 export const registerUser: RequestHandler = async (req, res) => {
     const { username, password } = req.body;
