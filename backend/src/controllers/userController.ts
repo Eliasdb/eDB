@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import prisma from '../database';
@@ -14,7 +14,7 @@ export const registerUser: RequestHandler = async (req, res) => {
             data: { username, password: hashedPassword },
         });
         res.status(201).json({
-            message: 'User registered successfullly',
+            message: 'User registered successfully',
             user,
         });
     } catch (error) {
