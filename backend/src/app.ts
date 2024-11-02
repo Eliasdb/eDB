@@ -14,6 +14,14 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
+app.get('/api/health', (req, res) => {
+    // You can include more detailed health information here if needed
+    res.status(200).json({
+        status: 'UP',
+        timestamp: new Date(),
+    });
+});
+
 // Close Prisma connection on shutdown
 process.on('SIGINT', async () => {
     await prisma.$disconnect();
