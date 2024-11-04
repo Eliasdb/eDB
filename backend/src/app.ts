@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/users', userRoutes);
 
 app.get('/health', (req, res) => {
-    res.status(200).send('Healthyyy');
+    res.status(200).send('Healthyyyyyynen');
 });
 
 app.get('/api', (req, res) => {

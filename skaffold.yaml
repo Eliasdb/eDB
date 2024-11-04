@@ -37,4 +37,6 @@ build:
 deploy:
     kubectl:
         manifests:
-            - k8s/*.yaml
+            - k8s/backend/*.yaml
+            - k8s/frontend/*.yaml
+            - k8s/database/*.yaml
