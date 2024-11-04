@@ -6,11 +6,10 @@ metadata:
     labels:
         app: frontend
 spec:
-    type: NodePort
+    type: LoadBalancer
     selector:
         app: frontend
     ports:
         - protocol: TCP
-          port: 80
-          targetPort: 80
-          nodePort: 30080 # Choose a port between 30000-32767
+          port: 8080 # The port accessible externally
+          targetPort: 8080 # The port on the container that Vite is running on
