@@ -36,8 +36,11 @@ COPY --from=build /app/dist /app/dist
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/src/prisma /app/src/prisma 
 
-# Copy package.json and pnpm-lock.yaml to install runtime dependencies
+# Copy package.json, pnpm-lock.yaml, and .env to install runtime dependencies
 COPY package*.json pnpm-lock.yaml ./
+COPY .env ./
+
+# Install only production dependencies
 RUN pnpm install --prod
 
 # Expose the port and run the application
