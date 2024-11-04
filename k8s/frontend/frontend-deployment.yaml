@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: vue-node-app-frontend
-                  image: vue-node-app-frontend # Skaffold manages tagging and syncing
+                  image: vue-node-app-frontend
                   imagePullPolicy: IfNotPresent
                   ports:
                       - containerPort: 8080 # Match with Vite's development port
