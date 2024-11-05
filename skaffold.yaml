@@ -40,3 +40,4 @@ deploy:
             - k8s/backend/*.yaml
             - k8s/frontend/*.yaml
             - k8s/database/*.yaml
+            - k8s/adminer/*.yaml
