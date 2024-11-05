@@ -11,11 +11,11 @@ app.use(express.json());
 app.use('/users', userRoutes);
 
 app.get('/health', (req, res) => {
-    res.status(200).send('hello');
+    res.status(200).send('hello wo');
 });
 
 app.get('/api', (req, res) => {
-    res.status(200).send('API root is working');
+    res.status(200).send('API root is workingj');
 });
 
 const PORT = 9100;

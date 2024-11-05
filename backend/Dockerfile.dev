@@ -1,5 +1,4 @@
-# Use the official Node.js image
-FROM node:18 AS dev
+FROM node:18-slim AS dev
 
 # Set the working directory
 WORKDIR /app
@@ -11,17 +10,16 @@ RUN npm install -g pnpm
 ENV PNPM_HOME="/root/.pnpm"
 ENV PATH="${PNPM_HOME}:${PNPM_HOME}/bin:${PATH}"
 
-# Install build tools for native module compilation
-RUN apt-get update && apt-get install -y netcat-openbsd python3 g++ make
+# Install necessary tools including OpenSSL
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    netcat-openbsd openssl && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy package.json and lock file first (to leverage Docker caching)
 COPY package*.json ./
 
 # Install dependencies inside the container
 RUN pnpm install
-
-# Verify and install nodemon and ts-node globally
-RUN pnpm env use --global 18 && pnpm add -g nodemon ts-node
 
 # Copy the rest of the application code
 COPY . .
@@ -30,11 +28,8 @@ COPY . .
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-# Verify nodemon is installed globally
-RUN nodemon --version
-
 # Expose the port your application runs on (e.g., 9100)
 EXPOSE 9100
 
 # Run migrations first, then start the application with nodemon
-CMD ["/bin/sh", "-c", "/wait-for-it.sh db -- npx prisma migrate deploy --schema=src/prisma/schema.prisma && npx prisma generate --schema=src/prisma/schema.prisma && nodemon --watch src --exec 'npx ts-node src/app.ts'"]
+CMD ["/bin/sh", "-c", "/wait-for-it.sh db -- pnpm run dev:start"]
