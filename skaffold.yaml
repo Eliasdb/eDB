@@ -34,6 +34,16 @@ build:
                     dest: .
                   - src: '**/*.vue'
                     dest: .
+        - image: api  # Add your C# .NET API image here
+          context: api/  # Specify the context for your API code
+          docker:
+              dockerfile: Dockerfile.dev  # Specify your API Dockerfile if different
+          sync:
+              manual:
+                  - src: '**/*.cs'  # Sync C# files
+                    dest: .
+                  - src: '**/*.json' # Sync JSON configuration files
+                    dest: .
 deploy:
     kubectl:
         manifests:
@@ -41,3 +51,4 @@ deploy:
             - k8s/frontend/*.yaml
             - k8s/database/*.yaml
             - k8s/adminer/*.yaml
+            - k8s/api/*.yaml  # Include the manifests for your API deployment
