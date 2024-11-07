@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "+a1kDf2uWVj+g/Ld3QF7HzvOqg3otVMSgLOancU9JOxV5VMAPf521wMKQHa5aNB8y0f4OVw81t8zrNbblLw1Bw==",
+  "success": true,
+  "projectFilePath": "/Users/elias/Desktop/Projects/Portfolio2024/Fullstack/Vue-Node/api/api.csproj",
+  "expectedPackageFiles": [
+    "/Users/elias/.nuget/packages/microsoft.aspnetcore.openapi/7.0.12/microsoft.aspnetcore.openapi.7.0.12.nupkg.sha512",
+    "/Users/elias/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/Users/elias/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
+    "/Users/elias/.nuget/packages/swashbuckle.aspnetcore/6.5.0/swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "/Users/elias/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "/Users/elias/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "/Users/elias/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
