@@ -6,8 +6,8 @@ build:
     tagPolicy:
         gitCommit: {} # Automatically tags images with the current Git commit SHA
     artifacts:
-        - image: vue-node-app-frontend
-          context: frontend/
+        - image: frontend
+          context: client/
           docker:
               dockerfile: Dockerfile.dev
           sync:
@@ -18,22 +18,22 @@ build:
                     dest: .
                   - src: '**/*.json'
                     dest: .
-                  - src: '**/*.vue'
+                  - src: '**/*.html'
                     dest: .
-        - image: api # Add your C# .NET API image here
-          context: api/ # Specify the context for your API code
+        - image: api
+          context: api/
           docker:
-              dockerfile: Dockerfile.dev # Specify your API Dockerfile if different
+              dockerfile: Dockerfile.dev
           sync:
               manual:
-                  - src: '**/*.cs' # Sync C# files
+                  - src: '**/*.cs'
                     dest: .
-                  - src: '**/*.json' # Sync JSON configuration files
+                  - src: '**/*.json'
                     dest: .
 deploy:
     kubectl:
         manifests:
-            - k8s/frontend/*.yaml
+            - k8s/client/*.yaml
+            - k8s/api/*.yaml
             - k8s/db/*.yaml
             - k8s/adminer/*.yaml
-            - k8s/api/*.yaml # Include the manifests for your API deployment

@@ -18,11 +18,11 @@ spec:
                 app: frontend
         spec:
             containers:
-                - name: vue-node-app-frontend
-                  image: vue-node-app-frontend
+                - name: frontend
+                  image: frontend
                   imagePullPolicy: IfNotPresent
                   ports:
-                      - containerPort: 8080 # Match with Vite's development port
+                      - containerPort: 4200 # Match with Angular's development port
                         protocol: TCP
                   env:
                       - name: NODE_ENV
@@ -30,7 +30,7 @@ spec:
                   readinessProbe:
                       httpGet:
                           path: /
-                          port: 8080
+                          port: 4200
                       initialDelaySeconds: 5
                       periodSeconds: 10
                       timeoutSeconds: 5
@@ -38,7 +38,7 @@ spec:
                   livenessProbe:
                       httpGet:
                           path: /
-                          port: 8080
+                          port: 4200
                       initialDelaySeconds: 15
                       periodSeconds: 20
                       timeoutSeconds: 5

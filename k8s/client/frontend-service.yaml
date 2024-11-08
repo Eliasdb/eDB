@@ -11,5 +11,5 @@ spec:
         app: frontend
     ports:
         - protocol: TCP
-          port: 8080 # The port accessible externally
-          targetPort: 8080 # The port on the container that Vite is running on
+          port: 4200 # The port accessible externally
+          targetPort: 4200 # The port on the container that Angular is running on
