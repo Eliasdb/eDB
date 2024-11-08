@@ -1,0 +1,58 @@
+services:
+    db:
+        image: mysql:latest
+        container_name: my-mysql-db
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - '3306:3306'
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - app-network
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.prod
+        image: vue-node-app-backend:prod
+        container_name: vue-node-app-backend-prod
+        environment:
+            DATABASE_URL: ${DATABASE_URL}
+        env_file:
+            - .env # Make sure this line is included
+        ports:
+            - '9100:9100'
+        depends_on:
+            db:
+                condition: service_healthy
+        networks:
+            - app-network
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.prod
+        image: vue-node-app-frontend:prod
+        container_name: vue-node-app-frontend-prod
+        ports:
+            - '8081:80'
+        depends_on:
+            - backend
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mysql_data:

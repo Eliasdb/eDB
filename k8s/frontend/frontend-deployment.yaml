@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend
+    namespace: default
+    labels:
+        app: frontend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: frontend
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: frontend
+        spec:
+            containers:
+                - name: vue-node-app-frontend
+                  image: vue-node-app-frontend
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 8080 # Match with Vite's development port
+                        protocol: TCP
+                  env:
+                      - name: NODE_ENV
+                        value: development
+                  readinessProbe:
+                      httpGet:
+                          path: /
+                          port: 8080
+                      initialDelaySeconds: 5
+                      periodSeconds: 10
+                      timeoutSeconds: 5
+                      failureThreshold: 3
+                  livenessProbe:
+                      httpGet:
+                          path: /
+                          port: 8080
+                      initialDelaySeconds: 15
+                      periodSeconds: 20
+                      timeoutSeconds: 5
+                      failureThreshold: 3
+                  resources: # Adjust resource limits as needed for development
+                      requests:
+                          memory: '256Mi'
+                          cpu: '250m'
+                      limits:
+                          memory: '512Mi'
+                          cpu: '500m'
+            restartPolicy: Always
