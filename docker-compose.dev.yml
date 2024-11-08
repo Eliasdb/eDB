@@ -1,58 +1,49 @@
 services:
-    db:
-        image: mysql:latest
-        container_name: my-mysql-db
-        environment:
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_DATABASE: ${DB_NAME}
-            MYSQL_USER: ${DB_USER}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
+    postgres:
+        image: postgres:15-alpine
+        container_name: postgres-dev
+        user: postgres
         ports:
-            - '3306:3306'
-        volumes:
-            - mysql_data:/var/lib/mysql
-        networks:
-            - app-network
+            - 5432:5432
         healthcheck:
-            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-            interval: 10s
-            timeout: 5s
+            test: 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'
+            interval: '10s'
+            timeout: '5s'
             retries: 5
 
-    backend:
+    api:
         build:
-            context: ./backend
+            context: ./api
             dockerfile: Dockerfile.dev
-        image: vue-node-app-backend:dev
-        container_name: vue-node-app-backend-dev
+        image: api:dev
+        container_name: api-dev
         volumes:
-            - ./backend:/app # Syncs code for hot reloading
-            - /app/node_modules # Avoids overwriting node_modules
+            - ./api:/app
         environment:
-            DATABASE_URL: ${DATABASE_URL}
+            ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
         ports:
-            - '9100:9100'
+            - '9101:9101'
         depends_on:
-            db:
+            postgres:
                 condition: service_healthy
         networks:
             - app-network
 
     frontend:
         build:
-            context: ./frontend
+            context: ./client
             dockerfile: Dockerfile.dev
-        image: vue-node-app-frontend:dev
-        container_name: vue-node-app-frontend-dev
+        image: frontend:dev
+        container_name: frontend-dev
         volumes:
-            - ./frontend:/app # Syncs code changes
-            - /app/node_modules # Prevents overwriting node_modules
+            - ./client:/app
+            - /app/node_modules
         ports:
-            - '8080:8080'
+            - '4200:4200'
         environment:
             NODE_ENV: development
         depends_on:
-            - backend
+            - api
         networks:
             - app-network
 
@@ -61,4 +52,4 @@ networks:
         driver: bridge
 
 volumes:
-    mysql_data:
+    postgres_data:
