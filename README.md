@@ -7,7 +7,7 @@ This project aims to create a full stack application with a frontend, backend, a
 ### Current Setup
 
 -   **Frontend**: Vue
--   **Backend**:
+-   **API**:
     -   Node.js
     -   TypeScript
     -   Express
@@ -34,7 +34,7 @@ This project aims to create a full stack application with a frontend, backend, a
         -   K3s is utilized to create a lightweight Kubernetes cluster for local development and testing.
         -   **Create a K3d Cluster** with LoadBalancer ports:
             ```bash
-            k3d cluster create mycluster --port "8080:8080@loadbalancer" --port "9100:9100@loadbalancer"
+            k3d cluster create mycluster --port "8080:8080@loadbalancer" --port "9101:9101@loadbalancer"
             ```
         -   **Start the K3d Cluster** (if it was previously created):
 
