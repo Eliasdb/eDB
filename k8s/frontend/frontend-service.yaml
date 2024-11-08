@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
     name: frontend-service
+    namespace: default
     labels:
         app: frontend
 spec:
@@ -10,5 +11,5 @@ spec:
         app: frontend
     ports:
         - protocol: TCP
-          port: 8080
-          targetPort: 8080
+          port: 8080 # The port accessible externally
+          targetPort: 8080 # The port on the container that Vite is running on

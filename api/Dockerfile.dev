@@ -1,6 +1,8 @@
 # Use the official .NET SDK image
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /app
 
@@ -11,8 +13,14 @@ RUN dotnet restore
 # Copy the rest of the application code
 COPY . ./
 
+# Copy the wait script
+COPY wait-for-postgres.sh .
+
+# Make the script executable
+RUN chmod +x wait-for-postgres.sh
+
 # Expose the application port
 EXPOSE 9101
 
-# Run the application with dotnet watch for hot reloading
-ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:9101"]
+# Run the wait script and then the application
+ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service", "dotnet", "watch", "run", "--urls", "http://0.0.0.0:9101"]

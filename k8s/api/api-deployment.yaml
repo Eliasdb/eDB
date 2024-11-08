@@ -23,3 +23,8 @@ spec:
                   env:
                       - name: ASPNETCORE_ENVIRONMENT
                         value: 'Development'
+                      - name: ConnectionStrings__DefaultConnection
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret
+                                key: CONNECTION_STRING
