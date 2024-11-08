@@ -19,11 +19,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-<<<<<<< HEAD
 *secrets.yaml
 
-=======
->>>>>>> ea02745 (Save untracked files before pull)
 # Editor directories and files
 .idea
 .vscode
@@ -40,10 +37,7 @@ pnpm-debug.log*
 *.pem
 *.crl
 *.ext
-<<<<<<< HEAD
 *.srl
 
 logs.txt
-=======
 *.srl
->>>>>>> ea02745 (Save untracked files before pull)
