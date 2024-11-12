@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: frontend
+    name: mf-shell-app
     namespace: default
     labels:
-        app: frontend
+        app: mf-shell-app
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: frontend
+            app: mf-shell-app
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: frontend
+                app: mf-shell-app
         spec:
             containers:
-                - name: frontend
-                  image: frontend
+                - name: mf-shell-app
+                  image: mf-shell-app # Updated image name
                   imagePullPolicy: IfNotPresent
                   ports:
                       - containerPort: 4200 # Match with Angular's development port
@@ -43,11 +43,4 @@ spec:
                       periodSeconds: 20
                       timeoutSeconds: 5
                       failureThreshold: 3
-                  resources: # Adjust resource limits as needed for development
-                      requests:
-                          memory: '256Mi'
-                          cpu: '250m'
-                      limits:
-                          memory: '512Mi'
-                          cpu: '500m'
             restartPolicy: Always

@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: frontend-service
+    name: mf-shell-service # Updated service name
     namespace: default
     labels:
-        app: frontend
+        app: mf-shell-app
 spec:
     type: LoadBalancer
     selector:
-        app: frontend
+        app: mf-shell-app
     ports:
         - protocol: TCP
           port: 4200 # The port accessible externally

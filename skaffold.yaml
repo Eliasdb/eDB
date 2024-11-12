@@ -6,8 +6,22 @@ build:
     tagPolicy:
         gitCommit: {} # Automatically tags images with the current Git commit SHA
     artifacts:
-        - image: frontend
-          context: client/
+        - image: mf-shell-app
+          context: frontend/shell-app/
+          docker:
+              dockerfile: Dockerfile.dev
+          sync:
+              manual:
+                  - src: '**/*.ts'
+                    dest: .
+                  - src: '**/*.js'
+                    dest: .
+                  - src: '**/*.json'
+                    dest: .
+                  - src: '**/*.html'
+                    dest: .
+        - image: mf-appointment-app
+          context: frontend/appointment-app/
           docker:
               dockerfile: Dockerfile.dev
           sync:
@@ -33,7 +47,7 @@ build:
 deploy:
     kubectl:
         manifests:
-            - k8s/client/*.yaml
-            - k8s/api/*.yaml
-            - k8s/db/*.yaml
             - k8s/adminer/*.yaml
+            - k8s/db/*.yaml
+            - k8s/api/*.yaml
+            - k8s/client/*/*.yaml
