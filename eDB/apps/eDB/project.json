@@ -22,7 +22,6 @@
             "input": "apps/eDB/public"
           }
         ],
-        "styles": ["apps/eDB/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
