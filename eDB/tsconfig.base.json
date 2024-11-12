@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@e-db/ui": ["libs/ui/src/index.ts"],
       "@eDB/appointment-app": ["apps/appointment-app/src/index"]
     }
   },
