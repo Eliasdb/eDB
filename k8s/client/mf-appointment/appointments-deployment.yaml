@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: mf-appointment-app
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: mf-appointment-app
+    template:
+        metadata:
+            labels:
+                app: mf-appointment-app
+        spec:
+            containers:
+                - name: mf-appointment-app
+                  image: mf-appointment-app # Updated image name
+                  ports:
+                      - containerPort: 4201
+                  env:
+                      - name: NODE_ENV
+                        value: development

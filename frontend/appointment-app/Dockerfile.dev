@@ -17,7 +17,7 @@ RUN npm install
 COPY . .
 
 # Expose the port that the app runs on
-EXPOSE 4200
+EXPOSE 4201
 
 # Start the Angular app in development mode
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+CMD ["npm", "run", "start"]
