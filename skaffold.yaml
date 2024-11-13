@@ -6,34 +6,19 @@ build:
     tagPolicy:
         gitCommit: {} # Automatically tags images with the current Git commit SHA
     artifacts:
-        - image: mf-shell-app
-          context: frontend/shell-app/
+        - image: edb-app
+          context: eDB/
           docker:
               dockerfile: Dockerfile.dev
           sync:
               manual:
                   - src: '**/*.ts'
                     dest: .
-                  - src: '**/*.js'
-                    dest: .
-                  - src: '**/*.json'
-                    dest: .
                   - src: '**/*.html'
                     dest: .
-        - image: mf-appointment-app
-          context: frontend/appointment-app/
-          docker:
-              dockerfile: Dockerfile.dev
-          sync:
-              manual:
-                  - src: '**/*.ts'
+                  - src: '**/*.scss'
                     dest: .
-                  - src: '**/*.js'
-                    dest: .
-                  - src: '**/*.json'
-                    dest: .
-                  - src: '**/*.html'
-                    dest: .
+
         - image: api
           context: api/
           docker:
@@ -50,4 +35,4 @@ deploy:
             - k8s/adminer/*.yaml
             - k8s/db/*.yaml
             - k8s/api/*.yaml
-            - k8s/client/*/*.yaml
+            - k8s/eDB/*.yaml

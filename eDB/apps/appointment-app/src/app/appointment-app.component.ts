@@ -7,6 +7,6 @@ import { ButtonComponent } from '@e-db/ui'; // Import the standalone component d
   imports: [ButtonComponent],
   standalone: true,
   template: `<h1>Appointment Home</h1>
-    <lib-button>Click Me!rfenjfnejkf</lib-button>`,
+    <ui-button>Click Me!rfenjfnejkf</ui-button>`,
 })
 export class AppointmentHomeComponent {}

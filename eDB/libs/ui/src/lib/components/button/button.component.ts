@@ -1,14 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 
 @Component({
-  selector: 'lib-button',
+  selector: 'ui-button',
   standalone: true,
-  imports: [CommonModule, ButtonModule],
-  template: `<button ibmButton="primary">
-    <ng-content></ng-content>
-  </button>`,
-  styleUrls: ['./button.component.css'],
+  imports: [ButtonModule],
+  template: '<button cdsButton="primary"><ng-content></ng-content></button>',
+  styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {}
