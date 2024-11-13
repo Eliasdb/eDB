@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: mf-shell-service # Updated service name
+    name: edb-service # Updated service name
     namespace: default
     labels:
-        app: mf-shell-app
+        app: edb-app
 spec:
     type: LoadBalancer
     selector:
-        app: mf-shell-app
+        app: edb-app
     ports:
         - protocol: TCP
           port: 4200 # The port accessible externally

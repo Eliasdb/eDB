@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: mf-shell-app
+    name: edb-app
     namespace: default
     labels:
-        app: mf-shell-app
+        app: edb-app
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: mf-shell-app
+            app: edb-app
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: mf-shell-app
+                app: edb-app
         spec:
             containers:
-                - name: mf-shell-app
-                  image: mf-shell-app # Updated image name
+                - name: edb-app
+                  image: edb-app # Updated image name
                   imagePullPolicy: IfNotPresent
                   ports:
                       - containerPort: 4200 # Match with Angular's development port

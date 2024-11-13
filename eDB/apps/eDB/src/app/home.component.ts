@@ -7,6 +7,6 @@ import { ButtonComponent } from '@e-db/ui'; // Import the standalone component d
   imports: [ButtonComponent],
   selector: 'app-home',
   template: `<h1>Welcome to eDB Platform</h1>
-    <lib-button>Click Me!rfenjfnejkf</lib-button> `,
+    <ui-button>Click Me!rfenjfnejkf</ui-button> `,
 })
 export class HomeComponent {}
