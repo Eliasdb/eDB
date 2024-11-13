@@ -1,98 +1,49 @@
-# Full Stack Application with Docker and Kubernetes
+# Full Stack Platform with Docker and Kubernetes
 
 ## Project Overview
 
-This project aims to create a full stack application with a frontend, backend, and database, each running in its own Docker container. The primary goal is to learn and implement Docker and Kubernetes to manage the application environment effectively, both for development and production.
+This project builds a platform for showcasing a range of applications.
 
 ### Current Setup
 
--   **Frontend**: Vue
--   **API**:
-    -   Node.js
-    -   TypeScript
-    -   Express
-    -   Prisma
-    -   JWT
-    -   nodemon
-    -   bcryptjs
--   **Database**: MySQL
+-   **Frontend**:
 
-### Development and Production Environments
+    -   **Tools**: Angular 18, managed within an Nx workspace.
+    -   **Structure**: A main platform app that lazy-loads sub-apps, enabling a modular setup for different applications.
 
--   **Development**:
+-   **Backend**:
 
-    -   **Docker Compose**:
+    -   **Tools**: .NET 7 with Entity Framework.
+    -   **Features**: REST API for platform services, user management, and role-based access.
 
-        -   Uses `docker-compose.dev.yml` for setting up services with hot-reloading and easy debugging.
-        -   Containers can be started with:
-            ```bash
-            docker-compose -f docker-compose.dev.yml up --build
-            ```
-
-    -   **Kubernetes with K3s and Skaffold**:
-
-        -   K3s is utilized to create a lightweight Kubernetes cluster for local development and testing.
-        -   **Create a K3d Cluster** with LoadBalancer ports:
-            ```bash
-            k3d cluster create mycluster --port "8080:8080@loadbalancer" --port "9101:9101@loadbalancer"
-            ```
-        -   **Start the K3d Cluster** (if it was previously created):
-
-            ```bash
-            k3d cluster start mycluster
-            ```
-
-        -   **Continuous Development with Skaffold**:
-
-            -   Skaffold helps with continuous development and deployment to the K3s cluster.
-            -   Create a `skaffold.yaml` file in your project root with the necessary configuration for your services, ensuring you define LoadBalancer types for services that require external access.
-            -   Start the Skaffold process with:
-                ```bash
-                skaffold dev
-                ```
-            -   This command will build your Docker images, deploy your application to the K3s cluster, and watch for changes to automatically redeploy.
-
-        -   **Accessing Your Services**:
-            -   After deploying with Skaffold, access your frontend and backend services via the ports specified in your Kubernetes manifests. If you are using LoadBalancer type services, check the external IPs with:
-                ```bash
-                kubectl get services
-                ```
-            -   Use the obtained IP addresses and ports to access your applications in a web browser or API client.
-
--   **Production**:
-    -   Uses `docker-compose.prod.yml` for running optimized and production-ready containers.
-    -   Containers can be started with:
-        ```bash
-        docker-compose -f docker-compose.prod.yml up --build
-        ```
+-   **Database**: PostgreSQL
 
 ### Infrastructure
 
--   **Docker**: Containerization platform to run the frontend, backend, and database in separate containers.
--   **Docker Compose**: Tool for defining and running multi-container Docker applications.
--   **Kubernetes (K3s)**: Lightweight container orchestration platform for managing containerized applications.
-    -   **kubectl**: Command-line tool for interacting with Kubernetes clusters.
-    -   **Kompose**: Tool for converting Docker Compose files to Kubernetes resource manifests.
-    -   **K3d**: Tool for creating and managing K3s clusters in Docker.
-    -   **Skaffold**: Tool for continuous development and deployment of applications to Kubernetes.
+-   **Docker**: Manages containerized versions of the frontend, backend, and database.
+-   **Kubernetes (K3s)**: Provides container orchestration for scalable application deployment.
+    -   **kubectl**: Command-line tool for managing Kubernetes resources.
+    -   **K3d**: Manages K3s clusters within Docker for lightweight local clusters.
+    -   **Skaffold**: Handles continuous development workflows with Kubernetes.
 
-### Current Goals
+### Application Architecture Diagrams
 
-1. **Docker Compose Setup**:
+[![Development Setup Diagram](./diagrams/dev-setupv1.png)](./diagrams/dev-setupv1.png)
 
-    - [x] Create and configure `docker-compose.dev.yml` for local development with hot-reloading.
-    - [x] Create and configure `docker-compose.prod.yml` for production-ready containers.
-    - [x] Test the Docker Compose setup to ensure all services are running correctly.
+### K3s Handy Commands Cheat Sheet
 
-2. **Kubernetes Exploration**:
-
-    - [x] Set up a local Kubernetes cluster with K3s for managing the Docker containers.
-    - [x] Utilize K3d to create and manage the K3s cluster.
-    - [x] Deploy applications to the K3s cluster using Skaffold.
-
-3. **Deploy to Production**:
-
-    - [ ] Deploy the Kubernetes cluster to a production environment with minimal or no cost.
-
-4. **CI/CD**:
-    - [ ] Integrate CI/CD pipelines for continuous deployment.
+| Command                                                          | Description                                  |
+| ---------------------------------------------------------------- | -------------------------------------------- |
+| `kubectl get services`                                           | List all services in the cluster             |
+| `kubectl get pods`                                               | List all running pods                        |
+| `kubectl describe pod <pod-name>`                                | Get detailed information on a specific pod   |
+| `kubectl logs <pod-name>`                                        | View logs for a specific pod                 |
+| `kubectl port-forward svc/<service> <local-port>:<service-port>` | Forward a port for local access to a service |
+| `kubectl delete pod <pod-name>`                                  | Delete a specific pod (it will be restarted) |
+| `kubectl apply -f <filename>.yaml`                               | Apply a YAML configuration to the cluster    |
+| `kubectl delete -f <filename>.yaml`                              | Delete resources defined in a YAML file      |
+| `k3d cluster create <name>`                                      | Create a new K3s cluster                     |
+| `k3d cluster delete <name>`                                      | Delete an existing K3s cluster               |
+| `skaffold dev`                                                   | Start Skaffold in development mode           |
+| `skaffold run`                                                   | Deploy the application to the cluster        |
+| `skaffold delete`                                                | Remove all Skaffold-managed resources        |
