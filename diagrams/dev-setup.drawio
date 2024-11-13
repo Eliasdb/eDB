@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.4">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1774" dy="1170" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="1911" dy="1260" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -56,7 +56,7 @@
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-8" value="&lt;ul style=&quot;font-size: 17px;&quot;&gt;&lt;li style=&quot;font-size: 17px;&quot;&gt;Deployments&lt;/li&gt;&lt;li style=&quot;font-size: 17px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 17px;&quot;&gt;Services&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;font-size: 17px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 17px;&quot;&gt;ConfigMap&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;font-size: 17px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 17px;&quot;&gt;Secrets&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;font-size: 17px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 17px;&quot;&gt;PVCs&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;rounded=0;sketch=1;curveFitting=1;jiggle=2;fontSize=17;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="1400.79" y="370" width="165" height="158" as="geometry" />
         </mxCell>
-        <mxCell id="Td7zW-o2DTwXKr2sYSDe-9" value="Frontend Image" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fa6800;strokeColor=#C73500;fontColor=#000000;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="Td7zW-o2DTwXKr2sYSDe-9" value="NX Image" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fa6800;strokeColor=#C73500;fontColor=#000000;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="700.52" y="473.12" width="153" height="71" as="geometry" />
         </mxCell>
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="_PzZQzh7Twu5nZZNjSZp-4" edge="1">
@@ -125,7 +125,7 @@
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-66" value="Frontend service" style="text;strokeColor=none;fillColor=none;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;align=center;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="795.29" y="1472.63" width="275" height="55" as="geometry" />
         </mxCell>
-        <mxCell id="Td7zW-o2DTwXKr2sYSDe-67" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;localhost:&lt;/font&gt;&lt;span style=&quot;font-size: 18px; background-color: initial;&quot;&gt;8080&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="Td7zW-o2DTwXKr2sYSDe-67" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;localhost:&lt;/font&gt;&lt;span style=&quot;font-size: 18px; background-color: initial;&quot;&gt;4200&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="873.81" y="1527.63" width="117.96" height="59.13" as="geometry" />
         </mxCell>
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-68" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -319,7 +319,7 @@
         <mxCell id="_PzZQzh7Twu5nZZNjSZp-11" value="&lt;font size=&quot;1&quot; style=&quot;&quot;&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;CMD:&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="804.52" y="898.5" width="49" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Td7zW-o2DTwXKr2sYSDe-58" value="&lt;pre&gt;&lt;font style=&quot;font-size: 22px;&quot;&gt;k3d cluster create mycluster --port &quot;8080:8080@loadbalancer&quot; --port &quot;9101:9101@loadbalancer&quot;&amp;nbsp;&lt;/font&gt;&amp;nbsp;&lt;/pre&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="Td7zW-o2DTwXKr2sYSDe-58" value="&lt;pre&gt;&lt;font style=&quot;font-size: 22px;&quot;&gt;k3d cluster create mycluster --port &quot;4200:4200@loadbalancer&quot; --port &quot;9101:9101@loadbalancer&quot;&amp;nbsp;&lt;/font&gt;&amp;nbsp;&lt;/pre&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="860.1500000000001" y="847" width="1246.29" height="37" as="geometry" />
         </mxCell>
       </root>
