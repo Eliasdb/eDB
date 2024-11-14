@@ -6,6 +6,6 @@ import { ButtonModule } from 'carbon-components-angular';
   standalone: true,
   imports: [ButtonModule],
   template: '<button cdsButton="primary"><ng-content></ng-content></button>',
-  styleUrls: ['./button.component.scss'],
+  // styleUrl: './button.component.scss',
 })
 export class ButtonComponent {}
