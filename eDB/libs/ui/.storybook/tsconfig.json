@@ -3,7 +3,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true
   },
-  "exclude": ["../**/*.spec.ts", "main.ts"],
+  "exclude": ["../**/*.spec.ts"],
   "include": [
     "../src/**/*.stories.ts",
     "../src/**/*.stories.js",
