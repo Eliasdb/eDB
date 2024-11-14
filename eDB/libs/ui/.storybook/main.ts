@@ -1,8 +1,7 @@
-// .storybook/main.ts
 import type { StorybookConfig } from '@storybook/angular';
 
 const config: StorybookConfig = {
-  stories: ['../**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
+  stories: ['../**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
@@ -11,13 +10,15 @@ const config: StorybookConfig = {
       options: {
         rules: [
           {
-            test: /\.s[ac]ss$/i,
+            test: /\.scss$/,
             use: [
               'style-loader',
               'css-loader',
               {
                 loader: 'sass-loader',
-                options: { implementation: require.resolve('sass') },
+                options: {
+                  implementation: require('sass'),
+                },
               },
             ],
           },
@@ -29,66 +30,51 @@ const config: StorybookConfig = {
     name: '@storybook/angular',
     options: {},
   },
-  docs: {},
-  webpackFinal: async (config) => {
-    if (!config.module) {
-      config.module = { rules: [] };
-    }
+  // webpackFinal: async (config) => {
+  //   config.module = config.module || { rules: [] };
+  //   config.module.rules = config.module.rules || [];
 
-    if (!config.module.rules) {
-      config.module.rules = [];
-    }
+  //   // Type guard function
+  //   function isRuleWithTest(rule: unknown): rule is RuleSetRule {
+  //     return (
+  //       typeof rule === 'object' &&
+  //       rule !== null &&
+  //       ('test' in rule || 'include' in rule || 'exclude' in rule)
+  //     );
+  //   }
 
-    if (!config.module) {
-      config.module = { rules: [] };
-    }
+  //   // Remove existing SCSS rules to avoid conflicts
+  //   config.module.rules = config.module.rules.filter((rule) => {
+  //     if (isRuleWithTest(rule)) {
+  //       const test = rule.test;
+  //       if (test && test.toString().includes('scss')) {
+  //         return false; // Exclude this rule
+  //       }
+  //     }
+  //     return true; // Keep other rules
+  //   });
 
-    if (!config.module.rules) {
-      config.module.rules = [];
-    }
+  //   // Add SCSS handling
+  //   config.module.rules.push({
+  //     test: /\.scss$/,
+  //     use: [
+  //       'to-string-loader', // Converts CSS to strings for Angular
+  //       'css-loader',
+  //       {
+  //         loader: 'sass-loader',
+  //         options: {
+  //           implementation: require('sass'),
+  //           sourceMap: true,
+  //           sassOptions: {
+  //             includePaths: [path.resolve(__dirname, '../node_modules')],
+  //           },
+  //         },
+  //       },
+  //     ],
+  //   });
 
-    // // Add DefinePlugin to set NODE_ENV explicitly
-    // config.plugins = config.plugins || [];
-    // config.plugins.push(
-    //   new DefinePlugin({
-    //     'process.env.NODE_ENV': JSON.stringify('development'),
-    //   })
-    // );
-
-    // config.module.rules = config.module.rules.filter((rule) => {
-    //   if (
-    //     rule &&
-    //     typeof rule !== 'string' &&
-    //     typeof rule !== 'function' &&
-    //     typeof rule !== 'number' &&
-    //     typeof rule !== 'boolean' &&
-    //     !(rule instanceof RegExp) &&
-    //     'test' in rule &&
-    //     rule.test instanceof RegExp
-    //   ) {
-    //     return !rule.test.test('.scss');
-    //   }
-    //   return true;
-    // });
-
-    // config.module.rules.push({
-    //   test: /\.scss$/,
-    //   exclude: /node_modules/,
-    //   use: [
-    //     { loader: 'to-string-loader' },
-    //     {
-    //       loader: 'css-loader',
-    //       options: {
-    //         esModule: false,
-    //       },
-    //     },
-    //     { loader: 'sass-loader' },
-    //   ],
-    //   include: path.resolve(__dirname, '../'),
-    // });
-
-    return config;
-  },
+  //   return config;
+  // },
 };
 
 export default config;
