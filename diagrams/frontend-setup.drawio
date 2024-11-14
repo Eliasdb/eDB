@@ -1,19 +1,14 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.6">
   <diagram name="Page-1" id="nh4jwneAX2I31Z53x2l4">
-    <mxGraphModel dx="4911" dy="1260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" math="0" shadow="0">
+    <mxGraphModel dx="5070" dy="1365" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-2" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
           <mxGeometry x="-1800" y="580" width="790" height="490" as="geometry" />
         </mxCell>
-        <mxCell id="lYHz6h8Hog2-7QlPZJF8-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="LP7Ed1BWK_VpSIzqsCGS-1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="-1390" y="430" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-1" value="&lt;span style=&quot;font-size: 43px;&quot;&gt;Development environment: frontend architecture&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
-          <mxGeometry x="-1890" y="410" width="1000" height="40" as="geometry" />
+          <mxGeometry x="-1885" y="430" width="1000" height="40" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="LP7Ed1BWK_VpSIzqsCGS-4" target="LP7Ed1BWK_VpSIzqsCGS-13" edge="1">
           <mxGeometry relative="1" as="geometry">
