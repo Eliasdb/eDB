@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/angular';
+import * as path from 'path';
 
 const config: StorybookConfig = {
   stories: ['../**/*.stories.@(ts|tsx|js|jsx|mdx)'],
@@ -30,51 +31,44 @@ const config: StorybookConfig = {
     name: '@storybook/angular',
     options: {},
   },
-  // webpackFinal: async (config) => {
-  //   config.module = config.module || { rules: [] };
-  //   config.module.rules = config.module.rules || [];
+  webpackFinal: async (config) => {
+    config.module = config.module || { rules: [] };
+    config.module.rules = config.module.rules || [];
 
-  //   // Type guard function
-  //   function isRuleWithTest(rule: unknown): rule is RuleSetRule {
-  //     return (
-  //       typeof rule === 'object' &&
-  //       rule !== null &&
-  //       ('test' in rule || 'include' in rule || 'exclude' in rule)
-  //     );
-  //   }
+    // Modify existing SCSS rules to exclude your component styles
+    config.module.rules.forEach((rule) => {
+      // Type guard to ensure 'rule' is an object and not null
+      if (rule && typeof rule === 'object' && 'test' in rule) {
+        if (
+          rule.test instanceof RegExp &&
+          rule.test.toString().includes('scss')
+        ) {
+          rule.exclude = /component\.scss$/; // Exclude component SCSS files
+        }
+      }
+    });
 
-  //   // Remove existing SCSS rules to avoid conflicts
-  //   config.module.rules = config.module.rules.filter((rule) => {
-  //     if (isRuleWithTest(rule)) {
-  //       const test = rule.test;
-  //       if (test && test.toString().includes('scss')) {
-  //         return false; // Exclude this rule
-  //       }
-  //     }
-  //     return true; // Keep other rules
-  //   });
+    // Add rule for your component SCSS files
+    config.module.rules.push({
+      test: /component\.scss$/, // Target component SCSS files
+      use: [
+        'to-string-loader', // Converts CSS to strings for Angular components
+        'css-loader',
+        {
+          loader: 'sass-loader',
+          options: {
+            implementation: require('sass'),
+            sourceMap: true,
+            sassOptions: {
+              includePaths: [path.resolve(__dirname, '../node_modules')],
+            },
+          },
+        },
+      ],
+    });
 
-  //   // Add SCSS handling
-  //   config.module.rules.push({
-  //     test: /\.scss$/,
-  //     use: [
-  //       'to-string-loader', // Converts CSS to strings for Angular
-  //       'css-loader',
-  //       {
-  //         loader: 'sass-loader',
-  //         options: {
-  //           implementation: require('sass'),
-  //           sourceMap: true,
-  //           sassOptions: {
-  //             includePaths: [path.resolve(__dirname, '../node_modules')],
-  //           },
-  //         },
-  //       },
-  //     ],
-  //   });
-
-  //   return config;
-  // },
+    return config;
+  },
 };
 
 export default config;

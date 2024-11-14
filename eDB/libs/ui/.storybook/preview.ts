@@ -1,2 +1,2 @@
-import '../../../apps/eDB/src/styles.scss';
+import '../../ui/src/lib/styles/main.scss';
 export const tags = ['autodocs'];
