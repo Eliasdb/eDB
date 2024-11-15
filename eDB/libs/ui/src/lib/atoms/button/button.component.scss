@@ -9,6 +9,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease, opacity 0.2s ease;
+  gap: 0.5rem;
 
   /* Variants */
   &.primary {

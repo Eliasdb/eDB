@@ -21,7 +21,7 @@ const meta: Meta<ButtonComponent> = {
     },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'danger', 'ghost'],
+      options: ['primary', 'secondary', 'danger', 'ghost', 'success'],
       description: 'The visual style of the button.',
     },
     size: {
@@ -61,44 +61,74 @@ export const Primary: Story = {
   args: {
     variant: 'primary',
     size: 'medium',
-    icon: 'add',
+    icon: 'faPlus',
     iconPosition: 'left',
   },
+  render: (args) => ({
+    props: args,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Primary Button</ui-button>`,
+  }),
 };
 
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
     size: 'medium',
-    icon: 'delete',
+    icon: 'faTrash',
     iconPosition: 'right',
   },
+  render: (args) => ({
+    props: args,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Secondary Button</ui-button>`,
+  }),
 };
 
-export const Loading: Story = {
-  args: {
-    variant: 'primary',
-    size: 'large',
-    loading: true,
-    icon: 'add',
-    iconPosition: 'left',
-  },
-};
-
-export const Disabled: Story = {
+export const Danger: Story = {
   args: {
     variant: 'danger',
     size: 'medium',
-    disabled: true,
-    icon: 'delete',
-    iconPosition: 'right',
+    icon: 'faExclamationTriangle',
+    iconPosition: 'left',
   },
+  render: (args) => ({
+    props: args,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Danger Button</ui-button>`,
+  }),
+};
+
+export const Ghost: Story = {
+  args: {
+    variant: 'ghost',
+    size: 'medium',
+    icon: 'faSearch',
+    iconPosition: 'left',
+  },
+  render: (args) => ({
+    props: args,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Ghost Button</ui-button>`,
+  }),
+};
+
+export const IconOnly: Story = {
+  args: {
+    variant: 'primary',
+    size: 'small',
+    icon: 'faPlus',
+  },
+  render: (args) => ({
+    props: args,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" aria-label="Add"></ui-button>`,
+  }),
 };
 
 export const WithoutIcon: Story = {
   args: {
     variant: 'ghost',
-    size: 'small',
+    size: 'medium',
     icon: undefined,
   },
+  render: (args) => ({
+    props: args,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading">Button Without Icon</ui-button>`,
+  }),
 };

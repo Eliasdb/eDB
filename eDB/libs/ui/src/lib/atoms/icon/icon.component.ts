@@ -19,11 +19,11 @@ import * as solidIcons from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./icon.component.scss'],
 })
 export class IconComponent implements OnChanges {
-  @Input() name!: string; // Icon name, e.g., 'faCoffee'
-  @Input() size: string = '1em'; // Icon size, e.g., '2em', '24px'
-  @Input() color: string = ''; // Icon color, e.g., 'red', '#FF0000'
-  @Input() border: boolean = false; // Add a border around the icon
-  @Input() fixedWidth: boolean = false; // Use fixed width for alignment
+  @Input() name!: string;
+  @Input() size: string = '1em';
+  @Input() color: string = '';
+  @Input() border: boolean = false;
+  @Input() fixedWidth: boolean = false;
   icon!: IconDefinition;
 
   private validIcons: Record<string, IconDefinition> = this.getValidIcons();
