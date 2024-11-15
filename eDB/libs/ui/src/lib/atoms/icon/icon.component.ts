@@ -5,14 +5,25 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-dynamic-icon',
+  selector: 'app-icon',
   standalone: true,
   imports: [FontAwesomeModule, CommonModule],
-  template: ` <fa-icon *ngIf="icon" [icon]="icon"></fa-icon> `,
+  template: `
+    <fa-icon
+      *ngIf="icon"
+      [icon]="icon"
+      [ngStyle]="{ color: color, fontSize: size }"
+      [ngClass]="{ 'fa-border': border, 'dynamic-icon fa-fw': fixedWidth }"
+    ></fa-icon>
+  `,
   styleUrls: ['./icon.component.scss'],
 })
-export class DynamicIconComponent implements OnChanges {
+export class IconComponent implements OnChanges {
   @Input() name!: string; // Icon name, e.g., 'faCoffee'
+  @Input() size: string = '1em'; // Icon size, e.g., '2em', '24px'
+  @Input() color: string = ''; // Icon color, e.g., 'red', '#FF0000'
+  @Input() border: boolean = false; // Add a border around the icon
+  @Input() fixedWidth: boolean = false; // Use fixed width for alignment
   icon!: IconDefinition;
 
   private validIcons: Record<string, IconDefinition> = this.getValidIcons();
@@ -28,7 +39,7 @@ export class DynamicIconComponent implements OnChanges {
 
   private getValidIcons(): Record<string, IconDefinition> {
     return Object.entries(solidIcons)
-      .filter(([key, value]) => typeof value === 'object' && 'icon' in value)
+      .filter(([_, value]) => typeof value === 'object' && 'icon' in value)
       .reduce((acc, [key, value]) => {
         acc[key] = value as IconDefinition;
         return acc;
