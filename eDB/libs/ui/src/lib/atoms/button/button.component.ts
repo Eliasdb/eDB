@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'ui-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     <button
       [type]="type"
@@ -13,13 +14,21 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       (click)="handleClick($event)"
     >
       <ng-container *ngIf="icon && iconPosition === 'left'">
-        <!-- <app-dynamic-icon name="faCoffee"></app-dynamic-icon> -->
+        <app-icon
+          [name]="icon"
+          [fixedWidth]="fixedWidth"
+          [color]="color"
+        ></app-icon>
       </ng-container>
       <span class="button-text">
         <ng-content></ng-content>
       </span>
       <ng-container *ngIf="icon && iconPosition === 'right'">
-        <!-- <app-dynamic-icon name="faCheck"></app-dynamic-icon> -->
+        <app-icon
+          [name]="icon"
+          [fixedWidth]="fixedWidth"
+          [color]="color"
+        ></app-icon>
       </ng-container>
     </button>
   `,
@@ -31,8 +40,10 @@ export class ButtonComponent {
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
-  @Input() icon?: string;
+  @Input() icon?: string; // The full FontAwesome icon name, e.g. 'faPlus'
   @Input() iconPosition: 'left' | 'right' = 'left';
+  @Input() fixedWidth: boolean = false;
+  @Input() color: string = '';
 
   @Output() buttonClick = new EventEmitter<Event>();
 
