@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { LoadingModule } from 'carbon-components-angular';
 
 @Component({
-  selector: 'ui-spinner',
+  selector: 'ui-loading',
   standalone: true,
   imports: [CommonModule, LoadingModule],
   template: `
@@ -15,7 +15,7 @@ import { LoadingModule } from 'carbon-components-angular';
     ></cds-loading>
   `,
 })
-export class SpinnerComponent {
+export class LoadingSpinnerComponent {
   @Input() isActive: boolean = true;
   @Input() size: 'normal' | 'sm' = 'sm';
   @Input() overlay: boolean = false;
