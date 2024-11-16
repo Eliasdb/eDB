@@ -20,7 +20,7 @@ import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 })
 export class IconComponent implements OnChanges {
   @Input() name!: string;
-  @Input() size: string = '1em';
+  @Input() size: string = '0.1em';
   @Input() color: string = '';
   @Input() border: boolean = false;
   @Input() fixedWidth: boolean = false;
