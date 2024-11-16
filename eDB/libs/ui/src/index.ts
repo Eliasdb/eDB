@@ -1,3 +1,3 @@
-export * from './lib/atoms/button/button.component';
-export * from './lib/atoms/icon/icon.component';
-export * from './lib/atoms/spinner/spinner.component';
+export * from './lib/components/button/button.component';
+export * from './lib/components/icon/icon.component';
+export * from './lib/components/spinner/spinner.component';

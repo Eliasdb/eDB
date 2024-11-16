@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { SpinnerComponent } from './spinner.component';
 
 const meta: Meta<SpinnerComponent> = {
-  title: 'UI/Icons/Spinner',
+  title: 'UI/Spinner',
   component: SpinnerComponent,
   args: {
     isActive: true,

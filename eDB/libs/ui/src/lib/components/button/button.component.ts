@@ -30,7 +30,6 @@ import { SpinnerComponent } from '../spinner/spinner.component';
       </ng-container>
     </button>
   `,
-  styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
