@@ -7,11 +7,11 @@ const meta: Meta<ButtonComponent> = {
   args: {
     type: 'button',
     variant: 'primary',
-    size: 'medium',
+    size: 'md',
     disabled: false,
     loading: false,
-    icon: '', // Default icon name
-    iconPosition: 'left',
+    icon: 'faCableCar', // Default icon name
+    isExpressive: true,
   },
   argTypes: {
     type: {
@@ -21,12 +21,12 @@ const meta: Meta<ButtonComponent> = {
     },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'danger', 'ghost', 'success'],
+      options: ['primary', 'secondary', 'danger', 'ghost'],
       description: 'The visual style of the button.',
     },
     size: {
       control: 'select',
-      options: ['small', 'medium', 'large'],
+      options: ['sm', 'md', 'lg', 'xl', '2xl'],
       description: 'The size of the button.',
     },
     disabled: {
@@ -41,10 +41,10 @@ const meta: Meta<ButtonComponent> = {
       control: 'text',
       description: 'The name of the icon to render.',
     },
-    iconPosition: {
-      control: 'select',
-      options: ['left', 'right'],
-      description: 'The position of the icon relative to the button text.',
+    isExpressive: {
+      control: 'boolean',
+      description:
+        'If set to true, the button will apply expressive styles, which generally provide a bolder visual style, including enhanced hover and focus states, and additional padding to increase the prominence of the button.',
     },
     buttonClick: {
       action: 'buttonClick',
@@ -60,74 +60,69 @@ type Story = StoryObj<ButtonComponent>;
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    size: 'medium',
-    icon: '',
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Primary Button</ui-button>`,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [isExpressive]="isExpressive">Primary Button</ui-button>`,
   }),
 };
 
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
-    size: 'medium',
-    icon: 'faTrash',
-    iconPosition: 'right',
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Secondary Button</ui-button>`,
+    template: `<ui-button [variant]="variant" [size]="size" [isExpressive]="isExpressive">Secondary Button</ui-button>`,
   }),
 };
 
 export const Danger: Story = {
   args: {
     variant: 'danger',
-    size: 'medium',
     icon: 'faExclamationTriangle',
-    iconPosition: 'left',
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Danger Button</ui-button>`,
+    template: `<ui-button [variant]="variant" [isExpressive]="isExpressive">Danger Button</ui-button>`,
   }),
 };
 
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
-    size: 'medium',
-    icon: 'faSearch',
-    iconPosition: 'left',
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Ghost Button</ui-button>`,
+    template: `<ui-button [variant]="variant" [isExpressive]="isExpressive">Ghost Button</ui-button>`,
   }),
 };
 
-export const IconOnly: Story = {
+export const WithIcon: Story = {
   args: {
     variant: 'primary',
-    size: 'small',
     icon: 'faPlus',
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" aria-label="Add"></ui-button>`,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [isExpressive]="isExpressive">With Icon</ui-button>`,
   }),
 };
 
-export const Loading: Story = {
+export const LoadingState: Story = {
+  render: (args) => ({
+    template: `<ui-button [loading]="true" [size]="size" [isExpressive]="isExpressive">Loading Button</ui-button>`,
+  }),
+};
+
+export const DisabledState: Story = {
   args: {
-    variant: 'secondary',
-    size: 'medium',
-    loading: true, // Set loading to true to show spinner
+    variant: 'primary',
+    disabled: true,
+    icon: 'faLock',
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Loading Button</ui-button>`,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [isExpressive]="isExpressive">Disabled Button</ui-button>`,
   }),
 };
