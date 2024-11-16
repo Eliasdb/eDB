@@ -10,7 +10,7 @@ const meta: Meta<ButtonComponent> = {
     size: 'medium',
     disabled: false,
     loading: false,
-    icon: 'add', // Default icon name
+    icon: '', // Default icon name
     iconPosition: 'left',
   },
   argTypes: {
@@ -61,8 +61,7 @@ export const Primary: Story = {
   args: {
     variant: 'primary',
     size: 'medium',
-    icon: 'faPlus',
-    iconPosition: 'left',
+    icon: '',
   },
   render: (args) => ({
     props: args,
@@ -121,14 +120,14 @@ export const IconOnly: Story = {
   }),
 };
 
-export const WithoutIcon: Story = {
+export const Loading: Story = {
   args: {
-    variant: 'ghost',
+    variant: 'secondary',
     size: 'medium',
-    icon: undefined,
+    loading: true, // Set loading to true to show spinner
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading">Button Without Icon</ui-button>`,
+    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [icon]="icon" [iconPosition]="iconPosition">Loading Button</ui-button>`,
   }),
 };

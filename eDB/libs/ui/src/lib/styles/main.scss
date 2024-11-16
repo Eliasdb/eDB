@@ -1,2 +1,7 @@
 @use '@carbon/styles/scss/components/button';
 @use '@carbon/styles/scss/components/loading';
+
+:root {
+  --cds-ui-01: yellow;
+  --cds-button-primary-01: red;
+}
