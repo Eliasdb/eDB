@@ -1,0 +1,31 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.page-content {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-section {
+  flex: 0 0 62%; /* 62% for the login form */
+  padding: 20px;
+  border-right: 2px solid #ddd;
+}
+
+.intro-image-section {
+  flex: 0 0 38%; /* 38% for the intro image */
+  padding: 20px;
+}
+
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 20px;
+  background-color: #f1f1f1;
+}
