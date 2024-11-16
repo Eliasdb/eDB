@@ -14,7 +14,6 @@ import { LoadingModule } from 'carbon-components-angular';
       [isActive]="isActive"
     ></cds-loading>
   `,
-  styleUrls: ['./spinner.component.scss'],
 })
 export class SpinnerComponent {
   @Input() isActive: boolean = true;
