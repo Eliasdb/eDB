@@ -23,7 +23,7 @@
           }
         ],
         "scripts": [],
-        "styles": ["apps/eDB/src/styles.scss"],
+        "styles": ["apps/eDB/src/app/styles/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["./node_modules"]
         }

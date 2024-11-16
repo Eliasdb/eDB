@@ -1,7 +1,7 @@
-.login-page {
+.login-container {
+  min-height: 100vh; /* Ensures minimum height is 100% of the viewport */
   display: flex;
-  flex-direction: column;
-  height: 100vh;
+  flex-direction: column; /* Ensures that content inside behaves properly */
 }
 
 .page-content {
@@ -9,18 +9,15 @@
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
 }
 
 .login-section {
-  flex: 0 0 62%; /* 62% for the login form */
-  padding: 20px;
+  flex: 0 0 38%; /* 62% for the login form */
   border-right: 2px solid #ddd;
 }
 
 .intro-image-section {
-  flex: 0 0 38%; /* 38% for the intro image */
-  padding: 20px;
+  flex: 0 0 62%; /* 38% for the intro image */
 }
 
 footer {
