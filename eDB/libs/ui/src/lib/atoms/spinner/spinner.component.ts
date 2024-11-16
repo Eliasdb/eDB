@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { LoadingModule } from 'carbon-components-angular'; // Import the LoadingModule from Carbon
+import { LoadingModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-spinner',
   standalone: true,
-  imports: [CommonModule, LoadingModule], // Ensure LoadingModule is imported
+  imports: [CommonModule, LoadingModule],
   template: `
     <cds-loading
       *ngIf="isActive"
@@ -14,10 +14,10 @@ import { LoadingModule } from 'carbon-components-angular'; // Import the Loading
       [isActive]="isActive"
     ></cds-loading>
   `,
-  styleUrls: ['./spinner.component.scss'], // You can add custom styles here if necessary
+  styleUrls: ['./spinner.component.scss'],
 })
 export class SpinnerComponent {
-  @Input() isActive: boolean = false; // Controls visibility of the spinner
-  @Input() size: 'normal' | 'sm' = 'sm'; // Size of the spinner
-  @Input() overlay: boolean = false; // Whether to show overlay with the spinner
+  @Input() isActive: boolean = true;
+  @Input() size: 'normal' | 'sm' = 'sm';
+  @Input() overlay: boolean = false;
 }
