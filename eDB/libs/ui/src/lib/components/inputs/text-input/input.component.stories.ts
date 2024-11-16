@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { InputComponent } from './input.component';
 
 const meta: Meta<InputComponent> = {
-  title: 'UI/Input',
+  title: 'UI/Inputs/Input',
   component: InputComponent,
   args: {
     label: 'Input Label',
