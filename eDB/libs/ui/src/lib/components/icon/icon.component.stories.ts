@@ -1,10 +1,10 @@
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { IconComponent } from './icon.component';
+import { UiIconComponent } from './icon.component';
 
-const meta: Meta<IconComponent> = {
+const meta: Meta<UiIconComponent> = {
   title: 'UI/Icon',
-  component: IconComponent,
+  component: UiIconComponent,
   decorators: [
     moduleMetadata({
       imports: [FontAwesomeModule],
@@ -54,7 +54,7 @@ const meta: Meta<IconComponent> = {
 
 export default meta;
 
-type Story = StoryObj<IconComponent>;
+type Story = StoryObj<UiIconComponent>;
 
 // Basic Icons
 export const AddIcon: Story = {

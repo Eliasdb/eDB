@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular'; // Import Carbon's HeaderModule
-import { IconComponent } from '../icon/icon.component'; // Assuming you have the IconComponent set up
+import { UiIconComponent } from '../icon/icon.component'; // Assuming you have the IconComponent set up
 
 @Component({
   selector: 'ui-header',
   standalone: true,
-  imports: [CommonModule, HeaderModule, IconComponent],
+  imports: [CommonModule, HeaderModule, UiIconComponent],
   template: `
     <cds-header [brand]="brandTemplate" [name]="name">
       <!-- Hamburger Menu (for mobile) -->
@@ -31,13 +31,13 @@ import { IconComponent } from '../icon/icon.component'; // Assuming you have the
       <!-- Global Actions (Icons for Settings and Logout) -->
       <cds-header-global>
         <cds-header-action description="Settings">
-          <app-icon [name]="settingsIcon" [size]="iconSize" [color]="iconColor">
-          </app-icon>
+          <ui-icon [name]="settingsIcon" [size]="iconSize" [color]="iconColor">
+          </ui-icon>
           <!-- Settings Icon -->
         </cds-header-action>
         <cds-header-action description="Logout">
-          <app-icon [name]="logoutIcon" [size]="iconSize" [color]="iconColor">
-          </app-icon>
+          <ui-icon [name]="logoutIcon" [size]="iconSize" [color]="iconColor">
+          </ui-icon>
           <!-- Logout Icon -->
         </cds-header-action>
       </cds-header-global>
@@ -53,7 +53,7 @@ import { IconComponent } from '../icon/icon.component'; // Assuming you have the
     </ng-template>
   `,
 })
-export class HeaderComponent {
+export class UiHeaderComponent {
   @Input() name: string = 'eDB'; // Name for the platform in the header
   @Input() platformName: string = 'main'; // Custom platform name for branding
   @Input() hasHamburger: boolean = true; // Whether to show the hamburger menu

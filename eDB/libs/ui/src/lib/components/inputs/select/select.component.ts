@@ -38,7 +38,7 @@ import { SelectModule } from 'carbon-components-angular';
     </cds-select>
   `,
 })
-export class SelectComponent {
+export class UiSelectComponent {
   @Input() label: string = ''; // Label for the select input
   @Input() helperText: string = ''; // Helper text
   @Input() invalidText: string = ''; // Invalid text

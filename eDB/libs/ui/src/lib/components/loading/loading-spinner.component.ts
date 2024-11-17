@@ -15,7 +15,7 @@ import { LoadingModule } from 'carbon-components-angular';
     ></cds-loading>
   `,
 })
-export class LoadingSpinnerComponent {
+export class UiLoadingSpinnerComponent {
   @Input() isActive: boolean = true;
   @Input() size: 'normal' | 'sm' = 'sm';
   @Input() overlay: boolean = false;

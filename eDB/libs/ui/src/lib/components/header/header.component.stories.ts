@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { HeaderComponent } from './header.component';
+import { UiHeaderComponent } from './header.component';
 
-const meta: Meta<HeaderComponent> = {
+const meta: Meta<UiHeaderComponent> = {
   title: 'UI/Header',
-  component: HeaderComponent,
+  component: UiHeaderComponent,
 };
 
 export default meta;
 
-type Story = StoryObj<HeaderComponent>;
+type Story = StoryObj<UiHeaderComponent>;
 
 // Default Story for Light Theme
 export const LightTheme: Story = {

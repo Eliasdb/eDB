@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
 @Component({
-  selector: 'ui-input',
+  selector: 'ui-text-input',
   standalone: true,
   imports: [CommonModule, InputModule, FormsModule],
   template: `
@@ -33,7 +33,7 @@ import { InputModule } from 'carbon-components-angular';
     </cds-text-label>
   `,
 })
-export class InputComponent {
+export class UiTextInputComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() value: string = '';

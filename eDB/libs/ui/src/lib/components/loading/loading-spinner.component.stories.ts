@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { LoadingSpinnerComponent } from './loading-spinner.component';
+import { UiLoadingSpinnerComponent } from './loading-spinner.component';
 
-const meta: Meta<LoadingSpinnerComponent> = {
+const meta: Meta<UiLoadingSpinnerComponent> = {
   title: 'UI/Loading spinner',
-  component: LoadingSpinnerComponent,
+  component: UiLoadingSpinnerComponent,
   args: {
     isActive: true,
     size: 'normal',
@@ -28,7 +28,7 @@ const meta: Meta<LoadingSpinnerComponent> = {
 
 export default meta;
 
-type Story = StoryObj<LoadingSpinnerComponent>;
+type Story = StoryObj<UiLoadingSpinnerComponent>;
 
 export const Loading: Story = {
   args: {

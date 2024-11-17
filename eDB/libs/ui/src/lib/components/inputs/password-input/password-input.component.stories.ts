@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { PasswordInputComponent } from './password-input.component';
+import { UiPasswordInputComponent } from './password-input.component';
 
-const meta: Meta<PasswordInputComponent> = {
+const meta: Meta<UiPasswordInputComponent> = {
   title: 'UI/Inputs/PasswordInput',
-  component: PasswordInputComponent,
+  component: UiPasswordInputComponent,
   args: {
     label: 'Password',
     placeholder: 'Enter your password',
@@ -85,7 +85,7 @@ const meta: Meta<PasswordInputComponent> = {
 
 export default meta;
 
-type Story = StoryObj<PasswordInputComponent>;
+type Story = StoryObj<UiPasswordInputComponent>;
 
 export const Default: Story = {
   args: {

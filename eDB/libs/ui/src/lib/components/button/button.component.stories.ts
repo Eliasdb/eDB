@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { ButtonComponent } from './button.component';
+import { UiButtonComponent } from './button.component';
 
-const meta: Meta<ButtonComponent> = {
+const meta: Meta<UiButtonComponent> = {
   title: 'UI/Button',
-  component: ButtonComponent,
+  component: UiButtonComponent,
   args: {
     type: 'button',
     variant: 'primary',
@@ -55,7 +55,7 @@ const meta: Meta<ButtonComponent> = {
 
 export default meta;
 
-type Story = StoryObj<ButtonComponent>;
+type Story = StoryObj<UiButtonComponent>;
 
 export const Primary: Story = {
   args: {
