@@ -15,6 +15,7 @@ import { UiLoadingSpinnerComponent } from '../loading/loading-spinner.component'
   ],
   template: `
     <button
+      [ngClass]="{ 'full-width': fullWidth }"
       [cdsButton]="variant"
       [disabled]="disabled || loading"
       (click)="handleClick($event)"
@@ -35,6 +36,7 @@ import { UiLoadingSpinnerComponent } from '../loading/loading-spinner.component'
       </ng-container>
     </button>
   `,
+  styleUrl: 'button.component.scss',
 })
 export class UiButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
@@ -44,6 +46,7 @@ export class UiButtonComponent {
   @Input() loading: boolean = false;
   @Input() icon?: string;
   @Input() isExpressive: boolean = false;
+  @Input() fullWidth: boolean = false; // New input property
 
   @Output() buttonClick = new EventEmitter<Event>();
 

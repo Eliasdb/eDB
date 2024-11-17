@@ -1,0 +1,13 @@
+/* ui-button.component.scss */
+:host:host {
+  display: inline-block;
+  width: 100%; /* Ensure the host element takes full width */
+}
+
+button {
+  width: auto; /* Default to intrinsic width */
+}
+
+button.full-width {
+  width: 100%; /* Expand to full width when fullWidth is true */
+}

@@ -8,12 +8,11 @@
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
-  align-items: center;
 }
 
 .login-section {
   flex: 0 0 38%; /* 62% for the login form */
-  border-right: 2px solid #ddd;
+  margin-top: 5rem;
 }
 
 .intro-image-section {
