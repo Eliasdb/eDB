@@ -31,7 +31,7 @@ import { InputModule } from 'carbon-components-angular';
     </cds-textarea-label>
   `,
 })
-export class TextAreaComponent {
+export class UiTextAreaComponent {
   @Input() label: string = ''; // Label for the textarea field
   @Input() placeholder: string = ''; // Placeholder text
   @Input() value: string = ''; // Value of the textarea field

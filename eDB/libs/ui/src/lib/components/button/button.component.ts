@@ -1,13 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
-import { IconComponent } from '../icon/icon.component';
-import { LoadingSpinnerComponent } from '../loading/loading-spinner.component';
+import { UiIconComponent } from '../icon/icon.component';
+import { UiLoadingSpinnerComponent } from '../loading/loading-spinner.component';
 
 @Component({
   selector: 'ui-button',
   standalone: true,
-  imports: [CommonModule, ButtonModule, LoadingSpinnerComponent, IconComponent],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    UiLoadingSpinnerComponent,
+    UiIconComponent,
+  ],
   template: `
     <button
       [cdsButton]="variant"
@@ -22,7 +27,7 @@ import { LoadingSpinnerComponent } from '../loading/loading-spinner.component';
       </span>
 
       <ng-container *ngIf="icon">
-        <app-icon class="cds--btn__icon" [name]="icon"></app-icon>
+        <ui-icon class="cds--btn__icon" [name]="icon"></ui-icon>
       </ng-container>
 
       <ng-container *ngIf="loading">
@@ -31,7 +36,7 @@ import { LoadingSpinnerComponent } from '../loading/loading-spinner.component';
     </button>
   `,
 })
-export class ButtonComponent {
+export class UiButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() variant: 'primary' | 'secondary' | 'danger' | 'ghost' = 'primary';
   @Input() size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'md';

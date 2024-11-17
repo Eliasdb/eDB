@@ -13,4 +13,4 @@ import { Component } from '@angular/core';
   `,
   styleUrls: ['footer.component.scss'],
 })
-export class FooterComponent {}
+export class UiFooterComponent {}

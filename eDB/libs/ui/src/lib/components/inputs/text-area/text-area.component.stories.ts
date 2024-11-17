@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { TextAreaComponent } from './text-area.component';
+import { UiTextAreaComponent } from './text-area.component';
 
-const meta: Meta<TextAreaComponent> = {
+const meta: Meta<UiTextAreaComponent> = {
   title: 'UI/Inputs/Textarea',
-  component: TextAreaComponent,
+  component: UiTextAreaComponent,
   args: {
     label: 'Default Label',
     placeholder: 'Enter text...',
@@ -94,7 +94,7 @@ const meta: Meta<TextAreaComponent> = {
 
 export default meta;
 
-type Story = StoryObj<TextAreaComponent>;
+type Story = StoryObj<UiTextAreaComponent>;
 
 // Basic Textarea
 export const BasicTextarea: Story = {

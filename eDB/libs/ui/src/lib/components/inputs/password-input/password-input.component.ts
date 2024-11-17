@@ -5,7 +5,7 @@ import { InputModule } from 'carbon-components-angular';
 @Component({
   selector: 'ui-password-input',
   standalone: true,
-  imports: [CommonModule, InputModule], // Importing the necessary Carbon components
+  imports: [CommonModule, InputModule],
   template: `
     <cds-password-label
       [helperText]="helperText"
@@ -32,7 +32,7 @@ import { InputModule } from 'carbon-components-angular';
     </cds-password-label>
   `,
 })
-export class PasswordInputComponent {
+export class UiPasswordInputComponent {
   @Input() label: string = ''; // Label for the input field
   @Input() placeholder: string = ''; // Placeholder text
   @Input() value: string = ''; // Value of the password field

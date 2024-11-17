@@ -5,7 +5,7 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-icon',
+  selector: 'ui-icon',
   standalone: true,
   imports: [FontAwesomeModule, CommonModule],
   template: `
@@ -18,7 +18,7 @@ import * as solidIcons from '@fortawesome/free-solid-svg-icons';
   `,
   styleUrls: ['./icon.component.scss'],
 })
-export class IconComponent implements OnChanges {
+export class UiIconComponent implements OnChanges {
   @Input() name!: string;
   @Input() size: string = '1em';
   @Input() color: string = '';

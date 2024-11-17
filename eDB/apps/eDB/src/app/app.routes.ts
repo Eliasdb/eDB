@@ -1,6 +1,6 @@
 // shell-app/src/app/app.routes.ts
 import { Route } from '@angular/router';
-import { LoginContainer } from './pages/login/login.container';
+import { LoginContainer } from './pages/portal/login/login.container';
 
 export const routes: Route[] = [
   {
@@ -8,6 +8,7 @@ export const routes: Route[] = [
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
+
   {
     path: 'login',
     component: LoginContainer,

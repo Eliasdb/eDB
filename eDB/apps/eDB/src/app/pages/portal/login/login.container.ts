@@ -1,18 +1,17 @@
-// login-page-container.component.ts (Platform app)
 import { Component } from '@angular/core';
-import { PlatformFooterComponent } from '../../components/footer/footer.component';
-import { PlatformHeaderComponent } from '../../components/header/header.component';
+import { UiFooterComponent, UiHeaderComponent } from '@e-db/ui';
+import { LoginFormComponent } from '../../../components/portal/login/login-form/login-form.component';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [PlatformHeaderComponent, PlatformFooterComponent],
+  imports: [UiHeaderComponent, UiFooterComponent, LoginFormComponent],
   template: `
     <section class="login-container">
-      <app-platform-header></app-platform-header>
+      <ui-header></ui-header>
       <div class="page-content">
         <div class="login-section">
-          <!-- Add the login form component here -->
+          <app-login-form></app-login-form>
         </div>
 
         <div class="intro-image-section">
@@ -22,7 +21,7 @@ import { PlatformHeaderComponent } from '../../components/header/header.componen
           />
         </div>
       </div>
-      <app-platform-footer></app-platform-footer>
+      <ui-footer></ui-footer>
     </section>
   `,
   styleUrls: ['./login.container.scss'],

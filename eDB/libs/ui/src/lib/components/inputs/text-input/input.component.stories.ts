@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { InputComponent } from './input.component';
+import { UiTextInputComponent } from './input.component';
 
-const meta: Meta<InputComponent> = {
+const meta: Meta<UiTextInputComponent> = {
   title: 'UI/Inputs/Input',
-  component: InputComponent,
+  component: UiTextInputComponent,
   args: {
     label: 'Input Label',
     placeholder: 'Enter text...',
@@ -84,7 +84,7 @@ const meta: Meta<InputComponent> = {
 
 export default meta;
 
-type Story = StoryObj<InputComponent>;
+type Story = StoryObj<UiTextInputComponent>;
 
 // Default Input
 export const Default: Story = {

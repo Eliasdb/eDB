@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { FooterComponent } from './footer.component';
+import { UiFooterComponent } from './footer.component';
 
-const meta: Meta<FooterComponent> = {
+const meta: Meta<UiFooterComponent> = {
   title: 'UI/Footer',
-  component: FooterComponent,
+  component: UiFooterComponent,
   argTypes: {
     backgroundColor: {
       control: 'color',
@@ -18,7 +18,7 @@ const meta: Meta<FooterComponent> = {
 
 export default meta;
 
-type Story = StoryObj<FooterComponent>;
+type Story = StoryObj<UiFooterComponent>;
 
 // Default footer
 export const DefaultFooter: Story = {
