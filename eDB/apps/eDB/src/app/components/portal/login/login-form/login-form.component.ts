@@ -31,8 +31,9 @@ interface LoginForm {
   ],
   template: `
     <div class="login-form-container">
-      <h1>Login to eDB</h1>
-      <hr />
+      <section class="login-form-title">
+        <h1>Log in to eDB</h1>
+      </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <!-- Email input field -->
@@ -70,7 +71,7 @@ interface LoginForm {
           </ui-button>
         </div>
       </form>
-      <hr />
+
       <section>
         <p>Don't have an account?</p>
         <ui-button [fullWidth]="true" icon="faPlus"> Create one</ui-button>

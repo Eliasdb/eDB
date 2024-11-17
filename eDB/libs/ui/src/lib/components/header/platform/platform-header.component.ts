@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular'; // Import Carbon's HeaderModule
-import { UiIconComponent } from '../icon/icon.component'; // Assuming you have the IconComponent set up
+import { UiIconComponent } from '../../icon/icon.component'; // Assuming you have the IconComponent set up
 
 @Component({
-  selector: 'ui-header',
+  selector: 'ui-platform-header',
   standalone: true,
   imports: [CommonModule, HeaderModule, UiIconComponent],
   template: `
@@ -53,7 +53,7 @@ import { UiIconComponent } from '../icon/icon.component'; // Assuming you have t
     </ng-template>
   `,
 })
-export class UiHeaderComponent {
+export class UiPlatformHeaderComponent {
   @Input() name: string = 'eDB'; // Name for the platform in the header
   @Input() platformName: string = 'main'; // Custom platform name for branding
   @Input() hasHamburger: boolean = true; // Whether to show the hamburger menu
