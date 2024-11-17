@@ -31,55 +31,53 @@ interface LoginForm {
   ],
   template: `
     <div class="login-form-container">
-      <h2>Login</h2>
+      <h1>Login to eDB</h1>
+      <hr />
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!-- Email input field -->
-        <ui-text-input
-          label="Email Address"
-          placeholder="Enter your email"
-          [formControl]="emailControl"
-          [invalid]="emailControl.invalid && emailControl.touched"
-        ></ui-text-input>
+        <div class="form-group">
+          <!-- Email input field -->
+          <ui-text-input
+            label="Email Address"
+            placeholder="Enter your email"
+            [formControl]="emailControl"
+            [invalid]="
+              emailControl.invalid &&
+              (emailControl.dirty || emailControl.touched)
+            "
+            [invalidText]="getEmailErrorMessage()"
+          ></ui-text-input>
 
-        <!-- Password input field -->
-        <ui-password-input
-          label="Password"
-          placeholder="Enter your password"
-          [formControl]="passwordControl"
-          [invalid]="passwordControl.invalid && passwordControl.touched"
-        ></ui-password-input>
+          <!-- Password input field -->
+          <ui-password-input
+            label="Password"
+            placeholder="Enter your password"
+            [formControl]="passwordControl"
+            [invalid]="
+              passwordControl.invalid &&
+              (passwordControl.dirty || passwordControl.touched)
+            "
+            [invalidText]="getPasswordErrorMessage()"
+          ></ui-password-input>
 
-        <!-- Submit button -->
-        <ui-button
-          [type]="'submit'"
-          [disabled]="loginForm.invalid || isLoading"
-        >
-          Login
-        </ui-button>
-
-        <!-- Error message -->
-        <div *ngIf="isLoginError" class="error-message">
-          Invalid email or password.
+          <!-- Submit button -->
+          <ui-button
+            [type]="'submit'"
+            [disabled]="loginForm.invalid || isLoading"
+            [fullWidth]="true"
+            icon="faArrowRightToBracket"
+          >
+            Login
+          </ui-button>
         </div>
       </form>
+      <hr />
+      <section>
+        <p>Don't have an account?</p>
+        <ui-button [fullWidth]="true" icon="faPlus"> Create one</ui-button>
+      </section>
     </div>
   `,
-  styles: [
-    `
-      .login-form-container {
-        width: 300px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-      }
-      .error-message {
-        color: red;
-        font-size: 14px;
-        margin-top: 10px;
-      }
-    `,
-  ],
+  styleUrl: 'login-form.component.scss',
 })
 export class LoginFormComponent {
   loginForm: FormGroup<LoginForm>;
@@ -105,6 +103,25 @@ export class LoginFormComponent {
         nonNullable: true,
       }),
     });
+  }
+
+  getEmailErrorMessage(): string {
+    const control = this.emailControl;
+    if (control.hasError('required')) {
+      return 'Email is required.';
+    }
+    if (control.hasError('email')) {
+      return 'Please enter a valid email address.';
+    }
+    return '';
+  }
+
+  getPasswordErrorMessage(): string {
+    const control = this.passwordControl;
+    if (control.hasError('required')) {
+      return 'Password is required.';
+    }
+    return '';
   }
 
   authService = inject(AuthService);
