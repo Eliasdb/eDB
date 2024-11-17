@@ -8,5 +8,6 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  line-height: 1.5; /* Adjust to match the font's design */
 }
