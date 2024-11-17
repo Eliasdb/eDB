@@ -10,14 +10,24 @@ export const routes: Route[] = [
     component: PlatformLayoutComponent,
     children: [
       {
-        path: '', // Default platform home page
+        path: '',
         loadComponent: () =>
-          import('./pages/home/home.component').then((m) => m.HomeComponent),
+          import('./pages/platform/home/home.component').then(
+            (m) => m.HomeComponent
+          ),
+      },
+
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./pages/platform/settings/settings.component').then(
+            (m) => m.SettingsComponent
+          ),
       },
     ],
   },
   {
-    path: 'auth', // Authentication routes with PortalLayoutComponent
+    path: 'auth',
     component: PortalLayoutComponent,
     children: [
       {
@@ -31,12 +41,12 @@ export const routes: Route[] = [
     ],
   },
   {
-    path: 'appointments', // Appointments route with no shared layout
+    path: 'appointments',
     loadChildren: () =>
       import('@eDB/appointment-app').then((m) => m.AppointmentsModule),
   },
   {
     path: '**',
-    redirectTo: '', // Redirect unknown paths to the default route
+    redirectTo: '',
   },
 ];
