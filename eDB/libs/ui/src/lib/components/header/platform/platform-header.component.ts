@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HeaderModule } from 'carbon-components-angular'; // Import Carbon's HeaderModule
-import { UiIconComponent } from '../../icon/icon.component'; // Assuming you have the IconComponent set up
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { HeaderModule } from 'carbon-components-angular';
+import { UiIconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'ui-platform-header',
@@ -17,21 +18,18 @@ import { UiIconComponent } from '../../icon/icon.component'; // Assuming you hav
 
       <!-- Header Navigation -->
       <cds-header-navigation>
-        <cds-header-item>Catalog</cds-header-item>
-        <cds-header-item>Docs</cds-header-item>
-        <cds-header-item>Support</cds-header-item>
-
-        <cds-header-menu title="Manage">
-          <cds-header-item>Link 1</cds-header-item>
-          <cds-header-item>Link 2</cds-header-item>
-          <cds-header-item>Link 3</cds-header-item>
-        </cds-header-menu>
+        <cds-header-item (click)="navigateToRoot()">Dashboard</cds-header-item>
       </cds-header-navigation>
 
       <!-- Global Actions (Icons for Settings and Logout) -->
       <cds-header-global>
         <cds-header-action description="Settings">
-          <ui-icon [name]="settingsIcon" [size]="iconSize" [color]="iconColor">
+          <ui-icon
+            [name]="settingsIcon"
+            [size]="iconSize"
+            [color]="iconColor"
+            (click)="navigateToSettings()"
+          >
           </ui-icon>
           <!-- Settings Icon -->
         </cds-header-action>
@@ -54,9 +52,9 @@ import { UiIconComponent } from '../../icon/icon.component'; // Assuming you hav
   `,
 })
 export class UiPlatformHeaderComponent {
-  @Input() name: string = 'eDB'; // Name for the platform in the header
-  @Input() platformName: string = 'main'; // Custom platform name for branding
-  @Input() hasHamburger: boolean = true; // Whether to show the hamburger menu
+  @Input() name: string = 'eDB';
+  @Input() platformName: string = 'main';
+  @Input() hasHamburger: boolean = false; // Whether to show the hamburger menu
   @Output() hamburgerToggle = new EventEmitter<Event>(); // Event when hamburger is clicked
 
   // Icon names as properties
@@ -67,7 +65,17 @@ export class UiPlatformHeaderComponent {
   iconSize: string = '1rem'; // Default icon size
   iconColor: string = 'black'; // Default icon color
 
+  private router = inject(Router);
+
   expanded(event: Event) {
-    this.hamburgerToggle.emit(event); // Emit event when the hamburger is clicked
+    this.hamburgerToggle.emit(event);
+  }
+
+  navigateToSettings(): void {
+    this.router.navigate(['/settings']);
+  }
+
+  navigateToRoot(): void {
+    this.router.navigate(['/']);
   }
 }
