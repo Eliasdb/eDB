@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { UiFooterComponent, UiHeaderComponent } from '@e-db/ui';
+import { UiFooterComponent, UiPortalHeaderComponent } from '@e-db/ui';
 import { LoginFormComponent } from '../../../components/portal/login/login-form/login-form.component';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [UiHeaderComponent, UiFooterComponent, LoginFormComponent],
+  imports: [UiPortalHeaderComponent, UiFooterComponent, LoginFormComponent],
   template: `
     <section class="login-container">
-      <ui-header></ui-header>
+      <ui-portal-header></ui-portal-header>
       <div class="page-content">
         <div class="login-section">
           <app-login-form></app-login-form>
