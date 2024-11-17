@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
 @Component({
@@ -28,23 +29,59 @@ import { InputModule } from 'carbon-components-angular';
         [placeholder]="placeholder"
         [autocomplete]="autocomplete"
         [readonly]="readonly"
+        [value]="value"
+        (input)="onInput($event)"
+        (blur)="onTouched()"
       />
     </cds-password-label>
   `,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UiPasswordInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class UiPasswordInputComponent {
-  @Input() label: string = ''; // Label for the input field
-  @Input() placeholder: string = ''; // Placeholder text
-  @Input() value: string = ''; // Value of the password field
-  @Input() disabled: boolean = false; // Whether the input is disabled
-  @Input() invalid: boolean = false; // Whether the input is invalid
-  @Input() helperText: string = ''; // Helper text displayed below the input
-  @Input() invalidText: string = ''; // Error message when input is invalid
-  @Input() warn: boolean = false; // Whether the input has a warning state
-  @Input() warnText: string = ''; // Warning message
-  @Input() skeleton: boolean = false; // Whether to show a skeleton loader
-  @Input() size: 'sm' | 'md' | 'lg' = 'md'; // Size of the password input field
-  @Input() theme: 'light' | 'dark' = 'light'; // Theme of the password input field
-  @Input() readonly: boolean = false; // Whether the input is read-only
-  @Input() autocomplete: string = ''; // Autocomplete attribute for the input
+export class UiPasswordInputComponent implements ControlValueAccessor {
+  @Input() label: string = '';
+  @Input() placeholder: string = '';
+  @Input() disabled: boolean = false;
+  @Input() invalid: boolean = false;
+  @Input() helperText: string = '';
+  @Input() invalidText: string = '';
+  @Input() warn: boolean = false;
+  @Input() warnText: string = '';
+  @Input() skeleton: boolean = false;
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() theme: 'light' | 'dark' = 'light';
+  @Input() readonly: boolean = false;
+  @Input() autocomplete: string = '';
+
+  value: string = '';
+
+  private onChange: (value: string) => void = () => {};
+  public onTouched: () => void = () => {};
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.value = input.value;
+    this.onChange(this.value);
+  }
+
+  writeValue(value: string): void {
+    this.value = value || '';
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 }
