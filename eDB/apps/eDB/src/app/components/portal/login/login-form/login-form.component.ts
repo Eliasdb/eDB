@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
@@ -20,7 +21,7 @@ interface LoginForm {
 }
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'platform-portal-login-form',
   standalone: true,
   imports: [
     UiTextInputComponent,
@@ -74,7 +75,13 @@ interface LoginForm {
 
       <section>
         <p>Don't have an account?</p>
-        <ui-button [fullWidth]="true" icon="faPlus"> Create one</ui-button>
+        <ui-button
+          [fullWidth]="true"
+          icon="faPlus"
+          (click)="navigateToRegister()"
+        >
+          Create one
+        </ui-button>
       </section>
     </div>
   `,
@@ -84,6 +91,8 @@ export class LoginFormComponent {
   loginForm: FormGroup<LoginForm>;
   isLoading = false;
   isLoginError = false;
+
+  private router = inject(Router);
 
   get emailControl(): FormControl<string> {
     return this.loginForm.controls.email;
@@ -145,5 +154,9 @@ export class LoginFormComponent {
         },
       });
     }
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['/auth/register']);
   }
 }
