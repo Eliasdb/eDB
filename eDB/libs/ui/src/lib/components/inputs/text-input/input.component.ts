@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, forwardRef } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
 @Component({
@@ -28,15 +32,23 @@ import { InputModule } from 'carbon-components-angular';
         [placeholder]="placeholder"
         [readonly]="readonly"
         [autocomplete]="autocomplete"
-        [(ngModel)]="value"
+        [value]="value"
+        (input)="onInput($event)"
+        (blur)="onTouched()"
       />
     </cds-text-label>
   `,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UiTextInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class UiTextInputComponent {
+export class UiTextInputComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = '';
-  @Input() value: string = '';
   @Input() disabled: boolean = false;
   @Input() invalid: boolean = false;
   @Input() helperText: string = '';
@@ -48,4 +60,31 @@ export class UiTextInputComponent {
   @Input() theme: 'light' | 'dark' = 'light';
   @Input() readonly: boolean = false;
   @Input() autocomplete: string = '';
+
+  value: string = '';
+
+  private onChange: (value: string) => void = () => {};
+  public onTouched: () => void = () => {};
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.value = input.value;
+    this.onChange(this.value);
+  }
+
+  writeValue(value: string): void {
+    this.value = value || '';
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 }
