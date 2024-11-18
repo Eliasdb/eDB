@@ -7,4 +7,5 @@ export * from './lib/components/inputs/password-input/password-input.component';
 export * from './lib/components/inputs/text-area/text-area.component';
 export * from './lib/components/inputs/text-input/input.component';
 export * from './lib/components/loading/loading-spinner.component';
+export * from './lib/components/structured-list/structured-list.component';
 export * from './lib/components/title/title.component';

@@ -39,7 +39,7 @@ interface RegisterForm {
               [className]="'custom-title-class'"
             ></ui-title>
             <p class="already-text">
-              Already have an edb account?
+              Already have one?
               <a (click)="navigateToLogin()">Log in</a>.
             </p>
           </div>

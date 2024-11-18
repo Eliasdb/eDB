@@ -228,6 +228,8 @@ export class RegisterFormComponent {
 
   // Form submission handler
   onSubmit() {
+    console.log('yoo', this.isLoading);
+
     if (this.registerForm.valid) {
       this.isLoading = true;
       const formData = this.registerForm.getRawValue();
