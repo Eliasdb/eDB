@@ -33,6 +33,7 @@ import { UiIconComponent } from '../../icon/icon.component';
           </ui-icon>
           <!-- Settings Icon -->
         </cds-header-action>
+
         <cds-header-action description="Logout">
           <ui-icon [name]="logoutIcon" [size]="iconSize" [color]="iconColor">
           </ui-icon>

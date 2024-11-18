@@ -1,32 +1,46 @@
 .login-container {
-  min-height: 100vh; /* Ensures minimum height is 100% of the viewport */
-  display: flex;
-  flex-direction: column; /* Ensures that content inside behaves properly */
+  width: 100%;
+  height: 95vh; // Full viewport height
+  overflow: hidden;
 }
 
 .page-content {
   display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
+  height: 100%;
 }
 
 .login-section {
-  flex: 0 0 38%; /* 62% for the login form */
-  margin-top: 5rem;
+  flex: 0 0 32%; // 32% width for the login form
+  margin-left: 7rem;
+  margin-top: 3.5rem;
 }
 
 .intro-image-section {
-  flex: 0 0 62%; /* 38% for the intro image */
+  flex: 1; // Remaining width for the image
+  display: flex;
+  align-items: flex-end; // Stick image to the bottom
+  justify-content: flex-start; // Align image to the right
+  margin-left: -6rem;
 }
 
-footer {
-  margin-top: auto;
-  text-align: center;
-  padding: 20px;
-  background-color: #f1f1f1;
+.intro-image-section img {
+  height: 850px; // Set a fixed height for the image
+  width: auto;
 }
 
-img {
-  height: 100%;
-  width: 100%;
+@media (max-width: 1055px) {
+  .intro-image-section {
+    display: none; // Hide image section on smaller screens
+  }
+
+  .page-content {
+    justify-content: center; // Center the login form
+  }
+
+  .login-section {
+    flex: none;
+    width: 100%;
+    margin-left: 0; // Remove left margin
+    margin-top: 5rem; // Keep top margin
+  }
 }

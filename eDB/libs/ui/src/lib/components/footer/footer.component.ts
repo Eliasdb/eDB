@@ -6,8 +6,15 @@ import { Component } from '@angular/core';
   template: `
     <footer class="footer">
       <div class="footer-content">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
-        <p>Powered by eliasdebock.com</p>
+        <div class="footer-links">
+          <a href="/contact" class="footer-link">Contact</a>
+          <span class="footer-divider">|</span>
+          <a href="/privacy" class="footer-link">Privacy</a>
+        </div>
+        <p>
+          Powered by
+          <a href="https://eliasdebock.com" target="_blank">eliasdebock.com</a>
+        </p>
       </div>
     </footer>
   `,
