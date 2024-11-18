@@ -41,6 +41,8 @@ interface LoginForm {
           <ui-text-input
             label="Email Address"
             placeholder="Enter your email"
+            [size]="'lg'"
+            [theme]="'dark'"
             [formControl]="emailControl"
             [invalid]="
               emailControl.invalid &&
@@ -54,6 +56,7 @@ interface LoginForm {
             label="Password"
             placeholder="Enter your password"
             [formControl]="passwordControl"
+            [theme]="'dark'"
             [invalid]="
               passwordControl.invalid &&
               (passwordControl.dirty || passwordControl.touched)
@@ -64,9 +67,11 @@ interface LoginForm {
           <!-- Submit button -->
           <ui-button
             [type]="'submit'"
-            [disabled]="loginForm.invalid || isLoading"
+            [isExpressive]="true"
+            [disabled]="isLoading"
             [fullWidth]="true"
-            icon="faArrowRightToBracket"
+            icon="faArrowRight"
+            class="login-btn"
           >
             Login
           </ui-button>
@@ -77,7 +82,9 @@ interface LoginForm {
         <p>Don't have an account?</p>
         <ui-button
           [fullWidth]="true"
+          [isExpressive]="true"
           icon="faPlus"
+          [variant]="'tertiary'"
           (click)="navigateToRegister()"
         >
           Create one
