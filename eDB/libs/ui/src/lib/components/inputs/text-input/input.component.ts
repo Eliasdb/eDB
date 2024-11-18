@@ -56,7 +56,7 @@ export class UiTextInputComponent implements ControlValueAccessor {
   @Input() warn: boolean = false;
   @Input() warnText: string = '';
   @Input() skeleton: boolean = false;
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() size: 'sm' | 'md' | 'lg' = 'lg';
   @Input() theme: 'light' | 'dark' = 'light';
   @Input() readonly: boolean = false;
   @Input() autocomplete: string = '';

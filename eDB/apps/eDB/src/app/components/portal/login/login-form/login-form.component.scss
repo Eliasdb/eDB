@@ -1,7 +1,6 @@
 .login-form-container {
   max-width: 415px;
   border-radius: 8px;
-  margin: 0 auto;
 }
 
 .login-form-title {
@@ -28,4 +27,15 @@ ui-text-input,
 ui-password-input,
 ui-button {
   width: 100%;
+}
+
+@media (max-width: 1055px) {
+  .login-form-container {
+    margin: 0 auto;
+  }
+}
+
+p {
+  color: #525252;
+  font-size: 14px;
 }

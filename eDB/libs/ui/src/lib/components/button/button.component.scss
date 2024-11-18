@@ -6,6 +6,7 @@
 
 button {
   width: auto; /* Default to intrinsic width */
+  max-inline-size: 26rem;
 }
 
 button.full-width {

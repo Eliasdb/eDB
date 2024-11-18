@@ -40,7 +40,8 @@ import { UiLoadingSpinnerComponent } from '../loading/loading-spinner.component'
 })
 export class UiButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() variant: 'primary' | 'secondary' | 'danger' | 'ghost' = 'primary';
+  @Input() variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost' =
+    'primary';
   @Input() size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'md';
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
