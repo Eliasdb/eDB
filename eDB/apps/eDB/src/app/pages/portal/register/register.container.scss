@@ -1,0 +1,118 @@
+/* Container styles */
+.register-form-container {
+  width: 100%;
+  min-height: 95vh;
+  display: flex;
+}
+
+/* Content layout */
+.register-page-content {
+  display: flex;
+  width: 100%;
+}
+
+.register-info {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative; /* Make the container relative to position the overlay */
+  background: url('https://i.ibb.co/GfZXxRh/lol2.webp');
+  background-size: cover;
+  background-position: 100% 20%; /* Custom vertical positioning */
+  background-attachment: fixed;
+
+  /* Pseudo-element for gradient overlay */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgb(255, 255, 255, 1),
+      rgb(167 228 254 / 69%)
+    );
+    z-index: 1; /* Place overlay on top of the background */
+  }
+
+  ui-title {
+    margin-bottom: 1rem;
+    z-index: 2; /* Ensure content is above the overlay */
+  }
+
+  .left-titles {
+    margin-top: 1.5rem;
+    padding-left: 5rem;
+    max-width: 32rem;
+    z-index: 2; /* Ensure content is above the overlay */
+  }
+}
+
+/* Right side styles */
+.register-form-section {
+  flex: 1;
+  padding: 2rem 3rem 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 1.5rem;
+
+  ui-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .right-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+
+    a {
+      color: #0070c9;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .register-page-content {
+    flex-direction: column;
+  }
+
+  .register-info,
+  .register-form-section {
+    flex: none;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .register-info {
+    ui-title {
+      text-align: center;
+    }
+  }
+
+  .register-form-section {
+    ui-title,
+    p {
+      text-align: center;
+    }
+  }
+}
+
+.already-text {
+  margin-top: 0;
+}
