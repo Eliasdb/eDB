@@ -12,6 +12,7 @@ import {
   UiButtonComponent,
   UiPasswordInputComponent,
   UiTextInputComponent,
+  UiTitleComponent,
 } from '@e-db/ui';
 import { AuthService } from '../../../../services/auth.service';
 
@@ -27,13 +28,14 @@ interface LoginForm {
     UiTextInputComponent,
     UiPasswordInputComponent,
     UiButtonComponent,
+    UiTitleComponent,
     ReactiveFormsModule,
     CommonModule,
   ],
   template: `
     <div class="login-form-container">
       <section class="login-form-title">
-        <h1>Log in to eDB</h1>
+        <ui-title text="Log in to eDB"></ui-title>
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
