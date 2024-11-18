@@ -2,21 +2,47 @@
 .footer {
   background-color: #333;
   color: #fff;
-  padding: 20px 0;
+  padding: 1rem 0;
   margin-top: auto; /* Ensures the footer is at the bottom if content is small */
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between; /* Spacing between the content */
+    align-items: center; /* Vertically center the items */
+    max-width: 1200px;
+    padding-left: 6rem;
+
+    p {
+      margin: 0; /* Remove default margin */
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 8px; /* Space between links */
+      align-items: center;
+
+      .footer-link {
+        text-decoration: none;
+        color: white; /* Link color */
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+
+        &:hover {
+          color: #f9ecec; /* Lighter blue on hover */
+        }
+      }
+
+      .footer-divider {
+        color: #fff; /* Divider color matching footer text */
+        font-size: 14px;
+      }
+    }
+  }
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between; /* Spacing between the content */
-  align-items: center; /* Vertically center the items */
-  max-width: 1200px;
-  margin: 0 auto; /* Center the content horizontally */
-  padding: 0 20px;
-}
-
-.footer-content p {
-  margin: 0; /* Remove default margin */
-  font-size: 14px;
-  font-weight: normal;
+a {
+  color: #fff;
 }
