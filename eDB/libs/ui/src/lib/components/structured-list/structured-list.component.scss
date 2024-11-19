@@ -1,8 +1,57 @@
 cds-list-column:nth-child(3) {
   display: flex;
   justify-content: flex-end;
+  padding-inline-end: 1rem;
 }
 
 .icon-gap {
   margin-left: 0.5rem;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+/* Ensure the inputs and buttons are stacked vertically */
+.input-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between inputs and buttons */
+}
+
+cds-list-column {
+  padding: 0;
+  padding-top: 0.5rem;
+}
+
+cds-list-column:nth-child(2) {
+  padding-bottom: 2rem;
+}
+
+.ui-text-input,
+.ui-password-input {
+  width: 100%; /* Ensure the inputs take full width of the column */
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem; /* Space between the buttons */
+  justify-content: flex-start; /* Align buttons to the left */
+}
+
+.edit-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  color: #0078d4; /* Optional: Highlight color to indicate interactivity */
+  transition: color 0.2s ease; /* Smooth transition for hover effect */
+
+  &:hover {
+    color: #005a9e; /* Optional: Darker color on hover */
+  }
+}
+
+.icon-gap {
+  margin-left: 0.5rem; /* Keep spacing between Edit text and icon */
 }
