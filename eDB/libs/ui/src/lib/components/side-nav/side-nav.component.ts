@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SideNavModule } from 'carbon-components-angular';
 
 @Component({
@@ -13,7 +13,7 @@ import { SideNavModule } from 'carbon-components-angular';
           *ngFor="let item of links"
           [attr.href]="'#' + item.id"
           [active]="!!item.active"
-          (click)="scrollToSection(item.id)"
+          (click)="onItemClick($event, item)"
         >
           {{ item.label }}
         </cds-sidenav-item>
@@ -24,11 +24,10 @@ import { SideNavModule } from 'carbon-components-angular';
 })
 export class UiSidenavComponent {
   @Input() links: { id: string; label: string; active?: boolean }[] = [];
+  @Output() linkClick = new EventEmitter<{ id: string; label: string }>();
 
-  scrollToSection(id: string): void {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  onItemClick(event: Event, item: { id: string; label: string }): void {
+    event.preventDefault(); // Prevent default anchor behavior
+    this.linkClick.emit(item); // Emit the clicked link
   }
 }
