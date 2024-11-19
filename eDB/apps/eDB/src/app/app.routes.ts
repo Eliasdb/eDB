@@ -20,8 +20,8 @@ export const routes: Route[] = [
       {
         path: 'settings',
         loadComponent: () =>
-          import('./pages/platform/settings/settings.component').then(
-            (m) => m.SettingsContainer
+          import('./pages/platform/profile/profile.container').then(
+            (m) => m.ProfileContainer
           ),
       },
     ],
