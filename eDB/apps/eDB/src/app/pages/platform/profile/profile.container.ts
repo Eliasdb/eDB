@@ -72,9 +72,9 @@ interface LinkItem {
       </section>
     </section>
   `,
-  styleUrls: ['./settings.container.scss'],
+  styleUrls: ['./profile.container.scss'],
 })
-export class SettingsContainer implements AfterViewInit {
+export class ProfileContainer implements AfterViewInit {
   links: LinkItem[] = [
     { id: 'id-and-password', label: 'ID and Password', active: false },
     { id: 'contact-information', label: 'Contact Information' },

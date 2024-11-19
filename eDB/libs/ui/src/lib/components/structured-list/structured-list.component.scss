@@ -60,7 +60,6 @@ cds-list-column:nth-child(2) {
   display: inline-flex;
   align-items: center;
   cursor: pointer; /* Change cursor to pointer on hover */
-  color: #0078d4; /* Optional: Highlight color to indicate interactivity */
   transition: color 0.2s ease; /* Smooth transition for hover effect */
 
   &:hover {
