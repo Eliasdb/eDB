@@ -21,7 +21,7 @@ export const routes: Route[] = [
         path: 'settings',
         loadComponent: () =>
           import('./pages/platform/settings/settings.component').then(
-            (m) => m.SettingsComponent
+            (m) => m.SettingsContainer
           ),
       },
     ],
