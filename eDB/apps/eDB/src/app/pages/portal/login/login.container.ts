@@ -16,6 +16,8 @@ import { LoginFormComponent } from '../../../components/portal/login/login-form/
           <img
             src="https://www.ibm.com/account/ibmidutil/login-ui/img/illustration-final.svg"
             alt=""
+            height="850"
+            width="auto"
           />
         </div>
       </div>

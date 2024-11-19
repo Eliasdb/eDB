@@ -46,7 +46,8 @@ import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-me
           <div class="logo">
             <img
               src="https://i.ibb.co/7QfqfYc/logo.png"
-              alt=""
+              alt="eDB logo"
+              width="70"
               height="35"
             /></div
         ></span>
