@@ -7,8 +7,7 @@ import { HeaderModule } from 'carbon-components-angular';
   standalone: true,
   imports: [CommonModule, HeaderModule],
   template: `
-    <cds-header [brand]="brandTemplate"> </cds-header>
-
+    <cds-header [brand]="brandTemplate"></cds-header>
     <ng-template #brandTemplate>
       <a class="cds--header__name">
         <span class="cds--header__name--prefix">

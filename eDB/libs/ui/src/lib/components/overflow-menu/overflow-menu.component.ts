@@ -43,7 +43,7 @@ export class UiPlatformOverflowMenuComponent {
   @Input() flip: boolean = true;
   @Input() offset: { x: number; y: number } = { x: 0, y: 7 };
 
-  @Input() icon: string = 'faUser'; // Custom trigger icon
+  @Input() icon: string = 'faUser';
   @Input() iconSize: string = '1rem';
   @Input() iconColor: string = 'black';
 
