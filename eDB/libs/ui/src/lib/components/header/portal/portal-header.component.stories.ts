@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiPortalHeaderComponent } from './portal-header.component';
 
 export default {
-  title: 'UI/Portal Header',
+  title: 'Components/Headers/Portal Header',
   component: UiPortalHeaderComponent,
   argTypes: {
     name: {

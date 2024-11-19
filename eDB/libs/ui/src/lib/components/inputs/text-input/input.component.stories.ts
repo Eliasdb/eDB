@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiTextInputComponent } from './input.component';
 
 const meta: Meta<UiTextInputComponent> = {
-  title: 'UI/Inputs/Input',
+  title: 'Components/Inputs/Text Input',
   component: UiTextInputComponent,
   args: {
     label: 'Input Label',

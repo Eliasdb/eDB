@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiTitleComponent } from './title.component';
 
 const meta: Meta<UiTitleComponent> = {
-  title: 'Ui/Title',
+  title: 'Components/Title',
   component: UiTitleComponent,
   argTypes: {
     text: { control: 'text' }, // Enables a text control in Storybook

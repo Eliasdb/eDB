@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiPasswordInputComponent } from './password-input.component';
 
 const meta: Meta<UiPasswordInputComponent> = {
-  title: 'UI/Inputs/PasswordInput',
+  title: 'Components/Inputs/Password Input',
   component: UiPasswordInputComponent,
   args: {
     label: 'Password',

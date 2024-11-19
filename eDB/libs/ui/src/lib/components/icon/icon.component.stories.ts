@@ -3,7 +3,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UiIconComponent } from './icon.component';
 
 const meta: Meta<UiIconComponent> = {
-  title: 'UI/Icon',
+  title: 'Components/Icon',
   component: UiIconComponent,
   decorators: [
     moduleMetadata({

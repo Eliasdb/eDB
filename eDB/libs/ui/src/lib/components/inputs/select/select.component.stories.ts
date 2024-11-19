@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiSelectComponent } from './select.component';
 
 const meta: Meta<UiSelectComponent> = {
-  title: 'UI/Inputs/Select',
+  title: 'Components/Inputs/Select',
   component: UiSelectComponent,
   args: {
     label: 'Choose an option',
