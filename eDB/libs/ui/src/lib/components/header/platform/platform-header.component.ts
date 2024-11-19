@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular';
 import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-menu.component';
 
@@ -13,17 +12,18 @@ import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-me
       <!-- Hamburger Menu (for mobile) -->
       <cds-hamburger
         *ngIf="hasHamburger"
-        (click)="expanded($event)"
+        (click)="hamburgerToggle.emit($event)"
       ></cds-hamburger>
 
       <!-- Header Navigation -->
       <cds-header-navigation>
-        <cds-header-item (click)="navigateTo('dashboard')"
-          >My eDB</cds-header-item
+        <cds-header-item
+          *ngFor="let link of navigationLinks"
+          (click)="linkClick.emit(link.id)"
+          [isCurrentPage]="link.isCurrentPage"
         >
-        <cds-header-item (click)="navigateTo('profile')"
-          >Profile</cds-header-item
-        >
+          {{ link.label }}
+        </cds-header-item>
       </cds-header-navigation>
 
       <!-- Global Actions -->
@@ -34,7 +34,7 @@ import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-me
           [flip]="true"
           [offset]="{ x: 0, y: 7 }"
           [icon]="'faUser'"
-          (menuOptionSelected)="onMenuOptionSelected($event)"
+          (menuOptionSelected)="menuOptionSelected.emit($event)"
         ></ui-platform-overflow-menu>
       </cds-header-global>
     </cds-header>
@@ -57,30 +57,14 @@ import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-me
 export class UiPlatformHeaderComponent {
   @Input() name: string = 'eDB';
   @Input() hasHamburger: boolean = false;
+  @Input() navigationLinks: {
+    id: string;
+    label: string;
+    isCurrentPage: boolean;
+  }[] = [];
+  @Input() menuOptions: { id: string; label: string }[] = [];
+
   @Output() hamburgerToggle = new EventEmitter<Event>();
-
-  private router = inject(Router);
-
-  menuOptions = [
-    { id: 'dashboard', label: 'My eDB' },
-    { id: 'profile', label: 'Profile' },
-    { id: 'logout', label: 'Logout' },
-  ];
-
-  expanded(event: Event): void {
-    this.hamburgerToggle.emit(event);
-  }
-
-  navigateTo(target: string): void {
-    this.router.navigate([target]);
-  }
-
-  onMenuOptionSelected(optionId: string): void {
-    if (optionId === 'logout') {
-      // Handle logout action
-      console.log('Logging out...');
-    } else {
-      this.navigateTo(optionId);
-    }
-  }
+  @Output() linkClick = new EventEmitter<string>();
+  @Output() menuOptionSelected = new EventEmitter<string>();
 }
