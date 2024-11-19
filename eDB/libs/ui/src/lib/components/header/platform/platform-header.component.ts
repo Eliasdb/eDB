@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderModule } from 'carbon-components-angular';
-import { UiIconComponent } from '../../icon/icon.component';
+import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-menu.component';
 
 @Component({
   selector: 'ui-platform-header',
   standalone: true,
-  imports: [CommonModule, HeaderModule, UiIconComponent],
+  imports: [CommonModule, HeaderModule, UiPlatformOverflowMenuComponent],
   template: `
     <cds-header [brand]="brandTemplate" [name]="name">
       <!-- Hamburger Menu (for mobile) -->
@@ -18,65 +18,69 @@ import { UiIconComponent } from '../../icon/icon.component';
 
       <!-- Header Navigation -->
       <cds-header-navigation>
-        <cds-header-item (click)="navigateToRoot()">Dashboard</cds-header-item>
+        <cds-header-item (click)="navigateTo('dashboard')"
+          >My eDB</cds-header-item
+        >
+        <cds-header-item (click)="navigateTo('profile')"
+          >Profile</cds-header-item
+        >
       </cds-header-navigation>
 
-      <!-- Global Actions (Icons for Settings and Logout) -->
+      <!-- Global Actions -->
       <cds-header-global>
-        <cds-header-action description="Settings">
-          <ui-icon
-            [name]="settingsIcon"
-            [size]="iconSize"
-            [color]="iconColor"
-            (click)="navigateToSettings()"
-          >
-          </ui-icon>
-          <!-- Settings Icon -->
-        </cds-header-action>
-
-        <cds-header-action description="Logout">
-          <ui-icon [name]="logoutIcon" [size]="iconSize" [color]="iconColor">
-          </ui-icon>
-          <!-- Logout Icon -->
-        </cds-header-action>
+        <ui-platform-overflow-menu
+          [menuOptions]="menuOptions"
+          [placement]="'bottom'"
+          [flip]="true"
+          [offset]="{ x: 0, y: 7 }"
+          [icon]="'faUser'"
+          (menuOptionSelected)="onMenuOptionSelected($event)"
+        ></ui-platform-overflow-menu>
       </cds-header-global>
     </cds-header>
 
     <!-- Brand Template -->
     <ng-template #brandTemplate>
       <a class="cds--header__name">
-        <svg cdsIcon="carbon" size="32" style="stroke:white;fill:white"></svg>
-        <span class="cds--header__name--prefix">eDB</span>
-        [{{ platformName }}]
+        <span class="cds--header__name--prefix">
+          <div class="logo">
+            <img
+              src="https://i.ibb.co/7QfqfYc/logo.png"
+              alt=""
+              height="35"
+            /></div
+        ></span>
       </a>
     </ng-template>
   `,
 })
 export class UiPlatformHeaderComponent {
   @Input() name: string = 'eDB';
-  @Input() platformName: string = 'main';
-  @Input() hasHamburger: boolean = false; // Whether to show the hamburger menu
-  @Output() hamburgerToggle = new EventEmitter<Event>(); // Event when hamburger is clicked
-
-  // Icon names as properties
-  settingsIcon: string = 'faCog'; // Settings icon name
-  logoutIcon: string = 'faSignOutAlt'; // Logout icon name
-
-  // Icon size and color properties
-  iconSize: string = '1rem'; // Default icon size
-  iconColor: string = 'black'; // Default icon color
+  @Input() hasHamburger: boolean = false;
+  @Output() hamburgerToggle = new EventEmitter<Event>();
 
   private router = inject(Router);
 
-  expanded(event: Event) {
+  menuOptions = [
+    { id: 'dashboard', label: 'My eDB' },
+    { id: 'profile', label: 'Profile' },
+    { id: 'logout', label: 'Logout' },
+  ];
+
+  expanded(event: Event): void {
     this.hamburgerToggle.emit(event);
   }
 
-  navigateToSettings(): void {
-    this.router.navigate(['/settings']);
+  navigateTo(target: string): void {
+    this.router.navigate([target]);
   }
 
-  navigateToRoot(): void {
-    this.router.navigate(['/']);
+  onMenuOptionSelected(optionId: string): void {
+    if (optionId === 'logout') {
+      // Handle logout action
+      console.log('Logging out...');
+    } else {
+      this.navigateTo(optionId);
+    }
   }
 }

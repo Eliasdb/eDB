@@ -10,7 +10,7 @@ export const routes: Route[] = [
     component: PlatformLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadComponent: () =>
           import('./pages/platform/home/home.component').then(
             (m) => m.HomeComponent
@@ -18,7 +18,7 @@ export const routes: Route[] = [
       },
 
       {
-        path: 'settings',
+        path: 'profile',
         loadComponent: () =>
           import('./pages/platform/profile/profile.container').then(
             (m) => m.ProfileContainer
