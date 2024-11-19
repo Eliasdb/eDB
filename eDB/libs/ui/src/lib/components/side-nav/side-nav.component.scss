@@ -1,0 +1,11 @@
+.sidenav-container {
+  width: 20rem;
+  border-right: 1px solid #e0e0e0;
+}
+
+cds-sidenav {
+  z-index: initial;
+  position: initial;
+  inline-size: 20rem;
+  max-inline-size: 20rem;
+}
