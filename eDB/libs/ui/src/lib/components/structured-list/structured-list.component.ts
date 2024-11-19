@@ -23,11 +23,11 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
     <cds-structured-list [skeleton]="skeleton">
       <cds-list-header>
         <cds-list-column>
-          {{ header }}
+          <h3>{{ header }}</h3>
           <ui-icon
             *ngIf="headerIcon"
             [name]="headerIcon"
-            size="16"
+            size="1.1rem"
             class="icon-gap"
           ></ui-icon>
         </cds-list-column>
@@ -53,11 +53,13 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
                   [(ngModel)]="newPassword"
                   [label]="'New Password'"
                   placeholder="Enter new password"
+                  [theme]="'dark'"
                 ></ui-password-input>
                 <ui-password-input
                   [(ngModel)]="confirmPassword"
                   [label]="'Confirm Password'"
                   placeholder="Confirm new password"
+                  [theme]="'dark'"
                 ></ui-password-input>
               </ng-container>
               <ng-container *ngIf="row[0] !== 'Password'">
@@ -66,6 +68,7 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
                   [(ngModel)]="row[1]"
                   [label]="'Update your e-mail address'"
                   placeholder="Enter new value"
+                  [theme]="'dark'"
                 ></ui-text-input>
               </ng-container>
               <!-- Stack the buttons under the inputs -->

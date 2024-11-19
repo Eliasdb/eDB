@@ -1,12 +1,12 @@
 .platform-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 3rem);
   background-color: #f4f4f4;
+  padding-top: 6rem;
 
   .platform-content {
     flex: 1;
-    padding-top: 5rem;
 
     overflow: auto;
   }
