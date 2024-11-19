@@ -16,6 +16,7 @@ import { HeaderModule } from 'carbon-components-angular';
               src="https://i.ibb.co/7QfqfYc/logo.png"
               alt=""
               height="35"
+              width="70"
             /></div
         ></span>
       </a>

@@ -8,7 +8,9 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size-adjust: 0.5; /* Adjust value based on IBM Plex Sans metrics */
+
   font-style: normal;
   line-height: 1.5; /* Adjust to match the font's design */
 }

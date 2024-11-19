@@ -10,7 +10,6 @@ import { UiPlatformHeaderComponent } from '@e-db/ui';
     <div class="platform-layout">
       <ui-platform-header
         [name]="'My Platform'"
-        [hasHamburger]="false"
         [navigationLinks]="navigationLinks"
         [menuOptions]="menuOptions"
         (linkClick)="navigateTo($event)"
