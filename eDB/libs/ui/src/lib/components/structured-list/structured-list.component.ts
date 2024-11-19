@@ -8,7 +8,7 @@ import { UiIconComponent } from '../icon/icon.component';
   standalone: true,
   imports: [StructuredListModule, UiIconComponent, CommonModule],
   template: `
-    <cds-structured-list>
+    <cds-structured-list [skeleton]="skeleton">
       <cds-list-header>
         <!-- First column header passed as input -->
         <cds-list-column>
@@ -42,6 +42,7 @@ export class UiStructuredListComponent {
   @Input() header: string = ''; // First column header
   @Input() headerIcon: string = ''; // Dynamic icon for the header
   @Input() rows: string[][] = []; // Array of rows for the first and second columns
+  @Input() skeleton: boolean = false;
 
   constructor() {}
 }
