@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiPlatformHeaderComponent } from '../platform/platform-header.component';
 
 const meta: Meta<UiPlatformHeaderComponent> = {
-  title: 'UI/Header/PlatformHeader',
+  title: 'Components/Headers/Platform Header',
   component: UiPlatformHeaderComponent,
 };
 

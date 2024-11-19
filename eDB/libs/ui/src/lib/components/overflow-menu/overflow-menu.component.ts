@@ -54,8 +54,12 @@ export class UiPlatformOverflowMenuComponent {
   constructor(private router: Router) {}
 
   onOptionClick(optionId: string): void {
-    // Redirect to the route based on the option id
-    this.router.navigate([optionId]);
+    if (optionId === 'logout') {
+      // Perform logout logic
+      console.log('Logging out...');
+    } else {
+      this.router.navigate([optionId]);
+    }
     this.menuOptionSelected.emit(optionId);
     this.isMenuOpen = false; // Close menu after selection
   }

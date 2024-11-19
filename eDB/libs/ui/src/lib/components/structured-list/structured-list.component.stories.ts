@@ -1,24 +1,50 @@
-// cds-structured-list.component.stories.ts
-import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { StructuredListModule } from 'carbon-components-angular';
+import { Meta, StoryObj } from '@storybook/angular';
 import { UiStructuredListComponent } from './structured-list.component';
 
-export default {
-  title: 'Ui/UiStructuredListComponent',
+const meta: Meta<UiStructuredListComponent> = {
+  title: 'Components/Structured List',
   component: UiStructuredListComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [StructuredListModule],
-    }),
-  ],
-} as Meta<UiStructuredListComponent>;
+  tags: ['autodocs'],
+  argTypes: {
+    header: { control: 'text' },
+    headerIcon: { control: 'text' },
+    rows: { control: 'object' },
+    skeleton: { control: 'boolean' },
+  },
+};
 
-export const Default: StoryObj<UiStructuredListComponent> = {
-  render: (args: UiStructuredListComponent) => ({
-    component: UiStructuredListComponent,
-    props: args,
-  }),
+export default meta;
+
+type Story = StoryObj<UiStructuredListComponent>;
+
+export const Default: Story = {
   args: {
-    // Here you can define any default properties for your component
+    header: 'User Information',
+    headerIcon: 'faUser',
+    rows: [
+      ['Name', 'John Doe'],
+      ['Email', 'john.doe@example.com'],
+      ['Password', '********'],
+    ],
+    skeleton: false,
+  },
+};
+
+export const Editable: Story = {
+  args: {
+    header: 'Editable Fields',
+    headerIcon: 'faEdit',
+    rows: [
+      ['Name', 'Jane Smith'],
+      ['Email', 'jane.smith@example.com'],
+      ['Password', '********'],
+    ],
+    skeleton: false,
+  },
+};
+
+export const Skeleton: Story = {
+  args: {
+    skeleton: true,
   },
 };
