@@ -18,6 +18,46 @@ namespace api.Controllers
             _context = context;
         }
 
+        [HttpGet("settings")]
+        public async Task<IActionResult> GetProfileSettings()
+        {
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized(new
+                {
+                    error = "Unauthorized",
+                    message = "User not authenticated"
+                });
+            }
+
+            int userId = int.Parse(userIdClaim);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    error = "NotFound",
+                    message = "User not found"
+                });
+            }
+
+            return Ok(new
+            {
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.Country,
+                user.State,
+                user.Company,
+                user.DisplayName,
+                user.PreferredLanguage,
+                user.Title,
+                user.Address
+            });
+        }
+
         [HttpPut("update")]
         public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
         {
