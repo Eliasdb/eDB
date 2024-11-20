@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { injectQuery } from '@tanstack/angular-query-experimental';
+import { firstValueFrom } from 'rxjs';
 import { UserProfile } from '../../models/user.model';
 
 @Injectable({
@@ -15,9 +16,9 @@ export class UserProfileService {
     return injectQuery<UserProfile>(() => ({
       queryKey: ['userProfile'],
       queryFn: async () => {
-        const profile = await this.http
-          .get<UserProfile>(this.apiUrl)
-          .toPromise();
+        const profile = await firstValueFrom(
+          this.http.get<UserProfile>(this.apiUrl)
+        );
         if (!profile) {
           throw new Error('User profile not found');
         }

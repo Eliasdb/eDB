@@ -1,13 +1,8 @@
-import { Component, OnInit, computed, effect, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { UiSidenavComponent, UiTitleComponent } from '@e-db/ui';
 import { SettingsGroupComponent } from '../../../components/platform/settings-group/settings-group.component';
+import { LinkItem } from '../../../models/user.model';
 import { UserProfileService } from '../../../services/user-profile-service/user-profile.service';
-
-interface LinkItem {
-  id: string;
-  label: string;
-  active?: boolean;
-}
 
 @Component({
   selector: 'platform-settings',
@@ -27,7 +22,7 @@ interface LinkItem {
           id="id-and-password"
           header="ID and Password"
           headerIcon="faKey"
-          [rows]="idAndPasswordRows() || skeletonRows"
+          [rows]="idAndPasswordRows()"
           [skeleton]="isLoading()"
         ></platform-settings-group>
 
@@ -35,7 +30,7 @@ interface LinkItem {
           id="contact-information"
           header="Contact Information"
           headerIcon="faContactCard"
-          [rows]="contactInformationRows() || skeletonRows"
+          [rows]="contactInformationRows()"
           [skeleton]="isLoading()"
         ></platform-settings-group>
 
@@ -43,7 +38,7 @@ interface LinkItem {
           id="company"
           header="Company"
           headerIcon="faBuilding"
-          [rows]="companyRows() || skeletonRows"
+          [rows]="companyRows()"
           [skeleton]="isLoading()"
         ></platform-settings-group>
 
@@ -51,7 +46,7 @@ interface LinkItem {
           id="addresses"
           header="Addresses"
           headerIcon="faKey"
-          [rows]="addressesRows() || skeletonRows"
+          [rows]="addressesRows()"
           [skeleton]="isLoading()"
         ></platform-settings-group>
       </section>
@@ -59,7 +54,7 @@ interface LinkItem {
   `,
   styleUrls: ['./profile.container.scss'],
 })
-export class ProfileContainer implements OnInit {
+export class ProfileContainer {
   links: LinkItem[] = [
     { id: 'id-and-password', label: 'ID and Password', active: false },
     { id: 'contact-information', label: 'Contact Information' },
@@ -67,8 +62,6 @@ export class ProfileContainer implements OnInit {
     { id: 'addresses', label: 'Addresses' },
     { id: 'offboarding', label: 'Offboarding' },
   ];
-
-  skeletonRows: [string, string][] = [['Loading...', '']];
 
   private userProfileService = inject(UserProfileService);
   private userProfileQuery = this.userProfileService.fetchUserProfile();
@@ -78,18 +71,18 @@ export class ProfileContainer implements OnInit {
       this.userProfileQuery.isFetching() || this.userProfileQuery.isLoading()
   );
 
-  idAndPasswordRows = computed<[string, string][] | null>(() => {
+  idAndPasswordRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return null;
+    if (!profile) return []; // Return an empty array if no data is available
     return [
       ['E-mail', profile.email],
       ['Password', '********'], // Masked for security
     ];
   });
 
-  contactInformationRows = computed<[string, string][] | null>(() => {
+  contactInformationRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return null;
+    if (!profile) return []; // Return an empty array if no data is available
     return [
       ['Name', `${profile.firstName} ${profile.lastName}`],
       ['Display name', profile.displayName || 'Inactive'],
@@ -103,29 +96,20 @@ export class ProfileContainer implements OnInit {
     ];
   });
 
-  companyRows = computed<[string, string][] | null>(() => {
+  companyRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return null;
+    if (!profile) return []; // Return an empty array if no data is available
     return [
       ['Organization information', profile.company],
       ['Work information', profile.title || 'Inactive'],
     ];
   });
 
-  addressesRows = computed<[string, string][] | null>(() => {
+  addressesRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return null;
+    if (!profile) return []; // Return an empty array if no data is available
     return [['Address information', profile.address || 'Inactive']];
   });
-
-  ngOnInit(): void {
-    effect(() => {
-      const profile = this.userProfileQuery.data();
-      if (profile) {
-        // Perform any side effects or additional logic here
-      }
-    });
-  }
 
   onLinkClick(clickedItem: LinkItem): void {
     this.links.forEach((link) => {
