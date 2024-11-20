@@ -29,5 +29,5 @@ export class SettingsGroupComponent {
   @Input() id!: string;
   @Input() header!: string;
   @Input() headerIcon: string = '';
-  @Input() rows!: [string, string][];
+  @Input() rows: [string, string][] = [];
 }

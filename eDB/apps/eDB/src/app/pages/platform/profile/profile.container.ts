@@ -1,5 +1,5 @@
-// settings.component.ts
-import { AfterViewInit, Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UiSidenavComponent, UiTitleComponent } from '@e-db/ui';
 import { SettingsGroupComponent } from '../../../components/platform/settings-group/settings-group.component';
 
@@ -7,6 +7,19 @@ interface LinkItem {
   id: string;
   label: string;
   active?: boolean;
+}
+
+interface UserProfile {
+  email: string;
+  firstName: string;
+  lastName: string;
+  country: string;
+  state: string;
+  company: string;
+  displayName: string;
+  preferredLanguage: string;
+  title: string;
+  address: string;
 }
 
 @Component({
@@ -27,54 +40,36 @@ interface LinkItem {
           id="id-and-password"
           header="ID and Password"
           headerIcon="faKey"
-          [rows]="[
-            ['E-mail', 'Active'],
-            ['Password', 'Inactive']
-          ]"
+          [rows]="idAndPasswordRows"
         ></platform-settings-group>
 
         <platform-settings-group
           id="contact-information"
           header="Contact Information"
           headerIcon="faContactCard"
-          [rows]="[
-            ['Name', 'Active'],
-            ['Display name', 'Inactive'],
-            ['Email address', 'Inactive'],
-            ['Phone number', 'Inactive'],
-            ['Country or region of residence', 'Inactive'],
-            ['Preferred language for communication', 'Inactive']
-          ]"
+          [rows]="contactInformationRows"
         ></platform-settings-group>
 
         <platform-settings-group
           id="company"
           header="Company"
           headerIcon="faBuilding"
-          [rows]="[
-            ['Organization information', 'Active'],
-            ['Work information', 'Inactive']
-          ]"
+          [rows]="companyRows"
         ></platform-settings-group>
 
         <platform-settings-group
           id="addresses"
           header="Addresses"
           headerIcon="faKey"
-          [rows]="[['Address information', 'Active']]"
-        ></platform-settings-group>
-
-        <platform-settings-group
-          id="offboarding"
-          header="Offboarding"
-          [rows]="[['Account offboarding', 'Delete your account and data']]"
+          [rows]="addressesRows"
         ></platform-settings-group>
       </section>
     </section>
   `,
   styleUrls: ['./profile.container.scss'],
 })
-export class ProfileContainer implements AfterViewInit {
+export class ProfileContainer implements OnInit, AfterViewInit {
+  private readonly apiUrl = 'http://localhost:9101/api/profile/settings';
   links: LinkItem[] = [
     { id: 'id-and-password', label: 'ID and Password', active: false },
     { id: 'contact-information', label: 'Contact Information' },
@@ -83,21 +78,65 @@ export class ProfileContainer implements AfterViewInit {
     { id: 'offboarding', label: 'Offboarding' },
   ];
 
+  idAndPasswordRows: [string, string][] = [];
+  contactInformationRows: [string, string][] = [];
+  companyRows: [string, string][] = [];
+  addressesRows: [string, string][] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchUserProfile();
+  }
+
   ngAfterViewInit() {
-    // Scroll to the active section on load
     const activeLink = this.links.find((link) => link.active);
     if (activeLink) {
       this.scrollToSection(activeLink.id);
     }
   }
 
+  fetchUserProfile(): void {
+    this.http.get<UserProfile>(this.apiUrl).subscribe({
+      next: (profile) => {
+        this.populateRows(profile);
+      },
+      error: (error) => {
+        console.error('Failed to fetch user profile:', error);
+      },
+    });
+  }
+
+  populateRows(profile: UserProfile): void {
+    this.idAndPasswordRows = [
+      ['E-mail', profile.email],
+      ['Password', '********'], // Masked for security
+    ];
+
+    this.contactInformationRows = [
+      ['Name', `${profile.firstName} ${profile.lastName}`],
+      ['Display name', profile.displayName || 'Inactive'],
+      ['Email address', profile.email],
+      ['Phone number', 'Inactive'], // Placeholder for phone number
+      ['Country or region of residence', profile.country],
+      ['Preferred language for communication', profile.preferredLanguage],
+    ];
+
+    this.companyRows = [
+      ['Organization information', profile.company],
+      ['Work information', profile.title || 'Inactive'],
+    ];
+
+    this.addressesRows = [
+      ['Address information', profile.address || 'Inactive'],
+    ];
+  }
+
   onLinkClick(clickedItem: LinkItem): void {
-    // Update active state
     this.links.forEach((link) => {
       link.active = link.id === clickedItem.id;
     });
 
-    // Scroll to the section
     this.scrollToSection(clickedItem.id);
   }
 

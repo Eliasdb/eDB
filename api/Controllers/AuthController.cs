@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using api.Data;
 using api.DTOs;
 using api.Models;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
@@ -16,12 +12,12 @@ namespace api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly MyDbContext _context;
-        private readonly IConfiguration _configuration;
+        private readonly AuthService _authService;
 
-        public AuthController(MyDbContext context, IConfiguration configuration)
+        public AuthController(MyDbContext context, AuthService authService)
         {
             _context = context;
-            _configuration = configuration;
+            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -36,7 +32,7 @@ namespace api.Controllers
                 });
             }
 
-            var (hashedPassword, salt) = HashPassword(request.Password);
+            var (hashedPassword, salt) = _authService.HashPassword(request.Password);
 
             var user = new User
             {
@@ -76,7 +72,7 @@ namespace api.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null || string.IsNullOrEmpty(user.Salt) || !VerifyPassword(request.Password, user.PasswordHash, user.Salt))
+            if (user == null || string.IsNullOrEmpty(user.Salt) || !_authService.VerifyPassword(request.Password, user.PasswordHash, user.Salt))
             {
                 return Unauthorized(new
                 {
@@ -85,7 +81,7 @@ namespace api.Controllers
                 });
             }
 
-            var token = GenerateJwtToken(user);
+            var token = _authService.GenerateJwtToken(user);
 
             return Ok(new
             {
@@ -100,54 +96,6 @@ namespace api.Controllers
                     user.Role
                 }
             });
-        }
-
-        private (string Hash, string Salt) HashPassword(string password)
-        {
-            byte[] saltBytes = RandomNumberGenerator.GetBytes(16);
-            string salt = Convert.ToBase64String(saltBytes);
-
-            string saltedPassword = salt + password;
-            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword));
-            string hash = Convert.ToBase64String(hashBytes);
-
-            return (hash, salt);
-        }
-
-        private bool VerifyPassword(string password, string storedHash, string storedSalt)
-        {
-            string saltedPassword = storedSalt + password;
-            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword));
-            string computedHash = Convert.ToBase64String(hashBytes);
-
-            return computedHash == storedHash;
-        }
-
-        private string GenerateJwtToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Role", user.Role.ToString())
-            };
-
-            var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
-            var jwtIssuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured.");
-            var jwtAudience = _configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: jwtIssuer,
-                audience: jwtAudience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
