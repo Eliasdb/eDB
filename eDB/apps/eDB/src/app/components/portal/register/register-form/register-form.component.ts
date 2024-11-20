@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
   UiTextInputComponent,
 } from '@e-db/ui';
 import { FormUtilsService } from '@e-db/utils';
+import { User } from '../../../../models/user.model';
+import { AuthService } from '../../../../services/auth.service';
 import { registerFormFields } from './register-form.fields';
 
 @Component({
@@ -53,16 +56,24 @@ import { registerFormFields } from './register-form.fields';
             <ui-button
               type="submit"
               [isExpressive]="true"
-              [disabled]="registerForm.invalid"
+              [disabled]="registerForm.invalid || isLoading"
               [fullWidth]="true"
               [variant]="'primary'"
             >
-              Register
+              {{ isLoading ? 'Registering...' : 'Register' }}
             </ui-button>
           </div>
           <div class="form-column">
             <!-- Empty column -->
           </div>
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
         </div>
       </div>
     </form>
@@ -71,9 +82,15 @@ import { registerFormFields } from './register-form.fields';
 })
 export class RegisterFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   registerForm!: FormGroup;
   fieldRows = registerFormFields;
+  isLoading = false;
+  successMessage = '';
+  errorMessage = '';
+  validationErrors: { [key: string]: string[] } | null = null;
 
   ngOnInit(): void {
     const flatFieldDefinitions = this.fieldRows
@@ -104,7 +121,30 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      console.log(this.registerForm.getRawValue());
+      this.isLoading = true;
+      this.successMessage = '';
+      this.errorMessage = '';
+      this.validationErrors = null;
+
+      const user: User = this.registerForm.getRawValue();
+
+      this.authService.register(user).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.successMessage = response.message;
+          this.registerForm.reset();
+          this.router.navigate(['auth/login']);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.errors) {
+            this.validationErrors = error.errors;
+          } else {
+            this.errorMessage =
+              error.message || 'An error occurred. Please try again.';
+          }
+        },
+      });
     }
   }
 }

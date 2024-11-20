@@ -9,6 +9,8 @@ import {
   UiTitleComponent,
 } from '@e-db/ui';
 import { FormUtilsService } from '@e-db/utils';
+import { jwtDecode } from 'jwt-decode';
+import { AuthService } from '../../../../services/auth.service';
 import { loginFormFields } from './login-form.fields';
 
 @Component({
@@ -60,7 +62,7 @@ import { loginFormFields } from './login-form.fields';
             icon="faArrowRight"
             class="login-btn"
           >
-            Login
+            {{ isLoading ? 'Logging in...' : 'Login' }}
           </ui-button>
         </div>
       </form>
@@ -83,6 +85,8 @@ import { loginFormFields } from './login-form.fields';
 })
 export class LoginFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
+  private authService = inject(AuthService);
+
   private router = inject(Router);
 
   loginForm!: FormGroup;
@@ -115,13 +119,24 @@ export class LoginFormComponent implements OnInit {
     if (this.loginForm.valid) {
       this.isLoading = true;
       const credentials = this.loginForm.getRawValue();
-      console.log('Login credentials:', credentials);
 
-      // Simulate login process (replace with your actual AuthService logic)
-      setTimeout(() => {
-        this.isLoading = false;
-        console.log('Login successful');
-      }, 1000);
+      this.authService.login(credentials).subscribe({
+        next: (response) => {
+          if ('token' in response) {
+            console.log('Login successful:', response);
+            localStorage.setItem('token', response.token!);
+            console.log(jwtDecode(response.token!));
+
+            this.router.navigate(['/dashboard']);
+          }
+        },
+        error: (error) => {
+          console.error('Login failed:', error.message);
+          if (error.errors) {
+            console.error('Validation errors:', error.errors);
+          }
+        },
+      });
     }
   }
 
