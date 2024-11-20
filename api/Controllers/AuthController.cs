@@ -7,6 +7,7 @@ using System.Text;
 using api.Data;
 using api.DTOs;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -23,17 +24,10 @@ namespace api.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("admin-area")]
-        [RoleAuthorize("Admin")]
-        public IActionResult AdminArea()
-        {
-            return Ok("Welcome, Admin!");
-        }
-
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if (_context.Users.Any(u => u.Email == request.Email))
+            if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             {
                 return BadRequest(new
                 {
@@ -53,16 +47,12 @@ namespace api.Controllers
                 Country = request.Country,
                 State = request.State,
                 Company = request.Company,
-                DisplayName = null,
-                PreferredLanguage = null,
-                Title = null,
-                Address = null,
                 Salt = salt,
-                Role = UserRole.User // Default to "User"
+                Role = UserRole.User // Default role
             };
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
 
             return Ok(new
             {
@@ -81,118 +71,33 @@ namespace api.Controllers
             });
         }
 
-[HttpPost("login")]
-public IActionResult Login([FromBody] LoginRequest request)
-{
-    // Find the user by email
-    var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
-
-    // Check if the user exists and has a valid salt
-    if (user == null || string.IsNullOrEmpty(user.Salt) || 
-        !VerifyPassword(request.Password, user.PasswordHash, user.Salt))
-    {
-        return Unauthorized(new
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            error = "InvalidCredentials",
-            message = "Invalid email or password"
-        });
-    }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
-    // Generate a JWT token for the user
-    var token = GenerateJwtToken(user);
-
-    // Return success response
-    return Ok(new
-    {
-        message = "Login successful",
-        token,
-        user = new
-        {
-            user.Id,
-            user.Email,
-            user.FirstName,
-            user.LastName,
-            user.Role
-        }
-    });
-}
-
-
-        [HttpPut("profile")]
-        public IActionResult UpdateProfile([FromBody] ProfileUpdateRequest request)
-        {
-            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
+            if (user == null || string.IsNullOrEmpty(user.Salt) || !VerifyPassword(request.Password, user.PasswordHash, user.Salt))
             {
                 return Unauthorized(new
                 {
-                    error = "Unauthorized",
-                    message = "User not authenticated"
+                    error = "InvalidCredentials",
+                    message = "Invalid email or password"
                 });
             }
 
-            int userId = int.Parse(userIdClaim.Value);
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            if (user == null)
-            {
-                return NotFound(new
-                {
-                    error = "NotFound",
-                    message = "User not found"
-                });
-            }
-
-            if (!string.IsNullOrEmpty(request.Password))
-            {
-                var (hashedPassword, salt) = HashPassword(request.Password);
-                user.PasswordHash = hashedPassword;
-                user.Salt = salt;
-            }
-
-            if (!string.IsNullOrEmpty(request.FirstName))
-                user.FirstName = request.FirstName;
-
-            if (!string.IsNullOrEmpty(request.LastName))
-                user.LastName = request.LastName;
-
-            if (!string.IsNullOrEmpty(request.Country))
-                user.Country = request.Country;
-
-            if (!string.IsNullOrEmpty(request.State))
-                user.State = request.State;
-
-            if (!string.IsNullOrEmpty(request.Company))
-                user.Company = request.Company;
-
-            if (!string.IsNullOrEmpty(request.DisplayName))
-                user.DisplayName = request.DisplayName;
-
-            if (!string.IsNullOrEmpty(request.PreferredLanguage))
-                user.PreferredLanguage = request.PreferredLanguage;
-
-            if (!string.IsNullOrEmpty(request.Title))
-                user.Title = request.Title;
-
-            if (!string.IsNullOrEmpty(request.Address))
-                user.Address = request.Address;
-
-            _context.SaveChanges();
+            var token = GenerateJwtToken(user);
 
             return Ok(new
             {
-                message = "Profile updated successfully",
+                message = "Login successful",
+                token,
                 user = new
                 {
+                    user.Id,
                     user.Email,
                     user.FirstName,
                     user.LastName,
-                    user.Country,
-                    user.State,
-                    user.Company,
-                    user.DisplayName,
-                    user.PreferredLanguage,
-                    user.Title,
-                    user.Address
+                    user.Role
                 }
             });
         }
@@ -218,36 +123,31 @@ public IActionResult Login([FromBody] LoginRequest request)
             return computedHash == storedHash;
         }
 
-       
         private string GenerateJwtToken(User user)
-{
-    var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim("Role", user.Role.ToString())
-    };
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("Role", user.Role.ToString())
+            };
 
-    // Safely retrieve JWT configuration values with validation
-    string jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
-    string jwtIssuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured.");
-    string jwtAudience = _configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
+            var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
+            var jwtIssuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured.");
+            var jwtAudience = _configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
 
-    // Create security key and credentials
-    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-    // Generate the token
-    var token = new JwtSecurityToken(
-        issuer: jwtIssuer,
-        audience: jwtAudience,
-        claims: claims,
-        expires: DateTime.UtcNow.AddHours(1),
-        signingCredentials: creds
-    );
+            var token = new JwtSecurityToken(
+                issuer: jwtIssuer,
+                audience: jwtAudience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds
+            );
 
-    return new JwtSecurityTokenHandler().WriteToken(token);
-}
-
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
