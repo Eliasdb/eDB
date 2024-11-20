@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   UiButtonComponent,
@@ -14,23 +8,19 @@ import {
   UiTextInputComponent,
   UiTitleComponent,
 } from '@e-db/ui';
-import { AuthService } from '../../../../services/auth.service';
-
-interface LoginForm {
-  email: FormControl<string>;
-  password: FormControl<string>;
-}
+import { FormUtilsService } from '@e-db/utils';
+import { loginFormFields } from './login-form.fields';
 
 @Component({
   selector: 'platform-portal-login-form',
   standalone: true,
   imports: [
+    CommonModule,
+    ReactiveFormsModule,
     UiTextInputComponent,
     UiPasswordInputComponent,
     UiButtonComponent,
     UiTitleComponent,
-    ReactiveFormsModule,
-    CommonModule,
   ],
   template: `
     <div class="login-form-container">
@@ -39,38 +29,33 @@ interface LoginForm {
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <!-- Email input field -->
-          <ui-text-input
-            label="Email Address"
-            placeholder="Enter your email"
-            [size]="'lg'"
-            [theme]="'dark'"
-            [formControl]="emailControl"
-            [invalid]="
-              emailControl.invalid &&
-              (emailControl.dirty || emailControl.touched)
-            "
-            [invalidText]="getEmailErrorMessage()"
-          ></ui-text-input>
+          <div *ngFor="let field of fieldDefinitions">
+            <ui-text-input
+              *ngIf="field.controlType === 'text'"
+              [formControlName]="field.controlName"
+              [label]="field.label"
+              [placeholder]="field.placeholder"
+              [size]="'lg'"
+              [theme]="'dark'"
+              [invalid]="isFieldInvalid(field.controlName)"
+              [invalidText]="getErrorMessage(field.controlName)"
+            ></ui-text-input>
 
-          <!-- Password input field -->
-          <ui-password-input
-            label="Password"
-            placeholder="Enter your password"
-            [formControl]="passwordControl"
-            [theme]="'dark'"
-            [invalid]="
-              passwordControl.invalid &&
-              (passwordControl.dirty || passwordControl.touched)
-            "
-            [invalidText]="getPasswordErrorMessage()"
-          ></ui-password-input>
+            <ui-password-input
+              *ngIf="field.controlType === 'password'"
+              [formControlName]="field.controlName"
+              [label]="field.label"
+              [placeholder]="field.placeholder"
+              [theme]="'dark'"
+              [invalid]="isFieldInvalid(field.controlName)"
+              [invalidText]="getErrorMessage(field.controlName)"
+            ></ui-password-input>
+          </div>
 
-          <!-- Submit button -->
           <ui-button
             [type]="'submit'"
             [isExpressive]="true"
-            [disabled]="isLoading"
+            [disabled]="loginForm.invalid || isLoading"
             [fullWidth]="true"
             icon="faArrowRight"
             class="login-btn"
@@ -94,74 +79,49 @@ interface LoginForm {
       </section>
     </div>
   `,
-  styleUrl: 'login-form.component.scss',
+  styleUrls: ['./login-form.component.scss'],
 })
-export class LoginFormComponent {
-  loginForm: FormGroup<LoginForm>;
+export class LoginFormComponent implements OnInit {
+  private formUtils = inject(FormUtilsService);
+  private router = inject(Router);
+
+  loginForm!: FormGroup;
   isLoading = false;
   isLoginError = false;
 
-  private router = inject(Router);
+  // Define field definitions
+  fieldDefinitions = loginFormFields;
 
-  get emailControl(): FormControl<string> {
-    return this.loginForm.controls.email;
+  ngOnInit(): void {
+    this.loginForm = this.formUtils.createFormGroup(loginFormFields);
   }
 
-  get passwordControl(): FormControl<string> {
-    return this.loginForm.controls.password;
+  isFieldInvalid(controlName: string): boolean {
+    return this.formUtils.isFieldInvalid(this.loginForm, controlName);
   }
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: this.fb.control('', {
-        validators: [Validators.required, Validators.email],
-        nonNullable: true,
-      }),
-      password: this.fb.control('', {
-        validators: [Validators.required],
-        nonNullable: true,
-      }),
-    });
+  getErrorMessage(controlName: string): string {
+    const field = loginFormFields.find((f) => f.controlName === controlName);
+    return field
+      ? this.formUtils.getErrorMessage(
+          this.loginForm,
+          controlName,
+          field.errorMessages
+        )
+      : '';
   }
 
-  getEmailErrorMessage(): string {
-    const control = this.emailControl;
-    if (control.hasError('required')) {
-      return 'Email is required.';
-    }
-    if (control.hasError('email')) {
-      return 'Please enter a valid email address.';
-    }
-    return '';
-  }
-
-  getPasswordErrorMessage(): string {
-    const control = this.passwordControl;
-    if (control.hasError('required')) {
-      return 'Password is required.';
-    }
-    return '';
-  }
-
-  authService = inject(AuthService);
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
       const credentials = this.loginForm.getRawValue();
+      console.log('Login credentials:', credentials);
 
-      this.authService.login(credentials).subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          console.log('Login successful', response);
-          // Handle successful login
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.isLoginError = true;
-          console.error('Login failed', error);
-        },
-      });
+      // Simulate login process (replace with your actual AuthService logic)
+      setTimeout(() => {
+        this.isLoading = false;
+        console.log('Login successful');
+      }, 1000);
     }
   }
 
