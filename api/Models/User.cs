@@ -1,19 +1,26 @@
-using System.ComponentModel.DataAnnotations;
+namespace api.Models;
 
-namespace api.Models
+public enum UserRole
 {
-    public class User
-    {
-        [Key]
-        public int Id { get; set; }
-        
-        [Required]
-        [MaxLength(100)]
-        public required string Username { get; set; }
-        
-        [Required]
-        public required string Email { get; set; }
-        
-        // Add additional properties as needed
-    }
+    User,
+    Admin,
+    PremiumUser
+}
+
+public class User
+{
+    public int Id { get; set; }
+    public required string Email { get; set; }
+    public required string PasswordHash { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string Country { get; set; }
+    public required string State { get; set; }
+    public required string Company { get; set; }
+    public string? DisplayName { get; set; }
+    public string? PreferredLanguage { get; set; }
+    public string? Title { get; set; }
+    public string? Address { get; set; }
+    public string? Salt { get; set; }
+    public UserRole Role { get; set; } = UserRole.User; // Default role
 }

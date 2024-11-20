@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace api.Data
 {
@@ -10,15 +12,52 @@ namespace api.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
-
-        // Add DbSet properties for other entities
+public required DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+{
+    base.OnModelCreating(modelBuilder);
 
-            // Configure entity properties and relationships if needed
-        }
+    // Store Role as a string in the database
+    modelBuilder.Entity<User>()
+        .Property(u => u.Role)
+        .HasConversion<string>();
+
+    // Pre-hash password and generate salt
+    var (hashedPassword, salt) = HashPassword("AdminPassword123");
+
+    // Seed a default admin user
+    modelBuilder.Entity<User>().HasData(new User
+    {
+        Id = 1,
+        Email = "admin@example.com",
+        PasswordHash = hashedPassword,
+        Salt = salt,
+        FirstName = "Admin",
+        LastName = "User",
+        Country = "Adminland",
+        State = "Adminstate",
+        Company = "AdminCorp",
+        Role = UserRole.Admin,
+        DisplayName = "Administrator",
+        PreferredLanguage = "en",
+        Title = "System Admin",
+        Address = "123 Admin Street"
+    });
+}
+
+// Helper method to hash password with salt
+private (string Hash, string Salt) HashPassword(string password)
+{
+    byte[] saltBytes = RandomNumberGenerator.GetBytes(16); // Generate a 128-bit salt
+    string salt = Convert.ToBase64String(saltBytes);
+
+    string saltedPassword = salt + password; // Combine salt and password
+
+    byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword)); // Hash the salted password
+    string hash = Convert.ToBase64String(hashBytes);
+
+    return (hash, salt);
+}
     }
 }

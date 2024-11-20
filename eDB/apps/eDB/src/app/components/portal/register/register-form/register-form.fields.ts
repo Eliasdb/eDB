@@ -1,7 +1,33 @@
-// register-form.fields.ts
-import { Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, Validators } from '@angular/forms';
 import { FieldDefinition } from '@e-db/utils';
 
+// Custom Validator for Strong Password
+export function strongPasswordValidator(
+  control: AbstractControl
+): ValidationErrors | null {
+  const value = control.value || '';
+  const hasUppercase = /[A-Z]/.test(value);
+  const hasLowercase = /[a-z]/.test(value);
+  const hasNumber = /\d/.test(value);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+  const isValidLength = value.length >= 8;
+
+  if (
+    !hasUppercase ||
+    !hasLowercase ||
+    !hasNumber ||
+    !hasSpecialChar ||
+    !isValidLength
+  ) {
+    return {
+      strongPassword:
+        'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.',
+    };
+  }
+  return null;
+}
+
+// Field Definitions
 export const registerFormFields: (FieldDefinition | null)[][] = [
   [
     {
@@ -20,10 +46,16 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
       label: 'Password',
       placeholder: 'Enter your password',
       controlType: 'password',
-      validators: [Validators.required, Validators.minLength(6)],
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        strongPasswordValidator,
+      ],
       errorMessages: {
         required: 'Password is required.',
-        minlength: 'Password must be at least 6 characters long.',
+        minlength: 'Password must be at least 8 characters long.',
+        strongPassword:
+          'Password must include uppercase, lowercase, a number, and a special character.',
       },
     },
   ],
