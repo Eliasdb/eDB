@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@e-db/ui": ["libs/ui/src/index.ts"],
+      "@e-db/utils": ["libs/utils/src/index.ts"],
       "@eDB/appointment-app": ["apps/appointment-app/src/index"]
     }
   },

@@ -35,7 +35,7 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
 
       <!-- Dynamic rows passed as input -->
       <cds-list-row *ngFor="let row of rows; let rowIndex = index">
-        <cds-list-column class="w-30">
+        <cds-list-column class="w-20">
           <!-- First column is always static (E-mail, Password) -->
           {{ row[0] }}
         </cds-list-column>
