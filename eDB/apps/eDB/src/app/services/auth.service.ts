@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthResponse, ErrorResponse } from '../models/auth.model';
 import { User } from '../models/user.model';
@@ -10,8 +10,7 @@ import { User } from '../models/user.model';
 export class AuthService {
   private readonly baseUrl = 'http://localhost:9101/api/auth'; // Update to match your API URL
 
-  constructor(private http: HttpClient) {}
-
+  http = inject(HttpClient);
   /**
    * Handles user registration.
    * @param payload The registration data.

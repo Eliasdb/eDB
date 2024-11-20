@@ -67,14 +67,6 @@ import { registerFormFields } from './register-form.fields';
             <!-- Empty column -->
           </div>
         </div>
-
-        <div *ngIf="successMessage" class="success-message">
-          {{ successMessage }}
-        </div>
-
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
       </div>
     </form>
   `,
