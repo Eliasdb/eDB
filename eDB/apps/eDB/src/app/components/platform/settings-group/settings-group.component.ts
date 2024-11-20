@@ -1,5 +1,4 @@
-// settings-group.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UiStructuredListComponent } from '@e-db/ui';
 
 @Component({
@@ -13,6 +12,7 @@ import { UiStructuredListComponent } from '@e-db/ui';
         [headerIcon]="headerIcon"
         [rows]="rows"
         [skeleton]="skeleton"
+        (rowUpdated)="onRowUpdated($event)"
       ></ui-structured-list>
     </div>
   `,
@@ -33,4 +33,10 @@ export class SettingsGroupComponent {
   @Input() headerIcon: string = '';
   @Input() rows: [string, string][] = [];
   @Input() skeleton: boolean = true;
+
+  @Output() rowUpdated = new EventEmitter<{ field: string; value: string }>();
+
+  onRowUpdated(event: { field: string; value: string }): void {
+    this.rowUpdated.emit(event);
+  }
 }

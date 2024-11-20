@@ -24,6 +24,7 @@ import { UserProfileService } from '../../../services/user-profile-service/user-
           headerIcon="faKey"
           [rows]="idAndPasswordRows()"
           [skeleton]="isLoading()"
+          (rowUpdated)="onRowUpdated($event)"
         ></platform-settings-group>
 
         <platform-settings-group
@@ -32,6 +33,7 @@ import { UserProfileService } from '../../../services/user-profile-service/user-
           headerIcon="faContactCard"
           [rows]="contactInformationRows()"
           [skeleton]="isLoading()"
+          (rowUpdated)="onRowUpdated($event)"
         ></platform-settings-group>
 
         <platform-settings-group
@@ -40,6 +42,7 @@ import { UserProfileService } from '../../../services/user-profile-service/user-
           headerIcon="faBuilding"
           [rows]="companyRows()"
           [skeleton]="isLoading()"
+          (rowUpdated)="onRowUpdated($event)"
         ></platform-settings-group>
 
         <platform-settings-group
@@ -48,6 +51,7 @@ import { UserProfileService } from '../../../services/user-profile-service/user-
           headerIcon="faKey"
           [rows]="addressesRows()"
           [skeleton]="isLoading()"
+          (rowUpdated)="onRowUpdated($event)"
         ></platform-settings-group>
       </section>
     </section>
@@ -65,6 +69,8 @@ export class ProfileContainer {
 
   private userProfileService = inject(UserProfileService);
   private userProfileQuery = this.userProfileService.fetchUserProfile();
+  private updateUserProfileMutation =
+    this.userProfileService.updateUserProfile();
 
   isLoading = computed(
     () =>
@@ -73,21 +79,21 @@ export class ProfileContainer {
 
   idAndPasswordRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return []; // Return an empty array if no data is available
+    if (!profile) return [];
     return [
       ['E-mail', profile.email],
-      ['Password', '********'], // Masked for security
+      ['Password', '********'],
     ];
   });
 
   contactInformationRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return []; // Return an empty array if no data is available
+    if (!profile) return [];
     return [
       ['Name', `${profile.firstName} ${profile.lastName}`],
       ['Display name', profile.displayName || 'Inactive'],
       ['Email address', profile.email],
-      ['Phone number', 'Inactive'], // Placeholder for phone number
+      ['Phone number', 'Inactive'],
       ['Country or region of residence', profile.country],
       [
         'Preferred language for communication',
@@ -98,7 +104,7 @@ export class ProfileContainer {
 
   companyRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return []; // Return an empty array if no data is available
+    if (!profile) return [];
     return [
       ['Organization information', profile.company],
       ['Work information', profile.title || 'Inactive'],
@@ -107,9 +113,41 @@ export class ProfileContainer {
 
   addressesRows = computed<[string, string][]>(() => {
     const profile = this.userProfileQuery.data();
-    if (!profile) return []; // Return an empty array if no data is available
+    if (!profile) return [];
     return [['Address information', profile.address || 'Inactive']];
   });
+
+  onRowUpdated({ field, value }: { field: string; value: string }): void {
+    // Map the displayed field names to API payload keys
+    const fieldMapping: Record<string, string> = {
+      'E-mail': 'email',
+      Password: 'password', // Ensure backend expects 'password'
+      Name: 'name',
+      'Display name': 'displayName',
+      'Email address': 'email',
+      'Phone number': 'phoneNumber',
+      'Country or region of residence': 'country',
+      'Preferred language for communication': 'preferredLanguage',
+      'Organization information': 'company',
+      'Work information': 'title',
+      'Address information': 'address',
+    };
+
+    // Map the field to the correct API key
+    const payloadKey = fieldMapping[field];
+
+    if (!payloadKey) {
+      console.error(`Unknown field: ${field}`);
+      return;
+    }
+
+    // Update the user profile using the mapped key
+    this.updateUserProfileMutation
+      .mutateAsync({ [payloadKey]: value })
+      .catch((err) => {
+        console.error('Failed to update user profile:', err);
+      });
+  }
 
   onLinkClick(clickedItem: LinkItem): void {
     this.links.forEach((link) => {

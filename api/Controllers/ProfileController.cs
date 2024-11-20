@@ -109,6 +109,7 @@ namespace api.Controllers
         {
             var updates = new Dictionary<string, string?>
             {
+                { nameof(user.Email), request.Email },
                 { nameof(user.FirstName), request.FirstName },
                 { nameof(user.LastName), request.LastName },
                 { nameof(user.Country), request.Country },
