@@ -10,7 +10,7 @@ import {
 } from '@e-db/ui';
 import { FormUtilsService } from '@e-db/utils';
 import { jwtDecode } from 'jwt-decode';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService } from '../../../../services/auth-service/auth.service';
 import { loginFormFields } from './login-form.fields';
 
 @Component({

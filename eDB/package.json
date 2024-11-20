@@ -20,6 +20,7 @@
     "@fortawesome/angular-fontawesome": "^0.15.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@tanstack/angular-query-experimental": "^5.61.1",
     "carbon-components-angular": "^5.53.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

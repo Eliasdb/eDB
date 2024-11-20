@@ -45,6 +45,13 @@ export const Editable: Story = {
 
 export const Skeleton: Story = {
   args: {
+    header: 'Editable Fields',
+    headerIcon: 'faEdit',
+    rows: [
+      ['Name', 'Jane Smith'],
+      ['Email', 'jane.smith@example.com'],
+      ['Password', '********'],
+    ],
     skeleton: true,
   },
 };

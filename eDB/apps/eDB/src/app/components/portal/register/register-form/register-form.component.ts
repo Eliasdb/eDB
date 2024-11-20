@@ -9,7 +9,7 @@ import {
 } from '@e-db/ui';
 import { FormUtilsService } from '@e-db/utils';
 import { User } from '../../../../models/user.model';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService } from '../../../../services/auth-service/auth.service';
 import { registerFormFields } from './register-form.fields';
 
 @Component({
