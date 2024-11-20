@@ -121,7 +121,7 @@ export class UiStructuredListComponent {
   @Input() header: string = ''; // First column header
   @Input() headerIcon: string = ''; // Dynamic icon for the header
   @Input() rows: string[][] = []; // Array of rows for the first and second columns
-  @Input() skeleton: boolean = false;
+  @Input() skeleton: boolean = true;
 
   editMode: boolean[] = []; // Array to track which row is in edit mode
   inputValues: { [key: number]: any } = {}; // Object to store input values per rowIndex

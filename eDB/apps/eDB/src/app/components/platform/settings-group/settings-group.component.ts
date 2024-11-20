@@ -12,6 +12,7 @@ import { UiStructuredListComponent } from '@e-db/ui';
         [header]="header"
         [headerIcon]="headerIcon"
         [rows]="rows"
+        [skeleton]="skeleton"
       ></ui-structured-list>
     </div>
   `,
@@ -30,4 +31,5 @@ export class SettingsGroupComponent {
   @Input() header!: string;
   @Input() headerIcon: string = '';
   @Input() rows: [string, string][] = [];
+  @Input() skeleton: boolean = true;
 }
