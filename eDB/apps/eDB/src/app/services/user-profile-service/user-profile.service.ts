@@ -31,6 +31,8 @@ export class UserProfileService {
         }
         return profile;
       },
+
+      staleTime: 300000, // 5 minutes
     }));
   }
 
