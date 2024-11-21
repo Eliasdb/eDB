@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiSidenavComponent } from './side-nav.component';
 
 const meta: Meta<UiSidenavComponent> = {
-  title: 'Components/Side Navigation',
+  title: 'Components/Navigation/Side Navigation',
   component: UiSidenavComponent,
   argTypes: {
     links: { control: 'object' }, // Allows interactive configuration of links

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular';
-import { UiPlatformOverflowMenuComponent } from '../../overflow-menu/overflow-menu.component';
+import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/overflow-menu.component';
 
 @Component({
   selector: 'ui-platform-header',

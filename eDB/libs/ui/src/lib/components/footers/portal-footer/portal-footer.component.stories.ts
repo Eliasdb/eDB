@@ -1,9 +1,9 @@
+import { UiPortalFooterComponent } from '@eDB/shared-ui';
 import { Meta, StoryObj } from '@storybook/angular';
-import { UiFooterComponent } from './footer.component';
 
-const meta: Meta<UiFooterComponent> = {
-  title: 'Components/Footer',
-  component: UiFooterComponent,
+const meta: Meta<UiPortalFooterComponent> = {
+  title: 'Components/Footers/Portal Footer',
+  component: UiPortalFooterComponent,
   argTypes: {
     backgroundColor: {
       control: 'color',
@@ -18,7 +18,7 @@ const meta: Meta<UiFooterComponent> = {
 
 export default meta;
 
-type Story = StoryObj<UiFooterComponent>;
+type Story = StoryObj<UiPortalFooterComponent>;
 
 // Default footer
 export const DefaultFooter: Story = {

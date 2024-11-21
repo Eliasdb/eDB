@@ -1,6 +1,6 @@
 // register-form.fields.ts
 import { Validators } from '@angular/forms';
-import { FieldDefinition } from '@e-db/utils';
+import { FieldDefinition } from '@eDB/shared-utils';
 
 export const loginFormFields: FieldDefinition[] = [
   {

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogModule } from 'carbon-components-angular';
-import { UiIconComponent } from '../../components/icon/icon.component';
+import { UiIconComponent } from '../../../components/icon/icon.component';
 
 @Component({
   selector: 'ui-platform-overflow-menu',

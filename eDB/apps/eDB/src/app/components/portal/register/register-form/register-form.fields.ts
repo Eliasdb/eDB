@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, Validators } from '@angular/forms';
-import { FieldDefinition } from '@e-db/utils';
+import { FieldDefinition } from '@eDB/shared-utils';
 
 // Custom Validator for Strong Password
 export function strongPasswordValidator(

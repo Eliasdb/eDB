@@ -1,18 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UiTitleComponent } from '@e-db/ui';
+import { UiTitleComponent } from '@eDB/shared-ui';
 import { RegisterFormComponent } from '../../../components/portal/register/register-form/register-form.component';
-
-interface RegisterForm {
-  firstName: FormControl<string>;
-  lastName: FormControl<string>;
-  email: FormControl<string>;
-  password: FormControl<string>;
-  company: FormControl<string>;
-  country: FormControl<string>;
-  state: FormControl<string>;
-}
 
 @Component({
   selector: 'platform-register-page',
@@ -54,7 +43,6 @@ interface RegisterForm {
 export class RegisterContainer {
   private router = inject(Router);
 
-  // Navigation to login page
   navigateToLogin(): void {
     this.router.navigate(['/auth/login']);
   }

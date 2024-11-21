@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
-import { UiSidenavComponent, UiTitleComponent } from '@e-db/ui';
+import { UiSidenavComponent, UiTitleComponent } from '@eDB/shared-ui';
 import { SettingsGroupComponent } from '../../../components/platform/settings-group/settings-group.component';
 import { SettingsGroup } from '../../../models/settings.model';
 import { LinkItem } from '../../../models/user.model';
@@ -43,12 +43,6 @@ import { settingsGroups } from './settings-data';
   styleUrls: ['./profile.container.scss'],
 })
 export class ProfileContainer {
-  // Public properties
-  isLoading = computed(
-    () =>
-      this.userProfileQuery.isFetching() || this.userProfileQuery.isLoading()
-  );
-
   settingsGroups = settingsGroups;
 
   links: LinkItem[] = this.settingsGroups.map((group) => ({

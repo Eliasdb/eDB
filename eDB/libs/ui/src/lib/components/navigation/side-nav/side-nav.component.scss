@@ -1,0 +1,22 @@
+.sidenav-container {
+  width: 20rem;
+}
+
+cds-sidenav {
+  z-index: initial;
+  position: initial;
+  inline-size: 20rem;
+  max-inline-size: 20rem;
+  padding: 0;
+  background: #f4f4f4;
+
+  nav {
+    padding: 0;
+  }
+}
+
+.sidenav-icon {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  display: inline-block;
+}

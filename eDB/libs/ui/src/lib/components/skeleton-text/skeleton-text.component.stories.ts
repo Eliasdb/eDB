@@ -2,9 +2,8 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiSkeletonTextComponent } from './skeleton-text.component';
 
 const meta: Meta<UiSkeletonTextComponent> = {
-  title: 'Components/UiSkeletonText',
+  title: 'Components/Skeleton Text',
   component: UiSkeletonTextComponent,
-  tags: ['autodocs'],
   argTypes: {
     lines: {
       control: { type: 'number' },

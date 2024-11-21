@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { UiFooterComponent, UiPortalHeaderComponent } from '@e-db/ui';
+import {
+  UiPortalFooterComponent,
+  UiPortalHeaderComponent,
+} from '@eDB/shared-ui';
 
 @Component({
   selector: 'platform-portal-layout',
   standalone: true,
-  imports: [RouterModule, UiPortalHeaderComponent, UiFooterComponent],
+  imports: [RouterModule, UiPortalHeaderComponent, UiPortalFooterComponent],
   template: `
     <div class="auth-layout">
       <ui-portal-header></ui-portal-header>
       <main class="auth-content">
         <router-outlet></router-outlet>
       </main>
-      <ui-footer></ui-footer>
+      <ui-portal-footer></ui-portal-footer>
     </div>
   `,
 })

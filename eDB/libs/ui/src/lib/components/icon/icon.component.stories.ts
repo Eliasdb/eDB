@@ -1,15 +1,10 @@
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular';
 import { UiIconComponent } from './icon.component';
 
 const meta: Meta<UiIconComponent> = {
-  title: 'Components/Icon',
+  title: 'Components/Icons',
   component: UiIconComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [FontAwesomeModule],
-    }),
-  ],
+
   argTypes: {
     name: {
       control: 'text',
@@ -149,15 +144,15 @@ export const FixedWidthIcons: Story = {
     template: `
       <div>
         <div style="display: flex; align-items: center; gap: 10px;">
-          <app-icon name="faSquare" [fixedWidth]="fixedWidth" [color]="color"></app-icon>
+          <ui-icon name="faSquare" [fixedWidth]="fixedWidth" [color]="color"></ui-icon>
           <span>Square Icon</span>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-          <app-icon name="faArrowRight" [fixedWidth]="fixedWidth" [color]="color"></app-icon>
+          <ui-icon name="faArrowRight" [fixedWidth]="fixedWidth" [color]="color"></ui-icon>
           <span>Arrow Icon</span>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
-          <app-icon name="faCoffee" [fixedWidth]="fixedWidth" [color]="color"></app-icon>
+          <ui-icon name="faCoffee" [fixedWidth]="fixedWidth" [color]="color"></ui-icon>
           <span>Coffee Icon</span>
         </div>
       </div>

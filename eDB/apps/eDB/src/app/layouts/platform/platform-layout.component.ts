@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { UiPlatformHeaderComponent } from '@e-db/ui';
+import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'platform-layout',
