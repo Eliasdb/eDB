@@ -72,7 +72,7 @@ export class ProfileContainer {
         {
           label: 'E-mail',
           payloadKey: 'email',
-          getValue: (profile) => profile?.email || '',
+          getValue: (profile) => profile?.email || 'yoooo',
         },
         {
           label: 'Password',
