@@ -37,10 +37,10 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
 
       <cds-list-row *ngFor="let row of rows; let rowIndex = index">
         <cds-list-column class="w-20">
-          <p>{{ row[0] }}</p>
+          <p class="row-0">{{ row[0] }}</p>
         </cds-list-column>
 
-        <cds-list-column>
+        <cds-list-column class="w-60">
           <ng-container *ngIf="!editMode[rowIndex]">
             <section class="skeleton-text-wrapper">
               <p>{{ row[1] }}</p>
@@ -51,31 +51,31 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
               <ng-container *ngIf="row[0] === 'Password'">
                 <ui-password-input
                   [(ngModel)]="inputValues[rowIndex].newPassword"
-                  [label]="'New Password'"
+                  [label]="'New password'"
                   placeholder="Enter new password"
                 ></ui-password-input>
                 <ui-password-input
                   [(ngModel)]="inputValues[rowIndex].confirmPassword"
-                  [label]="'Confirm Password'"
+                  [label]="'Confirm password'"
                   placeholder="Confirm new password"
                 ></ui-password-input>
               </ng-container>
               <ng-container *ngIf="row[0] === 'Name'">
                 <ui-text-input
                   [(ngModel)]="inputValues[rowIndex].firstName"
-                  [label]="'First Name'"
+                  [label]="'First name'"
                   placeholder="Enter first name"
                 ></ui-text-input>
                 <ui-text-input
                   [(ngModel)]="inputValues[rowIndex].lastName"
-                  [label]="'Last Name'"
+                  [label]="'Last name'"
                   placeholder="Enter last name"
                 ></ui-text-input>
               </ng-container>
               <ng-container *ngIf="row[0] !== 'Password' && row[0] !== 'Name'">
                 <ui-text-input
                   [(ngModel)]="inputValues[rowIndex].value"
-                  [label]="'Update your ' + row[0]"
+                  [label]="'Update your ' + row[0].toLowerCase()"
                   placeholder="Enter new value"
                 ></ui-text-input>
               </ng-container>

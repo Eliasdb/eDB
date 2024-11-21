@@ -1,3 +1,5 @@
+// UserProfileService
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
@@ -31,8 +33,6 @@ export class UserProfileService {
         }
         return profile;
       },
-
-      staleTime: 300000, // 5 minutes
     }));
   }
 

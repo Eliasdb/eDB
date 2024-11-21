@@ -9,7 +9,7 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'E-mail',
         payloadKey: 'email',
-        getValue: (profile) => profile?.email || 'yoooo',
+        getValue: (profile) => profile?.email || '',
       },
       {
         label: 'Password',
@@ -32,7 +32,7 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Display name',
         payloadKey: 'displayName',
-        getValue: (profile) => profile?.displayName || 'Inactive',
+        getValue: (profile) => profile?.displayName || '',
       },
       {
         label: 'Email address',
@@ -42,7 +42,7 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Phone number',
         payloadKey: 'phoneNumber',
-        getValue: (profile) => profile?.phoneNumber || 'Inactive',
+        getValue: (profile) => profile?.phoneNumber || '',
       },
       {
         label: 'Country or region of residence',
@@ -52,7 +52,7 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Preferred language for communication',
         payloadKey: 'preferredLanguage',
-        getValue: (profile) => profile?.preferredLanguage || 'Inactive',
+        getValue: (profile) => profile?.preferredLanguage || '',
       },
     ],
   },
@@ -69,7 +69,7 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Work information',
         payloadKey: 'title',
-        getValue: (profile) => profile?.title || 'Inactive',
+        getValue: (profile) => profile?.title || '',
       },
     ],
   },
@@ -81,7 +81,7 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Address information',
         payloadKey: 'address',
-        getValue: (profile) => profile?.address || 'Inactive',
+        getValue: (profile) => profile?.address || '',
       },
     ],
   },
