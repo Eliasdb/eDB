@@ -95,13 +95,17 @@
   .register-info,
   .register-form-section {
     flex: none;
-    width: 100%;
     padding: 1rem;
   }
 
   .register-info {
     ui-title {
       text-align: center;
+    }
+
+    .left-titles {
+      padding-left: 0;
+      align-self: center;
     }
   }
 

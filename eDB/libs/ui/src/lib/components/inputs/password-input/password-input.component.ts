@@ -54,7 +54,7 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   @Input() warnText: string = '';
   @Input() skeleton: boolean = false;
   @Input() size: 'sm' | 'md' | 'lg' = 'lg';
-  @Input() theme: 'light' | 'dark' = 'light';
+  @Input() theme: 'light' | 'dark' = 'dark';
   @Input() readonly: boolean = false;
   @Input() autocomplete: string = '';
 

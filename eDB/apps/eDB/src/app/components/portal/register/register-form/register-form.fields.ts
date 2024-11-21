@@ -33,7 +33,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'email',
       label: 'Email Address',
-      placeholder: 'Enter your email',
       controlType: 'text',
       validators: [Validators.required, Validators.email],
       errorMessages: {
@@ -44,7 +43,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'password',
       label: 'Password',
-      placeholder: 'Enter your password',
       controlType: 'password',
       validators: [
         Validators.required,
@@ -63,7 +61,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'firstName',
       label: 'First Name',
-      placeholder: 'Enter your first name',
       controlType: 'text',
       validators: [Validators.required],
       errorMessages: {
@@ -73,7 +70,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'lastName',
       label: 'Last Name',
-      placeholder: 'Enter your last name',
       controlType: 'text',
       validators: [Validators.required],
       errorMessages: {
@@ -85,7 +81,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'country',
       label: 'Country',
-      placeholder: 'Enter your country',
       controlType: 'text',
       validators: [Validators.required],
       errorMessages: {
@@ -95,7 +90,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'state',
       label: 'State/Province',
-      placeholder: 'Enter your state or province',
       controlType: 'text',
       validators: [Validators.required],
       errorMessages: {
@@ -107,7 +101,6 @@ export const registerFormFields: (FieldDefinition | null)[][] = [
     {
       controlName: 'company',
       label: 'Company',
-      placeholder: 'Enter your company',
       controlType: 'text',
       validators: [Validators.required],
       errorMessages: {

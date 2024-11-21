@@ -32,20 +32,16 @@ import { registerFormFields } from './register-form.fields';
                 *ngIf="field.controlType === 'text'"
                 [formControlName]="field.controlName"
                 [label]="field.label"
-                [placeholder]="field.placeholder"
                 [invalid]="isFieldInvalid(field.controlName)"
                 [invalidText]="getErrorMessage(field.controlName)"
-                [theme]="'dark'"
               ></ui-text-input>
 
               <ui-password-input
                 *ngIf="field.controlType === 'password'"
                 [formControlName]="field.controlName"
                 [label]="field.label"
-                [placeholder]="field.placeholder"
                 [invalid]="isFieldInvalid(field.controlName)"
                 [invalidText]="getErrorMessage(field.controlName)"
-                [theme]="'dark'"
               ></ui-password-input>
             </ng-container>
           </div>
@@ -58,7 +54,6 @@ import { registerFormFields } from './register-form.fields';
               [isExpressive]="true"
               [disabled]="registerForm.invalid || isLoading"
               [fullWidth]="true"
-              [variant]="'primary'"
             >
               {{ isLoading ? 'Registering...' : 'Register' }}
             </ui-button>
