@@ -20,6 +20,7 @@ import { SideNavModule } from 'carbon-components-angular';
             *ngIf="item.icon"
             [name]="item.icon"
             class="sidenav-icon"
+            [fixedWidth]="true"
           ></ui-icon>
           {{ item.label }}
         </cds-sidenav-item>

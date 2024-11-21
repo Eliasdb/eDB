@@ -53,13 +53,11 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
                   [(ngModel)]="inputValues[rowIndex].newPassword"
                   [label]="'New Password'"
                   placeholder="Enter new password"
-                  [theme]="'dark'"
                 ></ui-password-input>
                 <ui-password-input
                   [(ngModel)]="inputValues[rowIndex].confirmPassword"
                   [label]="'Confirm Password'"
                   placeholder="Confirm new password"
-                  [theme]="'dark'"
                 ></ui-password-input>
               </ng-container>
               <ng-container *ngIf="row[0] === 'Name'">
@@ -67,13 +65,11 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
                   [(ngModel)]="inputValues[rowIndex].firstName"
                   [label]="'First Name'"
                   placeholder="Enter first name"
-                  [theme]="'dark'"
                 ></ui-text-input>
                 <ui-text-input
                   [(ngModel)]="inputValues[rowIndex].lastName"
                   [label]="'Last Name'"
                   placeholder="Enter last name"
-                  [theme]="'dark'"
                 ></ui-text-input>
               </ng-container>
               <ng-container *ngIf="row[0] !== 'Password' && row[0] !== 'Name'">
@@ -81,7 +77,6 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
                   [(ngModel)]="inputValues[rowIndex].value"
                   [label]="'Update your ' + row[0]"
                   placeholder="Enter new value"
-                  [theme]="'dark'"
                 ></ui-text-input>
               </ng-container>
               <div class="button-container">
@@ -102,9 +97,23 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
 
         <cds-list-column>
           <ng-container *ngIf="!editMode[rowIndex]">
-            <div class="edit-container" (click)="toggleEditMode(rowIndex)">
-              Edit
-              <ui-icon name="faEdit" size="16" class="icon-gap"></ui-icon>
+            <div class="action-container" (click)="onActionClick(rowIndex)">
+              <ng-container
+                *ngIf="header !== 'Offboarding'"
+                class="edit-account-btn-container"
+              >
+                Edit
+                <ui-icon name="faEdit" size="16" class="icon-gap"></ui-icon>
+              </ng-container>
+              <ng-container *ngIf="header === 'Offboarding'">
+                <span class="delete-account-btn-container">Delete</span>
+                <ui-icon
+                  name="faTrash"
+                  size="16"
+                  class="icon-gap"
+                  [color]="'red'"
+                ></ui-icon>
+              </ng-container>
             </div>
           </ng-container>
         </cds-list-column>
@@ -119,9 +128,28 @@ export class UiStructuredListComponent {
   @Input() rows: string[][] = [];
 
   @Output() rowUpdated = new EventEmitter<{ field: string; value: string }>();
+  @Output() deleteProfile = new EventEmitter<void>();
 
   editMode: boolean[] = [];
   inputValues: { [key: number]: any } = {};
+
+  onActionClick(rowIndex: number): void {
+    if (this.header === 'Offboarding') {
+      this.confirmAndDeleteProfile();
+    } else {
+      this.toggleEditMode(rowIndex);
+    }
+  }
+
+  confirmAndDeleteProfile(): void {
+    if (
+      confirm(
+        'Are you sure you want to delete your profile? This action cannot be undone.'
+      )
+    ) {
+      this.deleteProfile.emit();
+    }
+  }
 
   toggleEditMode(rowIndex: number): void {
     this.editMode[rowIndex] = !this.editMode[rowIndex];

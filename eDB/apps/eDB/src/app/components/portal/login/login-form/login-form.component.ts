@@ -36,9 +36,6 @@ import { loginFormFields } from './login-form.fields';
               *ngIf="field.controlType === 'text'"
               [formControlName]="field.controlName"
               [label]="field.label"
-              [placeholder]="field.placeholder"
-              [size]="'lg'"
-              [theme]="'dark'"
               [invalid]="isFieldInvalid(field.controlName)"
               [invalidText]="getErrorMessage(field.controlName)"
             ></ui-text-input>
@@ -47,8 +44,6 @@ import { loginFormFields } from './login-form.fields';
               *ngIf="field.controlType === 'password'"
               [formControlName]="field.controlName"
               [label]="field.label"
-              [placeholder]="field.placeholder"
-              [theme]="'dark'"
               [invalid]="isFieldInvalid(field.controlName)"
               [invalidText]="getErrorMessage(field.controlName)"
             ></ui-password-input>

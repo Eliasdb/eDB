@@ -54,14 +54,18 @@ cds-list-header cds-list-column {
   justify-content: flex-start; /* Align buttons to the left */
 }
 
-.edit-container {
+.action-container {
   display: inline-flex;
   align-items: center;
   cursor: pointer; /* Change cursor to pointer on hover */
   transition: color 0.2s ease; /* Smooth transition for hover effect */
-
+  color: #000000;
   &:hover {
     color: #005a9e; /* Optional: Darker color on hover */
+  }
+
+  span.delete-account-btn-container {
+    color: red;
   }
 }
 
@@ -79,4 +83,7 @@ cds-list-header cds-list-column {
 .header-container {
   display: flex;
   min-width: 16rem;
+}
+.cds--structured-list-row {
+  border-block-start: 1px solid #8d8d8d;
 }
