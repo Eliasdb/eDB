@@ -25,27 +25,13 @@ import { UiSkeletonTextComponent } from '../skeleton-text/skeleton-text.componen
     <cds-structured-list>
       <cds-list-header>
         <cds-list-column>
-          <ng-container *ngIf="skeleton; else staticHeader">
-            <ui-skeleton-text
-              [lines]="1"
-              [minLineWidth]="30"
-              [maxLineWidth]="50"
-            ></ui-skeleton-text>
-            <ui-skeleton-text
-              [lines]="1"
-              [minLineWidth]="10"
-              [maxLineWidth]="20"
-            ></ui-skeleton-text>
-          </ng-container>
-          <ng-template #staticHeader>
-            <h3>{{ header }}</h3>
-            <ui-icon
-              *ngIf="headerIcon"
-              [name]="headerIcon"
-              size="1.1rem"
-              class="icon-gap"
-            ></ui-icon>
-          </ng-template>
+          <h3>{{ header }}</h3>
+          <ui-icon
+            *ngIf="headerIcon"
+            [name]="headerIcon"
+            size="1.1rem"
+            class="icon-gap"
+          ></ui-icon>
         </cds-list-column>
       </cds-list-header>
 
@@ -56,15 +42,19 @@ import { UiSkeletonTextComponent } from '../skeleton-text/skeleton-text.componen
 
         <cds-list-column>
           <ng-container *ngIf="skeleton; else staticValue">
-            <ui-skeleton-text
-              [lines]="1"
-              [minLineWidth]="70"
-              [maxLineWidth]="90"
-            ></ui-skeleton-text>
+            <section class="skeleton-text-wrapper">
+              <ui-skeleton-text
+                [lines]="1"
+                [minLineWidth]="70"
+                [maxLineWidth]="90"
+              ></ui-skeleton-text>
+            </section>
           </ng-container>
           <ng-template #staticValue>
             <ng-container *ngIf="!editMode[rowIndex]">
-              {{ row[1] }}
+              <section class="skeleton-text-wrapper">
+                {{ row[1] }}
+              </section>
             </ng-container>
             <ng-container *ngIf="editMode[rowIndex]">
               <div class="input-button-container">
