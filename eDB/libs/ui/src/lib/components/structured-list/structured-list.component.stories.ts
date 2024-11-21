@@ -9,7 +9,6 @@ const meta: Meta<UiStructuredListComponent> = {
     header: { control: 'text' },
     headerIcon: { control: 'text' },
     rows: { control: 'object' },
-    skeleton: { control: 'boolean' },
   },
 };
 
@@ -26,7 +25,6 @@ export const Default: Story = {
       ['Email', 'john.doe@example.com'],
       ['Password', '********'],
     ],
-    skeleton: false,
   },
 };
 
@@ -39,7 +37,6 @@ export const Editable: Story = {
       ['Email', 'jane.smith@example.com'],
       ['Password', '********'],
     ],
-    skeleton: false,
   },
 };
 
@@ -52,6 +49,5 @@ export const Skeleton: Story = {
       ['Email', 'jane.smith@example.com'],
       ['Password', '********'],
     ],
-    skeleton: true,
   },
 };

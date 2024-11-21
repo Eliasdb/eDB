@@ -11,7 +11,6 @@ import { UiStructuredListComponent } from '@e-db/ui';
         [header]="header"
         [headerIcon]="headerIcon"
         [rows]="rows"
-        [skeleton]="skeleton"
         (rowUpdated)="onRowUpdated($event)"
       ></ui-structured-list>
     </div>
@@ -31,7 +30,6 @@ export class SettingsGroupComponent {
   @Input() header!: string;
   @Input() headerIcon: string = '';
   @Input() rows: [string, string][] = [];
-  @Input() skeleton: boolean = true;
 
   @Output() rowUpdated = new EventEmitter<{ field: string; value: string }>();
 

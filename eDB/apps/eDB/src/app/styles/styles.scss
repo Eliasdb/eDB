@@ -10,15 +10,10 @@ body {
   box-sizing: border-box;
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size-adjust: 0.5; /* Adjust value based on IBM Plex Sans metrics */
-
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Ensure a uniform rendering baseline */
+  text-rendering: optimizeLegibility;
   font-style: normal;
   line-height: 1.5; /* Adjust to match the font's design */
-}
-
-nav.cds--side-nav__items {
-  padding-top: 0;
-}
-
-.cds--structured-list-td {
-  vertical-align: initial;
 }
