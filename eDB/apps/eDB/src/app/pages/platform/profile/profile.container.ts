@@ -1,49 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { UiSidenavComponent, UiTitleComponent } from '@e-db/ui';
 import { SettingsGroupComponent } from '../../../components/platform/settings-group/settings-group.component';
-import { LinkItem, UserProfile } from '../../../models/user.model';
+import { SettingsGroup } from '../../../models/settings.model';
+import { LinkItem } from '../../../models/user.model';
 import { UserProfileService } from '../../../services/user-profile-service/user-profile.service';
-
-interface SettingsRow {
-  label: string;
-  payloadKey: string;
-  getValue: (profile?: UserProfile) => string;
-}
-
-interface SettingsGroup {
-  id: string;
-  header: string;
-  headerIcon: string;
-  rows: SettingsRow[];
-}
+import { settingsGroups } from './settings-data';
 
 @Component({
   selector: 'platform-settings',
   standalone: true,
   imports: [
+    CommonModule,
     UiSidenavComponent,
     UiTitleComponent,
     SettingsGroupComponent,
-    CommonModule,
   ],
   template: `
     <section class="settings-page">
       <section class="sidenav">
-        <ui-title text="Profile" className="profile-title"></ui-title>
+        <ui-title text="Profile" class="profile-title"></ui-title>
         <ui-sidenav
           [links]="links"
           (linkClick)="onLinkClick($event)"
         ></ui-sidenav>
       </section>
       <section class="settings-container" #settingsContainer>
-        <ng-container *ngFor="let group of settingsGroups">
+        <ng-container
+          *ngFor="let group of settingsGroups; trackBy: trackByGroupId"
+        >
           <platform-settings-group
             [id]="group.id"
             [header]="group.header"
             [headerIcon]="group.headerIcon"
-            [rows]="getRows(group)"
-            [skeleton]="isLoading()"
+            [rows]="computedRows[group.id]()"
             (rowUpdated)="onRowUpdated($event)"
           ></platform-settings-group>
         </ng-container>
@@ -53,160 +43,82 @@ interface SettingsGroup {
   styleUrls: ['./profile.container.scss'],
 })
 export class ProfileContainer {
-  private userProfileService = inject(UserProfileService);
-  private userProfileQuery = this.userProfileService.fetchUserProfile();
-  private updateUserProfileMutation =
-    this.userProfileService.updateUserProfile();
-
+  // Public properties
   isLoading = computed(
     () =>
       this.userProfileQuery.isFetching() || this.userProfileQuery.isLoading()
   );
 
-  settingsGroups: SettingsGroup[] = [
-    {
-      id: 'id-and-password',
-      header: 'ID and Password',
-      headerIcon: 'faKey',
-      rows: [
-        {
-          label: 'E-mail',
-          payloadKey: 'email',
-          getValue: (profile) => profile?.email || 'yoooo',
-        },
-        {
-          label: 'Password',
-          payloadKey: 'password',
-          getValue: () => '********',
-        },
-      ],
-    },
-    {
-      id: 'contact-information',
-      header: 'Contact Information',
-      headerIcon: 'faContactCard',
-      rows: [
-        {
-          label: 'Name',
-          payloadKey: 'firstName',
-          getValue: (profile) =>
-            profile ? `${profile.firstName} ${profile.lastName}` : '',
-        },
-        {
-          label: 'Display name',
-          payloadKey: 'displayName',
-          getValue: (profile) => profile?.displayName || 'Inactive',
-        },
-        {
-          label: 'Email address',
-          payloadKey: 'email',
-          getValue: (profile) => profile?.email || '',
-        },
-        {
-          label: 'Phone number',
-          payloadKey: 'phoneNumber',
-          getValue: (profile) => profile?.phoneNumber || 'Inactive',
-        },
-        {
-          label: 'Country or region of residence',
-          payloadKey: 'country',
-          getValue: (profile) => profile?.country || '',
-        },
-        {
-          label: 'Preferred language for communication',
-          payloadKey: 'preferredLanguage',
-          getValue: (profile) => profile?.preferredLanguage || 'Inactive',
-        },
-      ],
-    },
-    {
-      id: 'company',
-      header: 'Company',
-      headerIcon: 'faBuilding',
-      rows: [
-        {
-          label: 'Organization information',
-          payloadKey: 'company',
-          getValue: (profile) => profile?.company || '',
-        },
-        {
-          label: 'Work information',
-          payloadKey: 'title',
-          getValue: (profile) => profile?.title || 'Inactive',
-        },
-      ],
-    },
-    {
-      id: 'addresses',
-      header: 'Addresses',
-      headerIcon: 'faMapMarkerAlt',
-      rows: [
-        {
-          label: 'Address information',
-          payloadKey: 'address',
-          getValue: (profile) => profile?.address || 'Inactive',
-        },
-      ],
-    },
-    {
-      id: 'offboarding',
-      header: 'Offboarding',
-      headerIcon: 'faSignOutAlt',
-      rows: [
-        {
-          label: 'Deactivate Account',
-          payloadKey: 'deactivate',
-          getValue: () => 'Click to deactivate your account',
-        },
-      ],
-    },
-  ];
+  settingsGroups = settingsGroups;
 
   links: LinkItem[] = this.settingsGroups.map((group) => ({
     id: group.id,
     label: group.header,
+    icon: group.headerIcon,
     active: false,
   }));
 
-  getRows(group: SettingsGroup): [string, string][] {
-    const profile = this.userProfileQuery.data();
-    return group.rows.map((row) => [row.label, row.getValue(profile)]);
+  computedRows: { [groupId: string]: Signal<[string, string][]> } = {};
+
+  // Private properties
+  private userProfileService = inject(UserProfileService);
+  private userProfileQuery = this.userProfileService.fetchUserProfile();
+  private updateUserProfileMutation =
+    this.userProfileService.updateUserProfile();
+
+  constructor() {
+    this.initializeComputedRows();
   }
 
+  // Lifecycle hooks
+  // If additional initialization is needed, consider implementing OnInit
+
+  // Public methods
   onRowUpdated({ field, value }: { field: string; value: string }): void {
-    let payloadKey: string | undefined;
+    const row = this.settingsGroups
+      .flatMap((group) => group.rows)
+      .find((row) => row.label === field);
 
-    for (const group of this.settingsGroups) {
-      const row = group.rows.find((row) => row.label === field);
-      if (row) {
-        payloadKey = row.payloadKey;
-        break;
-      }
-    }
-
-    if (!payloadKey) {
+    if (!row || !row.payloadKey) {
       console.error(`Unknown field: ${field}`);
       return;
     }
 
+    const payload = { [row.payloadKey]: value };
+
     this.updateUserProfileMutation
-      .mutateAsync({ [payloadKey]: value })
-      .catch((err) => {
-        console.error('Failed to update user profile:', err);
-      });
+      .mutateAsync(payload)
+      .then(() => this.userProfileQuery.refetch())
+      .catch((err) => console.error('Failed to update user profile:', err));
   }
 
   onLinkClick(clickedItem: LinkItem): void {
-    this.links.forEach((link) => {
-      link.active = link.id === clickedItem.id;
-    });
+    this.links.forEach((link) => (link.active = link.id === clickedItem.id));
     this.scrollToSection(clickedItem.id);
   }
 
-  scrollToSection(id: string): void {
+  trackByGroupId(_: number, group: SettingsGroup): string {
+    return group.id;
+  }
+
+  // Private methods
+  private initializeComputedRows(): void {
+    this.settingsGroups.forEach((group) => {
+      this.computedRows[group.id] = computed(() => this.computeRows(group));
+    });
+  }
+
+  private computeRows(group: SettingsGroup): [string, string][] {
+    const profile = this.userProfileQuery.data();
+    return group.rows.map((row) => [row.label, row.getValue(profile) ?? '']);
+  }
+
+  private scrollToSection(id: string): void {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.warn(`Element with id '${id}' not found.`);
     }
   }
 }

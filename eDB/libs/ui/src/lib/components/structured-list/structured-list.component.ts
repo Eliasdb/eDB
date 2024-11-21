@@ -6,7 +6,6 @@ import { UiButtonComponent } from '../button/button.component';
 import { UiIconComponent } from '../icon/icon.component';
 import { UiPasswordInputComponent } from '../inputs/password-input/password-input.component';
 import { UiTextInputComponent } from '../inputs/text-input/input.component';
-import { UiSkeletonTextComponent } from '../skeleton-text/skeleton-text.component';
 
 @Component({
   selector: 'ui-structured-list',
@@ -18,99 +17,87 @@ import { UiSkeletonTextComponent } from '../skeleton-text/skeleton-text.componen
     UiTextInputComponent,
     UiPasswordInputComponent,
     UiButtonComponent,
-    UiSkeletonTextComponent,
     FormsModule,
   ],
   template: `
     <cds-structured-list>
       <cds-list-header>
         <cds-list-column>
-          <h3>{{ header }}</h3>
-          <ui-icon
-            *ngIf="headerIcon"
-            [name]="headerIcon"
-            size="1.1rem"
-            class="icon-gap"
-          ></ui-icon>
+          <div class="header-container">
+            <h3>{{ header }}</h3>
+            <ui-icon
+              *ngIf="headerIcon"
+              [name]="headerIcon"
+              size="1.1rem"
+              class="icon-gap"
+            ></ui-icon>
+          </div>
         </cds-list-column>
       </cds-list-header>
 
       <cds-list-row *ngFor="let row of rows; let rowIndex = index">
         <cds-list-column class="w-20">
-          {{ row[0] }}
+          <p>{{ row[0] }}</p>
         </cds-list-column>
 
         <cds-list-column>
-          <ng-container *ngIf="skeleton; else staticValue">
+          <ng-container *ngIf="!editMode[rowIndex]">
             <section class="skeleton-text-wrapper">
-              <ui-skeleton-text
-                [lines]="1"
-                [minLineWidth]="70"
-                [maxLineWidth]="90"
-              ></ui-skeleton-text>
+              <p>{{ row[1] }}</p>
             </section>
           </ng-container>
-          <ng-template #staticValue>
-            <ng-container *ngIf="!editMode[rowIndex]">
-              <section class="skeleton-text-wrapper">
-                {{ row[1] }}
-              </section>
-            </ng-container>
-            <ng-container *ngIf="editMode[rowIndex]">
-              <div class="input-button-container">
-                <ng-container *ngIf="row[0] === 'Password'">
-                  <ui-password-input
-                    [(ngModel)]="inputValues[rowIndex].newPassword"
-                    [label]="'New Password'"
-                    placeholder="Enter new password"
-                    [theme]="'dark'"
-                  ></ui-password-input>
-                  <ui-password-input
-                    [(ngModel)]="inputValues[rowIndex].confirmPassword"
-                    [label]="'Confirm Password'"
-                    placeholder="Confirm new password"
-                    [theme]="'dark'"
-                  ></ui-password-input>
-                </ng-container>
-                <ng-container *ngIf="row[0] === 'Name'">
-                  <ui-text-input
-                    [(ngModel)]="inputValues[rowIndex].firstName"
-                    [label]="'First Name'"
-                    placeholder="Enter first name"
-                    [theme]="'dark'"
-                  ></ui-text-input>
-                  <ui-text-input
-                    [(ngModel)]="inputValues[rowIndex].lastName"
-                    [label]="'Last Name'"
-                    placeholder="Enter last name"
-                    [theme]="'dark'"
-                  ></ui-text-input>
-                </ng-container>
-                <ng-container
-                  *ngIf="row[0] !== 'Password' && row[0] !== 'Name'"
+          <ng-container *ngIf="editMode[rowIndex]">
+            <div class="input-button-container">
+              <ng-container *ngIf="row[0] === 'Password'">
+                <ui-password-input
+                  [(ngModel)]="inputValues[rowIndex].newPassword"
+                  [label]="'New Password'"
+                  placeholder="Enter new password"
+                  [theme]="'dark'"
+                ></ui-password-input>
+                <ui-password-input
+                  [(ngModel)]="inputValues[rowIndex].confirmPassword"
+                  [label]="'Confirm Password'"
+                  placeholder="Confirm new password"
+                  [theme]="'dark'"
+                ></ui-password-input>
+              </ng-container>
+              <ng-container *ngIf="row[0] === 'Name'">
+                <ui-text-input
+                  [(ngModel)]="inputValues[rowIndex].firstName"
+                  [label]="'First Name'"
+                  placeholder="Enter first name"
+                  [theme]="'dark'"
+                ></ui-text-input>
+                <ui-text-input
+                  [(ngModel)]="inputValues[rowIndex].lastName"
+                  [label]="'Last Name'"
+                  placeholder="Enter last name"
+                  [theme]="'dark'"
+                ></ui-text-input>
+              </ng-container>
+              <ng-container *ngIf="row[0] !== 'Password' && row[0] !== 'Name'">
+                <ui-text-input
+                  [(ngModel)]="inputValues[rowIndex].value"
+                  [label]="'Update your ' + row[0]"
+                  placeholder="Enter new value"
+                  [theme]="'dark'"
+                ></ui-text-input>
+              </ng-container>
+              <div class="button-container">
+                <ui-button
+                  (buttonClick)="cancelEdit(rowIndex)"
+                  variant="secondary"
+                  >Cancel</ui-button
                 >
-                  <ui-text-input
-                    [(ngModel)]="inputValues[rowIndex].value"
-                    [label]="'Update your ' + row[0]"
-                    placeholder="Enter new value"
-                    [theme]="'dark'"
-                  ></ui-text-input>
-                </ng-container>
-                <div class="button-container">
-                  <ui-button
-                    (buttonClick)="cancelEdit(rowIndex)"
-                    variant="secondary"
-                    >Cancel</ui-button
-                  >
-                  <ui-button
-                    (buttonClick)="updateEdit(rowIndex)"
-                    variant="primary"
-                    >Update</ui-button
-                  >
-                </div>
+                <ui-button
+                  (buttonClick)="updateEdit(rowIndex)"
+                  variant="primary"
+                  >Update</ui-button
+                >
               </div>
-            </ng-container>
-          </ng-template>
+            </div>
+          </ng-container>
         </cds-list-column>
 
         <cds-list-column>
@@ -130,7 +117,6 @@ export class UiStructuredListComponent {
   @Input() header: string = '';
   @Input() headerIcon: string = '';
   @Input() rows: string[][] = [];
-  @Input() skeleton: boolean = true;
 
   @Output() rowUpdated = new EventEmitter<{ field: string; value: string }>();
 

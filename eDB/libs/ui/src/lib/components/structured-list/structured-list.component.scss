@@ -16,14 +16,16 @@ cds-list-column:nth-child(3) {
 .input-button-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Space between inputs and buttons */
+  gap: 1rem;
+  padding-bottom: 1rem;
 }
 
 cds-list-column {
-  padding: 2rem;
-  // padding-bottom: 5rem;
+  padding: 0;
   margin: 0;
   font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: #161616;
 }
 
 cds-list-header cds-list-column h3 {
@@ -31,7 +33,6 @@ cds-list-header cds-list-column h3 {
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.4;
-  letter-spacing: 0;
 }
 
 cds-list-header cds-list-column {
@@ -39,10 +40,6 @@ cds-list-header cds-list-column {
   align-items: center;
   padding-top: 2rem;
   padding-bottom: 1.5rem;
-}
-
-cds-list-column:nth-child(2) {
-  padding-bottom: 0rem;
 }
 
 .ui-text-input,
@@ -72,32 +69,14 @@ cds-list-column:nth-child(2) {
   margin-left: 0.5rem; /* Keep spacing between Edit text and icon */
 }
 
-.skeleton-text-wrapper p {
-  line-height: 1.42857;
-  border: 1px solid black;
-}
-
 .skeleton-text-wrapper {
   display: flex;
   align-items: center;
   margin: 0;
+  padding-bottom: 1.5rem;
 }
-cds-list-row {
-  max-height: 1rem;
+
+.header-container {
+  display: flex;
+  min-width: 16rem;
 }
-// cds-list-column {
-//   padding: 0;
-//   padding-top: 0.5rem;
-//   font-size: 0.875rem;
-// }
-
-// cds-list-column ui-skeleton-text,
-// cds-list-column .skeleton-text-wrapper {
-//   font-size: inherit;
-//   line-height: inherit;
-// }
-
-// ui-skeleton-text {
-//   margin: 0;
-//   padding: 0;
-// }
