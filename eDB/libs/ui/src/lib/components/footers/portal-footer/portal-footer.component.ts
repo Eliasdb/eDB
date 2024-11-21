@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ui-footer',
+  selector: 'ui-portal-footer',
   standalone: true,
   template: `
     <footer class="footer">
@@ -18,6 +18,6 @@ import { Component } from '@angular/core';
       </div>
     </footer>
   `,
-  styleUrls: ['footer.component.scss'],
+  styleUrls: ['portal-footer.component.scss'],
 })
-export class UiFooterComponent {}
+export class UiPortalFooterComponent {}

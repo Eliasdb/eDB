@@ -7,8 +7,8 @@ import {
   UiPasswordInputComponent,
   UiTextInputComponent,
   UiTitleComponent,
-} from '@e-db/ui';
-import { FormUtilsService } from '@e-db/utils';
+} from '@eDB/shared-ui';
+import { FormUtilsService } from '@eDB/shared-utils';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../../../../services/auth-service/auth.service';
 import { loginFormFields } from './login-form.fields';

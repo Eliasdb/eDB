@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiPlatformOverflowMenuComponent } from './overflow-menu.component';
 
 const meta: Meta<UiPlatformOverflowMenuComponent> = {
-  title: 'Components/Overflow Menu',
+  title: 'Components/Navigation/Overflow Menu',
   component: UiPlatformOverflowMenuComponent,
   argTypes: {
     menuOptions: { control: 'object' }, // Interactive control for menu options

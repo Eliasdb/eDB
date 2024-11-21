@@ -9,7 +9,7 @@ import { LoginFormComponent } from '../../../components/portal/login/login-form/
     <section class="login-container">
       <div class="page-content">
         <div class="login-section">
-          <platform-portal-login-form></platform-portal-login-form>
+          <platform-portal-login-form />
         </div>
 
         <div class="intro-image-section">

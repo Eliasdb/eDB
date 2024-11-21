@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UiStructuredListComponent } from '@e-db/ui';
+import { UiStructuredListComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'platform-settings-group',
@@ -15,15 +15,7 @@ import { UiStructuredListComponent } from '@e-db/ui';
       ></ui-structured-list>
     </div>
   `,
-  styles: [
-    `
-      .setting-group {
-        margin-bottom: 1rem;
-        background: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-    `,
-  ],
+  styleUrl: 'settings-group.component.scss',
 })
 export class SettingsGroupComponent {
   @Input() id!: string;

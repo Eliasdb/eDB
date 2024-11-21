@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UiIconComponent } from '@e-db/ui';
 import { SideNavModule } from 'carbon-components-angular';
+import { UiIconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'ui-sidenav',
@@ -27,32 +27,7 @@ import { SideNavModule } from 'carbon-components-angular';
       </cds-sidenav>
     </div>
   `,
-  styles: [
-    `
-      .sidenav-container {
-        width: 20rem;
-      }
-
-      cds-sidenav {
-        z-index: initial;
-        position: initial;
-        inline-size: 20rem;
-        max-inline-size: 20rem;
-        padding: 0;
-        background: #f4f4f4;
-
-        nav {
-          padding: 0;
-        }
-      }
-
-      .sidenav-icon {
-        margin-right: 0.5rem;
-        vertical-align: middle;
-        display: inline-block;
-      }
-    `,
-  ],
+  styleUrl: 'side-nav.component.scss',
 })
 export class UiSidenavComponent {
   @Input() links: {

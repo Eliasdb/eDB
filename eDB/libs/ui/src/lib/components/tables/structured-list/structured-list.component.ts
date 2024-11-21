@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { StructuredListModule } from 'carbon-components-angular';
-import { UiButtonComponent } from '../button/button.component';
-import { UiIconComponent } from '../icon/icon.component';
-import { UiPasswordInputComponent } from '../inputs/password-input/password-input.component';
-import { UiTextInputComponent } from '../inputs/text-input/input.component';
+import { UiButtonComponent } from '../../button/button.component';
+import { UiIconComponent } from '../../icon/icon.component';
+import { UiPasswordInputComponent } from '../../inputs/password-input/password-input.component';
+import { UiTextInputComponent } from '../../inputs/text-input/input.component';
 
 @Component({
   selector: 'ui-structured-list',
