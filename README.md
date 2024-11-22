@@ -44,11 +44,11 @@ This project builds a platform for showcasing a range of applications within a c
 
 #### K3s Cluster
 
-[![Development Setup Diagram](./diagrams/dev-setupv1.png)](./diagrams/devopsv1.png)
+[![Development Setup Diagram](./diagrams/devopsv1.png)](./diagrams/devopsv1.png)
 
 #### Frontend Setup
 
-[![Frontend Setup Diagram](./diagrams/dev-setupv1.png)](./diagrams/frontend-architecturev1.png)
+[![Frontend Setup Diagram](./diagrams/frontend-architecturev1.png)](./diagrams/frontend-architecturev1.png)
 
 ---
 
