@@ -1,4 +1,4 @@
-# Full Stack Platform with Docker and Kubernetes
+# eDB
 
 ## Project Overview
 
@@ -6,7 +6,7 @@ This project builds a platform for showcasing a range of applications within a c
 
 ---
 
-### The Setup
+### Setup
 
 -   **Frontend**:
 
@@ -42,11 +42,7 @@ This project builds a platform for showcasing a range of applications within a c
 
 ### Application Architecture Diagrams
 
-#### K3s Cluster
-
 [![Development Setup Diagram](./diagrams/devopsv1.png)](./diagrams/devopsv1.png)
-
-#### Frontend Setup
 
 [![Frontend Setup Diagram](./diagrams/frontend-architecturev1.png)](./diagrams/frontend-architecturev1.png)
 
@@ -94,5 +90,3 @@ This project builds a platform for showcasing a range of applications within a c
 | `nx list`                        | List all available Nx plugins and capabilities in the workspace.           |
 | `nx report`                      | Show a detailed report of the current Nx workspace setup.                  |
 | `nx storybook <project>`         | Run Storybook for the specified project (e.g., `nx storybook ui-library`). |
-
-Let me know if you'd like further adjustments or additional commands added!
