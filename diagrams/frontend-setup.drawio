@@ -5,19 +5,19 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-2" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
-          <mxGeometry x="-1820.62" y="872.5" width="790" height="490" as="geometry" />
+          <mxGeometry x="-1867.5" y="542.5" width="790" height="490" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="LP7Ed1BWK_VpSIzqsCGS-4" target="LP7Ed1BWK_VpSIzqsCGS-13" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-1420.62" y="952.5" />
+              <mxPoint x="-1467.5" y="622.5" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" parent="1" source="LP7Ed1BWK_VpSIzqsCGS-4" target="LP7Ed1BWK_VpSIzqsCGS-5" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-1650.62" y="952.5" />
+              <mxPoint x="-1697.5" y="622.5" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -27,281 +27,281 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-4" value="&lt;font style=&quot;font-size: 29px;&quot;&gt;Platform application @localhost:4200&lt;/font&gt;" style="text;fillColor=#b1ddf0;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;rounded=0;sketch=1;curveFitting=1;jiggle=2;strokeColor=#10739e;" parent="1" vertex="1">
-          <mxGeometry x="-1710.62" y="912.5" width="575" height="40" as="geometry" />
+          <mxGeometry x="-1757.5" y="582.5" width="575" height="40" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-5" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Appointment application&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;sketch=1;curveFitting=1;jiggle=2;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="-1750.62" y="1042.5" width="200" height="167.5" as="geometry" />
+          <mxGeometry x="-1797.5" y="712.5" width="200" height="167.5" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-7" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;nx storybook ui&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.528;exitY=0.996;exitDx=0;exitDy=0;entryX=0.53;entryY=0.012;entryDx=0;entryDy=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="LP7Ed1BWK_VpSIzqsCGS-8" target="lYHz6h8Hog2-7QlPZJF8-1">
           <mxGeometry x="0.003" relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-1625.62" y="1707.5" />
+              <mxPoint x="-1672.5" y="1377.5" />
             </Array>
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-8" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;font style=&quot;&quot;&gt;UI library&lt;/font&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;font style=&quot;&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(156, 220, 254); background-color: rgb(31, 31, 31); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; white-space: pre;&quot;&gt;@eDB/shared-ui&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#cdeb8b;strokeColor=#36393d;" parent="1" vertex="1">
-          <mxGeometry x="-1810.62" y="1552.5" width="350" height="90" as="geometry" />
+          <mxGeometry x="-1857.5" y="1222.5" width="350" height="90" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-13" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Potential application&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
-          <mxGeometry x="-1523.12" y="1042.5" width="202.5" height="167.5" as="geometry" />
+          <mxGeometry x="-1570" y="712.5" width="202.5" height="167.5" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-28" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;route: /appointments&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;" parent="1" vertex="1">
-          <mxGeometry x="-1721.87" y="1170" width="142.5" height="30" as="geometry" />
+          <mxGeometry x="-1768.75" y="840" width="142.5" height="30" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-29" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;route: /xyz&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;" parent="1" vertex="1">
-          <mxGeometry x="-1503.12" y="1170" width="160" height="30" as="geometry" />
+          <mxGeometry x="-1550" y="840" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.904;exitY=1.016;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" parent="1" source="LP7Ed1BWK_VpSIzqsCGS-4" target="LP7Ed1BWK_VpSIzqsCGS-16" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="-1528.12" y="992.5" as="sourcePoint" />
-            <mxPoint x="-1190.62" y="1062.5" as="targetPoint" />
+            <mxPoint x="-1575" y="662.5" as="sourcePoint" />
+            <mxPoint x="-1237.5" y="732.5" as="targetPoint" />
             <Array as="points" />
           </mxGeometry>
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-16" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Potential application&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
-          <mxGeometry x="-1290.62" y="1042.5" width="200" height="167.5" as="geometry" />
+          <mxGeometry x="-1337.5" y="712.5" width="200" height="167.5" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-38" value="Lazy loads" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=15;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="-1423.1178947368421" y="992.5000000000002" as="geometry" />
+          <mxGeometry x="-1469.9978947368422" y="662.5000000000002" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-39" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Lazy loads&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=14;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="-1190.6178947368421" y="992.5000000000002" as="geometry" />
+          <mxGeometry x="-1237.4978947368422" y="662.5000000000002" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-30" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;route: /xyz&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;" parent="1" vertex="1">
-          <mxGeometry x="-1230.62" y="1170" width="80" height="30" as="geometry" />
+          <mxGeometry x="-1277.5" y="840" width="80" height="30" as="geometry" />
         </mxCell>
         <mxCell id="LP7Ed1BWK_VpSIzqsCGS-46" value="&lt;font style=&quot;font-size: 33px;&quot;&gt;Nx&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;rounded=0;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
-          <mxGeometry x="-1815.62" y="790" width="77.5" height="60" as="geometry" />
+          <mxGeometry x="-1862.5" y="460" width="77.5" height="60" as="geometry" />
         </mxCell>
         <mxCell id="lYHz6h8Hog2-7QlPZJF8-1" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Storybook @localhost:4400&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#ffcccc;strokeColor=#36393d;" parent="1" vertex="1">
-          <mxGeometry x="-1790.62" y="1810" width="310" height="80" as="geometry" />
+          <mxGeometry x="-1837.5" y="1480" width="310" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-1" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;font style=&quot;&quot;&gt;Utils library&lt;font style=&quot;&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;span style=&quot;color: rgb(156, 220, 254); background-color: rgb(31, 31, 31); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; white-space: pre;&quot;&gt;&lt;font style=&quot;&quot;&gt;@eDB/shared-utils&lt;/font&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#cdeb8b;strokeColor=#36393d;" vertex="1" parent="1">
-          <mxGeometry x="-1385.62" y="1557.5" width="350" height="80" as="geometry" />
+          <mxGeometry x="-1432.5" y="1227.5" width="350" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-20" value="&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Form handling&amp;nbsp;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Interceptors: Attaches RBAC&amp;nbsp;JWT from localstorage to every call made&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;perimeterSpacing=0;spacing=2;spacingBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="-1401.87" y="1642.5" width="422.5" height="120" as="geometry" />
+          <mxGeometry x="-1448.75" y="1312.5" width="422.5" height="120" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-21" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=49.473684210526315;endSize=12.242105263157896;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1690.62" y="1522.5" as="sourcePoint" />
-            <mxPoint x="-1630.62" y="1412.5" as="targetPoint" />
+            <mxPoint x="-1737.5" y="1192.5" as="sourcePoint" />
+            <mxPoint x="-1677.5" y="1082.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-22" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=49.473684210526315;endSize=12.242105263157896;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1215.62" y="1512.5" as="sourcePoint" />
-            <mxPoint x="-1285.62" y="1412.5" as="targetPoint" />
+            <mxPoint x="-1262.5" y="1182.5" as="sourcePoint" />
+            <mxPoint x="-1332.5" y="1082.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-23" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;Shared components and utils&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="-1500.62" y="1410" width="120" height="70" as="geometry" />
+          <mxGeometry x="-1547.5" y="1080" width="120" height="70" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-24" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=49.473684210526315;endSize=12.242105263157896;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1620.62" y="1330" as="sourcePoint" />
-            <mxPoint x="-1666.8200000000002" y="1242.5" as="targetPoint" />
+            <mxPoint x="-1667.5" y="1000" as="sourcePoint" />
+            <mxPoint x="-1713.7000000000003" y="912.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-25" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=49.473684210526315;endSize=12.242105263157896;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1436.62" y="1312.5" as="sourcePoint" />
-            <mxPoint x="-1430.62" y="1240" as="targetPoint" />
+            <mxPoint x="-1483.5" y="982.5" as="sourcePoint" />
+            <mxPoint x="-1477.5" y="910" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-27" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=49.473684210526315;endSize=12.242105263157896;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1220.62" y="1322.5" as="sourcePoint" />
-            <mxPoint x="-1200.62" y="1240" as="targetPoint" />
+            <mxPoint x="-1267.5" y="992.5" as="sourcePoint" />
+            <mxPoint x="-1247.5" y="910" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-28" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;br&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="-1980.62" y="1550" width="270" height="40" as="geometry" />
+          <mxGeometry x="-2020" y="1330" width="270" height="40" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-29" value="&lt;span style=&quot;font-weight: 700; text-wrap-mode: nowrap;&quot;&gt;&lt;font style=&quot;font-size: 23px;&quot;&gt;CMD:&amp;nbsp;nx serve eDB&lt;/font&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1270.62" y="790" width="240" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="CCocl-EuiZUdixl_HcII-31" value="&lt;span style=&quot;font-size: 43px;&quot;&gt;Development environment: frontend architecture&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="-2055" y="630" width="1000" height="40" as="geometry" />
+          <mxGeometry x="-1317.5" y="460" width="240" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-34" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
-          <mxGeometry x="-2285" y="2260" width="1570" height="1450" as="geometry" />
+          <mxGeometry x="-2257.5" y="1820" width="1570" height="1450" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-33" value="&lt;font style=&quot;font-size: 37px;&quot;&gt;Platform application&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2277.5" y="2170" width="402.5" height="60" as="geometry" />
+          <mxGeometry x="-2250" y="1730" width="402.5" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-35" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;Login&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=dashed;" vertex="1" parent="1">
-          <mxGeometry x="-1715" y="2512.5" width="125" height="65" as="geometry" />
+          <mxGeometry x="-1687.5" y="2072.5" width="125" height="65" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-36" value="&lt;font style=&quot;font-size: 22px;&quot;&gt;Register&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=dashed;" vertex="1" parent="1">
-          <mxGeometry x="-1940" y="2510" width="130" height="70" as="geometry" />
+          <mxGeometry x="-1912.5" y="2070" width="130" height="70" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-37" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Dashboard&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=dashed;" vertex="1" parent="1">
-          <mxGeometry x="-1480" y="2600" width="125" height="60" as="geometry" />
+          <mxGeometry x="-1452.5" y="2160" width="125" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-38" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;Profile&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=dashed;" vertex="1" parent="1">
-          <mxGeometry x="-1265" y="2600" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1237.5" y="2160" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-40" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Admin&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fillStyle=dashed;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2600" width="120" height="60" as="geometry" />
+          <mxGeometry x="-977.5" y="2160" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-43" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Services&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2175" y="3022.5" width="130" height="55" as="geometry" />
+          <mxGeometry x="-2147.5" y="2582.5" width="130" height="55" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-44" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;UserProfileService&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;strokeColor=#B36602;fillColor=#D5E8D4;" vertex="1" parent="1">
-          <mxGeometry x="-1270" y="3015" width="180" height="65" as="geometry" />
+          <mxGeometry x="-1242.5" y="2575" width="180" height="65" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-45" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;AuthService&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#d5e8d4;strokeColor=#B36602;" vertex="1" parent="1">
-          <mxGeometry x="-1940" y="3015" width="385" height="70" as="geometry" />
+          <mxGeometry x="-1912.5" y="2575" width="385" height="70" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-46" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Pages&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2180" y="2340" width="130" height="50" as="geometry" />
+          <mxGeometry x="-2147.5" y="1950" width="130" height="50" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-53" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[POST]: /api/auth/register&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1940" y="2670" width="190" height="30" as="geometry" />
+          <mxGeometry x="-1912.5" y="2230" width="190" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-55" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;route: /auth/login&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1715" y="2600" width="140" height="30" as="geometry" />
+          <mxGeometry x="-1687.5" y="2160" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-56" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;route: /admin&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2680" width="120" height="30" as="geometry" />
+          <mxGeometry x="-977.5" y="2240" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-57" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[PUT]: /api/profile/update&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1265" y="2800" width="190" height="30" as="geometry" />
+          <mxGeometry x="-1237.5" y="2360" width="190" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-59" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[GET]: /api/profile/settings&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1265" y="2750" width="200" height="30" as="geometry" />
+          <mxGeometry x="-1237.5" y="2310" width="200" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-61" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[GET]: /api/products&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1480" y="2750" width="160" height="30" as="geometry" />
+          <mxGeometry x="-1452.5" y="2310" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-62" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;DashboardService&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;strokeColor=#B36602;fillColor=#D5E8D4;" vertex="1" parent="1">
-          <mxGeometry x="-1480" y="3012.5" width="167.5" height="70" as="geometry" />
+          <mxGeometry x="-1452.5" y="2572.5" width="167.5" height="70" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-63" value="&lt;font style=&quot;font-size: 17px;&quot;&gt;AdminService&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;strokeColor=#B36602;fillColor=#D5E8D4;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="3020" width="155" height="60" as="geometry" />
+          <mxGeometry x="-977.5" y="2580" width="155" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-65" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;AuthGuard&lt;/font&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="-1485" y="3135" width="410" height="80" as="geometry" />
+          <mxGeometry x="-1457.5" y="2695" width="410" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-66" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;AdminGuard&lt;/font&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="-1015" y="3135" width="150" height="80" as="geometry" />
+          <mxGeometry x="-987.5" y="2695" width="150" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-67" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Guards&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2170" y="3150" width="120" height="60" as="geometry" />
+          <mxGeometry x="-2142.5" y="2710" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-69" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Unguarded&lt;/font&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="-1940" y="3135" width="385" height="80" as="geometry" />
+          <mxGeometry x="-1912.5" y="2695" width="385" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-71" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;route: /auth/register&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1940" y="2600" width="160" height="30" as="geometry" />
+          <mxGeometry x="-1912.5" y="2160" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-72" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[POST]: /api/auth/login&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1715" y="2670" width="170" height="30" as="geometry" />
+          <mxGeometry x="-1687.5" y="2230" width="170" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-73" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;route: /dashboard&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1480" y="2680" width="150" height="30" as="geometry" />
+          <mxGeometry x="-1452.5" y="2240" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-74" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;route: /profile&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1265" y="2680" width="120" height="30" as="geometry" />
+          <mxGeometry x="-1237.5" y="2240" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-76" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[GET]: /api/admin&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2750" width="140" height="30" as="geometry" />
+          <mxGeometry x="-977.5" y="2310" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-79" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1415.1899999999998" y="2985" as="sourcePoint" />
-            <mxPoint x="-1415.7099999999998" y="2830" as="targetPoint" />
+            <mxPoint x="-1387.6899999999998" y="2545" as="sourcePoint" />
+            <mxPoint x="-1388.2099999999998" y="2390" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-1415.4799999999998" y="2975" />
+              <mxPoint x="-1387.9799999999998" y="2535" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-80" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1179.44" y="2995" as="sourcePoint" />
-            <mxPoint x="-1181.27" y="2920" as="targetPoint" />
+            <mxPoint x="-1151.94" y="2555" as="sourcePoint" />
+            <mxPoint x="-1153.77" y="2480" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-1178.73" y="2995" />
+              <mxPoint x="-1151.23" y="2555" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-81" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-935.9100000000003" y="3000" as="sourcePoint" />
-            <mxPoint x="-935.5800000000004" y="2950" as="targetPoint" />
+            <mxPoint x="-908.4100000000003" y="2560" as="sourcePoint" />
+            <mxPoint x="-908.0800000000004" y="2510" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="-935.2000000000003" y="3000" />
+              <mxPoint x="-907.7000000000003" y="2560" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-82" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[DELETE]: /api/profile/delete&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1268.75" y="2850" width="210" height="30" as="geometry" />
+          <mxGeometry x="-1241.25" y="2410" width="210" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-84" value="&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;User&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Admin&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Premium User&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
-          <mxGeometry x="-1410.62" y="1800" width="152.5" height="90" as="geometry" />
+          <mxGeometry x="-1457.5" y="1470" width="152.5" height="90" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-85" value="Roles" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1380.62" y="1762.5" width="80" height="40" as="geometry" />
+          <mxGeometry x="-1427.5" y="1432.5" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-89" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;CMD: nx storybook ui&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1723.12" y="1690" width="200" height="60" as="geometry" />
+          <mxGeometry x="-1770" y="1360" width="200" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-92" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[PUT]: /api/admin&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2800" width="140" height="30" as="geometry" />
+          <mxGeometry x="-977.5" y="2360" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-93" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[DELETE]: /api/admin&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2850" width="170" height="30" as="geometry" />
+          <mxGeometry x="-977.5" y="2410" width="170" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-94" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;[POST]: /api/admin&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2900" width="150" height="30" as="geometry" />
+          <mxGeometry x="-977.5" y="2460" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-95" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Layout&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2170" y="3275" width="120" height="60" as="geometry" />
+          <mxGeometry x="-2142.5" y="2835" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-96" value="shared portal layout" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1945" y="3285" width="380" height="50" as="geometry" />
+          <mxGeometry x="-1917.5" y="2845" width="380" height="50" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-97" value="shared platform layout" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1485" y="3285" width="402.5" height="50" as="geometry" />
+          <mxGeometry x="-1457.5" y="2845" width="402.5" height="50" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-98" value="admin layout" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1015" y="3285" width="160" height="50" as="geometry" />
+          <mxGeometry x="-987.5" y="2845" width="160" height="50" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-103" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1832.5" y="2952.5" as="sourcePoint" />
-            <mxPoint x="-1875.5" y="2777.5" as="targetPoint" />
+            <mxPoint x="-1805" y="2512.5" as="sourcePoint" />
+            <mxPoint x="-1848" y="2337.5" as="targetPoint" />
             <Array as="points" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-104" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;User&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;rounded=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1368.75" y="2510" width="100" height="40" as="geometry" />
+          <mxGeometry x="-1341.25" y="2070" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-106" value="&lt;meta charset=&quot;utf-8&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 24px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;Platform&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;glass=0;shadow=0;" vertex="1" parent="1">
-          <mxGeometry x="-1190" y="2390" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1162.5" y="1950" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-107" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 24px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;Portal&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;glass=0;shadow=0;" vertex="1" parent="1">
-          <mxGeometry x="-1832.5" y="2390" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1805" y="1950" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-111" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-1706.25" y="2957.5" as="sourcePoint" />
-            <mxPoint x="-1640.75" y="2780" as="targetPoint" />
+            <mxPoint x="-1678.75" y="2517.5" as="sourcePoint" />
+            <mxPoint x="-1613.25" y="2340" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-113" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Admin&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;rounded=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-1005" y="2512.5" width="100" height="40" as="geometry" />
+          <mxGeometry x="-977.5" y="2072.5" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-119" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; line-height: 18px; white-space-collapse: preserve;&quot;&gt;&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;@tanstack/angular-query-experimental&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="-1640" y="3430" width="320" height="40" as="geometry" />
+          <mxGeometry x="-1612.5" y="2990" width="320" height="40" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-127" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Third party libs&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2170" y="3420" width="225" height="60" as="geometry" />
+          <mxGeometry x="-2142.5" y="2980" width="225" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-128" value="API calls" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
-          <mxGeometry x="-1861.25" y="3430" width="111.25" height="40" as="geometry" />
+          <mxGeometry x="-1833.75" y="2990" width="111.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="CCocl-EuiZUdixl_HcII-144" value="&lt;meta charset=&quot;utf-8&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 43px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;Frontend architecture&lt;/span&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="-1867.5" y="220" width="800" height="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
