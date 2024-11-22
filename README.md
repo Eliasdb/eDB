@@ -69,5 +69,34 @@ This project builds a platform for showcasing a range of applications within a c
 | `kubectl port-forward svc/<service> <local-port>:<service-port>` | Forward a port for local access to a service |
 | `kubectl delete pod <pod-name>`                                  | Delete a specific pod (it will be restarted) |
 | `kubectl apply -f <filename>.yaml`                               | Apply a YAML configuration to the cluster    |
+| `kubectl delete -f <filename>.yaml`                              | Delete resources defined in a YAML file      |
+| `k3d cluster create <name>`                                      | Create a new K3s cluster                     |
+| `k3d cluster delete <name>`                                      | Delete an existing K3s cluster               |
+| `skaffold dev`                                                   | Start Skaffold in development mode           |
+| `skaffold run`                                                   | Deploy the application to the cluster        |
+| `skaffold delete`                                                | Remove all Skaffold-managed resources        |
 
-| `kubectl delete -f <filename>.
+---
+
+### Nx Handy Commands Cheat Sheet
+
+| Command                          | Description                                                                |
+| -------------------------------- | -------------------------------------------------------------------------- |
+| `nx serve <project>`             | Serve the application for development (e.g., `nx serve platform-app`).     |
+| `nx build <project>`             | Build the specified project (e.g., `nx build platform-app`).               |
+| `nx test <project>`              | Run tests for a specific project (e.g., `nx test platform-app`).           |
+| `nx lint <project>`              | Lint the specified project (e.g., `nx lint platform-app`).                 |
+| `nx affected:build`              | Build projects affected by the last changes.                               |
+| `nx affected:lint`               | Lint all projects affected by the last changes.                            |
+| `nx affected:test`               | Run tests on projects affected by the last changes.                        |
+| `nx generate <schematic> <name>` | Generate a new file or module (e.g., `nx g component my-component`).       |
+| `nx migrate latest`              | Update Nx and its dependencies to the latest version.                      |
+| `nx dep-graph`                   | Visualize the dependency graph of the workspace.                           |
+| `nx run-many --target=<target>`  | Run a target (like `build` or `test`) for multiple projects.               |
+| `nx format:write`                | Format all code in the workspace.                                          |
+| `nx format:check`                | Check if the workspace code is formatted properly.                         |
+| `nx affected --target=<target>`  | Run a specific target (e.g., `build`, `test`) on affected projects.        |
+| `nx reset`                       | Clear the Nx cache and reset the workspace state.                          |
+| `nx list`                        | List all available Nx plugins and capabilities in the workspace.           |
+| `nx report`                      | Show a detailed report of the current Nx workspace setup.                  |
+| `nx storybook <project>`         | Run Storybook for the specified project (e.g., `nx storybook ui-library`). |
