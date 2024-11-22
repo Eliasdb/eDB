@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.8.8">
   <diagram name="Page-1" id="nh4jwneAX2I31Z53x2l4">
-    <mxGraphModel dx="9195" dy="4095" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="4000" math="0" shadow="0">
+    <mxGraphModel dx="6098" dy="2048" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="4000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -189,10 +189,10 @@
           <mxGeometry x="-1015" y="3135" width="150" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-67" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Guards&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2170" y="3155" width="120" height="60" as="geometry" />
+          <mxGeometry x="-2170" y="3150" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-69" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Unguarded&lt;/font&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="-1940" y="3150" width="385" height="80" as="geometry" />
+          <mxGeometry x="-1940" y="3135" width="385" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-71" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;route: /auth/register&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
           <mxGeometry x="-1940" y="2600" width="160" height="30" as="geometry" />
@@ -258,7 +258,7 @@
           <mxGeometry x="-1005" y="2900" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-95" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;Layout&lt;/font&gt;" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
-          <mxGeometry x="-2165" y="3280" width="120" height="60" as="geometry" />
+          <mxGeometry x="-2170" y="3275" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="CCocl-EuiZUdixl_HcII-96" value="shared portal layout" style="text;strokeColor=default;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
           <mxGeometry x="-1945" y="3285" width="380" height="50" as="geometry" />
