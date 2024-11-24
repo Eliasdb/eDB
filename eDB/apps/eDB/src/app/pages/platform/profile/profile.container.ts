@@ -29,7 +29,14 @@ import { settingsGroups } from './settings-data';
             [header]="group.header"
             [headerIcon]="group.headerIcon"
             [rows]="computedRows[group.id]()"
-            (rowUpdated)="onRowUpdated($event)"
+            [editingRowIndex]="
+              isEditingGroup(group.id) ? editingRowIndex : null
+            "
+            [isEditingAny]="isEditingAny"
+            [inputValues]="inputValues"
+            (actionClick)="onActionClick(group.id, $event)"
+            (updateEdit)="onUpdateEdit(group.id, $event)"
+            (cancelEdit)="onCancelEdit()"
           ></platform-settings-group>
         </ng-container>
       </section>
@@ -49,6 +56,12 @@ export class ProfileContainer {
 
   computedRows: { [groupId: string]: Signal<[string, string][]> } = {};
 
+  // State management for edit mode
+  editingGroupId: string | null = null;
+  editingRowIndex: number | null = null;
+  isEditingAny: boolean = false;
+  inputValues: any = {};
+
   // Private properties
   private userProfileService = inject(UserProfileService);
   private userProfileQuery = this.userProfileService.fetchUserProfile();
@@ -59,15 +72,36 @@ export class ProfileContainer {
     this.initializeComputedRows();
   }
 
-  // Lifecycle hooks
-  // If additional initialization is needed, consider implementing OnInit
-
   // Public methods
-  onRowUpdated({ field, value }: { field: string; value: string }): void {
-    const row = this.settingsGroups
-      .flatMap((group) => group.rows)
-      .find((row) => row.label === field);
+  onActionClick(groupId: string, rowIndex: number): void {
+    if (this.isEditingAny) return; // Prevent multiple edits
+    this.editingGroupId = groupId;
+    this.editingRowIndex = rowIndex;
+    this.isEditingAny = true;
+    this.initializeInputValues(groupId, rowIndex);
+  }
 
+  onUpdateEdit(groupId: string, rowIndex: number): void {
+    const group = this.settingsGroups.find((g) => g.id === groupId);
+    if (!group) return;
+
+    const field = group.rows[rowIndex].label;
+    let value = '';
+
+    if (field === 'Password') {
+      if (this.inputValues.newPassword === this.inputValues.confirmPassword) {
+        value = this.inputValues.newPassword;
+      } else {
+        alert('Passwords do not match.');
+        return;
+      }
+    } else if (field === 'Name') {
+      value = this.inputValues.firstName + ' ' + this.inputValues.lastName;
+    } else {
+      value = this.inputValues.value;
+    }
+
+    const row = group.rows[rowIndex];
     if (!row || !row.payloadKey) {
       console.error(`Unknown field: ${field}`);
       return;
@@ -78,7 +112,17 @@ export class ProfileContainer {
     this.updateUserProfileMutation
       .mutateAsync(payload)
       .then(() => this.userProfileQuery.refetch())
-      .catch((err) => console.error('Failed to update user profile:', err));
+      .catch((err) => console.error('Failed to update user profile:', err))
+      .finally(() => {
+        this.onCancelEdit();
+      });
+  }
+
+  onCancelEdit(): void {
+    this.editingGroupId = null;
+    this.editingRowIndex = null;
+    this.isEditingAny = false;
+    this.inputValues = {};
   }
 
   onLinkClick(clickedItem: LinkItem): void {
@@ -109,5 +153,29 @@ export class ProfileContainer {
     } else {
       console.warn(`Element with id '${id}' not found.`);
     }
+  }
+
+  private initializeInputValues(groupId: string, rowIndex: number): void {
+    const group = this.settingsGroups.find((g) => g.id === groupId);
+    if (!group) return;
+
+    const fieldName = group.rows[rowIndex].label;
+    const currentValue = this.computedRows[groupId]()[rowIndex][1];
+
+    if (fieldName === 'Password') {
+      this.inputValues = { newPassword: '', confirmPassword: '' };
+    } else if (fieldName === 'Name') {
+      const nameParts = currentValue.split(' ');
+      this.inputValues = {
+        firstName: nameParts[0] || '',
+        lastName: nameParts[1] || '',
+      };
+    } else {
+      this.inputValues = { value: currentValue };
+    }
+  }
+
+  protected isEditingGroup(groupId: string): boolean {
+    return this.editingGroupId === groupId;
   }
 }
