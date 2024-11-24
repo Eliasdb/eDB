@@ -1,3 +1,5 @@
+/* Existing styles */
+
 cds-list-row cds-list-column:nth-child(1) {
   padding-bottom: 1.5rem;
 }
@@ -85,6 +87,7 @@ cds-list-header cds-list-column h3 {
   display: flex;
   min-width: 16rem;
 }
+
 .cds--structured-list-row {
   border-block-start: 1px solid #8d8d8d;
 }
