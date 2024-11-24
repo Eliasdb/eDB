@@ -88,3 +88,8 @@ cds-list-header cds-list-column h3 {
 .cds--structured-list-row {
   border-block-start: 1px solid #8d8d8d;
 }
+
+.disabled-action {
+  pointer-events: none;
+  opacity: 0.5; /* Optional: makes it visually clear that the element is disabled */
+}

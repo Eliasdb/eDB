@@ -12,13 +12,13 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
   selector: 'ui-structured-list',
   standalone: true,
   imports: [
+    CommonModule,
+    FormsModule,
     StructuredListModule,
     UiIconComponent,
-    CommonModule,
+    UiButtonComponent,
     UiTextInputComponent,
     UiPasswordInputComponent,
-    UiButtonComponent,
-    FormsModule,
   ],
   template: `
     <cds-structured-list>
@@ -42,81 +42,88 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
         </cds-list-column>
 
         <cds-list-column class="w-60">
-          <ng-container *ngIf="!editMode[rowIndex]">
+          <ng-container *ngIf="!isEditing(rowIndex); else editTemplate">
             <section class="skeleton-text-wrapper">
               <p>{{ row[1] }}</p>
             </section>
           </ng-container>
-          <ng-container *ngIf="editMode[rowIndex]">
+          <ng-template #editTemplate>
             <div class="input-button-container">
-              <ng-container *ngIf="row[0] === 'Password'">
-                <ui-password-input
-                  [(ngModel)]="inputValues[rowIndex].newPassword"
-                  [label]="'New password'"
-                  placeholder="Enter new password"
-                ></ui-password-input>
-                <ui-password-input
-                  [(ngModel)]="inputValues[rowIndex].confirmPassword"
-                  [label]="'Confirm password'"
-                  placeholder="Confirm new password"
-                ></ui-password-input>
-              </ng-container>
-              <ng-container *ngIf="row[0] === 'Name'">
-                <ui-text-input
-                  [(ngModel)]="inputValues[rowIndex].firstName"
-                  [label]="'First name'"
-                  placeholder="Enter first name"
-                ></ui-text-input>
-                <ui-text-input
-                  [(ngModel)]="inputValues[rowIndex].lastName"
-                  [label]="'Last name'"
-                  placeholder="Enter last name"
-                ></ui-text-input>
-              </ng-container>
-              <ng-container *ngIf="row[0] !== 'Password' && row[0] !== 'Name'">
-                <ui-text-input
-                  [(ngModel)]="inputValues[rowIndex].value"
-                  [label]="'Update your ' + row[0].toLowerCase()"
-                  placeholder="Enter new value"
-                ></ui-text-input>
+              <ng-container [ngSwitch]="row[0]">
+                <ng-container *ngSwitchCase="'Password'">
+                  <ui-password-input
+                    [(ngModel)]="inputValues.newPassword"
+                    label="New password"
+                    placeholder="Enter new password"
+                  ></ui-password-input>
+                  <ui-password-input
+                    [(ngModel)]="inputValues.confirmPassword"
+                    label="Confirm password"
+                    placeholder="Confirm new password"
+                  ></ui-password-input>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Name'">
+                  <ui-text-input
+                    [(ngModel)]="inputValues.firstName"
+                    label="First name"
+                    placeholder="Enter first name"
+                  ></ui-text-input>
+                  <ui-text-input
+                    [(ngModel)]="inputValues.lastName"
+                    label="Last name"
+                    placeholder="Enter last name"
+                  ></ui-text-input>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  <ui-text-input
+                    [(ngModel)]="inputValues.value"
+                    [label]="'Update your ' + row[0].toLowerCase()"
+                    placeholder="Enter new value"
+                  ></ui-text-input>
+                </ng-container>
               </ng-container>
               <div class="button-container">
                 <ui-button
-                  (buttonClick)="cancelEdit(rowIndex)"
+                  (buttonClick)="cancelEdit.emit(rowIndex)"
                   variant="secondary"
-                  >Cancel</ui-button
                 >
+                  Cancel
+                </ui-button>
                 <ui-button
-                  (buttonClick)="updateEdit(rowIndex)"
+                  (buttonClick)="updateEdit.emit(rowIndex)"
                   variant="primary"
-                  >Update</ui-button
                 >
+                  Update
+                </ui-button>
               </div>
             </div>
-          </ng-container>
+          </ng-template>
         </cds-list-column>
 
         <cds-list-column>
-          <ng-container *ngIf="!editMode[rowIndex]">
-            <div class="action-container" (click)="onActionClick(rowIndex)">
-              <ng-container
-                *ngIf="header !== 'Offboarding'"
-                class="edit-account-btn-container"
-              >
-                Edit
-                <ui-icon name="faEdit" size="16" class="icon-gap"></ui-icon>
-              </ng-container>
-              <ng-container *ngIf="header === 'Offboarding'">
+          <div
+            class="action-container"
+            [ngClass]="{
+              'disabled-action': isEditingAny && !isEditing(rowIndex)
+            }"
+            (click)="onActionClick(rowIndex)"
+          >
+            <ng-container [ngSwitch]="header">
+              <ng-container *ngSwitchCase="'Offboarding'">
                 <span class="delete-account-btn-container">Delete</span>
                 <ui-icon
                   name="faTrash"
                   size="16"
                   class="icon-gap"
-                  [color]="'red'"
+                  color="red"
                 ></ui-icon>
               </ng-container>
-            </div>
-          </ng-container>
+              <ng-container *ngSwitchDefault>
+                Edit
+                <ui-icon name="faEdit" size="16" class="icon-gap"></ui-icon>
+              </ng-container>
+            </ng-container>
+          </div>
         </cds-list-column>
       </cds-list-row>
     </cds-structured-list>
@@ -124,82 +131,23 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
   styleUrls: ['./structured-list.component.scss'],
 })
 export class UiStructuredListComponent {
-  @Input() header: string = '';
-  @Input() headerIcon: string = '';
+  @Input() header = '';
+  @Input() headerIcon = '';
   @Input() rows: string[][] = [];
 
-  @Output() rowUpdated = new EventEmitter<{ field: string; value: string }>();
-  @Output() deleteProfile = new EventEmitter<void>();
+  @Input() editingRowIndex: number | null = null;
+  @Input() isEditingAny = false;
+  @Input() inputValues: any = {};
 
-  editMode: boolean[] = [];
-  inputValues: { [key: number]: any } = {};
+  @Output() actionClick = new EventEmitter<number>();
+  @Output() updateEdit = new EventEmitter<number>();
+  @Output() cancelEdit = new EventEmitter<number>();
+
+  isEditing(rowIndex: number): boolean {
+    return this.editingRowIndex === rowIndex;
+  }
 
   onActionClick(rowIndex: number): void {
-    if (this.header === 'Offboarding') {
-      this.confirmAndDeleteProfile();
-    } else {
-      this.toggleEditMode(rowIndex);
-    }
-  }
-
-  confirmAndDeleteProfile(): void {
-    if (
-      confirm(
-        'Are you sure you want to delete your profile? This action cannot be undone.'
-      )
-    ) {
-      this.deleteProfile.emit();
-    }
-  }
-
-  toggleEditMode(rowIndex: number): void {
-    this.editMode[rowIndex] = !this.editMode[rowIndex];
-    if (this.editMode[rowIndex]) {
-      const fieldName = this.rows[rowIndex][0];
-      const currentValue = this.rows[rowIndex][1];
-      if (fieldName === 'Password') {
-        this.inputValues[rowIndex] = { newPassword: '', confirmPassword: '' };
-      } else if (fieldName === 'Name') {
-        const nameParts = currentValue.split(' ');
-        this.inputValues[rowIndex] = {
-          firstName: nameParts[0] || '',
-          lastName: nameParts[1] || '',
-        };
-      } else {
-        this.inputValues[rowIndex] = { value: currentValue };
-      }
-    }
-  }
-
-  cancelEdit(rowIndex: number): void {
-    this.editMode[rowIndex] = false;
-  }
-
-  updateEdit(rowIndex: number): void {
-    const field = this.rows[rowIndex][0];
-    let value = '';
-
-    if (field === 'Password') {
-      if (
-        this.inputValues[rowIndex].newPassword ===
-        this.inputValues[rowIndex].confirmPassword
-      ) {
-        value = this.inputValues[rowIndex].newPassword;
-      } else {
-        alert('Passwords do not match.');
-        return;
-      }
-    } else if (field === 'Name') {
-      value =
-        this.inputValues[rowIndex].firstName +
-        ' ' +
-        this.inputValues[rowIndex].lastName;
-    } else {
-      value = this.inputValues[rowIndex].value;
-    }
-
-    this.rows[rowIndex][1] = value;
-    this.rowUpdated.emit({ field, value });
-    this.cancelEdit(rowIndex);
+    this.actionClick.emit(rowIndex);
   }
 }

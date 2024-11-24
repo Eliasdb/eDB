@@ -11,11 +11,16 @@ import { UiStructuredListComponent } from '@eDB/shared-ui';
         [header]="header"
         [headerIcon]="headerIcon"
         [rows]="rows"
-        (rowUpdated)="onRowUpdated($event)"
+        [editingRowIndex]="editingRowIndex"
+        [isEditingAny]="isEditingAny"
+        [inputValues]="inputValues"
+        (actionClick)="actionClick.emit($event)"
+        (updateEdit)="updateEdit.emit($event)"
+        (cancelEdit)="cancelEdit.emit($event)"
       ></ui-structured-list>
     </div>
   `,
-  styleUrl: 'settings-group.component.scss',
+  styleUrls: ['./settings-group.component.scss'],
 })
 export class SettingsGroupComponent {
   @Input() id!: string;
@@ -23,9 +28,11 @@ export class SettingsGroupComponent {
   @Input() headerIcon: string = '';
   @Input() rows: [string, string][] = [];
 
-  @Output() rowUpdated = new EventEmitter<{ field: string; value: string }>();
+  @Input() editingRowIndex: number | null = null;
+  @Input() isEditingAny: boolean = false;
+  @Input() inputValues: any = {};
 
-  onRowUpdated(event: { field: string; value: string }): void {
-    this.rowUpdated.emit(event);
-  }
+  @Output() actionClick = new EventEmitter<number>();
+  @Output() updateEdit = new EventEmitter<number>();
+  @Output() cancelEdit = new EventEmitter<number>();
 }
