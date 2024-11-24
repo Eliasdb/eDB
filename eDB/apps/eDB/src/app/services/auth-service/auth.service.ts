@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+import { map, Observable, of } from 'rxjs';
+
 import { AuthResponse, ErrorResponse } from '../../models/auth.model';
 import { User } from '../../models/user.model';
 
@@ -9,12 +11,12 @@ import { User } from '../../models/user.model';
 })
 export class AuthService {
   private readonly baseUrl = 'http://localhost:9101/api/auth'; // Update to match your API URL
+  private readonly tokenKey = 'token'; // Key for storing the token in localStorage
 
   http = inject(HttpClient);
+
   /**
    * Handles user registration.
-   * @param payload The registration data.
-   * @returns Observable for the HTTP response.
    */
   register(payload: User): Observable<AuthResponse | ErrorResponse> {
     const url = `${this.baseUrl}/register`;
@@ -23,8 +25,6 @@ export class AuthService {
 
   /**
    * Handles user login.
-   * @param credentials The login data.
-   * @returns Observable for the HTTP response.
    */
   login(credentials: {
     email: string;
@@ -34,15 +34,50 @@ export class AuthService {
     return this.http.post<AuthResponse>(url, credentials);
   }
 
-  getLoggedInUser(): any {
-    const token = localStorage.getItem('token');
+  /**
+   * Gets the stored token.
+   */
+  private getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  /**
+   * Decodes the JWT to extract user details.
+   */
+  private decodeToken(): any {
+    const token = this.getToken();
     if (!token) return null;
 
     try {
-      return; // Returns the decoded token payload
+      return jwtDecode(token);
     } catch (error) {
       console.error('Error decoding token:', error);
       return null;
     }
+  }
+
+  /**
+   * Fetches the current user's role from the decoded token.
+   */
+  getUserRole(): Observable<string> {
+    const decodedToken = this.decodeToken();
+    if (decodedToken && decodedToken.Role) {
+      return of(decodedToken.Role);
+    }
+    return of('User'); // Default role if no token or role is present
+  }
+
+  /**
+   * Checks if the user is an admin.
+   */
+  isAdmin(): Observable<boolean> {
+    return this.getUserRole().pipe(map((role) => role === 'Admin'));
+  }
+
+  /**
+   * Logs out the user by clearing the token.
+   */
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
   }
 }

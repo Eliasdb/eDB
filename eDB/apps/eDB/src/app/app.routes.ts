@@ -1,13 +1,13 @@
 import { Route } from '@angular/router';
-import { PlatformLayoutComponent } from './layouts/platform/platform-layout.component';
-import { PortalLayoutComponent } from './layouts/portal/portal-layout.component';
+import { PlatformLayout } from './layouts/platform/platform.layout';
+import { PortalLayout } from './layouts/portal/portal.layout';
 import { LoginContainer } from './pages/portal/login/login.container';
 import { RegisterContainer } from './pages/portal/register/register.container';
 
 export const routes: Route[] = [
   {
-    path: '', // Platform routes with shared layout
-    component: PlatformLayoutComponent,
+    path: '',
+    component: PlatformLayout,
     children: [
       {
         path: 'dashboard',
@@ -24,11 +24,19 @@ export const routes: Route[] = [
             (m) => m.ProfileContainer
           ),
       },
+
+      {
+        path: 'admin',
+        loadComponent: () =>
+          import('./pages/platform/admin/admin.container').then(
+            (m) => m.AdminContainer
+          ),
+      },
     ],
   },
   {
     path: 'auth',
-    component: PortalLayoutComponent,
+    component: PortalLayout,
     children: [
       {
         path: 'login',
@@ -40,6 +48,7 @@ export const routes: Route[] = [
       },
     ],
   },
+
   {
     path: 'appointments',
     loadChildren: () =>
