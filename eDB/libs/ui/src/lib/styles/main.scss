@@ -12,3 +12,28 @@
   --cds-ui-01: yellow;
   --cds-button-primary-01: red;
 }
+
+.cds--side-nav__icon {
+  display: none;
+}
+
+.cds--side-nav__items {
+  padding: 0 !important;
+}
+
+.cds--side-nav__header-divider::after {
+  display: none;
+}
+
+@media (max-width: 65.98rem) {
+  .cds--side-nav__header-navigation {
+    position: initial;
+    display: initial;
+  }
+}
+
+@media (max-width: 420px) {
+  .cds--structured-list-tbody {
+    display: initial;
+  }
+}
