@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.9.0">
   <diagram name="Page-1" id="TkWE0fHTsVaH-eZPvvB0">
-    <mxGraphModel dx="6195" dy="9095" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="5000" math="0" shadow="0">
+    <mxGraphModel dx="4130" dy="7730" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="5000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -56,7 +56,7 @@
           <mxGeometry x="728" y="-3460" width="325" height="70" as="geometry" />
         </mxCell>
         <mxCell id="MKvbwcuUu4q-yP4E661C-20" value="&lt;font style=&quot;font-size: 43px;&quot;&gt;&lt;b style=&quot;&quot;&gt;Backend architecture&lt;/b&gt;&lt;/font&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
-          <mxGeometry x="1053" y="-4800" width="980" height="130" as="geometry" />
+          <mxGeometry x="1053" y="-4800" width="980" height="150" as="geometry" />
         </mxCell>
         <mxCell id="MKvbwcuUu4q-yP4E661C-21" value="&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;.NET 7&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
           <mxGeometry x="565.5" y="-4560" width="204.5" height="130" as="geometry" />
