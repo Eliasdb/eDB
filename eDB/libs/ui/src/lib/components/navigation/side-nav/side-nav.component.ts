@@ -20,7 +20,6 @@ import { UiIconComponent } from '../../icon/icon.component';
             *ngIf="item.icon"
             [name]="item.icon"
             class="sidenav-icon"
-            [fixedWidth]="true"
           ></ui-icon>
           {{ item.label }}
         </cds-sidenav-item>
