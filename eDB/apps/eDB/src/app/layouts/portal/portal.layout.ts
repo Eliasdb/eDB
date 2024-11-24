@@ -19,4 +19,4 @@ import {
     </div>
   `,
 })
-export class PortalLayoutComponent {}
+export class PortalLayout {}
