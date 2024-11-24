@@ -7,8 +7,10 @@ export { UiPasswordInputComponent } from './lib/components/inputs/password-input
 export { UiTextAreaComponent } from './lib/components/inputs/text-area/text-area.component';
 export { UiTextInputComponent } from './lib/components/inputs/text-input/input.component';
 export { UiLoadingSpinnerComponent } from './lib/components/loading/loading-spinner.component';
+export { UiContentSwitcherComponent } from './lib/components/navigation/content-switcher/content-switcher.component';
 export { UiPlatformOverflowMenuComponent } from './lib/components/navigation/overflow-menu/overflow-menu.component';
 export { UiSidenavComponent } from './lib/components/navigation/side-nav/side-nav.component';
 export { UiSkeletonTextComponent } from './lib/components/skeleton-text/skeleton-text.component';
 export { UiStructuredListComponent } from './lib/components/tables/structured-list/structured-list.component';
+export { UiTableComponent } from './lib/components/tables/user-table/user-table.component';
 export { UiTitleComponent } from './lib/components/title/title.component';
