@@ -52,9 +52,11 @@ This project builds a platform for showcasing a range of applications within a c
 
 ### Application Architecture Diagrams
 
-[![Development Setup Diagram](./diagrams/devopsv1.png)](./diagrams/devopsv1.png)
+[![Development Setup Diagram](./diagrams/images/devopsv1.png)](./diagrams/images/devopsv1.png)
 
-[![Frontend Setup Diagram](./diagrams/frontend-architecturev1.png)](./diagrams/frontend-architecturev1.png)
+[![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)](./diagrams/images/frontend-architecturev1.png)
+
+[![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)](./diagrams/images/backend-setupv1.png)
 
 ---
 
