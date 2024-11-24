@@ -9,6 +9,8 @@ namespace api.Controllers
 {
     [ApiController]
     [Route("api/profile")]
+    [RoleAuthorize("User")]
+
     public class ProfileController : ControllerBase
     {
         private readonly MyDbContext _context;
