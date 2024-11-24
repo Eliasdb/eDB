@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
-import { UiSidenavComponent, UiTitleComponent } from '@eDB/shared-ui';
+import { UiSidenavComponent } from '@eDB/shared-ui';
 import { SettingsGroupComponent } from '../../../components/platform/settings-group/settings-group.component';
 import { SettingsGroup } from '../../../models/settings.model';
 import { LinkItem } from '../../../models/user.model';
@@ -10,16 +10,11 @@ import { settingsGroups } from './settings-data';
 @Component({
   selector: 'platform-settings',
   standalone: true,
-  imports: [
-    CommonModule,
-    UiSidenavComponent,
-    UiTitleComponent,
-    SettingsGroupComponent,
-  ],
+  imports: [CommonModule, UiSidenavComponent, SettingsGroupComponent],
   template: `
     <section class="settings-page">
       <section class="sidenav">
-        <ui-title text="Profile" class="profile-title"></ui-title>
+        <h3 class="profile-title">Profile</h3>
         <ui-sidenav
           [links]="links"
           (linkClick)="onLinkClick($event)"
