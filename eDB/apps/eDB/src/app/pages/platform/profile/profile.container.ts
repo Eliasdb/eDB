@@ -86,28 +86,26 @@ export class ProfileContainer {
     if (!group) return;
 
     const field = group.rows[rowIndex].label;
-    let value = '';
+    let payload: any = {};
 
     if (field === 'Password') {
       if (this.inputValues.newPassword === this.inputValues.confirmPassword) {
-        value = this.inputValues.newPassword;
+        payload.password = this.inputValues.newPassword;
       } else {
         alert('Passwords do not match.');
         return;
       }
     } else if (field === 'Name') {
-      value = this.inputValues.firstName + ' ' + this.inputValues.lastName;
+      payload.firstName = this.inputValues.firstName;
+      payload.lastName = this.inputValues.lastName;
     } else {
-      value = this.inputValues.value;
+      const row = group.rows[rowIndex];
+      if (!row || !row.payloadKey) {
+        console.error(`Unknown field: ${field}`);
+        return;
+      }
+      payload[row.payloadKey] = this.inputValues.value;
     }
-
-    const row = group.rows[rowIndex];
-    if (!row || !row.payloadKey) {
-      console.error(`Unknown field: ${field}`);
-      return;
-    }
-
-    const payload = { [row.payloadKey]: value };
 
     this.updateUserProfileMutation
       .mutateAsync(payload)
@@ -168,7 +166,7 @@ export class ProfileContainer {
       const nameParts = currentValue.split(' ');
       this.inputValues = {
         firstName: nameParts[0] || '',
-        lastName: nameParts[1] || '',
+        lastName: nameParts.slice(1).join(' ') || '',
       };
     } else {
       this.inputValues = { value: currentValue };

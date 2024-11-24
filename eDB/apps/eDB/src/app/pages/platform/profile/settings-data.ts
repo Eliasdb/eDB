@@ -32,7 +32,8 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Display name',
         payloadKey: 'displayName',
-        getValue: (profile) => profile?.displayName || '',
+        getValue: (profile) =>
+          profile?.displayName || "You haven't added any display name.",
       },
       {
         label: 'Email address',
@@ -42,7 +43,8 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Phone number',
         payloadKey: 'phoneNumber',
-        getValue: (profile) => profile?.phoneNumber || '',
+        getValue: (profile) =>
+          profile?.phoneNumber || "You haven't added any phone numbers.",
       },
       {
         label: 'Country or region of residence',
@@ -52,7 +54,9 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Preferred language for communication',
         payloadKey: 'preferredLanguage',
-        getValue: (profile) => profile?.preferredLanguage || '',
+        getValue: (profile) =>
+          profile?.preferredLanguage ||
+          "You haven't added any preferred language.",
       },
     ],
   },
@@ -69,7 +73,8 @@ export const settingsGroups: SettingsGroup[] = [
       {
         label: 'Work information',
         payloadKey: 'title',
-        getValue: (profile) => profile?.title || '',
+        getValue: (profile) =>
+          profile?.title || "You haven't added any professional information.",
       },
     ],
   },

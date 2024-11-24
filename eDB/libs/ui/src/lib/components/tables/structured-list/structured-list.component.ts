@@ -108,19 +108,22 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
             }"
             (click)="onActionClick(rowIndex)"
           >
-            <ng-container [ngSwitch]="header">
-              <ng-container *ngSwitchCase="'Offboarding'">
-                <span class="delete-account-btn-container">Delete</span>
-                <ui-icon
-                  name="faTrash"
-                  size="16"
-                  class="icon-gap"
-                  color="red"
-                ></ui-icon>
-              </ng-container>
-              <ng-container *ngSwitchDefault>
-                Edit
-                <ui-icon name="faEdit" size="16" class="icon-gap"></ui-icon>
+            <!-- Hide the action content if the row is in edit mode -->
+            <ng-container *ngIf="!isEditing(rowIndex)">
+              <ng-container [ngSwitch]="header">
+                <ng-container *ngSwitchCase="'Offboarding'">
+                  <span class="delete-account-btn-container">Delete</span>
+                  <ui-icon
+                    name="faTrash"
+                    size="16"
+                    class="icon-gap"
+                    color="red"
+                  ></ui-icon>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  Edit
+                  <ui-icon name="faEdit" size="16" class="icon-gap"></ui-icon>
+                </ng-container>
               </ng-container>
             </ng-container>
           </div>
