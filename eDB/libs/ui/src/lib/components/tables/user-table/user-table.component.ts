@@ -21,6 +21,7 @@ import { TableModel, TableModule } from 'carbon-components-angular/table';
         [stickyHeader]="stickyHeader"
         [isDataGrid]="isDataGrid"
         (rowClick)="onRowClick($event)"
+        [skeleton]="skeleton"
       ></cds-table>
 
       <cds-pagination
@@ -40,6 +41,7 @@ export class UiTableComponent {
   @Input() stickyHeader = false;
   @Input() isDataGrid = false;
   @Input() showPagination = true;
+  @Input() skeleton = false;
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() pageChanged = new EventEmitter<number>();
