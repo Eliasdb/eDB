@@ -12,20 +12,28 @@ import {
   imports: [ContentSwitcherModule, CommonModule],
   template: `
     <cds-content-switcher (selected)="onSelectionChange($event)">
-      <button *ngFor="let section of sections; let i = index" cdsContentOption>
-        {{ section }}
+      <button
+        *ngFor="let option of optionsArray; let i = index"
+        cdsContentOption
+        [attr.data-index]="i"
+      >
+        {{ option }}
       </button>
     </cds-content-switcher>
 
-    <ng-container *ngFor="let section of sections; let i = index">
-      <ng-container *ngIf="selectedIndex === i">
-        <ng-content select="[section{{ i + 1 }}]"></ng-content>
-      </ng-container>
+    <ng-container *ngIf="selectedIndex === 0">
+      <ng-content select="[section1]"></ng-content>
+    </ng-container>
+    <ng-container *ngIf="selectedIndex === 1">
+      <ng-content select="[section2]"></ng-content>
+    </ng-container>
+    <ng-container *ngIf="selectedIndex === 2">
+      <ng-content select="[section3]"></ng-content>
     </ng-container>
   `,
 })
 export class UiContentSwitcherComponent {
-  @Input() sections: string[] = [];
+  @Input() optionsArray: string[] = []; // Input for dynamic button labels
 
   @ViewChildren(ContentSwitcherOption)
   options!: QueryList<ContentSwitcherOption>;
