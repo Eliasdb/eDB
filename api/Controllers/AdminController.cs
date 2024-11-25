@@ -5,6 +5,8 @@ using api.Data;
 using api.Models.DTOs;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using System.Linq.Dynamic.Core;
+using api.Models; // Required for dynamic LINQ queries
 
 namespace api.Controllers
 {
@@ -29,22 +31,37 @@ namespace api.Controllers
             return Ok("Welcome, Admin!");
         }
 
-        // Endpoint to get the list of users with pagination using AutoMapper
+        // Endpoint to get the list of users with pagination and sorting using AutoMapper
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> GetUsers(int pageNumber = 1, int pageSize = 15)
+        public async Task<IActionResult> GetUsers(
+            int pageNumber = 1,
+            int pageSize = 15,
+            string sortField = "Id", // Default sort field
+            string sortDirection = "asc") // Default sort direction
         {
             try
             {
                 // Validate input parameters
-                if (pageNumber < 1) pageNumber = 1;
-                if (pageSize < 1) pageSize = 15;
-                if (pageSize > 100) pageSize = 100; // Maximum page size limit
+                pageNumber = Math.Max(pageNumber, 1);
+                pageSize = Math.Clamp(pageSize, 1, 100); // Ensures pageSize is between 1 and 100
 
+                // Validate sort direction
+                sortDirection = sortDirection.ToLower();
+                if (sortDirection != "asc" && sortDirection != "desc")
+                {
+                    sortDirection = "asc";
+                }
+
+                // Get total user count
                 var totalUsers = await _context.Users.CountAsync();
 
-                var users = await _context.Users
-                    .AsNoTracking() // Improves performance for read-only queries
+                // Apply sorting dynamically
+                IQueryable<User> query = _context.Users.AsNoTracking();
+
+                query = ApplySorting(query, sortField, sortDirection);
+
+                var users = await query
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
@@ -62,10 +79,32 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception details (implementation depends on your logging setup)
+                // Log the exception details
                 Console.Error.WriteLine($"Error in GetUsers: {ex.Message}");
                 return StatusCode(500, "An error occurred while retrieving users.");
             }
+        }
+
+        /// <summary>
+        /// Applies dynamic sorting to the user query based on the provided sort field and direction.
+        /// </summary>
+        /// <param name="query">The IQueryable of Users.</param>
+        /// <param name="sortField">The field to sort by.</param>
+        /// <param name="sortDirection">The direction of sorting: "asc" or "desc".</param>
+        /// <returns>The sorted IQueryable of Users.</returns>
+        private IQueryable<User> ApplySorting(IQueryable<User> query, string sortField, string sortDirection)
+        {
+            // Define allowed sort fields to prevent SQL injection
+            var allowedSortFields = new List<string> { "Id", "FirstName", "LastName", "Email", "Role", "State" };
+
+            if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
+            {
+                sortField = "Id"; // Fallback to default if invalid sort field
+            }
+
+            // Apply sorting using System.Linq.Dynamic.Core for dynamic queries
+            var sorting = $"{sortField} {sortDirection}";
+            return query.OrderBy(sorting);
         }
     }
 }

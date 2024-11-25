@@ -1,11 +1,8 @@
+// src/app/services/admin-service/admin.service.ts
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import {
-  InfiniteData,
-  injectInfiniteQuery,
-  QueryFunctionContext,
-} from '@tanstack/angular-query-experimental';
-import { firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PagedResult } from '../../models/paged-result.model';
 import { UserProfile } from '../../models/user.model';
 
@@ -13,30 +10,22 @@ import { UserProfile } from '../../models/user.model';
   providedIn: 'root',
 })
 export class AdminService {
-  private readonly apiUrl = 'http://localhost:9101/api/admin/users';
+  private readonly apiUrl = 'http://localhost:9101/api/admin/users'; // Consider using environment variables
   private http = inject(HttpClient);
 
-  fetchUsers() {
-    const queryKey = ['adminUsers'] as const;
-
-    return injectInfiniteQuery<
-      PagedResult<UserProfile>, // TQueryFnData
-      Error, // TError
-      InfiniteData<PagedResult<UserProfile>, number>, // TData
-      typeof queryKey, // TQueryKey
-      number // TPageParam
-    >(() => ({
-      queryKey,
-      queryFn: ({
-        pageParam = 1,
-      }: QueryFunctionContext<typeof queryKey, number>) => {
-        const url = `${this.apiUrl}?pageNumber=${pageParam}&pageSize=15`;
-        return firstValueFrom(this.http.get<PagedResult<UserProfile>>(url));
-      },
-      getNextPageParam: (lastPage, pages) => {
-        return lastPage.hasMore ? pages.length + 1 : undefined;
-      },
-      initialPageParam: 1, // Specifies the initial page parameter
-    }));
+  /**
+   * Fetches a single page of users with pagination and sorting.
+   * @param sortField The field to sort by.
+   * @param sortDirection The direction of sorting: 'asc' or 'desc'.
+   * @param pageNumber The page number to fetch.
+   * @returns An Observable of PagedResult<UserProfile>.
+   */
+  fetchUsersPage(
+    sortField: string = 'Id',
+    sortDirection: 'asc' | 'desc' = 'desc',
+    pageNumber: number = 1
+  ): Observable<PagedResult<UserProfile>> {
+    const url = `${this.apiUrl}?pageNumber=${pageNumber}&pageSize=15&sortField=${sortField}&sortDirection=${sortDirection}`;
+    return this.http.get<PagedResult<UserProfile>>(url);
   }
 }
