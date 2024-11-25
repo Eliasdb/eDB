@@ -1,5 +1,3 @@
-// components/admin/admin-container.ts
-
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -21,7 +19,7 @@ import {
   TableModel,
 } from 'carbon-components-angular';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { SortEvent } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service/admin.service';
@@ -53,7 +51,7 @@ interface SortParams {
               [model]="tableModel"
               [sortable]="true"
               [showPagination]="false"
-              [skeleton]="false"
+              [skeleton]="loading"
               (rowClicked)="onRowClick($event)"
               (sortChanged)="onSortChanged($event)"
             ></ui-table>
@@ -73,6 +71,14 @@ interface SortParams {
               (menuOptionSelected)="onOverflowMenuSelect($event, user)"
             ></ui-platform-overflow-menu>
           </ng-template>
+
+          <!-- Optional: No more data message -->
+          <div
+            *ngIf="!hasMore && !loading && !loadingMore"
+            class="no-more-data"
+          >
+            No more users to load.
+          </div>
         </div>
 
         <!-- Subscriptions Section -->
@@ -107,7 +113,7 @@ export class AdminContainer implements OnInit, OnDestroy {
 
   // Consolidated sorting state
   private sortParams$ = new BehaviorSubject<SortParams>({
-    sortField: 'Id',
+    sortField: 'id',
     sortDirection: 'asc',
   });
 
@@ -128,7 +134,7 @@ export class AdminContainer implements OnInit, OnDestroy {
   private allUsers: UserProfile[] = []; // Accumulated users for infinite scrolling
 
   // Flags to manage fetching state
-  private hasMore: boolean = true;
+  protected hasMore: boolean = true;
   private isLoading: boolean = false;
 
   constructor() {
@@ -139,19 +145,21 @@ export class AdminContainer implements OnInit, OnDestroy {
     this.initializeTableHeaders();
 
     // Combine sortParams and pageParam to fetch data
-    this.dataSubscription = combineLatest([this.sortParams$, this.pageParam$])
+    const fetchParams$ = combineLatest([this.sortParams$, this.pageParam$]);
+
+    // Use switchMap to handle data fetching
+    this.dataSubscription = fetchParams$
       .pipe(
-        // Only proceed if there are more pages and not currently loading
-        filter(() => this.hasMore && !this.isLoading),
         tap(([sortParams, pageParam]) => {
           console.log(
             `Fetching data - SortField: ${sortParams.sortField}, SortDirection: ${sortParams.sortDirection}, Page: ${pageParam}`
           );
-          // Set loading state
           this.isLoading = true;
+
           if (pageParam === 1) {
             this.loading = true;
-            this.allUsers = []; // Clear existing users for fresh fetch
+            // Clear existing users only if fetching
+            this.allUsers = [];
             this.tableModel.data = [];
           } else {
             this.loadingMore = true;
@@ -167,11 +175,10 @@ export class AdminContainer implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          // No action needed here as fetchData handles updating the table
+          // Data fetch successful
         },
         error: (err) => {
           console.error('Unexpected Error:', err);
-          // Handle unexpected errors here
           this.isLoading = false;
           this.loading = false;
           this.loadingMore = false;
@@ -190,27 +197,27 @@ export class AdminContainer implements OnInit, OnDestroy {
       new TableHeaderItem({
         data: 'ID',
         sortable: true,
-        metadata: { sortField: 'Id' },
+        metadata: { sortField: 'id', backendSortField: 'Id' },
       }),
       new TableHeaderItem({
         data: 'Name',
         sortable: true,
-        metadata: { sortField: 'FirstName' },
+        metadata: { sortField: 'Name', backendSortField: 'FirstName' },
       }),
       new TableHeaderItem({
         data: 'Email',
         sortable: true,
-        metadata: { sortField: 'Email' },
+        metadata: { sortField: 'email', backendSortField: 'Email' },
       }),
       new TableHeaderItem({
         data: 'Role',
         sortable: true,
-        metadata: { sortField: 'Role' },
+        metadata: { sortField: 'role', backendSortField: 'Role' },
       }),
       new TableHeaderItem({
         data: 'State/Province',
         sortable: true,
-        metadata: { sortField: 'State' },
+        metadata: { sortField: 'state', backendSortField: 'State' },
       }),
       new TableHeaderItem({ data: '', sortable: false }), // Overflow menu
     ];
@@ -221,12 +228,20 @@ export class AdminContainer implements OnInit, OnDestroy {
     sortDirection: 'asc' | 'desc',
     pageParam: number
   ) {
+    // Map 'Name' to 'FirstName' for backend
+    const backendSortField =
+      sortField === 'Name'
+        ? 'FirstName'
+        : this.tableModel.header.find(
+            (item) => item.metadata?.sortField === sortField
+          )?.metadata?.backendSortField || sortField;
+
     console.log(
-      `Initiating fetch for page ${pageParam} with sort ${sortField} ${sortDirection}`
+      `Initiating fetch for page ${pageParam} with sort ${backendSortField} ${sortDirection}`
     );
 
     return this.adminService
-      .fetchUsersPage(sortField, sortDirection, pageParam)
+      .fetchUsersPage(backendSortField, sortDirection, pageParam)
       .pipe(
         tap((pagedResult) => {
           console.log(`Received data for page ${pageParam}:`, pagedResult);
@@ -318,23 +333,80 @@ export class AdminContainer implements OnInit, OnDestroy {
    * @param sort The sort event containing sortField and sortDirection.
    */
   onSortChanged(sort: SortEvent): void {
-    console.log(
-      `Sort changed: Field=${sort.sortField}, Direction=${sort.sortDirection}`
+    console.log('Received SortEvent:', sort);
+
+    const sortField = sort.sortField;
+    const headerItem = this.tableModel.header.find(
+      (item) => item.metadata?.sortField === sortField
     );
-    // Update sortParams
-    this.sortParams$.next({
-      sortField: sort.sortField,
-      sortDirection: sort.sortDirection,
+
+    const backendSortField =
+      headerItem?.metadata?.backendSortField || sortField;
+
+    if (this.hasMore) {
+      // Fetch sorted data from the server if not all data is loaded
+      // Update the sort parameters
+      this.sortParams$.next({
+        sortField: backendSortField,
+        sortDirection: sort.sortDirection,
+      });
+      this.pageParam$.next(1); // Reset to the first page
+      this.allUsers = []; // Clear existing data
+      this.tableModel.data = []; // Clear the table
+    } else {
+      // Perform client-side sorting when all data is loaded
+      this.sortAllUsers(sortField, sort.sortDirection);
+    }
+  }
+
+  /**
+   * Sorts the allUsers array locally when all data has been fetched.
+   * @param sortField The field to sort by.
+   * @param sortDirection The direction to sort ('asc' or 'desc').
+   */
+  sortAllUsers(sortField: string, sortDirection: 'asc' | 'desc'): void {
+    console.log(`Sorting on field: ${sortField} in ${sortDirection} order`);
+    const sortedUsers = [...this.allUsers].sort((a, b) => {
+      let fieldA: any;
+      let fieldB: any;
+
+      // Handle composite 'Name' field
+      if (sortField === 'Name') {
+        fieldA = `${a.firstName} ${a.lastName}`.toLowerCase();
+        fieldB = `${b.firstName} ${b.lastName}`.toLowerCase();
+      } else {
+        fieldA = (a as any)[sortField];
+        fieldB = (b as any)[sortField];
+      }
+
+      if (fieldA == null || fieldB == null) {
+        return 0; // Handle missing fields gracefully
+      }
+
+      // Determine the field type
+      const fieldType = typeof fieldA;
+
+      if (fieldType === 'string') {
+        fieldA = fieldA.toLowerCase();
+        fieldB = fieldB.toLowerCase();
+        return sortDirection === 'asc'
+          ? fieldA.localeCompare(fieldB)
+          : fieldB.localeCompare(fieldA);
+      } else if (fieldType === 'number') {
+        return sortDirection === 'asc' ? fieldA - fieldB : fieldB - fieldA;
+      } else {
+        // For other types, convert to string
+        fieldA = fieldA.toString();
+        fieldB = fieldB.toString();
+        return sortDirection === 'asc'
+          ? fieldA.localeCompare(fieldB)
+          : fieldB.localeCompare(fieldA);
+      }
     });
 
-    // Reset page to 1
-    this.pageParam$.next(1);
+    console.log(`Sorted allUsers by ${sortField} (${sortDirection})`);
 
-    // Reset hasMore to true to allow fetching the first page
-    this.hasMore = true;
-
-    // Optionally, clear existing data
-    this.allUsers = [];
-    this.tableModel.data = [];
+    // Update the table with the sorted data
+    this.updateTableData(sortedUsers);
   }
 }

@@ -74,6 +74,12 @@ export class UiTableComponent {
    */
   simpleSort(index: number): void {
     const headerItem = this.model.header[index];
+
+    if (!headerItem) {
+      console.warn(`No header found for index: ${index}`);
+      return;
+    }
+
     let sortDirection: 'asc' | 'desc' = 'asc';
 
     if (headerItem.sorted) {
@@ -82,7 +88,7 @@ export class UiTableComponent {
       sortDirection = headerItem.ascending ? 'asc' : 'desc';
     } else {
       // Reset all other headers
-      this.model.header.forEach((item, idx) => {
+      this.model.header.forEach((item) => {
         item.sorted = false;
         item.ascending = true;
       });
@@ -92,8 +98,16 @@ export class UiTableComponent {
       sortDirection = 'asc';
     }
 
-    // Emit the sort change event to parent component
     const sortField = headerItem.metadata?.sortField || headerItem.data;
+
+    if (!sortField) {
+      console.warn(`No sort field defined for column: ${headerItem.data}`);
+      return;
+    }
+
+    console.log(
+      `Emitting sort: Field=${sortField}, Direction=${sortDirection}`
+    );
     this.sortChanged.emit({
       sortField,
       sortDirection,
