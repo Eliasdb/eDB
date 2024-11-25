@@ -1,6 +1,7 @@
 using api.Data;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
+using api.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+
+builder.Services.AddAutoMapper(typeof(UserMappingProfile).Assembly);
+
 
 // Add authentication and authorization (if applicable)
 builder.Services.AddAuthentication("Bearer")

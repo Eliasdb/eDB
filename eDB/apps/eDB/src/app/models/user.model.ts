@@ -17,7 +17,9 @@ export interface LinkItem {
   active?: boolean;
 }
 
+// user.model.ts
 export interface UserProfile {
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
@@ -28,5 +30,6 @@ export interface UserProfile {
   displayName: string;
   preferredLanguage: string;
   title: string;
+  role: string; // e.g., 'user', 'admin'
   address: string;
 }
