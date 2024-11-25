@@ -17,7 +17,6 @@ import { AuthService } from '../../services/auth-service/auth.service';
         [menuOptions]="menuOptions"
         (linkClick)="navigateTo($event)"
         (menuOptionSelected)="handleMenuOption($event)"
-        *ngIf="isAdmin$ | async as isAdmin"
       ></ui-platform-header>
       <main class="platform-content">
         <router-outlet></router-outlet>

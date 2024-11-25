@@ -29,3 +29,11 @@
     display: initial;
   }
 }
+
+.cds--data-table {
+  table-layout: fixed;
+}
+
+.cds--data-table thead th.cds--table-column-checkbox {
+  padding-inline: 1rem 2rem;
+}

@@ -1,7 +1,14 @@
+// ui-table.component.ts
+
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PaginationModule } from 'carbon-components-angular';
-import { TableModel, TableModule } from 'carbon-components-angular/table';
+import { PaginationModule, TableModule } from 'carbon-components-angular';
+import { TableModel } from 'carbon-components-angular/table';
+
+export interface SortEvent {
+  sortField: string;
+  sortDirection: 'asc' | 'desc';
+}
 
 @Component({
   selector: 'ui-table',
@@ -21,6 +28,7 @@ import { TableModel, TableModule } from 'carbon-components-angular/table';
         [stickyHeader]="stickyHeader"
         [isDataGrid]="isDataGrid"
         (rowClick)="onRowClick($event)"
+        (sort)="simpleSort($event)"
         [skeleton]="skeleton"
       ></cds-table>
 
@@ -31,6 +39,11 @@ import { TableModel, TableModule } from 'carbon-components-angular/table';
       ></cds-pagination>
     </cds-table-container>
   `,
+  styles: [
+    `
+      /* Optional: Add any additional styling here */
+    `,
+  ],
 })
 export class UiTableComponent {
   @Input() title = 'Table Title';
@@ -45,6 +58,7 @@ export class UiTableComponent {
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() pageChanged = new EventEmitter<number>();
+  @Output() sortChanged = new EventEmitter<SortEvent>();
 
   onRowClick(index: number): void {
     this.rowClicked.emit(index);
@@ -52,5 +66,37 @@ export class UiTableComponent {
 
   onPageChange(page: number): void {
     this.pageChanged.emit(page);
+  }
+
+  /**
+   * Handles the sort event emitted by the cds-table component.
+   * @param index The index of the column to sort.
+   */
+  simpleSort(index: number): void {
+    const headerItem = this.model.header[index];
+    let sortDirection: 'asc' | 'desc' = 'asc';
+
+    if (headerItem.sorted) {
+      // Toggle the sorting direction
+      headerItem.ascending = !headerItem.ascending;
+      sortDirection = headerItem.ascending ? 'asc' : 'desc';
+    } else {
+      // Reset all other headers
+      this.model.header.forEach((item, idx) => {
+        item.sorted = false;
+        item.ascending = true;
+      });
+      // Set the sorting direction to ascending by default
+      headerItem.sorted = true;
+      headerItem.ascending = true;
+      sortDirection = 'asc';
+    }
+
+    // Emit the sort change event to parent component
+    const sortField = headerItem.metadata?.sortField || headerItem.data;
+    this.sortChanged.emit({
+      sortField,
+      sortDirection,
+    });
   }
 }
