@@ -155,10 +155,10 @@ export class AdminContainer implements OnInit, OnDestroy {
   }
 
   onSortChanged(sort: SortParams): void {
-    this.adminService.updateSortParams(sort);
-    this.adminService.updatePageParam(1); // Reset to first page
     this.loading = true; // Show loading indicator
     this.hasMore = true; // Reset hasMore
+    this.adminService.updateSortParams(sort);
+    this.adminService.updatePageParam(1); // Reset to first page
   }
 
   onTableScroll(event: Event): void {

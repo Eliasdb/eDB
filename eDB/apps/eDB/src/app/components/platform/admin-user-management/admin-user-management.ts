@@ -32,8 +32,6 @@ import { UserProfile } from '../../../models/user.model';
         [description]="'Manage users and their roles.'"
         [model]="tableModel"
         [sortable]="true"
-        [showPagination]="false"
-        [skeleton]="loading"
         (rowClicked)="rowClicked.emit($event)"
         (sortChanged)="sortChanged.emit($event)"
       ></ui-table>

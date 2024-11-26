@@ -53,7 +53,7 @@ export class UiTableComponent {
   @Input() showSelectionColumn = true;
   @Input() stickyHeader = false;
   @Input() isDataGrid = false;
-  @Input() showPagination = true;
+  @Input() showPagination = false;
   @Input() skeleton = false;
 
   @Output() rowClicked = new EventEmitter<number>();
