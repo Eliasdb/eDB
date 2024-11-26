@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
 import { UiSidenavComponent } from '@eDB/shared-ui';
-import { SettingsGroupComponent } from '../../../components/platform/settings-group/settings-group.component';
+import { PlatformProfileSettingsGroup } from '../../../components/platform/profile/settings-group/settings-group.component';
 import { SettingsGroup } from '../../../models/settings.model';
 import { LinkItem } from '../../../models/user.model';
 import { UserProfileService } from '../../../services/user-profile-service/user-profile.service';
@@ -10,7 +10,7 @@ import { settingsGroups } from './settings-data';
 @Component({
   selector: 'platform-settings',
   standalone: true,
-  imports: [CommonModule, UiSidenavComponent, SettingsGroupComponent],
+  imports: [CommonModule, UiSidenavComponent, PlatformProfileSettingsGroup],
   template: `
     <section class="settings-page">
       <section class="sidenav">
@@ -24,7 +24,7 @@ import { settingsGroups } from './settings-data';
         <ng-container
           *ngFor="let group of settingsGroups; trackBy: trackByGroupId"
         >
-          <platform-settings-group
+          <platform-profile-settings-group
             [id]="group.id"
             [header]="group.header"
             [headerIcon]="group.headerIcon"
@@ -37,7 +37,7 @@ import { settingsGroups } from './settings-data';
             (actionClick)="onActionClick(group.id, $event)"
             (updateEdit)="onUpdateEdit(group.id, $event)"
             (cancelEdit)="onCancelEdit()"
-          ></platform-settings-group>
+          ></platform-profile-settings-group>
         </ng-container>
       </section>
     </section>

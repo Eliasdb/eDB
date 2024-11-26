@@ -17,7 +17,7 @@ import {
 } from 'carbon-components-angular';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { PlatformAdminUserManagementComponent } from '../../../components/platform/admin-user-management/admin-user-management';
+import { PlatformAdminUserTableComponent } from '../../../components/platform/admin/admin-user-table/user-table';
 import { PagedResult } from '../../../models/paged-result.model'; // Ensure correct path
 import { SortParams } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
@@ -29,13 +29,13 @@ import { AdminService } from '../../../services/admin-service/admin.service';
   imports: [
     CommonModule,
     UiContentSwitcherComponent,
-    PlatformAdminUserManagementComponent,
+    PlatformAdminUserTableComponent,
   ],
   template: `
     <section class="admin-page" (scroll)="onTableScroll($event)">
       <ui-content-switcher [optionsArray]="['Users', 'Subscriptions']">
         <div section1>
-          <platform-admin-user-management
+          <platform-admin-user-table
             [tableModel]="tableModel"
             [loading]="loading"
             [loadingMore]="loadingMore"
@@ -46,7 +46,7 @@ import { AdminService } from '../../../services/admin-service/admin.service';
             (overflowMenuSelect)="
               onOverflowMenuSelect($event.actionId, $event.user)
             "
-          ></platform-admin-user-management>
+          ></platform-admin-user-table>
         </div>
 
         <div section2>
