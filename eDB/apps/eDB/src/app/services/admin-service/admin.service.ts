@@ -5,6 +5,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
+  debounceTime,
   Observable,
   switchMap,
   tap,
@@ -56,8 +57,14 @@ export class AdminService {
     this.pageParam$.next(page);
   }
 
+  resetSortAndPage(sortParams: SortParams): void {
+    this.sortParams$.next(sortParams);
+    this.pageParam$.next(1); // Reset to the first page
+  }
+
   fetchPaginatedData$(): Observable<PagedResult<UserProfile>> {
     return combineLatest([this.sortParams$, this.pageParam$]).pipe(
+      debounceTime(50), // Wait for 50ms to batch updates
       tap(() => this.isLoading$.next(true)),
       switchMap(([sortParams, pageParam]) =>
         this.fetchUsersPage(
