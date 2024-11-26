@@ -7,12 +7,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  UiContentSwitcherComponent,
-  UiLoadingSpinnerComponent,
-  UiPlatformOverflowMenuComponent,
-  UiTableComponent,
-} from '@eDB/shared-ui';
+import { UiContentSwitcherComponent } from '@eDB/shared-ui';
 import {
   TableHeaderItem,
   TableItem,
@@ -20,6 +15,7 @@ import {
 } from 'carbon-components-angular';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { PlatformAdminUserManagementComponent } from '../../../components/platform/admin-user-management/admin-user-management';
 import { SortEvent } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service/admin.service';
@@ -35,50 +31,25 @@ interface SortParams {
   imports: [
     CommonModule,
     UiContentSwitcherComponent,
-    UiTableComponent,
-    UiPlatformOverflowMenuComponent,
-    UiLoadingSpinnerComponent,
+    PlatformAdminUserManagementComponent,
   ],
   template: `
     <section class="admin-page" (scroll)="onTableScroll($event)">
       <ui-content-switcher [optionsArray]="['Users', 'Subscriptions']">
         <!-- Users Section -->
         <div section1>
-          <div class="table-container">
-            <ui-table
-              [title]="'User Management'"
-              [description]="'Manage users and their roles.'"
-              [model]="tableModel"
-              [sortable]="true"
-              [showPagination]="false"
-              [skeleton]="loading"
-              (rowClicked)="onRowClick($event)"
-              (sortChanged)="onSortChanged($event)"
-            ></ui-table>
-            <!-- Loading spinner at the bottom -->
-            <ui-loading
-              [isActive]="loadingMore"
-              [size]="'sm'"
-              [overlay]="false"
-            ></ui-loading>
-          </div>
-
-          <!-- Overflow Menu Template -->
-          <ng-template #overflowTemplate let-user="data">
-            <ui-platform-overflow-menu
-              [menuOptions]="menuOptions"
-              [icon]="'faEllipsisVertical'"
-              (menuOptionSelected)="onOverflowMenuSelect($event, user)"
-            ></ui-platform-overflow-menu>
-          </ng-template>
-
-          <!-- Optional: No more data message -->
-          <div
-            *ngIf="!hasMore && !loading && !loadingMore"
-            class="no-more-data"
-          >
-            No more users to load.
-          </div>
+          <platform-admin-user-management
+            [tableModel]="tableModel"
+            [loading]="loading"
+            [loadingMore]="loadingMore"
+            [hasMore]="hasMore"
+            [menuOptions]="menuOptions"
+            (rowClicked)="onRowClick($event)"
+            (sortChanged)="onSortChanged($event)"
+            (overflowMenuSelect)="
+              onOverflowMenuSelect($event.actionId, $event.user)
+            "
+          ></platform-admin-user-management>
         </div>
 
         <!-- Subscriptions Section -->
@@ -96,14 +67,6 @@ interface SortParams {
         padding: 4rem;
         padding-top: 6rem;
         overflow-y: auto;
-      }
-      .table-container {
-        position: relative;
-      }
-      .no-more-data {
-        text-align: center;
-        padding: 1rem;
-        color: #666;
       }
     `,
   ],
