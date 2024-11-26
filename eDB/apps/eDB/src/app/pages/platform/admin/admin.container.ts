@@ -80,6 +80,10 @@ export class AdminContainer implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeTableHeaders();
+    this.adminService.resetSortAndPage({
+      sortField: 'id',
+      sortDirection: 'asc',
+    });
 
     this.dataSubscription = this.adminService
       .fetchPaginatedData$()
