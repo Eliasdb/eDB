@@ -1,5 +1,5 @@
 // models/sort-event.model.ts
-export interface SortEvent {
+export interface SortParams {
   sortField: string;
   sortDirection: 'asc' | 'desc';
 }
