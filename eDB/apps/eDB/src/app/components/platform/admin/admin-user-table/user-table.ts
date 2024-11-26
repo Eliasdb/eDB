@@ -13,12 +13,12 @@ import {
   UiTableComponent,
 } from '@eDB/shared-ui';
 import { TableModel } from 'carbon-components-angular';
-import { SortParams } from '../../../models/sort-event.model';
-import { UserProfile } from '../../../models/user.model';
+import { SortParams } from '../../../../models/sort-event.model';
+import { UserProfile } from '../../../../models/user.model';
 
 @Component({
   standalone: true,
-  selector: 'platform-admin-user-management',
+  selector: 'platform-admin-user-table',
   imports: [
     CommonModule,
     UiTableComponent,
@@ -72,7 +72,7 @@ import { UserProfile } from '../../../models/user.model';
     `,
   ],
 })
-export class PlatformAdminUserManagementComponent {
+export class PlatformAdminUserTableComponent {
   @Input() tableModel!: TableModel;
   @Input() loading: boolean = true;
   @Input() loadingMore: boolean = false;

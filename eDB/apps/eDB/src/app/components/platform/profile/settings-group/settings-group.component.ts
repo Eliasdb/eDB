@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UiStructuredListComponent } from '@eDB/shared-ui';
 
 @Component({
-  selector: 'platform-settings-group',
+  selector: 'platform-profile-settings-group',
   standalone: true,
   imports: [UiStructuredListComponent],
   template: `
@@ -22,7 +22,7 @@ import { UiStructuredListComponent } from '@eDB/shared-ui';
   `,
   styleUrls: ['./settings-group.component.scss'],
 })
-export class SettingsGroupComponent {
+export class PlatformProfileSettingsGroup {
   @Input() id!: string;
   @Input() header!: string;
   @Input() headerIcon: string = '';
