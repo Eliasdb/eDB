@@ -1,12 +1,13 @@
 // Controllers/AdminController.cs
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Data;
-using api.Models.DTOs;
 using AutoMapper;
+using api.Models;
 using AutoMapper.QueryableExtensions;
 using System.Linq.Dynamic.Core;
-using api.Models; // Required for dynamic LINQ queries
+using api.DTOs;
 
 namespace api.Controllers
 {
@@ -61,21 +62,27 @@ namespace api.Controllers
 
                 query = ApplySorting(query, sortField, sortDirection);
 
+                // Fetch records for the current page
                 var users = await query
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
+                // Check if there are more records beyond the current page
                 bool hasMore = (pageNumber * pageSize) < totalUsers;
 
-                var result = new
+                // Calculate the actual number of items fetched
+                var pagedResult = new DTOs.PagedResult<UserDto>
                 {
                     Items = users,
-                    HasMore = hasMore
+                    HasMore = hasMore && users.Count == pageSize, // No "HasMore" if fewer items fetched
+                    PageNumber = pageNumber,
+                    PageSize = users.Count, // Use the actual number of items fetched
+                    TotalCount = totalUsers
                 };
 
-                return Ok(result);
+                return Ok(pagedResult);
             }
             catch (Exception ex)
             {
