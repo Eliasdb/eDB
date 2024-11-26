@@ -12,52 +12,61 @@ namespace api.Data
         {
         }
 
-public required DbSet<User> Users { get; set; }
+        public required DbSet<User> Users { get; set; }
+        public required DbSet<Application> Applications { get; set; }
+        public required DbSet<UserApplication> UserApplications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-{
-    base.OnModelCreating(modelBuilder);
+        {
+            base.OnModelCreating(modelBuilder);
 
-    // Store Role as a string in the database
-    modelBuilder.Entity<User>()
-        .Property(u => u.Role)
-        .HasConversion<string>();
+            // Store Role as a string in the database
+            modelBuilder.Entity<User>()
+                .Property(u => u.Role)
+                .HasConversion<string>();
 
-    // Pre-hash password and generate salt
-    var (hashedPassword, salt) = HashPassword("AdminPassword123");
+            modelBuilder.Entity<UserApplication>()
+                .HasKey(ua => ua.Id);
 
-    // Seed a default admin user
-    modelBuilder.Entity<User>().HasData(new User
-    {
-        Id = 1,
-        Email = "admin@example.com",
-        PasswordHash = hashedPassword,
-        Salt = salt,
-        FirstName = "Admin",
-        LastName = "User",
-        Country = "Adminland",
-        State = "Adminstate",
-        Company = "AdminCorp",
-        Role = UserRole.Admin,
-        DisplayName = "Administrator",
-        PreferredLanguage = "en",
-        Title = "System Admin",
-        Address = "123 Admin Street"
-    });
-}
+            modelBuilder.Entity<UserApplication>()
+                .HasIndex(ua => new { ua.UserId, ua.ApplicationId })
+                .IsUnique(); // Ensure a user can't subscribe to the same app multiple times
 
-// Helper method to hash password with salt
-private (string Hash, string Salt) HashPassword(string password)
-{
-    byte[] saltBytes = RandomNumberGenerator.GetBytes(16); // Generate a 128-bit salt
-    string salt = Convert.ToBase64String(saltBytes);
+            // Pre-hash password and generate salt
+            var (hashedPassword, salt) = HashPassword("AdminPassword123");
 
-    string saltedPassword = salt + password; // Combine salt and password
+            // Seed a default admin user
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Email = "admin@example.com",
+                PasswordHash = hashedPassword,
+                Salt = salt,
+                FirstName = "Admin",
+                LastName = "User",
+                Country = "Adminland",
+                State = "Adminstate",
+                Company = "AdminCorp",
+                Role = UserRole.Admin,
+                DisplayName = "Administrator",
+                PreferredLanguage = "en",
+                Title = "System Admin",
+                Address = "123 Admin Street"
+            });
+        }
 
-    byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword)); // Hash the salted password
-    string hash = Convert.ToBase64String(hashBytes);
+        // Helper method to hash password with salt
+        private (string Hash, string Salt) HashPassword(string password)
+        {
+            byte[] saltBytes = RandomNumberGenerator.GetBytes(16); // Generate a 128-bit salt
+            string salt = Convert.ToBase64String(saltBytes);
 
-    return (hash, salt);
-}
+            string saltedPassword = salt + password; // Combine salt and password
+
+            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword)); // Hash the salted password
+            string hash = Convert.ToBase64String(hashBytes);
+
+            return (hash, salt);
+        }
     }
 }
