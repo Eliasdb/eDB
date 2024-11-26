@@ -68,8 +68,20 @@ var app = builder.Build();
 // --- Database Migration ---
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-    dbContext.Database.Migrate(); // Apply pending migrations on startup
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+        dbContext.Database.Migrate(); // Apply pending migrations on startup
+
+        DbInitializer.Initialize(dbContext);
+
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while seeding the database: {ex.Message}");
+
+    }
+
 }
 
 // --- Middleware Configuration ---
