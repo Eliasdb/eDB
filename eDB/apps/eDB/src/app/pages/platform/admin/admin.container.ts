@@ -16,14 +16,9 @@ import {
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { PlatformAdminUserManagementComponent } from '../../../components/platform/admin-user-management/admin-user-management';
-import { SortEvent } from '../../../models/sort-event.model';
+import { SortParams } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service/admin.service';
-
-interface SortParams {
-  sortField: string;
-  sortDirection: 'asc' | 'desc';
-}
 
 @Component({
   standalone: true,
@@ -60,16 +55,7 @@ interface SortParams {
       </ui-content-switcher>
     </section>
   `,
-  styles: [
-    `
-      .admin-page {
-        height: 100vh;
-        padding: 4rem;
-        padding-top: 6rem;
-        overflow-y: auto;
-      }
-    `,
-  ],
+  styleUrl: 'admin.container.scss',
 })
 export class AdminContainer implements OnInit, OnDestroy {
   private adminService = inject(AdminService);
@@ -295,7 +281,7 @@ export class AdminContainer implements OnInit, OnDestroy {
    * Handles the sortChanged event emitted by the UiTableComponent.
    * @param sort The sort event containing sortField and sortDirection.
    */
-  onSortChanged(sort: SortEvent): void {
+  onSortChanged(sort: SortParams): void {
     console.log('Received SortEvent:', sort);
 
     const sortField = sort.sortField;

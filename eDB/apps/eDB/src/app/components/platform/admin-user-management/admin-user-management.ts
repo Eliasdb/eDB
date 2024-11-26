@@ -13,7 +13,7 @@ import {
   UiTableComponent,
 } from '@eDB/shared-ui';
 import { TableModel } from 'carbon-components-angular';
-import { SortEvent } from '../../../models/sort-event.model';
+import { SortParams } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
 
 @Component({
@@ -81,7 +81,7 @@ export class PlatformAdminUserManagementComponent {
   @Input() hasMore: boolean = true;
   @Input() menuOptions = [{ id: 'delete', label: 'Delete' }];
   @Output() rowClicked = new EventEmitter<number>();
-  @Output() sortChanged = new EventEmitter<SortEvent>();
+  @Output() sortChanged = new EventEmitter<SortParams>();
   @Output() overflowMenuSelect = new EventEmitter<{
     actionId: string;
     user: UserProfile;
