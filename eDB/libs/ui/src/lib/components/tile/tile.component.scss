@@ -1,0 +1,35 @@
+.ui-tile {
+  position: relative;
+  padding: 16px;
+}
+.tile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tile-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.tile-description {
+  margin: 0;
+  font-size: 1rem;
+  color: #6f6f6f;
+}
+.subscribe-button {
+  background-color: #0072c3;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.subscribe-button:hover {
+  background-color: #005fa3;
+}
+.tile-tags {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
