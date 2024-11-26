@@ -16,7 +16,6 @@ export const routes: Route[] = [
             (m) => m.HomeComponent
           ),
       },
-
       {
         path: 'profile',
         loadComponent: () =>
@@ -24,12 +23,18 @@ export const routes: Route[] = [
             (m) => m.ProfileContainer
           ),
       },
-
       {
         path: 'admin',
         loadComponent: () =>
           import('./pages/platform/admin/admin.container').then(
             (m) => m.AdminContainer
+          ),
+      },
+      {
+        path: 'catalog',
+        loadComponent: () =>
+          import('./pages/platform/catalog/catalog.container').then(
+            (m) => m.CatalogContainer
           ),
       },
     ],
@@ -48,7 +53,6 @@ export const routes: Route[] = [
       },
     ],
   },
-
   {
     path: 'appointments',
     loadChildren: () =>

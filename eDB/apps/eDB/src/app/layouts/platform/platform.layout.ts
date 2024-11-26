@@ -36,6 +36,7 @@ export class PlatformLayout implements OnInit {
   navigationLinks = [
     { id: 'dashboard', label: 'My eDB', isCurrentPage: false },
     { id: 'profile', label: 'Profile', isCurrentPage: false },
+    { id: 'catalog', label: 'Catalog', isCurrentPage: false },
   ];
 
   // Define menu options
