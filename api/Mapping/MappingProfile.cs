@@ -1,21 +1,20 @@
 // MappingProfiles/UserMappingProfile.cs
 using AutoMapper;
 using api.Models;
-using api.Models.DTOs;
+using api.DTOs;
 
-namespace api.MappingProfiles
+namespace api.Mapping
 {
-    public class UserMappingProfile : Profile
+    public class MappingProfile : Profile
     {
-        public UserMappingProfile()
+        public MappingProfile()
         {
             // Mapping from User entity to UserDto
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
 
-            // If you have other entities, map them here
-            // Example:
-            // CreateMap<Product, ProductDto>();
+            CreateMap(typeof(PagedResult<>), typeof(PagedResult<>))
+                .ConvertUsing(typeof(PagedResultConverter<,>));
         }
     }
 }
