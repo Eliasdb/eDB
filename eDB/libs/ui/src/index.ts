@@ -13,4 +13,6 @@ export { UiSidenavComponent } from './lib/components/navigation/side-nav/side-na
 export { UiSkeletonTextComponent } from './lib/components/skeleton-text/skeleton-text.component';
 export { UiStructuredListComponent } from './lib/components/tables/structured-list/structured-list.component';
 export { UiTableComponent } from './lib/components/tables/user-table/user-table.component';
+export { UiTagComponent } from './lib/components/tag/tag.component';
+export { UiTileComponent } from './lib/components/tile/tile.component';
 export { UiTitleComponent } from './lib/components/title/title.component';
