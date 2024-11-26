@@ -10,11 +10,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import {
-  TableHeaderItem,
-  TableItem,
-  TableModel,
-} from 'carbon-components-angular';
+import { TableUtilsService } from '@eDB/shared-utils';
+import { TableModel } from 'carbon-components-angular';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PlatformAdminUserTableComponent } from '../../../components/platform/admin/admin-user-table/user-table';
@@ -22,6 +19,10 @@ import { PagedResult } from '../../../models/paged-result.model'; // Ensure corr
 import { SortParams } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
 import { AdminService } from '../../../services/admin-service/admin.service';
+import {
+  AdminTableColumnConfig,
+  mapUsersToTableData,
+} from './admin.container.config'; // Adjust the path if needed
 
 @Component({
   standalone: true,
@@ -60,14 +61,14 @@ import { AdminService } from '../../../services/admin-service/admin.service';
 })
 export class AdminContainer implements OnInit, OnDestroy {
   private adminService = inject(AdminService);
+  private tableUtils = inject(TableUtilsService);
   private dataSubscription!: Subscription;
+  private allUsers: UserProfile[] = []; // Accumulate all users
 
   tableModel = new TableModel();
   loading = true;
   loadingMore = false;
   hasMore = true;
-
-  private allUsers: UserProfile[] = []; // Accumulate all users
 
   @ViewChild('overflowTemplate', { static: true })
   overflowTemplate!: TemplateRef<any>;
@@ -108,50 +109,14 @@ export class AdminContainer implements OnInit, OnDestroy {
   }
 
   initializeTableHeaders(): void {
-    this.tableModel.header = [
-      new TableHeaderItem({
-        data: 'ID',
-        sortable: true,
-        metadata: { sortField: 'id', backendSortField: 'Id' },
-      }),
-      new TableHeaderItem({
-        data: 'Name',
-        sortable: true,
-        metadata: { sortField: 'Name', backendSortField: 'FirstName' },
-      }),
-      new TableHeaderItem({
-        data: 'Email',
-        sortable: true,
-        metadata: { sortField: 'email', backendSortField: 'Email' },
-      }),
-      new TableHeaderItem({
-        data: 'Role',
-        sortable: true,
-        metadata: { sortField: 'role', backendSortField: 'Role' },
-      }),
-      new TableHeaderItem({
-        data: 'State/Province',
-        sortable: true,
-        metadata: { sortField: 'state', backendSortField: 'State' },
-      }),
-      new TableHeaderItem({ data: '', sortable: false }),
-    ];
+    this.tableModel.header = this.tableUtils.getTableHeaders(
+      AdminTableColumnConfig
+    );
   }
 
   updateTableData(users: UserProfile[]): void {
-    this.tableModel.data = this.prepareData(users);
+    this.tableModel.data = mapUsersToTableData(users, this.overflowTemplate);
     this.tableModel.totalDataLength = this.tableModel.data.length;
-  }
-
-  prepareData(users: UserProfile[]): TableItem[][] {
-    return users.map((user) => [
-      new TableItem({ data: user.id }),
-      new TableItem({ data: `${user.firstName} ${user.lastName}` }),
-      new TableItem({ data: user.email }),
-      new TableItem({ data: user.role }),
-      new TableItem({ data: user.state }),
-      new TableItem({ data: user, template: this.overflowTemplate }),
-    ]);
   }
 
   onSortChanged(sort: SortParams): void {

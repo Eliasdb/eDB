@@ -5,7 +5,7 @@ import { PlatformProfileSettingsGroup } from '../../../components/platform/profi
 import { SettingsGroup } from '../../../models/settings.model';
 import { LinkItem } from '../../../models/user.model';
 import { UserProfileService } from '../../../services/user-profile-service/user-profile.service';
-import { settingsGroups } from './settings-data';
+import { settingsGroups } from './profile.container.config';
 
 @Component({
   selector: 'platform-settings',
