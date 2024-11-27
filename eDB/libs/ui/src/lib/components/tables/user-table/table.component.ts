@@ -17,8 +17,8 @@ export interface SortEvent {
   template: `
     <cds-table-container>
       <cds-table-header>
-        <h4 cdsTableHeaderTitle>{{ title }}</h4>
-        <p cdsTableHeaderDescription>{{ description }}</p>
+        <h4 cdsTableHeaderTitle style="margin:0;">{{ title }}</h4>
+        <p cdsTableHeaderDescription style="margin:0;">{{ description }}</p>
       </cds-table-header>
 
       <cds-table
@@ -39,11 +39,6 @@ export interface SortEvent {
       ></cds-pagination>
     </cds-table-container>
   `,
-  styles: [
-    `
-      /* Optional: Add any additional styling here */
-    `,
-  ],
 })
 export class UiTableComponent {
   @Input() title = 'Table Title';
