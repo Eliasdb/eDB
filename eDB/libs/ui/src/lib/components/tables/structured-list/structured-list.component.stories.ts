@@ -2,9 +2,8 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiStructuredListComponent } from './structured-list.component';
 
 const meta: Meta<UiStructuredListComponent> = {
-  title: 'Components/Structured List',
+  title: 'Components/Tables/Structured List',
   component: UiStructuredListComponent,
-  tags: ['autodocs'],
   argTypes: {
     header: { control: 'text' },
     headerIcon: { control: 'text' },

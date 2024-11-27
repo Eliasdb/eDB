@@ -10,9 +10,9 @@ export { UiLoadingSpinnerComponent } from './lib/components/loading/loading-spin
 export { UiContentSwitcherComponent } from './lib/components/navigation/content-switcher/content-switcher.component';
 export { UiPlatformOverflowMenuComponent } from './lib/components/navigation/overflow-menu/overflow-menu.component';
 export { UiSidenavComponent } from './lib/components/navigation/side-nav/side-nav.component';
-export { UiSkeletonTextComponent } from './lib/components/skeleton-text/skeleton-text.component';
 export { UiStructuredListComponent } from './lib/components/tables/structured-list/structured-list.component';
-export { UiTableComponent } from './lib/components/tables/user-table/user-table.component';
+export { UiTableComponent } from './lib/components/tables/user-table/table.component';
 export { UiTagComponent } from './lib/components/tag/tag.component';
+export { UiSkeletonTextComponent } from './lib/components/text/skeleton-text/skeleton-text.component';
+export { UiTitleComponent } from './lib/components/text/title/title.component';
 export { UiTileComponent } from './lib/components/tile/tile.component';
-export { UiTitleComponent } from './lib/components/title/title.component';

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UiSkeletonTextComponent } from './skeleton-text.component';
 
 const meta: Meta<UiSkeletonTextComponent> = {
-  title: 'Components/Skeleton Text',
+  title: 'Components/Text/Skeleton Text',
   component: UiSkeletonTextComponent,
   argTypes: {
     lines: {
