@@ -42,7 +42,7 @@ export class UiButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost' =
     'primary';
-  @Input() size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'md';
+  @Input() size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'lg';
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
   @Input() icon?: string;

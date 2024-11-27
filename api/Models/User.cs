@@ -23,4 +23,6 @@ public class User
     public string? Address { get; set; }
     public string? Salt { get; set; }
     public UserRole Role { get; set; } = UserRole.User; // Default role
+    public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
+
 }

@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project builds a platform for showcasing a range of applications within a central platform application.
+This is a platform for showcasing a range of applications.
 
 ---
 
@@ -52,15 +52,17 @@ This project builds a platform for showcasing a range of applications within a c
 
 ### Application Architecture Diagrams
 
-[![Development Setup Diagram](./diagrams/images/devopsv2.png)](./diagrams/images/devopsv2.png)
+![Development Setup Diagram](./diagrams/images/devopsv2.png)
 
-[![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)](./diagrams/images/frontend-architecturev1.png)
+![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
 
-[![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)](./diagrams/images/backend-setupv1.png)
+![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
 
 ---
 
 ### K3s Handy Commands Cheat Sheet
+
+#### General Commands
 
 | Command                                                          | Description                                  |
 | ---------------------------------------------------------------- | -------------------------------------------- |
@@ -78,27 +80,34 @@ This project builds a platform for showcasing a range of applications within a c
 | `skaffold run`                                                   | Deploy the application to the cluster        |
 | `skaffold delete`                                                | Remove all Skaffold-managed resources        |
 
+#### Database Management Commands
+
+| Command                                                 | Description                                                           |
+| ------------------------------------------------------- | --------------------------------------------------------------------- |
+| `kubectl port-forward svc/<postgres-service> 5432:5432` | Forward PostgreSQL service to localhost for local access              |
+| `psql -h localhost -p 5432 -U <username> -d <database>` | Connect to PostgreSQL database locally                                |
+| `CREATE DATABASE <database>;`                           | Create a new database inside PostgreSQL                               |
+| `\l`                                                    | List all databases                                                    |
+| `\c <database>`                                         | Switch to a specific database                                         |
+| `\dt`                                                   | List all tables in the current database                               |
+| `kubectl get pods -n <namespace>`                       | Check if the database pod is running                                  |
+| `kubectl logs <pod-name> -n <namespace>`                | View logs for the database pod to troubleshoot issues                 |
+| `dotnet ef migrations add <MigrationName>`              | Create a new migration to modify the database schema                  |
+| `dotnet ef database update`                             | Apply migrations to update the database schema                        |
+| `kubectl delete pod <postgres-pod-name> -n <namespace>` | Restart the PostgreSQL pod if it’s stuck or needs to be reinitialized |
+| `SELECT pg_terminate_backend(pg_stat_activity.pid)`     | Terminate connections to a specific database (see below for full SQL) |
+
 ---
 
-### Nx Handy Commands Cheat Sheet
+### Quick Reference SQL for Database Issues
 
-| Command                          | Description                                                                |
-| -------------------------------- | -------------------------------------------------------------------------- |
-| `nx serve <project>`             | Serve the application for development (e.g., `nx serve platform-app`).     |
-| `nx build <project>`             | Build the specified project (e.g., `nx build platform-app`).               |
-| `nx test <project>`              | Run tests for a specific project (e.g., `nx test platform-app`).           |
-| `nx lint <project>`              | Lint the specified project (e.g., `nx lint platform-app`).                 |
-| `nx affected:build`              | Build projects affected by the last changes.                               |
-| `nx affected:lint`               | Lint all projects affected by the last changes.                            |
-| `nx affected:test`               | Run tests on projects affected by the last changes.                        |
-| `nx generate <schematic> <name>` | Generate a new file or module (e.g., `nx g component my-component`).       |
-| `nx migrate latest`              | Update Nx and its dependencies to the latest version.                      |
-| `nx dep-graph`                   | Visualize the dependency graph of the workspace.                           |
-| `nx run-many --target=<target>`  | Run a target (like `build` or `test`) for multiple projects.               |
-| `nx format:write`                | Format all code in the workspace.                                          |
-| `nx format:check`                | Check if the workspace code is formatted properly.                         |
-| `nx affected --target=<target>`  | Run a specific target (e.g., `build`, `test`) on affected projects.        |
-| `nx reset`                       | Clear the Nx cache and reset the workspace state.                          |
-| `nx list`                        | List all available Nx plugins and capabilities in the workspace.           |
-| `nx report`                      | Show a detailed report of the current Nx workspace setup.                  |
-| `nx storybook <project>`         | Run Storybook for the specified project (e.g., `nx storybook ui-library`). |
+#### Terminate Connections to Drop the Database
+
+If you need to drop the database but connections are preventing it, use this SQL:
+
+```sql
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = '<database>'
+  AND pid <> pg_backend_pid();
+```

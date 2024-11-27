@@ -35,24 +35,24 @@ public class ApplicationsController : ControllerBase
 
         var userId = int.Parse(userIdClaim);
 
-        var existingSubscription = await _context.UserApplications
+        var existingSubscription = await _context.Subscriptions
             .FirstOrDefaultAsync(ua => ua.UserId == userId && ua.ApplicationId == applicationId);
 
         if (existingSubscription != null)
         {
-            _context.UserApplications.Remove(existingSubscription);
+            _context.Subscriptions.Remove(existingSubscription);
             await _context.SaveChangesAsync();
             return Ok(new { message = "Unsubscribed successfully" });
         }
 
-        var userApplication = new UserApplication
+        var userApplication = new Subscription
         {
             UserId = userId,
             ApplicationId = applicationId,
             SubscriptionDate = DateTime.UtcNow
         };
 
-        _context.UserApplications.Add(userApplication);
+        _context.Subscriptions.Add(userApplication);
         await _context.SaveChangesAsync();
         return Ok(new { message = "Subscribed successfully" });
     }
@@ -71,7 +71,7 @@ public class ApplicationsController : ControllerBase
         var userId = int.Parse(userIdClaim);
 
         // Get the subscribed applications for the user
-        var subscribedApplications = await _context.UserApplications
+        var subscribedApplications = await _context.Subscriptions
             .Where(ua => ua.UserId == userId)
             .Join(_context.Applications,
                 ua => ua.ApplicationId,
