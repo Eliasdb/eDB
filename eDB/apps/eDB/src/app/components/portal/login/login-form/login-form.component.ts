@@ -11,7 +11,7 @@ import {
 import { FormUtilsService } from '@eDB/shared-utils';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../../../../services/auth-service/auth.service';
-import { loginFormFields } from './login-form.fields';
+import { loginFormFields } from './login-form.config';
 
 @Component({
   selector: 'platform-portal-login-form',
