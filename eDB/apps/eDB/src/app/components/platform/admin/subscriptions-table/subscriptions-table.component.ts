@@ -1,4 +1,4 @@
-// src/app/components/platform/admin/admin-subscriptions-table/subscriptions-table.component.ts
+// src/app/components/platform/admin/subscriptions-table/subscriptions-table.component.ts
 
 import { CommonModule } from '@angular/common';
 import {
@@ -10,15 +10,16 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { UiTableComponent } from '@eDB/shared-ui';
-import {
-  TableHeaderItem,
-  TableItem,
-  TableModel,
-} from 'carbon-components-angular/table';
+import { TableUtilsService } from '@eDB/shared-utils';
+import { TableModel } from 'carbon-components-angular/table';
 import {
   ApplicationOverviewDto,
-  SubscribedUserDto,
+  RowMapperConfig,
 } from '../../../../models/application-overview.model';
+import {
+  SubscriptionsTableColumnConfigs,
+  getSubscriptionsTableMapperConfigs,
+} from './subscriptions-table.config'; // Adjust path as needed
 
 @Component({
   standalone: true,
@@ -41,53 +42,41 @@ export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
 
   tableModel = new TableModel();
 
+  constructor(private tableUtils: TableUtilsService) {}
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['applications'] && changes['applications'].currentValue) {
       this.initializeTable();
     }
   }
 
+  /**
+   * Initializes the table by setting headers and preparing data.
+   */
   initializeTable() {
     // Set up table headers
-    this.tableModel.header = [
-      new TableHeaderItem({ data: 'Application Name' }),
-      new TableHeaderItem({ data: 'Description' }),
-      new TableHeaderItem({ data: 'Subscribers' }),
-    ];
+    this.tableModel.header = this.tableUtils.getTableHeaders(
+      SubscriptionsTableColumnConfigs
+    );
 
-    // Set up table data with expandable rows
-    this.tableModel.data = this.applications.map((app) => [
-      new TableItem({
-        data: app.applicationName,
-        expandedData: this.createExpandedData(app.subscribedUsers),
-        expandAsTable: true,
-      }),
-      new TableItem({ data: app.applicationDescription }),
-      new TableItem({ data: app.subscribedUsers.length }),
-    ]);
+    // Prepare mapperConfigs with expanded data handler from the service
+    const mapperConfigs: RowMapperConfig<ApplicationOverviewDto>[] =
+      getSubscriptionsTableMapperConfigs(
+        this.tableUtils.createSubscriptionsExpandedData
+      );
+
+    // Prepare table data using TableUtilsService
+    this.tableModel.data = this.tableUtils.prepareData(
+      this.applications,
+      mapperConfigs,
+      undefined // No overflow template needed for subscriptions table
+    );
   }
 
-  // Create expanded data as TableItem[][]
-  createExpandedData(subscribedUsers: SubscribedUserDto[]): TableItem[][] {
-    // Define headers for the expanded table
-
-    // Map subscribed users to TableItem[] rows
-    const data = subscribedUsers.map((user) => [
-      new TableItem({ data: user.userName }),
-      new TableItem({ data: user.userEmail }),
-      new TableItem({
-        data: new Date(user.subscriptionDate).toLocaleDateString('en-US', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        }),
-      }),
-    ]);
-
-    // Return as TableItem[][] with header
-    return data;
-  }
-
+  /**
+   * Handles row click events to toggle expansion.
+   * @param index Index of the clicked row.
+   */
   onRowClick(index: number): void {
     // Toggle row expansion
     this.rowClicked.emit(index);

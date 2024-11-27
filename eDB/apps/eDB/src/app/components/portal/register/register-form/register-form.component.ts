@@ -10,7 +10,7 @@ import {
 import { FormUtilsService } from '@eDB/shared-utils';
 import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../../services/auth-service/auth.service';
-import { registerFormFields } from './register-form.fields';
+import { registerFormFields } from './register-form.config';
 
 @Component({
   selector: 'platform-portal-register-form',

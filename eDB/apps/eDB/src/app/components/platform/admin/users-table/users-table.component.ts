@@ -1,9 +1,13 @@
+// src/app/components/platform/admin/admin-user-table/user-table.component.ts
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -12,9 +16,14 @@ import {
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
 } from '@eDB/shared-ui';
-import { TableModel } from 'carbon-components-angular';
+import { TableUtilsService } from '@eDB/shared-utils';
+import { TableModel } from 'carbon-components-angular/table';
 import { SortParams } from '../../../../models/sort-event.model';
 import { UserProfile } from '../../../../models/user.model';
+import {
+  UserTableColumnConfigs,
+  UserTableMapperConfigs,
+} from './user-table.config'; // Adjust path as needed
 
 @Component({
   standalone: true,
@@ -57,23 +66,10 @@ import { UserProfile } from '../../../../models/user.model';
       </div>
     </div>
   `,
-  styles: [
-    `
-      .table-container {
-        position: relative;
-        min-height: 200px; /* Optional: Ensures a minimum height for centering */
-      }
-
-      .no-more-data {
-        text-align: center;
-        padding: 1rem;
-        color: #666;
-      }
-    `,
-  ],
+  styleUrl: 'users-table.component.scss',
 })
-export class PlatformAdminUserTableComponent {
-  @Input() tableModel!: TableModel;
+export class PlatformAdminUserTableComponent implements OnChanges {
+  @Input() users: UserProfile[] = [];
   @Input() loading: boolean = true;
   @Input() loadingMore: boolean = false;
   @Input() hasMore: boolean = true;
@@ -88,6 +84,38 @@ export class PlatformAdminUserTableComponent {
   @ViewChild('overflowTemplate', { static: true })
   overflowTemplate!: TemplateRef<any>;
 
+  tableModel = new TableModel();
+
+  constructor(private tableUtils: TableUtilsService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['users'] && changes['users'].currentValue) {
+      this.initializeTable();
+    }
+  }
+
+  /**
+   * Initializes the user management table by setting headers and preparing data.
+   */
+  initializeTable() {
+    // Set up table headers
+    this.tableModel.header = this.tableUtils.getTableHeaders(
+      UserTableColumnConfigs
+    );
+
+    // Prepare table data using TableUtilsService
+    this.tableModel.data = this.tableUtils.prepareData(
+      this.users,
+      UserTableMapperConfigs,
+      this.overflowTemplate // Pass the overflow template for action columns
+    );
+  }
+
+  /**
+   * Handles overflow menu selections.
+   * @param actionId ID of the selected action.
+   * @param user The user associated with the action.
+   */
   onOverflowMenuSelect(actionId: string, user: UserProfile): void {
     this.overflowMenuSelect.emit({ actionId, user });
   }
