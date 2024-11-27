@@ -36,10 +36,10 @@ namespace api.Controllers
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUsers(
-            int pageNumber = 1,
-            int pageSize = 15,
-            string sortField = "Id", // Default sort field
-            string sortDirection = "asc") // Default sort direction
+        int pageNumber = 1,
+        int pageSize = 15,
+        string sortField = "Id", // Default sort field
+        string sortDirection = "asc") // Default sort direction
         {
             try
             {
@@ -92,6 +92,48 @@ namespace api.Controllers
             }
         }
 
+
+        [HttpGet("applications-overview")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> GetApplicationsOverview()
+        {
+            try
+            {
+                // Fetch all applications with their subscriptions
+                var applications = await _context.Applications
+                    .Include(a => a.Subscriptions)
+                        .ThenInclude(s => s.User) // Include users for subscriptions
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                // Map to ApplicationOverviewDto
+                var applicationOverviews = applications.Select(app => new ApplicationOverviewDto
+                {
+                    ApplicationName = app.Name,
+                    ApplicationDescription = app.Description,
+                    SubscribedUsers = app.Subscriptions
+         .Where(sub => sub.User != null) // Ensure User is not null
+         .Select(sub => new UserSubscriptionDto
+         {
+             UserName = sub.User != null ? $"{sub.User.FirstName} {sub.User.LastName}" : "Unknown User",
+             UserEmail = sub.User?.Email ?? "No Email",
+             SubscriptionDate = sub.SubscriptionDate
+         }).ToList()
+                }).ToList();
+
+
+                return Ok(applicationOverviews);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.Error.WriteLine($"Error in GetApplicationsOverview: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving application overviews.");
+            }
+        }
+
+
+
         /// <summary>
         /// Applies dynamic sorting to the user query based on the provided sort field and direction.
         /// </summary>
@@ -99,19 +141,44 @@ namespace api.Controllers
         /// <param name="sortField">The field to sort by.</param>
         /// <param name="sortDirection">The direction of sorting: "asc" or "desc".</param>
         /// <returns>The sorted IQueryable of Users.</returns>
-        private IQueryable<User> ApplySorting(IQueryable<User> query, string sortField, string sortDirection)
+        static IQueryable<User> ApplySorting(IQueryable<User> query, string sortField, string sortDirection)
         {
-            // Define allowed sort fields to prevent SQL injection
+            // Define allowed sort fields for Users
             var allowedSortFields = new List<string> { "Id", "FirstName", "LastName", "Email", "Role", "State" };
 
             if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
             {
-                sortField = "Id"; // Fallback to default if invalid sort field
+                sortField = "Id"; // Fallback to default sort field
             }
 
-            // Apply sorting using System.Linq.Dynamic.Core for dynamic queries
+            // Apply sorting dynamically using System.Linq.Dynamic.Core
             var sorting = $"{sortField} {sortDirection}";
             return query.OrderBy(sorting);
         }
+
+        static IQueryable<Subscription> ApplySorting(IQueryable<Subscription> query, string sortField, string sortDirection)
+        {
+            var allowedSortFields = new List<string>
+    {
+        "SubscriptionDate",
+        "User.FirstName",
+        "User.LastName",
+        "User.Email",
+        "Application.Name",
+        "Application.Description"
+    };
+
+            if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
+            {
+                sortField = "SubscriptionDate"; // Default sort field
+            }
+
+            var sorting = $"{sortField} {sortDirection}";
+            return query.OrderBy(sorting);
+        }
+
+
+
+
     }
 }

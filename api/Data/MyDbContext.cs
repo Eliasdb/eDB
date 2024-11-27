@@ -14,7 +14,7 @@ namespace api.Data
 
         public required DbSet<User> Users { get; set; }
         public required DbSet<Application> Applications { get; set; }
-        public required DbSet<UserApplication> UserApplications { get; set; }
+        public required DbSet<Subscription> Subscriptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,48 +25,36 @@ namespace api.Data
                 .Property(u => u.Role)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<UserApplication>()
-                .HasKey(ua => ua.Id);
+            // Define primary keys explicitly
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
 
-            modelBuilder.Entity<UserApplication>()
-                .HasIndex(ua => new { ua.UserId, ua.ApplicationId })
-                .IsUnique(); // Ensure a user can't subscribe to the same app multiple times
+            modelBuilder.Entity<Application>()
+                .HasKey(a => a.Id);
 
-            // Pre-hash password and generate salt
-            var (hashedPassword, salt) = HashPassword("AdminPassword123");
+            modelBuilder.Entity<Subscription>()
+                .HasKey(s => s.Id);
 
-            // Seed a default admin user
-            modelBuilder.Entity<User>().HasData(new User
-            {
-                Id = 1,
-                Email = "admin@example.com",
-                PasswordHash = hashedPassword,
-                Salt = salt,
-                FirstName = "Admin",
-                LastName = "User",
-                Country = "Adminland",
-                State = "Adminstate",
-                Company = "AdminCorp",
-                Role = UserRole.Admin,
-                DisplayName = "Administrator",
-                PreferredLanguage = "en",
-                Title = "System Admin",
-                Address = "123 Admin Street"
-            });
+            // Define relationships
+            modelBuilder.Entity<Subscription>()
+                .HasOne(s => s.Application)
+                .WithMany(a => a.Subscriptions)
+                .HasForeignKey(s => s.ApplicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.Subscriptions)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Define indexes for foreign keys
+            modelBuilder.Entity<Subscription>()
+                .HasIndex(s => s.UserId);
+
+            modelBuilder.Entity<Subscription>()
+                .HasIndex(s => s.ApplicationId);
         }
 
-        // Helper method to hash password with salt
-        private (string Hash, string Salt) HashPassword(string password)
-        {
-            byte[] saltBytes = RandomNumberGenerator.GetBytes(16); // Generate a 128-bit salt
-            string salt = Convert.ToBase64String(saltBytes);
-
-            string saltedPassword = salt + password; // Combine salt and password
-
-            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword)); // Hash the salted password
-            string hash = Convert.ToBase64String(hashBytes);
-
-            return (hash, salt);
-        }
     }
 }
