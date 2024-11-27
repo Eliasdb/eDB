@@ -9,7 +9,7 @@ import {
 import { UiTableComponent } from './table.component';
 
 const meta: Meta<UiTableComponent> = {
-  title: 'Components/Tables/Table',
+  title: 'Components/Tables/Expandable Table',
   component: UiTableComponent,
 };
 
@@ -17,83 +17,69 @@ export default meta;
 
 type Story = StoryObj<UiTableComponent>;
 
-const createTableModel = (): TableModel => {
+const createExpandableTableModel = (): TableModel => {
   const model = new TableModel();
 
   model.header = [
     new TableHeaderItem({
-      data: 'ID',
-      metadata: { sortField: 'id' },
+      data: 'Main Column',
+      metadata: { sortField: 'mainColumn' },
       sorted: false,
       ascending: true,
       descending: false,
       sortable: true,
       visible: true,
-      title: 'ID Column',
+      title: 'Main Column',
     }),
     new TableHeaderItem({
-      data: 'Name',
-      metadata: { sortField: 'name' },
+      data: 'Additional Info',
+      metadata: { sortField: 'additionalInfo' },
       sorted: false,
       ascending: true,
       descending: false,
-      sortable: true,
+      sortable: false,
       visible: true,
-      title: 'Name Column',
-    }),
-    new TableHeaderItem({
-      data: 'Email',
-      metadata: { sortField: 'email' },
-      sorted: false,
-      ascending: true,
-      descending: false,
-      sortable: true,
-      visible: true,
-      title: 'Email Column',
-    }),
-    new TableHeaderItem({
-      data: 'Role',
-      metadata: { sortField: 'role' },
-      sorted: false,
-      ascending: true,
-      descending: false,
-      sortable: true,
-      visible: true,
-      title: 'Role Column',
-    }),
-    new TableHeaderItem({
-      data: 'State/Province',
-      metadata: { sortField: 'state' },
-      sorted: false,
-      ascending: true,
-      descending: false,
-      sortable: true,
-      visible: true,
-      title: 'State/Province Column',
+      title: 'Additional Info',
     }),
   ];
 
   model.data = [
     [
-      new TableItem({ data: 1 }),
-      new TableItem({ data: 'John Doe' }),
-      new TableItem({ data: 'john.doe@example.com' }),
-      new TableItem({ data: 'Admin' }),
-      new TableItem({ data: 'California' }),
+      new TableItem({ data: 'Name 1' }),
+      new TableItem({
+        data: { name: 'Lessy', link: '#' },
+        template: null, // Add custom template here if needed
+      }),
+    ],
+
+    [
+      new TableItem({
+        data: 'Name 3',
+      }),
+      new TableItem({ data: 'swer' }),
     ],
     [
-      new TableItem({ data: 2 }),
-      new TableItem({ data: 'Jane Smith' }),
-      new TableItem({ data: 'jane.smith@example.com' }),
-      new TableItem({ data: 'User' }),
-      new TableItem({ data: 'New York' }),
-    ],
-    [
-      new TableItem({ data: 3 }),
-      new TableItem({ data: 'Alice Brown' }),
-      new TableItem({ data: 'alice.brown@example.com' }),
-      new TableItem({ data: 'PremiumUser' }),
-      new TableItem({ data: 'Texas' }),
+      new TableItem({
+        data: 'Name 3.1',
+        expandedData: [
+          [
+            new TableItem({ data: 'More names', expandedData: 'No template' }),
+            new TableItem({
+              data: { name: 'Morey', link: '#' },
+              // template: null, // Add custom template here if needed
+            }),
+          ],
+          [
+            new TableItem({ data: 'Core names', expandedData: 'No template' }),
+            new TableItem({
+              data: { name: 'Corey', link: '#' },
+              // template: null, // Add custom template here if needed
+            }),
+          ],
+        ],
+        expandAsTable: true,
+      }),
+      new TableItem({ data: 'swer' }),
     ],
   ];
 
@@ -103,37 +89,16 @@ const createTableModel = (): TableModel => {
   return model;
 };
 
-export const Default: Story = {
+export const Expandable: Story = {
   args: {
-    title: 'User Table',
-    description: 'A table of users with sorting and pagination.',
-    model: createTableModel(),
+    title: 'Expandable Table',
+    description: 'A table with expandable rows for additional information.',
+    model: createExpandableTableModel(),
     sortable: true,
     showSelectionColumn: false,
     stickyHeader: false,
     isDataGrid: false,
-    showPagination: true,
-    skeleton: false,
-  },
-};
-
-export const Loading: Story = {
-  args: {
-    ...Default.args,
-    skeleton: true,
-  },
-};
-
-export const WithoutPagination: Story = {
-  args: {
-    ...Default.args,
     showPagination: false,
-  },
-};
-
-export const WithRowSelection: Story = {
-  args: {
-    ...Default.args,
-    showSelectionColumn: true,
+    skeleton: false,
   },
 };

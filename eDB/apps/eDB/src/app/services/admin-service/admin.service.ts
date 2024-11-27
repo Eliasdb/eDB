@@ -10,6 +10,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { ApplicationOverviewDto } from '../../models/application-overview.model';
 import { PagedResult } from '../../models/paged-result.model';
 import { SortParams } from '../../models/sort-event.model';
 import { UserProfile } from '../../models/user.model';
@@ -19,6 +20,9 @@ import { UserProfile } from '../../models/user.model';
 })
 export class AdminService {
   private readonly apiUrl = 'http://localhost:9101/api/admin/users'; // Consider using environment variables
+  private readonly applicationsUrl =
+    'http://localhost:9101/api/admin/applications-overview';
+
   private http = inject(HttpClient);
 
   private sortParams$ = new BehaviorSubject<SortParams>({
@@ -88,5 +92,9 @@ export class AdminService {
   ): Observable<PagedResult<UserProfile>> {
     const url = `${this.apiUrl}?pageNumber=${pageNumber}&pageSize=15&sortField=${sortField}&sortDirection=${sortDirection}`;
     return this.http.get<PagedResult<UserProfile>>(url);
+  }
+
+  fetchApplicationsOverview$(): Observable<ApplicationOverviewDto[]> {
+    return this.http.get<ApplicationOverviewDto[]>(this.applicationsUrl);
   }
 }

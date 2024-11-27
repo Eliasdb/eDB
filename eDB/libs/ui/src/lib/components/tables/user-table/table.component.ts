@@ -30,6 +30,7 @@ export interface SortEvent {
         (rowClick)="onRowClick($event)"
         (sort)="simpleSort($event)"
         [skeleton]="skeleton"
+        [striped]="striped"
       ></cds-table>
 
       <cds-pagination
@@ -50,6 +51,7 @@ export class UiTableComponent {
   @Input() isDataGrid = false;
   @Input() showPagination = false;
   @Input() skeleton = false;
+  @Input() striped = false;
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() pageChanged = new EventEmitter<number>();
