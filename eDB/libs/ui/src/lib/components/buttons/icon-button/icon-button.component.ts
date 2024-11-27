@@ -22,7 +22,7 @@ import { UiIconComponent } from '../../icon/icon.component';
       (blur)="onBlur($event)"
     >
       <ui-icon
-        class="ui-icon-button__icon"
+        class="cds--btn__icon"
         [name]="icon"
         [size]="iconSize"
         [color]="iconColor"

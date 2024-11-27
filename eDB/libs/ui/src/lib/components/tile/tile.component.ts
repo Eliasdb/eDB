@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TilesModule } from 'carbon-components-angular';
-import { UiButtonComponent } from '../buttons/button/button.component';
+import { UiIconButtonComponent } from '../buttons/icon-button/icon-button.component';
 import { UiTagComponent } from '../tag/tag.component';
 
 interface Tag {
@@ -27,7 +27,7 @@ interface Tag {
 @Component({
   standalone: true,
   selector: 'ui-tile',
-  imports: [TilesModule, UiTagComponent, UiButtonComponent, CommonModule],
+  imports: [TilesModule, UiTagComponent, UiIconButtonComponent, CommonModule],
   template: `
     <cds-clickable-tile class="ui-tile">
       <div class="tile-header">
@@ -45,14 +45,15 @@ interface Tag {
           ></ui-tag>
         </div>
 
-        <ui-button
-          variant="primary"
-          (buttonClick)="onSubscribeClick()"
-          [icon]="'faBell'"
+        <ui-icon-button
+          buttonId="subscribe-btn"
           [size]="'md'"
-          [isExpressive]="true"
-        >
-        </ui-button>
+          [icon]="'faDownload'"
+          [iconSize]="'16px'"
+          [iconColor]="'#ffffff'"
+          [description]="'Subscribe'"
+          (click)="onSubscribeClick()"
+        ></ui-icon-button>
       </div>
     </cds-clickable-tile>
   `,

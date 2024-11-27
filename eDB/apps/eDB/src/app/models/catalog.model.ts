@@ -3,5 +3,6 @@ export interface CatalogItem {
   name: string;
   description: string;
   iconUrl: string;
+  tags: string[];
   routePath: string;
 }

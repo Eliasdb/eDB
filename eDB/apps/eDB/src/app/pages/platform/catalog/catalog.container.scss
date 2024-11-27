@@ -1,0 +1,25 @@
+.catalog {
+  padding: 1rem;
+}
+
+.catalog-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between tiles */
+}
+
+.catalog-tiles ui-tile {
+  flex: 1 1 calc(33.333% - 1rem); /* 3 tiles per row */
+}
+
+@media (max-width: 768px) {
+  .catalog-tiles ui-tile {
+    flex: 1 1 calc(50% - 1rem); /* 2 tiles per row on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-tiles ui-tile {
+    flex: 1 1 100%; /* 1 tile per row on small screens */
+  }
+}

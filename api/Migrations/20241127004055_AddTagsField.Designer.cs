@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Data;
@@ -12,9 +13,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127004055_AddTagsField")]
+    partial class AddTagsField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,10 +154,10 @@ namespace api.Migrations
                             Email = "admin@example.com",
                             FirstName = "Admin",
                             LastName = "User",
-                            PasswordHash = "C8y+HuzPkiqvg1zXDyvYXjG0VW9MSbRzKVMzeh5Ovek=",
+                            PasswordHash = "uI8OzJsA+aZTYD7O1ETIRMyk7PP2qfkwne4Ct7YFQQA=",
                             PreferredLanguage = "en",
                             Role = "Admin",
-                            Salt = "TeJlVNozH/4zFZXoEHjflQ==",
+                            Salt = "wvledUVODinLUdeaexQs9Q==",
                             State = "Adminstate",
                             Title = "System Admin"
                         });
