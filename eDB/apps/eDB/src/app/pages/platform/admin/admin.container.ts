@@ -14,7 +14,9 @@ import { TableUtilsService } from '@eDB/shared-utils';
 import { TableModel } from 'carbon-components-angular';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { PlatformAdminUserTableComponent } from '../../../components/platform/admin/admin-user-table/user-table';
+import { PlatformAdminUserTableComponent } from '../../../components/platform/admin/admin-user-table/user-table.component';
+import { PlatformAdminSubscriptionsTableComponent } from '../../../components/platform/admin/subscriptions-table/subscriptions-table.component';
+import { ApplicationOverviewDto } from '../../../models/application-overview.model';
 import { PagedResult } from '../../../models/paged-result.model'; // Ensure correct path
 import { SortParams } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
@@ -31,6 +33,7 @@ import {
     CommonModule,
     UiContentSwitcherComponent,
     PlatformAdminUserTableComponent,
+    PlatformAdminSubscriptionsTableComponent,
   ],
   template: `
     <section class="admin-page" (scroll)="onTableScroll($event)">
@@ -51,8 +54,10 @@ import {
         </div>
 
         <div section2>
-          <h2>Subscriptions</h2>
-          <p>Manage your subscriptions here.</p>
+          <platform-admin-subscriptions-table
+            [applications]="applications"
+            (rowClicked)="onSubscriptionRowClick($event)"
+          ></platform-admin-subscriptions-table>
         </div>
       </ui-content-switcher>
     </section>
@@ -73,6 +78,9 @@ export class AdminContainer implements OnInit, OnDestroy {
   @ViewChild('overflowTemplate', { static: true })
   overflowTemplate!: TemplateRef<any>;
   menuOptions = [{ id: 'delete', label: 'Delete' }];
+
+  applications: ApplicationOverviewDto[] = [];
+  private subscriptionsDataSubscription!: Subscription;
 
   constructor() {
     this.tableModel.data = [];
@@ -106,6 +114,7 @@ export class AdminContainer implements OnInit, OnDestroy {
           this.loadingMore = false;
         },
       });
+    this.fetchApplicationsOverview();
   }
 
   ngOnDestroy() {
@@ -156,5 +165,24 @@ export class AdminContainer implements OnInit, OnDestroy {
   deleteUser(userId: string): void {
     console.log(`Deleting user with ID: ${userId}`);
     // Implement deletion logic here, e.g., call adminService.deleteUser(userId)
+  }
+
+  // Fetch applications overview data
+  fetchApplicationsOverview() {
+    this.subscriptionsDataSubscription = this.adminService
+      .fetchApplicationsOverview$()
+      .subscribe({
+        next: (applications) => {
+          this.applications = applications;
+        },
+        error: (err) => {
+          console.error('Error fetching applications overview:', err);
+        },
+      });
+  }
+
+  // Handle row click in subscriptions table
+  onSubscriptionRowClick(index: number) {
+    console.log('Application row clicked:', index);
   }
 }
