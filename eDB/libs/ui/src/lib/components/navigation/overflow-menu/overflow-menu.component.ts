@@ -41,7 +41,7 @@ export class UiPlatformOverflowMenuComponent {
   @Input() menuOptions: { id: string; label: string }[] = [];
   @Input() placement: 'bottom' | 'top' = 'bottom';
   @Input() flip: boolean = true;
-  @Input() offset: { x: number; y: number } = { x: 0, y: 7 };
+  @Input() offset: { x: number; y: number } = { x: 0, y: 0 };
 
   @Input() icon: string = '';
   @Input() iconSize: string = '1rem';

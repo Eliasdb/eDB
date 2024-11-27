@@ -1,39 +1,23 @@
-// src/app/components/platform/admin/admin-user-table/user-table.component.ts
+// src/app/components/platform/admin/admin-user-table/user-table.ts
 
 import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import {
-  UiLoadingSpinnerComponent,
-  UiPlatformOverflowMenuComponent,
-  UiTableComponent,
-} from '@eDB/shared-ui';
-import { TableUtilsService } from '@eDB/shared-utils';
-import { TableModel } from 'carbon-components-angular/table';
+import { UiLoadingSpinnerComponent, UiTableComponent } from '@eDB/shared-ui';
+import { TableModel } from 'carbon-components-angular';
 import { SortParams } from '../../../../models/sort-event.model';
 import { UserProfile } from '../../../../models/user.model';
-import {
-  UserTableColumnConfigs,
-  UserTableMapperConfigs,
-} from './user-table.config'; // Adjust path as needed
 
 @Component({
   standalone: true,
   selector: 'platform-admin-user-table',
-  imports: [
-    CommonModule,
-    UiTableComponent,
-    UiPlatformOverflowMenuComponent,
-    UiLoadingSpinnerComponent,
-  ],
+  imports: [CommonModule, UiTableComponent, UiLoadingSpinnerComponent],
   template: `
     <div class="table-container">
       <ui-table
@@ -41,39 +25,34 @@ import {
         [description]="'Manage users and their roles.'"
         [model]="tableModel"
         [sortable]="true"
-        (rowClicked)="rowClicked.emit($event)"
-        (sortChanged)="sortChanged.emit($event)"
+        (rowClicked)="onRowClicked($event)"
+        (sortChanged)="onSortChanged($event)"
       ></ui-table>
       <!-- Loading spinner at the bottom -->
-      <ui-loading
-        [isActive]="loadingMore"
-        [size]="'sm'"
-        [overlay]="false"
-      ></ui-loading>
-
-      <!-- Overflow Menu Template -->
-      <ng-template #overflowTemplate let-user="data">
-        <ui-platform-overflow-menu
-          [menuOptions]="menuOptions"
-          [icon]="'faEllipsisVertical'"
-          (menuOptionSelected)="onOverflowMenuSelect($event, user)"
-        ></ui-platform-overflow-menu>
-      </ng-template>
+      <section *ngIf="loadingMore" class="loading-spinner-container">
+        <ui-loading
+          [isActive]="loadingMore"
+          [size]="'sm'"
+          [overlay]="false"
+        ></ui-loading>
+        <span>Loading</span>
+      </section>
 
       <!-- Optional: No more data message -->
       <div *ngIf="!hasMore && !loading && !loadingMore" class="no-more-data">
-        No more users to load.
+        <p>No more users to load.</p>
       </div>
     </div>
   `,
   styleUrl: 'users-table.component.scss',
 })
-export class PlatformAdminUserTableComponent implements OnChanges {
-  @Input() users: UserProfile[] = [];
+export class PlatformAdminUserTableComponent {
+  @Input() tableModel!: TableModel;
   @Input() loading: boolean = true;
   @Input() loadingMore: boolean = false;
   @Input() hasMore: boolean = true;
   @Input() menuOptions = [{ id: 'delete', label: 'Delete' }];
+
   @Output() rowClicked = new EventEmitter<number>();
   @Output() sortChanged = new EventEmitter<SortParams>();
   @Output() overflowMenuSelect = new EventEmitter<{
@@ -84,35 +63,26 @@ export class PlatformAdminUserTableComponent implements OnChanges {
   @ViewChild('overflowTemplate', { static: true })
   overflowTemplate!: TemplateRef<any>;
 
-  tableModel = new TableModel();
-
-  constructor(private tableUtils: TableUtilsService) {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['users'] && changes['users'].currentValue) {
-      this.initializeTable();
-    }
-  }
+  constructor() {}
 
   /**
-   * Initializes the user management table by setting headers and preparing data.
+   * Handles row clicks emitted by the UiTableComponent.
+   * @param index Index of the clicked row.
    */
-  initializeTable() {
-    // Set up table headers
-    this.tableModel.header = this.tableUtils.getTableHeaders(
-      UserTableColumnConfigs
-    );
-
-    // Prepare table data using TableUtilsService
-    this.tableModel.data = this.tableUtils.prepareData(
-      this.users,
-      UserTableMapperConfigs,
-      this.overflowTemplate // Pass the overflow template for action columns
-    );
+  onRowClicked(index: number): void {
+    this.rowClicked.emit(index);
   }
 
   /**
-   * Handles overflow menu selections.
+   * Handles sort events emitted by the UiTableComponent.
+   * @param sort SortParams.
+   */
+  onSortChanged(sort: SortParams): void {
+    this.sortChanged.emit(sort);
+  }
+
+  /**
+   * Handles overflow menu selections emitted by the UiPlatformOverflowMenuComponent.
    * @param actionId ID of the selected action.
    * @param user The user associated with the action.
    */

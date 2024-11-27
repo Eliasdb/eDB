@@ -26,7 +26,6 @@ export class TableUtilsService {
           sortable: config.sortable,
           metadata: {
             sortField: config.sortField || null,
-            backendSortField: config.backendSortField || null,
           },
         })
     );
@@ -62,7 +61,7 @@ export class TableUtilsService {
         // Handle expandable rows
         if (config.isExpandable && config.getExpandedData) {
           tableItem.expandedData = config.getExpandedData(row);
-          tableItem.expandAsTable = true;
+          tableItem.expandAsTable = true as any;
         }
 
         return tableItem;
