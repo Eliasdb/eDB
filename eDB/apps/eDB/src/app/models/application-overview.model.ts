@@ -22,7 +22,6 @@ export interface TableColumnConfig {
   field: string;
   sortable?: boolean;
   sortField?: string;
-  backendSortField?: string;
   isTemplate?: boolean; // Indicates if the column uses a template (e.g., for actions)
 }
 

@@ -1,5 +1,3 @@
-// ui-table.component.ts
-
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginationModule, TableModule } from 'carbon-components-angular';

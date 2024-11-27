@@ -4,11 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   debounceTime,
   Observable,
+  shareReplay,
   switchMap,
   tap,
+  throwError,
 } from 'rxjs';
 import { ApplicationOverviewDto } from '../../models/application-overview.model';
 import { PagedResult } from '../../models/paged-result.model';
@@ -68,21 +71,49 @@ export class AdminService {
 
   fetchPaginatedData$(): Observable<PagedResult<UserProfile>> {
     return combineLatest([this.sortParams$, this.pageParam$]).pipe(
-      debounceTime(50), // Wait for 50ms to batch updates
-      tap(() => this.isLoading$.next(true)),
+      debounceTime(50), // Adjust debounce time as needed
+      tap(([sortParams, pageParam]) => {
+        console.log(
+          `Fetching users with sortField=${sortParams.sortField}, sortDirection=${sortParams.sortDirection}, pageNumber=${pageParam}`
+        );
+        this.isLoading$.next(true);
+      }),
       switchMap(([sortParams, pageParam]) =>
         this.fetchUsersPage(
-          sortParams.sortField,
+          this.mapSortFieldToBackend(sortParams.sortField),
           sortParams.sortDirection,
           pageParam
         ).pipe(
           tap((pagedResult) => {
             this.isLoading$.next(false);
             this.hasMore$.next(pagedResult.hasMore);
+          }),
+          catchError((error) => {
+            this.isLoading$.next(false);
+            return throwError(() => error);
           })
         )
-      )
+      ),
+      shareReplay(1) // Share the latest emitted value with new subscribers
     );
+  }
+
+  /**
+   * Maps frontend sortField to backend sortField.
+   * @param sortField Frontend sort field.
+   * @returns Backend sort field.
+   */
+  private mapSortFieldToBackend(sortField: string): string {
+    const fieldMapping: { [key: string]: string } = {
+      id: 'id',
+      name: 'firstName', // Assuming 'Name' maps to 'FirstName'
+      email: 'email',
+      role: 'role',
+      state: 'state',
+    };
+    const backendSortField = fieldMapping[sortField];
+
+    return backendSortField || 'id';
   }
 
   private fetchUsersPage(

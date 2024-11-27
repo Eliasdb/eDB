@@ -32,7 +32,7 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
           [menuOptions]="menuOptions"
           [placement]="'bottom'"
           [flip]="true"
-          [offset]="{ x: 0, y: 7 }"
+          [offset]="{ x: 0, y: 10 }"
           [icon]="'faUser'"
           (menuOptionSelected)="menuOptionSelected.emit($event)"
         ></ui-platform-overflow-menu>
