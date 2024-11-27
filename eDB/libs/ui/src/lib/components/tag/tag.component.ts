@@ -9,13 +9,20 @@ import { UiIconComponent } from '../icon/icon.component';
   imports: [TagModule, CommonModule, UiIconComponent],
   template: `
     <cds-tag [type]="type" [size]="size" class="ui-tag">
-      <div cdsTagIcon *ngIf="icon">
-        <ui-icon [name]="icon" [size]="'16px'" [color]="'inherit'"></ui-icon>
-      </div>
+      <ng-container *ngIf="icon">
+        <div cdsTagIcon>
+          <ui-icon
+            [name]="icon"
+            [size]="'16px'"
+            [color]="'inherit'"
+            [fixedWidth]="false"
+          ></ui-icon>
+        </div>
+      </ng-container>
       {{ label }}
     </cds-tag>
   `,
-  styleUrl: 'tag.component.scss',
+  styleUrls: ['./tag.component.scss'],
 })
 export class UiTagComponent {
   @Input() type:
@@ -30,8 +37,8 @@ export class UiTagComponent {
     | 'cool-gray'
     | 'warm-gray'
     | 'high-contrast'
-    | 'outline' = 'red'; // Define valid types
-  @Input() size: 'sm' | 'md' = 'md'; // Restrict size to 'sm' or 'md'
-  @Input() label!: string;
-  @Input() icon?: string; // Optional icon name for UiIconComponent
+    | 'outline' = 'red'; // Default to 'red'
+  @Input() size: 'sm' | 'md' = 'md'; // Restrict to 'sm' or 'md'
+  @Input() label!: string; // Label for the tag
+  @Input() icon?: string; // Icon name for the UiIconComponent
 }
