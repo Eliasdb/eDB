@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
-import { UiIconComponent } from '../icon/icon.component';
-import { UiLoadingSpinnerComponent } from '../loading/loading-spinner.component';
+import { UiIconComponent } from '../../icon/icon.component';
+import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.component';
 
 @Component({
   selector: 'ui-button',

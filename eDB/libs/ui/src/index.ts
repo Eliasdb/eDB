@@ -1,4 +1,4 @@
-export { UiButtonComponent } from './lib/components/button/button.component';
+export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiPortalFooterComponent } from './lib/components/footers/portal-footer/portal-footer.component';
 export { UiPlatformHeaderComponent } from './lib/components/headers/platform-header/platform-header.component';
 export { UiPortalHeaderComponent } from './lib/components/headers/portal-header/portal-header.component';

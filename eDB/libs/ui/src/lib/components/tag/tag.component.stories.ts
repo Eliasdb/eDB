@@ -7,7 +7,7 @@ const meta: Meta<UiTagComponent> = {
   args: {
     type: 'red',
     size: 'md',
-    label: 'Error',
+    label: 'Important',
     icon: 'faExclamationCircle',
   },
   argTypes: {
