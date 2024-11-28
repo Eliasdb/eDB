@@ -22,9 +22,20 @@ export interface SortEvent {
   ],
   template: `
     <cds-table-container>
-      <cds-table-header>
-        <h4 cdsTableHeaderTitle style="margin:0;">{{ title }}</h4>
-        <p cdsTableHeaderDescription style="margin:0;">{{ description }}</p>
+      <cds-table-header class="table-header-container">
+        <div>
+          <h4 cdsTableHeaderTitle style="margin:0;">{{ title }}</h4>
+          <p cdsTableHeaderDescription style="margin:0;">{{ description }}</p>
+        </div>
+
+        <ng-container *ngIf="showButton">
+          <ui-button
+            [size]="'sm'"
+            [icon]="'faPlus'"
+            (click)="onAddApplication()"
+            >Add application</ui-button
+          >
+        </ng-container>
       </cds-table-header>
 
       <ng-container *ngIf="showToolbar">
@@ -59,7 +70,6 @@ export interface SortEvent {
         (sort)="simpleSort($event)"
         [skeleton]="skeleton"
         [striped]="striped"
-        class="custom-table"
       ></cds-table>
 
       <cds-pagination
@@ -83,15 +93,22 @@ export class UiTableComponent {
   @Input() skeleton = false;
   @Input() striped = false;
   @Input() showToolbar = false; // New input property with default false
+  @Input() showButton = false; // New input property with default false
+
   @Input() searchTerm: string = ''; // New input for search term
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() pageChanged = new EventEmitter<number>();
   @Output() sortChanged = new EventEmitter<SortEvent>();
   @Output() searchChanged = new EventEmitter<string>(); // New output for search changes
+  @Output() addApplication = new EventEmitter<void>(); // Emit when Add Application is clicked
 
   onRowClick(index: number): void {
     this.rowClicked.emit(index);
+  }
+
+  onAddApplication(): void {
+    this.addApplication.emit();
   }
 
   onPageChange(page: number): void {

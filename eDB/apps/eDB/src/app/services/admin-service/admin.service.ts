@@ -19,7 +19,10 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { ApplicationOverviewDto } from '../../models/application-overview.model';
+import {
+  ApplicationOverviewDto,
+  CreateApplicationDto,
+} from '../../models/application-overview.model';
 import { PagedResult } from '../../models/paged-result.model';
 import { SortParams } from '../../models/sort-event.model';
 import { UserProfile } from '../../models/user.model';
@@ -189,6 +192,20 @@ export class AdminService {
         );
       },
       onSuccess: () => {
+        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+      },
+    }));
+  }
+
+  addApplicationMutation() {
+    return injectMutation(() => ({
+      mutationFn: async (application: CreateApplicationDto) => {
+        return firstValueFrom(
+          this.http.post(`${this.baseUrl}/applications/create`, application)
+        );
+      },
+      onSuccess: () => {
+        // Invalidate the subscriptions query to refresh data
         this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
       },
     }));

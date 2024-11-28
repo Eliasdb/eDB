@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -17,11 +18,13 @@ import { TableModel } from 'carbon-components-angular/table';
 import { UiButtonComponent } from '../../../../../../../../libs/ui/src/lib/components/buttons/button/button.component';
 import {
   ApplicationOverviewDto,
+  CreateApplicationDto,
   RowMapperConfig,
 } from '../../../../models/application-overview.model';
+import { AdminService } from '../../../../services/admin-service/admin.service';
 import {
-  SubscriptionsTableColumnConfigs,
   getSubscriptionsTableMapperConfigs,
+  SubscriptionsTableColumnConfigs,
 } from './subscriptions-table.config';
 
 @Component({
@@ -36,6 +39,8 @@ import {
       [showSelectionColumn]="false"
       [sortable]="false"
       (rowClicked)="onRowClick($event)"
+      (addApplication)="handleAddApplication()"
+      [showButton]="true"
     ></ui-table>
     <ng-template #actionTemplate let-data="data">
       <ui-button
@@ -64,7 +69,8 @@ export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
 
   tableModel = new TableModel();
 
-  constructor(private tableUtils: TableUtilsService) {}
+  tableUtils = inject(TableUtilsService);
+  adminService = inject(AdminService);
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['applications']) {
@@ -75,6 +81,27 @@ export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
         this.clearTable();
       }
     }
+  }
+
+  addApplicationMutation = this.adminService.addApplicationMutation();
+
+  handleAddApplication(): void {
+    // Replace with a proper form/dialog for collecting application data
+    const newApplication: CreateApplicationDto = {
+      name: 'Task Management Tool',
+      description: 'A tool to manage tasks and projects effectively.',
+      iconUrl: 'https://example.com/icons/task-management.png',
+      routePath: '/task-manager',
+    };
+
+    this.addApplicationMutation.mutate(newApplication, {
+      onSuccess: () => {
+        console.log('Application added successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to add application:', error);
+      },
+    });
   }
 
   onRevokeAccess(userId: number, applicationId: number) {
