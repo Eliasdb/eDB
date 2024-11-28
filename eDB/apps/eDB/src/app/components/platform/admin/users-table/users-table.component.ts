@@ -20,6 +20,7 @@ import { UserProfile } from '../../../../models/user.model';
         [sortable]="true"
         (rowClicked)="onRowClicked($event)"
         (sortChanged)="onSortChanged($event)"
+        [showToolbar]="true"
       ></ui-table>
       <!-- Loading spinner at the bottom -->
       <section *ngIf="loadingMore" class="loading-spinner-container">

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PaginationModule, TableModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
+import { UiButtonComponent } from '../../buttons/button/button.component';
 
 export interface SortEvent {
   sortField: string;
@@ -11,13 +13,38 @@ export interface SortEvent {
 @Component({
   selector: 'ui-table',
   standalone: true,
-  imports: [CommonModule, TableModule, PaginationModule],
+  imports: [
+    CommonModule,
+    TableModule,
+    PaginationModule,
+    FormsModule,
+    UiButtonComponent,
+  ],
   template: `
     <cds-table-container>
       <cds-table-header>
         <h4 cdsTableHeaderTitle style="margin:0;">{{ title }}</h4>
         <p cdsTableHeaderDescription style="margin:0;">{{ description }}</p>
       </cds-table-header>
+
+      <ng-container *ngIf="showToolbar">
+        <cds-table-toolbar #toolbar [model]="model">
+          <cds-table-toolbar-actions>
+            <ui-button
+              [disabled]="toolbar.selected ? false : true"
+              (buttonClick)="onDelete()"
+              [icon]="'faTrash'"
+            >
+              Delete
+            </ui-button>
+          </cds-table-toolbar-actions>
+          <cds-table-toolbar-content>
+            <cds-table-toolbar-search
+              ngDefaultControl
+            ></cds-table-toolbar-search>
+          </cds-table-toolbar-content>
+        </cds-table-toolbar>
+      </ng-container>
 
       <cds-table
         [model]="model"
@@ -50,6 +77,7 @@ export class UiTableComponent {
   @Input() showPagination = false;
   @Input() skeleton = false;
   @Input() striped = false;
+  @Input() showToolbar = false; // New input property with default false
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() pageChanged = new EventEmitter<number>();
@@ -61,6 +89,13 @@ export class UiTableComponent {
 
   onPageChange(page: number): void {
     this.pageChanged.emit(page);
+  }
+  onDelete(): void {
+    console.log('Delete action triggered');
+  }
+
+  onPrimaryAction(): void {
+    console.log('Primary action triggered');
   }
 
   /**
