@@ -33,8 +33,14 @@ export class AdminService {
     sortDirection: 'asc',
   });
   private pageParam$ = new BehaviorSubject<number>(1);
+  private searchParam$ = new BehaviorSubject<string>('');
+
   private isLoading$ = new BehaviorSubject<boolean>(false);
   private hasMore$ = new BehaviorSubject<boolean>(true);
+
+  getSearchParam$(): Observable<string> {
+    return this.searchParam$.asObservable();
+  }
 
   getSortParams$(): Observable<SortParams> {
     return this.sortParams$.asObservable();
@@ -64,25 +70,34 @@ export class AdminService {
     this.pageParam$.next(page);
   }
 
+  updateSearchParam(search: string): void {
+    this.searchParam$.next(search);
+  }
+
   resetSortAndPage(sortParams: SortParams): void {
     this.sortParams$.next(sortParams);
     this.pageParam$.next(1); // Reset to the first page
   }
 
   fetchPaginatedData$(): Observable<PagedResult<UserProfile>> {
-    return combineLatest([this.sortParams$, this.pageParam$]).pipe(
+    return combineLatest([
+      this.sortParams$,
+      this.pageParam$,
+      this.searchParam$,
+    ]).pipe(
       debounceTime(50), // Adjust debounce time as needed
-      tap(([sortParams, pageParam]) => {
+      tap(([sortParams, pageParam, searchParam]) => {
         console.log(
-          `Fetching users with sortField=${sortParams.sortField}, sortDirection=${sortParams.sortDirection}, pageNumber=${pageParam}`
+          `Fetching users with sortField=${sortParams.sortField}, sortDirection=${sortParams.sortDirection}, pageNumber=${pageParam}, search=${searchParam}`
         );
         this.isLoading$.next(true);
       }),
-      switchMap(([sortParams, pageParam]) =>
+      switchMap(([sortParams, pageParam, searchParam]) =>
         this.fetchUsersPage(
           this.mapSortFieldToBackend(sortParams.sortField),
           sortParams.sortDirection,
-          pageParam
+          pageParam,
+          searchParam
         ).pipe(
           tap((pagedResult) => {
             this.isLoading$.next(false);
@@ -94,7 +109,7 @@ export class AdminService {
           })
         )
       ),
-      shareReplay(1) // Share the latest emitted value with new subscribers
+      shareReplay(1)
     );
   }
 
@@ -119,9 +134,10 @@ export class AdminService {
   private fetchUsersPage(
     sortField: string = 'id',
     sortDirection: 'asc' | 'desc' = 'asc',
-    pageNumber: number = 1
+    pageNumber: number = 1,
+    search: string = ''
   ): Observable<PagedResult<UserProfile>> {
-    const url = `${this.apiUrl}?pageNumber=${pageNumber}&pageSize=15&sortField=${sortField}&sortDirection=${sortDirection}`;
+    const url = `${this.apiUrl}?pageNumber=${pageNumber}&pageSize=15&sortField=${sortField}&sortDirection=${sortDirection}&search=${search}`;
     return this.http.get<PagedResult<UserProfile>>(url);
   }
 
