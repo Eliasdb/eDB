@@ -54,6 +54,7 @@ import {
             [hasMore]="hasMore"
             [menuOptions]="menuOptions"
             (rowClicked)="onRowClick($event)"
+            (searchChanged)="onSearchChanged($event)"
             (sortChanged)="onSortChanged($event)"
             (overflowMenuSelect)="
               onOverflowMenuSelect($event.actionId, $event.user)
@@ -140,6 +141,15 @@ export class AdminContainer implements OnInit, OnDestroy {
     this.tableModel.header = this.tableUtils.getTableHeaders(
       AdminTableColumnConfig
     );
+  }
+
+  onSearchChanged(search: string): void {
+    console.log('Search term received in container:', search);
+    this.loading = true; // Show loading indicator
+    this.hasMore = true; // Reset hasMore flag
+    this.adminService.updateSearchParam(search); // Update search in service
+    this.adminService.updatePageParam(1); // Reset to first page
+    // No need to manually fetch data; subscription handles it
   }
 
   updateTableData(users: UserProfile[]): void {

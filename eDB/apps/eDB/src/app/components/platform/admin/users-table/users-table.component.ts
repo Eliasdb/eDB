@@ -20,6 +20,8 @@ import { UserProfile } from '../../../../models/user.model';
         [sortable]="true"
         (rowClicked)="onRowClicked($event)"
         (sortChanged)="onSortChanged($event)"
+        [searchTerm]="searchTerm"
+        (searchChanged)="onSearchChanged($event)"
         [showToolbar]="true"
       ></ui-table>
       <!-- Loading spinner at the bottom -->
@@ -53,6 +55,7 @@ export class PlatformAdminUserTableComponent {
     actionId: string;
     user: UserProfile;
   }>();
+  @Output() searchChanged = new EventEmitter<string>();
 
   /**
    * Handles row clicks emitted by the UiTableComponent.
@@ -68,5 +71,17 @@ export class PlatformAdminUserTableComponent {
    */
   onSortChanged(sort: SortParams): void {
     this.sortChanged.emit(sort);
+  }
+
+  searchTerm: string = '';
+
+  onSearchChanged(search: string): void {
+    console.log('Search term received in parent:', search); // Debug log
+    this.searchChanged.emit(search); // Emit to parent
+    this.searchTerm = search;
+    this.sortChanged.emit({
+      sortField: 'id', // Reset to default sort
+      sortDirection: 'asc',
+    }); // Notify the parent container if needed
   }
 }

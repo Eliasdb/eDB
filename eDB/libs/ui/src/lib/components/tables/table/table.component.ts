@@ -41,6 +41,9 @@ export interface SortEvent {
           <cds-table-toolbar-content>
             <cds-table-toolbar-search
               ngDefaultControl
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="onSearchChanged($event)"
+              placeholder="Search..."
             ></cds-table-toolbar-search>
           </cds-table-toolbar-content>
         </cds-table-toolbar>
@@ -78,10 +81,12 @@ export class UiTableComponent {
   @Input() skeleton = false;
   @Input() striped = false;
   @Input() showToolbar = false; // New input property with default false
+  @Input() searchTerm: string = ''; // New input for search term
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() pageChanged = new EventEmitter<number>();
   @Output() sortChanged = new EventEmitter<SortEvent>();
+  @Output() searchChanged = new EventEmitter<string>(); // New output for search changes
 
   onRowClick(index: number): void {
     this.rowClicked.emit(index);
@@ -90,12 +95,19 @@ export class UiTableComponent {
   onPageChange(page: number): void {
     this.pageChanged.emit(page);
   }
+
   onDelete(): void {
     console.log('Delete action triggered');
   }
 
   onPrimaryAction(): void {
     console.log('Primary action triggered');
+  }
+
+  onSearchChanged(value: string): void {
+    console.log('Search term changed:', value); // Debug log
+
+    this.searchChanged.emit(value.trim());
   }
 
   /**
