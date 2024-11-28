@@ -36,10 +36,11 @@ namespace api.Controllers
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUsers(
-        int pageNumber = 1,
-        int pageSize = 15,
-        string sortField = "Id", // Default sort field
-        string sortDirection = "asc") // Default sort direction
+           int pageNumber = 1,
+           int pageSize = 15,
+           string sortField = "Id", // Default sort field
+           string sortDirection = "asc", // Default sort direction
+           string? search = null) // Optional search query
         {
             try
             {
@@ -54,13 +55,28 @@ namespace api.Controllers
                     sortDirection = "asc";
                 }
 
-                // Get total user count
+                // Get total user count before filtering
                 var totalUsers = await _context.Users.CountAsync();
 
-                // Apply sorting dynamically
+                // Apply filtering and sorting dynamically
                 IQueryable<User> query = _context.Users.AsNoTracking();
 
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    // Apply search filter
+                    search = search.ToLower();
+                    query = query.Where(u =>
+     (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
+     (u.LastName != null && u.LastName.ToLower().Contains(search)) ||
+     (u.Email != null && u.Email.ToLower().Contains(search)));
+
+                }
+
+                // Apply sorting dynamically
                 query = ApplySorting(query, sortField, sortDirection);
+
+                // Get filtered count
+                var filteredCount = await query.CountAsync();
 
                 // Fetch records for the current page
                 var users = await query
@@ -70,16 +86,16 @@ namespace api.Controllers
                     .ToListAsync();
 
                 // Check if there are more records beyond the current page
-                bool hasMore = (pageNumber * pageSize) < totalUsers;
+                bool hasMore = (pageNumber * pageSize) < filteredCount;
 
-                // Calculate the actual number of items fetched
+                // Construct the paged result
                 var pagedResult = new DTOs.PagedResult<UserDto>
                 {
                     Items = users,
-                    HasMore = hasMore && users.Count == pageSize, // No "HasMore" if fewer items fetched
+                    HasMore = hasMore && users.Count == pageSize,
                     PageNumber = pageNumber,
-                    PageSize = users.Count, // Use the actual number of items fetched
-                    TotalCount = totalUsers
+                    PageSize = users.Count,
+                    TotalCount = filteredCount // Use the filtered count here
                 };
 
                 return Ok(pagedResult);
@@ -91,7 +107,6 @@ namespace api.Controllers
                 return StatusCode(500, "An error occurred while retrieving users.");
             }
         }
-
 
         [HttpGet("applications-overview")]
         [RoleAuthorize("Admin")]
@@ -112,13 +127,13 @@ namespace api.Controllers
                     ApplicationName = app.Name,
                     ApplicationDescription = app.Description,
                     SubscribedUsers = app.Subscriptions
-         .Where(sub => sub.User != null) // Ensure User is not null
-         .Select(sub => new UserSubscriptionDto
-         {
-             UserName = sub.User != null ? $"{sub.User.FirstName} {sub.User.LastName}" : "Unknown User",
-             UserEmail = sub.User?.Email ?? "No Email",
-             SubscriptionDate = sub.SubscriptionDate
-         }).ToList()
+                        .Where(sub => sub.User != null) // Ensure User is not null
+                        .Select(sub => new UserSubscriptionDto
+                        {
+                            UserName = sub.User != null ? $"{sub.User.FirstName} {sub.User.LastName}" : "Unknown User",
+                            UserEmail = sub.User?.Email ?? "No Email",
+                            SubscriptionDate = sub.SubscriptionDate
+                        }).ToList()
                 }).ToList();
 
 
@@ -159,14 +174,14 @@ namespace api.Controllers
         static IQueryable<Subscription> ApplySorting(IQueryable<Subscription> query, string sortField, string sortDirection)
         {
             var allowedSortFields = new List<string>
-    {
-        "SubscriptionDate",
-        "User.FirstName",
-        "User.LastName",
-        "User.Email",
-        "Application.Name",
-        "Application.Description"
-    };
+            {
+                "SubscriptionDate",
+                "User.FirstName",
+                "User.LastName",
+                "User.Email",
+                "Application.Name",
+                "Application.Description"
+            };
 
             if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
             {
