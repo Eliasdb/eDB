@@ -8,10 +8,13 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { UiTableComponent } from '@eDB/shared-ui';
 import { TableUtilsService } from '@eDB/shared-utils';
 import { TableModel } from 'carbon-components-angular/table';
+import { UiButtonComponent } from '../../../../../../../../libs/ui/src/lib/components/buttons/button/button.component';
 import {
   ApplicationOverviewDto,
   RowMapperConfig,
@@ -19,12 +22,12 @@ import {
 import {
   SubscriptionsTableColumnConfigs,
   getSubscriptionsTableMapperConfigs,
-} from './subscriptions-table.config'; // Adjust path as needed
+} from './subscriptions-table.config';
 
 @Component({
   standalone: true,
   selector: 'platform-admin-subscriptions-table',
-  imports: [CommonModule, UiTableComponent],
+  imports: [CommonModule, UiTableComponent, UiButtonComponent],
   template: `
     <ui-table
       [title]="'Applications'"
@@ -34,43 +37,83 @@ import {
       [sortable]="false"
       (rowClicked)="onRowClick($event)"
     ></ui-table>
+    <ng-template #actionTemplate let-data="data">
+      <ui-button
+        (click)="onRevokeAccess(data.userId, data.applicationId)"
+        [size]="'sm'"
+        [icon]="'faBan'"
+        [variant]="'danger'"
+        >Revoke access</ui-button
+      >
+    </ng-template>
   `,
 })
 export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
-  @Input() applications: ApplicationOverviewDto[] = [];
+  handleClick() {
+    console.log('yoo');
+  }
+  @Input() applications: ApplicationOverviewDto[] | undefined;
   @Output() rowClicked = new EventEmitter<number>();
+  @Output() revokeSubscription = new EventEmitter<{
+    userId: number;
+    applicationId: number;
+  }>();
+
+  @ViewChild('actionTemplate', { static: true })
+  actionTemplate!: TemplateRef<any>;
 
   tableModel = new TableModel();
 
   constructor(private tableUtils: TableUtilsService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['applications'] && changes['applications'].currentValue) {
-      this.initializeTable();
+    if (changes['applications']) {
+      const apps = changes['applications'].currentValue;
+      if (apps) {
+        this.initializeTable(apps);
+      } else {
+        this.clearTable();
+      }
     }
+  }
+
+  onRevokeAccess(userId: number, applicationId: number) {
+    this.revokeSubscription.emit({ userId, applicationId });
   }
 
   /**
    * Initializes the table by setting headers and preparing data.
    */
-  initializeTable() {
+  initializeTable(applications: ApplicationOverviewDto[]) {
     // Set up table headers
     this.tableModel.header = this.tableUtils.getTableHeaders(
       SubscriptionsTableColumnConfigs
     );
 
-    // Prepare mapperConfigs with expanded data handler from the service
+    const revokeCallback = (userId: number, applicationId: number) => {
+      this.revokeSubscription.emit({ userId, applicationId });
+    };
+
     const mapperConfigs: RowMapperConfig<ApplicationOverviewDto>[] =
-      getSubscriptionsTableMapperConfigs(
-        this.tableUtils.createSubscriptionsExpandedData
+      getSubscriptionsTableMapperConfigs((app) =>
+        this.tableUtils.createSubscriptionsExpandedData(
+          app,
+          revokeCallback,
+          this.actionTemplate
+        )
       );
 
-    // Prepare table data using TableUtilsService
     this.tableModel.data = this.tableUtils.prepareData(
-      this.applications,
-      mapperConfigs,
-      undefined // No overflow template needed for subscriptions table
+      applications,
+      mapperConfigs
     );
+  }
+
+  /**
+   * Clears the table data.
+   */
+  clearTable() {
+    this.tableModel.data = [];
   }
 
   /**

@@ -19,7 +19,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlatformAdminSubscriptionsTableComponent } from '../../../components/platform/admin/subscriptions-table/subscriptions-table.component';
 import { PlatformAdminUserTableComponent } from '../../../components/platform/admin/users-table/users-table.component';
-import { ApplicationOverviewDto } from '../../../models/application-overview.model';
 import { PagedResult } from '../../../models/paged-result.model'; // Ensure correct path
 import { SortParams } from '../../../models/sort-event.model';
 import { UserProfile } from '../../../models/user.model';
@@ -72,8 +71,9 @@ import {
 
         <div section2>
           <platform-admin-subscriptions-table
-            [applications]="applications"
+            [applications]="applicationsQuery.data()"
             (rowClicked)="onSubscriptionRowClick($event)"
+            (revokeSubscription)="onRevokeSubscription($event)"
           ></platform-admin-subscriptions-table>
         </div>
       </ui-content-switcher>
@@ -86,7 +86,6 @@ export class AdminContainer implements OnInit, OnDestroy {
   private tableUtils = inject(TableUtilsService);
   private destroy$ = new Subject<void>();
   private allUsers: UserProfile[] = []; // Accumulate all users
-  applications: ApplicationOverviewDto[] = [];
 
   tableModel = new TableModel();
   loading = true;
@@ -96,10 +95,27 @@ export class AdminContainer implements OnInit, OnDestroy {
 
   @ViewChild('overflowTemplate', { static: true })
   overflowTemplate!: TemplateRef<any>;
+
+  @ViewChild('actionTemplate', { static: true })
+  actionTemplate!: TemplateRef<any>;
   menuOptions = [{ id: 'delete', label: 'Delete' }];
 
-  constructor() {
-    this.tableModel.data = [];
+  // Use injectQuery to get subscriptions
+  applicationsQuery = this.adminService.fetchSubscriptions();
+  // Use injectMutation for revoking subscriptions
+  revokeSubscriptionMutation = this.adminService.revokeSubscription();
+
+  onRevokeSubscription(event: { applicationId: number; userId: number }): void {
+    this.revokeSubscriptionMutation.mutate(event, {
+      onSuccess: () => {
+        console.log('Subscription successfully revoked');
+        // Refetch applications after mutation
+        this.applicationsQuery.refetch();
+      },
+      onError: (error) => {
+        console.error('Failed to revoke subscription:', error);
+      },
+    });
   }
 
   ngOnInit() {
@@ -108,7 +124,7 @@ export class AdminContainer implements OnInit, OnDestroy {
       sortField: 'id',
       sortDirection: 'asc',
     });
-    this.fetchApplicationsOverview();
+    // this.fetchApplicationsOverview();
 
     this.adminService
       .fetchPaginatedData$()
@@ -195,23 +211,6 @@ export class AdminContainer implements OnInit, OnDestroy {
 
   deleteUser(userId: string): void {
     // Implement deletion logic here, e.g., call adminService.deleteUser(userId)
-  }
-
-  /**
-   * Fetches applications overview data.
-   */
-  fetchApplicationsOverview() {
-    this.adminService
-      .fetchApplicationsOverview$()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (applications) => {
-          this.applications = applications;
-        },
-        error: (err) => {
-          console.error('Error fetching applications overview:', err);
-        },
-      });
   }
 
   /**

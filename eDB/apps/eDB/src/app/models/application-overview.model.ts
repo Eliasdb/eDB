@@ -1,12 +1,14 @@
 export interface SubscribedUserDto {
   userName: string;
   userEmail: string;
+  userId: number;
   subscriptionDate: string;
 }
 
 export interface ApplicationOverviewDto {
   applicationName: string;
   applicationDescription: string;
+  applicationId: number;
   subscribedUsers: SubscribedUserDto[];
 }
 

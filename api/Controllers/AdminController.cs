@@ -124,18 +124,19 @@ namespace api.Controllers
                 // Map to ApplicationOverviewDto
                 var applicationOverviews = applications.Select(app => new ApplicationOverviewDto
                 {
+                    ApplicationId = app.Id, // Populate ApplicationId
                     ApplicationName = app.Name,
                     ApplicationDescription = app.Description,
                     SubscribedUsers = app.Subscriptions
                         .Where(sub => sub.User != null) // Ensure User is not null
                         .Select(sub => new UserSubscriptionDto
                         {
+                            UserId = sub.UserId, // Populate UserId
                             UserName = sub.User != null ? $"{sub.User.FirstName} {sub.User.LastName}" : "Unknown User",
                             UserEmail = sub.User?.Email ?? "No Email",
                             SubscriptionDate = sub.SubscriptionDate
                         }).ToList()
                 }).ToList();
-
 
                 return Ok(applicationOverviews);
             }
@@ -146,6 +147,67 @@ namespace api.Controllers
                 return StatusCode(500, "An error occurred while retrieving application overviews.");
             }
         }
+
+
+        [HttpPost("applications/create")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> AddApplication([FromBody] CreateApplicationDto applicationDto)
+        {
+            try
+            {
+                var application = new Application
+                {
+                    Name = applicationDto.Name,
+                    Description = applicationDto.Description,
+                    IconUrl = applicationDto.IconUrl,
+                    RoutePath = applicationDto.RoutePath
+                };
+
+                _context.Applications.Add(application);
+                await _context.SaveChangesAsync();
+
+                return Ok(application);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error in AddApplication: {ex.Message}");
+                return StatusCode(500, "An error occurred while adding the application.");
+            }
+        }
+
+        [HttpDelete("applications/{applicationId}/subscriptions/{userId}")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> RevokeSubscriptionByUserAndApplication(
+           [FromRoute] int applicationId,
+           [FromRoute] int userId)
+        {
+            try
+            {
+                // Fetch the subscription record based on applicationId and userId
+                var subscription = await _context.Subscriptions
+                    .FirstOrDefaultAsync(s => s.ApplicationId == applicationId && s.UserId == userId);
+
+                // If no matching subscription is found, return 404
+                if (subscription == null)
+                {
+                    return NotFound(new { Message = "Subscription not found." });
+                }
+
+                // Remove the subscription record
+                _context.Subscriptions.Remove(subscription);
+                await _context.SaveChangesAsync();
+
+                // Return success response
+                return Ok(new { Message = "Subscription revoked successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Log error and return server error response
+                Console.Error.WriteLine($"Error in RevokeSubscriptionByUserAndApplication: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred while revoking the subscription." });
+            }
+        }
+
 
 
 

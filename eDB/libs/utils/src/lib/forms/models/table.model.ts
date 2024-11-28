@@ -28,10 +28,12 @@ export interface SubscribedUserDto {
   userName: string;
   userEmail: string;
   subscriptionDate: string;
+  userId: number;
 }
 
 export interface ApplicationOverviewDto {
   applicationName: string;
   applicationDescription: string;
   subscribedUsers: SubscribedUserDto[];
+  applicationId: number;
 }

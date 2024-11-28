@@ -5,7 +5,6 @@ import { TableHeaderItem, TableItem } from 'carbon-components-angular';
 import {
   ApplicationOverviewDto,
   RowMapperConfig,
-  SubscribedUserDto,
   TableColumnConfig,
 } from '../../models/table.model';
 
@@ -74,26 +73,38 @@ export class TableUtilsService {
    * @param app ApplicationOverviewDto instance.
    * @returns Array of TableItem arrays with headers and subscribed users.
    */
-  createSubscriptionsExpandedData(app: ApplicationOverviewDto): TableItem[][] {
+  // Inside TableUtilsService
+  // In TableUtilsService
+  createSubscriptionsExpandedData(
+    app: ApplicationOverviewDto,
+    revokeCallback: (userId: number, applicationId: number) => void,
+    actionTemplate: TemplateRef<any>
+  ): TableItem[][] {
     // Define headers for the expanded table
     const header = [
       new TableItem({ data: 'User Name' }),
-      new TableItem({ data: 'Email' }),
       new TableItem({ data: 'Subscription Date' }),
+      new TableItem({ data: 'Actions' }),
     ];
 
     // Map subscribed users to TableItem[] rows
-    const data = app.subscribedUsers.map((user: SubscribedUserDto) => [
-      new TableItem({ data: user.userName }),
-      new TableItem({ data: user.userEmail }),
-      new TableItem({
-        data: new Date(user.subscriptionDate).toLocaleDateString('en-GB', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
+    const data = app.subscribedUsers.map((user) => {
+      // Now create and return the TableItem array for this user
+      return [
+        new TableItem({ data: user.userName }),
+        new TableItem({
+          data: new Date(user.subscriptionDate).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          }),
         }),
-      }),
-    ]);
+        new TableItem({
+          data: { userId: user.userId, applicationId: app.applicationId },
+          template: actionTemplate,
+        }),
+      ];
+    });
 
     // Return as TableItem[][] with header
     return [header, ...data];

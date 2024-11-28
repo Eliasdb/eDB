@@ -41,3 +41,25 @@
 // .cds--btn {
 //   --temp-1lh: (var(--cds-body-compact-01-line-height, 2.28572) * 1em);
 // }
+
+// .cds--data-table tbody tr:nth-child(3) {
+//   background-color: rebeccapurple;
+// }
+
+td[title='User Name'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+td[title='Subscription Date'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+td[title='Actions'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
