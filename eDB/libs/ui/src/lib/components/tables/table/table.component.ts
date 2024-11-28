@@ -59,6 +59,7 @@ export interface SortEvent {
         (sort)="simpleSort($event)"
         [skeleton]="skeleton"
         [striped]="striped"
+        class="custom-table"
       ></cds-table>
 
       <cds-pagination
@@ -68,6 +69,7 @@ export interface SortEvent {
       ></cds-pagination>
     </cds-table-container>
   `,
+  styleUrl: 'table.component.scss',
 })
 export class UiTableComponent {
   @Input() title = 'Table Title';

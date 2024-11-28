@@ -3,10 +3,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  injectMutation,
+  injectQuery,
+  QueryClient,
+} from '@tanstack/angular-query-experimental';
+import {
   BehaviorSubject,
   catchError,
   combineLatest,
   debounceTime,
+  firstValueFrom,
   Observable,
   shareReplay,
   switchMap,
@@ -26,6 +32,8 @@ export class AdminService {
   private readonly applicationsUrl =
     'http://localhost:9101/api/admin/applications-overview';
 
+  private readonly baseUrl = 'http://localhost:9101/api/admin';
+
   private http = inject(HttpClient);
 
   private sortParams$ = new BehaviorSubject<SortParams>({
@@ -37,6 +45,8 @@ export class AdminService {
 
   private isLoading$ = new BehaviorSubject<boolean>(false);
   private hasMore$ = new BehaviorSubject<boolean>(true);
+
+  private queryClient = inject(QueryClient);
 
   getSearchParam$(): Observable<string> {
     return this.searchParam$.asObservable();
@@ -141,7 +151,46 @@ export class AdminService {
     return this.http.get<PagedResult<UserProfile>>(url);
   }
 
-  fetchApplicationsOverview$(): Observable<ApplicationOverviewDto[]> {
-    return this.http.get<ApplicationOverviewDto[]>(this.applicationsUrl);
+  // fetchApplicationsOverview$(): Observable<ApplicationOverviewDto[]> {
+  //   return this.http.get<ApplicationOverviewDto[]>(this.applicationsUrl);
+  // }
+
+  fetchSubscriptions() {
+    return injectQuery(() => ({
+      queryKey: ['subscriptions'],
+      queryFn: async () => {
+        const subscriptions = await firstValueFrom(
+          this.http.get<ApplicationOverviewDto[]>(
+            `${this.baseUrl}/applications-overview`
+          )
+        );
+        if (!subscriptions) {
+          throw new Error('Subscriptions not found');
+        }
+        return subscriptions;
+      },
+    }));
+  }
+
+  // Revoke subscription for a user
+  revokeSubscription() {
+    return injectMutation(() => ({
+      mutationFn: async ({
+        applicationId,
+        userId,
+      }: {
+        applicationId: number;
+        userId: number;
+      }) => {
+        return firstValueFrom(
+          this.http.delete<void>(
+            `${this.baseUrl}/applications/${applicationId}/subscriptions/${userId}`
+          )
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+      },
+    }));
   }
 }
