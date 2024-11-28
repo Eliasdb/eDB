@@ -1,14 +1,7 @@
-// src/app/components/platform/admin/admin-user-table/user-table.ts
+// platform-admin-user-table.component.ts
 
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UiLoadingSpinnerComponent, UiTableComponent } from '@eDB/shared-ui';
 import { TableModel } from 'carbon-components-angular';
 import { SortParams } from '../../../../models/sort-event.model';
@@ -44,7 +37,7 @@ import { UserProfile } from '../../../../models/user.model';
       </div>
     </div>
   `,
-  styleUrl: 'users-table.component.scss',
+  styleUrls: ['users-table.component.scss'],
 })
 export class PlatformAdminUserTableComponent {
   @Input() tableModel!: TableModel;
@@ -60,11 +53,6 @@ export class PlatformAdminUserTableComponent {
     user: UserProfile;
   }>();
 
-  @ViewChild('overflowTemplate', { static: true })
-  overflowTemplate!: TemplateRef<any>;
-
-  constructor() {}
-
   /**
    * Handles row clicks emitted by the UiTableComponent.
    * @param index Index of the clicked row.
@@ -79,14 +67,5 @@ export class PlatformAdminUserTableComponent {
    */
   onSortChanged(sort: SortParams): void {
     this.sortChanged.emit(sort);
-  }
-
-  /**
-   * Handles overflow menu selections emitted by the UiPlatformOverflowMenuComponent.
-   * @param actionId ID of the selected action.
-   * @param user The user associated with the action.
-   */
-  onOverflowMenuSelect(actionId: string, user: UserProfile): void {
-    this.overflowMenuSelect.emit({ actionId, user });
   }
 }

@@ -1,6 +1,14 @@
 // content-switcher.component.ts
+
 import { CommonModule } from '@angular/common';
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   ContentSwitcherModule,
   ContentSwitcherOption,
@@ -16,18 +24,19 @@ import {
         *ngFor="let option of optionsArray; let i = index"
         cdsContentOption
         [attr.data-index]="i"
+        [class.bx--content-switcher--selected]="i === activeSection"
       >
         {{ option }}
       </button>
     </cds-content-switcher>
 
-    <ng-container *ngIf="selectedIndex === 0">
+    <ng-container *ngIf="activeSection === 0">
       <ng-content select="[section1]"></ng-content>
     </ng-container>
-    <ng-container *ngIf="selectedIndex === 1">
+    <ng-container *ngIf="activeSection === 1">
       <ng-content select="[section2]"></ng-content>
     </ng-container>
-    <ng-container *ngIf="selectedIndex === 2">
+    <ng-container *ngIf="activeSection === 2">
       <ng-content select="[section3]"></ng-content>
     </ng-container>
   `,
@@ -35,13 +44,22 @@ import {
 export class UiContentSwitcherComponent {
   @Input() optionsArray: string[] = []; // Input for dynamic button labels
 
+  @Input() activeSection: number = 0; // 0-based index for active section
+  @Output() activeSectionChange: EventEmitter<number> =
+    new EventEmitter<number>();
+
   @ViewChildren(ContentSwitcherOption)
   options!: QueryList<ContentSwitcherOption>;
 
-  selectedIndex = 0;
-
-  onSelectionChange(option: ContentSwitcherOption): void {
-    // Find the index of the selected option
-    this.selectedIndex = this.options.toArray().indexOf(option);
+  /**
+   * Handles selection changes from the Content Switcher.
+   * @param selectedOption The selected ContentSwitcherOption.
+   */
+  onSelectionChange(selectedOption: ContentSwitcherOption): void {
+    const selectedIndex = this.options.toArray().indexOf(selectedOption);
+    if (selectedIndex !== -1 && selectedIndex !== this.activeSection) {
+      this.activeSection = selectedIndex;
+      this.activeSectionChange.emit(this.activeSection);
+    }
   }
 }
