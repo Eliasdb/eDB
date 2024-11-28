@@ -12,6 +12,13 @@ export interface ApplicationOverviewDto {
   subscribedUsers: SubscribedUserDto[];
 }
 
+export interface CreateApplicationDto {
+  name: string;
+  description: string;
+  iconUrl: string;
+  routePath: string;
+}
+
 // src/app/models/table.model.ts
 
 import { TableItem } from 'carbon-components-angular';

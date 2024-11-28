@@ -1,4 +1,5 @@
-.custom-table {
-  font-weight: bold;
-  background-color: red; /* Example header background */
+.table-header-container {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: flex-end;
 }
