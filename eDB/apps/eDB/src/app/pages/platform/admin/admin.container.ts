@@ -41,7 +41,11 @@ import {
   ],
   template: `
     <section class="admin-page" (scroll)="onTableScroll($event)">
-      <ui-content-switcher [optionsArray]="['Users', 'Subscriptions']">
+      <ui-content-switcher
+        [optionsArray]="['Users', 'Subscriptions']"
+        [activeSection]="activeSection"
+        (activeSectionChange)="onActiveSectionChange($event)"
+      >
         <div section1>
           <platform-admin-user-table
             [tableModel]="tableModel"
@@ -87,6 +91,7 @@ export class AdminContainer implements OnInit, OnDestroy {
   loading = true;
   loadingMore = false;
   hasMore = true;
+  activeSection: number = 0; // Track active section: 0 for Users, 1 for Subscriptions
 
   @ViewChild('overflowTemplate', { static: true })
   overflowTemplate!: TemplateRef<any>;
@@ -153,8 +158,14 @@ export class AdminContainer implements OnInit, OnDestroy {
   onTableScroll(event: Event): void {
     const target = event.target as HTMLElement;
     const threshold = target.scrollHeight - target.clientHeight - 50;
+    console.log(this.activeSection);
 
-    if (target.scrollTop > threshold && this.hasMore && !this.loadingMore) {
+    if (
+      this.activeSection === 0 &&
+      target.scrollTop > threshold &&
+      this.hasMore &&
+      !this.loadingMore
+    ) {
       this.loadingMore = true;
       const nextPage = this.adminService.getCurrentPage() + 1;
       this.adminService.updatePageParam(nextPage);
@@ -199,5 +210,10 @@ export class AdminContainer implements OnInit, OnDestroy {
    */
   onSubscriptionRowClick(index: number) {
     // Perform actions related to the clicked application
+  }
+
+  onActiveSectionChange(newSection: number): void {
+    this.activeSection = newSection;
+    console.log('Active Section updated:', this.activeSection);
   }
 }

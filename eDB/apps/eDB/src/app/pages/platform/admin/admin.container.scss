@@ -4,3 +4,30 @@
   padding-top: 6rem;
   overflow-y: auto;
 }
+
+.table-scroll-container {
+  overflow: auto;
+}
+
+/* admin.container.scss */
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure it takes at least the full viewport height */
+}
+
+.ui-content-switcher {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-content-switcher > div[section1],
+.ui-content-switcher > div[section2] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: Additional styling to enhance layout */
