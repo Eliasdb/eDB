@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { ModalModule, ModalService } from 'carbon-components-angular';
-import { DynamicModalComponent } from './actual-modal.component';
+import { UiModalComponent } from './actual-modal.component';
 import { DataPassingModal } from './modal.component';
 
 const meta: Meta<DataPassingModal> = {
@@ -9,7 +9,7 @@ const meta: Meta<DataPassingModal> = {
   decorators: [
     moduleMetadata({
       declarations: [],
-      imports: [ModalModule, DynamicModalComponent],
+      imports: [ModalModule, UiModalComponent],
       providers: [ModalService], // Add ModalService here
     }),
   ],

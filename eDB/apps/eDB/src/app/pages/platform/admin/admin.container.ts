@@ -149,6 +149,8 @@ export class AdminContainer implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('AdminContainer destroyed');
+
     this.destroy$.next();
     this.destroy$.complete();
   }
