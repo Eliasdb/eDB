@@ -36,24 +36,21 @@ namespace api.Controllers
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUsers(
-           int pageNumber = 1,
-           int pageSize = 15,
-           string sortField = "Id", // Default sort field
-           string sortDirection = "asc", // Default sort direction
-           string? search = null) // Optional search query
+           [FromQuery] int page = 1,
+           [FromQuery] int size = 15,
+           [FromQuery] string? sort = "id,asc", // Default sort syntax
+           [FromQuery] string? search = null)  // Optional search query
         {
             try
             {
                 // Validate input parameters
-                pageNumber = Math.Max(pageNumber, 1);
-                pageSize = Math.Clamp(pageSize, 1, 100); // Ensures pageSize is between 1 and 100
+                page = Math.Max(page, 1);
+                size = Math.Clamp(size, 1, 100); // Ensure size is between 1 and 100
 
-                // Validate sort direction
-                sortDirection = sortDirection.ToLower();
-                if (sortDirection != "asc" && sortDirection != "desc")
-                {
-                    sortDirection = "asc";
-                }
+                // Parse sort parameter
+                var sortParams = ParseSortParameter(sort);
+                var sortField = sortParams.Item1;
+                var sortDirection = sortParams.Item2;
 
                 // Get total user count before filtering
                 var totalUsers = await _context.Users.CountAsync();
@@ -66,10 +63,9 @@ namespace api.Controllers
                     // Apply search filter
                     search = search.ToLower();
                     query = query.Where(u =>
-     (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
-     (u.LastName != null && u.LastName.ToLower().Contains(search)) ||
-     (u.Email != null && u.Email.ToLower().Contains(search)));
-
+                        (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
+                        (u.LastName != null && u.LastName.ToLower().Contains(search)) ||
+                        (u.Email != null && u.Email.ToLower().Contains(search)));
                 }
 
                 // Apply sorting dynamically
@@ -80,20 +76,20 @@ namespace api.Controllers
 
                 // Fetch records for the current page
                 var users = await query
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
+                    .Skip((page - 1) * size)
+                    .Take(size)
                     .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
                 // Check if there are more records beyond the current page
-                bool hasMore = (pageNumber * pageSize) < filteredCount;
+                bool hasMore = (page * size) < filteredCount;
 
                 // Construct the paged result
                 var pagedResult = new DTOs.PagedResult<UserDto>
                 {
                     Items = users,
-                    HasMore = hasMore && users.Count == pageSize,
-                    PageNumber = pageNumber,
+                    HasMore = hasMore && users.Count == size,
+                    PageNumber = page,
                     PageSize = users.Count,
                     TotalCount = filteredCount // Use the filtered count here
                 };
@@ -106,6 +102,27 @@ namespace api.Controllers
                 Console.Error.WriteLine($"Error in GetUsers: {ex.Message}");
                 return StatusCode(500, "An error occurred while retrieving users.");
             }
+        }
+
+        // Helper method to parse the "sort" parameter
+        private (string, string) ParseSortParameter(string? sort)
+        {
+            if (string.IsNullOrWhiteSpace(sort))
+            {
+                return ("Id", "asc"); // Default sorting
+            }
+
+            var sortParts = sort.Split(',');
+            var sortField = sortParts.Length > 0 ? sortParts[0] : "Id";
+            var sortDirection = sortParts.Length > 1 ? sortParts[1].ToLower() : "asc";
+
+            // Validate sort direction
+            if (sortDirection != "asc" && sortDirection != "desc")
+            {
+                sortDirection = "asc"; // Default to ascending
+            }
+
+            return (sortField, sortDirection);
         }
 
         [HttpGet("applications-overview")]
