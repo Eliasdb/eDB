@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, Input } from '@angular/core';
 import { ModalModule, ModalService } from 'carbon-components-angular';
 import { Subject } from 'rxjs';
-import { DynamicModalComponent } from './actual-modal.component';
+import { UiModalComponent } from './actual-modal.component';
 
 @Component({
   selector: 'app-data-passing-modal',
@@ -26,7 +26,7 @@ export class DataPassingModal implements AfterContentInit {
 
   openModal() {
     this.modalService.create({
-      component: DynamicModalComponent,
+      component: UiModalComponent,
       inputs: {
         modalText: this.modalText,
         inputValue: this.modalInputValue,

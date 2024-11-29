@@ -12,10 +12,14 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { UiTableComponent } from '@eDB/shared-ui';
+import {
+  UiButtonComponent,
+  UiModalComponent,
+  UiTableComponent,
+} from '@eDB/shared-ui';
 import { TableUtilsService } from '@eDB/shared-utils';
+import { ModalService, PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
-import { UiButtonComponent } from '../../../../../../../../libs/ui/src/lib/components/buttons/button/button.component';
 import {
   ApplicationOverviewDto,
   CreateApplicationDto,
@@ -30,7 +34,13 @@ import {
 @Component({
   standalone: true,
   selector: 'platform-admin-subscriptions-table',
-  imports: [CommonModule, UiTableComponent, UiButtonComponent],
+  imports: [
+    CommonModule,
+    UiTableComponent,
+    UiButtonComponent,
+    PlaceholderModule,
+  ],
+  providers: [ModalService],
   template: `
     <ui-table
       [title]="'Applications'"
@@ -38,39 +48,37 @@ import {
       [model]="tableModel"
       [showSelectionColumn]="false"
       [sortable]="false"
-      (rowClicked)="onRowClick($event)"
-      (addApplication)="handleAddApplication()"
       [showButton]="true"
+      (rowClicked)="onRowClick($event)"
+      (addApplication)="openModal()"
     ></ui-table>
+    <cds-placeholder></cds-placeholder>
     <ng-template #actionTemplate let-data="data">
       <ui-button
-        (click)="onRevokeAccess(data.userId, data.applicationId)"
         [size]="'sm'"
         [icon]="'faBan'"
         [variant]="'danger'"
+        (click)="onRevokeAccess(data.userId, data.applicationId)"
         >Revoke access</ui-button
       >
     </ng-template>
   `,
 })
 export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
-  handleClick() {
-    console.log('yoo');
-  }
   @Input() applications: ApplicationOverviewDto[] | undefined;
+  @ViewChild('actionTemplate', { static: true })
+  actionTemplate!: TemplateRef<any>;
+  tableModel = new TableModel();
+
+  tableUtils = inject(TableUtilsService);
+  adminService = inject(AdminService);
+  modalService = inject(ModalService);
+
   @Output() rowClicked = new EventEmitter<number>();
   @Output() revokeSubscription = new EventEmitter<{
     userId: number;
     applicationId: number;
   }>();
-
-  @ViewChild('actionTemplate', { static: true })
-  actionTemplate!: TemplateRef<any>;
-
-  tableModel = new TableModel();
-
-  tableUtils = inject(TableUtilsService);
-  adminService = inject(AdminService);
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['applications']) {
@@ -83,17 +91,29 @@ export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
     }
   }
 
+  openModal() {
+    const modalRef = this.modalService.create<UiModalComponent>({
+      component: UiModalComponent,
+      inputs: {
+        modalText: 'Hallo Wereld',
+      },
+    });
+
+    // Subscribe to the save event
+    modalRef.instance.save.subscribe((formData: CreateApplicationDto) => {
+      this.handleAddApplication(formData);
+      modalRef.destroy(); // Close the modal after saving
+    });
+
+    // Subscribe to the close event
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy(); // Close the modal when canceled
+    });
+  }
+
   addApplicationMutation = this.adminService.addApplicationMutation();
 
-  handleAddApplication(): void {
-    // Replace with a proper form/dialog for collecting application data
-    const newApplication: CreateApplicationDto = {
-      name: 'Task Management Tool',
-      description: 'A tool to manage tasks and projects effectively.',
-      iconUrl: 'https://example.com/icons/task-management.png',
-      routePath: '/task-manager',
-    };
-
+  handleAddApplication(newApplication: CreateApplicationDto): void {
     this.addApplicationMutation.mutate(newApplication, {
       onSuccess: () => {
         console.log('Application added successfully');

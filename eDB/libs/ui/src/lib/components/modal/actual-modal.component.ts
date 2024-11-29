@@ -1,17 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ModalModule } from 'carbon-components-angular';
-import { Subject } from 'rxjs';
+import { ModalModule, PlaceholderModule } from 'carbon-components-angular';
 import { UiButtonComponent } from '../buttons/button/button.component';
 import { UiTextInputComponent } from '../inputs/text-input/input.component';
 
 @Component({
-  selector: 'app-dynamic-modal',
+  selector: 'ui-modal',
   standalone: true,
   imports: [
     ModalModule,
@@ -19,11 +18,13 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
     ReactiveFormsModule,
     UiTextInputComponent,
     UiButtonComponent,
+    PlaceholderModule,
   ],
   template: `
     <cds-modal [open]="true" [size]="'md'" (close)="onCancel()">
       <cds-modal-header [title]="'Add Application'"></cds-modal-header>
       <form [formGroup]="form">
+        <!-- form fields -->
         <ui-text-input
           label="Application Name"
           placeholder="Enter application name"
@@ -70,8 +71,9 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
     </cds-modal>
   `,
 })
-export class DynamicModalComponent {
-  @Input() data!: Subject<any>;
+export class UiModalComponent {
+  @Output() save = new EventEmitter<any>();
+  @Output() close = new EventEmitter<void>();
 
   form: FormGroup;
 
@@ -86,17 +88,13 @@ export class DynamicModalComponent {
   }
 
   onCancel() {
-    this.data.complete(); // Signal that the modal was dismissed
+    this.close.emit();
   }
 
   onSave() {
-    if (this.data) {
-      const formValue = this.form.value;
-      formValue.tags = formValue.tags
-        .split(',')
-        .map((tag: string) => tag.trim());
-      this.data.next(formValue); // Emit the form data
-    }
+    const formValue = this.form.value;
+    formValue.tags = formValue.tags.split(',').map((tag: string) => tag.trim());
+    this.save.emit(formValue);
     this.onCancel();
   }
 }
