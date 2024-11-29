@@ -152,7 +152,11 @@ export class AdminService {
   ): Observable<PagedResult<UserProfile>> {
     const sortParam = `${sortField},${sortDirection}`;
 
-    const url = `${this.apiUrl}?page=${pageNumber}&size=15&sort=${sortParam}&search=${search}`;
+    const url = `${
+      this.apiUrl
+    }?page=${pageNumber}&size=15&sort=${sortParam}&search=${encodeURIComponent(
+      search
+    )}`;
     return this.http.get<PagedResult<UserProfile>>(url);
   }
 
