@@ -1,7 +1,6 @@
-export interface PagedResult<T> {
-  items: T[];
+export interface PaginatedResponse<T> {
+  CurrentPage: number;
+  data: T[];
+  nextCursor: number | null; // Null if there are no more pages
   hasMore: boolean;
-  pageNumber: number;
-  pageSize: number;
-  totalCount: number; // Optional: Total number of items
 }

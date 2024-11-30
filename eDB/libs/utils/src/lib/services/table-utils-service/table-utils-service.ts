@@ -6,7 +6,7 @@ import {
   ApplicationOverviewDto,
   RowMapperConfig,
   TableColumnConfig,
-} from '../../models/table.model';
+} from '../../forms/models/table.model';
 
 @Injectable({
   providedIn: 'root',
