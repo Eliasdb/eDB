@@ -1,130 +1,17 @@
-// src/app/services/admin-service/admin.service.ts
+// admin.service.ts
 
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import {
-  injectMutation,
-  injectQuery,
-  QueryClient,
-} from '@tanstack/angular-query-experimental';
-import {
-  BehaviorSubject,
-  catchError,
-  combineLatest,
-  debounceTime,
-  firstValueFrom,
-  Observable,
-  shareReplay,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
-import {
-  ApplicationOverviewDto,
-  CreateApplicationDto,
-} from '../../models/application-overview.model';
-import { PagedResult } from '../../models/paged-result.model';
-import { SortParams } from '../../models/sort-event.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { PaginatedResponse } from '../../models/paged-result.model';
 import { UserProfile } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
-  private readonly apiUrl = 'http://localhost:9101/api/admin/users'; // Consider using environment variables
-  private readonly applicationsUrl =
-    'http://localhost:9101/api/admin/applications-overview';
-
-  private readonly baseUrl = 'http://localhost:9101/api/admin';
-
+  private readonly apiUrl = 'http://localhost:9101/api/admin/users';
   private http = inject(HttpClient);
-
-  private sortParams$ = new BehaviorSubject<SortParams>({
-    sortField: 'id',
-    sortDirection: 'asc',
-  });
-  private pageParam$ = new BehaviorSubject<number>(1);
-  private searchParam$ = new BehaviorSubject<string>('');
-
-  private isLoading$ = new BehaviorSubject<boolean>(false);
-  private hasMore$ = new BehaviorSubject<boolean>(true);
-
-  private queryClient = inject(QueryClient);
-
-  getSearchParam$(): Observable<string> {
-    return this.searchParam$.asObservable();
-  }
-
-  getSortParams$(): Observable<SortParams> {
-    return this.sortParams$.asObservable();
-  }
-
-  getPageParam$(): Observable<number> {
-    return this.pageParam$.asObservable();
-  }
-
-  getIsLoading$(): Observable<boolean> {
-    return this.isLoading$.asObservable();
-  }
-
-  getHasMore$(): Observable<boolean> {
-    return this.hasMore$.asObservable();
-  }
-
-  getCurrentPage(): number {
-    return this.pageParam$.value;
-  }
-
-  updateSortParams(params: SortParams): void {
-    this.sortParams$.next(params);
-  }
-
-  updatePageParam(page: number): void {
-    this.pageParam$.next(page);
-  }
-
-  updateSearchParam(search: string): void {
-    this.searchParam$.next(search);
-  }
-
-  resetSortAndPage(sortParams: SortParams): void {
-    this.sortParams$.next(sortParams);
-    this.pageParam$.next(1); // Reset to the first page
-  }
-
-  fetchPaginatedData$(): Observable<PagedResult<UserProfile>> {
-    return combineLatest([
-      this.sortParams$,
-      this.pageParam$,
-      this.searchParam$,
-    ]).pipe(
-      debounceTime(50), // Adjust debounce time as needed
-      tap(([sortParams, pageParam, searchParam]) => {
-        console.log(
-          `Fetching users with sortField=${sortParams.sortField}, sortDirection=${sortParams.sortDirection}, pageNumber=${pageParam}, search=${searchParam}`
-        );
-        this.isLoading$.next(true);
-      }),
-      switchMap(([sortParams, pageParam, searchParam]) =>
-        this.fetchUsersPage(
-          this.mapSortFieldToBackend(sortParams.sortField),
-          sortParams.sortDirection,
-          pageParam,
-          searchParam
-        ).pipe(
-          tap((pagedResult) => {
-            this.isLoading$.next(false);
-            this.hasMore$.next(pagedResult.hasMore);
-          }),
-          catchError((error) => {
-            this.isLoading$.next(false);
-            return throwError(() => error);
-          })
-        )
-      ),
-      shareReplay(1)
-    );
-  }
 
   /**
    * Maps frontend sortField to backend sortField.
@@ -133,87 +20,72 @@ export class AdminService {
    */
   private mapSortFieldToBackend(sortField: string): string {
     const fieldMapping: { [key: string]: string } = {
-      id: 'id',
-      name: 'firstName', // Assuming 'Name' maps to 'FirstName'
+      firstname: 'firstName',
+      lastname: 'lastName',
       email: 'email',
       role: 'role',
       state: 'state',
+      id: 'id',
     };
-    const backendSortField = fieldMapping[sortField];
-
-    return backendSortField || 'id';
+    return fieldMapping[sortField.toLowerCase()] || 'id';
   }
 
-  private fetchUsersPage(
-    sortField: string = 'id',
-    sortDirection: 'asc' | 'desc' = 'asc',
-    pageNumber: number = 1,
-    search: string = ''
-  ): Observable<PagedResult<UserProfile>> {
-    const sortParam = `${sortField},${sortDirection}`;
+  /**
+   * Fetches users with given parameters.
+   * @param cursor Cursor for pagination (represents the last User's sort field value or a composite object).
+   * @param searchParam Search query.
+   * @param sortParam Sort parameters in the format "field,direction".
+   * @returns Promise of PaginatedResponse.
+   */
+  async queryUsers(
+    cursor: number | string | null,
+    searchParam?: string,
+    sortParam?: string
+  ): Promise<PaginatedResponse<UserProfile>> {
+    let params = new HttpParams();
 
-    const url = `${
-      this.apiUrl
-    }?page=${pageNumber}&size=15&sort=${sortParam}&search=${encodeURIComponent(
-      search
-    )}`;
-    return this.http.get<PagedResult<UserProfile>>(url);
-  }
+    if (cursor !== null && cursor !== undefined) {
+      if (typeof cursor === 'string') {
+        try {
+          const parsedCursor = JSON.parse(cursor);
 
-  // fetchApplicationsOverview$(): Observable<ApplicationOverviewDto[]> {
-  //   return this.http.get<ApplicationOverviewDto[]>(this.applicationsUrl);
-  // }
-
-  fetchSubscriptions() {
-    return injectQuery(() => ({
-      queryKey: ['subscriptions'],
-      queryFn: async () => {
-        const subscriptions = await firstValueFrom(
-          this.http.get<ApplicationOverviewDto[]>(
-            `${this.baseUrl}/applications-overview`
-          )
-        );
-        if (!subscriptions) {
-          throw new Error('Subscriptions not found');
+          // Check if it's a composite cursor
+          if (
+            parsedCursor.value !== undefined &&
+            parsedCursor.id !== undefined
+          ) {
+            params = params.set('cursor', parsedCursor.value);
+            // params = params.set('cursorId', parsedCursor.id);
+          } else {
+            // Simple string cursor
+            params = params.set('cursor', parsedCursor);
+          }
+        } catch (error) {
+          console.error('Failed to parse cursor:', error);
+          // Fallback to simple string cursor
+          params = params.set('cursor', cursor);
         }
-        return subscriptions;
-      },
-    }));
-  }
+      } else {
+        // Numeric cursor
+        params = params.set('cursor', cursor.toString()); // Convert number to string
+      }
+    }
 
-  // Revoke subscription for a user
-  revokeSubscription() {
-    return injectMutation(() => ({
-      mutationFn: async ({
-        applicationId,
-        userId,
-      }: {
-        applicationId: number;
-        userId: number;
-      }) => {
-        return firstValueFrom(
-          this.http.delete<void>(
-            `${this.baseUrl}/applications/${applicationId}/subscriptions/${userId}`
-          )
-        );
-      },
-      onSuccess: () => {
-        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
-      },
-    }));
-  }
+    if (searchParam && searchParam.trim() !== '') {
+      params = params.set('search', searchParam.trim());
+    }
 
-  addApplicationMutation() {
-    return injectMutation(() => ({
-      mutationFn: async (application: CreateApplicationDto) => {
-        return firstValueFrom(
-          this.http.post(`${this.baseUrl}/applications/create`, application)
-        );
-      },
-      onSuccess: () => {
-        // Invalidate the subscriptions query to refresh data
-        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
-      },
-    }));
+    if (sortParam && sortParam.trim() !== '') {
+      const [sortField, sortDirection] = sortParam.split(',');
+      const backendSortField = this.mapSortFieldToBackend(sortField);
+      const backendSortParam = `${backendSortField},${sortDirection}`;
+      params = params.set('sort', backendSortParam);
+    }
+
+    console.log(`Fetching users with params: ${params.toString()}`);
+
+    return lastValueFrom(
+      this.http.get<PaginatedResponse<UserProfile>>(this.apiUrl, { params })
+    );
   }
 }

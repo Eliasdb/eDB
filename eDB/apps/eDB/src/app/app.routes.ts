@@ -26,9 +26,7 @@ export const routes: Route[] = [
       {
         path: 'admin',
         loadComponent: () =>
-          import('./pages/platform/admin/admin.container').then(
-            (m) => m.AdminContainer
-          ),
+          import('./pages/platform/admin/admin.page').then((m) => m.AdminPage),
       },
       {
         path: 'catalog',

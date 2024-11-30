@@ -33,34 +33,29 @@ namespace api.Controllers
         }
 
         // Endpoint to get the list of users with pagination and sorting using AutoMapper
+        /// <summary>
+        /// Endpoint to get the list of users with cursor-based pagination, sorting, and search.
+        /// </summary>
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUsers(
-           [FromQuery] int page = 1,
-           [FromQuery] int size = 15,
-           [FromQuery] string? sort = "id,asc", // Default sort syntax
-           [FromQuery] string? search = null)  // Optional search query
+           [FromQuery] string? cursor = null, // Cursor for pagination
+           [FromQuery] string? sort = "id,asc", // Sort syntax
+           [FromQuery] string? search = null) // Optional search query
         {
             try
             {
-                // Validate input parameters
-                page = Math.Max(page, 1);
-                size = Math.Clamp(size, 1, 100); // Ensure size is between 1 and 100
-
                 // Parse sort parameter
                 var sortParams = ParseSortParameter(sort);
                 var sortField = sortParams.Item1;
                 var sortDirection = sortParams.Item2;
 
-                // Get total user count before filtering
-                var totalUsers = await _context.Users.CountAsync();
-
-                // Apply filtering and sorting dynamically
+                // Build base query
                 IQueryable<User> query = _context.Users.AsNoTracking();
 
+                // Apply search filter
                 if (!string.IsNullOrWhiteSpace(search))
                 {
-                    // Apply search filter
                     search = search.ToLower();
                     query = query.Where(u =>
                         (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
@@ -68,41 +63,56 @@ namespace api.Controllers
                         (u.Email != null && u.Email.ToLower().Contains(search)));
                 }
 
-                // Apply sorting dynamically
+                // Apply cursor-based pagination
+                if (!string.IsNullOrWhiteSpace(cursor))
+                {
+                    if (sortDirection == "asc")
+                    {
+                        query = query.Where($"{sortField} > @0", cursor);
+                    }
+                    else
+                    {
+                        query = query.Where($"{sortField} < @0", cursor);
+                    }
+                }
+
+                // Apply sorting
                 query = ApplySorting(query, sortField, sortDirection);
 
-                // Get filtered count
-                var filteredCount = await query.CountAsync();
-
-                // Fetch records for the current page
+                // Fetch the next 15 records
                 var users = await query
-                    .Skip((page - 1) * size)
-                    .Take(size)
+                    .Take(15)
                     .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                // Check if there are more records beyond the current page
-                bool hasMore = (page * size) < filteredCount;
+                // Determine next cursor
+                var hasMore = users.Count == 15;
+                var nextCursor = hasMore ? (sortDirection == "asc" ? users.Last() : users.First())?.GetType()
+                    .GetProperty(sortField)
+                    ?.GetValue(users.LastOrDefault()) : null;
 
-                // Construct the paged result
-                var pagedResult = new DTOs.PagedResult<UserDto>
+                // Construct response
+                var result = new
                 {
-                    Items = users,
-                    HasMore = hasMore && users.Count == size,
-                    PageNumber = page,
-                    PageSize = users.Count,
-                    TotalCount = filteredCount // Use the filtered count here
+                    Data = users,
+                    NextCursor = nextCursor,
+                    HasMore = hasMore
                 };
 
-                return Ok(pagedResult);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                // Log the exception details
+                // Log the full exception
                 Console.Error.WriteLine($"Error in GetUsers: {ex.Message}");
+                Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
                 return StatusCode(500, "An error occurred while retrieving users.");
             }
         }
+
+
+
+
 
         // Helper method to parse the "sort" parameter
         private (string, string) ParseSortParameter(string? sort)
@@ -113,8 +123,25 @@ namespace api.Controllers
             }
 
             var sortParts = sort.Split(',');
-            var sortField = sortParts.Length > 0 ? sortParts[0] : "Id";
+            var sortField = sortParts.Length > 0 ? sortParts[0] : "id";
             var sortDirection = sortParts.Length > 1 ? sortParts[1].ToLower() : "asc";
+
+            // Map camelCase to PascalCase database fields
+            var fieldMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "firstName", "FirstName" },
+        { "lastName", "LastName" },
+        { "email", "Email" },
+        { "role", "Role" },
+        { "state", "State" },
+        { "id", "Id" }
+    };
+
+            if (!fieldMapping.TryGetValue(sortField, out var mappedField))
+            {
+                Console.WriteLine($"Invalid sort field: {sortField}. Defaulting to Id.");
+                mappedField = "Id"; // Default to Id if field is invalid
+            }
 
             // Validate sort direction
             if (sortDirection != "asc" && sortDirection != "desc")
@@ -122,8 +149,10 @@ namespace api.Controllers
                 sortDirection = "asc"; // Default to ascending
             }
 
-            return (sortField, sortDirection);
+            return (mappedField, sortDirection);
         }
+
+
 
         [HttpGet("applications-overview")]
         [RoleAuthorize("Admin")]
@@ -237,18 +266,22 @@ namespace api.Controllers
         /// <returns>The sorted IQueryable of Users.</returns>
         static IQueryable<User> ApplySorting(IQueryable<User> query, string sortField, string sortDirection)
         {
-            // Define allowed sort fields for Users
+            // Define allowed sort fields
             var allowedSortFields = new List<string> { "Id", "FirstName", "LastName", "Email", "Role", "State" };
 
             if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
             {
-                sortField = "Id"; // Fallback to default sort field
+                Console.WriteLine($"Invalid sort field: {sortField}. Defaulting to Id.");
+                sortField = "Id"; // Default to Id if field is invalid
             }
 
             // Apply sorting dynamically using System.Linq.Dynamic.Core
             var sorting = $"{sortField} {sortDirection}";
+            Console.WriteLine($"Applying sorting: {sorting}");
             return query.OrderBy(sorting);
         }
+
+
 
         static IQueryable<Subscription> ApplySorting(IQueryable<Subscription> query, string sortField, string sortDirection)
         {
