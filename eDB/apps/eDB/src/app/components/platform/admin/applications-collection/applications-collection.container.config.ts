@@ -26,6 +26,11 @@ export const SubscriptionsTableColumnConfigs: TableColumnConfig[] = [
     field: 'subscribedUsers',
     sortable: false,
   },
+  {
+    header: 'Actions',
+    field: 'actions', // Column for the buttons
+    sortable: false,
+  },
 ];
 
 /**
@@ -47,5 +52,9 @@ export const getSubscriptionsTableMapperConfigs = (
   {
     field: 'subscribedUsers',
     valueGetter: (app: ApplicationOverviewDto) => app.subscribedUsers.length,
+  },
+  {
+    field: 'userId',
+    isTemplate: true,
   },
 ];

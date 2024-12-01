@@ -56,6 +56,19 @@ type StringSortField = (typeof STRING_SORT_FIELDS)[number];
         (searchChanged)="onSearchChanged($event)"
         (sortChanged)="onSortChanged($event)"
       ></ui-table>
+      <ng-template #actionsTemplate let-data="data">
+        <ui-platform-overflow-menu
+          [menuOptions]="[
+            { id: 'view', label: 'View More' },
+            { id: 'delete', label: 'Delete User' }
+          ]"
+          [icon]="'overflow-menu'"
+          [iconSize]="'1.25rem'"
+          [iconColor]="'gray'"
+          (menuOptionSelected)="onMenuOptionSelected($event, data)"
+        ></ui-platform-overflow-menu>
+      </ng-template>
+
       <div id="loader" #loader></div>
 
       <div class="feedback-messages">

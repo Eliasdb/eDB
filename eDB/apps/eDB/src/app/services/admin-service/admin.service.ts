@@ -96,9 +96,9 @@ export class AdminService {
     );
   }
 
-  fetchSubscriptions() {
+  fetchApplications() {
     return injectQuery(() => ({
-      queryKey: ['subscriptions'],
+      queryKey: ['applications'],
       queryFn: async () => {
         const subscriptions = await firstValueFrom(
           this.http.get<ApplicationOverviewDto[]>(
@@ -109,6 +109,22 @@ export class AdminService {
           throw new Error('Subscriptions not found');
         }
         return subscriptions;
+      },
+    }));
+  }
+
+  deleteApplication() {
+    return injectMutation(() => ({
+      mutationFn: async (applicationId: number) => {
+        return firstValueFrom(
+          this.http.delete<void>(
+            `${this.baseUrl}/applications/${applicationId}`
+          )
+        );
+      },
+      onSuccess: () => {
+        // Invalidate queries related to applications to refresh the data
+        this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));
   }
