@@ -3,6 +3,7 @@
 :root {
   --cds-ui-01: yellow;
   --cds-button-primary-01: red;
+  --cds-heading-03-font-size: 1.25rem;
 }
 
 .cds--side-nav__icon {
@@ -62,4 +63,12 @@ td[title='Actions'] {
   background-color: #f4f4f4;
   font-weight: bold;
   color: #333;
+}
+
+.cds--modal-footer {
+  & > * {
+    /* Apply styles to all direct child elements of .row-2 */
+    flex: 1 1 50%; /* Each input will take 50% of the width */
+    max-width: 50%; /* Ensure they don’t grow beyond 50% */
+  }
 }
