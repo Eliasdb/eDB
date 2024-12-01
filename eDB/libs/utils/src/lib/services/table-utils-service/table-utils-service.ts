@@ -17,12 +17,20 @@ export class TableUtilsService {
    * @param columnConfigs Array of column configurations.
    * @returns Array of TableHeaderItem.
    */
-  getTableHeaders(columnConfigs: TableColumnConfig[]): TableHeaderItem[] {
+  getTableHeaders(
+    columnConfigs: TableColumnConfig[],
+    activeSortField?: string,
+    activeSortDirection?: 'asc' | 'desc'
+  ): TableHeaderItem[] {
     return columnConfigs.map(
       (config) =>
         new TableHeaderItem({
           data: config.header,
           sortable: config.sortable,
+          sorted: config.sortField === activeSortField,
+          ascending:
+            activeSortField === config.sortField &&
+            activeSortDirection === 'asc',
           metadata: {
             sortField: config.sortField || null,
           },

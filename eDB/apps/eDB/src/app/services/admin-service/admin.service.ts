@@ -1,8 +1,17 @@
 // admin.service.ts
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import {
+  injectMutation,
+  injectQuery,
+  QueryClient,
+} from '@tanstack/angular-query-experimental';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
+import {
+  ApplicationOverviewDto,
+  CreateApplicationDto,
+} from '../../models/application-overview.model';
 import { PaginatedResponse } from '../../models/paged-result.model';
 import { UserProfile } from '../../models/user.model';
 
@@ -12,14 +21,16 @@ import { UserProfile } from '../../models/user.model';
 export class AdminService {
   private readonly apiUrl = 'http://localhost:9101/api/admin/users';
   private http = inject(HttpClient);
+  private readonly baseUrl = 'http://localhost:9101/api/admin';
+  private queryClient = inject(QueryClient);
 
   /**
    * Maps frontend sortField to backend sortField.
    * @param sortField Frontend sort field.
    * @returns Backend sort field.
    */
-  private mapSortFieldToBackend(sortField: string): string {
-    const fieldMapping: { [key: string]: string } = {
+  public mapSortFieldToBackend(sortField: string): keyof UserProfile {
+    const fieldMapping: { [key: string]: keyof UserProfile } = {
       firstname: 'firstName',
       lastname: 'lastName',
       email: 'email',
@@ -49,25 +60,21 @@ export class AdminService {
         try {
           const parsedCursor = JSON.parse(cursor);
 
-          // Check if it's a composite cursor
           if (
+            typeof parsedCursor === 'object' &&
             parsedCursor.value !== undefined &&
             parsedCursor.id !== undefined
           ) {
-            params = params.set('cursor', parsedCursor.value);
-            // params = params.set('cursorId', parsedCursor.id);
+            params = params.set('cursor', JSON.stringify(parsedCursor));
           } else {
-            // Simple string cursor
-            params = params.set('cursor', parsedCursor);
+            params = params.set('cursor', cursor); // Raw string fallback
           }
         } catch (error) {
           console.error('Failed to parse cursor:', error);
-          // Fallback to simple string cursor
-          params = params.set('cursor', cursor);
+          params = params.set('cursor', cursor); // Fallback to original cursor
         }
       } else {
-        // Numeric cursor
-        params = params.set('cursor', cursor.toString()); // Convert number to string
+        params = params.set('cursor', cursor.toString()); // Convert numbers to string
       }
     }
 
@@ -87,5 +94,57 @@ export class AdminService {
     return lastValueFrom(
       this.http.get<PaginatedResponse<UserProfile>>(this.apiUrl, { params })
     );
+  }
+
+  fetchSubscriptions() {
+    return injectQuery(() => ({
+      queryKey: ['subscriptions'],
+      queryFn: async () => {
+        const subscriptions = await firstValueFrom(
+          this.http.get<ApplicationOverviewDto[]>(
+            `${this.baseUrl}/applications-overview`
+          )
+        );
+        if (!subscriptions) {
+          throw new Error('Subscriptions not found');
+        }
+        return subscriptions;
+      },
+    }));
+  }
+
+  revokeSubscription() {
+    return injectMutation(() => ({
+      mutationFn: async ({
+        applicationId,
+        userId,
+      }: {
+        applicationId: number;
+        userId: number;
+      }) => {
+        return firstValueFrom(
+          this.http.delete<void>(
+            `${this.baseUrl}/applications/${applicationId}/subscriptions/${userId}`
+          )
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+      },
+    }));
+  }
+
+  addApplicationMutation() {
+    return injectMutation(() => ({
+      mutationFn: async (application: CreateApplicationDto) => {
+        return firstValueFrom(
+          this.http.post(`${this.baseUrl}/applications/create`, application)
+        );
+      },
+      onSuccess: () => {
+        // Invalidate the subscriptions query to refresh data
+        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+      },
+    }));
   }
 }

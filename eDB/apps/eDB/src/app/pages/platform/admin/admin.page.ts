@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import { UsersCollectionContainer } from '../../../components/platform/admin/users-collection-container/users-collection.container';
+import { SubscriptionsTableComponent } from '../../../components/platform/admin/applications-collection/applications-collection.container';
+import { UsersCollectionContainer } from '../../../components/platform/admin/users-collection/users-collection.container';
+import { AdminService } from '../../../services/admin-service/admin.service';
 
 @Component({
-  selector: 'platform-admin-page',
+  selector: 'platform-admin',
   standalone: true,
   template: `
     <section class="admin-page">
@@ -16,7 +18,10 @@ import { UsersCollectionContainer } from '../../../components/platform/admin/use
           <platform-admin-users-collection></platform-admin-users-collection>
         </ng-container>
         <ng-container section2>
-          <!-- Include Applications Component here -->
+          <platform-admin-applications-collection
+            [applications]="applicationsQuery.data()"
+            (revokeSubscription)="onRevokeSubscription($event)"
+          ></platform-admin-applications-collection>
         </ng-container>
         <ng-container section3>
           <!-- Include Settings Component here -->
@@ -24,13 +29,35 @@ import { UsersCollectionContainer } from '../../../components/platform/admin/use
       </ui-content-switcher>
     </section>
   `,
-  imports: [UiContentSwitcherComponent, UsersCollectionContainer],
-  styleUrl: 'admin.container.scss',
+  imports: [
+    UiContentSwitcherComponent,
+    UsersCollectionContainer,
+    SubscriptionsTableComponent,
+  ],
+  styleUrls: ['admin.page.scss'],
 })
 export class AdminPage {
   activeSection = 0;
 
   onSectionChange(index: number): void {
     this.activeSection = index;
+  }
+  private adminService = inject(AdminService);
+
+  applicationsQuery = this.adminService.fetchSubscriptions();
+  // Use injectMutation for revoking subscriptions
+  revokeSubscriptionMutation = this.adminService.revokeSubscription();
+
+  onRevokeSubscription(event: { applicationId: number; userId: number }): void {
+    this.revokeSubscriptionMutation.mutate(event, {
+      onSuccess: () => {
+        console.log('Subscription successfully revoked');
+        // Refetch applications after mutation
+        this.applicationsQuery.refetch();
+      },
+      onError: (error) => {
+        console.error('Failed to revoke subscription:', error);
+      },
+    });
   }
 }

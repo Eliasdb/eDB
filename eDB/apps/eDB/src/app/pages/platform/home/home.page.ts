@@ -7,4 +7,4 @@ import { Component } from '@angular/core';
   selector: 'platform-home',
   template: ` <p>yooo yoo</p> `,
 })
-export class HomeComponent {}
+export class HomePage {}

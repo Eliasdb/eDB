@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
 import { PlatformLayout } from './layouts/platform/platform.layout';
 import { PortalLayout } from './layouts/portal/portal.layout';
-import { LoginContainer } from './pages/portal/login/login.container';
-import { RegisterContainer } from './pages/portal/register/register.container';
+import { LoginPage } from './pages/portal/login/login.page';
+import { RegisterPage } from './pages/portal/register/register.page';
 
 export const routes: Route[] = [
   {
@@ -12,15 +12,13 @@ export const routes: Route[] = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/platform/home/home.component').then(
-            (m) => m.HomeComponent
-          ),
+          import('./pages/platform/home/home.page').then((m) => m.HomePage),
       },
       {
         path: 'profile',
         loadComponent: () =>
-          import('./pages/platform/profile/profile.container').then(
-            (m) => m.ProfileContainer
+          import('./pages/platform/profile/profile.page').then(
+            (m) => m.ProfilePage
           ),
       },
       {
@@ -31,8 +29,8 @@ export const routes: Route[] = [
       {
         path: 'catalog',
         loadComponent: () =>
-          import('./pages/platform/catalog/catalog.container').then(
-            (m) => m.CatalogContainer
+          import('./pages/platform/catalog/catalog.page').then(
+            (m) => m.CatalogPage
           ),
       },
     ],
@@ -43,11 +41,11 @@ export const routes: Route[] = [
     children: [
       {
         path: 'login',
-        component: LoginContainer,
+        component: LoginPage,
       },
       {
         path: 'register',
-        component: RegisterContainer,
+        component: RegisterPage,
       },
     ],
   },

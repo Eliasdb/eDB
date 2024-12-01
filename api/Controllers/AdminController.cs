@@ -206,7 +206,8 @@ namespace api.Controllers
                     Name = applicationDto.Name,
                     Description = applicationDto.Description,
                     IconUrl = applicationDto.IconUrl,
-                    RoutePath = applicationDto.RoutePath
+                    RoutePath = applicationDto.RoutePath,
+                    Tags = applicationDto.Tags
                 };
 
                 _context.Applications.Add(application);
