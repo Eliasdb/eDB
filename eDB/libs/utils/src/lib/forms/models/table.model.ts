@@ -7,7 +7,7 @@ import { TableItem } from 'carbon-components-angular';
  */
 export interface TableColumnConfig {
   header: string;
-  field: string;
+  field?: string;
   sortable?: boolean;
   sortField?: string;
   isTemplate?: boolean; // Indicates if the column uses a template (e.g., for actions)

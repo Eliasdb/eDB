@@ -23,6 +23,6 @@ import { LoginFormComponent } from '../../../components/portal/login/login-form/
       </div>
     </section>
   `,
-  styleUrls: ['./login.container.scss'],
+  styleUrls: ['./login.page.scss'],
 })
-export class LoginContainer {}
+export class LoginPage {}

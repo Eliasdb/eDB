@@ -32,15 +32,14 @@ import { RegisterFormComponent } from '../../../components/portal/register/regis
               <a (click)="navigateToLogin()">Log in</a>.
             </p>
           </div>
-
           <platform-portal-register-form></platform-portal-register-form>
         </div>
       </div>
     </div>
   `,
-  styleUrls: ['./register.container.scss'],
+  styleUrls: ['./register.page.scss'],
 })
-export class RegisterContainer {
+export class RegisterPage {
   private router = inject(Router);
 
   navigateToLogin(): void {

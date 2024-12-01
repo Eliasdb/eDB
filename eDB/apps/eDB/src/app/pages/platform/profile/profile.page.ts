@@ -5,7 +5,7 @@ import { PlatformProfileSettingsGroup } from '../../../components/platform/profi
 import { SettingsGroup } from '../../../models/settings.model';
 import { LinkItem } from '../../../models/user.model';
 import { UserProfileService } from '../../../services/user-profile-service/user-profile.service';
-import { settingsGroups } from './profile.container.config';
+import { settingsGroups } from './profile.page.config';
 
 @Component({
   selector: 'platform-settings',
@@ -42,9 +42,9 @@ import { settingsGroups } from './profile.container.config';
       </section>
     </section>
   `,
-  styleUrls: ['./profile.container.scss'],
+  styleUrls: ['./profile.page.scss'],
 })
-export class ProfileContainer {
+export class ProfilePage {
   settingsGroups = settingsGroups;
 
   links: LinkItem[] = this.settingsGroups.map((group) => ({

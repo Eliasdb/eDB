@@ -1,0 +1,14 @@
+.catalog {
+  padding-top: 6rem;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(255 255 255);
+}
+
+.catalog-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between tiles */
+  justify-content: center; /* Center tiles horizontally */
+  max-width: 80rem;
+}

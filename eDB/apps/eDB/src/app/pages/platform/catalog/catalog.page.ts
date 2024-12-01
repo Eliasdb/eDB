@@ -10,7 +10,7 @@ import { CatalogService } from '../../../services/catalog-service/catalog.servic
   imports: [CommonModule, UiTileComponent],
   template: `
     <div class="catalog">
-      <h1>Catalog</h1>
+      <h3>Catalog</h3>
       <ng-container *ngIf="!isLoading; else loading">
         <div class="catalog-tiles" *ngIf="catalog; else error">
           <ui-tile
@@ -29,9 +29,9 @@ import { CatalogService } from '../../../services/catalog-service/catalog.servic
       </ng-template>
     </div>
   `,
-  styleUrls: ['./catalog.container.scss'],
+  styleUrls: ['./catalog.page.scss'],
 })
-export class CatalogContainer {
+export class CatalogPage {
   catalog: (CatalogItem & { tags: any[] })[] | null = null;
   isLoading = true;
   error: string | null = null;

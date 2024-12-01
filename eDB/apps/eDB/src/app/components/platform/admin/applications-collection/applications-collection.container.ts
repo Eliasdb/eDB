@@ -29,11 +29,11 @@ import { AdminService } from '../../../../services/admin-service/admin.service';
 import {
   getSubscriptionsTableMapperConfigs,
   SubscriptionsTableColumnConfigs,
-} from './subscriptions-table.config';
+} from './applications-collection.container.config';
 
 @Component({
   standalone: true,
-  selector: 'platform-admin-subscriptions-table',
+  selector: 'platform-admin-applications-collection',
   imports: [
     CommonModule,
     UiTableComponent,
@@ -64,7 +64,7 @@ import {
     </ng-template>
   `,
 })
-export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
+export class SubscriptionsTableComponent implements OnChanges {
   @Input() applications: ApplicationOverviewDto[] | undefined;
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
@@ -101,6 +101,8 @@ export class PlatformAdminSubscriptionsTableComponent implements OnChanges {
 
     // Subscribe to the save event
     modalRef.instance.save.subscribe((formData: CreateApplicationDto) => {
+      console.log(formData);
+
       this.handleAddApplication(formData);
       modalRef.destroy(); // Close the modal after saving
     });
