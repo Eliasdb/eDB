@@ -43,9 +43,9 @@ export class UiTextAreaComponent {
   @Input() warnText: string = ''; // Warning text displayed
   @Input() skeleton: boolean = false; // Whether to show a skeleton loader
   @Input() size: 'sm' | 'md' | 'lg' = 'md'; // Size of the textarea field
-  @Input() theme: 'light' | 'dark' = 'light'; // Theme of the textarea field
+  @Input() theme: 'light' | 'dark' = 'dark'; // Theme of the textarea field
   @Input() readonly: boolean = false; // Whether the textarea is read-only
   @Input() autocomplete: string = ''; // Autocomplete attribute for the textarea
   @Input() rows: number = 4; // Number of rows for the textarea
-  @Input() cols: number = 50; // Number of columns for the textarea
+  @Input() cols: number = 101; // Number of columns for the textarea
 }

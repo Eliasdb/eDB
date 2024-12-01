@@ -16,8 +16,8 @@ export interface CreateApplicationDto {
   name: string;
   description: string;
   iconUrl: string;
-  routePath: string;
   tags: string[];
+  routePath: string;
 }
 
 // src/app/models/table.model.ts
