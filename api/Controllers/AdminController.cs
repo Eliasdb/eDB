@@ -206,8 +206,7 @@ namespace api.Controllers
                     Name = applicationDto.Name,
                     Description = applicationDto.Description,
                     IconUrl = applicationDto.IconUrl,
-                    RoutePath = applicationDto.RoutePath
-,
+                    RoutePath = applicationDto.RoutePath,
                     Tags = applicationDto.Tags
                 };
 
@@ -253,6 +252,37 @@ namespace api.Controllers
                 // Log error and return server error response
                 Console.Error.WriteLine($"Error in RevokeSubscriptionByUserAndApplication: {ex.Message}");
                 return StatusCode(500, new { Message = "An error occurred while revoking the subscription." });
+            }
+        }
+
+        [HttpDelete("applications/{applicationId}")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> DeleteApplication([FromRoute] int applicationId)
+        {
+            try
+            {
+                // Fetch the application based on the provided applicationId
+                var application = await _context.Applications
+                    .FirstOrDefaultAsync(a => a.Id == applicationId);
+
+                // If the application is not found, return a 404 response
+                if (application == null)
+                {
+                    return NotFound(new { Message = "Application not found." });
+                }
+
+                // Remove the application from the database
+                _context.Applications.Remove(application);
+                await _context.SaveChangesAsync();
+
+                // Return a success response
+                return Ok(new { Message = "Application deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return a server error response
+                Console.Error.WriteLine($"Error in DeleteApplication: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred while deleting the application." });
             }
         }
 

@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import {
   UiButtonComponent,
+  UiIconButtonComponent,
   UiModalComponent,
   UiTableComponent,
 } from '@eDB/shared-ui';
@@ -39,6 +40,7 @@ import {
     UiTableComponent,
     UiButtonComponent,
     PlaceholderModule,
+    UiIconButtonComponent,
   ],
   providers: [ModalService],
   template: `
@@ -62,12 +64,22 @@ import {
         >Revoke access</ui-button
       >
     </ng-template>
+    <ng-template #deleteTemplate let-data="data">
+      <ui-icon-button
+        [size]="'sm'"
+        [icon]="'faTrash'"
+        (click)="onDeleteApplication(data.applicationId)"
+      ></ui-icon-button>
+    </ng-template>
   `,
 })
 export class SubscriptionsTableComponent implements OnChanges {
   @Input() applications: ApplicationOverviewDto[] | undefined;
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
+
+  @ViewChild('deleteTemplate', { static: true })
+  deleteTemplate!: TemplateRef<any>;
   tableModel = new TableModel();
 
   tableUtils = inject(TableUtilsService);
@@ -91,12 +103,22 @@ export class SubscriptionsTableComponent implements OnChanges {
     }
   }
 
+  deleteApplicationMutation = this.adminService.deleteApplication();
+
+  onDeleteApplication(applicationId: number) {
+    this.deleteApplicationMutation.mutate(applicationId, {
+      onSuccess: () => {
+        console.log('Application added successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to add application:', error);
+      },
+    });
+  }
+
   openModal() {
     const modalRef = this.modalService.create<UiModalComponent>({
       component: UiModalComponent,
-      inputs: {
-        modalText: 'Hallo Wereld',
-      },
     });
 
     // Subscribe to the save event
@@ -154,7 +176,8 @@ export class SubscriptionsTableComponent implements OnChanges {
 
     this.tableModel.data = this.tableUtils.prepareData(
       applications,
-      mapperConfigs
+      mapperConfigs,
+      this.deleteTemplate
     );
   }
 

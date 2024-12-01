@@ -44,7 +44,7 @@ export class AdminPage {
   }
   private adminService = inject(AdminService);
 
-  applicationsQuery = this.adminService.fetchSubscriptions();
+  applicationsQuery = this.adminService.fetchApplications();
   // Use injectMutation for revoking subscriptions
   revokeSubscriptionMutation = this.adminService.revokeSubscription();
 

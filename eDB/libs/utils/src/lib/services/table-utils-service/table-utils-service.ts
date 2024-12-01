@@ -90,6 +90,7 @@ export class TableUtilsService {
   ): TableItem[][] {
     // Define headers for the expanded table
     const header = [
+      new TableItem({ data: 'ID' }),
       new TableItem({ data: 'User Name' }),
       new TableItem({ data: 'Subscription Date' }),
       new TableItem({ data: 'Actions' }),
@@ -99,6 +100,9 @@ export class TableUtilsService {
     const data = app.subscribedUsers.map((user) => {
       // Now create and return the TableItem array for this user
       return [
+        new TableItem({
+          data: user.userId,
+        }),
         new TableItem({ data: user.userName }),
         new TableItem({
           data: new Date(user.subscriptionDate).toLocaleDateString('en-GB', {
