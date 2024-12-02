@@ -18,7 +18,6 @@ const meta: Meta<UiTextAreaComponent> = {
     size: 'md',
     theme: 'light',
     readonly: false,
-    autocomplete: 'off',
     rows: 4,
     cols: 50,
   },
@@ -77,10 +76,7 @@ const meta: Meta<UiTextAreaComponent> = {
       control: 'boolean',
       description: 'Whether the textarea is read-only.',
     },
-    autocomplete: {
-      control: 'text',
-      description: 'Autocomplete attribute for the textarea.',
-    },
+
     rows: {
       control: 'number',
       description: 'Number of rows for the textarea.',

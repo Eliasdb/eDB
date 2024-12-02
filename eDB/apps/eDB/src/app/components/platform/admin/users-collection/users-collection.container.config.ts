@@ -21,7 +21,14 @@ export const USER_TABLE_COLUMNS: TableColumnConfig[] = [
   },
   { header: 'Email', field: 'email', sortField: 'email', sortable: true },
   { header: 'Role', field: 'role', sortField: 'role', sortable: true },
+  {
+    header: 'Actions', // New column for the overflow menu
+    field: 'actions',
+    sortable: false,
+  },
 ];
+
+// users-table.config.ts
 
 export const USER_ROW_MAPPER_CONFIG: RowMapperConfig<UserProfile>[] = [
   { field: 'id' },
@@ -29,4 +36,26 @@ export const USER_ROW_MAPPER_CONFIG: RowMapperConfig<UserProfile>[] = [
   { field: 'lastName' },
   { field: 'email' },
   { field: 'role' },
+  {
+    field: 'actions',
+    isTemplate: true,
+    valueGetter: (row: UserProfile) => {
+      // Example: Different menu options based on user role
+      if (row.role === 'Admin') {
+        return {
+          menuOptions: [
+            { id: 'view', label: 'View More' },
+            { id: 'delete', label: 'Delete User' },
+            { id: 'promote', label: 'Promote to Super Admin' },
+          ],
+        };
+      }
+      return {
+        menuOptions: [
+          { id: 'view', label: 'View More' },
+          { id: 'delete', label: 'Delete User' },
+        ],
+      };
+    },
+  },
 ];

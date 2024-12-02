@@ -10,7 +10,7 @@ import { AdminService } from '../../../services/admin-service/admin.service';
   template: `
     <section class="admin-page">
       <ui-content-switcher
-        [optionsArray]="['Users', 'Applications', 'Settings']"
+        [optionsArray]="['Users', 'Applications']"
         [activeSection]="activeSection"
         (activeSectionChange)="onSectionChange($event)"
       >
@@ -22,9 +22,6 @@ import { AdminService } from '../../../services/admin-service/admin.service';
             [applications]="applicationsQuery.data()"
             (revokeSubscription)="onRevokeSubscription($event)"
           ></platform-admin-applications-collection>
-        </ng-container>
-        <ng-container section3>
-          <!-- Include Settings Component here -->
         </ng-container>
       </ui-content-switcher>
     </section>

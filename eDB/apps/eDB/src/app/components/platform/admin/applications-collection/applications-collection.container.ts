@@ -54,7 +54,7 @@ import {
       (rowClicked)="onRowClick($event)"
       (addApplication)="openModal()"
     ></ui-table>
-    <cds-placeholder></cds-placeholder>
+
     <ng-template #actionTemplate let-data="data">
       <ui-button
         [size]="'sm'"
@@ -75,6 +75,7 @@ import {
 })
 export class SubscriptionsTableComponent implements OnChanges {
   @Input() applications: ApplicationOverviewDto[] | undefined;
+
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
 
@@ -121,17 +122,13 @@ export class SubscriptionsTableComponent implements OnChanges {
       component: UiModalComponent,
     });
 
-    // Subscribe to the save event
     modalRef.instance.save.subscribe((formData: CreateApplicationDto) => {
-      console.log(formData);
-
       this.handleAddApplication(formData);
-      modalRef.destroy(); // Close the modal after saving
+      modalRef.destroy();
     });
 
-    // Subscribe to the close event
     modalRef.instance.close.subscribe(() => {
-      modalRef.destroy(); // Close the modal when canceled
+      modalRef.destroy();
     });
   }
 

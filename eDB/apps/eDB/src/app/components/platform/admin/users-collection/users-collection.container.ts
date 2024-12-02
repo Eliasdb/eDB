@@ -5,11 +5,17 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { UiLoadingSpinnerComponent, UiTableComponent } from '@eDB/shared-ui';
-import { SharedModule, TableUtilsService } from '@eDB/shared-utils';
+import { Router } from '@angular/router';
+import {
+  UiLoadingSpinnerComponent,
+  UiPlatformOverflowMenuComponent,
+  UiTableComponent,
+} from '@eDB/shared-ui';
+import { TableUtilsService } from '@eDB/shared-utils';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { TableModel } from 'carbon-components-angular';
 import {
@@ -40,54 +46,55 @@ type StringSortField = (typeof STRING_SORT_FIELDS)[number];
   imports: [
     CommonModule,
     UiTableComponent,
-    SharedModule,
     UiLoadingSpinnerComponent,
+    UiPlatformOverflowMenuComponent,
   ],
   template: `
-    <section>
-      <ui-table
-        *ngIf="model$ | async as model"
-        title="User Management"
-        description="Manage platform users with pagination and sorting."
-        [model]="model"
-        [sortable]="true"
-        [showToolbar]="true"
-        [searchTerm]="searchTerm"
-        (searchChanged)="onSearchChanged($event)"
-        (sortChanged)="onSortChanged($event)"
-      ></ui-table>
-      <ng-template #actionsTemplate let-data="data">
+    <ui-table
+      *ngIf="model$ | async as model"
+      title="User Management"
+      description="Manage platform users with pagination and sorting."
+      [model]="model"
+      [sortable]="true"
+      [showToolbar]="true"
+      [searchTerm]="searchTerm"
+      (searchChanged)="onSearchChanged($event)"
+      (sortChanged)="onSortChanged($event)"
+    ></ui-table>
+
+    <ng-template #actionsTemplate let-data="data">
+      <div>
         <ui-platform-overflow-menu
-          [menuOptions]="[
-            { id: 'view', label: 'View More' },
-            { id: 'delete', label: 'Delete User' }
-          ]"
-          [icon]="'overflow-menu'"
-          [iconSize]="'1.25rem'"
-          [iconColor]="'gray'"
+          [menuOptions]="menuOptions"
+          [icon]="'faEllipsisV'"
           (menuOptionSelected)="onMenuOptionSelected($event, data)"
         ></ui-platform-overflow-menu>
-      </ng-template>
-
-      <div id="loader" #loader></div>
-
-      <div class="feedback-messages">
-        <section class="loading-spinner" *ngIf="isFetching$ | async">
-          <ui-loading [isActive]="true" />
-          <p>Loading...</p>
-        </section>
-
-        <p *ngIf="!(hasMore$ | async)">You've reached the end!</p>
-        <p *ngIf="error$ | async as error">Error: {{ error.message }}</p>
       </div>
-    </section>
+    </ng-template>
+    <div id="loader" #loader></div>
+    <div class="feedback-messages">
+      <section class="loading-spinner" *ngIf="isFetching$ | async">
+        <ui-loading [isActive]="true" />
+        <p>Loading...</p>
+      </section>
+
+      <p *ngIf="!(hasMore$ | async)">You've reached the end!</p>
+      <p *ngIf="error$ | async as error">Error: {{ error.message }}</p>
+    </div>
   `,
   styleUrls: ['users-collection.container.scss'],
 })
 export class UsersCollectionContainer implements OnInit, OnDestroy {
+  @ViewChild('actionsTemplate', { static: true })
+  actionsTemplate!: TemplateRef<any>;
   private adminService = inject(AdminService);
   private userParamService = inject(UserParamService);
   private tableUtilsService = inject(TableUtilsService);
+  private router = inject(Router);
+  menuOptions = [
+    { id: 'view', label: 'View More' },
+    { id: 'delete', label: 'Delete User' },
+  ];
 
   private destroy$ = new Subject<void>();
   private sortChange$ = new Subject<SortEvent>();
@@ -143,6 +150,31 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     startWith([])
   );
 
+  onTestClick(data: any) {
+    console.log('Action Template Clicked:', data);
+  }
+
+  onMenuOptionSelected(action: string, user: UserProfile): void {
+    console.log(action);
+    if (action === 'view') {
+      // Navigate to the user detail page
+      this.router.navigate([`/users/${user.id}`]);
+    } else if (action === 'delete') {
+      console.log(action);
+      // Perform delete logic
+      // this.adminService.deleteUser(user.id).subscribe(
+      //   () => {
+      //     console.log('User deleted successfully');
+      //     // Refresh the table data if needed
+      //     this.usersQuery.refetch();
+      //   },
+      //   (error) => {
+      //     console.error('Failed to delete user:', error);
+      //   }
+      // );
+    }
+  }
+
   protected model$: Observable<TableModel> = combineLatest([
     this.users$,
     toObservable(this.sortParam),
@@ -159,13 +191,16 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       // Generate rows
       const rows = this.tableUtilsService.prepareData(
         data,
-        USER_ROW_MAPPER_CONFIG
+        USER_ROW_MAPPER_CONFIG,
+        this.actionsTemplate
       );
 
       // Construct the table model
       const model = new TableModel();
       model.header = headers;
       model.data = rows;
+
+      console.log(model);
 
       return model;
     })

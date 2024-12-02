@@ -145,7 +145,7 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+        this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));
   }
@@ -159,7 +159,7 @@ export class AdminService {
       },
       onSuccess: () => {
         // Invalidate the subscriptions query to refresh data
-        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+        this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));
   }
