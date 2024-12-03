@@ -183,6 +183,37 @@ namespace api.Controllers
             }
         }
 
+        [HttpDelete("users/{userId}")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> DeleteUser([FromRoute] int userId)
+        {
+            try
+            {
+                // Fetch the user based on the provided userId
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+                // If the user is not found, return a 404 response
+                if (user == null)
+                {
+                    return NotFound(new { Message = "User not found." });
+                }
+
+                // Remove the user from the database
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+
+                // Return a success response
+                return Ok(new { Message = "User deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return a server error response
+                Console.Error.WriteLine($"Error in DeleteUser: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred while deleting the user." });
+            }
+        }
+
+
 
         [HttpGet("applications-overview")]
         [RoleAuthorize("Admin")]

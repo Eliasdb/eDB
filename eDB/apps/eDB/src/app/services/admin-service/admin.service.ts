@@ -97,6 +97,20 @@ export class AdminService {
     return userSignal; // Return the signal
   }
 
+  deleteUser() {
+    return injectMutation(() => ({
+      mutationFn: async (userId: number) => {
+        return firstValueFrom(
+          this.http.delete<void>(`${this.baseUrl}/users/${userId}`)
+        );
+      },
+      onSuccess: () => {
+        // Invalidate queries related to applications to refresh the data
+        this.queryClient.invalidateQueries({ queryKey: ['users'] });
+      },
+    }));
+  }
+
   fetchApplications() {
     return injectQuery(() => ({
       queryKey: ['applications'],
