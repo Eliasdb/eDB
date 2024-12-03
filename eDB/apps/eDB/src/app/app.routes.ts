@@ -23,8 +23,10 @@ export const routes: Route[] = [
       },
       {
         path: 'admin',
-        loadComponent: () =>
-          import('./pages/platform/admin/admin.page').then((m) => m.AdminPage),
+        loadChildren: () =>
+          import('./pages/platform/admin/admin.routes').then(
+            (m) => m.ADMIN_ROUTES
+          ), // Lazy load the admin routes
       },
       {
         path: 'catalog',

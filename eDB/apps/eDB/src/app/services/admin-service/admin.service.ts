@@ -1,7 +1,7 @@
 // admin.service.ts
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   injectMutation,
   injectQuery,
@@ -23,23 +23,6 @@ export class AdminService {
   private http = inject(HttpClient);
   private readonly baseUrl = 'http://localhost:9101/api/admin';
   private queryClient = inject(QueryClient);
-
-  /**
-   * Maps frontend sortField to backend sortField.
-   * @param sortField Frontend sort field.
-   * @returns Backend sort field.
-   */
-  public mapSortFieldToBackend(sortField: string): keyof UserProfile {
-    const fieldMapping: { [key: string]: keyof UserProfile } = {
-      firstname: 'firstName',
-      lastname: 'lastName',
-      email: 'email',
-      role: 'role',
-      state: 'state',
-      id: 'id',
-    };
-    return fieldMapping[sortField.toLowerCase()] || 'id';
-  }
 
   /**
    * Fetches users with given parameters.
@@ -96,6 +79,24 @@ export class AdminService {
     );
   }
 
+  fetchUser(userId: number) {
+    const userSignal = signal<UserProfile | null>(null); // Initialize a signal
+    injectQuery(() => ({
+      queryKey: ['user', userId],
+      queryFn: async () => {
+        const user = await firstValueFrom(
+          this.http.get<UserProfile>(`${this.baseUrl}/users/${userId}`)
+        );
+        if (!user) {
+          throw new Error('User not found');
+        }
+        userSignal.set(user); // Update the signal when data is fetched
+        return user;
+      },
+    }));
+    return userSignal; // Return the signal
+  }
+
   fetchApplications() {
     return injectQuery(() => ({
       queryKey: ['applications'],
@@ -129,6 +130,20 @@ export class AdminService {
     }));
   }
 
+  addApplicationMutation() {
+    return injectMutation(() => ({
+      mutationFn: async (application: CreateApplicationDto) => {
+        return firstValueFrom(
+          this.http.post(`${this.baseUrl}/applications/create`, application)
+        );
+      },
+      onSuccess: () => {
+        // Invalidate the subscriptions query to refresh data
+        this.queryClient.invalidateQueries({ queryKey: ['applications'] });
+      },
+    }));
+  }
+
   revokeSubscription() {
     return injectMutation(() => ({
       mutationFn: async ({
@@ -150,17 +165,20 @@ export class AdminService {
     }));
   }
 
-  addApplicationMutation() {
-    return injectMutation(() => ({
-      mutationFn: async (application: CreateApplicationDto) => {
-        return firstValueFrom(
-          this.http.post(`${this.baseUrl}/applications/create`, application)
-        );
-      },
-      onSuccess: () => {
-        // Invalidate the subscriptions query to refresh data
-        this.queryClient.invalidateQueries({ queryKey: ['applications'] });
-      },
-    }));
+  /**
+   * Maps frontend sortField to backend sortField.
+   * @param sortField Frontend sort field.
+   * @returns Backend sort field.
+   */
+  public mapSortFieldToBackend(sortField: string): keyof UserProfile {
+    const fieldMapping: { [key: string]: keyof UserProfile } = {
+      firstname: 'firstName',
+      lastname: 'lastName',
+      email: 'email',
+      role: 'role',
+      state: 'state',
+      id: 'id',
+    };
+    return fieldMapping[sortField.toLowerCase()] || 'id';
   }
 }

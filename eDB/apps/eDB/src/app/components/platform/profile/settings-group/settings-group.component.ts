@@ -17,10 +17,10 @@ import { UiStructuredListComponent } from '@eDB/shared-ui';
         (actionClick)="actionClick.emit($event)"
         (updateEdit)="updateEdit.emit($event)"
         (cancelEdit)="cancelEdit.emit($event)"
+        [editMode]="true"
       ></ui-structured-list>
     </div>
   `,
-  styleUrls: ['./settings-group.component.scss'],
 })
 export class PlatformProfileSettingsGroup {
   @Input() id!: string;

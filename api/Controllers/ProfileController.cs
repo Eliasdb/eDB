@@ -9,7 +9,7 @@ namespace api.Controllers
 {
     [ApiController]
     [Route("api/profile")]
-    [RoleAuthorize("User")]
+    [RoleAuthorize("User", "Admin")]
 
     public class ProfileController : ControllerBase
     {
