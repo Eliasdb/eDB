@@ -36,4 +36,5 @@ export interface ApplicationOverviewDto {
   applicationDescription: string;
   subscribedUsers: SubscribedUserDto[];
   applicationId: number;
+  subscriberCount: number;
 }

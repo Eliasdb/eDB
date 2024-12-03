@@ -5,6 +5,16 @@
   justify-content: center;
 }
 
+.no-more-users {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-more-users p {
+  font-size: smaller;
+}
+
 .loading-spinner p {
-  font-size: 0.9rem;
+  font-size: smaller;
 }

@@ -23,7 +23,7 @@ export const SubscriptionsTableColumnConfigs: TableColumnConfig[] = [
   },
   {
     header: 'Subscribers',
-    field: 'subscribedUsers',
+    field: 'subscriberCount',
     sortable: false,
   },
   {
@@ -50,8 +50,7 @@ export const getSubscriptionsTableMapperConfigs = (
     field: 'applicationDescription',
   },
   {
-    field: 'subscribedUsers',
-    valueGetter: (app: ApplicationOverviewDto) => app.subscribedUsers.length,
+    field: 'subscriberCount',
   },
   {
     field: 'userId',

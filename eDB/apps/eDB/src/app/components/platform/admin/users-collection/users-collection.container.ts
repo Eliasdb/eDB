@@ -79,7 +79,9 @@ type StringSortField = (typeof STRING_SORT_FIELDS)[number];
         <p>Loading...</p>
       </section>
 
-      <p *ngIf="!(hasMore$ | async)">You've reached the end!</p>
+      <section class="no-more-users" *ngIf="!(hasMore$ | async)">
+        <p>No more users to load.</p>
+      </section>
       <p *ngIf="error$ | async as error">Error: {{ error.message }}</p>
     </div>
   `,

@@ -234,6 +234,7 @@ namespace api.Controllers
                     ApplicationId = app.Id, // Populate ApplicationId
                     ApplicationName = app.Name,
                     ApplicationDescription = app.Description,
+                    SubscriberCount = app.Subscriptions.Count(sub => sub.User != null), // Count the number of valid subscribers
                     SubscribedUsers = app.Subscriptions
                         .Where(sub => sub.User != null) // Ensure User is not null
                         .Select(sub => new UserSubscriptionDto
@@ -254,6 +255,7 @@ namespace api.Controllers
                 return StatusCode(500, "An error occurred while retrieving application overviews.");
             }
         }
+
 
 
         [HttpPost("applications/create")]
