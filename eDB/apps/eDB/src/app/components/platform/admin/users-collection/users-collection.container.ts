@@ -158,7 +158,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     console.log(action);
     if (action === 'view') {
       // Navigate to the user detail page
-      this.router.navigate([`/users/${user.id}`]);
+      this.router.navigate([`/admin/users/${user.id}`]);
     } else if (action === 'delete') {
       console.log(action);
       // Perform delete logic

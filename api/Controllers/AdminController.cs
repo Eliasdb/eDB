@@ -153,6 +153,36 @@ namespace api.Controllers
         }
 
 
+        [HttpGet("users/{userId}")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> GetUserById([FromRoute] int userId)
+        {
+            try
+            {
+                // Fetch the user based on userId
+                var user = await _context.Users
+                    .AsNoTracking()
+                    .Where(u => u.Id == userId)
+                    .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync();
+
+                // Check if user exists
+                if (user == null)
+                {
+                    return NotFound(new { Message = "User not found." });
+                }
+
+                // Return the user details
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Log error and return a server error response
+                Console.Error.WriteLine($"Error in GetUserById: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred while retrieving the user." });
+            }
+        }
+
 
         [HttpGet("applications-overview")]
         [RoleAuthorize("Admin")]

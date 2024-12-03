@@ -40,11 +40,11 @@ namespace api.Services
         public string GenerateJwtToken(User user)
         {
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Role", user.Role.ToString())
-            };
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(ClaimTypes.Email, user.Email),
+        new Claim(ClaimTypes.Role, user.Role.ToString()) // Use ClaimTypes.Role
+    };
 
             var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
             var jwtIssuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured.");
@@ -63,5 +63,6 @@ namespace api.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

@@ -61,8 +61,17 @@ export class AuthService {
    */
   getUserRole(): Observable<string> {
     const decodedToken = this.decodeToken();
-    if (decodedToken && decodedToken.Role) {
-      return of(decodedToken.Role);
+    if (
+      decodedToken &&
+      decodedToken[
+        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+      ]
+    ) {
+      return of(
+        decodedToken[
+          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+        ]
+      );
     }
     return of('User'); // Default role if no token or role is present
   }
