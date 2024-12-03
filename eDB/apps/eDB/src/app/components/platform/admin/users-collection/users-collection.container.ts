@@ -12,12 +12,13 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import {
   UiLoadingSpinnerComponent,
+  UiModalComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
 } from '@eDB/shared-ui';
 import { TableUtilsService } from '@eDB/shared-utils';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
-import { TableModel } from 'carbon-components-angular';
+import { ModalService, TableModel } from 'carbon-components-angular';
 import {
   combineLatest,
   debounceTime,
@@ -88,6 +89,8 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   @ViewChild('actionsTemplate', { static: true })
   actionsTemplate!: TemplateRef<any>;
   private adminService = inject(AdminService);
+  private modalService = inject(ModalService);
+
   private userParamService = inject(UserParamService);
   private tableUtilsService = inject(TableUtilsService);
   private router = inject(Router);
@@ -161,18 +164,41 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       this.router.navigate([`/admin/users/${user.id}`]);
     } else if (action === 'delete') {
       console.log(action);
-      // Perform delete logic
-      // this.adminService.deleteUser(user.id).subscribe(
-      //   () => {
-      //     console.log('User deleted successfully');
-      //     // Refresh the table data if needed
-      //     this.usersQuery.refetch();
-      //   },
-      //   (error) => {
-      //     console.error('Failed to delete user:', error);
-      //   }
-      // );
+      this.showDeleteConfirmation(user);
     }
+  }
+
+  deleteUserMutation = this.adminService.deleteUser();
+
+  onDeleteApplication(userId: number) {
+    this.deleteUserMutation.mutate(userId, {
+      onSuccess: () => {
+        console.log('Application added successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to add application:', error);
+      },
+    });
+  }
+
+  private showDeleteConfirmation(user: UserProfile): void {
+    const modalRef = this.modalService.create({
+      component: UiModalComponent,
+    });
+
+    modalRef.instance.header = 'Confirm Deletion';
+    modalRef.instance.content = `Are you sure you want to delete the user "${user.firstName}"? This action cannot be undone.`;
+    modalRef.instance.cancelRoute = '/admin';
+
+    modalRef.instance.save.subscribe(() => {
+      this.onDeleteApplication(user.id);
+      console.log('deelted');
+      modalRef.destroy();
+    });
+
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy();
+    });
   }
 
   protected model$: Observable<TableModel> = combineLatest([

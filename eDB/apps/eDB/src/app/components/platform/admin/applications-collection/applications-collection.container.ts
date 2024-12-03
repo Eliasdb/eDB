@@ -122,7 +122,11 @@ export class SubscriptionsTableComponent implements OnChanges {
       component: UiModalComponent,
     });
 
-    modalRef.instance.save.subscribe((formData: CreateApplicationDto) => {
+    modalRef.instance.header = 'Add Application';
+    modalRef.instance.hasForm = true;
+
+    modalRef.instance.save.subscribe((formData: any) => {
+      console.log('Form Data:', formData);
       this.handleAddApplication(formData);
       modalRef.destroy();
     });
