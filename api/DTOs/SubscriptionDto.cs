@@ -5,6 +5,8 @@ namespace api.DTOs
         public required string ApplicationName { get; set; }
         public required string ApplicationDescription { get; set; }
         public required int ApplicationId { get; set; } // Add ApplicationId
+        public int SubscriberCount { get; set; } // New property for subscriber count
+
         public List<UserSubscriptionDto> SubscribedUsers { get; set; } = new();
     }
 

@@ -59,7 +59,7 @@ import {
       <ui-button
         [size]="'sm'"
         [icon]="'faBan'"
-        [variant]="'danger'"
+        [variant]="'ghost'"
         (click)="onRevokeAccess(data.userId, data.applicationId)"
         >Revoke access</ui-button
       >

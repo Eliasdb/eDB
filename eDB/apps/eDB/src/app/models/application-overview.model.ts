@@ -10,6 +10,7 @@ export interface ApplicationOverviewDto {
   applicationDescription: string;
   applicationId: number;
   subscribedUsers: SubscribedUserDto[];
+  subscriberCount: number;
 }
 
 export interface CreateApplicationDto {
