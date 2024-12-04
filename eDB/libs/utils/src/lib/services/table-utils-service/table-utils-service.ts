@@ -85,7 +85,6 @@ export class TableUtilsService {
   // In TableUtilsService
   createSubscriptionsExpandedData(
     app: ApplicationOverviewDto,
-    revokeCallback: (userId: number, applicationId: number) => void,
     actionTemplate: TemplateRef<any>
   ): TableItem[][] {
     // Define headers for the expanded table

@@ -20,7 +20,6 @@ import { AdminService } from '../../../services/admin-service/admin.service';
         <ng-container section2>
           <platform-admin-applications-collection
             [applications]="applicationsQuery.data()"
-            (revokeSubscription)="onRevokeSubscription($event)"
           ></platform-admin-applications-collection>
         </ng-container>
       </ui-content-switcher>
@@ -41,18 +40,5 @@ export class AdminPage {
   }
   private adminService = inject(AdminService);
 
-  applicationsQuery = this.adminService.fetchApplications();
-  // Use injectMutation for revoking subscriptions
-  revokeSubscriptionMutation = this.adminService.revokeSubscription();
-
-  onRevokeSubscription(event: { applicationId: number; userId: number }): void {
-    this.revokeSubscriptionMutation.mutate(event, {
-      onSuccess: () => {
-        console.log('Subscription successfully revoked');
-      },
-      onError: (error) => {
-        console.error('Failed to revoke subscription:', error);
-      },
-    });
-  }
+  applicationsQuery = this.adminService.queryApplications();
 }

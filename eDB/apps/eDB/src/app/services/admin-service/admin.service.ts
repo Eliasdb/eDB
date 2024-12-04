@@ -25,9 +25,10 @@ export class AdminService {
   private queryClient = inject(QueryClient);
 
   // USER RELATED
+
   /**
    * Fetches users with given parameters.
-   * @param cursor Cursor for pagination (represents the last User's sort field value or a composite object).
+   * @param cursor Cursor for pagination (represents the last User's sort field value).
    * @param searchParam Search query.
    * @param sortParam Sort parameters in the format "field,direction".
    * @returns Promise of PaginatedResponse.
@@ -96,7 +97,7 @@ export class AdminService {
     return userSignal; // Return the signal
   }
 
-  deleteUser() {
+  deleteUserMutation() {
     return injectMutation(() => ({
       mutationFn: async (userId: number) => {
         return firstValueFrom(
@@ -110,7 +111,7 @@ export class AdminService {
     }));
   }
 
-  revokeSubscription() {
+  revokeSubscriptionMutation() {
     return injectMutation(() => ({
       mutationFn: async ({
         applicationId,
@@ -133,7 +134,7 @@ export class AdminService {
 
   // APPLICATION RELATED
 
-  fetchApplications() {
+  queryApplications() {
     return injectQuery(() => ({
       queryKey: ['applications'],
       queryFn: async () => {
@@ -150,17 +151,15 @@ export class AdminService {
     }));
   }
 
-  deleteApplication() {
+  addApplicationMutation() {
     return injectMutation(() => ({
-      mutationFn: async (applicationId: number) => {
+      mutationFn: async (application: CreateApplicationDto) => {
         return firstValueFrom(
-          this.http.delete<void>(
-            `${this.baseUrl}/applications/${applicationId}`
-          )
+          this.http.post(`${this.baseUrl}/applications/create`, application)
         );
       },
       onSuccess: () => {
-        // Invalidate queries related to applications to refresh the data
+        // Invalidate the subscriptions query to refresh data
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));
@@ -182,15 +181,17 @@ export class AdminService {
     }));
   }
 
-  addApplicationMutation() {
+  deleteApplicationMutation() {
     return injectMutation(() => ({
-      mutationFn: async (application: CreateApplicationDto) => {
+      mutationFn: async (applicationId: number) => {
         return firstValueFrom(
-          this.http.post(`${this.baseUrl}/applications/create`, application)
+          this.http.delete<void>(
+            `${this.baseUrl}/applications/${applicationId}`
+          )
         );
       },
       onSuccess: () => {
-        // Invalidate the subscriptions query to refresh data
+        // Invalidate queries related to applications to refresh the data
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));
