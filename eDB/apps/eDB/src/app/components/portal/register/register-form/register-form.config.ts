@@ -27,7 +27,6 @@ export function strongPasswordValidator(
   return null;
 }
 
-// Field Definitions
 export const registerFormFields: (FieldDefinition | null)[][] = [
   [
     {
