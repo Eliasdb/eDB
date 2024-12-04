@@ -3,10 +3,9 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
+  effect,
   inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -68,8 +67,7 @@ import {
     </ng-template>
   `,
 })
-export class ApplicationsCollectionContainer implements OnChanges {
-  @Input() applications: Application[] | undefined;
+export class ApplicationsCollectionContainer {
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
   @ViewChild('deleteTemplate', { static: true })
@@ -83,20 +81,24 @@ export class ApplicationsCollectionContainer implements OnChanges {
   modalUtils = inject(ModalUtilsService);
   router = inject(Router);
 
+  private applicationsQuery = this.adminService.queryApplications();
   addApplicationMutation = this.adminService.addApplicationMutation();
   editApplicationMutation = this.adminService.editApplicationMutation();
   deleteApplicationMutation = this.adminService.deleteApplicationMutation();
   revokeSubscriptionMutation = this.adminService.revokeSubscriptionMutation();
+  private applicationsSignal = computed(
+    () => this.applicationsQuery.data() || []
+  );
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['applications']) {
-      const apps = changes['applications'].currentValue;
-      if (apps) {
-        this.initializeTable(apps);
+  constructor() {
+    effect(() => {
+      const applications = this.applicationsSignal();
+      if (applications.length > 0) {
+        this.initializeTable(applications);
       } else {
         this.clearTable();
       }
-    }
+    });
   }
 
   // TABLE
