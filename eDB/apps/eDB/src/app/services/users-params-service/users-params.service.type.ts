@@ -1,6 +1,6 @@
 export const SEARCH_QUERY_PARAM = 'search';
 export const SORT_QUERY_PARAM = 'sort';
-export const CURSOR_QUERY_PARAM = 'cursor'; // Add this
+export const CURSOR_QUERY_PARAM = 'cursor';
 
 export interface UserQueryParams {
   [SEARCH_QUERY_PARAM]?: string;
