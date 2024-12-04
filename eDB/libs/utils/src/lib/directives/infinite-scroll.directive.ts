@@ -20,8 +20,6 @@ export class InfiniteScrollDirective {
       container.scrollTop + container.clientHeight >=
       container.scrollHeight - 50;
 
-    console.log('yooo');
-
     if (nearBottom && this.hasMore && !this.isFetching) {
       this.scrolled.emit();
     }

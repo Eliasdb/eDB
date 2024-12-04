@@ -16,6 +16,7 @@ import {
   template: `
     <router-outlet></router-outlet>
     <cds-placeholder></cds-placeholder>
+    <cds-placeholder></cds-placeholder>
   `,
 })
 export class AppComponent {

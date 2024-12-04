@@ -9,6 +9,10 @@ export interface ApplicationOverviewDto {
   applicationName: string;
   applicationDescription: string;
   applicationId: number;
+  applicationRoutePath: string;
+  applicationTags: string[];
+  applicationIconUrl: string;
+  routePath: string;
   subscribedUsers: SubscribedUserDto[];
   subscriberCount: number;
 }

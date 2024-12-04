@@ -113,11 +113,10 @@ export class UiModalComponent {
   @Input() template?: TemplateRef<any>;
   @Input() context: any;
   @Input() cancelRoute?: string; // Optional route for cancelation navigation
+  @Input() form: FormGroup;
 
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
-
-  form: FormGroup;
 
   private router = inject(Router);
 
