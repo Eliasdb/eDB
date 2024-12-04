@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import { SubscriptionsTableComponent } from '../../../components/platform/admin/applications-collection/applications-collection.container';
+import { ApplicationsCollectionContainer } from '../../../components/platform/admin/applications-collection/applications-collection.container';
 import { UsersCollectionContainer } from '../../../components/platform/admin/users-collection/users-collection.container';
 import { AdminService } from '../../../services/admin-service/admin.service';
 
@@ -29,7 +29,7 @@ import { AdminService } from '../../../services/admin-service/admin.service';
   imports: [
     UiContentSwitcherComponent,
     UsersCollectionContainer,
-    SubscriptionsTableComponent,
+    ApplicationsCollectionContainer,
   ],
   styleUrls: ['admin.page.scss'],
 })
