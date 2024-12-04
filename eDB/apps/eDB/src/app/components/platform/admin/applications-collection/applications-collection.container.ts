@@ -73,7 +73,7 @@ import {
     </ng-template>
   `,
 })
-export class SubscriptionsTableComponent implements OnChanges {
+export class ApplicationsCollectionContainer implements OnChanges {
   @Input() applications: ApplicationOverviewDto[] | undefined;
 
   @ViewChild('actionTemplate', { static: true })
