@@ -3,15 +3,14 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   inject,
   Input,
   OnChanges,
-  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiModalComponent,
@@ -88,19 +87,15 @@ export class ApplicationsCollectionContainer implements OnChanges {
     { id: 'delete', label: 'Delete Application' },
   ];
 
-  @Output() rowClicked = new EventEmitter<number>();
-  @Output() revokeSubscription = new EventEmitter<{
-    userId: number;
-    applicationId: number;
-  }>();
-
   tableUtils = inject(TableUtilsService);
   adminService = inject(AdminService);
   modalService = inject(ModalService);
+  router = inject(Router);
 
   editApplicationMutation = this.adminService.editApplicationMutation();
-  deleteApplicationMutation = this.adminService.deleteApplication();
+  deleteApplicationMutation = this.adminService.deleteApplicationMutation();
   addApplicationMutation = this.adminService.addApplicationMutation();
+  revokeSubscriptionMutation = this.adminService.revokeSubscriptionMutation();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['applications']) {
@@ -113,7 +108,7 @@ export class ApplicationsCollectionContainer implements OnChanges {
     }
   }
 
-  // TABLE SETUP
+  // TABLE
   /**
    * Initializes the table by setting headers and preparing data.
    */
@@ -123,15 +118,10 @@ export class ApplicationsCollectionContainer implements OnChanges {
       SubscriptionsTableColumnConfigs
     );
 
-    const revokeCallback = (userId: number, applicationId: number) => {
-      this.revokeSubscription.emit({ userId, applicationId });
-    };
-
     const mapperConfigs: RowMapperConfig<ApplicationOverviewDto>[] =
       getSubscriptionsTableMapperConfigs((app) =>
         this.tableUtils.createSubscriptionsExpandedData(
           app,
-          revokeCallback,
           this.actionTemplate
         )
       );
@@ -150,17 +140,13 @@ export class ApplicationsCollectionContainer implements OnChanges {
     this.tableModel.data = [];
   }
 
-  onRevokeAccess(userId: number, applicationId: number) {
-    this.revokeSubscription.emit({ userId, applicationId });
-  }
-
   /**
    * Handles row click events to toggle expansion.
    * @param index Index of the clicked row.
    */
   onRowClick(index: number): void {
     // Toggle row expansion
-    this.rowClicked.emit(index);
+    console.log('row clicked');
   }
 
   onMenuOptionSelected(
@@ -168,13 +154,58 @@ export class ApplicationsCollectionContainer implements OnChanges {
     application: ApplicationOverviewDto
   ): void {
     if (action === 'edit') {
+      this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openEditApplicationModal(application);
     } else if (action === 'delete') {
+      this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openDeleteConfirmationModal(application);
     }
   }
 
+  onRevokeAccess(userId: number, applicationId: number): void {
+    this.openRevokeAccessConfirmationModal(userId, applicationId);
+  }
+
   // MODALS
+
+  protected openAddApplicationModal() {
+    const modalRef = this.modalService.create<UiModalComponent>({
+      component: UiModalComponent,
+    });
+
+    modalRef.instance.header = 'Add Application';
+    modalRef.instance.hasForm = true;
+
+    modalRef.instance.save.subscribe((formData: any) => {
+      this.onAddApplication(formData);
+      modalRef.destroy();
+    });
+
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy();
+    });
+  }
+
+  private openRevokeAccessConfirmationModal(
+    userId: number,
+    applicationId: number
+  ): void {
+    const modalRef = this.modalService.create<UiModalComponent>({
+      component: UiModalComponent,
+    });
+
+    modalRef.instance.header = 'Confirm Revocation';
+    modalRef.instance.content = `Are you sure you want to revoke access for User ID: ${userId} from Application ID: ${applicationId}? This action cannot be undone.`;
+
+    modalRef.instance.save.subscribe(() => {
+      this.onRevokeSubscription(userId, applicationId);
+      modalRef.destroy();
+    });
+
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy();
+    });
+  }
 
   private openDeleteConfirmationModal(
     application: ApplicationOverviewDto
@@ -185,7 +216,6 @@ export class ApplicationsCollectionContainer implements OnChanges {
 
     modalRef.instance.header = 'Confirm Deletion';
     modalRef.instance.content = `Are you sure you want to delete the application "${application.applicationName}"? This action cannot be undone.`;
-    modalRef.instance.cancelRoute = '/admin';
 
     modalRef.instance.save.subscribe(() => {
       this.onDeleteApplication(application.applicationId);
@@ -197,32 +227,13 @@ export class ApplicationsCollectionContainer implements OnChanges {
     });
   }
 
-  openAddApplicationModal() {
-    const modalRef = this.modalService.create<UiModalComponent>({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Add Application';
-    modalRef.instance.hasForm = true;
-
-    modalRef.instance.save.subscribe((formData: any) => {
-      this.handleAddApplication(formData);
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
-    });
-  }
-
-  openEditApplicationModal(application: ApplicationOverviewDto) {
+  private openEditApplicationModal(application: ApplicationOverviewDto) {
     const modalRef = this.modalService.create<UiModalComponent>({
       component: UiModalComponent,
     });
 
     modalRef.instance.header = 'Edit Application';
     modalRef.instance.hasForm = true;
-    modalRef.instance.cancelRoute = '/admin';
 
     // Prefill the form with current application data
     modalRef.instance.form.patchValue({
@@ -234,7 +245,7 @@ export class ApplicationsCollectionContainer implements OnChanges {
     });
 
     modalRef.instance.save.subscribe((formData: any) => {
-      this.handleEditApplication({ ...application, ...formData });
+      this.onEditApplication({ ...application, ...formData });
       modalRef.destroy();
     });
 
@@ -243,7 +254,9 @@ export class ApplicationsCollectionContainer implements OnChanges {
     });
   }
 
-  onDeleteApplication(applicationId: number) {
+  // MUTATIONS
+
+  private onDeleteApplication(applicationId: number) {
     this.deleteApplicationMutation.mutate(applicationId, {
       onSuccess: () => {
         console.log('Application deleted successfully');
@@ -254,7 +267,7 @@ export class ApplicationsCollectionContainer implements OnChanges {
     });
   }
 
-  handleAddApplication(newApplication: CreateApplicationDto): void {
+  private onAddApplication(newApplication: CreateApplicationDto): void {
     this.addApplicationMutation.mutate(newApplication, {
       onSuccess: () => {
         console.log('Application added successfully');
@@ -265,7 +278,7 @@ export class ApplicationsCollectionContainer implements OnChanges {
     });
   }
 
-  handleEditApplication(newApplication: ApplicationOverviewDto): void {
+  private onEditApplication(newApplication: ApplicationOverviewDto): void {
     this.editApplicationMutation.mutate(newApplication, {
       onSuccess: () => {
         console.log('Application edited successfully');
@@ -274,5 +287,19 @@ export class ApplicationsCollectionContainer implements OnChanges {
         console.error('Failed to add application:', error);
       },
     });
+  }
+
+  private onRevokeSubscription(userId: number, applicationId: number): void {
+    this.revokeSubscriptionMutation.mutate(
+      { userId, applicationId },
+      {
+        onSuccess: () => {
+          console.log('Access successfully revoked');
+        },
+        onError: (error) => {
+          console.error('Failed to revoke access:', error);
+        },
+      }
+    );
   }
 }

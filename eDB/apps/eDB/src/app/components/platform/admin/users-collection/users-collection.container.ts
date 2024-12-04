@@ -113,7 +113,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     initialValue: 'id,asc',
   });
 
-  deleteUserMutation = this.adminService.deleteUser();
+  deleteUserMutation = this.adminService.deleteUserMutation();
 
   constructor() {
     this.searchTerm = this.searchParam();
@@ -280,6 +280,8 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       },
     });
   }
+
+  // MODALS
 
   private openDeleteConfirmationModal(user: UserProfile): void {
     const modalRef = this.modalService.create({
