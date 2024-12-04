@@ -85,7 +85,7 @@ export class UserDetailPage {
   }
 
   private fetchUser(userId: number) {
-    const userSignal = this.adminService.fetchUser(userId);
+    const userSignal = this.adminService.queryUserById(userId);
     effect(
       () => {
         const user = userSignal();
@@ -134,7 +134,6 @@ export class UserDetailPage {
   }
 
   onUpdateEdit(rowIndex: number): void {
-    console.log('Updating row:', rowIndex);
     this.onCancelEdit();
   }
 

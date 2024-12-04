@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import {
   UiButtonComponent,
-  UiIconButtonComponent,
   UiModalComponent,
+  UiPlatformOverflowMenuComponent,
   UiTableComponent,
 } from '@eDB/shared-ui';
 import { TableUtilsService } from '@eDB/shared-utils';
@@ -40,7 +40,7 @@ import {
     UiTableComponent,
     UiButtonComponent,
     PlaceholderModule,
-    UiIconButtonComponent,
+    UiPlatformOverflowMenuComponent,
   ],
   providers: [ModalService],
   template: `
@@ -52,7 +52,7 @@ import {
       [sortable]="false"
       [showButton]="true"
       (rowClicked)="onRowClick($event)"
-      (addApplication)="openModal()"
+      (addApplication)="openAddApplicationModal()"
     ></ui-table>
 
     <ng-template #actionTemplate let-data="data">
@@ -65,11 +65,11 @@ import {
       >
     </ng-template>
     <ng-template #deleteTemplate let-data="data">
-      <ui-icon-button
-        [size]="'sm'"
-        [icon]="'faTrash'"
-        (click)="onDeleteApplication(data.applicationId)"
-      ></ui-icon-button>
+      <ui-platform-overflow-menu
+        [menuOptions]="menuOptions"
+        [icon]="'faEllipsisV'"
+        (menuOptionSelected)="onMenuOptionSelected($event, data)"
+      ></ui-platform-overflow-menu>
     </ng-template>
   `,
 })
@@ -78,20 +78,29 @@ export class SubscriptionsTableComponent implements OnChanges {
 
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
-
   @ViewChild('deleteTemplate', { static: true })
   deleteTemplate!: TemplateRef<any>;
+
   tableModel = new TableModel();
 
-  tableUtils = inject(TableUtilsService);
-  adminService = inject(AdminService);
-  modalService = inject(ModalService);
+  menuOptions = [
+    { id: 'edit', label: 'Edit Application' },
+    { id: 'delete', label: 'Delete Application' },
+  ];
 
   @Output() rowClicked = new EventEmitter<number>();
   @Output() revokeSubscription = new EventEmitter<{
     userId: number;
     applicationId: number;
   }>();
+
+  tableUtils = inject(TableUtilsService);
+  adminService = inject(AdminService);
+  modalService = inject(ModalService);
+
+  editApplicationMutation = this.adminService.editApplicationMutation();
+  deleteApplicationMutation = this.adminService.deleteApplication();
+  addApplicationMutation = this.adminService.addApplicationMutation();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['applications']) {
@@ -104,55 +113,7 @@ export class SubscriptionsTableComponent implements OnChanges {
     }
   }
 
-  deleteApplicationMutation = this.adminService.deleteApplication();
-
-  onDeleteApplication(applicationId: number) {
-    this.deleteApplicationMutation.mutate(applicationId, {
-      onSuccess: () => {
-        console.log('Application added successfully');
-      },
-      onError: (error) => {
-        console.error('Failed to add application:', error);
-      },
-    });
-  }
-
-  openModal() {
-    const modalRef = this.modalService.create<UiModalComponent>({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Add Application';
-    modalRef.instance.hasForm = true;
-
-    modalRef.instance.save.subscribe((formData: any) => {
-      console.log('Form Data:', formData);
-      this.handleAddApplication(formData);
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
-    });
-  }
-
-  addApplicationMutation = this.adminService.addApplicationMutation();
-
-  handleAddApplication(newApplication: CreateApplicationDto): void {
-    this.addApplicationMutation.mutate(newApplication, {
-      onSuccess: () => {
-        console.log('Application added successfully');
-      },
-      onError: (error) => {
-        console.error('Failed to add application:', error);
-      },
-    });
-  }
-
-  onRevokeAccess(userId: number, applicationId: number) {
-    this.revokeSubscription.emit({ userId, applicationId });
-  }
-
+  // TABLE SETUP
   /**
    * Initializes the table by setting headers and preparing data.
    */
@@ -189,6 +150,10 @@ export class SubscriptionsTableComponent implements OnChanges {
     this.tableModel.data = [];
   }
 
+  onRevokeAccess(userId: number, applicationId: number) {
+    this.revokeSubscription.emit({ userId, applicationId });
+  }
+
   /**
    * Handles row click events to toggle expansion.
    * @param index Index of the clicked row.
@@ -196,5 +161,118 @@ export class SubscriptionsTableComponent implements OnChanges {
   onRowClick(index: number): void {
     // Toggle row expansion
     this.rowClicked.emit(index);
+  }
+
+  onMenuOptionSelected(
+    action: string,
+    application: ApplicationOverviewDto
+  ): void {
+    if (action === 'edit') {
+      this.openEditApplicationModal(application);
+    } else if (action === 'delete') {
+      this.openDeleteConfirmationModal(application);
+    }
+  }
+
+  // MODALS
+
+  private openDeleteConfirmationModal(
+    application: ApplicationOverviewDto
+  ): void {
+    const modalRef = this.modalService.create({
+      component: UiModalComponent,
+    });
+
+    modalRef.instance.header = 'Confirm Deletion';
+    modalRef.instance.content = `Are you sure you want to delete the application "${application.applicationName}"? This action cannot be undone.`;
+    modalRef.instance.cancelRoute = '/admin';
+
+    modalRef.instance.save.subscribe(() => {
+      this.onDeleteApplication(application.applicationId);
+      modalRef.destroy();
+    });
+
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy();
+    });
+  }
+
+  openAddApplicationModal() {
+    const modalRef = this.modalService.create<UiModalComponent>({
+      component: UiModalComponent,
+    });
+
+    modalRef.instance.header = 'Add Application';
+    modalRef.instance.hasForm = true;
+
+    modalRef.instance.save.subscribe((formData: any) => {
+      this.handleAddApplication(formData);
+      modalRef.destroy();
+    });
+
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy();
+    });
+  }
+
+  openEditApplicationModal(application: ApplicationOverviewDto) {
+    const modalRef = this.modalService.create<UiModalComponent>({
+      component: UiModalComponent,
+    });
+
+    modalRef.instance.header = 'Edit Application';
+    modalRef.instance.hasForm = true;
+    modalRef.instance.cancelRoute = '/admin';
+
+    // Prefill the form with current application data
+    modalRef.instance.form.patchValue({
+      name: application.applicationName,
+      description: application.applicationDescription,
+      iconUrl: application.applicationIconUrl,
+      routePath: application.applicationRoutePath,
+      tags: application.applicationTags?.join(', '), // Convert array to a comma-separated string
+    });
+
+    modalRef.instance.save.subscribe((formData: any) => {
+      this.handleEditApplication({ ...application, ...formData });
+      modalRef.destroy();
+    });
+
+    modalRef.instance.close.subscribe(() => {
+      modalRef.destroy();
+    });
+  }
+
+  onDeleteApplication(applicationId: number) {
+    this.deleteApplicationMutation.mutate(applicationId, {
+      onSuccess: () => {
+        console.log('Application deleted successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to add application:', error);
+      },
+    });
+  }
+
+  handleAddApplication(newApplication: CreateApplicationDto): void {
+    this.addApplicationMutation.mutate(newApplication, {
+      onSuccess: () => {
+        console.log('Application added successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to add application:', error);
+      },
+    });
+  }
+
+  handleEditApplication(newApplication: ApplicationOverviewDto): void {
+    this.editApplicationMutation.mutate(newApplication, {
+      onSuccess: () => {
+        console.log('Application edited successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to add application:', error);
+      },
+    });
   }
 }

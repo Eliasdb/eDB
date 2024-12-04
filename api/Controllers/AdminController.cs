@@ -110,10 +110,6 @@ namespace api.Controllers
             }
         }
 
-
-
-
-
         // Helper method to parse the "sort" parameter
         private (string, string) ParseSortParameter(string? sort)
         {
@@ -233,7 +229,10 @@ namespace api.Controllers
                 {
                     ApplicationId = app.Id, // Populate ApplicationId
                     ApplicationName = app.Name,
+                    ApplicationIconUrl = app.IconUrl,
+                    ApplicationRoutePath = app.RoutePath,
                     ApplicationDescription = app.Description,
+                    ApplicationTags = app.Tags,
                     SubscriberCount = app.Subscriptions.Count(sub => sub.User != null), // Count the number of valid subscribers
                     SubscribedUsers = app.Subscriptions
                         .Where(sub => sub.User != null) // Ensure User is not null
@@ -255,8 +254,6 @@ namespace api.Controllers
                 return StatusCode(500, "An error occurred while retrieving application overviews.");
             }
         }
-
-
 
         [HttpPost("applications/create")]
         [RoleAuthorize("Admin")]
@@ -284,6 +281,46 @@ namespace api.Controllers
                 return StatusCode(500, "An error occurred while adding the application.");
             }
         }
+
+        [HttpPut("applications/{applicationId}")]
+        [RoleAuthorize("Admin")]
+        public async Task<IActionResult> UpdateApplication(
+    [FromRoute] int applicationId,
+    [FromBody] UpdateApplicationDto applicationDto)
+        {
+            try
+            {
+                // Fetch the application based on the provided applicationId
+                var application = await _context.Applications
+                    .FirstOrDefaultAsync(a => a.Id == applicationId);
+
+                // If the application is not found, return a 404 response
+                if (application == null)
+                {
+                    return NotFound(new { Message = "Application not found." });
+                }
+
+                // Update the application's properties
+                application.Name = applicationDto.Name ?? application.Name;
+                application.Description = applicationDto.Description ?? application.Description;
+                application.IconUrl = applicationDto.IconUrl ?? application.IconUrl;
+                application.RoutePath = applicationDto.RoutePath ?? application.RoutePath;
+                application.Tags = applicationDto.Tags ?? application.Tags;
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return a success response with the updated application
+                return Ok(new { Message = "Application updated successfully.", Application = application });
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return a server error response
+                Console.Error.WriteLine($"Error in UpdateApplication: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred while updating the application." });
+            }
+        }
+
 
         [HttpDelete("applications/{applicationId}/subscriptions/{userId}")]
         [RoleAuthorize("Admin")]
@@ -349,9 +386,6 @@ namespace api.Controllers
             }
         }
 
-
-
-
         /// <summary>
         /// Applies dynamic sorting to the user query based on the provided sort field and direction.
         /// </summary>
@@ -376,8 +410,6 @@ namespace api.Controllers
             return query.OrderBy(sorting);
         }
 
-
-
         static IQueryable<Subscription> ApplySorting(IQueryable<Subscription> query, string sortField, string sortDirection)
         {
             var allowedSortFields = new List<string>
@@ -398,9 +430,5 @@ namespace api.Controllers
             var sorting = $"{sortField} {sortDirection}";
             return query.OrderBy(sorting);
         }
-
-
-
-
     }
 }
