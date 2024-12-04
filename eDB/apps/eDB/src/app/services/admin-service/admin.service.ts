@@ -177,7 +177,6 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        // Invalidate queries related to applications to refresh the data
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));

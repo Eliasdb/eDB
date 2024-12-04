@@ -109,7 +109,6 @@ export class ProfilePage {
 
     this.updateUserProfileMutation
       .mutateAsync(payload)
-      .then(() => this.userProfileQuery.refetch())
       .catch((err) => console.error('Failed to update user profile:', err))
       .finally(() => {
         this.onCancelEdit();
