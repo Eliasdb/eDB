@@ -49,8 +49,6 @@ export class AdminPage {
     this.revokeSubscriptionMutation.mutate(event, {
       onSuccess: () => {
         console.log('Subscription successfully revoked');
-        // Refetch applications after mutation
-        this.applicationsQuery.refetch();
       },
       onError: (error) => {
         console.error('Failed to revoke subscription:', error);
