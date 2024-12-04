@@ -1,6 +1,6 @@
 // src/app/models/table.model.ts
 
-import { TableItem } from 'carbon-components-angular';
+import { TableHeaderItem, TableItem } from 'carbon-components-angular';
 
 /**
  * Configuration for table columns.
@@ -37,4 +37,16 @@ export interface ApplicationOverviewDto {
   subscribedUsers: SubscribedUserDto[];
   applicationId: number;
   subscriberCount: number;
+}
+
+/**
+ * Generic configuration for creating expanded table data.
+ */
+export interface ExpandedDataConfig<T> {
+  headers: TableHeaderItem[]; // Correct type for headers
+  rowMapper: (item: T, context?: { [key: string]: any }) => TableItem[];
+  expandedDataMapper?: (
+    item: T,
+    context?: { [key: string]: any }
+  ) => TableItem[][];
 }

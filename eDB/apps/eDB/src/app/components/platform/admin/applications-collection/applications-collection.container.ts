@@ -20,15 +20,14 @@ import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
 import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 import {
-  ApplicationOverviewDto,
+  Application,
   CreateApplicationDto,
-  RowMapperConfig,
 } from '../../../../models/application-overview.model';
 import { AdminService } from '../../../../services/admin-service/admin.service';
 import {
-  getSubscriptionsTableMapperConfigs,
-  modalConfigs,
-  SubscriptionsTableColumnConfigs,
+  APPLICATION_TABLE_CONFIG,
+  MODAL_CONFIG,
+  OVERFLOW_MENU_CONFIG,
 } from './applications-collection.container.config';
 
 @Component({
@@ -70,19 +69,14 @@ import {
   `,
 })
 export class ApplicationsCollectionContainer implements OnChanges {
-  @Input() applications: ApplicationOverviewDto[] | undefined;
-
+  @Input() applications: Application[] | undefined;
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
   @ViewChild('deleteTemplate', { static: true })
   deleteTemplate!: TemplateRef<any>;
 
+  menuOptions = OVERFLOW_MENU_CONFIG;
   tableModel = new TableModel();
-
-  menuOptions = [
-    { id: 'edit', label: 'Edit Application' },
-    { id: 'delete', label: 'Delete Application' },
-  ];
 
   adminService = inject(AdminService);
   tableUtils = inject(TableUtilsService);
@@ -106,24 +100,15 @@ export class ApplicationsCollectionContainer implements OnChanges {
   }
 
   // TABLE
-
-  initializeTable(applications: ApplicationOverviewDto[]) {
-    this.tableModel.header = this.tableUtils.getTableHeaders(
-      SubscriptionsTableColumnConfigs
-    );
-
-    const mapperConfigs: RowMapperConfig<ApplicationOverviewDto>[] =
-      getSubscriptionsTableMapperConfigs((app) =>
-        this.tableUtils.createSubscriptionsExpandedData(
-          app,
-          this.actionTemplate
-        )
-      );
-
-    this.tableModel.data = this.tableUtils.prepareData(
+  initializeTable(applications: Application[]) {
+    this.tableModel.header = APPLICATION_TABLE_CONFIG.headers;
+    this.tableModel.data = this.tableUtils.createExpandedData(
       applications,
-      mapperConfigs,
-      this.deleteTemplate
+      APPLICATION_TABLE_CONFIG,
+      {
+        nonExpandedActionTemplate: this.deleteTemplate,
+        expandedActionTemplate: this.actionTemplate,
+      }
     );
   }
 
@@ -131,10 +116,7 @@ export class ApplicationsCollectionContainer implements OnChanges {
     this.tableModel.data = [];
   }
 
-  onMenuOptionSelected(
-    action: string,
-    application: ApplicationOverviewDto
-  ): void {
+  onMenuOptionSelected(action: string, application: Application): void {
     this.router.navigateByUrl(this.router.url, { replaceUrl: true });
     if (action === 'edit') {
       this.openEditApplicationModal(application);
@@ -148,38 +130,36 @@ export class ApplicationsCollectionContainer implements OnChanges {
   }
 
   // MODALS
-
   openAddApplicationModal() {
     this.modalUtils.openModal({
-      ...modalConfigs.addApplication,
+      ...MODAL_CONFIG.addApplication,
       onSave: (formData) => this.handleAddApplication(formData),
     });
   }
 
-  openEditApplicationModal(application: ApplicationOverviewDto) {
+  openEditApplicationModal(application: Application) {
     this.modalUtils.openModal({
-      ...modalConfigs.editApplication(application),
+      ...MODAL_CONFIG.editApplication(application),
       onSave: (formData) =>
         this.handleEditApplication({ ...application, ...formData }),
     });
   }
 
-  openDeleteConfirmationModal(application: ApplicationOverviewDto) {
+  openDeleteConfirmationModal(application: Application) {
     this.modalUtils.openModal({
-      ...modalConfigs.deleteApplication(application.applicationName),
+      ...MODAL_CONFIG.deleteApplication(application.applicationName),
       onSave: () => this.handleDeleteApplication(application.applicationId),
     });
   }
 
   openRevokeAccessConfirmationModal(userId: number, applicationId: number) {
     this.modalUtils.openModal({
-      ...modalConfigs.revokeAccess(userId, applicationId),
+      ...MODAL_CONFIG.revokeAccess(userId, applicationId),
       onSave: () => this.handleRevokeAccess(userId, applicationId),
     });
   }
 
   // MUTATIONS
-
   handleAddApplication(newApplication: CreateApplicationDto) {
     this.addApplicationMutation.mutate(newApplication, {
       onSuccess: () => console.log('Application added successfully'),
@@ -194,7 +174,7 @@ export class ApplicationsCollectionContainer implements OnChanges {
     });
   }
 
-  handleEditApplication(newApplication: ApplicationOverviewDto) {
+  handleEditApplication(newApplication: Application) {
     this.editApplicationMutation.mutate(newApplication, {
       onSuccess: () => console.log('Application edited successfully'),
       onError: (err) => console.error('Failed to edit application', err),
