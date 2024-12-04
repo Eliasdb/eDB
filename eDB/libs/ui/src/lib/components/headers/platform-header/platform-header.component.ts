@@ -29,11 +29,11 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
       <!-- Global Actions -->
       <cds-header-global>
         <ui-platform-overflow-menu
+          placement="bottom"
+          icon="faUser"
           [menuOptions]="menuOptions"
-          [placement]="'bottom'"
           [flip]="true"
           [offset]="{ x: 0, y: 10 }"
-          [icon]="'faUser'"
           (menuOptionSelected)="menuOptionSelected.emit($event)"
         ></ui-platform-overflow-menu>
       </cds-header-global>

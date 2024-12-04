@@ -3,4 +3,5 @@ export * from './lib/forms/models/field-definition.model';
 export * from './lib/interceptors/auth/auth.interceptor';
 export * from './lib/modules/shared.module';
 export * from './lib/services/form-utils-service/form-utils.service';
-export * from './lib/services/table-utils-service/table-utils-service';
+export * from './lib/services/modal-utils-service/modal-utils.service';
+export * from './lib/services/table-utils-service/table-utils.service';

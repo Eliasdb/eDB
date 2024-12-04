@@ -13,7 +13,7 @@ import { UiIconComponent } from '../icon/icon.component';
         <div cdsTagIcon>
           <ui-icon
             [name]="icon"
-            [size]="'16px'"
+            size="16px"
             [color]="'inherit'"
             [fixedWidth]="false"
           ></ui-icon>

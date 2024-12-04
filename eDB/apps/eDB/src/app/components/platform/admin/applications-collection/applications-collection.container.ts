@@ -13,12 +13,11 @@ import {
 import { Router } from '@angular/router';
 import {
   UiButtonComponent,
-  UiModalComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
 } from '@eDB/shared-ui';
-import { TableUtilsService } from '@eDB/shared-utils';
-import { ModalService, PlaceholderModule } from 'carbon-components-angular';
+import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
+import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 import {
   ApplicationOverviewDto,
@@ -28,6 +27,7 @@ import {
 import { AdminService } from '../../../../services/admin-service/admin.service';
 import {
   getSubscriptionsTableMapperConfigs,
+  modalConfigs,
   SubscriptionsTableColumnConfigs,
 } from './applications-collection.container.config';
 
@@ -41,32 +41,29 @@ import {
     PlaceholderModule,
     UiPlatformOverflowMenuComponent,
   ],
-  providers: [ModalService],
   template: `
     <ui-table
-      [title]="'Applications'"
-      [description]="'Manage applications and their subscribers.'"
+      title="Applications"
+      description="Manage applications and their subscribers."
       [model]="tableModel"
       [showSelectionColumn]="false"
-      [sortable]="false"
       [showButton]="true"
-      (rowClicked)="onRowClick($event)"
       (addApplication)="openAddApplicationModal()"
     ></ui-table>
 
     <ng-template #actionTemplate let-data="data">
       <ui-button
-        [size]="'sm'"
-        [icon]="'faBan'"
-        [variant]="'ghost'"
+        size="sm"
+        icon="faBan"
+        variant="ghost"
         (click)="onRevokeAccess(data.userId, data.applicationId)"
         >Revoke access</ui-button
       >
     </ng-template>
     <ng-template #deleteTemplate let-data="data">
       <ui-platform-overflow-menu
+        icon="faEllipsisV"
         [menuOptions]="menuOptions"
-        [icon]="'faEllipsisV'"
         (menuOptionSelected)="onMenuOptionSelected($event, data)"
       ></ui-platform-overflow-menu>
     </ng-template>
@@ -87,14 +84,14 @@ export class ApplicationsCollectionContainer implements OnChanges {
     { id: 'delete', label: 'Delete Application' },
   ];
 
-  tableUtils = inject(TableUtilsService);
   adminService = inject(AdminService);
-  modalService = inject(ModalService);
+  tableUtils = inject(TableUtilsService);
+  modalUtils = inject(ModalUtilsService);
   router = inject(Router);
 
+  addApplicationMutation = this.adminService.addApplicationMutation();
   editApplicationMutation = this.adminService.editApplicationMutation();
   deleteApplicationMutation = this.adminService.deleteApplicationMutation();
-  addApplicationMutation = this.adminService.addApplicationMutation();
   revokeSubscriptionMutation = this.adminService.revokeSubscriptionMutation();
 
   ngOnChanges(changes: SimpleChanges) {
@@ -109,11 +106,8 @@ export class ApplicationsCollectionContainer implements OnChanges {
   }
 
   // TABLE
-  /**
-   * Initializes the table by setting headers and preparing data.
-   */
+
   initializeTable(applications: ApplicationOverviewDto[]) {
-    // Set up table headers
     this.tableModel.header = this.tableUtils.getTableHeaders(
       SubscriptionsTableColumnConfigs
     );
@@ -133,31 +127,18 @@ export class ApplicationsCollectionContainer implements OnChanges {
     );
   }
 
-  /**
-   * Clears the table data.
-   */
   clearTable() {
     this.tableModel.data = [];
-  }
-
-  /**
-   * Handles row click events to toggle expansion.
-   * @param index Index of the clicked row.
-   */
-  onRowClick(index: number): void {
-    // Toggle row expansion
-    console.log('row clicked');
   }
 
   onMenuOptionSelected(
     action: string,
     application: ApplicationOverviewDto
   ): void {
+    this.router.navigateByUrl(this.router.url, { replaceUrl: true });
     if (action === 'edit') {
-      this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openEditApplicationModal(application);
     } else if (action === 'delete') {
-      this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openDeleteConfirmationModal(application);
     }
   }
@@ -168,137 +149,64 @@ export class ApplicationsCollectionContainer implements OnChanges {
 
   // MODALS
 
-  protected openAddApplicationModal() {
-    const modalRef = this.modalService.create<UiModalComponent>({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Add Application';
-    modalRef.instance.hasForm = true;
-
-    modalRef.instance.save.subscribe((formData: any) => {
-      this.onAddApplication(formData);
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
+  openAddApplicationModal() {
+    this.modalUtils.openModal({
+      ...modalConfigs.addApplication,
+      onSave: (formData) => this.handleAddApplication(formData),
     });
   }
 
-  private openRevokeAccessConfirmationModal(
-    userId: number,
-    applicationId: number
-  ): void {
-    const modalRef = this.modalService.create<UiModalComponent>({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Confirm Revocation';
-    modalRef.instance.content = `Are you sure you want to revoke access for User ID: ${userId} from Application ID: ${applicationId}? This action cannot be undone.`;
-
-    modalRef.instance.save.subscribe(() => {
-      this.onRevokeSubscription(userId, applicationId);
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
+  openEditApplicationModal(application: ApplicationOverviewDto) {
+    this.modalUtils.openModal({
+      ...modalConfigs.editApplication(application),
+      onSave: (formData) =>
+        this.handleEditApplication({ ...application, ...formData }),
     });
   }
 
-  private openDeleteConfirmationModal(
-    application: ApplicationOverviewDto
-  ): void {
-    const modalRef = this.modalService.create({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Confirm Deletion';
-    modalRef.instance.content = `Are you sure you want to delete the application "${application.applicationName}"? This action cannot be undone.`;
-
-    modalRef.instance.save.subscribe(() => {
-      this.onDeleteApplication(application.applicationId);
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
+  openDeleteConfirmationModal(application: ApplicationOverviewDto) {
+    this.modalUtils.openModal({
+      ...modalConfigs.deleteApplication(application.applicationName),
+      onSave: () => this.handleDeleteApplication(application.applicationId),
     });
   }
 
-  private openEditApplicationModal(application: ApplicationOverviewDto) {
-    const modalRef = this.modalService.create<UiModalComponent>({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Edit Application';
-    modalRef.instance.hasForm = true;
-
-    // Prefill the form with current application data
-    modalRef.instance.form.patchValue({
-      name: application.applicationName,
-      description: application.applicationDescription,
-      iconUrl: application.applicationIconUrl,
-      routePath: application.applicationRoutePath,
-      tags: application.applicationTags?.join(', '), // Convert array to a comma-separated string
-    });
-
-    modalRef.instance.save.subscribe((formData: any) => {
-      this.onEditApplication({ ...application, ...formData });
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
+  openRevokeAccessConfirmationModal(userId: number, applicationId: number) {
+    this.modalUtils.openModal({
+      ...modalConfigs.revokeAccess(userId, applicationId),
+      onSave: () => this.handleRevokeAccess(userId, applicationId),
     });
   }
 
   // MUTATIONS
 
-  private onDeleteApplication(applicationId: number) {
-    this.deleteApplicationMutation.mutate(applicationId, {
-      onSuccess: () => {
-        console.log('Application deleted successfully');
-      },
-      onError: (error) => {
-        console.error('Failed to add application:', error);
-      },
-    });
-  }
-
-  private onAddApplication(newApplication: CreateApplicationDto): void {
+  handleAddApplication(newApplication: CreateApplicationDto) {
     this.addApplicationMutation.mutate(newApplication, {
-      onSuccess: () => {
-        console.log('Application added successfully');
-      },
-      onError: (error) => {
-        console.error('Failed to add application:', error);
-      },
+      onSuccess: () => console.log('Application added successfully'),
+      onError: (err) => console.error('Failed to add application', err),
     });
   }
 
-  private onEditApplication(newApplication: ApplicationOverviewDto): void {
+  handleDeleteApplication(applicationId: number) {
+    this.deleteApplicationMutation.mutate(applicationId, {
+      onSuccess: () => console.log('Application deleted successfully'),
+      onError: (err) => console.error('Failed to delete application', err),
+    });
+  }
+
+  handleEditApplication(newApplication: ApplicationOverviewDto) {
     this.editApplicationMutation.mutate(newApplication, {
-      onSuccess: () => {
-        console.log('Application edited successfully');
-      },
-      onError: (error) => {
-        console.error('Failed to add application:', error);
-      },
+      onSuccess: () => console.log('Application edited successfully'),
+      onError: (err) => console.error('Failed to edit application', err),
     });
   }
 
-  private onRevokeSubscription(userId: number, applicationId: number): void {
+  handleRevokeAccess(userId: number, applicationId: number) {
     this.revokeSubscriptionMutation.mutate(
       { userId, applicationId },
       {
-        onSuccess: () => {
-          console.log('Access successfully revoked');
-        },
-        onError: (error) => {
-          console.error('Failed to revoke access:', error);
-        },
+        onSuccess: () => console.log('Access successfully revoked'),
+        onError: (err) => console.error('Failed to revoke access', err),
       }
     );
   }

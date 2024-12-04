@@ -64,7 +64,7 @@ import {
       <div>
         <ui-platform-overflow-menu
           [menuOptions]="menuOptions"
-          [icon]="'faEllipsisV'"
+          icon="faEllipsisV"
           (menuOptionSelected)="onMenuOptionSelected($event, data)"
         ></ui-platform-overflow-menu>
       </div>
@@ -266,6 +266,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     if (action === 'view') {
       this.router.navigate([`/admin/users/${user.id}`]);
     } else if (action === 'delete') {
+      this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openDeleteConfirmationModal(user);
     }
   }
