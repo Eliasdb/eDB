@@ -5,7 +5,7 @@ export interface SubscribedUserDto {
   subscriptionDate: string;
 }
 
-export interface ApplicationOverviewDto {
+export interface Application {
   applicationName: string;
   applicationDescription: string;
   applicationId: number;

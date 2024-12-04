@@ -9,7 +9,7 @@ import {
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import {
-  ApplicationOverviewDto,
+  Application,
   CreateApplicationDto,
 } from '../../models/application-overview.model';
 import { PaginatedResponse } from '../../models/paged-result.model';
@@ -139,9 +139,7 @@ export class AdminService {
       queryKey: ['applications'],
       queryFn: async () => {
         const subscriptions = await firstValueFrom(
-          this.http.get<ApplicationOverviewDto[]>(
-            `${this.baseUrl}/applications-overview`
-          )
+          this.http.get<Application[]>(`${this.baseUrl}/applications-overview`)
         );
         if (!subscriptions) {
           throw new Error('Subscriptions not found');
@@ -167,7 +165,7 @@ export class AdminService {
 
   editApplicationMutation() {
     return injectMutation(() => ({
-      mutationFn: async (application: ApplicationOverviewDto) => {
+      mutationFn: async (application: Application) => {
         return firstValueFrom(
           this.http.put(
             `${this.baseUrl}/applications/${application.applicationId}`,

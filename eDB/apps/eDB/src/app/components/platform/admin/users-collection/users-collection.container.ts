@@ -130,47 +130,6 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private observeSortChanges(): void {
-    this.sortChange$
-      .pipe(debounceTime(300), takeUntil(this.destroy$))
-      .subscribe((sort: SortEvent) => {
-        const sortParam = `${sort.sortField},${sort.sortDirection}`;
-        this.userParamService.navigate({
-          sort: sortParam,
-          search: this.searchParam(),
-        });
-      });
-  }
-
-  private observeSearchChanges(): void {
-    this.searchChange$
-      .pipe(debounceTime(300), takeUntil(this.destroy$))
-      .subscribe((search: string) => {
-        this.userParamService.navigate({
-          search,
-          sort: this.sortParam(),
-        });
-      });
-  }
-
-  private observeLoader(): void {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        this.fetchNextPage();
-      }
-    });
-
-    if (this.loaderElement) {
-      observer.observe(this.loaderElement.nativeElement);
-    } else {
-      console.error('Loader element not found');
-    }
-
-    this.destroy$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      observer.disconnect();
-    });
-  }
-
   // INFINITE QUERY
 
   private usersQuery = injectInfiniteQuery(() => ({
@@ -279,6 +238,49 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       onError: (error) => {
         console.error('Failed to add application:', error);
       },
+    });
+  }
+
+  // OBSERVATIONS
+
+  private observeSortChanges(): void {
+    this.sortChange$
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe((sort: SortEvent) => {
+        const sortParam = `${sort.sortField},${sort.sortDirection}`;
+        this.userParamService.navigate({
+          sort: sortParam,
+          search: this.searchParam(),
+        });
+      });
+  }
+
+  private observeSearchChanges(): void {
+    this.searchChange$
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe((search: string) => {
+        this.userParamService.navigate({
+          search,
+          sort: this.sortParam(),
+        });
+      });
+  }
+
+  private observeLoader(): void {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.fetchNextPage();
+      }
+    });
+
+    if (this.loaderElement) {
+      observer.observe(this.loaderElement.nativeElement);
+    } else {
+      console.error('Loader element not found');
+    }
+
+    this.destroy$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      observer.disconnect();
     });
   }
 

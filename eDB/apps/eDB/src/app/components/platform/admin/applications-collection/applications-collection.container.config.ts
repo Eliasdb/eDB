@@ -1,65 +1,53 @@
-import { TableItem } from 'carbon-components-angular/table';
-import {
-  ApplicationOverviewDto,
-  RowMapperConfig,
-  TableColumnConfig,
-} from '../../../../models/application-overview.model';
+import { TableHeaderItem, TableItem } from 'carbon-components-angular/table';
+import { Application } from '../../../../models/application-overview.model';
+import { ExpandedDataConfig } from '../../../../models/user.model';
 
-/**
- * Column configurations for the Subscriptions table.
- */
-export const SubscriptionsTableColumnConfigs: TableColumnConfig[] = [
-  {
-    header: 'Application Name',
-    field: 'applicationName',
-    sortable: false,
-  },
-  {
-    header: 'Description',
-    field: 'applicationDescription',
-    sortable: false,
-  },
-  {
-    header: 'Subscribers',
-    field: 'subscriberCount',
-    sortable: false,
-  },
-  {
-    header: 'Actions',
-    field: 'actions',
-    sortable: false,
-  },
-];
+export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
+  headers: [
+    new TableHeaderItem({ data: 'Application Name', sortable: false }),
+    new TableHeaderItem({ data: 'Description', sortable: false }),
+    new TableHeaderItem({ data: 'Subscribers', sortable: false }),
+    new TableHeaderItem({ data: 'Actions', sortable: false }),
+  ],
+  rowMapper: (app: Application, context?: { [key: string]: any }) => [
+    new TableItem({ data: app.applicationName }),
+    new TableItem({ data: app.applicationDescription }),
+    new TableItem({ data: app.subscriberCount }),
+    new TableItem({
+      data: { applicationId: app.applicationId },
+      template: context?.['nonExpandedActionTemplate'], // Use non-expanded action template
+    }),
+  ],
+  expandedDataMapper: (app: Application, context?: { [key: string]: any }) => {
+    const actionTemplate = context?.['expandedActionTemplate'];
 
-/**
- * Factory function to create row mapper configurations for the Subscriptions table.
- * @param getExpandedData Function to generate expanded data for a given application.
- * @returns Array of RowMapperConfig for ApplicationOverviewDto.
- */
-export const getSubscriptionsTableMapperConfigs = (
-  getExpandedData: (app: ApplicationOverviewDto) => TableItem[][]
-): RowMapperConfig<ApplicationOverviewDto>[] => [
-  {
-    field: 'applicationName',
-    isExpandable: true,
-    getExpandedData: getExpandedData,
+    return [
+      [
+        new TableItem({ data: 'ID' }),
+        new TableItem({ data: 'User Name' }),
+        new TableItem({ data: 'Subscription Date' }),
+        new TableItem({ data: 'Actions' }),
+      ],
+      ...app.subscribedUsers.map((user) => [
+        new TableItem({ data: user.userId }),
+        new TableItem({ data: user.userName }),
+        new TableItem({
+          data: new Date(user.subscriptionDate).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          }),
+        }),
+        new TableItem({
+          data: { userId: user.userId, applicationId: app.applicationId },
+          template: actionTemplate, // Use expanded action template
+        }),
+      ]),
+    ];
   },
-  {
-    field: 'applicationDescription',
-  },
-  {
-    field: 'subscriberCount',
-  },
-  {
-    field: 'userId',
-    isTemplate: true,
-  },
-];
+};
 
-/**
- * Modal configuration helper functions for the Subscriptions table.
- */
-export const modalConfigs = {
+export const MODAL_CONFIG = {
   addApplication: {
     header: 'Add Application',
     hasForm: true,
@@ -84,3 +72,8 @@ export const modalConfigs = {
     },
   }),
 };
+
+export const OVERFLOW_MENU_CONFIG = [
+  { id: 'edit', label: 'Edit Application' },
+  { id: 'delete', label: 'Delete Application' },
+];

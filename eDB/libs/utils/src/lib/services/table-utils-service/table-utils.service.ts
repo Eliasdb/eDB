@@ -3,7 +3,7 @@
 import { Injectable, TemplateRef } from '@angular/core';
 import { TableHeaderItem, TableItem } from 'carbon-components-angular';
 import {
-  ApplicationOverviewDto,
+  ExpandedDataConfig,
   RowMapperConfig,
   TableColumnConfig,
 } from '../../forms/models/table.model';
@@ -76,48 +76,30 @@ export class TableUtilsService {
     );
   }
 
-  /**
-   * Creates expanded data for the Subscriptions table.
-   * @param app ApplicationOverviewDto instance.
-   * @returns Array of TableItem arrays with headers and subscribed users.
-   */
-  // Inside TableUtilsService
-  // In TableUtilsService
-  createSubscriptionsExpandedData(
-    app: ApplicationOverviewDto,
-    actionTemplate: TemplateRef<any>
+  createExpandedData<T>(
+    items: T[],
+    config: ExpandedDataConfig<T>,
+    context?: { [key: string]: any }
   ): TableItem[][] {
-    // Define headers for the expanded table
-    const header = [
-      new TableItem({ data: 'ID' }),
-      new TableItem({ data: 'User Name' }),
-      new TableItem({ data: 'Subscription Date' }),
-      new TableItem({ data: 'Actions' }),
-    ];
+    const { rowMapper, expandedDataMapper } = config;
 
-    // Map subscribed users to TableItem[] rows
-    const data = app.subscribedUsers.map((user) => {
-      // Now create and return the TableItem array for this user
-      return [
-        new TableItem({
-          data: user.userId,
-        }),
-        new TableItem({ data: user.userName }),
-        new TableItem({
-          data: new Date(user.subscriptionDate).toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          }),
-        }),
-        new TableItem({
-          data: { userId: user.userId, applicationId: app.applicationId },
-          template: actionTemplate,
-        }),
-      ];
+    return items.map((item) => {
+      const row = rowMapper(item, context);
+
+      if (expandedDataMapper) {
+        const expandedData = expandedDataMapper(item, context);
+
+        // Create a new TableItem for expandable rows
+        const expandedItem = new TableItem({
+          data: row[0].data,
+          expandedData, // Attach expanded data
+          expandAsTable: true, // Ensure this is set during initialization
+        });
+
+        row[0] = expandedItem; // Replace the first column with the expanded item
+      }
+
+      return row;
     });
-
-    // Return as TableItem[][] with header
-    return [header, ...data];
   }
 }
