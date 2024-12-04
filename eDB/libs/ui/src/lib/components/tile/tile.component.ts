@@ -22,11 +22,11 @@ import { UiTagComponent } from '../tag/tag.component';
 
         <ui-icon-button
           buttonId="subscribe-btn"
-          [size]="'md'"
-          [icon]="'faDownload'"
-          [iconSize]="'16px'"
-          [iconColor]="'#ffffff'"
-          [description]="'Subscribe'"
+          size="md"
+          icon="faDownload"
+          iconSize="16px"
+          iconColor="#ffffff"
+          description="Subscribe"
           (click)="onSubscribeClick()"
         ></ui-icon-button>
       </div>

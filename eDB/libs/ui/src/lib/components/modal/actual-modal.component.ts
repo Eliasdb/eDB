@@ -44,7 +44,7 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
             label="Application Name"
             placeholder="Enter application name"
             formControlName="name"
-            [theme]="'light'"
+            theme="light"
           ></ui-text-input>
 
           <section class="row-2">
@@ -52,13 +52,13 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
               label="Route path"
               placeholder="Enter route path"
               formControlName="routePath"
-              [theme]="'light'"
+              theme="light"
             ></ui-text-input>
             <ui-text-input
               label="Icon URL"
               placeholder="Enter icon URL"
               formControlName="iconUrl"
-              [theme]="'light'"
+              theme="light"
             ></ui-text-input>
           </section>
 
@@ -66,14 +66,14 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
             label="Tags (comma-separated)"
             placeholder="Enter tags"
             formControlName="tags"
-            [theme]="'light'"
+            theme="light"
           ></ui-text-input>
 
           <ui-textarea
             label="Description"
             placeholder="Enter application description"
             formControlName="description"
-            [theme]="'light'"
+            theme="light"
           ></ui-textarea>
         </form>
 
@@ -87,7 +87,7 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
           variant="secondary"
           (buttonClick)="onCancel()"
           [fullWidth]="true"
-          [size]="'sm'"
+          size="sm"
           [isExpressive]="true"
         >
           Cancel
@@ -98,7 +98,7 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
           (buttonClick)="onSave()"
           [fullWidth]="true"
           [isExpressive]="true"
-          [size]="'sm'"
+          size="sm"
         >
           Confirm
         </ui-button>

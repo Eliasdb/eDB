@@ -50,12 +50,12 @@ import { loginFormFields } from './login-form.config';
           </div>
 
           <ui-button
-            [type]="'submit'"
-            [isExpressive]="true"
-            [disabled]="loginForm.invalid || isLoading"
-            [fullWidth]="true"
+            type="submit"
             icon="faArrowRight"
             class="login-btn"
+            [isExpressive]="true"
+            [fullWidth]="true"
+            [disabled]="loginForm.invalid || isLoading"
           >
             {{ isLoading ? 'Logging in...' : 'Login' }}
           </ui-button>
@@ -65,9 +65,9 @@ import { loginFormFields } from './login-form.config';
       <section>
         <p>Don't have an account?</p>
         <ui-button
+          icon="faPlus"
           [fullWidth]="true"
           [isExpressive]="true"
-          icon="faPlus"
           [variant]="'tertiary'"
           (click)="navigateToRegister()"
         >
@@ -119,9 +119,9 @@ export class LoginFormComponent implements OnInit {
         next: (response) => {
           if ('token' in response) {
             console.log('Login successful:', response);
-            localStorage.setItem('token', response.token!);
             console.log(jwtDecode(response.token!));
 
+            localStorage.setItem('token', response.token!);
             this.router.navigate(['/dashboard']);
           }
         },
