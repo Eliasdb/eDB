@@ -32,7 +32,6 @@ import { IconModule, NotificationService } from 'carbon-components-angular';
       >
         Show Test Toast
       </ui-button>
-      <div class="notification-container"></div>
     </div>
   `,
   standalone: true,
@@ -76,7 +75,6 @@ export class NotFoundPage {
       title: 'Sample toast',
       subtitle: 'Sample subtitle message',
       caption: 'Sample caption',
-      // target: '.notification-container',
       message: 'message',
       duration: 5000,
       smart: true,

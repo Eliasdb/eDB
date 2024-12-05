@@ -18,3 +18,8 @@ export interface ErrorResponse {
     // Add other properties if necessary
   };
 }
+
+export interface Credentials {
+  email: string;
+  password: string;
+}
