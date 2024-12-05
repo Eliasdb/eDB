@@ -9,12 +9,12 @@ export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
     new TableHeaderItem({ data: 'Subscribers', sortable: false }),
     new TableHeaderItem({ data: 'Actions', sortable: false }),
   ],
-  rowMapper: (app: Application, context?: { [key: string]: any }) => [
-    new TableItem({ data: app.applicationName }),
-    new TableItem({ data: app.applicationDescription }),
-    new TableItem({ data: app.subscriberCount }),
+  rowMapper: (application: Application, context?: { [key: string]: any }) => [
+    new TableItem({ data: application.applicationName }),
+    new TableItem({ data: application.applicationDescription }),
+    new TableItem({ data: application.subscriberCount }),
     new TableItem({
-      data: { applicationId: app.applicationId },
+      data: { application },
       template: context?.['nonExpandedActionTemplate'], // Use non-expanded action template
     }),
   ],
@@ -60,7 +60,7 @@ export const MODAL_CONFIG = {
     header: 'Confirm Deletion',
     content: `Are you sure you want to delete the application "${applicationName}"? This action cannot be undone.`,
   }),
-  editApplication: (application: any) => ({
+  editApplication: (application: Application) => ({
     header: 'Edit Application',
     hasForm: true,
     formData: {

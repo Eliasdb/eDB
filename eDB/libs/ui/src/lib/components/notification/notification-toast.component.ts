@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NotificationModule } from 'carbon-components-angular';
-import { ToastPackage } from 'ngx-toastr';
 
 @Component({
   selector: 'ui-toast',
@@ -50,17 +49,4 @@ export class UiNotificationToastComponent {
   @Input() subtitle: string = 'Default Subtitle';
   @Input() caption: string = 'Default Caption';
   @Input() showClose: boolean = true;
-
-  constructor(public toastPackage: ToastPackage) {
-    const data = toastPackage.config.payload;
-    this.type = data?.type || 'toast';
-    this.notificationType = data?.notificationType || 'info';
-    this.title = data?.title || '';
-    this.subtitle = data?.subtitle || '';
-    this.caption = data?.caption || '';
-  }
-
-  close() {
-    this.toastPackage.triggerAction();
-  }
 }
