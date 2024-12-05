@@ -5,7 +5,7 @@ import { firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import {
-  ErrorResponse,
+  Credentials,
   LoginResponse,
   RegisterResponse,
 } from '../../models/auth.model';
@@ -32,15 +32,28 @@ export class AuthService {
     }));
   }
 
+  loginMutation() {
+    return injectMutation<LoginResponse, HttpErrorResponse, Credentials>(
+      () => ({
+        mutationFn: async (
+          credentials: Credentials
+        ): Promise<LoginResponse> => {
+          // Use `firstValueFrom` to convert Observable to Promise
+          return firstValueFrom(
+            this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials)
+          );
+        },
+        // Optionally handle onSuccess or other mutation options here
+      })
+    );
+  }
+
   /**
-   * Handles user login.
+   * Handles user login by setting the token in localStorage.
+   * This method can be used in interceptors or other services if needed.
    */
-  login(credentials: {
-    email: string;
-    password: string;
-  }): Observable<LoginResponse | ErrorResponse> {
-    const url = `${this.baseUrl}/login`;
-    return this.http.post<LoginResponse>(url, credentials);
+  handleLogin(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
   }
 
   /**

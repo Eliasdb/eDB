@@ -80,7 +80,7 @@ export class RegisterFormComponent implements OnInit {
   isSubmitting = false;
 
   // Initialize the mutation
-  mutation = this.authService.registerMutation();
+  registerMutation = this.authService.registerMutation();
 
   ngOnInit(): void {
     const flatFieldDefinitions = this.fieldRows
@@ -118,7 +118,7 @@ export class RegisterFormComponent implements OnInit {
         ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)
         : 'user';
 
-      this.mutation.mutate(user, {
+      this.registerMutation.mutate(user, {
         onSuccess: () => {
           this.registerForm.reset();
           this.router.navigate(['auth/login']);
