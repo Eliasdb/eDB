@@ -56,6 +56,7 @@ import { loginFormFields } from './login-form.config';
             [isExpressive]="true"
             [fullWidth]="true"
             [disabled]="loginForm.invalid || isLoading"
+            [loading]="isLoading"
           >
             {{ isLoading ? 'Logging in...' : 'Login' }}
           </ui-button>

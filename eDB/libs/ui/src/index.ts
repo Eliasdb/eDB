@@ -12,6 +12,7 @@ export { UiModalComponent } from './lib/components/modal/actual-modal.component'
 export { UiContentSwitcherComponent } from './lib/components/navigation/content-switcher/content-switcher.component';
 export { UiPlatformOverflowMenuComponent } from './lib/components/navigation/overflow-menu/overflow-menu.component';
 export { UiSidenavComponent } from './lib/components/navigation/side-nav/side-nav.component';
+export { UiNotificationToastComponent } from './lib/components/notification/notification-toast.component';
 export { UiStructuredListComponent } from './lib/components/tables/structured-list/structured-list.component';
 export { UiTableComponent } from './lib/components/tables/table/table.component';
 export { UiTagComponent } from './lib/components/tag/tag.component';
