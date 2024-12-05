@@ -1,15 +1,20 @@
 import { User } from './user.model';
 
-export interface AuthResponse {
+// auth.model.ts
+export interface RegisterResponse {
   message: string;
-  token?: string;
   user: User;
 }
 
+export interface LoginResponse {
+  message: string;
+  user: User;
+  token: string;
+}
+
 export interface ErrorResponse {
-  error?: string; // Error type, e.g., 'InvalidCredentials'
-  message: string; // Human-readable message
-  status?: number; // HTTP status code
-  traceId?: string; // Optional trace ID for debugging
-  errors?: Record<string, string[]>; // Validation errors
+  error: {
+    message: string;
+    // Add other properties if necessary
+  };
 }

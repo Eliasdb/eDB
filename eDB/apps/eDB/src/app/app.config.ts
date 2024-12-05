@@ -6,7 +6,7 @@ import {
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16'; // Import required icons
-import { AuthInterceptor, ErrorInterceptor } from '@eDB/shared-utils';
+import { AuthInterceptor } from '@eDB/shared-utils';
 import {
   provideTanStackQuery,
   QueryClient,
@@ -26,10 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideTanStackQuery(new QueryClient()),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([AuthInterceptor, ErrorInterceptor])
-    ),
+    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     NotificationService,
     ModalService,
     ExperimentalService,

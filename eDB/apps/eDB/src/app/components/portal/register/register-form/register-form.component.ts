@@ -8,6 +8,8 @@ import {
   UiTextInputComponent,
 } from '@eDB/shared-ui';
 import { FormUtilsService } from '@eDB/shared-utils';
+import { NotificationService } from 'carbon-components-angular';
+import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../../services/auth-service/auth.service';
 import { registerFormFields } from './register-form.config';
 
@@ -51,10 +53,11 @@ import { registerFormFields } from './register-form.config';
             <ui-button
               type="submit"
               [isExpressive]="true"
-              [disabled]="registerForm.invalid || mutation.isPending()"
+              [disabled]="registerForm.invalid || isSubmitting"
               [fullWidth]="true"
+              [loading]="isSubmitting"
             >
-              {{ mutation.isPending() ? 'Registering...' : 'Register' }}
+              {{ isSubmitting ? 'Registering...' : 'Register' }}
             </ui-button>
           </div>
           <div class="form-column">
@@ -70,9 +73,11 @@ export class RegisterFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   registerForm!: FormGroup;
   fieldRows = registerFormFields;
+  isSubmitting = false;
 
   // Initialize the mutation
   mutation = this.authService.registerMutation();
@@ -106,16 +111,37 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const user = this.registerForm.getRawValue();
+      this.isSubmitting = true;
 
-      // Use the mutation to handle the form submission
+      const user: User = this.registerForm.getRawValue();
+      const capitalizedFirstName = user.firstName
+        ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)
+        : 'user';
+
       this.mutation.mutate(user, {
         onSuccess: () => {
           this.registerForm.reset();
           this.router.navigate(['auth/login']);
+          this.notificationService.showToast({
+            type: 'success',
+            title: 'Success',
+            subtitle: 'You have been registered!',
+            caption: `Enjoy your stay, ${capitalizedFirstName}.`,
+            duration: 5000,
+            smart: true,
+          });
+          this.isSubmitting = false; // End submission
         },
         onError: (error) => {
-          console.error('Registration failed:', error);
+          this.isSubmitting = false;
+          this.notificationService.showToast({
+            type: 'error',
+            title: 'Error',
+            subtitle: 'Something went wrong.',
+            caption: error.error.message || 'An unexpected error occurred.',
+            duration: 5000,
+            smart: true,
+          });
         },
       });
     }
