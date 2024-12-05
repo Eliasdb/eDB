@@ -28,7 +28,7 @@ namespace api.Controllers
                 return BadRequest(new
                 {
                     error = "ValidationError",
-                    message = "Email already exists"
+                    message = "Email already exists."
                 });
             }
 

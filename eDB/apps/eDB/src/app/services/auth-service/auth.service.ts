@@ -1,10 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { injectMutation } from '@tanstack/angular-query-experimental';
-import { AuthResponse, ErrorResponse } from '../../models/auth.model';
+import {
+  ErrorResponse,
+  LoginResponse,
+  RegisterResponse,
+} from '../../models/auth.model';
 import { User } from '../../models/user.model';
 
 @Injectable({
@@ -16,24 +20,15 @@ export class AuthService {
 
   http = inject(HttpClient);
 
-  /**
-   * Handles user registration.
-   */
-  register(payload: User): Observable<AuthResponse | ErrorResponse> {
-    const url = `${this.baseUrl}/register`;
-    return this.http.post<AuthResponse>(url, payload);
-  }
-
   registerMutation() {
-    return injectMutation(() => ({
-      mutationFn: async (user: User) => {
+    return injectMutation<RegisterResponse, HttpErrorResponse, User>(() => ({
+      mutationFn: async (user: User): Promise<RegisterResponse> => {
         // Use `firstValueFrom` to convert Observable to Promise
-        return firstValueFrom(this.http.post(`${this.baseUrl}/register`, user));
+        return firstValueFrom(
+          this.http.post<RegisterResponse>(`${this.baseUrl}/register`, user)
+        );
       },
-      // onSuccess: () => {
-      //   // Optionally invalidate related queries
-      //   this.queryClient.invalidateQueries({ queryKey: ['users'] });
-      // },
+      // Optionally handle onSuccess or other mutation options here
     }));
   }
 
@@ -43,9 +38,9 @@ export class AuthService {
   login(credentials: {
     email: string;
     password: string;
-  }): Observable<AuthResponse | ErrorResponse> {
+  }): Observable<LoginResponse | ErrorResponse> {
     const url = `${this.baseUrl}/login`;
-    return this.http.post<AuthResponse>(url, credentials);
+    return this.http.post<LoginResponse>(url, credentials);
   }
 
   /**

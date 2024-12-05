@@ -57,6 +57,7 @@ export class PlatformLayout implements OnInit {
       } else {
         this.removeAdminLinks();
       }
+      this.updateCurrentPage();
     });
   }
 
