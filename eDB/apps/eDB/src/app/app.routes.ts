@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { PlatformLayout } from './layouts/platform/platform.layout';
 import { PortalLayout } from './layouts/portal/portal.layout';
+import { NotFoundPage } from './pages/404/not-found.page';
 import { LoginPage } from './pages/portal/login/login.page';
 import { RegisterPage } from './pages/portal/register/register.page';
 
@@ -56,8 +57,13 @@ export const routes: Route[] = [
     loadChildren: () =>
       import('@eDB/appointment-app').then((m) => m.AppointmentsModule),
   },
+
+  {
+    path: 'not-found',
+    component: NotFoundPage, // Add the not-found route
+  },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'not-found',
   },
 ];

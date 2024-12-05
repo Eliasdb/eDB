@@ -4,8 +4,10 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { AuthInterceptor } from '@eDB/shared-utils';
+import { UiNotificationToastComponent } from '@eDB/shared-ui';
+import { AuthInterceptor, ErrorInterceptor } from '@eDB/shared-utils';
 import {
   provideTanStackQuery,
   QueryClient,
@@ -15,6 +17,7 @@ import {
   ModalService,
   PlaceholderService,
 } from 'carbon-components-angular';
+import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -22,7 +25,19 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideTanStackQuery(new QueryClient()),
-    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
+    provideAnimations(),
+    provideToastr({
+      toastComponent: UiNotificationToastComponent,
+      timeOut: 1000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
+
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([AuthInterceptor, ErrorInterceptor])
+    ),
+
     ModalService,
     PlaceholderService,
     ExperimentalService,
