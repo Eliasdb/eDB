@@ -118,7 +118,11 @@ export class ApplicationsCollectionContainer {
     this.tableModel.data = [];
   }
 
-  onMenuOptionSelected(action: string, application: Application): void {
+  onMenuOptionSelected(
+    action: string,
+    data: { application: Application }
+  ): void {
+    const { application } = data;
     this.router.navigateByUrl(this.router.url, { replaceUrl: true });
     if (action === 'edit') {
       this.openEditApplicationModal(application);
@@ -140,6 +144,7 @@ export class ApplicationsCollectionContainer {
   }
 
   openEditApplicationModal(application: Application) {
+    console.log(application);
     this.modalUtils.openModal({
       ...MODAL_CONFIG.editApplication(application),
       onSave: (formData) =>

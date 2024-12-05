@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { map, Observable, of } from 'rxjs';
+import { firstValueFrom, map, Observable, of } from 'rxjs';
 
+import { injectMutation } from '@tanstack/angular-query-experimental';
 import { AuthResponse, ErrorResponse } from '../../models/auth.model';
 import { User } from '../../models/user.model';
 
@@ -21,6 +22,19 @@ export class AuthService {
   register(payload: User): Observable<AuthResponse | ErrorResponse> {
     const url = `${this.baseUrl}/register`;
     return this.http.post<AuthResponse>(url, payload);
+  }
+
+  registerMutation() {
+    return injectMutation(() => ({
+      mutationFn: async (user: User) => {
+        // Use `firstValueFrom` to convert Observable to Promise
+        return firstValueFrom(this.http.post(`${this.baseUrl}/register`, user));
+      },
+      // onSuccess: () => {
+      //   // Optionally invalidate related queries
+      //   this.queryClient.invalidateQueries({ queryKey: ['users'] });
+      // },
+    }));
   }
 
   /**

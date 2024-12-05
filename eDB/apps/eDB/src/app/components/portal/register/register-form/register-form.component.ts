@@ -8,7 +8,6 @@ import {
   UiTextInputComponent,
 } from '@eDB/shared-ui';
 import { FormUtilsService } from '@eDB/shared-utils';
-import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../../services/auth-service/auth.service';
 import { registerFormFields } from './register-form.config';
 
@@ -52,10 +51,10 @@ import { registerFormFields } from './register-form.config';
             <ui-button
               type="submit"
               [isExpressive]="true"
-              [disabled]="registerForm.invalid || isLoading"
+              [disabled]="registerForm.invalid || mutation.isPending()"
               [fullWidth]="true"
             >
-              {{ isLoading ? 'Registering...' : 'Register' }}
+              {{ mutation.isPending() ? 'Registering...' : 'Register' }}
             </ui-button>
           </div>
           <div class="form-column">
@@ -69,15 +68,14 @@ import { registerFormFields } from './register-form.config';
 })
 export class RegisterFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
-  private authService = inject(AuthService);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   registerForm!: FormGroup;
   fieldRows = registerFormFields;
-  isLoading = false;
-  successMessage = '';
-  errorMessage = '';
-  validationErrors: { [key: string]: string[] } | null = null;
+
+  // Initialize the mutation
+  mutation = this.authService.registerMutation();
 
   ngOnInit(): void {
     const flatFieldDefinitions = this.fieldRows
@@ -108,28 +106,16 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this.isLoading = true;
-      this.successMessage = '';
-      this.errorMessage = '';
-      this.validationErrors = null;
+      const user = this.registerForm.getRawValue();
 
-      const user: User = this.registerForm.getRawValue();
-
-      this.authService.register(user).subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          this.successMessage = response.message;
+      // Use the mutation to handle the form submission
+      this.mutation.mutate(user, {
+        onSuccess: () => {
           this.registerForm.reset();
           this.router.navigate(['auth/login']);
         },
-        error: (error) => {
-          this.isLoading = false;
-          if (error.errors) {
-            this.validationErrors = error.errors;
-          } else {
-            this.errorMessage =
-              error.message || 'An error occurred. Please try again.';
-          }
+        onError: (error) => {
+          console.error('Registration failed:', error);
         },
       });
     }

@@ -5,9 +5,12 @@ import {
   HttpInterceptorFn,
   HttpRequest,
 } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import {
+  NotificationService,
+  NotificationType,
+} from 'carbon-components-angular';
 import { catchError, Observable, throwError } from 'rxjs';
 
 export const ErrorInterceptor: HttpInterceptorFn = (
@@ -15,76 +18,43 @@ export const ErrorInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
   const router = inject(Router);
-  const toastr = inject(ToastrService);
+  const injector = inject(Injector); // Use Injector instead of direct service injection
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error) {
-        console.log(error);
+        const notificationService = injector.get(NotificationService); // Lazy injection
+        const showToast = (
+          type: NotificationType,
+          title: string,
+          subtitle: string,
+          caption?: string
+        ) => {
+          notificationService.showToast({
+            type,
+            title,
+            subtitle,
+            caption,
+            duration: 5000,
+            smart: true,
+          });
+        };
 
         switch (error.status) {
           case 400:
-            if (error.error.errors) {
-              const modelStateErrors = [];
-              for (const key in error.error.errors) {
-                if (error.error.errors[key]) {
-                  modelStateErrors.push(error.error.errors[key]);
-                }
-              }
-              toastr.show('', 'Validation Error', {
-                payload: {
-                  type: 'toast',
-                  notificationType: 'error',
-                  title: 'Bad Request',
-                  subtitle: 'Validation failed',
-                  caption: modelStateErrors.flat().join(', '),
-                },
-              });
-            } else {
-              toastr.show('', 'Bad Request', {
-                payload: {
-                  type: 'toast',
-                  notificationType: 'error',
-                  title: 'Bad Request',
-                  subtitle: error.error,
-                },
-              });
-            }
+            showToast('error', 'Bad Request', 'Validation failed');
             break;
           case 401:
-            console.log('401');
-
-            toastr.show('', 'Unauthorized', {
-              payload: {
-                type: 'toast',
-                notificationType: 'error',
-                title: 'Unauthorized',
-                subtitle: 'You are not authorized to perform this action.',
-              },
-            });
+            showToast('error', 'Unauthorized', 'You are not authorized.');
             break;
           case 404:
             router.navigateByUrl('/not-found');
             break;
           case 500:
-            toastr.show('', 'Server Error', {
-              payload: {
-                type: 'toast',
-                notificationType: 'error',
-                title: 'Server Error',
-                subtitle: 'An internal server error occurred.',
-              },
-            });
+            showToast('error', 'Server Error', 'Internal server error.');
             break;
           default:
-            toastr.show('', 'Unexpected Error', {
-              payload: {
-                type: 'toast',
-                notificationType: 'error',
-                title: 'Unexpected Error',
-                subtitle: 'Something went wrong.',
-              },
-            });
+            showToast('error', 'Unexpected Error', 'Something went wrong.');
             break;
         }
       }
