@@ -176,7 +176,7 @@ export class UiStructuredListComponent {
   onActionClick(rowIndex: number): void {
     this.actionClick.emit(rowIndex);
   }
-  trackByFn(index: number, row: any): any {
+  trackByFn(index: number, row: any): number {
     return row ? row.id || index : index; // Use a unique identifier for each row
   }
 }
