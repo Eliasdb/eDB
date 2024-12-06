@@ -21,9 +21,7 @@ import { settingsGroups } from './profile.page.config';
       </section>
 
       <section class="settings-container" #settingsContainer>
-        <ng-container
-          *ngFor="let group of settingsGroups; trackBy: trackByGroupId"
-        >
+        @for (group of settingsGroups; track group.id) {
           <ui-structured-list
             [header]="group.header"
             [headerIcon]="group.headerIcon"
@@ -39,7 +37,7 @@ import { settingsGroups } from './profile.page.config';
             [editMode]="true"
             [id]="group.id"
           ></ui-structured-list>
-        </ng-container>
+        }
       </section>
     </section>
   `,

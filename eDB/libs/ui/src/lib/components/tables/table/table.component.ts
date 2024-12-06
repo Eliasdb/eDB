@@ -28,14 +28,14 @@ export interface SortEvent {
           <p cdsTableHeaderDescription style="margin:0;">{{ description }}</p>
         </div>
 
-        <ng-container *ngIf="showButton">
+        @if (showButton) {
           <ui-button size="sm" icon="faPlus" (click)="onAddApplication()">
             Add application
           </ui-button>
-        </ng-container>
+        }
       </cds-table-header>
 
-      <ng-container *ngIf="showToolbar">
+      @if (showToolbar) {
         <cds-table-toolbar #toolbar [model]="model">
           <cds-table-toolbar-actions>
             <ui-button (buttonClick)="onDelete()" icon="faTrash">
@@ -51,7 +51,7 @@ export interface SortEvent {
             ></cds-table-toolbar-search>
           </cds-table-toolbar-content>
         </cds-table-toolbar>
-      </ng-container>
+      }
 
       <cds-table
         [model]="model"
@@ -65,11 +65,12 @@ export interface SortEvent {
         [striped]="striped"
       ></cds-table>
 
-      <cds-pagination
-        *ngIf="showPagination"
-        [model]="model"
-        (selectPage)="onPageChange($event)"
-      ></cds-pagination>
+      @if (showPagination) {
+        <cds-pagination
+          [model]="model"
+          (selectPage)="onPageChange($event)"
+        ></cds-pagination>
+      }
     </cds-table-container>
   `,
   styleUrls: ['table.component.scss'],

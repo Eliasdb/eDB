@@ -34,23 +34,23 @@ import { loginFormFields } from './login-form.config';
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <div *ngFor="let field of fieldDefinitions">
-            <ui-text-input
-              *ngIf="field.controlType === 'text'"
-              [formControlName]="field.controlName"
-              [label]="field.label"
-              [invalid]="isFieldInvalid(field.controlName)"
-              [invalidText]="getErrorMessage(field.controlName)"
-            ></ui-text-input>
-
-            <ui-password-input
-              *ngIf="field.controlType === 'password'"
-              [formControlName]="field.controlName"
-              [label]="field.label"
-              [invalid]="isFieldInvalid(field.controlName)"
-              [invalidText]="getErrorMessage(field.controlName)"
-            ></ui-password-input>
-          </div>
+          @for (field of fieldDefinitions; track field.controlName) {
+            @if (field.controlType === 'text') {
+              <ui-text-input
+                [formControlName]="field.controlName"
+                [label]="field.label"
+                [invalid]="isFieldInvalid(field.controlName)"
+                [invalidText]="getErrorMessage(field.controlName)"
+              ></ui-text-input>
+            } @else if (field.controlType === 'password') {
+              <ui-password-input
+                [formControlName]="field.controlName"
+                [label]="field.label"
+                [invalid]="isFieldInvalid(field.controlName)"
+                [invalidText]="getErrorMessage(field.controlName)"
+              ></ui-password-input>
+            }
+          }
 
           <ui-button
             type="submit"
@@ -111,7 +111,7 @@ export class LoginFormComponent implements OnInit {
       ? this.formUtils.getErrorMessage(
           this.loginForm,
           controlName,
-          field.errorMessages
+          field.errorMessages,
         )
       : '';
   }

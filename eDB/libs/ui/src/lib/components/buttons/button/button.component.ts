@@ -27,17 +27,14 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
         <ng-content></ng-content>
       </span>
 
-      <ng-container *ngIf="icon && !loading">
+      @if (icon && !loading) {
         <ui-icon class="cds--btn__icon" [name]="icon"></ui-icon>
-      </ng-container>
-
-      <!-- Render the loading spinner if loading is true -->
-      <ng-container *ngIf="loading">
+      } @else if (loading) {
         <ui-loading class="cds--btn__icon" [isActive]="true"></ui-loading>
-      </ng-container>
+      }
     </button>
   `,
-  styleUrl: 'button.component.scss',
+  styleUrls: ['./button.component.scss'], // Corrected styleUrl to styleUrls
 })
 export class UiButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
@@ -48,7 +45,7 @@ export class UiButtonComponent {
   @Input() loading: boolean = false;
   @Input() icon?: string;
   @Input() isExpressive: boolean = false;
-  @Input() fullWidth: boolean = false; // New input property
+  @Input() fullWidth: boolean = false;
 
   @Output() buttonClick = new EventEmitter<Event>();
 

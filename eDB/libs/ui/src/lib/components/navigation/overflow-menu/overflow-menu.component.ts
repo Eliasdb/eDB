@@ -19,12 +19,11 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
       (closed)="isMenuOpen = false"
       description=""
     >
-      <cds-overflow-menu-option
-        *ngFor="let option of menuOptions"
-        (click)="onOptionClick(option.id)"
-      >
-        {{ option.label }}
-      </cds-overflow-menu-option>
+      @for (option of menuOptions; track option.id) {
+        <cds-overflow-menu-option (click)="onOptionClick(option.id)">
+          {{ option.label }}
+        </cds-overflow-menu-option>
+      }
     </cds-overflow-menu>
 
     <ng-template #customTriggerTemplate>
