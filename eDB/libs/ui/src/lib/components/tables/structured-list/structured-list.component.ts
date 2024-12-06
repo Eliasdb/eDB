@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { StructuredListModule } from 'carbon-components-angular';
+import { ButtonModule, StructuredListModule } from 'carbon-components-angular';
 import { UiButtonComponent } from '../../buttons/button/button.component';
 import { UiIconComponent } from '../../icon/icon.component';
 import { UiPasswordInputComponent } from '../../inputs/password-input/password-input.component';
@@ -19,6 +19,7 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
     UiButtonComponent,
     UiTextInputComponent,
     UiPasswordInputComponent,
+    ButtonModule,
   ],
   template: `
     <cds-structured-list>
@@ -57,11 +58,13 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                         [(ngModel)]="inputValues.newPassword"
                         label="New password"
                         placeholder="Enter new password"
+                        size="md"
                       ></ui-password-input>
                       <ui-password-input
                         [(ngModel)]="inputValues.confirmPassword"
                         label="Confirm password"
                         placeholder="Confirm new password"
+                        size="md"
                       ></ui-password-input>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Name'">
@@ -69,11 +72,13 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                         [(ngModel)]="inputValues.firstName"
                         label="First name"
                         placeholder="Enter first name"
+                        size="md"
                       ></ui-text-input>
                       <ui-text-input
                         [(ngModel)]="inputValues.lastName"
                         label="Last name"
                         placeholder="Enter last name"
+                        size="md"
                       ></ui-text-input>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
@@ -81,23 +86,28 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                         [(ngModel)]="inputValues.value"
                         [label]="'Update your ' + row[0].toLowerCase()"
                         placeholder="Enter new value"
+                        size="md"
                       ></ui-text-input>
                     </ng-container>
                   </ng-container>
-                  <div class="button-container">
-                    <ui-button
-                      (buttonClick)="cancelEdit.emit(rowIndex)"
-                      variant="secondary"
-                    >
-                      Cancel
-                    </ui-button>
-                    <ui-button
-                      (buttonClick)="updateEdit.emit(rowIndex)"
-                      variant="primary"
-                    >
-                      Update
-                    </ui-button>
-                  </div>
+                  <cds-button-set>
+                    <div class="button-container">
+                      <ui-button
+                        (buttonClick)="cancelEdit.emit(rowIndex)"
+                        variant="secondary"
+                        size="md"
+                      >
+                        Cancel
+                      </ui-button>
+                      <ui-button
+                        (buttonClick)="updateEdit.emit(rowIndex)"
+                        variant="primary"
+                        size="md"
+                      >
+                        Update
+                      </ui-button>
+                    </div>
+                  </cds-button-set>
                 </div>
               }
             </cds-list-column>
