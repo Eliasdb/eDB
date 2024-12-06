@@ -32,55 +32,55 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
         <h3 cdsModalHeaderHeading>{{ header }}</h3>
       </cds-modal-header>
 
-      <ng-container *ngIf="template; else defaultTemplate">
+      @if (template) {
         <ng-container
           *ngTemplateOutlet="template; context: context"
         ></ng-container>
-      </ng-container>
-
-      <ng-template #defaultTemplate>
-        <form [formGroup]="form" *ngIf="hasForm" class="form">
-          <ui-text-input
-            label="Application Name"
-            placeholder="Enter application name"
-            formControlName="name"
-            theme="light"
-          ></ui-text-input>
-
-          <section class="row-2">
+      } @else {
+        @if (hasForm) {
+          <form [formGroup]="form" class="form">
             <ui-text-input
-              label="Route path"
-              placeholder="Enter route path"
-              formControlName="routePath"
+              label="Application Name"
+              placeholder="Enter application name"
+              formControlName="name"
               theme="light"
             ></ui-text-input>
+
+            <section class="row-2">
+              <ui-text-input
+                label="Route path"
+                placeholder="Enter route path"
+                formControlName="routePath"
+                theme="light"
+              ></ui-text-input>
+              <ui-text-input
+                label="Icon URL"
+                placeholder="Enter icon URL"
+                formControlName="iconUrl"
+                theme="light"
+              ></ui-text-input>
+            </section>
+
             <ui-text-input
-              label="Icon URL"
-              placeholder="Enter icon URL"
-              formControlName="iconUrl"
+              label="Tags (comma-separated)"
+              placeholder="Enter tags"
+              formControlName="tags"
               theme="light"
             ></ui-text-input>
-          </section>
 
-          <ui-text-input
-            label="Tags (comma-separated)"
-            placeholder="Enter tags"
-            formControlName="tags"
-            theme="light"
-          ></ui-text-input>
-
-          <ui-textarea
-            label="Description"
-            placeholder="Enter application description"
-            formControlName="description"
-            theme="light"
-          ></ui-textarea>
-        </form>
-
-        <div *ngIf="!hasForm" class="confirmation-text">
-          <p>{{ content }}</p>
-        </div>
-      </ng-template>
+            <ui-textarea
+              label="Description"
+              placeholder="Enter application description"
+              formControlName="description"
+              theme="light"
+            ></ui-textarea>
+          </form>
+        } @else {
+          <div class="confirmation-text">
+            <p>{{ content }}</p>
+          </div>
+        }
+      }
 
       <cds-modal-footer>
         <ui-button

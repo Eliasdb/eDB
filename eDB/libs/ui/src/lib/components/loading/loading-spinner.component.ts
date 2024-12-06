@@ -7,12 +7,13 @@ import { LoadingModule } from 'carbon-components-angular';
   standalone: true,
   imports: [CommonModule, LoadingModule],
   template: `
-    <cds-loading
-      *ngIf="isActive"
-      [size]="size"
-      [overlay]="overlay"
-      [isActive]="isActive"
-    ></cds-loading>
+    @if (isActive) {
+      <cds-loading
+        [size]="size"
+        [overlay]="overlay"
+        [isActive]="isActive"
+      ></cds-loading>
+    }
   `,
 })
 export class UiLoadingSpinnerComponent {

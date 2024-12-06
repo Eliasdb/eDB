@@ -10,19 +10,18 @@ import { UiIconComponent } from '../../icon/icon.component';
   template: `
     <div class="sidenav-container">
       <cds-sidenav>
-        <cds-sidenav-item
-          *ngFor="let item of links"
-          [attr.href]="'#' + item.id"
-          [active]="!!item.active"
-          (click)="onItemClick($event, item)"
-        >
-          <ui-icon
-            *ngIf="item.icon"
-            [name]="item.icon"
-            class="sidenav-icon"
-          ></ui-icon>
-          {{ item.label }}
-        </cds-sidenav-item>
+        @for (item of links; track item.id) {
+          <cds-sidenav-item
+            [attr.href]="'#' + item.id"
+            [active]="!!item.active"
+            (click)="onItemClick($event, item)"
+          >
+            @if (item.icon) {
+              <ui-icon [name]="item.icon" class="sidenav-icon"></ui-icon>
+            }
+            {{ item.label }}
+          </cds-sidenav-item>
+        }
       </cds-sidenav>
     </div>
   `,

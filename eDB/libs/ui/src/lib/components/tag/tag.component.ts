@@ -9,7 +9,7 @@ import { UiIconComponent } from '../icon/icon.component';
   imports: [TagModule, CommonModule, UiIconComponent],
   template: `
     <cds-tag [type]="type" [size]="size" class="ui-tag">
-      <ng-container *ngIf="icon">
+      @if (icon) {
         <div cdsTagIcon>
           <ui-icon
             [name]="icon"
@@ -18,7 +18,7 @@ import { UiIconComponent } from '../icon/icon.component';
             [fixedWidth]="false"
           ></ui-icon>
         </div>
-      </ng-container>
+      }
       {{ label }}
     </cds-tag>
   `,

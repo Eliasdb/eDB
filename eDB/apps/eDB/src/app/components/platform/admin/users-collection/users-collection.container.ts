@@ -48,17 +48,18 @@ import {
     UiPlatformOverflowMenuComponent,
   ],
   template: `
-    <ui-table
-      *ngIf="model$ | async as model"
-      title="User Management"
-      description="Manage platform users with pagination and sorting."
-      [model]="model"
-      [sortable]="true"
-      [showToolbar]="true"
-      [searchTerm]="searchTerm"
-      (searchChanged)="onSearchChanged($event)"
-      (sortChanged)="onSortChanged($event)"
-    ></ui-table>
+    @if (model$ | async; as model) {
+      <ui-table
+        title="User Management"
+        description="Manage platform users with pagination and sorting."
+        [model]="model"
+        [sortable]="true"
+        [showToolbar]="true"
+        [searchTerm]="searchTerm"
+        (searchChanged)="onSearchChanged($event)"
+        (sortChanged)="onSortChanged($event)"
+      ></ui-table>
+    }
 
     <ng-template #actionsTemplate let-data="data">
       <div>
@@ -69,17 +70,26 @@ import {
         ></ui-platform-overflow-menu>
       </div>
     </ng-template>
-    <div id="loader" #loader></div>
-    <div class="feedback-messages">
-      <section class="loading-spinner" *ngIf="isFetching$ | async">
-        <ui-loading [isActive]="true" />
-        <p>Loading...</p>
-      </section>
 
-      <section class="no-more-users" *ngIf="!(hasMore$ | async)">
-        <p>No more users to load.</p>
-      </section>
-      <p *ngIf="error$ | async as error">Error: {{ error.message }}</p>
+    <div id="loader" #loader></div>
+
+    <div class="feedback-messages">
+      @if (isFetching$ | async) {
+        <section class="loading-spinner">
+          <ui-loading [isActive]="true" />
+          <p>Loading...</p>
+        </section>
+      }
+
+      @if (!(hasMore$ | async)) {
+        <section class="no-more-users">
+          <p>No more users to load.</p>
+        </section>
+      }
+
+      @if (error$ | async; as error) {
+        <p>Error: {{ error.message }}</p>
+      }
     </div>
   `,
   styleUrls: ['users-collection.container.scss'],
@@ -138,7 +148,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       return this.adminService.queryAllUsers(
         pageParam, // Pass the entire pageParam directly
         this.searchParam(),
-        this.sortParam()
+        this.sortParam(),
       );
     },
     getNextPageParam: (lastPage: PaginatedResponse<UserProfile>) => {
@@ -148,7 +158,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
 
       const [uiSortField, sortDirection] = this.sortParam().split(',') as [
         string,
-        'asc' | 'desc'
+        'asc' | 'desc',
       ];
       const sortField = this.adminService.mapSortFieldToBackend(uiSortField);
       const lastItem = lastPage.data[lastPage.data.length - 1];
@@ -162,24 +172,24 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   }));
 
   protected users$: Observable<UserProfile[]> = toObservable(
-    this.usersQuery.data
+    this.usersQuery.data,
   ).pipe(
     map(
-      (infiniteData) => infiniteData?.pages.flatMap((page) => page.data) || []
+      (infiniteData) => infiniteData?.pages.flatMap((page) => page.data) || [],
     ),
-    startWith([])
+    startWith([]),
   );
 
   protected isFetching$: Observable<boolean> = toObservable(
-    this.usersQuery.isFetching
+    this.usersQuery.isFetching,
   ).pipe(map((value) => !!value));
 
   protected hasMore$: Observable<boolean> = toObservable(
-    this.usersQuery.hasNextPage
+    this.usersQuery.hasNextPage,
   ).pipe(map((value) => !!value));
 
   protected error$: Observable<Error | null> = toObservable(
-    this.usersQuery.error
+    this.usersQuery.error,
   ).pipe(
     map((error) => {
       if (error) {
@@ -187,7 +197,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
         return new Error('Failed to fetch users. Please try again later.');
       }
       return null;
-    })
+    }),
   );
 
   // TABLE
@@ -203,13 +213,13 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       const headers = this.tableUtilsService.getTableHeaders(
         USER_TABLE_COLUMNS,
         uiSortField,
-        sortDirection as 'asc' | 'desc'
+        sortDirection as 'asc' | 'desc',
       );
       // Generate rows
       const rows = this.tableUtilsService.prepareData(
         data,
         USER_ROW_MAPPER_CONFIG,
-        this.actionsTemplate
+        this.actionsTemplate,
       );
 
       // Construct the table model
@@ -218,7 +228,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       model.data = rows;
 
       return model;
-    })
+    }),
   );
 
   onMenuOptionSelected(action: string, user: UserProfile): void {

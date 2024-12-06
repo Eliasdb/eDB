@@ -26,27 +26,31 @@ import { registerFormFields } from './register-form.config';
   template: `
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <div class="form-row" *ngFor="let row of fieldRows">
-          <div class="form-column" *ngFor="let field of row">
-            <ng-container *ngIf="field">
-              <ui-text-input
-                *ngIf="field.controlType === 'text'"
-                [formControlName]="field.controlName"
-                [label]="field.label"
-                [invalid]="isFieldInvalid(field.controlName)"
-                [invalidText]="getErrorMessage(field.controlName)"
-              ></ui-text-input>
-
-              <ui-password-input
-                *ngIf="field.controlType === 'password'"
-                [formControlName]="field.controlName"
-                [label]="field.label"
-                [invalid]="isFieldInvalid(field.controlName)"
-                [invalidText]="getErrorMessage(field.controlName)"
-              ></ui-password-input>
-            </ng-container>
+        @for (row of fieldRows; track row.indexOf) {
+          <div class="form-row">
+            @for (field of row; track field?.controlName) {
+              @if (field) {
+                <div class="form-column">
+                  @if (field.controlType === 'text') {
+                    <ui-text-input
+                      [formControlName]="field.controlName"
+                      [label]="field.label"
+                      [invalid]="isFieldInvalid(field.controlName)"
+                      [invalidText]="getErrorMessage(field.controlName)"
+                    ></ui-text-input>
+                  } @else if (field.controlType === 'password') {
+                    <ui-password-input
+                      [formControlName]="field.controlName"
+                      [label]="field.label"
+                      [invalid]="isFieldInvalid(field.controlName)"
+                      [invalidText]="getErrorMessage(field.controlName)"
+                    ></ui-password-input>
+                  }
+                </div>
+              }
+            }
           </div>
-        </div>
+        }
 
         <div class="form-row">
           <div class="form-column">
@@ -98,13 +102,13 @@ export class RegisterFormComponent implements OnInit {
     const field = this.fieldRows
       .flat()
       .find(
-        (f): f is NonNullable<typeof f> => !!f && f.controlName === controlName
+        (f): f is NonNullable<typeof f> => !!f && f.controlName === controlName,
       );
     return field
       ? this.formUtils.getErrorMessage(
           this.registerForm,
           controlName,
-          field.errorMessages
+          field.errorMessages,
         )
       : '';
   }

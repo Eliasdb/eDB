@@ -17,7 +17,9 @@ import { UiTagComponent } from '../tag/tag.component';
       </div>
       <div class="tile-footer">
         <div class="tile-tags">
-          <ui-tag *ngFor="let tag of tags" [label]="tag"></ui-tag>
+          @for (tag of tags; track tag) {
+            <ui-tag [label]="tag"></ui-tag>
+          }
         </div>
 
         <ui-icon-button

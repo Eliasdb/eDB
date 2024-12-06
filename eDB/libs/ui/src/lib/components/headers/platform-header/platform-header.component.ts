@@ -10,20 +10,20 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
   template: `
     <cds-header [brand]="brandTemplate" [name]="name">
       <!-- Hamburger Menu (for mobile) -->
-      <cds-hamburger
-        *ngIf="hasHamburger"
-        (click)="hamburgerToggle.emit($event)"
-      ></cds-hamburger>
+      @if (hasHamburger) {
+        <cds-hamburger (click)="hamburgerToggle.emit($event)"></cds-hamburger>
+      }
 
       <!-- Header Navigation -->
       <cds-header-navigation>
-        <cds-header-item
-          *ngFor="let link of navigationLinks"
-          (click)="linkClick.emit(link.id)"
-          [isCurrentPage]="link.isCurrentPage"
-        >
-          {{ link.label }}
-        </cds-header-item>
+        @for (link of navigationLinks; track link.id) {
+          <cds-header-item
+            (click)="linkClick.emit(link.id)"
+            [isCurrentPage]="link.isCurrentPage"
+          >
+            {{ link.label }}
+          </cds-header-item>
+        }
       </cds-header-navigation>
 
       <!-- Global Actions -->
@@ -49,8 +49,9 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
               alt="eDB logo"
               width="70"
               height="35"
-            /></div
-        ></span>
+            />
+          </div>
+        </span>
       </a>
     </ng-template>
   `,

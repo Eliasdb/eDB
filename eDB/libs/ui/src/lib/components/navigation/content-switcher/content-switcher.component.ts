@@ -20,25 +20,26 @@ import {
   imports: [ContentSwitcherModule, CommonModule],
   template: `
     <cds-content-switcher (selected)="onSelectionChange($event)">
-      <button
-        *ngFor="let option of optionsArray; let i = index"
-        cdsContentOption
-        [attr.data-index]="i"
-        [class.bx--content-switcher--selected]="i === activeSection"
-      >
-        {{ option }}
-      </button>
+      @for (option of optionsArray; let i = $index; track option) {
+        <button
+          cdsContentOption
+          [attr.data-index]="i"
+          [class.bx--content-switcher--selected]="i === activeSection"
+        >
+          {{ option }}
+        </button>
+      }
     </cds-content-switcher>
 
-    <ng-container *ngIf="activeSection === 0">
+    @if (activeSection === 0) {
       <ng-content select="[section1]"></ng-content>
-    </ng-container>
-    <ng-container *ngIf="activeSection === 1">
+    }
+    @if (activeSection === 1) {
       <ng-content select="[section2]"></ng-content>
-    </ng-container>
-    <ng-container *ngIf="activeSection === 2">
+    }
+    @if (activeSection === 2) {
       <ng-content select="[section3]"></ng-content>
-    </ng-container>
+    }
   `,
 })
 export class UiContentSwitcherComponent {
