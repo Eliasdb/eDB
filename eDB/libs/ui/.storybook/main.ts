@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/angular';
 import * as path from 'path';
+import { DefinePlugin } from 'webpack';
 
 const config: StorybookConfig = {
   stories: ['../**/*.stories.@(ts|tsx|js|jsx|mdx)'],
@@ -27,10 +28,12 @@ const config: StorybookConfig = {
       },
     },
   ],
+
   framework: {
     name: '@storybook/angular',
     options: {},
   },
+
   webpackFinal: async (config) => {
     config.module = config.module || { rules: [] };
     config.module.rules = config.module.rules || [];
@@ -65,6 +68,16 @@ const config: StorybookConfig = {
           },
         },
       ],
+    });
+
+    config?.plugins?.forEach((plugin) => {
+      if (
+        plugin?.constructor.name === 'DefinePlugin' &&
+        plugin instanceof DefinePlugin
+      ) {
+        (plugin as DefinePlugin).definitions['process.env.NODE_ENV'] =
+          JSON.stringify('development');
+      }
     });
 
     return config;

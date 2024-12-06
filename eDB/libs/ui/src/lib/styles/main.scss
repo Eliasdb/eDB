@@ -119,3 +119,33 @@ cds-modal-footer footer {
     max-width: 50%; /* Ensure they don’t exceed 50% */
   }
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: slideIn 0.5s forwards;
+}
+
+.toast-exit {
+  animation: slideOut 0.5s forwards;
+}

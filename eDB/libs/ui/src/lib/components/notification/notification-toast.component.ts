@@ -39,7 +39,7 @@ import { NotificationModule } from 'carbon-components-angular';
     }
   `,
   imports: [NotificationModule],
-  styles: [],
+  styleUrls: ['./notification-toast.component.scss'],
   standalone: true,
 })
 export class UiNotificationToastComponent {
