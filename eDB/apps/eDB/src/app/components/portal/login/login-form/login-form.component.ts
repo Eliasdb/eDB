@@ -12,7 +12,6 @@ import {
 } from '@eDB/shared-ui';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular'; // Import NotificationService
-import { jwtDecode } from 'jwt-decode';
 import { Credentials, LoginResponse } from '../../../../models/auth.model'; // Import Credentials
 import { AuthService } from '../../../../services/auth-service/auth.service';
 import { loginFormFields } from './login-form.config';
@@ -122,18 +121,11 @@ export class LoginFormComponent implements OnInit {
       this.isLoading = true;
 
       const credentials: Credentials = this.loginForm.getRawValue();
+      console.log(credentials);
 
       this.loginMutation.mutate(credentials, {
         onSuccess: (response: LoginResponse) => {
-          console.log('Login successful:', response);
-          // Decode token if needed
-          const decodedToken = jwtDecode(response.token);
-          console.log('Decoded Token:', decodedToken);
-
-          // Handle token storage via AuthService
           this.authService.handleLogin(response.token);
-
-          // Navigate to dashboard
           this.router.navigate(['/dashboard']);
 
           // Show success notification
