@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TagModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../icon/icon.component';
@@ -6,7 +5,7 @@ import { UiIconComponent } from '../icon/icon.component';
 @Component({
   standalone: true,
   selector: 'ui-tag',
-  imports: [TagModule, CommonModule, UiIconComponent],
+  imports: [TagModule, UiIconComponent],
   template: `
     <cds-tag [type]="type" [size]="size" class="ui-tag">
       @if (icon) {

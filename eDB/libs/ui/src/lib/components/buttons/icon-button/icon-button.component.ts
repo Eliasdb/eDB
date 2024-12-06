@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
@@ -6,14 +5,14 @@ import { UiIconComponent } from '../../icon/icon.component';
 @Component({
   selector: 'ui-icon-button',
   standalone: true,
-  imports: [CommonModule, UiIconComponent, ButtonModule],
+  imports: [UiIconComponent, ButtonModule],
   template: `
     <cds-icon-button
       [id]="buttonId"
       [size]="size"
       [class]="buttonNgClass"
       [attr.disabled]="disabled ? true : null"
-      [ngClass]="{ 'tooltip-disabled': showTooltipWhenDisabled && disabled }"
+      [class.tooltip-disabled]="showTooltipWhenDisabled && disabled"
       [description]="description"
       (click)="onClick($event)"
       (mouseenter)="onMouseEnter($event)"
@@ -34,17 +33,17 @@ import { UiIconComponent } from '../../icon/icon.component';
 export class UiIconButtonComponent {
   @Input() buttonId: string = 'icon-button';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() kind: string = 'primary'; // Style for the button (e.g., primary, secondary)
-  @Input() size: 'sm' | 'md' | 'lg' = 'sm'; // Size of the button
-  @Input() align: 'left' | 'right' | 'center' = 'center'; // Alignment for the button content
-  @Input() buttonNgClass: string = ''; // Additional CSS classes for the button
-  @Input() buttonAttributes: { [key: string]: any } = {}; // Additional attributes for the button
+  @Input() kind: string = 'primary';
+  @Input() size: 'sm' | 'md' | 'lg' = 'sm';
+  @Input() align: 'left' | 'right' | 'center' = 'center';
+  @Input() buttonNgClass: string = '';
+  @Input() buttonAttributes: { [key: string]: any } = {};
   @Input() disabled: boolean = false;
-  @Input() showTooltipWhenDisabled: boolean = false; // Tooltip visibility when disabled
-  @Input() description: string = 'Icon button'; // Tooltip or ARIA label
-  @Input() icon!: string; // Name of the icon for UiIconComponent
-  @Input() iconSize: string = '16px'; // Size of the icon
-  @Input() iconColor: string = ''; // Optional color for the icon
+  @Input() showTooltipWhenDisabled: boolean = false;
+  @Input() description: string = 'Icon button';
+  @Input() icon!: string;
+  @Input() iconSize: string = '16px';
+  @Input() iconColor: string = '';
 
   @Output() click = new EventEmitter<Event>();
   @Output() mouseEnter = new EventEmitter<Event>();

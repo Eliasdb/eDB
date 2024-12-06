@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input, Provider } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
@@ -12,7 +11,7 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
 @Component({
   selector: 'ui-textarea',
   standalone: true,
-  imports: [CommonModule, InputModule],
+  imports: [InputModule],
   template: `
     <cds-textarea-label
       [helperText]="helperText"

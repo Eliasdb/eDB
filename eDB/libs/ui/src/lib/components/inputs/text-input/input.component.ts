@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -10,7 +9,7 @@ import { InputModule } from 'carbon-components-angular';
 @Component({
   selector: 'ui-text-input',
   standalone: true,
-  imports: [CommonModule, InputModule, FormsModule],
+  imports: [InputModule, FormsModule],
   template: `
     <cds-text-label
       [helperText]="helperText"

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -7,13 +6,16 @@ import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'ui-icon',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule],
+  imports: [FontAwesomeModule],
   template: `
     @if (icon) {
       <fa-icon
         [icon]="icon"
-        [ngStyle]="{ color: color, fontSize: size }"
-        [ngClass]="{ 'fa-border': border, 'dynamic-icon fa-fw': fixedWidth }"
+        [style.color]="color"
+        [style.fontSize]="size"
+        [class.fa-border]="border"
+        [class.dynamic-icon]="fixedWidth"
+        [class.fa-fw]="fixedWidth"
       ></fa-icon>
     }
   `,

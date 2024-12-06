@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
 import { UiSidenavComponent, UiStructuredListComponent } from '@eDB/shared-ui';
 import { SettingsGroup } from '../../../models/settings.model';
@@ -9,7 +8,7 @@ import { settingsGroups } from './profile.page.config';
 @Component({
   selector: 'platform-settings',
   standalone: true,
-  imports: [CommonModule, UiSidenavComponent, UiStructuredListComponent],
+  imports: [UiSidenavComponent, UiStructuredListComponent],
   template: `
     <section class="settings-page">
       <section class="sidenav">

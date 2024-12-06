@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -23,7 +22,6 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
     UiButtonComponent,
     UiTextInputComponent,
     UiTextAreaComponent,
-    CommonModule,
   ],
   template: `
     <cds-modal [open]="true" [size]="'md'" (close)="onCancel()">

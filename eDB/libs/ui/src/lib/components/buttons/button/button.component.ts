@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
@@ -7,15 +6,10 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
 @Component({
   selector: 'ui-button',
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonModule,
-    UiLoadingSpinnerComponent,
-    UiIconComponent,
-  ],
+  imports: [ButtonModule, UiLoadingSpinnerComponent, UiIconComponent],
   template: `
     <button
-      [ngClass]="{ 'full-width': fullWidth }"
+      [class.full-width]="fullWidth"
       [cdsButton]="variant"
       [disabled]="disabled || loading"
       (click)="handleClick($event)"

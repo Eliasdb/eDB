@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular';
 import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/overflow-menu.component';
@@ -6,7 +5,7 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
 @Component({
   selector: 'ui-platform-header',
   standalone: true,
-  imports: [CommonModule, HeaderModule, UiPlatformOverflowMenuComponent],
+  imports: [HeaderModule, UiPlatformOverflowMenuComponent],
   template: `
     <cds-header [brand]="brandTemplate" [name]="name">
       <!-- Hamburger Menu (for mobile) -->

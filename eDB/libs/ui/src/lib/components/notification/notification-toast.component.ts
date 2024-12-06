@@ -1,44 +1,44 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NotificationModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-toast',
   template: `
-    <ng-container [ngSwitch]="type">
+    @if (type === 'toast') {
       <cds-toast
-        *ngSwitchCase="'toast'"
         [notificationObj]="{
           type: notificationType,
           title: title,
           subtitle: subtitle,
           caption: caption,
-          showClose: showClose
+          showClose: showClose,
         }"
       ></cds-toast>
+    }
 
+    @if (type === 'notification') {
       <cds-notification
-        *ngSwitchCase="'notification'"
         [notificationObj]="{
           type: notificationType,
           title: title,
           subtitle: subtitle,
-          showClose: showClose
+          showClose: showClose,
         }"
       ></cds-notification>
+    }
 
+    @if (type === 'actionable-notification') {
       <cds-actionable-notification
-        *ngSwitchCase="'actionable-notification'"
         [notificationObj]="{
           type: notificationType,
           title: title,
           subtitle: subtitle,
-          showClose: showClose
+          showClose: showClose,
         }"
       ></cds-actionable-notification>
-    </ng-container>
+    }
   `,
-  imports: [NotificationModule, CommonModule],
+  imports: [NotificationModule],
   styles: [],
   standalone: true,
 })

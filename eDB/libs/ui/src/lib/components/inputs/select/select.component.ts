@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'carbon-components-angular';
@@ -6,7 +5,7 @@ import { SelectModule } from 'carbon-components-angular';
 @Component({
   selector: 'ui-select',
   standalone: true,
-  imports: [CommonModule, SelectModule, FormsModule],
+  imports: [SelectModule, FormsModule],
   template: `
     <cds-select
       [skeleton]="skeleton"

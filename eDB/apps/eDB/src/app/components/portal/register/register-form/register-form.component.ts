@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +16,6 @@ import { registerFormFields } from './register-form.config';
   selector: 'platform-portal-register-form',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     UiTextInputComponent,
     UiPasswordInputComponent,
