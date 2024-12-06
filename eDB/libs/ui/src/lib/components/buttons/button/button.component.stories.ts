@@ -63,7 +63,7 @@ export const Primary: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<ui-button [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [isExpressive]="isExpressive">Primary Button</ui-button>`,
+    template: `<ui-button fullWidth="true" [type]="type" [variant]="variant" [size]="size" [disabled]="disabled" [loading]="loading" [isExpressive]="isExpressive">Primary Button</ui-button>`,
   }),
 };
 

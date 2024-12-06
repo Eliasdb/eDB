@@ -1,6 +1,3 @@
-// content-switcher.component.ts
-
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -17,7 +14,7 @@ import {
 @Component({
   selector: 'ui-content-switcher',
   standalone: true,
-  imports: [ContentSwitcherModule, CommonModule],
+  imports: [ContentSwitcherModule],
   template: `
     <cds-content-switcher (selected)="onSelectionChange($event)">
       @for (option of optionsArray; let i = $index; track option) {

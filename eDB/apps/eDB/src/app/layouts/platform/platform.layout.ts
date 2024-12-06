@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
@@ -8,7 +7,7 @@ import { AuthService } from '../../services/auth-service/auth.service';
 @Component({
   selector: 'platform-layout',
   standalone: true,
-  imports: [RouterModule, UiPlatformHeaderComponent, CommonModule],
+  imports: [RouterModule, UiPlatformHeaderComponent],
   template: `
     <div class="platform-layout">
       <ui-platform-header
@@ -79,11 +78,11 @@ export class PlatformLayout implements OnInit {
   // Remove admin links if the user is not an admin
   private removeAdminLinks(): void {
     this.navigationLinks = this.navigationLinks.filter(
-      (link) => link.id !== 'admin'
+      (link) => link.id !== 'admin',
     );
 
     this.menuOptions = this.menuOptions.filter(
-      (option) => option.id !== 'admin'
+      (option) => option.id !== 'admin',
     );
   }
 

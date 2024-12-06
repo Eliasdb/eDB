@@ -1,15 +1,14 @@
-// ui-table.component.stories.ts
+// // ui-table.component.stories.ts
 
 import { Meta, StoryObj } from '@storybook/angular';
-import { OverflowTableStoryComponent } from './overflow-table-story.component';
+import { UiTableComponent } from './table.component';
 
-const meta: Meta<OverflowTableStoryComponent> = {
+const meta: Meta<UiTableComponent> = {
   title: 'Components/Tables/Table with Overflow Menu',
-  component: OverflowTableStoryComponent,
+  component: UiTableComponent,
   parameters: {
     controls: {
       include: [
-        'size',
         'showSelectionColumn',
         'striped',
         'isDataGrid',
@@ -23,11 +22,10 @@ const meta: Meta<OverflowTableStoryComponent> = {
 
 export default meta;
 
-type Story = StoryObj<OverflowTableStoryComponent>;
+type Story = StoryObj<UiTableComponent>;
 
 export const Default: Story = {
   args: {
-    size: 'md',
     showSelectionColumn: false,
     striped: true,
     isDataGrid: false,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
@@ -6,7 +5,7 @@ import { InputModule } from 'carbon-components-angular';
 @Component({
   selector: 'ui-password-input',
   standalone: true,
-  imports: [CommonModule, InputModule],
+  imports: [InputModule],
   template: `
     <cds-password-label
       [helperText]="helperText"

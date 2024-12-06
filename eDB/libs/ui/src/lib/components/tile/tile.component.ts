@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TilesModule } from 'carbon-components-angular';
 import { UiIconButtonComponent } from '../buttons/icon-button/icon-button.component';
 import { UiTagComponent } from '../tag/tag.component';
@@ -7,8 +6,7 @@ import { UiTagComponent } from '../tag/tag.component';
 @Component({
   standalone: true,
   selector: 'ui-tile',
-  encapsulation: ViewEncapsulation.None,
-  imports: [TilesModule, UiTagComponent, UiIconButtonComponent, CommonModule],
+  imports: [TilesModule, UiTagComponent, UiIconButtonComponent],
   template: `
     <cds-tile class="ui-tile">
       <div class="tile-header">

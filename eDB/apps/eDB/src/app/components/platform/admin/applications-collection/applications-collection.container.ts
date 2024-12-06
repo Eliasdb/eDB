@@ -1,6 +1,3 @@
-// src/app/components/platform/admin/subscriptions-table/subscriptions-table.component.ts
-
-import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -33,7 +30,6 @@ import {
   standalone: true,
   selector: 'platform-admin-applications-collection',
   imports: [
-    CommonModule,
     UiTableComponent,
     UiButtonComponent,
     PlaceholderModule,
@@ -87,7 +83,7 @@ export class ApplicationsCollectionContainer {
   deleteApplicationMutation = this.adminService.deleteApplicationMutation();
   revokeSubscriptionMutation = this.adminService.revokeSubscriptionMutation();
   private applicationsSignal = computed(
-    () => this.applicationsQuery.data() || []
+    () => this.applicationsQuery.data() || [],
   );
 
   constructor() {
@@ -110,7 +106,7 @@ export class ApplicationsCollectionContainer {
       {
         nonExpandedActionTemplate: this.deleteTemplate,
         expandedActionTemplate: this.actionTemplate,
-      }
+      },
     );
   }
 
@@ -120,7 +116,7 @@ export class ApplicationsCollectionContainer {
 
   onMenuOptionSelected(
     action: string,
-    data: { application: Application }
+    data: { application: Application },
   ): void {
     const { application } = data;
     this.router.navigateByUrl(this.router.url, { replaceUrl: true });
@@ -194,7 +190,7 @@ export class ApplicationsCollectionContainer {
       {
         onSuccess: () => console.log('Access successfully revoked'),
         onError: (err) => console.error('Failed to revoke access', err),
-      }
+      },
     );
   }
 }

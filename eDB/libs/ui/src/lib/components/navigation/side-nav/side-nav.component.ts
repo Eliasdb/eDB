@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SideNavModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
@@ -6,7 +5,7 @@ import { UiIconComponent } from '../../icon/icon.component';
 @Component({
   selector: 'ui-sidenav',
   standalone: true,
-  imports: [SideNavModule, CommonModule, UiIconComponent],
+  imports: [SideNavModule, UiIconComponent],
   template: `
     <div class="sidenav-container">
       <cds-sidenav>

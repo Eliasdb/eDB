@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UiButtonComponent, UiStructuredListComponent } from '@eDB/shared-ui';
@@ -7,7 +6,7 @@ import { AdminService } from '../../../../services/admin-service/admin.service';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, UiStructuredListComponent, UiButtonComponent],
+  imports: [UiStructuredListComponent, UiButtonComponent],
   template: `
     <div class="profile-container">
       <div class="profile-header">
@@ -96,7 +95,7 @@ export class UserDetailPage {
           });
         }
       },
-      { allowSignalWrites: true }
+      { allowSignalWrites: true },
     );
   }
 

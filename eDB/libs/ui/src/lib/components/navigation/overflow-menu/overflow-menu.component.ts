@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogModule } from 'carbon-components-angular';
@@ -7,7 +6,7 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
 @Component({
   selector: 'ui-platform-overflow-menu',
   standalone: true,
-  imports: [CommonModule, DialogModule, UiIconComponent],
+  imports: [DialogModule, UiIconComponent],
   template: `
     <cds-overflow-menu
       [open]="isMenuOpen"

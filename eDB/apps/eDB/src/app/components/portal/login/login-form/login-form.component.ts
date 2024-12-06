@@ -1,5 +1,4 @@
 // src/app/components/login-form/login-form.component.ts
-import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +19,6 @@ import { loginFormFields } from './login-form.config';
   selector: 'platform-portal-login-form',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     UiTextInputComponent,
     UiPasswordInputComponent,
