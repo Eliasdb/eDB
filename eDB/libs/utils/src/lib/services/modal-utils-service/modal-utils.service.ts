@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { ComponentRef, Injectable, inject } from '@angular/core';
 import { UiModalComponent } from '@eDB/shared-ui';
 import { ModalService } from 'carbon-components-angular';
 
@@ -9,28 +9,30 @@ export class ModalUtilsService {
   private modalService = inject(ModalService);
 
   openModal(options: {
-    header: string;
+    header?: string;
     content?: string;
     hasForm?: boolean;
     formData?: any;
     onSave?: (formData?: any) => void;
     onClose?: () => void;
   }) {
-    const modalRef = this.modalService.create<UiModalComponent>({
-      component: UiModalComponent,
-    });
+    const modalRef: ComponentRef<UiModalComponent> =
+      this.modalService.create<UiModalComponent>({
+        component: UiModalComponent,
+      });
 
-    modalRef.instance.header = options.header;
+    if (options.content) modalRef.instance.content.set(options.content);
 
-    if (options.content) {
-      modalRef.instance.content = options.content;
+    if (options.header) {
+      modalRef.instance.header.set(options.header);
     }
 
     if (options.hasForm || options.formData) {
-      modalRef.instance.hasForm = true;
+      modalRef.instance.hasForm.set(true);
       modalRef.instance.form.patchValue(options.formData);
     }
 
+    // Subscribe to signals
     modalRef.instance.save.subscribe((formData: any) => {
       options.onSave?.(formData);
       modalRef.destroy();

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { SideNavModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
 
@@ -9,7 +9,7 @@ import { UiIconComponent } from '../../icon/icon.component';
   template: `
     <div class="sidenav-container">
       <cds-sidenav>
-        @for (item of links; track item.id) {
+        @for (item of links(); track item.id) {
           <cds-sidenav-item
             [attr.href]="'#' + item.id"
             [active]="!!item.active"
@@ -27,12 +27,12 @@ import { UiIconComponent } from '../../icon/icon.component';
   styleUrl: 'side-nav.component.scss',
 })
 export class UiSidenavComponent {
-  @Input() links: {
+  readonly links = input<{
     id: string;
     label: string;
     icon?: string;
     active?: boolean;
-  }[] = [];
+}[]>([]);
   @Output() linkClick = new EventEmitter<{ id: string; label: string }>();
 
   onItemClick(event: Event, item: { id: string; label: string }): void {

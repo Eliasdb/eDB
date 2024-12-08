@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TagModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../icon/icon.component';
 
@@ -7,37 +7,25 @@ import { UiIconComponent } from '../icon/icon.component';
   selector: 'ui-tag',
   imports: [TagModule, UiIconComponent],
   template: `
-    <cds-tag [type]="type" [size]="size" class="ui-tag">
-      @if (icon) {
+    <cds-tag [type]="type()" [size]="size()" class="ui-tag">
+      @if (icon()) {
         <div cdsTagIcon>
           <ui-icon
-            [name]="icon"
+            [name]="icon()"
             size="16px"
             [color]="'inherit'"
             [fixedWidth]="false"
           ></ui-icon>
         </div>
       }
-      {{ label }}
+      {{ label() }}
     </cds-tag>
   `,
   styleUrls: ['./tag.component.scss'],
 })
 export class UiTagComponent {
-  @Input() type:
-    | 'red'
-    | 'magenta'
-    | 'purple'
-    | 'blue'
-    | 'cyan'
-    | 'teal'
-    | 'green'
-    | 'gray'
-    | 'cool-gray'
-    | 'warm-gray'
-    | 'high-contrast'
-    | 'outline' = 'red'; // Default to 'red'
-  @Input() size: 'sm' | 'md' = 'md'; // Restrict to 'sm' or 'md'
-  @Input() label!: string; // Label for the tag
-  @Input() icon?: string; // Icon name for the UiIconComponent
+  readonly type = input<'red' | 'magenta' | 'purple' | 'blue' | 'cyan' | 'teal' | 'green' | 'gray' | 'cool-gray' | 'warm-gray' | 'high-contrast' | 'outline'>('red'); // Default to 'red'
+  readonly size = input<'sm' | 'md'>('md'); // Restrict to 'sm' or 'md'
+  readonly label = input.required<string>(); // Label for the tag
+  readonly icon = input<string>(); // Icon name for the UiIconComponent
 }

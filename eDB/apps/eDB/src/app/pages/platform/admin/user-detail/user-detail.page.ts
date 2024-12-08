@@ -85,18 +85,15 @@ export class UserDetailPage {
 
   private fetchUser(userId: number) {
     const userSignal = this.adminService.queryUserById(userId);
-    effect(
-      () => {
-        const user = userSignal();
-        if (user) {
-          this.user.set({
-            ...user,
-            fullName: `${user.firstName} ${user.lastName}`,
-          });
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const user = userSignal();
+      if (user) {
+        this.user.set({
+          ...user,
+          fullName: `${user.firstName} ${user.lastName}`,
+        });
+      }
+    });
   }
 
   private computePersonalDetails(): [string, string][] {

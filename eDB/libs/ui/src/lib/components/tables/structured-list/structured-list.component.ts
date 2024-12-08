@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ButtonModule, StructuredListModule } from 'carbon-components-angular';
@@ -26,10 +26,10 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
       <cds-list-header>
         <cds-list-column>
           <div class="header-container">
-            <h3>{{ header }}</h3>
-            @if (headerIcon) {
+            <h3>{{ header() }}</h3>
+            @if (headerIcon()) {
               <ui-icon
-                [name]="headerIcon"
+                [name]="headerIcon()"
                 size="1.1rem"
                 class="icon-gap"
               ></ui-icon>
@@ -38,8 +38,8 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
         </cds-list-column>
       </cds-list-header>
 
-      @if (editMode) {
-        @for (row of rows; let rowIndex = $index; track rowIndex) {
+      @if (editMode()) {
+        @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
             <cds-list-column class="w-20">
               <p class="row-0">{{ row[0] }}</p>
@@ -55,13 +55,13 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                   <ng-container [ngSwitch]="row[0]">
                     <ng-container *ngSwitchCase="'Password'">
                       <ui-password-input
-                        [(ngModel)]="inputValues.newPassword"
+                        [(ngModel)]="inputValues().newPassword"
                         label="New password"
                         placeholder="Enter new password"
                         size="md"
                       ></ui-password-input>
                       <ui-password-input
-                        [(ngModel)]="inputValues.confirmPassword"
+                        [(ngModel)]="inputValues().confirmPassword"
                         label="Confirm password"
                         placeholder="Confirm new password"
                         size="md"
@@ -69,13 +69,13 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                     </ng-container>
                     <ng-container *ngSwitchCase="'Name'">
                       <ui-text-input
-                        [(ngModel)]="inputValues.firstName"
+                        [(ngModel)]="inputValues().firstName"
                         label="First name"
                         placeholder="Enter first name"
                         size="md"
                       ></ui-text-input>
                       <ui-text-input
-                        [(ngModel)]="inputValues.lastName"
+                        [(ngModel)]="inputValues().lastName"
                         label="Last name"
                         placeholder="Enter last name"
                         size="md"
@@ -83,7 +83,7 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                       <ui-text-input
-                        [(ngModel)]="inputValues.value"
+                        [(ngModel)]="inputValues().value"
                         [label]="'Update your ' + row[0].toLowerCase()"
                         placeholder="Enter new value"
                         size="md"
@@ -116,12 +116,12 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
               <div
                 class="action-container"
                 [ngClass]="{
-                  'disabled-action': isEditingAny && !isEditing(rowIndex),
+                  'disabled-action': isEditingAny() && !isEditing(rowIndex),
                 }"
                 (click)="onActionClick(rowIndex)"
               >
                 @if (!isEditing(rowIndex)) {
-                  <ng-container [ngSwitch]="header">
+                  <ng-container [ngSwitch]="header()">
                     <ng-container *ngSwitchCase="'Offboarding'">
                       <span class="delete-account-btn-container">Delete</span>
                       <ui-icon
@@ -146,7 +146,7 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
           </cds-list-row>
         }
       } @else {
-        @for (row of rows; let rowIndex = $index; track rowIndex) {
+        @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
             <cds-list-column class="w-20">
               <p class="row-0">{{ row[0] }}</p>
@@ -165,21 +165,21 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
   styleUrls: ['./structured-list.component.scss'],
 })
 export class UiStructuredListComponent {
-  @Input() header = '';
-  @Input() headerIcon = '';
-  @Input() rows: string[][] = [];
-  @Input() editingRowIndex: number | null = null;
-  @Input() isEditingAny = false;
-  @Input() inputValues: any = {};
+  readonly header = input('');
+  readonly headerIcon = input('');
+  readonly rows = input<string[][]>([]);
+  readonly editingRowIndex = input<number | null>(null);
+  readonly isEditingAny = input(false);
+  readonly inputValues = input<any>({});
 
-  @Input() editMode: boolean = false; // New input to control edit visibility
+  readonly editMode = input<boolean>(false); // New input to control edit visibility
 
   @Output() actionClick = new EventEmitter<number>();
   @Output() updateEdit = new EventEmitter<number>();
   @Output() cancelEdit = new EventEmitter<number>();
 
   isEditing(rowIndex: number): boolean {
-    return this.editingRowIndex === rowIndex;
+    return this.editingRowIndex() === rowIndex;
   }
 
   onActionClick(rowIndex: number): void {

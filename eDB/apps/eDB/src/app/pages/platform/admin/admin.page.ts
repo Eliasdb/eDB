@@ -7,7 +7,7 @@ import { UsersCollectionContainer } from '../../../components/platform/admin/use
   selector: 'platform-admin',
   standalone: true,
   template: ` <section class="admin-page">
-    <ui-content-switcher [optionsArray]="['Users', 'Applications']">
+    <ui-content-switcher [options]="['Users', 'Applications']">
       <ng-container section1>
         <platform-admin-users-collection></platform-admin-users-collection>
       </ng-container>
