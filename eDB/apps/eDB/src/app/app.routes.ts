@@ -1,4 +1,7 @@
 import { Route } from '@angular/router';
+import { AdminGuard } from './guards/admin.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 import { PlatformLayout } from './layouts/platform/platform.layout';
 import { PortalLayout } from './layouts/portal/portal.layout';
 import { NotFoundPage } from './pages/404/not-found.page';
@@ -9,6 +12,7 @@ export const routes: Route[] = [
   {
     path: '',
     component: PlatformLayout,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
@@ -19,21 +23,22 @@ export const routes: Route[] = [
         path: 'profile',
         loadComponent: () =>
           import('./pages/platform/profile/profile.page').then(
-            (m) => m.ProfilePage
+            (m) => m.ProfilePage,
           ),
       },
       {
         path: 'admin',
+        canActivate: [AdminGuard],
         loadChildren: () =>
           import('./pages/platform/admin/admin.routes').then(
-            (m) => m.ADMIN_ROUTES
+            (m) => m.ADMIN_ROUTES,
           ), // Lazy load the admin routes
       },
       {
         path: 'catalog',
         loadComponent: () =>
           import('./pages/platform/catalog/catalog.page').then(
-            (m) => m.CatalogPage
+            (m) => m.CatalogPage,
           ),
       },
     ],
@@ -45,10 +50,12 @@ export const routes: Route[] = [
       {
         path: 'login',
         component: LoginPage,
+        canActivate: [LoginGuard],
       },
       {
         path: 'register',
         component: RegisterPage,
+        canActivate: [LoginGuard],
       },
     ],
   },
