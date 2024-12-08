@@ -20,7 +20,6 @@ import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { TableModel } from 'carbon-components-angular';
 import {
   combineLatest,
-  debounceTime,
   map,
   Observable,
   startWith,
@@ -168,6 +167,10 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     },
     initialPageParam: null,
     keepPreviousData: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    cacheTime: 0, // Cache is cleared immediately
+    staleTime: 0, // Data is considered stale immediately
   }));
 
   protected users$: Observable<UserProfile[]> = toObservable(

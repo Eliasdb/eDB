@@ -1,8 +1,7 @@
-// src/app/components/login-form/login-form.component.ts
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
@@ -83,7 +82,8 @@ export class LoginFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private notificationService = inject(NotificationService); // Inject NotificationService
+  private route = inject(ActivatedRoute); // Inject ActivatedRoute
+  private notificationService = inject(NotificationService);
 
   loginForm!: FormGroup;
   isLoading = false;
@@ -91,11 +91,16 @@ export class LoginFormComponent implements OnInit {
   // Define field definitions
   fieldDefinitions = loginFormFields;
 
+  // Capture the returnUrl (default to dashboard)
+  private returnUrl: string = '/dashboard';
+
   // Initialize the mutation
   loginMutation = this.authService.loginMutation();
 
   ngOnInit(): void {
     this.loginForm = this.formUtils.createFormGroup(loginFormFields);
+    this.returnUrl =
+      this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   isFieldInvalid(controlName: string): boolean {
@@ -123,7 +128,8 @@ export class LoginFormComponent implements OnInit {
       this.loginMutation.mutate(credentials, {
         onSuccess: (response: LoginResponse) => {
           this.authService.handleLogin(response.token);
-          this.router.navigate(['/dashboard']);
+          // Navigate to returnUrl after login
+          this.router.navigateByUrl(this.returnUrl);
 
           // Show success notification
           this.notificationService.showToast({
@@ -132,7 +138,6 @@ export class LoginFormComponent implements OnInit {
             subtitle: 'You have successfully logged in.',
             caption: `Welcome back!`,
             duration: 5000,
-            smart: true,
           });
           this.isLoading = false; // End submission
         },
@@ -151,7 +156,6 @@ export class LoginFormComponent implements OnInit {
             subtitle: 'Unable to log in.',
             caption: error.error.message || 'An unexpected error occurred.',
             duration: 5000,
-            smart: true,
           });
         },
       });

@@ -36,7 +36,7 @@ export class AdminService {
   async queryAllUsers(
     cursor: number | string | null,
     searchParam?: string,
-    sortParam?: string
+    sortParam?: string,
   ): Promise<PaginatedResponse<UserProfile>> {
     let params = new HttpParams();
 
@@ -75,7 +75,7 @@ export class AdminService {
     }
 
     return lastValueFrom(
-      this.http.get<PaginatedResponse<UserProfile>>(this.apiUrl, { params })
+      this.http.get<PaginatedResponse<UserProfile>>(this.apiUrl, { params }),
     );
   }
 
@@ -85,7 +85,7 @@ export class AdminService {
       queryKey: ['user', userId],
       queryFn: async () => {
         const user = await firstValueFrom(
-          this.http.get<UserProfile>(`${this.baseUrl}/users/${userId}`)
+          this.http.get<UserProfile>(`${this.baseUrl}/users/${userId}`),
         );
         if (!user) {
           throw new Error('User not found');
@@ -101,7 +101,7 @@ export class AdminService {
     return injectMutation(() => ({
       mutationFn: async (userId: number) => {
         return firstValueFrom(
-          this.http.delete<void>(`${this.baseUrl}/users/${userId}`)
+          this.http.delete<void>(`${this.baseUrl}/users/${userId}`),
         );
       },
       onSuccess: () => {
@@ -122,8 +122,8 @@ export class AdminService {
       }) => {
         return firstValueFrom(
           this.http.delete<void>(
-            `${this.baseUrl}/applications/${applicationId}/subscriptions/${userId}`
-          )
+            `${this.baseUrl}/applications/${applicationId}/subscriptions/${userId}`,
+          ),
         );
       },
       onSuccess: () => {
@@ -139,7 +139,7 @@ export class AdminService {
       queryKey: ['applications'],
       queryFn: async () => {
         const subscriptions = await firstValueFrom(
-          this.http.get<Application[]>(`${this.baseUrl}/applications-overview`)
+          this.http.get<Application[]>(`${this.baseUrl}/applications-overview`),
         );
         if (!subscriptions) {
           throw new Error('Subscriptions not found');
@@ -153,7 +153,7 @@ export class AdminService {
     return injectMutation(() => ({
       mutationFn: async (application: CreateApplicationDto) => {
         return firstValueFrom(
-          this.http.post(`${this.baseUrl}/applications/create`, application)
+          this.http.post(`${this.baseUrl}/applications/create`, application),
         );
       },
       onSuccess: () => {
@@ -169,8 +169,8 @@ export class AdminService {
         return firstValueFrom(
           this.http.put(
             `${this.baseUrl}/applications/${application.applicationId}`,
-            application
-          )
+            application,
+          ),
         );
       },
       onSuccess: () => {
@@ -184,8 +184,8 @@ export class AdminService {
       mutationFn: async (applicationId: number) => {
         return firstValueFrom(
           this.http.delete<void>(
-            `${this.baseUrl}/applications/${applicationId}`
-          )
+            `${this.baseUrl}/applications/${applicationId}`,
+          ),
         );
       },
       onSuccess: () => {

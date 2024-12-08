@@ -14,7 +14,7 @@ import { UiTagComponent } from '../tag/tag.component';
       </div>
       <div class="tile-footer">
         <div class="tile-tags">
-          @for (tag of tags(); track tag) {
+          @for (tag of tags(); track tag.indexOf) {
             <ui-tag [label]="tag"></ui-tag>
           }
         </div>

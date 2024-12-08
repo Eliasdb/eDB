@@ -25,7 +25,7 @@ export class AuthService {
       mutationFn: async (user: User): Promise<RegisterResponse> => {
         // Use `firstValueFrom` to convert Observable to Promise
         return firstValueFrom(
-          this.http.post<RegisterResponse>(`${this.baseUrl}/register`, user)
+          this.http.post<RegisterResponse>(`${this.baseUrl}/register`, user),
         );
       },
       // Optionally handle onSuccess or other mutation options here
@@ -36,15 +36,15 @@ export class AuthService {
     return injectMutation<LoginResponse, HttpErrorResponse, Credentials>(
       () => ({
         mutationFn: async (
-          credentials: Credentials
+          credentials: Credentials,
         ): Promise<LoginResponse> => {
           // Use `firstValueFrom` to convert Observable to Promise
           return firstValueFrom(
-            this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials)
+            this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials),
           );
         },
         // Optionally handle onSuccess or other mutation options here
-      })
+      }),
     );
   }
 
@@ -92,7 +92,7 @@ export class AuthService {
       return of(
         decodedToken[
           'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-        ]
+        ],
       );
     }
     return of('User'); // Default role if no token or role is present
@@ -103,6 +103,11 @@ export class AuthService {
    */
   isAdmin(): Observable<boolean> {
     return this.getUserRole().pipe(map((role) => role === 'Admin'));
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    return token != null;
   }
 
   /**
