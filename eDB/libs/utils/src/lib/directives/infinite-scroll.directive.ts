@@ -2,16 +2,16 @@ import {
   Directive,
   EventEmitter,
   HostListener,
-  Input,
   Output,
+  input
 } from '@angular/core';
 
 @Directive({
   selector: '[infiniteScroll]',
 })
 export class InfiniteScrollDirective {
-  @Input() isFetching: boolean | null = false; // Avoid triggering while fetching
-  @Input() hasMore: boolean | null = true; // Stop triggering when no more data
+  readonly isFetching = input<boolean | null>(false); // Avoid triggering while fetching
+  readonly hasMore = input<boolean | null>(true); // Stop triggering when no more data
   @Output() scrolled = new EventEmitter<void>(); // Notify when the bottom is reached
 
   @HostListener('scroll', ['$event.target'])
@@ -20,7 +20,7 @@ export class InfiniteScrollDirective {
       container.scrollTop + container.clientHeight >=
       container.scrollHeight - 50;
 
-    if (nearBottom && this.hasMore && !this.isFetching) {
+    if (nearBottom && this.hasMore() && !this.isFetching()) {
       this.scrolled.emit();
     }
   }

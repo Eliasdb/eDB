@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
@@ -8,26 +8,26 @@ import { InputModule } from 'carbon-components-angular';
   imports: [InputModule],
   template: `
     <cds-password-label
-      [helperText]="helperText"
-      [invalid]="invalid"
-      [invalidText]="invalidText"
-      [warn]="warn"
-      [disabled]="disabled"
-      [skeleton]="skeleton"
-      [warnText]="warnText"
+      [helperText]="helperText()"
+      [invalid]="invalid()"
+      [invalidText]="invalidText()"
+      [warn]="warn()"
+      [disabled]="isDisabled()"
+      [skeleton]="skeleton()"
+      [warnText]="warnText()"
     >
-      {{ label }}
+      {{ label() }}
       <input
         cdsPassword
         type="password"
-        [size]="size"
-        [invalid]="invalid"
-        [warn]="warn"
-        [disabled]="disabled"
-        [theme]="theme"
-        [placeholder]="placeholder"
-        [autocomplete]="autocomplete"
-        [readonly]="readonly"
+        [size]="size()"
+        [invalid]="invalid()"
+        [warn]="warn()"
+        [disabled]="isDisabled()"
+        [theme]="theme()"
+        [placeholder]="placeholder()"
+        [autocomplete]="autocomplete()"
+        [readonly]="readonly()"
         [value]="value"
         (input)="onInput($event)"
         (blur)="onTouched()"
@@ -43,19 +43,21 @@ import { InputModule } from 'carbon-components-angular';
   ],
 })
 export class UiPasswordInputComponent implements ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() disabled: boolean = false;
-  @Input() invalid: boolean = false;
-  @Input() helperText: string = '';
-  @Input() invalidText: string = '';
-  @Input() warn: boolean = false;
-  @Input() warnText: string = '';
-  @Input() skeleton: boolean = false;
-  @Input() size: 'sm' | 'md' | 'lg' = 'lg';
-  @Input() theme: 'light' | 'dark' = 'dark';
-  @Input() readonly: boolean = false;
-  @Input() autocomplete: string = '';
+  readonly label = input<string>('');
+  readonly placeholder = input<string>('');
+  readonly isDisabled = input<boolean>(false); // Renamed input
+  readonly invalid = input<boolean>(false);
+  readonly helperText = input<string>('');
+  readonly invalidText = input<string>('');
+  readonly warn = input<boolean>(false);
+  readonly warnText = input<string>('');
+  readonly skeleton = input<boolean>(false);
+  readonly size = input<'sm' | 'md' | 'lg'>('lg');
+  readonly theme = input<'light' | 'dark'>('dark');
+  readonly readonly = input<boolean>(false);
+  readonly autocomplete = input<string>('');
+
+  private _disabled = signal(false);
 
   value: string = '';
 
@@ -81,6 +83,10 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled); // Update the reactive signal
+  }
+
+  get disabled(): boolean {
+    return this._disabled();
   }
 }

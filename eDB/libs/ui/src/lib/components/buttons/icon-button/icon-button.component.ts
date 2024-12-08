@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
 
@@ -8,12 +8,12 @@ import { UiIconComponent } from '../../icon/icon.component';
   imports: [UiIconComponent, ButtonModule],
   template: `
     <cds-icon-button
-      [id]="buttonId"
-      [size]="size"
-      [class]="buttonNgClass"
-      [attr.disabled]="disabled ? true : null"
-      [class.tooltip-disabled]="showTooltipWhenDisabled && disabled"
-      [description]="description"
+      [id]="buttonId()"
+      [size]="size()"
+      [class]="buttonNgClass()"
+      [attr.disabled]="disabled() ? true : null"
+      [class.tooltip-disabled]="showTooltipWhenDisabled() && disabled()"
+      [description]="description()"
       (click)="onClick($event)"
       (mouseenter)="onMouseEnter($event)"
       (mouseleave)="onMouseLeave($event)"
@@ -22,28 +22,30 @@ import { UiIconComponent } from '../../icon/icon.component';
     >
       <ui-icon
         class="cds--btn__icon"
-        [name]="icon"
-        [size]="iconSize"
-        [color]="iconColor"
+        [name]="icon()"
+        [size]="iconSize()"
+        [color]="iconColor()"
         [fixedWidth]="false"
       ></ui-icon>
     </cds-icon-button>
   `,
 })
 export class UiIconButtonComponent {
-  @Input() buttonId: string = 'icon-button';
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() kind: string = 'primary';
-  @Input() size: 'sm' | 'md' | 'lg' = 'sm';
-  @Input() align: 'left' | 'right' | 'center' = 'center';
-  @Input() buttonNgClass: string = '';
-  @Input() buttonAttributes: { [key: string]: any } = {};
-  @Input() disabled: boolean = false;
-  @Input() showTooltipWhenDisabled: boolean = false;
-  @Input() description: string = 'Icon button';
-  @Input() icon!: string;
-  @Input() iconSize: string = '16px';
-  @Input() iconColor: string = '';
+  readonly buttonId = input<string>('icon-button');
+  readonly type = input<'button' | 'submit' | 'reset'>('button');
+  readonly kind = input<string>('primary');
+  readonly size = input<'sm' | 'md' | 'lg'>('sm');
+  readonly align = input<'left' | 'right' | 'center'>('center');
+  readonly buttonNgClass = input<string>('');
+  readonly buttonAttributes = input<{
+    [key: string]: any;
+  }>({});
+  readonly disabled = input<boolean>(false);
+  readonly showTooltipWhenDisabled = input<boolean>(false);
+  readonly description = input<string>('Icon button');
+  readonly icon = input.required<string>();
+  readonly iconSize = input<string>('16px');
+  readonly iconColor = input<string>('');
 
   @Output() click = new EventEmitter<Event>();
   @Output() mouseEnter = new EventEmitter<Event>();

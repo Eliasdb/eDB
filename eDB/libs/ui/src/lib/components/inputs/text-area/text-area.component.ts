@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, Provider } from '@angular/core';
+import { Component, forwardRef, input, Provider, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
@@ -14,24 +14,24 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
   imports: [InputModule],
   template: `
     <cds-textarea-label
-      [helperText]="helperText"
-      [invalid]="invalid"
-      [invalidText]="invalidText"
-      [warn]="warn"
-      [disabled]="disabled"
-      [skeleton]="skeleton"
-      [warnText]="warnText"
+      [helperText]="helperText()"
+      [invalid]="invalid()"
+      [invalidText]="invalidText()"
+      [warn]="warn()"
+      [disabled]="isDisabled()"
+      [skeleton]="skeleton()"
+      [warnText]="warnText()"
     >
-      {{ label }}
+      {{ label() }}
       <textarea
         cdsTextArea
-        [placeholder]="placeholder"
+        [placeholder]="placeholder()"
         [value]="value"
-        [disabled]="disabled"
-        [theme]="theme"
-        [rows]="rows"
-        [cols]="cols"
-        [readonly]="readonly"
+        [disabled]="isDisabled()"
+        [theme]="theme()"
+        [rows]="rows()"
+        [cols]="cols()"
+        [readonly]="readonly()"
         aria-label="textarea"
         (input)="onInput($event)"
         (blur)="onTouched()"
@@ -41,20 +41,22 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
   providers: [TEXTAREA_VALUE_ACCESSOR],
 })
 export class UiTextAreaComponent implements ControlValueAccessor {
-  @Input() label: string = ''; // Label for the textarea field
-  @Input() placeholder: string = ''; // Placeholder text
-  @Input() disabled: boolean = false; // Whether the textarea is disabled
-  @Input() invalid: boolean = false; // Whether the textarea is in invalid state
-  @Input() helperText: string = ''; // Helper text displayed below the input
-  @Input() invalidText: string = ''; // Error text shown when invalid
-  @Input() warn: boolean = false; // Whether the textarea has a warning state
-  @Input() warnText: string = ''; // Warning text displayed
-  @Input() skeleton: boolean = false; // Whether to show a skeleton loader
-  @Input() size: 'sm' | 'md' | 'lg' = 'md'; // Size of the textarea field
-  @Input() theme: 'light' | 'dark' = 'dark'; // Theme of the textarea field
-  @Input() readonly: boolean = false; // Whether the textarea is read-only
-  @Input() rows: number = 4; // Number of rows for the textarea
-  @Input() cols: number = 101; // Number of columns for the textarea
+  readonly label = input<string>(''); // Label for the textarea field
+  readonly placeholder = input<string>(''); // Placeholder text
+  readonly isDisabled = input<boolean>(false); // Whether the textarea is disabled
+  readonly invalid = input<boolean>(false); // Whether the textarea is in invalid state
+  readonly helperText = input<string>(''); // Helper text displayed below the input
+  readonly invalidText = input<string>(''); // Error text shown when invalid
+  readonly warn = input<boolean>(false); // Whether the textarea has a warning state
+  readonly warnText = input<string>(''); // Warning text displayed
+  readonly skeleton = input<boolean>(false); // Whether to show a skeleton loader
+  readonly size = input<'sm' | 'md' | 'lg'>('md'); // Size of the textarea field
+  readonly theme = input<'light' | 'dark'>('dark'); // Theme of the textarea field
+  readonly readonly = input<boolean>(false); // Whether the textarea is read-only
+  readonly rows = input<number>(4); // Number of rows for the textarea
+  readonly cols = input<number>(101); // Number of columns for the textarea
+
+  private _disabled = signal(false);
 
   value: string = ''; // Value of the textarea field
   private onChange: (value: string) => void = () => {};
@@ -72,8 +74,12 @@ export class UiTextAreaComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+  setDisabledState(isDisabled: boolean): void {
+    this._disabled.set(isDisabled); // Update the reactive signal
+  }
+
+  get disabled(): boolean {
+    return this._disabled();
   }
 
   onInput(event: Event): void {

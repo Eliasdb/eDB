@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../../components/icon/icon.component';
@@ -10,15 +10,15 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
   template: `
     <cds-overflow-menu
       [open]="isMenuOpen"
-      [placement]="placement"
-      [flip]="flip"
-      [offset]="offset"
+      [placement]="placement()"
+      [flip]="flip()"
+      [offset]="offset()"
       [customTrigger]="customTriggerTemplate"
       (selected)="onMenuSelect($event)"
       (closed)="isMenuOpen = false"
       description=""
     >
-      @for (option of menuOptions; track option.id) {
+      @for (option of menuOptions(); track option.id) {
         <cds-overflow-menu-option (click)="onOptionClick(option.id)">
           {{ option.label }}
         </cds-overflow-menu-option>
@@ -27,23 +27,29 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
 
     <ng-template #customTriggerTemplate>
       <ui-icon
-        [name]="icon"
-        [size]="iconSize"
-        [color]="iconColor"
+        [name]="icon()"
+        [size]="iconSize()"
+        [color]="iconColor()"
         [fixedWidth]="true"
       ></ui-icon>
     </ng-template>
   `,
 })
 export class UiPlatformOverflowMenuComponent {
-  @Input() menuOptions: { id: string; label: string }[] = [];
-  @Input() placement: 'bottom' | 'top' = 'bottom';
-  @Input() flip: boolean = true;
-  @Input() offset: { x: number; y: number } = { x: 0, y: 0 };
+  readonly menuOptions = input<{
+    id: string;
+    label: string;
+}[]>([]);
+  readonly placement = input<'bottom' | 'top'>('bottom');
+  readonly flip = input<boolean>(true);
+  readonly offset = input<{
+    x: number;
+    y: number;
+}>({ x: 0, y: 0 });
 
-  @Input() icon: string = '';
-  @Input() iconSize: string = '1rem';
-  @Input() iconColor: string = 'black';
+  readonly icon = input<string>('');
+  readonly iconSize = input<string>('1rem');
+  readonly iconColor = input<string>('black');
 
   @Output() menuOptionSelected = new EventEmitter<string>(); // Emits the id of the selected menu option
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular';
 import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/overflow-menu.component';
 
@@ -7,15 +7,15 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
   standalone: true,
   imports: [HeaderModule, UiPlatformOverflowMenuComponent],
   template: `
-    <cds-header [brand]="brandTemplate" [name]="name">
+    <cds-header [brand]="brandTemplate" [name]="name()">
       <!-- Hamburger Menu (for mobile) -->
-      @if (hasHamburger) {
+      @if (hasHamburger()) {
         <cds-hamburger (click)="hamburgerToggle.emit($event)"></cds-hamburger>
       }
 
       <!-- Header Navigation -->
       <cds-header-navigation>
-        @for (link of navigationLinks; track link.id) {
+        @for (link of navigationLinks(); track link.id) {
           <cds-header-item
             (click)="linkClick.emit(link.id)"
             [isCurrentPage]="link.isCurrentPage"
@@ -30,7 +30,7 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
         <ui-platform-overflow-menu
           placement="bottom"
           icon="faUser"
-          [menuOptions]="menuOptions"
+          [menuOptions]="menuOptions()"
           [flip]="true"
           [offset]="{ x: 0, y: 10 }"
           (menuOptionSelected)="menuOptionSelected.emit($event)"
@@ -56,14 +56,17 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
   `,
 })
 export class UiPlatformHeaderComponent {
-  @Input() name: string = 'eDB';
-  @Input() hasHamburger: boolean = false;
-  @Input() navigationLinks: {
+  readonly name = input<string>('eDB');
+  readonly hasHamburger = input<boolean>(false);
+  readonly navigationLinks = input<{
     id: string;
     label: string;
     isCurrentPage: boolean;
-  }[] = [];
-  @Input() menuOptions: { id: string; label: string }[] = [];
+}[]>([]);
+  readonly menuOptions = input<{
+    id: string;
+    label: string;
+}[]>([]);
 
   @Output() hamburgerToggle = new EventEmitter<Event>();
   @Output() linkClick = new EventEmitter<string>();

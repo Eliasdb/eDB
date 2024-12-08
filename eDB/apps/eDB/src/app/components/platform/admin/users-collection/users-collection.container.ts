@@ -12,13 +12,12 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import {
   UiLoadingSpinnerComponent,
-  UiModalComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
 } from '@eDB/shared-ui';
-import { TableUtilsService } from '@eDB/shared-utils';
+import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
-import { ModalService, TableModel } from 'carbon-components-angular';
+import { TableModel } from 'carbon-components-angular';
 import {
   combineLatest,
   debounceTime,
@@ -34,6 +33,7 @@ import { UserProfile } from '../../../../models/user.model';
 import { AdminService } from '../../../../services/admin-service/admin.service';
 import { UserParamService } from '../../../../services/users-params-service/users-params.service';
 import {
+  MODAL_CONFIG,
   USER_ROW_MAPPER_CONFIG,
   USER_TABLE_COLUMNS,
 } from './users-collection.container.config';
@@ -111,7 +111,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   private searchChange$ = new Subject<string>();
 
   private adminService = inject(AdminService);
-  private modalService = inject(ModalService);
+  private modalUtils = inject(ModalUtilsService);
   private userParamService = inject(UserParamService);
   private tableUtilsService = inject(TableUtilsService);
   private router = inject(Router);
@@ -167,7 +167,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       const cursor = value;
       return cursor;
     },
-    initialPageParam: null, // Start with the first page
+    initialPageParam: null,
     keepPreviousData: false,
   }));
 
@@ -295,23 +295,10 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   }
 
   // MODALS
-
-  private openDeleteConfirmationModal(user: UserProfile): void {
-    const modalRef = this.modalService.create({
-      component: UiModalComponent,
-    });
-
-    modalRef.instance.header = 'Confirm Deletion';
-    modalRef.instance.content = `Are you sure you want to delete the user "${user.firstName}"? This action cannot be undone.`;
-    modalRef.instance.cancelRoute = '/admin';
-
-    modalRef.instance.save.subscribe(() => {
-      this.onDeleteUser(user.id);
-      modalRef.destroy();
-    });
-
-    modalRef.instance.close.subscribe(() => {
-      modalRef.destroy();
+  openDeleteConfirmationModal(user: UserProfile): void {
+    this.modalUtils.openModal({
+      ...MODAL_CONFIG.deleteUser(user.firstName),
+      onSave: () => this.onDeleteUser(user.id),
     });
   }
 

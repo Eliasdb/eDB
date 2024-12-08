@@ -59,3 +59,10 @@ export const USER_ROW_MAPPER_CONFIG: RowMapperConfig<UserProfile>[] = [
     },
   },
 ];
+
+export const MODAL_CONFIG = {
+  deleteUser: (userName: string) => ({
+    header: 'Confirm Deletion',
+    content: `Are you sure you want to delete the user "${userName}"? This action cannot be undone.`,
+  }),
+};

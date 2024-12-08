@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
 import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.component';
@@ -9,21 +9,21 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
   imports: [ButtonModule, UiLoadingSpinnerComponent, UiIconComponent],
   template: `
     <button
-      [class.full-width]="fullWidth"
-      [cdsButton]="variant"
-      [disabled]="disabled || loading"
+      [class.full-width]="fullWidth()"
+      [cdsButton]="variant()"
+      [disabled]="disabled() || loading()"
       (click)="handleClick($event)"
-      [size]="size"
-      [isExpressive]="isExpressive"
-      [type]="type"
+      [size]="size()"
+      [isExpressive]="isExpressive()"
+      [type]="type()"
     >
       <span class="button-text">
         <ng-content></ng-content>
       </span>
 
-      @if (icon && !loading) {
-        <ui-icon class="cds--btn__icon" [name]="icon"></ui-icon>
-      } @else if (loading) {
+      @if (icon() && !loading()) {
+        <ui-icon class="cds--btn__icon" [name]="icon()"></ui-icon>
+      } @else if (loading()) {
         <ui-loading class="cds--btn__icon" [isActive]="true"></ui-loading>
       }
     </button>
@@ -31,20 +31,19 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
   styleUrls: ['./button.component.scss'], // Corrected styleUrl to styleUrls
 })
 export class UiButtonComponent {
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost' =
-    'primary';
-  @Input() size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' = 'lg';
-  @Input() disabled: boolean = false;
-  @Input() loading: boolean = false;
-  @Input() icon?: string;
-  @Input() isExpressive: boolean = false;
-  @Input() fullWidth: boolean = false;
+  readonly type = input<'button' | 'submit' | 'reset'>('button');
+  readonly variant = input<'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'>('primary');
+  readonly size = input<'sm' | 'md' | 'lg' | 'xl' | '2xl'>('lg');
+  readonly disabled = input<boolean>(false);
+  readonly loading = input<boolean>(false);
+  readonly icon = input<string>();
+  readonly isExpressive = input<boolean>(false);
+  readonly fullWidth = input<boolean>(false);
 
   @Output() buttonClick = new EventEmitter<Event>();
 
   handleClick(event: Event): void {
-    if (!this.disabled && !this.loading) {
+    if (!this.disabled() && !this.loading()) {
       this.buttonClick.emit(event);
     }
   }

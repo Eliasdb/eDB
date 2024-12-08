@@ -2,7 +2,8 @@ import {
   Component,
   EventEmitter,
   inject,
-  Input,
+  input,
+  model,
   Output,
   TemplateRef,
 } from '@angular/core';
@@ -12,7 +13,6 @@ import { ModalModule } from 'carbon-components-angular';
 import { UiButtonComponent } from '../buttons/button/button.component';
 import { UiTextAreaComponent } from '../inputs/text-area/text-area.component';
 import { UiTextInputComponent } from '../inputs/text-input/input.component';
-
 @Component({
   selector: 'ui-modal',
   standalone: true,
@@ -27,15 +27,15 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
     <cds-modal [open]="true" [size]="'md'" (close)="onCancel()">
       <cds-modal-header (closeSelect)="onCancel()">
         <h2 cdsModalHeaderLabel>Admin</h2>
-        <h3 cdsModalHeaderHeading>{{ header }}</h3>
+        <h3 cdsModalHeaderHeading>{{ header() || 'Default Header' }}</h3>
       </cds-modal-header>
 
-      @if (template) {
+      @if (template()) {
         <ng-container
-          *ngTemplateOutlet="template; context: context"
+          *ngTemplateOutlet="template(); context: context()"
         ></ng-container>
       } @else {
-        @if (hasForm) {
+        @if (hasForm()) {
           <form [formGroup]="form" class="form">
             <ui-text-input
               label="Application Name"
@@ -75,7 +75,7 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
           </form>
         } @else {
           <div class="confirmation-text">
-            <p>{{ content }}</p>
+            <p>{{ content() }}</p>
           </div>
         }
       }
@@ -92,10 +92,9 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
         </ui-button>
         <ui-button
           variant="primary"
-          [disabled]="hasForm && form.invalid"
+          [disabled]="hasForm() && form.invalid"
           (buttonClick)="onSave()"
           [fullWidth]="true"
-          [isExpressive]="true"
           size="sm"
         >
           Confirm
@@ -105,13 +104,15 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
   `,
 })
 export class UiModalComponent {
-  @Input() header: string = 'Confirmation';
-  @Input() content: string = 'Are you sure you want to proceed?';
-  @Input() hasForm: boolean = false;
-  @Input() template?: TemplateRef<any>;
-  @Input() context: any;
-  @Input() cancelRoute?: string; // Optional route for cancelation navigation
-  @Input() form: FormGroup;
+  // Using the new `input` function for reactive inputs
+  header = model.required<string>();
+  content = model<string>();
+  hasForm = model<boolean>(false);
+  readonly template = input<TemplateRef<any> | undefined>();
+  readonly context = input<any>();
+  readonly cancelRoute = input<string | undefined>();
+
+  form: FormGroup;
 
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
@@ -119,6 +120,7 @@ export class UiModalComponent {
   private router = inject(Router);
 
   constructor(private fb: FormBuilder) {
+    // Initialize the form
     this.form = this.fb.group({
       name: [''],
       routePath: [''],
@@ -129,14 +131,15 @@ export class UiModalComponent {
   }
 
   onCancel(): void {
-    if (this.cancelRoute) {
-      this.router.navigate([this.cancelRoute]); // Navigate to the specified route
+    const cancelRoute = this.cancelRoute();
+    if (cancelRoute) {
+      this.router.navigate([cancelRoute]);
     }
     this.close.emit();
   }
 
   onSave(): void {
-    if (this.hasForm) {
+    if (this.hasForm()) {
       const formValue = this.form.value;
       formValue.tags = formValue.tags
         .split(',')
@@ -144,8 +147,9 @@ export class UiModalComponent {
       this.save.emit(formValue);
     } else {
       this.save.emit();
-      if (this.cancelRoute) {
-        this.router.navigate([this.cancelRoute]);
+      const cancelRoute = this.cancelRoute();
+      if (cancelRoute) {
+        this.router.navigate([cancelRoute]);
       }
     }
     this.onCancel();
