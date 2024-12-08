@@ -4,7 +4,6 @@ import { UiIconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'ui-sidenav',
-  standalone: true,
   imports: [SideNavModule, UiIconComponent],
   template: `
     <div class="sidenav-container">
@@ -27,12 +26,14 @@ import { UiIconComponent } from '../../icon/icon.component';
   styleUrl: 'side-nav.component.scss',
 })
 export class UiSidenavComponent {
-  readonly links = input<{
-    id: string;
-    label: string;
-    icon?: string;
-    active?: boolean;
-}[]>([]);
+  readonly links = input<
+    {
+      id: string;
+      label: string;
+      icon?: string;
+      active?: boolean;
+    }[]
+  >([]);
   @Output() linkClick = new EventEmitter<{ id: string; label: string }>();
 
   onItemClick(event: Event, item: { id: string; label: string }): void {

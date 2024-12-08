@@ -5,7 +5,6 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
 
 @Component({
   selector: 'ui-platform-overflow-menu',
-  standalone: true,
   imports: [DialogModule, UiIconComponent],
   template: `
     <cds-overflow-menu
@@ -36,16 +35,18 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
   `,
 })
 export class UiPlatformOverflowMenuComponent {
-  readonly menuOptions = input<{
-    id: string;
-    label: string;
-}[]>([]);
+  readonly menuOptions = input<
+    {
+      id: string;
+      label: string;
+    }[]
+  >([]);
   readonly placement = input<'bottom' | 'top'>('bottom');
   readonly flip = input<boolean>(true);
   readonly offset = input<{
     x: number;
     y: number;
-}>({ x: 0, y: 0 });
+  }>({ x: 0, y: 0 });
 
   readonly icon = input<string>('');
   readonly iconSize = input<string>('1rem');

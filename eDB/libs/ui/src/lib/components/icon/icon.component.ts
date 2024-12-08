@@ -6,7 +6,6 @@ import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'ui-icon',
-  standalone: true,
   imports: [FontAwesomeModule],
   template: `
     @if (icon()) {

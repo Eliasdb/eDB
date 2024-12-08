@@ -10,7 +10,6 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
 
 @Component({
   selector: 'ui-structured-list',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,

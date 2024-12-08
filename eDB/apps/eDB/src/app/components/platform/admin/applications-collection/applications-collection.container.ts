@@ -27,7 +27,6 @@ import {
 } from './applications-collection.container.config';
 
 @Component({
-  standalone: true,
   selector: 'platform-admin-applications-collection',
   imports: [
     UiTableComponent,

@@ -5,7 +5,6 @@ import { AdminService } from '../../../../services/admin-service/admin.service';
 
 @Component({
   selector: 'app-user-profile',
-  standalone: true,
   imports: [UiStructuredListComponent, UiButtonComponent],
   template: `
     <div class="profile-container">

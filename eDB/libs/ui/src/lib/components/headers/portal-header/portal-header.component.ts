@@ -3,7 +3,6 @@ import { HeaderModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-portal-header',
-  standalone: true,
   imports: [HeaderModule],
   template: `
     <cds-header [brand]="brandTemplate"></cds-header>

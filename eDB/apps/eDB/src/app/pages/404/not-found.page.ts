@@ -5,6 +5,7 @@ import { IconModule, NotificationService } from 'carbon-components-angular';
 
 @Component({
   selector: 'platform-not-found-page',
+  imports: [UiButtonComponent, IconModule],
   template: `
     <div class="not-found">
       <h1>404</h1>
@@ -34,8 +35,6 @@ import { IconModule, NotificationService } from 'carbon-components-angular';
       </ui-button>
     </div>
   `,
-  standalone: true,
-  imports: [UiButtonComponent, IconModule],
   styles: [
     `
       .not-found {
@@ -62,7 +61,7 @@ import { IconModule, NotificationService } from 'carbon-components-angular';
 export class NotFoundPage {
   constructor(
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {}
 
   navigateToDashboard(): void {

@@ -3,7 +3,6 @@ import { LoginFormComponent } from '../../../components/portal/login/login-form/
 
 @Component({
   selector: 'platform-login-page',
-  standalone: true,
   imports: [LoginFormComponent],
   template: `
     <section class="login-container">

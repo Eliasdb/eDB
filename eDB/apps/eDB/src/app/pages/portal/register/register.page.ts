@@ -5,7 +5,6 @@ import { RegisterFormComponent } from '../../../components/portal/register/regis
 
 @Component({
   selector: 'platform-register-page',
-  standalone: true,
   imports: [UiTitleComponent, RegisterFormComponent],
   template: `
     <div class="register-form-container">

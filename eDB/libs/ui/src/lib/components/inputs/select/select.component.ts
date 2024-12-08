@@ -4,7 +4,6 @@ import { SelectModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-select',
-  standalone: true,
   imports: [SelectModule, FormsModule],
   template: `
     <cds-select

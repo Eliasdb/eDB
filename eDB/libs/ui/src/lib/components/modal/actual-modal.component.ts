@@ -15,7 +15,6 @@ import { UiTextAreaComponent } from '../inputs/text-area/text-area.component';
 import { UiTextInputComponent } from '../inputs/text-input/input.component';
 @Component({
   selector: 'ui-modal',
-  standalone: true,
   imports: [
     ModalModule,
     ReactiveFormsModule,

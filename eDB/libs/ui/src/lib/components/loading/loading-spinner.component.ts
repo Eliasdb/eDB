@@ -3,7 +3,6 @@ import { LoadingModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-loading',
-  standalone: true,
   imports: [LoadingModule],
   template: `
     @if (isActive()) {

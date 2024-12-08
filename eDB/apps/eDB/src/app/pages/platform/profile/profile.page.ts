@@ -7,7 +7,6 @@ import { settingsGroups } from './profile.page.config';
 
 @Component({
   selector: 'platform-settings',
-  standalone: true,
   imports: [UiSidenavComponent, UiStructuredListComponent],
   template: `
     <section class="settings-page">

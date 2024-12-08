@@ -3,7 +3,6 @@ import { SearchModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-search',
-  standalone: true,
   imports: [SearchModule],
   template: `
     <cds-search
