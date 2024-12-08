@@ -4,7 +4,6 @@ import { InputModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-password-input',
-  standalone: true,
   imports: [InputModule],
   template: `
     <cds-password-label

@@ -5,7 +5,6 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
 
 @Component({
   selector: 'ui-button',
-  standalone: true,
   imports: [ButtonModule, UiLoadingSpinnerComponent, UiIconComponent],
   template: `
     <button
@@ -32,7 +31,9 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
 })
 export class UiButtonComponent {
   readonly type = input<'button' | 'submit' | 'reset'>('button');
-  readonly variant = input<'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'>('primary');
+  readonly variant = input<
+    'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'
+  >('primary');
   readonly size = input<'sm' | 'md' | 'lg' | 'xl' | '2xl'>('lg');
   readonly disabled = input<boolean>(false);
   readonly loading = input<boolean>(false);

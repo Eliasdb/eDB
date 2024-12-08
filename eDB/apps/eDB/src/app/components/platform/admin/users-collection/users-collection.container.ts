@@ -40,7 +40,6 @@ import {
 
 @Component({
   selector: 'platform-admin-users-collection',
-  standalone: true,
   imports: [
     CommonModule,
     UiTableComponent,

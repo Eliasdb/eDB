@@ -4,7 +4,6 @@ import { UiIconButtonComponent } from '../buttons/icon-button/icon-button.compon
 import { UiTagComponent } from '../tag/tag.component';
 
 @Component({
-  standalone: true,
   selector: 'ui-tile',
   imports: [TilesModule, UiTagComponent, UiIconButtonComponent],
   template: `

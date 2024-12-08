@@ -17,7 +17,6 @@ import { loginFormFields } from './login-form.config';
 
 @Component({
   selector: 'platform-portal-login-form',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     UiTextInputComponent,

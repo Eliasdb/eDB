@@ -5,7 +5,6 @@ import { UiModalComponent } from './actual-modal.component';
 
 @Component({
   selector: 'app-data-passing-modal',
-  standalone: true,
   imports: [ModalModule],
   template: `
     <button class="cds--btn cds--btn--primary" (click)="openModal()">

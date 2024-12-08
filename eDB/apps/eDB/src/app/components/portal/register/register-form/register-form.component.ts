@@ -14,7 +14,6 @@ import { registerFormFields } from './register-form.config';
 
 @Component({
   selector: 'platform-portal-register-form',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     UiTextInputComponent,

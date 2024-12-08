@@ -3,6 +3,7 @@ import { NotificationModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-toast',
+  imports: [NotificationModule],
   template: `
     @if (type() === 'toast') {
       <cds-toast
@@ -38,13 +39,16 @@ import { NotificationModule } from 'carbon-components-angular';
       ></cds-actionable-notification>
     }
   `,
-  imports: [NotificationModule],
+
   styleUrls: ['./notification-toast.component.scss'],
-  standalone: true,
 })
 export class UiNotificationToastComponent {
-  readonly type = input<'toast' | 'notification' | 'actionable-notification'>('toast');
-  readonly notificationType = input<'error' | 'warning' | 'success' | 'info'>('info');
+  readonly type = input<'toast' | 'notification' | 'actionable-notification'>(
+    'toast',
+  );
+  readonly notificationType = input<'error' | 'warning' | 'success' | 'info'>(
+    'info',
+  );
   readonly title = input<string>('Default Title');
   readonly subtitle = input<string>('Default Subtitle');
   readonly caption = input<string>('Default Caption');

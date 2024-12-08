@@ -7,7 +7,6 @@ import {
 
 @Component({
   selector: 'platform-portal-layout',
-  standalone: true,
   imports: [RouterModule, UiPortalHeaderComponent, UiPortalFooterComponent],
   template: `
     <div class="auth-layout">

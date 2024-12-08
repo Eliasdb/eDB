@@ -5,7 +5,6 @@ import { CatalogService } from '../../../services/catalog-service/catalog.servic
 
 @Component({
   selector: 'platform-catalog',
-  standalone: true,
   imports: [UiTileComponent],
   template: `
     <div class="catalog">

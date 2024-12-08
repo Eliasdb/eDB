@@ -8,7 +8,6 @@ import { InputModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-text-input',
-  standalone: true,
   imports: [InputModule, FormsModule],
   template: `
     <cds-text-label

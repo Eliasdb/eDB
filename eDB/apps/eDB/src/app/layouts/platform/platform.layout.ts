@@ -6,7 +6,6 @@ import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'platform-layout',
-  standalone: true,
   imports: [RouterModule, UiPlatformHeaderComponent],
   template: `
     <div class="platform-layout">

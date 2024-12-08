@@ -5,7 +5,6 @@ import { UiButtonComponent } from '@eDB/shared-ui'; // Import the standalone com
 @Component({
   selector: 'app-appointment-home',
   imports: [UiButtonComponent],
-  standalone: true,
   template: `<h1>Appointment Home</h1>
     <ui-button>Click Me!rfenjfnejkf</ui-button>`,
 })

@@ -3,7 +3,6 @@ import { SkeletonModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-skeleton-text',
-  standalone: true,
   imports: [SkeletonModule],
   template: `
     <cds-skeleton-text

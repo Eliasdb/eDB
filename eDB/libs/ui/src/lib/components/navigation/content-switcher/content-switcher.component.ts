@@ -14,7 +14,6 @@ import {
 
 @Component({
   selector: 'ui-content-switcher',
-  standalone: true,
   imports: [ContentSwitcherModule],
   template: `
     <cds-content-switcher (selected)="onSelectionChange($event)">

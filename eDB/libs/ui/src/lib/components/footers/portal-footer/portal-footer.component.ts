@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'ui-portal-footer',
-  standalone: true,
   template: `
     <footer class="footer">
       <div class="footer-content">

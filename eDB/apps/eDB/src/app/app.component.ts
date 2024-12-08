@@ -7,7 +7,6 @@ import {
 } from 'carbon-components-angular';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   imports: [RouterModule, PlaceholderModule, I18nModule],
   providers: [NotificationService],

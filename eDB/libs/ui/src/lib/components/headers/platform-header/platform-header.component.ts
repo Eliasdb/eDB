@@ -4,7 +4,6 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
 
 @Component({
   selector: 'ui-platform-header',
-  standalone: true,
   imports: [HeaderModule, UiPlatformOverflowMenuComponent],
   template: `
     <cds-header [brand]="brandTemplate" [name]="name()">
@@ -58,15 +57,19 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
 export class UiPlatformHeaderComponent {
   readonly name = input<string>('eDB');
   readonly hasHamburger = input<boolean>(false);
-  readonly navigationLinks = input<{
-    id: string;
-    label: string;
-    isCurrentPage: boolean;
-}[]>([]);
-  readonly menuOptions = input<{
-    id: string;
-    label: string;
-}[]>([]);
+  readonly navigationLinks = input<
+    {
+      id: string;
+      label: string;
+      isCurrentPage: boolean;
+    }[]
+  >([]);
+  readonly menuOptions = input<
+    {
+      id: string;
+      label: string;
+    }[]
+  >([]);
 
   @Output() hamburgerToggle = new EventEmitter<Event>();
   @Output() linkClick = new EventEmitter<string>();

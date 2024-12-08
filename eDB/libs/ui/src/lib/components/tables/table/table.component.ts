@@ -11,7 +11,6 @@ export interface SortEvent {
 
 @Component({
   selector: 'ui-table',
-  standalone: true,
   imports: [TableModule, PaginationModule, FormsModule, UiButtonComponent],
   template: `
     <cds-table-container>
@@ -20,11 +19,12 @@ export interface SortEvent {
           <h4 cdsTableHeaderTitle style="margin:0;">{{ title() }}</h4>
           <p cdsTableHeaderDescription style="margin:0;">{{ description() }}</p>
         </div>
-
         @if (showButton()) {
-          <ui-button size="sm" icon="faPlus" (click)="onAddApplication()">
-            Add application
-          </ui-button>
+          <div>
+            <ui-button size="sm" icon="faPlus" (click)="onAddApplication()">
+              Add application
+            </ui-button>
+          </div>
         }
       </cds-table-header>
 
