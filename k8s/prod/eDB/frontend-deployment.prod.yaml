@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: edb-nx-prod
+    namespace: default
+    labels:
+        app: edb-nx
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: edb-nx
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: edb-nx
+        spec:
+            containers:
+                - name: edb-nx
+                  image: eliasdb/edb-nx:latest # Use 'latest' to automatically fetch the latest version
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 80 # Nginx default port
+                        protocol: TCP
+                  env:
+                      - name: NODE_ENV
+                        value: production # Set to production
+                  readinessProbe:
+                      httpGet:
+                          path: /
+                          port: 80
+                      initialDelaySeconds: 5
+                      periodSeconds: 10
+                      timeoutSeconds: 5
+                      failureThreshold: 3
+                  livenessProbe:
+                      httpGet:
+                          path: /
+                          port: 80
+                      initialDelaySeconds: 15
+                      periodSeconds: 20
+                      timeoutSeconds: 5
+                      failureThreshold: 3
+            restartPolicy: Always

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: api-prod
+    labels:
+        app: api
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: api
+    template:
+        metadata:
+            labels:
+                app: api
+        spec:
+            containers:
+                - name: api
+                  image: eliasdb/edb-api:latest # Use 'latest' or your CI/CD pipeline will update this tag
+                  ports:
+                      - containerPort: 9101
+                        protocol: TCP
+                  env:
+                      - name: ASPNETCORE_ENVIRONMENT
+                        value: 'Production'
+                      - name: ConnectionStrings__DefaultConnection
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret
+                                key: CONNECTION_STRING

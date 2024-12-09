@@ -1,5 +1,5 @@
 {
-  "bracketSameLine": false,
-  "proseWrap": "always",
+  // "bracketSameLine": false,
+  // "proseWrap": "always",
   "singleQuote": true
 }

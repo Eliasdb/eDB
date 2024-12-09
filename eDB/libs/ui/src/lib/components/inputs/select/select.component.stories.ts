@@ -115,7 +115,6 @@ export const DefaultSelect: Story = {
   }),
 };
 
-// Disabled select
 export const DisabledSelect: Story = {
   args: {
     label: 'Choose a category',
@@ -148,7 +147,6 @@ export const DisabledSelect: Story = {
   }),
 };
 
-// Invalid state select
 export const InvalidSelect: Story = {
   args: {
     label: 'Choose a category',

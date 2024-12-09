@@ -15,7 +15,7 @@ export class FormUtilsService {
         this.fb.control('', {
           validators: field.validators,
           nonNullable: true,
-        })
+        }),
       );
     }
     return group;
@@ -33,7 +33,7 @@ export class FormUtilsService {
   getErrorMessage(
     form: FormGroup,
     controlName: string,
-    errorMessages: { [key: string]: string }
+    errorMessages: { [key: string]: string },
   ): string {
     const control = form.get(controlName);
     if (control && control.errors) {
