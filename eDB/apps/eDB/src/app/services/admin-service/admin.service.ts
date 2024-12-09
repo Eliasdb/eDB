@@ -90,7 +90,7 @@ export class AdminService {
         if (!user) {
           throw new Error('User not found');
         }
-        userSignal.set(user); // Update the signal when data is fetched
+        userSignal.set(user);
         return user;
       },
     }));
@@ -105,7 +105,6 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        // Invalidate queries related to applications to refresh the data
         this.queryClient.invalidateQueries({ queryKey: ['users'] });
       },
     }));
@@ -146,6 +145,8 @@ export class AdminService {
         }
         return subscriptions;
       },
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
     }));
   }
 
@@ -157,7 +158,6 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        // Invalidate the subscriptions query to refresh data
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));
@@ -189,7 +189,6 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        // Invalidate queries related to applications to refresh the data
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
       },
     }));

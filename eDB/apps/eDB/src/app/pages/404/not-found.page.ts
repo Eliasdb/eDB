@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UiButtonComponent } from '@eDB/shared-ui';
-import { IconModule, NotificationService } from 'carbon-components-angular';
+import { IconModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'platform-not-found-page',
@@ -23,15 +23,6 @@ import { IconModule, NotificationService } from 'carbon-components-angular';
         (buttonClick)="navigateToDashboard()"
       >
         Back to dashboard
-      </ui-button>
-
-      <ui-button
-        variant="primary"
-        size="lg"
-        icon="faInfoCircle"
-        (buttonClick)="showTestToast()"
-      >
-        Show Test Toast
       </ui-button>
     </div>
   `,
@@ -59,24 +50,9 @@ import { IconModule, NotificationService } from 'carbon-components-angular';
   ],
 })
 export class NotFoundPage {
-  constructor(
-    private router: Router,
-    private notificationService: NotificationService,
-  ) {}
+  router = inject(Router);
 
   navigateToDashboard(): void {
     this.router.navigate(['/dashboard']);
-  }
-
-  showTestToast(): void {
-    this.notificationService.showToast({
-      type: 'info',
-      title: 'Sample toast',
-      subtitle: 'Sample subtitle message',
-      caption: 'Sample caption',
-      message: 'message',
-      duration: 5000,
-      smart: true,
-    });
   }
 }

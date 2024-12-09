@@ -20,6 +20,7 @@ import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { TableModel } from 'carbon-components-angular';
 import {
   combineLatest,
+  debounceTime,
   map,
   Observable,
   startWith,

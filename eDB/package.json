@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve eDB --host 0.0.0.0"
+    "start": "nx serve eDB --host 0.0.0.0",
+    "build": "nx build eDB --prod"
   },
   "private": true,
   "dependencies": {
