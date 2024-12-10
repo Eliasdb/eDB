@@ -17,16 +17,17 @@ spec:
             labels:
                 app: edb-nx
         spec:
+            restartPolicy: Always
             containers:
                 - name: edb-nx
-                  image: eliasdb/edb-nx:latest # Use 'latest' to automatically fetch the latest version
-                  imagePullPolicy: IfNotPresent
+                  image: eliasdb/edb-nx:v1.0.2-prod
+                  imagePullPolicy: Always
                   ports:
-                      - containerPort: 80 # Nginx default port
+                      - containerPort: 80
                         protocol: TCP
                   env:
                       - name: NODE_ENV
-                        value: production # Set to production
+                        value: production
                   readinessProbe:
                       httpGet:
                           path: /
@@ -43,4 +44,3 @@ spec:
                       periodSeconds: 20
                       timeoutSeconds: 5
                       failureThreshold: 3
-            restartPolicy: Always

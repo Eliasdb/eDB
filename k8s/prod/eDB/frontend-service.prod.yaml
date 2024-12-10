@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: edb-nx-service
+    name: edb-nx-prod-service
     namespace: default
     labels:
         app: edb-nx
 spec:
-    type: LoadBalancer
+    type: ClusterIP
     selector:
         app: edb-nx
     ports:
         - protocol: TCP
-          port: 80 # Expose via port 80 for HTTP traffic
-          targetPort: 80 # Target the same port inside the container (nginx default port)
+          port: 80
+          targetPort: 80
