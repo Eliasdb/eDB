@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: api-prod
+    namespace: default
     labels:
         app: api
 spec:
@@ -16,7 +17,8 @@ spec:
         spec:
             containers:
                 - name: api
-                  image: eliasdb/edb-api:latest # Use 'latest' or your CI/CD pipeline will update this tag
+                  image: eliasdb/edb-api:v1.0-prod
+                  imagePullPolicy: Always
                   ports:
                       - containerPort: 9101
                         protocol: TCP
@@ -26,5 +28,5 @@ spec:
                       - name: ConnectionStrings__DefaultConnection
                         valueFrom:
                             secretKeyRef:
-                                name: postgres-secret
+                                name: postgres-secret-prod
                                 key: CONNECTION_STRING
