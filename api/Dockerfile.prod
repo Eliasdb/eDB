@@ -1,43 +1,31 @@
-# Stage 1: Build the application using the SDK image
+# Build Stage
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-
-# Set the working directory inside the container to /app
 WORKDIR /app
 
-# Copy the .csproj file and restore dependencies
-COPY api/*.csproj ./
+# Copy the project file(s) and restore dependencies
+COPY *.csproj ./
 RUN dotnet restore
 
-# Copy the entire api folder (including the script and source code)
-COPY api/. ./
-
-# Publish the application in release mode
+# Copy the rest of the application and build it
+COPY . ./
 RUN dotnet publish -c Release -o /app/publish
 
-# Stage 2: Use a smaller runtime image for the final app
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
-
-# Install netcat (nc) in the final image so the script can run it
-RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
-
-# Set the working directory inside the container
+# Runtime Stage
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 
-# Copy the published app from the build stage
-COPY --from=build /app/publish /app
+# Install netcat for waiting script
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 
-# Also copy the wait-for-postgres.sh script directly in this final stage
-# to ensure it's present here as well.
-COPY api/wait-for-postgres.sh /app/wait-for-postgres.sh
+# Copy the published output from the build stage
+COPY --from=build /app/publish .
 
-# Make sure the script has Unix line endings and is executable
-# If needed, install dos2unix (uncomment if line ending issue is suspected)
-# RUN apt-get update && apt-get install -y dos2unix && rm -rf /var/lib/apt/lists/*
-# RUN dos2unix /app/wait-for-postgres.sh
+# Copy the wait-for-postgres.sh script
+COPY wait-for-postgres.sh /app/wait-for-postgres.sh
 RUN chmod +x /app/wait-for-postgres.sh
 
-# Expose the API port
+# Expose the required port
 EXPOSE 9101
 
-# Use absolute paths and ensure that the script is at /app/wait-for-postgres.sh
-ENTRYPOINT ["/app/wait-for-postgres.sh", "postgres-service", "dotnet", "MyApp.dll"]
+# Use wait-for-postgres.sh to start the server after PostgreSQL is ready
+ENTRYPOINT ["/app/wait-for-postgres.sh", "postgres-service-prod", "dotnet", "api.dll"]

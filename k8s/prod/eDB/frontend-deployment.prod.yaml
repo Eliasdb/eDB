@@ -20,7 +20,7 @@ spec:
             restartPolicy: Always
             containers:
                 - name: edb-nx
-                  image: eliasdb/edb-nx:v1.0.2-prod
+                  image: eliasdb/edb-nx:v1.0.3-prod
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
