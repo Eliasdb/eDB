@@ -13,6 +13,7 @@ jobs:
         env:
             DOCKER_IMAGE_API: eliasdb/edb-api
             DOCKER_IMAGE_FRONTEND: eliasdb/edb-nx
+            IMAGE_TAG: ${{ github.sha }} # Define IMAGE_TAG as the commit SHA
 
         steps:
             # 1. Checkout the repository
@@ -29,24 +30,24 @@ jobs:
             # 3. Build API Docker image
             - name: Build API Docker image
               run: |
-                  docker build -t $DOCKER_IMAGE_API:latest -t $DOCKER_IMAGE_API:${{ github.sha }} -f ./api/Dockerfile.prod ./api
+                  docker build -t $DOCKER_IMAGE_API:latest -t $DOCKER_IMAGE_API:${IMAGE_TAG} -f ./api/Dockerfile.prod ./api
 
-            # 4. Build Frontend Docker image
-            - name: Build Frontend Docker image
-              run: |
-                  docker build -t $DOCKER_IMAGE_FRONTEND:latest -t $DOCKER_IMAGE_FRONTEND:${{ github.sha }} -f ./eDB/Dockerfile.prod ./eDB
-
-            # 5. Push API Docker image
+            # 4. Push API Docker image
             - name: Push API Docker image
               run: |
-                  docker push $DOCKER_IMAGE_API:latest
-                  docker push $DOCKER_IMAGE_API:${{ github.sha }}
+                  # docker push $DOCKER_IMAGE_API:latest
+                  docker push $DOCKER_IMAGE_API:${IMAGE_TAG}
+
+            # 5. Build Frontend Docker image
+            - name: Build Frontend Docker image
+              run: |
+                  docker build -t $DOCKER_IMAGE_FRONTEND:latest -t $DOCKER_IMAGE_FRONTEND:${IMAGE_TAG} -f ./eDB/Dockerfile.prod ./eDB
 
             # 6. Push Frontend Docker image
             - name: Push Frontend Docker image
               run: |
-                  docker push $DOCKER_IMAGE_FRONTEND:latest
-                  docker push $DOCKER_IMAGE_FRONTEND:${{ github.sha }}
+                  # docker push $DOCKER_IMAGE_FRONTEND:latest
+                  docker push $DOCKER_IMAGE_FRONTEND:${IMAGE_TAG}
 
             # 7. Set up kubectl
             - name: Set up kubectl
@@ -62,14 +63,24 @@ jobs:
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
-            # 9. Deploy API to Kubernetes
+            # 9. Replace Placeholder with Commit SHA for API Deployment
+            - name: Update API Deployment YAML with Image Tag
+              run: |
+                  sed "s/\${IMAGE_TAG}/${{ github.sha }}/g" k8s/prod/api-deployment-template.prod.yaml > k8s/prod/api-deployment.prod.yaml
+
+            # 10. Replace Placeholder with Commit SHA for Frontend Deployment
+            - name: Update Frontend Deployment YAML with Image Tag
+              run: |
+                  sed "s/\${IMAGE_TAG}/${{ github.sha }}/g" k8s/prod/frontend-deployment-template.prod.yaml > k8s/prod/frontend-deployment.prod.yaml
+
+            # 11. Apply API Deployment
             - name: Deploy API to Kubernetes
               run: |
-                  kubectl set image deployment/api-prod api=$DOCKER_IMAGE_API:${{ github.sha }}
+                  kubectl apply -f k8s/prod/api-deployment.prod.yaml
                   kubectl rollout status deployment/api-prod
 
-            # 10. Deploy Frontend to Kubernetes
+            # 12. Apply Frontend Deployment
             - name: Deploy Frontend to Kubernetes
               run: |
-                  kubectl set image deployment/edb-nx-prod edb-nx=$DOCKER_IMAGE_FRONTend:${{ github.sha }}
+                  kubectl apply -f k8s/prod/frontend-deployment.prod.yaml
                   kubectl rollout status deployment/edb-nx-prod
