@@ -34,7 +34,7 @@ jobs:
             # Build Frontend Docker image
             - name: Build Frontend Docker image
               run: |
-                  docker build -t $DOCKER_IMAGE_FRONTEND:latest -t $DOCKER_IMAGE_FRONTEND:${{ github.sha }} -f ./frontend/Dockerfile.prod ./eDB
+                  docker build -t $DOCKER_IMAGE_FRONTEND:latest -t $DOCKER_IMAGE_FRONTEND:${{ github.sha }} -f ./eDB/Dockerfile.prod ./eDB
 
             # Push API Docker image
             - name: Push API Docker image
