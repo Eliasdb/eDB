@@ -48,17 +48,17 @@ jobs:
             #       docker push $DOCKER_IMAGE_FRONTEND:latest
             #       docker push $DOCKER_IMAGE_FRONTEND:${{ github.sha }}
 
-            # # Set up kubectl
-            # - name: Set up kubectl
-            #   uses: azure/setup-kubectl@v3
-            #   with:
-            #       version: 'latest'
+            # Set up kubectl
+            - name: Set up kubectl
+              uses: azure/setup-kubectl@v3
+              with:
+                  version: 'latest'
 
             # Configure Kubernetes
             - name: Configure Kubernetes
               run: |
                   echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
-                  export KUBECONFIG=kubeconfig
+                  echo "KUBECONFIG=$GITHUB_WORKSPACE/kubeconfig" >> $GITHUB_ENV
                   kubectl cluster-info
 
             - name: Debug Kubernetes Configuration
