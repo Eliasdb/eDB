@@ -8,6 +8,7 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 import {
   Application,
   CreateApplicationDto,
@@ -19,9 +20,7 @@ import { UserProfile } from '../../models/user.model';
   providedIn: 'root',
 })
 export class AdminService {
-  private readonly apiUrl = 'http://localhost:9101/api/admin/users';
   private http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:9101/api/admin';
   private queryClient = inject(QueryClient);
 
   // USER RELATED
@@ -75,7 +74,10 @@ export class AdminService {
     }
 
     return lastValueFrom(
-      this.http.get<PaginatedResponse<UserProfile>>(this.apiUrl, { params }),
+      this.http.get<PaginatedResponse<UserProfile>>(
+        `${environment.apiAdminUrl}/users`,
+        { params },
+      ),
     );
   }
 
@@ -85,7 +87,9 @@ export class AdminService {
       queryKey: ['user', userId],
       queryFn: async () => {
         const user = await firstValueFrom(
-          this.http.get<UserProfile>(`${this.baseUrl}/users/${userId}`),
+          this.http.get<UserProfile>(
+            `${environment.apiAdminUrl}/users/${userId}`,
+          ),
         );
         if (!user) {
           throw new Error('User not found');
@@ -101,7 +105,7 @@ export class AdminService {
     return injectMutation(() => ({
       mutationFn: async (userId: number) => {
         return firstValueFrom(
-          this.http.delete<void>(`${this.baseUrl}/users/${userId}`),
+          this.http.delete<void>(`${environment.apiAdminUrl}/users/${userId}`),
         );
       },
       onSuccess: () => {
@@ -121,7 +125,7 @@ export class AdminService {
       }) => {
         return firstValueFrom(
           this.http.delete<void>(
-            `${this.baseUrl}/applications/${applicationId}/subscriptions/${userId}`,
+            `${environment.apiAdminUrl}/applications/${applicationId}/subscriptions/${userId}`,
           ),
         );
       },
@@ -138,7 +142,9 @@ export class AdminService {
       queryKey: ['applications'],
       queryFn: async () => {
         const subscriptions = await firstValueFrom(
-          this.http.get<Application[]>(`${this.baseUrl}/applications-overview`),
+          this.http.get<Application[]>(
+            `${environment.apiAdminUrl}/applications-overview`,
+          ),
         );
         if (!subscriptions) {
           throw new Error('Subscriptions not found');
@@ -154,7 +160,10 @@ export class AdminService {
     return injectMutation(() => ({
       mutationFn: async (application: CreateApplicationDto) => {
         return firstValueFrom(
-          this.http.post(`${this.baseUrl}/applications/create`, application),
+          this.http.post(
+            `${environment.apiAdminUrl}/applications/create`,
+            application,
+          ),
         );
       },
       onSuccess: () => {
@@ -168,7 +177,7 @@ export class AdminService {
       mutationFn: async (application: Application) => {
         return firstValueFrom(
           this.http.put(
-            `${this.baseUrl}/applications/${application.applicationId}`,
+            `${environment.apiAdminUrl}/applications/${application.applicationId}`,
             application,
           ),
         );
@@ -184,7 +193,7 @@ export class AdminService {
       mutationFn: async (applicationId: number) => {
         return firstValueFrom(
           this.http.delete<void>(
-            `${this.baseUrl}/applications/${applicationId}`,
+            `${environment.apiAdminUrl}/applications/${applicationId}`,
           ),
         );
       },

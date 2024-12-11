@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { injectMutation } from '@tanstack/angular-query-experimental';
+import { environment } from '../../environments/environment.prod';
 import {
   Credentials,
   LoginResponse,
@@ -15,17 +16,18 @@ import { User } from '../../models/user.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseUrl = 'http://localhost:9101/api/auth'; // Update to match your API URL
-  private readonly tokenKey = 'token'; // Key for storing the token in localStorage
+  private readonly tokenKey = 'token';
 
   http = inject(HttpClient);
 
   registerMutation() {
     return injectMutation<RegisterResponse, HttpErrorResponse, User>(() => ({
       mutationFn: async (user: User): Promise<RegisterResponse> => {
-        // Use `firstValueFrom` to convert Observable to Promise
         return firstValueFrom(
-          this.http.post<RegisterResponse>(`${this.baseUrl}/register`, user),
+          this.http.post<RegisterResponse>(
+            `${environment.apiAuthUrl}/register`,
+            user,
+          ),
         );
       },
       // Optionally handle onSuccess or other mutation options here
@@ -40,10 +42,12 @@ export class AuthService {
         ): Promise<LoginResponse> => {
           // Use `firstValueFrom` to convert Observable to Promise
           return firstValueFrom(
-            this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials),
+            this.http.post<LoginResponse>(
+              `${environment.apiAuthUrl}/login`,
+              credentials,
+            ),
           );
         },
-        // Optionally handle onSuccess or other mutation options here
       }),
     );
   }

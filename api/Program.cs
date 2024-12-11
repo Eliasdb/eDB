@@ -34,13 +34,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Replace with your frontend's URL
+        policy.WithOrigins("http://localhost:4200", "https://app.eliasdebock.com") // Replace with your frontend's URLs
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
 });
 
+
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.WebHost.UseUrls("http://0.0.0.0:9101");
 
 
 // Add authentication and authorization (if applicable)
@@ -96,7 +98,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-// app.UseHttpsRedirection(); // Uncomment for production when HTTPS is enabled
+app.UseHttpsRedirection(); // Uncomment for production when HTTPS is enabled
 app.UseAuthentication();   // Use authentication middleware
 app.UseAuthorization();    // Use authorization middleware
 app.UseCors("AllowFrontend");

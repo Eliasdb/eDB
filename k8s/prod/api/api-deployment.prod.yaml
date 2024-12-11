@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: api
-                  image: eliasdb/edb-api:v1.0-prod
+                  image: eliasdb/edb-api:v1.0.3-prod
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 9101
@@ -30,3 +30,8 @@ spec:
                             secretKeyRef:
                                 name: postgres-secret-prod
                                 key: CONNECTION_STRING
+                      - name: Jwt__Key
+                        valueFrom:
+                            secretKeyRef:
+                                name: jwt-secret-prod
+                                key: JWT_KEY

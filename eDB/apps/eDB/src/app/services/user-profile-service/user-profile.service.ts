@@ -8,15 +8,13 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 import { UserProfile } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserProfileService {
-  private readonly apiUrl = 'http://localhost:9101/api/profile/settings';
-  private readonly apiUrl2 = 'http://localhost:9101/api/profile/update';
-
   private queryClient = inject(QueryClient);
   private http = inject(HttpClient);
 
@@ -26,7 +24,9 @@ export class UserProfileService {
       queryKey: ['userProfile'],
       queryFn: async () => {
         const profile = await firstValueFrom(
-          this.http.get<UserProfile>(this.apiUrl)
+          this.http.get<UserProfile>(
+            `${environment.apiBaseUrl}/profile/settings`,
+          ),
         );
         if (!profile) {
           throw new Error('User profile not found');
@@ -41,7 +41,10 @@ export class UserProfileService {
     return injectMutation(() => ({
       mutationFn: async (updatedData: Partial<UserProfile>) => {
         const updatedProfile = await firstValueFrom(
-          this.http.put<UserProfile>(this.apiUrl2, updatedData)
+          this.http.put<UserProfile>(
+            `${environment.apiBaseUrl}/profile/update`,
+            updatedData,
+          ),
         );
         if (!updatedProfile) {
           throw new Error('Failed to update user profile');
@@ -49,7 +52,6 @@ export class UserProfileService {
         return updatedProfile;
       },
       onSuccess: () => {
-        // Invalidate the `userProfile` query to refresh data
         this.queryClient.invalidateQueries({ queryKey: ['userProfile'] });
       },
     }));
