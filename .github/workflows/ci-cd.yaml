@@ -66,12 +66,12 @@ jobs:
             # 9. Replace Placeholder with Commit SHA for API Deployment
             - name: Update API Deployment YAML with Image Tag
               run: |
-                  sed "s/\${IMAGE_TAG}/${{ github.sha }}/g" k8s/prod/api-deployment-template.prod.yaml > k8s/prod/api-deployment.prod.yaml
+                  sed "s/\${IMAGE_TAG}/${{ github.sha }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
 
             # 10. Replace Placeholder with Commit SHA for Frontend Deployment
             - name: Update Frontend Deployment YAML with Image Tag
               run: |
-                  sed "s/\${IMAGE_TAG}/${{ github.sha }}/g" k8s/prod/frontend-deployment-template.prod.yaml > k8s/prod/frontend-deployment.prod.yaml
+                  sed "s/\${IMAGE_TAG}/${{ github.sha }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
 
             # 11. Apply API Deployment
             - name: Deploy API to Kubernetes
