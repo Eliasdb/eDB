@@ -76,11 +76,11 @@ jobs:
             # 11. Apply API Deployment
             - name: Deploy API to Kubernetes
               run: |
-                  kubectl apply -f k8s/prod/api-deployment.prod.yaml
+                  kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
                   kubectl rollout status deployment/api-prod
 
             # 12. Apply Frontend Deployment
             - name: Deploy Frontend to Kubernetes
               run: |
-                  kubectl apply -f k8s/prod/frontend-deployment.prod.yaml
+                  kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
                   kubectl rollout status deployment/edb-nx-prod
