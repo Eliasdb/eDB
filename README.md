@@ -1,5 +1,32 @@
 # eDB
 
+## Table of Contents
+
+-   [Project Overview](#project-overview)
+-   [Setup](#setup)
+    -   [Frontend](#frontend)
+        -   [Platform Application Features](#platform-application-features)
+        -   [Shared Libraries](#shared-libraries)
+        -   [Storybook](#storybook)
+    -   [Backend](#backend)
+    -   [Database](#database)
+-   [Infrastructure](#infrastructure)
+-   [Development Environment Architecture](#development-environment-architecture)
+-   [Prerequisites](#prerequisites)
+-   [Spinning up a cluster on your local machine](#spinning-up-a-cluster-on-your-local-machine)
+    -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
+    -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
+    -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
+    -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
+-   [Development Environment Diagram](#development-environment-diagram)
+-   [Nx and Angular Architecture](#nx-and-angular-architecture)
+-   [.NET architecture](#net-architecture)
+-   [K3s Handy Commands Cheat Sheet](#k3s-handy-commands-cheat-sheet)
+    -   [General Commands](#general-commands)
+    -   [Database Management Commands](#database-management-commands)
+
+---
+
 ## Project Overview
 
 This is a platform for showcasing a range of applications.
