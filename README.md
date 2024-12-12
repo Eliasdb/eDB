@@ -58,8 +58,10 @@ This is a platform for showcasing a range of applications.
 
     -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
 
--   **Shared Libraries**: - **UI Library**: Built using **Carbon Design System**. - Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications. - **Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
-    **Storybook**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
+-   **Shared Libraries**:
+    -   **UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
+    -   **Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+-   **Storybook**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
 
 ### 2.2 Backend
 
