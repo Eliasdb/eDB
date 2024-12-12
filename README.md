@@ -52,7 +52,7 @@ This is a platform for showcasing a range of applications.
 
 ## Development Environment Architecture
 
-I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate Docker containers. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
+I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
 ---
 
@@ -139,11 +139,13 @@ skaffold dev
 
 This command will:
 
--   Build Docker images using your `Dockerfile`s.
+-   Build Docker images using your `Dockerfiles`.
 -   Apply your Kubernetes manifests to the cluster.
 -   Monitor your source code for changes and redeploy the services when updates are detected.
 
-Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+## Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+
+---
 
 ### Development Environment Diagram
 
@@ -197,16 +199,3 @@ Once deployed, your frontend will be available at `http://localhost:4200` and yo
 | `SELECT pg_terminate_backend(pg_stat_activity.pid)`     | Terminate connections to a specific database (see below for full SQL) |
 
 ---
-
-### Quick Reference SQL for Database Issues
-
-#### Terminate Connections to Drop the Database
-
-If you need to drop the database but connections are preventing it, use this SQL:
-
-```sql
-SELECT pg_terminate_backend(pg_stat_activity.pid)
-FROM pg_stat_activity
-WHERE pg_stat_activity.datname = '<database>'
-  AND pid <> pg_backend_pid();
-```
