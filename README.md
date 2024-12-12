@@ -22,8 +22,8 @@
             -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
     -   [4.2 Production](#42-production)
         -   [4.2.1 Architecture Diagram](#421-architecture-diagram)
-        -   [4.2.1 CI/CD Pipeline](#421-cicd-pipeline)
-        -   [4.2.2 CI/CD Flow](#422-cicd-flow)
+        -   [4.2.2 CI/CD Pipeline](#422-cicd-pipeline)
+        -   [4.2.3 CI/CD Flow](#423-cicd-flow)
     -   [4.3 Frontend architecture](#43-frontend-architecture)
         -   [4.3.1 Nx and Angular](#431-nx-and-angular)
     -   [4.4 Backend architecture](#44-backend-architecture)
@@ -170,11 +170,13 @@ Once deployed, your frontend will be available at `http://localhost:4200` and yo
 
 ### 4.2 Production
 
-#### 4.2.1 CI/CD Pipeline
+#### 4.2.1 Architecture Diagram
+
+#### 4.2.2 CI/CD Pipeline
 
 This CI/CD pipeline is designed to automate the process of building, validating, and deploying applications to a **Hetzner CAX21 VPS** running a **k3s cluster**. It ensures seamless updates to the live environment by leveraging **GitHub Actions**. Whenever code is pushed to the `main` branch, the pipeline builds Docker images for the backend and frontend, validates Kubernetes manifests, and deploys updated services to the k3s cluster. The pipeline also includes steps to roll back in case of errors during deployment.
 
-#### 4.2.2 CI/CD Flow
+#### 4.2.3 CI/CD Flow
 
 ##### Trigger
 
