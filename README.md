@@ -11,14 +11,14 @@
     -   [Backend](#backend)
     -   [Database](#database)
 -   [Infrastructure](#infrastructure)
--   [Development Environment Architecture](#development-environment-architecture)
--   [Prerequisites](#prerequisites)
--   [Spinning up a cluster on your local machine](#spinning-up-a-cluster-on-your-local-machine)
-    -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
-    -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
-    -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
-    -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
--   [Development Environment Diagram](#development-environment-diagram)
+-   [Development environment architecture](#development-environment-architecture)
+    -   [Development environment prerequisites](#development-environment-prerequisites)
+    -   [Spinning up a cluster on your local machine](#spinning-up-a-cluster-on-your-local-machine)
+        -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
+        -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
+        -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
+        -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
+    -   [Development Environment Diagram](#development-environment-diagram)
 -   [Nx and Angular Architecture](#nx-and-angular-architecture)
 -   [.NET architecture](#net-architecture)
 -   [K3s Handy Commands Cheat Sheet](#k3s-handy-commands-cheat-sheet)
@@ -77,13 +77,13 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-## Development Environment Architecture
+### Development environment architecture
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
 ---
 
-### Prerequisites
+### Development environment prerequisites
 
 If you want to run this project locally, make sure you have the following installed:
 
@@ -170,7 +170,7 @@ This command will:
 -   Apply your Kubernetes manifests to the cluster.
 -   Monitor your source code for changes and redeploy the services when updates are detected.
 
-## Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 ---
 
