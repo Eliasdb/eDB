@@ -1,83 +1,81 @@
-# eDB
+# 1. eDB
 
 ## Table of Contents
 
--   [Project Overview](#project-overview)
--   [Setup](#setup)
-    -   [Frontend](#frontend)
-        -   [Platform Application Features](#platform-application-features)
-        -   [Shared Libraries](#shared-libraries)
-        -   [Storybook](#storybook)
-    -   [Backend](#backend)
-    -   [Database](#database)
--   [Infrastructure](#infrastructure)
--   [Architecture](#architecture)
-
-    -   [Development environment](#development-environment)
-        -   [Development environment prerequisites](#development-environment-prerequisites)
-        -   [Development environment diagram](#development-environment-diagram)
-        -   [Spinning up a cluster on your local machine](#spinning-up-a-cluster-on-your-local-machine)
-            -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
-            -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
-            -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
-            -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
-    -   [Production environment](#production-environment)
-
-        -   [CI/CD Pipeline](#cicd-pipeline)
-        -   [CI/CD Flow](#cicd-flow)
-
-    -   [Frontend architecture](#frontend-architecture)
-        -   [Nx and Angular](#nx-and-angular)
-    -   [Backend architecture](#backend-architecture)
-        -   [.NET architecture](#net-architecture)
-
--   [K3s Handy Commands Cheat Sheet](#k3s-handy-commands-cheat-sheet)
-    -   [General Commands](#general-commands)
-    -   [Database Management Commands](#database-management-commands)
+-   [1. Project Overview](#1-project-overview)
+-   [2. Setup](#2-setup)
+    -   [2.1 Frontend](#21-frontend)
+        -   [2.1.1 Platform Application Features](#211-platform-application-features)
+        -   [2.1.2 Shared Libraries](#212-shared-libraries)
+        -   [2.1.3 Storybook](#213-storybook)
+    -   [2.2 Backend](#22-backend)
+    -   [2.3 Database](#23-database)
+-   [3. Infrastructure](#3-infrastructure)
+-   [4. Architecture](#4-architecture)
+    -   [4.1 Development environment](#41-development-environment)
+        -   [4.1.1 Development environment prerequisites](#411-development-environment-prerequisites)
+        -   [4.1.2 Development environment diagram](#412-development-environment-diagram)
+        -   [4.1.3 Spinning up a cluster on your local machine](#413-spinning-up-a-cluster-on-your-local-machine)
+            -   [4.1.3.1 Step 1: Create and start a k3d cluster](#4131-step-1-create-and-start-a-k3d-cluster)
+            -   [4.1.3.2 Step 2: Create Dockerfiles for Your Services](#4132-step-2-create-dockerfiles-for-your-services)
+            -   [4.1.3.3 Step 3: Create Kubernetes Manifests](#4133-step-3-create-kubernetes-manifests)
+            -   [4.1.3.4 Step 4: Run Skaffold for Local Development](#4134-step-4-run-skaffold-for-local-development)
+    -   [4.2 Production environment](#42-production-environment)
+        -   [4.2.1 CI/CD Pipeline](#421-cicd-pipeline)
+        -   [4.2.2 CI/CD Flow](#422-cicd-flow)
+    -   [4.3 Frontend architecture](#43-frontend-architecture)
+        -   [4.3.1 Nx and Angular](#431-nx-and-angular)
+    -   [4.4 Backend architecture](#44-backend-architecture)
+        -   [4.4.1 .NET architecture](#441-net-architecture)
+-   [5. K3s Handy Commands Cheat Sheet](#5-k3s-handy-commands-cheat-sheet)
+    -   [5.1 General Commands](#51-general-commands)
+    -   [5.2 Database Management Commands](#52-database-management-commands)
 
 ---
 
-## Project Overview
+## 1. Project Overview
 
 This is a platform for showcasing a range of applications.
 
 ---
 
-## Setup
+## 2. Setup
 
--   **Frontend**:
+### 2.1 Frontend
 
-    -   **Tools**: **Angular 18**, managed within an **Nx** workspace.
-    -   **Platform Application Features**:
-        -   **User Management**:
-            -   Login and registration.
-            -   Profile updates, account deletion, and preference management.
-        -   **Role-Based Access Control (RBAC)**:
-            -   User roles: User, Premium User, Admin.
-            -   Conditional access to sub-applications based on roles and feature flags (to be implemented).
-        -   **Application Modularity**:
-            -   Lazy-loading sub-applications for improved performance and scalability.
-        -   **API Integration**:
-            -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
-    -   **Shared Libraries**:
-        -   **UI Library**:
-            -   Built using **Carbon Design System**.
-            -   Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
-        -   **Utils Library**:
-            -   Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
-    -   **Storybook**:
-        -   Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
+-   **Tools**: **Angular 18**, managed within an **Nx** workspace.
+-   **Platform Application Features**:
+    -   **User Management**:
+        -   Login and registration.
+        -   Profile updates, account deletion, and preference management.
+    -   **Role-Based Access Control (RBAC)**:
+        -   User roles: User, Premium User, Admin.
+        -   Conditional access to sub-applications based on roles and feature flags (to be implemented).
+    -   **Application Modularity**:
+        -   Lazy-loading sub-applications for improved performance and scalability.
+    -   **API Integration**:
+        -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
+-   **Shared Libraries**:
+    -   **UI Library**:
+        -   Built using **Carbon Design System**.
+        -   Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
+    -   **Utils Library**:
+        -   Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+-   **Storybook**:
+    -   Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
 
--   **Backend**:
+### 2.2 Backend
 
-    -   **Tools**: .NET 7 with Entity Framework.
-    -   **Features**: REST API for platform services, user management, and role-based access.
+-   **Tools**: .NET 7 with Entity Framework.
+-   **Features**: REST API for platform services, user management, and role-based access.
+
+### 2.3 Database
 
 -   **Database**: PostgreSQL
 
 ---
 
-## Infrastructure
+## 3. Infrastructure
 
 -   **Docker**: Manages containerized versions of the frontend, backend, and database.
 -   **Kubernetes (K3s)**: Provides container orchestration for scalable application deployment.
@@ -87,15 +85,13 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-## Architecture
+## 4. Architecture
 
-### Development environment
+### 4.1 Development environment
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
----
-
-#### Development environment prerequisites
+#### 4.1.1 Development environment prerequisites
 
 If you want to run this project locally, make sure you have the following installed:
 
@@ -126,17 +122,13 @@ If you want to run this project locally, make sure you have the following instal
     brew install skaffold
     ```
 
----
-
-#### Development Environment Diagram
+#### 4.1.2 Development environment diagram
 
 ![Development Setup Diagram](./diagrams/images/devopsv3.png)
 
----
+#### 4.1.3 Spinning up a cluster on your local machine
 
-#### Spinning up a cluster on your local machine
-
-##### Step 1: Create and start a k3d cluster
+##### 4.1.3.1 Step 1: Create and start a k3d cluster
 
 Create a new k3d cluster and specify ports to expose the services running inside the cluster. These ports will be accessible from your host machine.
 
@@ -152,13 +144,11 @@ k3d cluster create mycluster --port "4200:4200@loadbalancer" --port "9101:9101@l
 k3d cluster start mycluster
 ```
 
----
-
-##### Step 2: Create Dockerfiles for Your Services
+##### 4.1.3.2 Step 2: Create Dockerfiles for Your Services
 
 Create a `Dockerfile` for each service (e.g., `frontend` and `backend`).
 
-##### Step 3: Create Kubernetes Manifests
+##### 4.1.3.3 Step 3: Create Kubernetes Manifests
 
 Create Kubernetes manifests for all resources required by your application. These should include:
 
@@ -170,9 +160,7 @@ Create Kubernetes manifests for all resources required by your application. Thes
 
 Ensure your manifests include the necessary annotations to work with k3d's local LoadBalancer and any ingress controllers you may use.
 
----
-
-##### Step 4: Run Skaffold for Local Development
+##### 4.1.3.4 Step 4: Run Skaffold for Local Development
 
 Use **Skaffold** to build and deploy your services automatically:
 
@@ -190,86 +178,88 @@ This command will:
 
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
----
+### 4.2 Production environment
 
-### Production environment
-
-#### CI/CD Pipeline
+#### 4.2.1 CI/CD Pipeline
 
 This CI/CD pipeline is designed to automate the process of building, validating, and deploying applications to a **Hetzner CAX21 VPS** running a **k3s cluster**. It ensures seamless updates to the live environment by leveraging **GitHub Actions**. Whenever code is pushed to the `main` branch, the pipeline builds Docker images for the backend and frontend, validates Kubernetes manifests, and deploys updated services to the k3s cluster. The pipeline also includes steps to roll back in case of errors during deployment.
 
-#### CI/CD Flow
+#### 4.2.2 CI/CD Flow
 
-##### 1. **Trigger**
+##### 4.2.2.1 Trigger
 
 -   The pipeline is triggered by a push to the `main` branch of the GitHub repository.
 
-##### 2. **Preparation**
+##### 4.2.2.2 Preparation
 
 -   Ensures that the job runs only for commits not made by the GitHub Actions bot.
 -   Checks out the repository code with full commit history for accurate versioning.
 
-##### 3. **Versioning**
+##### 4.2.2.3 Versioning
 
 -   Automatically increments the application version using the total number of commits in the repository.
 -   Sets a unique Docker image tag based on the computed version (e.g., `v1.0.<commit_count>-prod`).
 
-##### 4. **Docker Setup**
+##### 4.2.2.4 Docker Setup
 
 -   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
 -   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
 
-##### 5. **Build and Push Docker Images**
+##### 4.2.2.5 Build and Push Docker Images
 
 -   Builds and pushes the Docker image for the backend service from the `api` directory.
 -   Builds and pushes the Docker image for the frontend service from the `eDB` directory.
 
-##### 6. **Kubernetes Configuration**
+##### 4.2.2.6 Kubernetes Configuration
 
 -   Configures `kubectl` using the kubeconfig stored as a GitHub Secret to interact with the k3s cluster.
 -   Validates access to the Kubernetes cluster by displaying cluster information.
 
-##### 7. **Linting**
+##### 4.2.2.7 Linting
 
 -   Lints the Kubernetes YAML manifests for both the backend and frontend services to ensure they are properly formatted.
 
-##### 8. **Update Kubernetes Manifests**
+##### 4.2.2.8 Update Kubernetes Manifests
 
 -   Replaces placeholders in the Kubernetes deployment YAML files with the new Docker image tag to deploy the latest version of the services.
 
-##### 9. **Validation**
+##### 4.2.2.9 Validation
 
 -   Performs a dry-run validation of the updated YAML files to ensure they are correct and will apply successfully to the cluster.
 
-##### 10. **Deployment**
+##### 4.2.2.10 Deployment
 
 -   Deploys the updated Kubernetes manifests to the k3s cluster using `kubectl apply`.
 -   Monitors the rollout status of each deployment to ensure it succeeds.
 -   Automatically rolls back the deployment if there are issues during the rollout.
 
-##### 11. **Commit Updated Manifests**
+##### 4.2.2.11 Commit Updated Manifests
 
 -   Commits the updated Kubernetes manifests with the new image tags back to the GitHub repository for record-keeping.
 
-##### 12. **Push Changes**
+##### 4.2.2.12 Push Changes
 
 -   Pushes the committed changes to the `main` branch of the repository.
 
-### Frontend
+---
 
-#### Nx and Angular
+### 4.3 Frontend architecture
+
+#### 4.3.1 Nx and Angular
 
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
 
-### .NET architecture
+### 4.4 Backend architecture
+
+#### 4.4.1 .NET architecture
 
 ![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
 
 ---
 
-### K3s Handy Commands Cheat Sheet
+## 5. K3s Handy Commands Cheat Sheet
 
-#### General Commands
+### 5.1 General Commands
 
 | Command                                                          | Description                                  |
 | ---------------------------------------------------------------- | -------------------------------------------- |
@@ -287,7 +277,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 | `skaffold run`                                                   | Deploy the application to the cluster        |
 | `skaffold delete`                                                | Remove all Skaffold-managed resources        |
 
-#### Database Management Commands
+### 5.2 Database Management Commands
 
 | Command                                                 | Description                                                           |
 | ------------------------------------------------------- | --------------------------------------------------------------------- |
