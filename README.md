@@ -123,6 +123,12 @@ If you want to run this project locally, make sure you have the following instal
 
 ---
 
+### Development Environment Diagram
+
+![Development Setup Diagram](./diagrams/images/devopsv3.png)
+
+---
+
 #### Spinning up a cluster on your local machine
 
 ##### Step 1: Create and start a k3d cluster
@@ -180,10 +186,6 @@ This command will:
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 ---
-
-### Development Environment Diagram
-
-![Development Setup Diagram](./diagrams/images/devopsv3.png)
 
 ### Nx and Angular Architecture
 
