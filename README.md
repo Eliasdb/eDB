@@ -11,16 +11,17 @@
     -   [2.2 Backend](#22-backend)
     -   [2.3 Database](#23-database)
 -   [3. Infrastructure](#3-infrastructure)
--   [4. Architecture](#4-architecture)
-    -   [4.1 Development environment](#41-development-environment)
-        -   [4.1.1 Diagram](#411-diagram)
+-   [4. Environments](#4-environments)
+    -   [4.1 Development](#41-development)
+        -   [4.1.1 Architecture Diagram](#411-architecture-diagram)
         -   [4.1.2 Spinning up a cluster locally](#412-spinning-up-a-cluster-locally)
             -   [Step 0: Prerequisites](#step-0-prerequisites)
             -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
             -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
             -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
-    -   [4.2 Production environment](#42-production-environment)
+    -   [4.2 Production](#42-production)
+        -   [4.2.1 Architecture Diagram](#421-architecture-diagram)
         -   [4.2.1 CI/CD Pipeline](#421-cicd-pipeline)
         -   [4.2.2 CI/CD Flow](#422-cicd-flow)
     -   [4.3 Frontend architecture](#43-frontend-architecture)
@@ -74,13 +75,13 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-## 4. Architecture
+## 4. Environments
 
-### 4.1 Development environment
+### 4.1 Development
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
-#### 4.1.1 Diagram
+#### 4.1.1 Architecture Diagram
 
 ![Development Setup Diagram](./diagrams/images/devopsv3.png)
 
@@ -167,7 +168,7 @@ This command will:
 
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
-### 4.2 Production environment
+### 4.2 Production
 
 #### 4.2.1 CI/CD Pipeline
 
