@@ -13,7 +13,7 @@ jobs:
         name: Build, Push, Validate, and Deploy
         runs-on: ubuntu-latest
 
-        # Only run this job if the commit is not made by the GitHub Actions bot
+        # Only run this job if the commit is not made by GitHub Actions bot
         if: github.actor != 'github-actions[bot]'
 
         steps:
