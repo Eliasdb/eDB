@@ -66,12 +66,6 @@ jobs:
                   cache-from: type=local,src=/tmp/.buildx-cache-api
                   cache-to: type=local,dest=/tmp/.buildx-cache-api-new,mode=max
 
-            # 4a. Debug: Verify API Image Push
-            - name: Verify API Image Push
-              run: |
-                  echo "Verifying API image push..."
-                  docker pull ${{ env.DOCKER_IMAGE_API }}:${{ env.IMAGE_TAG }}
-
             # 5. Rename cache directory for API
             - name: Rename API cache
               run: |
@@ -89,12 +83,6 @@ jobs:
                   platforms: linux/arm64 # Specify ARM architecture
                   cache-from: type=local,src=/tmp/.buildx-cache-frontend
                   cache-to: type=local,dest=/tmp/.buildx-cache-frontend-new,mode=max
-
-            # 6a. Debug: Verify Frontend Image Push
-            - name: Verify Frontend Image Push
-              run: |
-                  echo "Verifying Frontend image push..."
-                  docker pull ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ env.IMAGE_TAG }}
 
             # 7. Rename cache directory for Frontend
             - name: Rename Frontend cache
