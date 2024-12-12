@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: edb-nx
-                  image: eliasdb/edb-nx:v1.0.249-prod
+                  image: eliasdb/edb-nx:v1.0.256-prod
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
