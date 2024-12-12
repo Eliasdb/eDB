@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
--   [1. Project Overview](#1-project-overview)
+-   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
         -   [2.1.1 Platform Application Features](#211-platform-application-features)
@@ -10,35 +10,32 @@
         -   [2.1.3 Storybook](#213-storybook)
     -   [2.2 Backend](#22-backend)
     -   [2.3 Database](#23-database)
--   [3. Infrastructure](#3-infrastructure)
--   [4. Environments](#4-environments)
-    -   [4.1 Development](#41-development)
-        -   [4.1.1 Architecture Diagram](#411-architecture-diagram)
-        -   [4.1.2 Spinning up a cluster locally](#412-spinning-up-a-cluster-locally)
+-   [3. Environments](#3-environments)
+    -   [3.1 Development](#31-development)
+        -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
+        -   [3.1.2 Spinning up a cluster locally](#312-spinning-up-a-cluster-locally)
             -   [Step 0: Prerequisites](#step-0-prerequisites)
             -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
             -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
             -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
-    -   [4.2 Production](#42-production)
-        -   [4.2.1 Architecture Diagram](#421-architecture-diagram)
-        -   [4.2.2 CI/CD Pipeline](#422-cicd-pipeline)
-        -   [4.2.3 CI/CD Flow](#423-cicd-flow)
-    -   [4.3 Frontend architecture](#43-frontend-architecture)
-        -   [4.3.1 Nx and Angular](#431-nx-and-angular)
-    -   [4.4 Backend architecture](#44-backend-architecture)
-        -   [4.4.1 .NET architecture](#441-net-architecture)
+    -   [3.2 Production](#32-production)
+        -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
+        -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
+        -   [3.2.3 CI/CD Flow](#323-cicd-flow)
+    -   [3.3 Frontend architecture](#33-frontend-architecture)
+        -   [3.3.1 Nx and Angular](#331-nx-and-angular)
+    -   [3.3 Backend architecture](#3-backend-architecture)
+        -   [3.3.1 .NET architecture](#31-net-architecture)
 -   [5. K3s Handy Commands Cheat Sheet](#5-k3s-handy-commands-cheat-sheet)
     -   [5.1 General Commands](#51-general-commands)
     -   [5.2 Database Management Commands](#52-database-management-commands)
 
 ---
 
-## 1. Project Overview
+## 1. Project Goal
 
-This is a platform for showcasing a range of applications.
-
----
+Building a platform housing multiple applications.
 
 ## 2. Setup
 
@@ -55,7 +52,6 @@ This is a platform for showcasing a range of applications.
     -   User roles: User, Premium User, Admin.
     -   Conditional access to sub-applications based on roles and feature flags (to be implemented). - **Application Modularity**: - Lazy-loading sub-applications for improved performance and scalability.
 -   **API Integration**:
-
     -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
 
 **Shared Libraries**:
@@ -76,27 +72,17 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-## 3. Infrastructure
+## 3. Environments
 
--   **Docker**: Manages containerized versions of the frontend, backend, and database.
--   **Kubernetes (K3s)**: Provides container orchestration for scalable application deployment.
-    -   **kubectl**: Command-line tool for managing Kubernetes resources.
-    -   **K3d**: Manages K3s clusters within Docker for lightweight local clusters.
-    -   **Skaffold**: Handles continuous development workflows with Kubernetes.
-
----
-
-## 4. Environments
-
-### 4.1 Development
+### 3.1 Development
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
-#### 4.1.1 Architecture Diagram
+#### 3.1.1 Architecture Diagram
 
 ![Development Setup Diagram](./diagrams/images/devopsv3.png)
 
-#### 4.1.2 Spinning up a cluster locally
+#### 3.1.2 Spinning up a cluster locally
 
 ##### Step 0: Prerequisites
 
@@ -136,7 +122,7 @@ Create a new k3d cluster and specify ports to expose the services running inside
 **Command to create the cluster:**
 
 ```bash
-k3d cluster create mycluster --port "4200:4200@loadbalancer" --port "9101:9101@loadbalancer"
+k3d cluster create mycluster --port "3200:3200@loadbalancer" --port "9101:9101@loadbalancer"
 ```
 
 **Command to start the cluster:**
@@ -177,17 +163,17 @@ This command will:
 -   Apply your Kubernetes manifests to the cluster.
 -   Monitor your source code for changes and redeploy the services when updates are detected.
 
-Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+Once deployed, your frontend will be available at `http://localhost:3200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
-### 4.2 Production
+### 3.2 Production
 
-#### 4.2.1 Architecture Diagram
+#### 3.2.1 Architecture Diagram
 
-#### 4.2.2 CI/CD Pipeline
+#### 3.2.2 CI/CD Pipeline
 
 This CI/CD pipeline is designed to automate the process of building, validating, and deploying applications to a **Hetzner CAX21 VPS** running a **k3s cluster**. It ensures seamless updates to the live environment by leveraging **GitHub Actions**. Whenever code is pushed to the `main` branch, the pipeline builds Docker images for the backend and frontend, validates Kubernetes manifests, and deploys updated services to the k3s cluster. The pipeline also includes steps to roll back in case of errors during deployment.
 
-#### 4.2.3 CI/CD Flow
+#### 3.2.3 CI/CD Flow
 
 ##### Trigger
 
@@ -205,7 +191,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ##### Docker Setup
 
--   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
+-   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM63).
 -   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
 
 ##### Build and Push Docker Images
