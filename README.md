@@ -16,10 +16,10 @@
         -   [4.1.1 Prerequisites](#411-prerequisites)
         -   [4.1.2 Diagram](#412-diagram)
         -   [4.1.3 Spinning up a cluster locally](#413-spinning-up-a-cluster-locally)
-            -   [4.1.3.1 Step 1: Create and start a k3d cluster](#4131-step-1-create-and-start-a-k3d-cluster)
-            -   [4.1.3.2 Step 2: Create Dockerfiles for Your Services](#4132-step-2-create-dockerfiles-for-your-services)
-            -   [4.1.3.3 Step 3: Create Kubernetes Manifests](#4133-step-3-create-kubernetes-manifests)
-            -   [4.1.3.4 Step 4: Run Skaffold for Local Development](#4134-step-4-run-skaffold-for-local-development)
+            -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
+            -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
+            -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
+            -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
     -   [4.2 Production environment](#42-production-environment)
         -   [4.2.1 CI/CD Pipeline](#421-cicd-pipeline)
         -   [4.2.2 CI/CD Flow](#422-cicd-flow)
@@ -128,7 +128,7 @@ If you want to run this project locally, make sure you have the following instal
 
 #### 4.1.3 Spinning up a cluster locally
 
-##### 4.1.3.1 Step 1: Create and start a k3d cluster
+##### Step 1: Create and start a k3d cluster
 
 Create a new k3d cluster and specify ports to expose the services running inside the cluster. These ports will be accessible from your host machine.
 
@@ -144,11 +144,11 @@ k3d cluster create mycluster --port "4200:4200@loadbalancer" --port "9101:9101@l
 k3d cluster start mycluster
 ```
 
-##### 4.1.3.2 Step 2: Create Dockerfiles for Your Services
+##### Step 2: Create Dockerfiles for Your Services
 
 Create a `Dockerfile` for each service (e.g., `frontend` and `backend`).
 
-##### 4.1.3.3 Step 3: Create Kubernetes Manifests
+##### Step 3: Create Kubernetes Manifests
 
 Create Kubernetes manifests for all resources required by your application. These should include:
 
@@ -160,7 +160,7 @@ Create Kubernetes manifests for all resources required by your application. Thes
 
 Ensure your manifests include the necessary annotations to work with k3d's local LoadBalancer and any ingress controllers you may use.
 
-##### 4.1.3.4 Step 4: Run Skaffold for Local Development
+##### Step 4: Run Skaffold for Local Development
 
 Use **Skaffold** to build and deploy your services automatically:
 
@@ -186,58 +186,58 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 #### 4.2.2 CI/CD Flow
 
-##### 4.2.2.1 Trigger
+##### Trigger
 
 -   The pipeline is triggered by a push to the `main` branch of the GitHub repository.
 
-##### 4.2.2.2 Preparation
+##### Preparation
 
 -   Ensures that the job runs only for commits not made by the GitHub Actions bot.
 -   Checks out the repository code with full commit history for accurate versioning.
 
-##### 4.2.2.3 Versioning
+##### Versioning
 
 -   Automatically increments the application version using the total number of commits in the repository.
 -   Sets a unique Docker image tag based on the computed version (e.g., `v1.0.<commit_count>-prod`).
 
-##### 4.2.2.4 Docker Setup
+##### Docker Setup
 
 -   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
 -   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
 
-##### 4.2.2.5 Build and Push Docker Images
+##### Build and Push Docker Images
 
 -   Builds and pushes the Docker image for the backend service from the `api` directory.
 -   Builds and pushes the Docker image for the frontend service from the `eDB` directory.
 
-##### 4.2.2.6 Kubernetes Configuration
+##### Kubernetes Configuration
 
 -   Configures `kubectl` using the kubeconfig stored as a GitHub Secret to interact with the k3s cluster.
 -   Validates access to the Kubernetes cluster by displaying cluster information.
 
-##### 4.2.2.7 Linting
+##### Linting
 
 -   Lints the Kubernetes YAML manifests for both the backend and frontend services to ensure they are properly formatted.
 
-##### 4.2.2.8 Update Kubernetes Manifests
+##### Update Kubernetes Manifests
 
 -   Replaces placeholders in the Kubernetes deployment YAML files with the new Docker image tag to deploy the latest version of the services.
 
-##### 4.2.2.9 Validation
+##### Validation
 
 -   Performs a dry-run validation of the updated YAML files to ensure they are correct and will apply successfully to the cluster.
 
-##### 4.2.2.10 Deployment
+##### Deployment
 
 -   Deploys the updated Kubernetes manifests to the k3s cluster using `kubectl apply`.
 -   Monitors the rollout status of each deployment to ensure it succeeds.
 -   Automatically rolls back the deployment if there are issues during the rollout.
 
-##### 4.2.2.11 Commit Updated Manifests
+##### Commit Updated Manifests
 
 -   Commits the updated Kubernetes manifests with the new image tags back to the GitHub repository for record-keeping.
 
-##### 4.2.2.12 Push Changes
+##### Push Changes
 
 -   Pushes the committed changes to the `main` branch of the repository.
 
