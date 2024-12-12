@@ -91,7 +91,7 @@ If you want to run this project locally, make sure you have the following instal
 
 ### Spinning up a cluster on your local machine
 
-##### Step 1: Create and start a k3d cluster
+#### Step 1: Create and start a k3d cluster
 
 Create a new k3d cluster and specify ports to expose the services running inside the cluster. These ports will be accessible from your host machine.
 
@@ -109,11 +109,11 @@ k3d cluster start mycluster
 
 ---
 
-##### Step 2: Create Dockerfiles for Your Services
+#### Step 2: Create Dockerfiles for Your Services
 
 Create a `Dockerfile` for each service (e.g., `frontend` and `backend`).
 
-##### Step 3: Create Kubernetes Manifests
+#### Step 3: Create Kubernetes Manifests
 
 Create Kubernetes manifests for all resources required by your application. These should include:
 
@@ -127,7 +127,7 @@ Ensure your manifests include the necessary annotations to work with k3d's local
 
 ---
 
-##### Step 4: Run Skaffold for Local Development
+#### Step 4: Run Skaffold for Local Development
 
 Use **Skaffold** to build and deploy your services automatically:
 
