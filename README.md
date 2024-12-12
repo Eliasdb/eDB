@@ -4,12 +4,16 @@
 
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
+
     -   [2.1 Frontend](#21-frontend)
         -   [2.1.1 Platform Application Features](#211-platform-application-features)
         -   [2.1.2 Shared Libraries](#212-shared-libraries)
         -   [2.1.3 Storybook](#213-storybook)
+        -   [2.1.4 Architecture Diagram](#213-storybook)
     -   [2.2 Backend](#22-backend)
+        -   [2.2.1 Architecture Diagram](#213-storybook)
     -   [2.3 Database](#23-database)
+
 -   [3. Environments](#3-environments)
     -   [3.1 Development](#31-development)
         -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
