@@ -51,7 +51,6 @@ jobs:
                   file: ./api/Dockerfile.prod
                   push: true
                   tags: |
-                      ${{ env.DOCKER_IMAGE_API }}:latest
                       ${{ env.DOCKER_IMAGE_API }}:${{ env.IMAGE_TAG }}
                   cache-from: type=local,src=/tmp/.buildx-cache-api
                   cache-to: type=local,dest=/tmp/.buildx-cache-api-new,mode=max
@@ -69,7 +68,6 @@ jobs:
                   file: ./eDB/Dockerfile.prod
                   push: true
                   tags: |
-                      # ${{ env.DOCKER_IMAGE_FRONTEND }}:latest
                       ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ env.IMAGE_TAG }}
                   cache-from: type=local,src=/tmp/.buildx-cache-frontend
                   cache-to: type=local,dest=/tmp/.buildx-cache-frontend-new,mode=max
