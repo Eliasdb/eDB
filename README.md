@@ -25,13 +25,9 @@
         -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
         -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
         -   [3.2.3 CI/CD Flow](#323-cicd-flow)
-    -   [3.3 Frontend architecture](#33-frontend-architecture)
-        -   [3.3.1 Nx and Angular](#331-nx-and-angular)
-    -   [3.3 Backend architecture](#3-backend-architecture)
-        -   [3.3.1 .NET architecture](#31-net-architecture)
--   [5. K3s Handy Commands Cheat Sheet](#5-k3s-handy-commands-cheat-sheet)
-    -   [5.1 General Commands](#51-general-commands)
-    -   [5.2 Database Management Commands](#52-database-management-commands)
+-   [4. K3s Handy Commands Cheat Sheet](#4-k3s-handy-commands-cheat-sheet)
+    -   [4.1 General Commands](#41-general-commands)
+    -   [4.2 Database Management Commands](#42-database-management-commands)
 
 ---
 
@@ -242,9 +238,9 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ---
 
-## 5. K3s Handy Commands Cheat Sheet
+## 4. K3s Handy Commands Cheat Sheet
 
-### 5.1 General Commands
+### 4.1 General Commands
 
 | Command                                                          | Description                                  |
 | ---------------------------------------------------------------- | -------------------------------------------- |
@@ -262,7 +258,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 | `skaffold run`                                                   | Deploy the application to the cluster        |
 | `skaffold delete`                                                | Remove all Skaffold-managed resources        |
 
-### 5.2 Database Management Commands
+### 4.2 Database Management Commands
 
 | Command                                                 | Description                                                           |
 | ------------------------------------------------------- | --------------------------------------------------------------------- |
