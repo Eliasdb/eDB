@@ -26,6 +26,18 @@ jobs:
               with:
                   platforms: arm64
 
+            # 0b. Initialize Buildx Cache Directories
+            - name: Initialize Buildx Cache Directories
+              run: |
+                  mkdir -p /tmp/.buildx-cache-api
+                  mkdir -p /tmp/.buildx-cache-frontend
+
+            # 0c. Clear Buildx Cache
+            - name: Clear Buildx Cache
+              run: |
+                  rm -rf /tmp/.buildx-cache-api/*
+                  rm -rf /tmp/.buildx-cache-frontend/*
+
             # 1. Set Version (Automated Version Incrementation)
             - name: Set Version
               id: version
