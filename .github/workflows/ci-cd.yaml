@@ -14,9 +14,11 @@ jobs:
         if: github.actor != 'github-actions[bot]'
 
         steps:
-            # 0. Checkout the repository
+            # 0. Checkout the repository with full history
             - name: Checkout code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # Fetch all commit history
 
             # 1. Set Version (Automated Version Incrementation)
             - name: Set Version
