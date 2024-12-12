@@ -50,7 +50,9 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-### Application Architecture Diagrams
+### Application Diagrams
+
+## Development Environment Architecture
 
 ![Development Setup Diagram](./diagrams/images/devopsv2.png)
 
