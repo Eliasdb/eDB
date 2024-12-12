@@ -76,7 +76,7 @@ jobs:
                   push: true
                   tags: |
                       ${{ env.DOCKER_IMAGE_API }}:${{ env.IMAGE_TAG }}
-                  platforms: linux/amd64 # Specify ARM architecture
+                  platforms: linux/arm64 # Specify ARM architecture
 
             # 5. Build and Push Frontend Docker image for ARM
             - name: Build and Push Frontend Docker image (ARM)
