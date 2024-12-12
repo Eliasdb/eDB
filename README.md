@@ -52,15 +52,15 @@ This is a platform for showcasing a range of applications.
 
 ### Application Diagrams
 
-## Development Environment Architecture
+#### Development Environment Architecture
 
 ![Development Setup Diagram](./diagrams/images/devopsv2.png)
 
-## Nx and Angular Architecture
+#### Nx and Angular Architecture
 
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
 
-## .NET architecture
+#### .NET architecture
 
 ![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
 
