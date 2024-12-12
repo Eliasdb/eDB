@@ -20,6 +20,18 @@ jobs:
               with:
                   fetch-depth: 0 # Fetch all commit history
 
+            # 0a. Set up QEMU for ARM64
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v2
+              with:
+                  platforms: arm64
+
+            # 0b. Clear Buildx Cache
+            - name: Clear Buildx Cache
+              run: |
+                  rm -rf /tmp/.buildx-cache-api
+                  rm -rf /tmp/.buildx-cache-frontend
+
             # 1. Set Version (Automated Version Incrementation)
             - name: Set Version
               id: version
@@ -61,126 +73,3 @@ jobs:
                   file: ./api/Dockerfile.prod
                   push: true
                   tags: |
-                      ${{ env.DOCKER_IMAGE_API }}:${{ env.IMAGE_TAG }}
-                  platforms: linux/arm64 # Specify ARM architecture
-                  cache-from: type=local,src=/tmp/.buildx-cache-api
-                  cache-to: type=local,dest=/tmp/.buildx-cache-api-new,mode=max
-
-            # 5. Rename cache directory for API
-            - name: Rename API cache
-              run: |
-                  mv /tmp/.buildx-cache-api-new /tmp/.buildx-cache-api
-
-            # 6. Build and Push Frontend Docker image for ARM
-            - name: Build and Push Frontend Docker image (ARM)
-              uses: docker/build-push-action@v3
-              with:
-                  context: ./eDB
-                  file: ./eDB/Dockerfile.prod
-                  push: true
-                  tags: |
-                      ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ env.IMAGE_TAG }}
-                  platforms: linux/arm64 # Specify ARM architecture
-                  cache-from: type=local,src=/tmp/.buildx-cache-frontend
-                  cache-to: type=local,dest=/tmp/.buildx-cache-frontend-new,mode=max
-
-            # 7. Rename cache directory for Frontend
-            - name: Rename Frontend cache
-              run: |
-                  mv /tmp/.buildx-cache-frontend-new /tmp/.buildx-cache-frontend
-
-            # 8. Set up kubectl
-            - name: Set up kubectl
-              uses: azure/setup-kubectl@v3
-              with:
-                  version: 'latest'
-
-            # 9. Configure Kubernetes
-            - name: Configure Kubernetes
-              run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
-                  chmod 600 ~/.kube/config
-                  kubectl cluster-info
-
-            # 10. Lint YAML Files
-            - name: Lint YAML Files
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install -y yamllint
-                  yamllint k8s/prod/api/api-deployment.prod.yaml
-                  yamllint k8s/prod/eDB/frontend-deployment.prod.yaml
-
-            # 11. Replace Placeholder with Image Tag for API Deployment
-            - name: Update API Deployment YAML with Image Tag
-              run: |
-                  set -e
-                  sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
-
-            # 12. Replace Placeholder with Image Tag for Frontend Deployment
-            - name: Update Frontend Deployment YAML with Image Tag
-              run: |
-                  set -e
-                  sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
-
-            # 12a. Debug: Output Updated API Deployment YAML
-            - name: Debug API Deployment YAML
-              run: |
-                  echo "Updated API Deployment YAML:"
-                  cat k8s/prod/api/api-deployment.prod.yaml
-
-            # 12b. Debug: Output Updated Frontend Deployment YAML
-            - name: Debug Frontend Deployment YAML
-              run: |
-                  echo "Updated Frontend Deployment YAML:"
-                  cat k8s/prod/eDB/frontend-deployment.prod.yaml
-
-            # 13. Validate API Deployment YAML
-            - name: Validate API Deployment YAML
-              run: |
-                  kubectl apply --dry-run=client -f k8s/prod/api/api-deployment.prod.yaml
-
-            # 14. Validate Frontend Deployment YAML
-            - name: Validate Frontend Deployment YAML
-              run: |
-                  kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.prod.yaml
-
-            # 15. Deploy API to Kubernetes with Rollback
-            - name: Deploy API to Kubernetes
-              run: |
-                  kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
-                  kubectl rollout status deployment/api-prod || kubectl rollout undo deployment/api-prod
-
-            # 16. Deploy Frontend to Kubernetes with Rollback
-            - name: Deploy Frontend to Kubernetes
-              run: |
-                  kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
-                  kubectl rollout status deployment/edb-nx-prod || kubectl rollout undo deployment/edb-nx-prod
-
-            # 17. Commit Updated API Deployment YAML
-            - name: Commit API Deployment YAML
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add k8s/prod/api/api-deployment.prod.yaml
-                  git commit -m "Update API deployment to ${{ env.IMAGE_TAG }}" || echo "No changes to commit"
-
-            # 18. Commit Frontend Deployment YAML
-            - name: Commit Frontend Deployment YAML
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add k8s/prod/eDB/frontend-deployment.prod.yaml
-                  git commit -m "Update Frontend deployment to ${{ env.IMAGE_TAG }}" || echo "No changes to commit"
-
-            # 19. Push Changes to GitHub
-            - name: Push Changes
-              uses: ad-m/github-push-action@v0.6.0
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: main
-
-        # Define environment variables
-        env:
-            DOCKER_IMAGE_API: eliasdb/edb-api
-            DOCKER_IMAGE_FRONTEND: eliasdb/edb-nx
