@@ -13,9 +13,9 @@
 -   [3. Infrastructure](#3-infrastructure)
 -   [4. Architecture](#4-architecture)
     -   [4.1 Development environment](#41-development-environment)
-        -   [4.1.1 Development environment prerequisites](#411-development-environment-prerequisites)
-        -   [4.1.2 Development environment diagram](#412-development-environment-diagram)
-        -   [4.1.3 Spinning up a cluster on your local machine](#413-spinning-up-a-cluster-on-your-local-machine)
+        -   [4.1.1 Prerequisites](#411-prerequisites)
+        -   [4.1.2 Diagram](#412-diagram)
+        -   [4.1.3 Spinning up a cluster locally](#413-spinning-up-a-cluster-locally)
             -   [4.1.3.1 Step 1: Create and start a k3d cluster](#4131-step-1-create-and-start-a-k3d-cluster)
             -   [4.1.3.2 Step 2: Create Dockerfiles for Your Services](#4132-step-2-create-dockerfiles-for-your-services)
             -   [4.1.3.3 Step 3: Create Kubernetes Manifests](#4133-step-3-create-kubernetes-manifests)
@@ -91,7 +91,7 @@ This is a platform for showcasing a range of applications.
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
-#### 4.1.1 Development environment prerequisites
+#### 4.1.1 Prerequisites
 
 If you want to run this project locally, make sure you have the following installed:
 
@@ -122,11 +122,11 @@ If you want to run this project locally, make sure you have the following instal
     brew install skaffold
     ```
 
-#### 4.1.2 Development environment diagram
+#### 4.1.2 Diagram
 
 ![Development Setup Diagram](./diagrams/images/devopsv3.png)
 
-#### 4.1.3 Spinning up a cluster on your local machine
+#### 4.1.3 Spinning up a cluster locally
 
 ##### 4.1.3.1 Step 1: Create and start a k3d cluster
 
