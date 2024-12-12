@@ -87,7 +87,9 @@ If you want to run this project locally, make sure you have the following instal
     brew install skaffold
     ```
 
-#### How to spin up a cluster on your local machine
+---
+
+### Spinning up a cluster on your local machine
 
 ##### Step 1: Create and start a k3d cluster
 
