@@ -36,7 +36,7 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-### Setup
+## Setup
 
 -   **Frontend**:
 
@@ -70,7 +70,7 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-### Infrastructure
+## Infrastructure
 
 -   **Docker**: Manages containerized versions of the frontend, backend, and database.
 -   **Kubernetes (K3s)**: Provides container orchestration for scalable application deployment.
@@ -80,13 +80,17 @@ This is a platform for showcasing a range of applications.
 
 ---
 
-### Development environment architecture
+## Architecture
+
+### Development environment
+
+#### Development environment architecture
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
 ---
 
-### Development environment prerequisites
+#### Development environment prerequisites
 
 If you want to run this project locally, make sure you have the following installed:
 
@@ -119,9 +123,9 @@ If you want to run this project locally, make sure you have the following instal
 
 ---
 
-### Spinning up a cluster on your local machine
+#### Spinning up a cluster on your local machine
 
-#### Step 1: Create and start a k3d cluster
+##### Step 1: Create and start a k3d cluster
 
 Create a new k3d cluster and specify ports to expose the services running inside the cluster. These ports will be accessible from your host machine.
 
@@ -139,11 +143,11 @@ k3d cluster start mycluster
 
 ---
 
-#### Step 2: Create Dockerfiles for Your Services
+##### Step 2: Create Dockerfiles for Your Services
 
 Create a `Dockerfile` for each service (e.g., `frontend` and `backend`).
 
-#### Step 3: Create Kubernetes Manifests
+##### Step 3: Create Kubernetes Manifests
 
 Create Kubernetes manifests for all resources required by your application. These should include:
 
@@ -157,7 +161,7 @@ Ensure your manifests include the necessary annotations to work with k3d's local
 
 ---
 
-#### Step 4: Run Skaffold for Local Development
+##### Step 4: Run Skaffold for Local Development
 
 Use **Skaffold** to build and deploy your services automatically:
 
