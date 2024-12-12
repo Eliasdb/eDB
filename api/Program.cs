@@ -2,6 +2,7 @@ using api.Data;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
 using api.Mapping;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,9 @@ if (string.IsNullOrEmpty(jwtKey))
 // --- Service Registrations ---
 // Add controllers
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks()
+    .AddCheck("Self", () => HealthCheckResult.Healthy());
+
 
 // Configure the DbContext with PostgreSQL connection string
 builder.Services.AddDbContext<MyDbContext>(options =>
