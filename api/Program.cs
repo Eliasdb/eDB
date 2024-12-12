@@ -2,6 +2,9 @@ using api.Data;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
 using api.Mapping;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Text.Json;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +67,11 @@ builder.Services.AddAuthentication("Bearer")
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddHealthChecks()
+    .AddCheck("Sample Health Check", () =>
+        HealthCheckResult.Healthy("The API is healthy"));
+
+
 // --- Build Application ---
 var app = builder.Build();
 
@@ -116,6 +124,28 @@ app.Use(async (context, next) =>
 
 // Map controllers
 app.MapControllers();
+
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+
+        var response = new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(entry => new
+            {
+                name = entry.Key,
+                status = entry.Value.Status.ToString(),
+                description = entry.Value.Description
+            }),
+            totalDuration = report.TotalDuration
+        };
+
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+    }
+});
 
 // Run the application
 app.Run();
