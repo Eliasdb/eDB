@@ -29,17 +29,23 @@ jobs:
               with:
                   platforms: arm64
 
-            # 0b. Initialize Buildx Cache Directories
-            - name: Initialize Buildx Cache Directories
-              run: |
-                  mkdir -p /tmp/.buildx-cache-api
-                  mkdir -p /tmp/.buildx-cache-frontend
+            # 0b. Restore Buildx Cache for API
+            - name: Restore Buildx Cache for API
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/.buildx-cache-api
+                  key: buildx-cache-api-${{ runner.os }}-${{ env.IMAGE_TAG }}
+                  restore-keys: |
+                      buildx-cache-api-${{ runner.os }}-
 
-            # 0c. Clear Buildx Cache
-            - name: Clear Buildx Cache
-              run: |
-                  rm -rf /tmp/.buildx-cache-api/*
-                  rm -rf /tmp/.buildx-cache-frontend/*
+            # 0c. Restore Buildx Cache for Frontend
+            - name: Restore Buildx Cache for Frontend
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/.buildx-cache-frontend
+                  key: buildx-cache-frontend-${{ runner.os }}-${{ env.IMAGE_TAG }}
+                  restore-keys: |
+                      buildx-cache-frontend-${{ runner.os }}-
 
             # 1. Set Version (Automated Version Incrementation)
             - name: Set Version
@@ -87,10 +93,14 @@ jobs:
                   cache-from: type=local,src=/tmp/.buildx-cache-api
                   cache-to: type=local,dest=/tmp/.buildx-cache-api-new,mode=max
 
-            # 5. Rename cache directory for API
-            - name: Rename API cache
-              run: |
-                  mv /tmp/.buildx-cache-api-new /tmp/.buildx-cache-api
+            # 5. Save Buildx Cache for API
+            - name: Save Buildx Cache for API
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/.buildx-cache-api-new
+                  key: buildx-cache-api-${{ runner.os }}-${{ env.IMAGE_TAG }}
+                  restore-keys: |
+                      buildx-cache-api-${{ runner.os }}-
 
             # 6. Build and Push Frontend Docker image for ARM
             - name: Build and Push Frontend Docker image (ARM)
@@ -105,10 +115,14 @@ jobs:
                   cache-from: type=local,src=/tmp/.buildx-cache-frontend
                   cache-to: type=local,dest=/tmp/.buildx-cache-frontend-new,mode=max
 
-            # 7. Rename cache directory for Frontend
-            - name: Rename Frontend cache
-              run: |
-                  mv /tmp/.buildx-cache-frontend-new /tmp/.buildx-cache-frontend
+            # 7. Save Buildx Cache for Frontend
+            - name: Save Buildx Cache for Frontend
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/.buildx-cache-frontend-new
+                  key: buildx-cache-frontend-${{ runner.os }}-${{ env.IMAGE_TAG }}
+                  restore-keys: |
+                      buildx-cache-frontend-${{ runner.os }}-
 
             # 8. Set up kubectl
             - name: Set up kubectl
@@ -143,35 +157,6 @@ jobs:
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
-
-            # 12a. Debug: Output Updated API Deployment YAML
-            - name: Debug API Deployment YAML
-              run: |
-                  echo "Updated API Deployment YAML:"
-                  cat k8s/prod/api/api-deployment.prod.yaml
-
-            # 12b. Debug: Output Updated Frontend Deployment YAML
-            - name: Debug Frontend Deployment YAML
-              run: |
-                  echo "Updated Frontend Deployment YAML:"
-                  cat k8s/prod/eDB/frontend-deployment.prod.yaml
-
-            # 13. Debug: Output api.csproj
-            - name: Debug API.csproj
-              run: |
-                  echo "Contents of api.csproj:"
-                  cat ./api/api.csproj
-
-            # 13a. Debug: Display Environment Variables
-            - name: Display Environment Variables
-              run: |
-                  echo "DOCKER_IMAGE_API: ${{ env.DOCKER_IMAGE_API }}"
-                  echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-
-            # 14. Clear NuGet Caches
-            - name: Clear NuGet Caches
-              run: |
-                  dotnet nuget locals all --clear
 
             # 15. Validate API Deployment YAML
             - name: Validate API Deployment YAML
