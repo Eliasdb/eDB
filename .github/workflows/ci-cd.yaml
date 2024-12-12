@@ -53,8 +53,8 @@ jobs:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
 
-            # 4. Build and Push API Docker image with local cache
-            - name: Build and Push API Docker image
+            # 4. Build and Push API Docker image for ARM
+            - name: Build and Push API Docker image (ARM)
               uses: docker/build-push-action@v3
               with:
                   context: ./api
@@ -62,6 +62,7 @@ jobs:
                   push: true
                   tags: |
                       ${{ env.DOCKER_IMAGE_API }}:${{ env.IMAGE_TAG }}
+                  platforms: linux/arm64 # Specify ARM architecture
                   cache-from: type=local,src=/tmp/.buildx-cache-api
                   cache-to: type=local,dest=/tmp/.buildx-cache-api-new,mode=max
 
@@ -76,8 +77,8 @@ jobs:
               run: |
                   mv /tmp/.buildx-cache-api-new /tmp/.buildx-cache-api
 
-            # 6. Build and Push Frontend Docker image with local cache
-            - name: Build and Push Frontend Docker image
+            # 6. Build and Push Frontend Docker image for ARM
+            - name: Build and Push Frontend Docker image (ARM)
               uses: docker/build-push-action@v3
               with:
                   context: ./eDB
@@ -85,6 +86,7 @@ jobs:
                   push: true
                   tags: |
                       ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ env.IMAGE_TAG }}
+                  platforms: linux/arm64 # Specify ARM architecture
                   cache-from: type=local,src=/tmp/.buildx-cache-frontend
                   cache-to: type=local,dest=/tmp/.buildx-cache-frontend-new,mode=max
 
@@ -175,7 +177,7 @@ jobs:
                   git add k8s/prod/api/api-deployment.prod.yaml
                   git commit -m "Update API deployment to ${{ env.IMAGE_TAG }}" || echo "No changes to commit"
 
-            # 18. Commit Updated Frontend Deployment YAML
+            # 18. Commit Frontend Deployment YAML
             - name: Commit Frontend Deployment YAML
               run: |
                   git config user.name "github-actions[bot]"
