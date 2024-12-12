@@ -61,10 +61,18 @@ Building a platform housing multiple applications.
 
 **Storybook**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
 
+**Frontend architecture**
+![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
+
 ### 2.2 Backend
 
 **Tools**: .NET 7 with Entity Framework.
 **Features**: REST API for platform services, user management, and role-based access.
+
+**Backend architecture**
+![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
+
+---
 
 ### 2.3 Database
 
@@ -229,20 +237,6 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 ##### Push Changes
 
 -   Pushes the committed changes to the `main` branch of the repository.
-
----
-
-### 4.3 Frontend architecture
-
-#### 4.3.1 Nx and Angular
-
-![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
-
-### 4.4 Backend architecture
-
-#### 4.4.1 .NET architecture
-
-![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
 
 ---
 
