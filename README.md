@@ -1,4 +1,4 @@
-# 1. eDB
+# eDB
 
 ## Table of Contents
 
@@ -13,9 +13,9 @@
 -   [3. Infrastructure](#3-infrastructure)
 -   [4. Architecture](#4-architecture)
     -   [4.1 Development environment](#41-development-environment)
-        -   [4.1.1 Prerequisites](#411-prerequisites)
-        -   [4.1.2 Diagram](#412-diagram)
-        -   [4.1.3 Spinning up a cluster locally](#413-spinning-up-a-cluster-locally)
+        -   [4.1.1 Diagram](#411-diagram)
+        -   [4.1.2 Spinning up a cluster locally](#412-spinning-up-a-cluster-locally)
+            -   [Step 0: Prerequisites](#step-0-prerequisites)
             -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
             -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
@@ -44,9 +44,14 @@ This is a platform for showcasing a range of applications.
 ### 2.1 Frontend
 
 **Tools**: **Angular 18**, managed within an **Nx** workspace.
-**Platform Application Features**: - **User Management**: - Login and registration. - Profile updates, account deletion, and preference management. - **Role-Based Access Control (RBAC)**: - User roles: User, Premium User, Admin. - Conditional access to sub-applications based on roles and feature flags (to be implemented). - **Application Modularity**: - Lazy-loading sub-applications for improved performance and scalability. - **API Integration**: - Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
-**Shared Libraries**: - **UI Library**: - Built using **Carbon Design System**. - Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications. - **Utils Library**: - Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
-**Storybook**: - Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
+**Platform Application Features**:
+
+-   **User Management**: - Login and registration. - Profile updates, account deletion, and preference management.
+-   **Role-Based Access Control (RBAC)**:
+-   User roles: User, Premium User, Admin.
+-   Conditional access to sub-applications based on roles and feature flags (to be implemented). - **Application Modularity**: - Lazy-loading sub-applications for improved performance and scalability. - **API Integration**: - Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
+    **Shared Libraries**: - **UI Library**: - Built using **Carbon Design System**. - Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications. - **Utils Library**: - Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+    **Storybook**: - Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
 
 ### 2.2 Backend
 
@@ -74,8 +79,6 @@ This is a platform for showcasing a range of applications.
 ### 4.1 Development environment
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
-
-#### 4.1.1 Prerequisites
 
 If you want to run this project locally, make sure you have the following installed:
 
@@ -106,11 +109,13 @@ If you want to run this project locally, make sure you have the following instal
     brew install skaffold
     ```
 
-#### 4.1.2 Diagram
+#### 4.1.1 Diagram
 
 ![Development Setup Diagram](./diagrams/images/devopsv3.png)
 
-#### 4.1.3 Spinning up a cluster locally
+#### 4.1.2 Spinning up a cluster locally
+
+##### Step 0: Prerequisites
 
 ##### Step 1: Create and start a k3d cluster
 
