@@ -22,10 +22,13 @@ jobs:
             - name: Set Version
               id: version
               run: |
+                  set -e
                   # Fetch the total number of commits
                   COMMIT_COUNT=$(git rev-list --count HEAD)
+                  echo "Commit count: $COMMIT_COUNT"
                   # Define the version based on commit count
                   VERSION=v1.0.${COMMIT_COUNT}-prod
+                  echo "VERSION set to $VERSION"
                   # Export IMAGE_TAG as an environment variable
                   echo "IMAGE_TAG=${VERSION}" >> $GITHUB_ENV
 
@@ -102,12 +105,26 @@ jobs:
             # 11. Replace Placeholder with Image Tag for API Deployment
             - name: Update API Deployment YAML with Image Tag
               run: |
+                  set -e
                   sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
 
             # 12. Replace Placeholder with Image Tag for Frontend Deployment
             - name: Update Frontend Deployment YAML with Image Tag
               run: |
+                  set -e
                   sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
+
+            # 12a. Debug: Output Updated API Deployment YAML
+            - name: Debug API Deployment YAML
+              run: |
+                  echo "Updated API Deployment YAML:"
+                  cat k8s/prod/api/api-deployment.prod.yaml
+
+            # 12b. Debug: Output Updated Frontend Deployment YAML
+            - name: Debug Frontend Deployment YAML
+              run: |
+                  echo "Updated Frontend Deployment YAML:"
+                  cat k8s/prod/eDB/frontend-deployment.prod.yaml
 
             # 13. Validate API Deployment YAML
             - name: Validate API Deployment YAML
