@@ -36,52 +36,67 @@ jobs:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
 
-            # 3. Cache Docker layers
-            - name: Cache Docker layers
+            # 3. Cache Docker layers for API
+            - name: Cache Docker layers for API
               uses: actions/cache@v3
               with:
-                  path: /tmp/.buildx-cache
-                  key: ${{ runner.os }}-buildx-${{ github.sha }}
+                  path: /tmp/.buildx-cache-api
+                  key: ${{ runner.os }}-buildx-api-${{ github.sha }}
                   restore-keys: |
-                      ${{ runner.os }}-buildx-
+                      ${{ runner.os }}-buildx-api-
 
-            # 4. Build API Docker image
-            - name: Build API Docker image
+            # 4. Build and Push API Docker image with caching
+            - name: Build and Push API Docker image
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./api
+                  file: ./api/Dockerfile.prod
+                  push: true
+                  tags: |
+                      $DOCKER_IMAGE_API:latest
+                      $DOCKER_IMAGE_API:${{ env.IMAGE_TAG }}
+                  cache-from: type=local,src=/tmp/.buildx-cache-api
+                  cache-to: type=local,dest=/tmp/.buildx-cache-api-new,mode=max
+
+            # 5. Rename cache directory for API
+            - name: Rename API cache
               run: |
-                  docker build --cache-from=type=local,src=/tmp/.buildx-cache \
-                               --cache-to=type=local,dest=/tmp/.buildx-cache-new \
-                               -t $DOCKER_IMAGE_API:latest \
-                               -t $DOCKER_IMAGE_API:${{ env.IMAGE_TAG }} \
-                               -f ./api/Dockerfile.prod ./api
+                  mv /tmp/.buildx-cache-api-new /tmp/.buildx-cache-api
 
-            # 5. Push API Docker image
-            - name: Push API Docker image
+            # 6. Cache Docker layers for Frontend
+            - name: Cache Docker layers for Frontend
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/.buildx-cache-frontend
+                  key: ${{ runner.os }}-buildx-frontend-${{ github.sha }}
+                  restore-keys: |
+                      ${{ runner.os }}-buildx-frontend-
+
+            # 7. Build and Push Frontend Docker image with caching
+            - name: Build and Push Frontend Docker image
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./eDB
+                  file: ./eDB/Dockerfile.prod
+                  push: true
+                  tags: |
+                      $DOCKER_IMAGE_FRONTEND:latest
+                      $DOCKER_IMAGE_FRONTEND:${{ env.IMAGE_TAG }}
+                  cache-from: type=local,src=/tmp/.buildx-cache-frontend
+                  cache-to: type=local,dest=/tmp/.buildx-cache-frontend-new,mode=max
+
+            # 8. Rename cache directory for Frontend
+            - name: Rename Frontend cache
               run: |
-                  # docker push $DOCKER_IMAGE_API:latest
-                  docker push $DOCKER_IMAGE_API:${{ env.IMAGE_TAG }}
+                  mv /tmp/.buildx-cache-frontend-new /tmp/.buildx-cache-frontend
 
-            # 6. Build Frontend Docker image
-            - name: Build Frontend Docker image
-              run: |
-                  docker build --cache-from=type=local,src=/tmp/.buildx-cache \
-                               --cache-to=type=local,dest=/tmp/.buildx-cache-new \
-                               -t $DOCKER_IMAGE_FRONTEND:latest \
-                               -t $DOCKER_IMAGE_FRONTEND:${{ env.IMAGE_TAG }} \
-                               -f ./eDB/Dockerfile.prod ./eDB
-
-            # 7. Push Frontend Docker image
-            - name: Push Frontend Docker image
-              run: |
-                  # docker push $DOCKER_IMAGE_FRONTEND:latest
-                  docker push $DOCKER_IMAGE_FRONTEND:${{ env.IMAGE_TAG }}
-
-            # 8. Set up kubectl
+            # 9. Set up kubectl
             - name: Set up kubectl
               uses: azure/setup-kubectl@v3
               with:
                   version: 'latest'
 
-            # 9. Configure Kubernetes
+            # 10. Configure Kubernetes
             - name: Configure Kubernetes
               run: |
                   mkdir -p ~/.kube
@@ -89,7 +104,7 @@ jobs:
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
-            # 10. Lint YAML Files
+            # 11. Lint YAML Files
             - name: Lint YAML Files
               run: |
                   sudo apt-get update
@@ -97,39 +112,39 @@ jobs:
                   yamllint k8s/prod/api/api-deployment.prod.yaml
                   yamllint k8s/prod/eDB/frontend-deployment.prod.yaml
 
-            # 11. Replace Placeholder with Image Tag for API Deployment
+            # 12. Replace Placeholder with Image Tag for API Deployment
             - name: Update API Deployment YAML with Image Tag
               run: |
                   sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
 
-            # 12. Replace Placeholder with Image Tag for Frontend Deployment
+            # 13. Replace Placeholder with Image Tag for Frontend Deployment
             - name: Update Frontend Deployment YAML with Image Tag
               run: |
                   sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
 
-            # 13. Validate API Deployment YAML
+            # 14. Validate API Deployment YAML
             - name: Validate API Deployment YAML
               run: |
                   kubectl apply --dry-run=client -f k8s/prod/api/api-deployment.prod.yaml
 
-            # 14. Validate Frontend Deployment YAML
+            # 15. Validate Frontend Deployment YAML
             - name: Validate Frontend Deployment YAML
               run: |
                   kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.prod.yaml
 
-            # 15. Deploy API to Kubernetes with Rollback
+            # 16. Deploy API to Kubernetes with Rollback
             - name: Deploy API to Kubernetes
               run: |
                   kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
                   kubectl rollout status deployment/api-prod || kubectl rollout undo deployment/api-prod
 
-            # 16. Deploy Frontend to Kubernetes with Rollback
+            # 17. Deploy Frontend to Kubernetes with Rollback
             - name: Deploy Frontend to Kubernetes
               run: |
                   kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
                   kubectl rollout status deployment/edb-nx-prod || kubectl rollout undo deployment/edb-nx-prod
 
-            # 17. Commit Updated API Deployment YAML
+            # 18. Commit Updated API Deployment YAML
             - name: Commit API Deployment YAML
               run: |
                   git config user.name "github-actions[bot]"
@@ -137,7 +152,7 @@ jobs:
                   git add k8s/prod/api/api-deployment.prod.yaml
                   git commit -m "Update API deployment to ${{ env.IMAGE_TAG }}" || echo "No changes to commit"
 
-            # 18. Commit Updated Frontend Deployment YAML
+            # 19. Commit Updated Frontend Deployment YAML
             - name: Commit Frontend Deployment YAML
               run: |
                   git config user.name "github-actions[bot]"
@@ -145,7 +160,7 @@ jobs:
                   git add k8s/prod/eDB/frontend-deployment.prod.yaml
                   git commit -m "Update Frontend deployment to ${{ env.IMAGE_TAG }}" || echo "No changes to commit"
 
-            # 19. Push Changes to GitHub
+            # 20. Push Changes to GitHub
             - name: Push Changes
               uses: ad-m/github-push-action@v0.6.0
               with:
