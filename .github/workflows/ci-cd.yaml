@@ -29,12 +29,14 @@ jobs:
               with:
                   platforms: arm64
 
+            # **Persistent Caching Starts Here**
+
             # 0b. Restore Buildx Cache for API
             - name: Restore Buildx Cache for API
               uses: actions/cache@v3
               with:
                   path: /tmp/.buildx-cache-api
-                  key: buildx-cache-api-${{ runner.os }}-${{ env.IMAGE_TAG }}
+                  key: buildx-cache-api-${{ runner.os }}-${{ hashFiles('api/Dockerfile.prod') }}
                   restore-keys: |
                       buildx-cache-api-${{ runner.os }}-
 
@@ -43,9 +45,11 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: /tmp/.buildx-cache-frontend
-                  key: buildx-cache-frontend-${{ runner.os }}-${{ env.IMAGE_TAG }}
+                  key: buildx-cache-frontend-${{ runner.os }}-${{ hashFiles('eDB/Dockerfile.prod') }}
                   restore-keys: |
                       buildx-cache-frontend-${{ runner.os }}-
+
+            # **End of Persistent Caching Restoration**
 
             # 1. Set Version (Automated Version Incrementation)
             - name: Set Version
@@ -98,9 +102,9 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: /tmp/.buildx-cache-api-new
-                  key: buildx-cache-api-${{ runner.os }}-${{ env.IMAGE_TAG }}
-                  restore-keys: |
-                      buildx-cache-api-${{ runner.os }}-
+                  key: buildx-cache-api-${{ runner.os }}-${{ hashFiles('api/Dockerfile.prod') }}
+                  # Use `cache-to` as a separate cache
+                  # Optionally, you can add compression or other settings
 
             # 6. Build and Push Frontend Docker image for ARM
             - name: Build and Push Frontend Docker image (ARM)
@@ -120,9 +124,8 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: /tmp/.buildx-cache-frontend-new
-                  key: buildx-cache-frontend-${{ runner.os }}-${{ env.IMAGE_TAG }}
-                  restore-keys: |
-                      buildx-cache-frontend-${{ runner.os }}-
+                  key: buildx-cache-frontend-${{ runner.os }}-${{ hashFiles('eDB/Dockerfile.prod') }}
+                  # Use `cache-to` as a separate cache
 
             # 8. Set up kubectl
             - name: Set up kubectl
@@ -157,6 +160,35 @@ jobs:
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
+
+            # 12a. Debug: Output Updated API Deployment YAML
+            - name: Debug API Deployment YAML
+              run: |
+                  echo "Updated API Deployment YAML:"
+                  cat k8s/prod/api/api-deployment.prod.yaml
+
+            # 12b. Debug: Output Updated Frontend Deployment YAML
+            - name: Debug Frontend Deployment YAML
+              run: |
+                  echo "Updated Frontend Deployment YAML:"
+                  cat k8s/prod/eDB/frontend-deployment.prod.yaml
+
+            # 13. Debug: Output api.csproj
+            - name: Debug API.csproj
+              run: |
+                  echo "Contents of api.csproj:"
+                  cat ./api/api.csproj
+
+            # 13a. Debug: Display Environment Variables
+            - name: Display Environment Variables
+              run: |
+                  echo "DOCKER_IMAGE_API: ${{ env.DOCKER_IMAGE_API }}"
+                  echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
+
+            # 14. Clear NuGet Caches
+            - name: Clear NuGet Caches
+              run: |
+                  dotnet nuget locals all --clear
 
             # 15. Validate API Deployment YAML
             - name: Validate API Deployment YAML
