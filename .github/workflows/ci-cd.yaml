@@ -87,7 +87,7 @@ jobs:
                   push: true
                   tags: |
                       ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ env.IMAGE_TAG }}
-                  platforms: linux/amd64 # Specify ARM architecture
+                  platforms: linux/arm64 # Specify ARM architecture
 
             # 6. Set up kubectl
             - name: Set up kubectl
