@@ -31,6 +31,11 @@ jobs:
 
             # **Persistent Caching Starts Here**
 
+            # 14. Clear NuGet Caches
+            - name: Clear NuGet Caches
+              run: |
+                  dotnet nuget locals all --clear
+
             # 0b. Restore Buildx Cache for API
             - name: Restore Buildx Cache for API
               uses: actions/cache@v3
@@ -184,11 +189,6 @@ jobs:
               run: |
                   echo "DOCKER_IMAGE_API: ${{ env.DOCKER_IMAGE_API }}"
                   echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-
-            # 14. Clear NuGet Caches
-            - name: Clear NuGet Caches
-              run: |
-                  dotnet nuget locals all --clear
 
             # 15. Validate API Deployment YAML
             - name: Validate API Deployment YAML
