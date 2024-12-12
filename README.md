@@ -45,6 +45,7 @@ This is a platform for showcasing a range of applications.
 ### 2.1 Frontend
 
 **Tools**: **Angular 18**, managed within an **Nx** workspace.
+
 **Platform Application Features**:
 
 -   **User Management**: - Login and registration. - Profile updates, account deletion, and preference management.
