@@ -21,9 +21,11 @@
             -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
             -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
+    -   [Production environment](#production-environment)
+        -   [CI/CD Pipeline](#cicd-pipeline)
+    -   [Nx and Angular architecture](#nx-and-angular-architecture)
+    -   [.NET architecture](#net-architecture)
 
--   [Nx and Angular Architecture](#nx-and-angular-architecture)
--   [.NET architecture](#net-architecture)
 -   [K3s Handy Commands Cheat Sheet](#k3s-handy-commands-cheat-sheet)
     -   [General Commands](#general-commands)
     -   [Database Management Commands](#database-management-commands)
@@ -186,6 +188,73 @@ This command will:
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 ---
+
+### Production environment
+
+#### CI/CD Pipeline
+
+##### Introduction
+
+This CI/CD pipeline is designed to automate the process of building, validating, and deploying applications to a **Hetzner CAX21 VPS** running a **k3s cluster**. It ensures seamless updates to the live environment by leveraging **GitHub Actions**. Whenever code is pushed to the `main` branch, the pipeline builds Docker images for the backend and frontend, validates Kubernetes manifests, and deploys updated services to the k3s cluster. The pipeline also includes steps to roll back in case of errors during deployment.
+
+---
+
+##### CI/CD Flow
+
+###### 1. **Trigger**
+
+-   The pipeline is triggered by a push to the `main` branch of the GitHub repository.
+
+###### 2. **Preparation**
+
+-   Ensures that the job runs only for commits not made by the GitHub Actions bot.
+-   Checks out the repository code with full commit history for accurate versioning.
+
+###### 3. **Versioning**
+
+-   Automatically increments the application version using the total number of commits in the repository.
+-   Sets a unique Docker image tag based on the computed version (e.g., `v1.0.<commit_count>-prod`).
+
+###### 4. **Docker Setup**
+
+-   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
+-   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
+
+###### 5. **Build and Push Docker Images**
+
+-   Builds and pushes the Docker image for the backend service from the `api` directory.
+-   Builds and pushes the Docker image for the frontend service from the `eDB` directory.
+
+###### 6. **Kubernetes Configuration**
+
+-   Configures `kubectl` using the kubeconfig stored as a GitHub Secret to interact with the k3s cluster.
+-   Validates access to the Kubernetes cluster by displaying cluster information.
+
+###### 7. **Linting**
+
+-   Lints the Kubernetes YAML manifests for both the backend and frontend services to ensure they are properly formatted.
+
+###### 8. **Update Kubernetes Manifests**
+
+-   Replaces placeholders in the Kubernetes deployment YAML files with the new Docker image tag to deploy the latest version of the services.
+
+###### 9. **Validation**
+
+-   Performs a dry-run validation of the updated YAML files to ensure they are correct and will apply successfully to the cluster.
+
+###### 10. **Deployment**
+
+-   Deploys the updated Kubernetes manifests to the k3s cluster using `kubectl apply`.
+-   Monitors the rollout status of each deployment to ensure it succeeds.
+-   Automatically rolls back the deployment if there are issues during the rollout.
+
+###### 11. **Commit Updated Manifests**
+
+-   Commits the updated Kubernetes manifests with the new image tags back to the GitHub repository for record-keeping.
+
+###### 12. **Push Changes**
+
+-   Pushes the committed changes to the `main` branch of the repository.
 
 ### Nx and Angular Architecture
 
