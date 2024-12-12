@@ -80,6 +80,14 @@ This is a platform for showcasing a range of applications.
 
 I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
+#### 4.1.1 Diagram
+
+![Development Setup Diagram](./diagrams/images/devopsv3.png)
+
+#### 4.1.2 Spinning up a cluster locally
+
+##### Step 0: Prerequisites
+
 If you want to run this project locally, make sure you have the following installed:
 
 1. **Docker**:  
@@ -108,14 +116,6 @@ If you want to run this project locally, make sure you have the following instal
     ```bash
     brew install skaffold
     ```
-
-#### 4.1.1 Diagram
-
-![Development Setup Diagram](./diagrams/images/devopsv3.png)
-
-#### 4.1.2 Spinning up a cluster locally
-
-##### Step 0: Prerequisites
 
 ##### Step 1: Create and start a k3d cluster
 
