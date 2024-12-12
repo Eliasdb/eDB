@@ -54,7 +54,11 @@ This is a platform for showcasing a range of applications.
 
 ![Development Setup Diagram](./diagrams/images/devopsv2.png)
 
+## Nx and Angular Architecture
+
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
+
+## .NET architecture
 
 ![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
 
