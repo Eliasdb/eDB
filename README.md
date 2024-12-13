@@ -5,7 +5,7 @@
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.2 Tools](#211-tools)
+        -   [2.1.1 Tools](#211-tools)
         -   [2.1.2 Platform Pages](#212-platform-pages)
         -   [2.1.3 Shared Libraries](#213-shared-libraries)
         -   [2.1.4 Additional features](#214-additional-features)
@@ -40,13 +40,15 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-**2.1.1 Tools**: **Angular 19**, managed within an **Nx** workspace.
+#### 2.1.1 Tools
 
-**2.1.2 Platform Pages**:
+**Angular 19**, managed within an **Nx** workspace.
+
+#### 2.1.2 Platform Pages
 
 -   **User Account**:
     -   Login and registration page.
-    -   Profile page for updates, account deletion and preference management.
+    -   Profile page for updates, account deletion, and preference management.
 -   **Admin Panel**:
     -   Admin page to manage users and potentially revoke their subscriptions.
     -   Separate view more page for every user.
@@ -55,7 +57,7 @@ I am building a platform housing multiple applications where users can make an a
 -   **My eDB**:
     -   Dashboard to manage and launch subscribed applications.
 
-**2.1.3 Shared Libraries**:
+#### 2.1.3 Shared Libraries
 
 -   **UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
     -   Current amount of components: 21
@@ -66,7 +68,7 @@ I am building a platform housing multiple applications where users can make an a
         -   Table utils service
         -   Auth Interceptor
 
-**2.1.4 Additional features**
+### 2.1.4 Additional features
 
 -   **Role-Based Access Control (RBAC)**:
     -   User roles: User, Premium User, Admin.
@@ -76,7 +78,8 @@ I am building a platform housing multiple applications where users can make an a
     -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
 -   **Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
 
-**2.1.5 Architecture Diagram**
+### 2.1.5 Architecture Diagram\*\*
+
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
 
 ### 2.2 Backend
