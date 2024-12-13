@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="4968" dy="3276" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="none" math="0" shadow="0">
+    <mxGraphModel dx="3549" dy="2340" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="none" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -326,8 +326,8 @@
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-58" value="&lt;pre&gt;&lt;font style=&quot;font-size: 25px;&quot;&gt;&lt;font style=&quot;&quot;&gt;k3d cluster create mycluster --port &quot;4200:4200@loadbalancer&quot; --port &quot;9101:9101@loadbalancer&quot;&amp;nbsp;&lt;/font&gt;&amp;nbsp;&lt;/font&gt;&lt;/pre&gt;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="689.76" y="964.75" width="1422.29" height="36.5" as="geometry" />
         </mxCell>
-        <mxCell id="YDz6m_touQn1HkdPR0xz-0" value="&lt;pre style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 27px;&quot;&gt;Skaffold&lt;/font&gt;&lt;/b&gt;&lt;/pre&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Helvetica;fontSize=22;strokeColor=default;fontStyle=0;spacingBottom=0;spacingRight=0;horizontal=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="572.0000000000001" y="165" width="297" height="55" as="geometry" />
+        <mxCell id="YDz6m_touQn1HkdPR0xz-0" value="&lt;pre style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 39px;&quot;&gt;Skaffold&lt;/font&gt;&lt;/b&gt;&lt;/pre&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Helvetica;fontSize=22;strokeColor=default;fontStyle=0;spacingBottom=0;spacingRight=0;horizontal=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="579.6" y="165" width="223.4" height="66" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
