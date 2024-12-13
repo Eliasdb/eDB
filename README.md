@@ -48,7 +48,9 @@ Building a platform housing multiple applications.
     -   Profile updates, account deletion, and preference management.
 -   **Role-Based Access Control (RBAC)**:
     -   User roles: User, Premium User, Admin.
-    -   Conditional access to sub-applications based on roles and feature flags (to be implemented). - **Application Modularity**: - Lazy-loading sub-applications for improved performance and scalability.
+    -   Conditional access to sub-applications based on roles and feature flags (to be implemented).
+-   **Application Modularity**:
+    -   Lazy-loading sub-applications for improved performance and scalability.
 -   **API Integration**:
     -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
 
