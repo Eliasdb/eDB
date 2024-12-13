@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="3549" dy="2340" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="none" math="0" shadow="0">
+    <mxGraphModel dx="3105" dy="2048" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="none" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -81,10 +81,10 @@
           <mxGeometry x="1905.1799999999998" y="473" width="217.9" height="99" as="geometry" />
         </mxCell>
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-13" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;size=0.5;direction=east;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="2147.31" y="469.25" width="18.71" height="202.13" as="geometry" />
+          <mxGeometry x="2142.04" y="479.87" width="18.71" height="202.13" as="geometry" />
         </mxCell>
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-15" value="&lt;font style=&quot;font-size: 26px;&quot;&gt;gets pulled from Docker Hub&amp;nbsp;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="2176.9" y="539.31" width="347.19" height="62" as="geometry" />
+          <mxGeometry x="2176.9" y="549.93" width="347.19" height="62" as="geometry" />
         </mxCell>
         <mxCell id="Td7zW-o2DTwXKr2sYSDe-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;entryX=0.475;entryY=-0.02;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=5;exitX=0.001;exitY=0.33;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Td7zW-o2DTwXKr2sYSDe-0" target="Td7zW-o2DTwXKr2sYSDe-9" edge="1">
           <mxGeometry relative="1" as="geometry">
