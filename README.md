@@ -40,31 +40,31 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-#### 2.1.1 Tools
+### 2.1.1 Tools
 
 **Angular 19**, managed within an **Nx** workspace.
 
-#### 2.1.2 Platform Pages
+### 2.1.2 Platform Pages
 
-##### User Account:
+#### User Account:
 
 -   Login and registration page.
 -   Profile page for updates, account deletion, and preference management.
 
-##### Admin Panel:
+#### Admin Panel:
 
 -   Admin page to manage users and potentially revoke their subscriptions.
 -   Separate view more page for every user.
 
-##### Catalog:
+#### Catalog:
 
 -   Catalog page to browse applications.
 
-##### My eDB:
+#### My eDB:
 
 -   Dashboard to manage and launch subscribed applications.
 
-#### 2.1.3 Shared Libraries
+### 2.1.3 Shared Libraries
 
 **UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
 
@@ -88,7 +88,7 @@ I am building a platform housing multiple applications where users can make an a
     -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
 -   **Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
 
-### 2.1.5 Architecture Diagram\*\*
+### 2.1.5 Architecture Diagram
 
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
 
