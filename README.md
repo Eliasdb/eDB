@@ -90,7 +90,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1.5 Architecture Diagram
 
-![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
+![Frontend Setup Diagram](./diagrams/images/frontend-architecturev2.png)
 
 ### 2.2 Backend
 
@@ -116,7 +116,7 @@ I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Dock
 
 #### 3.1.1 Architecture Diagram
 
-![Development Setup Diagram](./diagrams/images/devopsv3.png)
+![Development Setup Diagram](./diagrams/images/devopsv4.png)
 
 #### 3.1.2 Spinning up a cluster locally
 
