@@ -33,22 +33,24 @@
 
 ## 1. Project Goal
 
-Building a platform housing multiple applications.
+I am building a platform housing multiple applications where users can make an account and subscribe to different applications.
 
 ## 2. Setup
 
 ### 2.1 Frontend
 
-**Tools**: **Angular 18**, managed within an **Nx** workspace.
+**Tools**: **Angular 19**, managed within an **Nx** workspace.
 
 **Platform Application Features**:
 
--   **User Management**:
+-   **User Account Creation**:
     -   Login and registration.
     -   Profile updates, account deletion, and preference management.
 -   **Role-Based Access Control (RBAC)**:
     -   User roles: User, Premium User, Admin.
-    -   Conditional access to sub-applications based on roles and feature flags (to be implemented).
+-   **Admin Panel**:
+    -   Admin panel to manage users and potentially revoke their subscriptions.
+    -   Separate view more page for every user.
 -   **Application Modularity**:
     -   Lazy-loading sub-applications for improved performance and scalability.
 -   **API Integration**:
@@ -57,9 +59,15 @@ Building a platform housing multiple applications.
 **Shared Libraries**:
 
 -   **UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
+    -   Current amount of components: 21
 -   **Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+    -   Current shared utils:
+        -   Form utils service:
+        -   Modal utils service
+        -   Table utils service
+        -   Auth Interceptor
 
-**Storybook**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform.
+**Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
 
 **Frontend architecture**
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
