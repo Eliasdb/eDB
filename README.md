@@ -66,14 +66,17 @@ I am building a platform housing multiple applications where users can make an a
 
 #### 2.1.3 Shared Libraries
 
--   **UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
-    -   Current amount of components: 21
--   **Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
-    -   Current shared utils:
-        -   Form utils service
-        -   Modal utils service
-        -   Table utils service
-        -   Auth Interceptor
+**UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
+
+-   Current amount of components: 21
+
+**Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+
+-   Current shared utils:
+    -   Form utils service
+    -   Modal utils service
+    -   Table utils service
+    -   Auth Interceptor
 
 ### 2.1.4 Additional features
 
