@@ -46,21 +46,21 @@ I am building a platform housing multiple applications where users can make an a
 
 #### 2.1.2 Platform Pages
 
-**User Account**:
+##### User Account:
 
 -   Login and registration page.
 -   Profile page for updates, account deletion, and preference management.
 
-**Admin Panel**:
+##### Admin Panel:
 
 -   Admin page to manage users and potentially revoke their subscriptions.
 -   Separate view more page for every user.
 
-**Catalog**:
+##### Catalog:
 
 -   Catalog page to browse applications.
 
-**My eDB**:
+##### My eDB:
 
 -   Dashboard to manage and launch subscribed applications.
 
