@@ -5,10 +5,11 @@
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Platform Application Features](#211-platform-application-features)
-        -   [2.1.2 Shared Libraries](#212-shared-libraries)
-        -   [2.1.3 Storybook](#213-storybook)
-        -   [2.1.4 Architecture Diagram](#213-storybook)
+        -   [2.1.2 Tools](#211-tools)
+        -   [2.1.2 Platform Pages](#212-platform-pages)
+        -   [2.1.3 Shared Libraries](#213-shared-libraries)
+        -   [2.1.4 Additional features](#214-additional-features)
+        -   [2.1.5 Architecture Diagram](#215-architecture-diagram)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Architecture Diagram](#213-storybook)
     -   [2.3 Database](#23-database)
@@ -39,37 +40,43 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-**Tools**: **Angular 19**, managed within an **Nx** workspace.
+**2.1.1 Tools**: **Angular 19**, managed within an **Nx** workspace.
 
-**Platform Application Features**:
+**2.1.2 Platform Pages**:
 
--   **User Account Creation**:
-    -   Login and registration.
-    -   Profile updates, account deletion, and preference management.
--   **Role-Based Access Control (RBAC)**:
-    -   User roles: User, Premium User, Admin.
+-   **User Account**:
+    -   Login and registration page.
+    -   Profile page for updates, account deletion and preference management.
 -   **Admin Panel**:
-    -   Admin panel to manage users and potentially revoke their subscriptions.
+    -   Admin page to manage users and potentially revoke their subscriptions.
     -   Separate view more page for every user.
--   **Application Modularity**:
-    -   Lazy-loading sub-applications for improved performance and scalability.
--   **API Integration**:
-    -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
+-   **Catalog**:
+    -   Catalog page to browse applications.
+-   **My eDB**:
+    -   Dashboard to manage and launch subscribed applications.
 
-**Shared Libraries**:
+**2.1.3 Shared Libraries**:
 
 -   **UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
     -   Current amount of components: 21
 -   **Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
     -   Current shared utils:
-        -   Form utils service:
+        -   Form utils service
         -   Modal utils service
         -   Table utils service
         -   Auth Interceptor
 
-**Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
+**2.1.4 Additional features**
 
-**Frontend architecture**
+-   **Role-Based Access Control (RBAC)**:
+    -   User roles: User, Premium User, Admin.
+-   **Application Modularity**:
+    -   Lazy-loading sub-applications and routes within the platform for improved performance and scalability.
+-   **API Integration**:
+    -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
+-   **Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
+
+**2.1.5 Architecture Diagram**
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev1.png)
 
 ### 2.2 Backend
