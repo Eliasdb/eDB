@@ -1,7 +1,7 @@
 // Models/DTOs/UserDto.cs
 using System.ComponentModel.DataAnnotations;
 
-namespace api.DTOs
+namespace api.DTOs.Admin
 {
     public class UserDto
     {

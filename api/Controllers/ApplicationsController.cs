@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using api.Data;
+using api.DTOs.Applications;
 
 [ApiController]
 [Route("api/[controller]")]

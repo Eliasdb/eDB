@@ -1,6 +1,7 @@
 using AutoMapper;
 using api.Models;
 using api.DTOs;
+using api.DTOs.Admin;
 
 namespace api.Mapping
 {
@@ -17,7 +18,7 @@ namespace api.Mapping
                 .ConvertUsing(typeof(PagedResultConverter<,>));
 
             // Mapping from Subscription to UserSubscriptionDto
-            CreateMap<Subscription, UserSubscriptionDto>()
+            CreateMap<Subscription, SubscriptionDto>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User != null ? $"{src.User.FirstName} {src.User.LastName}" : "Unknown User"))
                 .ForMember(dest => dest.UserEmail, opt => opt.MapFrom(src => src.User != null ? src.User.Email : "No Email"))
                 .ForMember(dest => dest.SubscriptionDate, opt => opt.MapFrom(src => src.SubscriptionDate));

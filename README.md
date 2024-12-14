@@ -604,3 +604,17 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 | `SELECT pg_terminate_backend(pg_stat_activity.pid)`     | Terminate connections to a specific database (see below for full SQL) |
 
 ---
+
+### 5 TO DO
+
+-   Production diagram
+-   Readme
+-   Refactor backend (automapper and code quality, adding missing DTOs for application controller)
+-   Add unit, integration and E2E testing to pipeline
+-   maybe adding something like Argo CD to pipeline
+
+### Questions
+
+-   Best practices observables and signals
+-   Overall FE architecture
+-   Feedback on clarity documentation and diagrams
