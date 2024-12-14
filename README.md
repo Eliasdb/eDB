@@ -620,4 +620,5 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 -   [ ] Best practices for Observables and Signals
 -   [ ] Overall Frontend architecture
+-   [ ] [Violation] warnings in console
 -   [ ] Feedback on clarity of documentation and diagrams
