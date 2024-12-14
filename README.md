@@ -90,7 +90,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1.5 Architecture Diagram
 
-![Frontend Setup Diagram](./diagrams/images/frontend-architecturev3.png)
+![Frontend Setup Diagram](./diagrams/images/frontend-architecturev4.png)
 
 ### 2.2 Backend
 
