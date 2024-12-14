@@ -90,7 +90,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1.4 Architecture Diagrams
 
-![Frontend Setup Diagram](./diagrams/images/frontend-architecturev4.png)
+![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecturev4.png)
 
 ### 2.2 Backend
 
@@ -396,7 +396,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.2.3 Architecture Diagram
 
-![Backend Setup Diagram](./diagrams/images/backend-architecturev2.png)
+![Backend Setup Diagram](./diagrams/images/backend/backend-architeturev2.png)
 
 ---
 
@@ -414,7 +414,7 @@ I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Dock
 
 #### 3.1.1 Architecture Diagram
 
-![Development Setup Diagram](./diagrams/images/devopsv4.png)
+![Development Setup Diagram](./diagrams/images/devops/devopsv4.png)
 
 #### 3.1.2 Spinning up a cluster locally
 
