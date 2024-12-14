@@ -615,6 +615,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [ ] Add unit, integration, and E2E testing to the pipeline
 -   [ ] Maybe add something like Argo CD to the pipeline
 -   [ ] Redis integration
+-   [ ] Frontend refactor and make UI look nicer and responsive
 
 ## 6. Unresolved Questions
 
@@ -622,3 +623,4 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [ ] Overall Frontend architecture
 -   [ ] [Violation] warnings in console
 -   [ ] Feedback on clarity of documentation and diagrams
+-   [ ] Nx Cloud?
