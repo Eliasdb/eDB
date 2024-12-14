@@ -396,7 +396,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.2.3 Architecture Diagram
 
-![Backend Setup Diagram](./diagrams/images/backend-setupv1.png)
+![Backend Setup Diagram](./diagrams/images/backend-architecturev2.png)
 
 ---
 
