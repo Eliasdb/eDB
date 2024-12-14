@@ -5,11 +5,10 @@
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Tools](#211-tools)
-        -   [2.1.2 Platform Pages](#212-platform-pages)
+        -   [2.1.1 Tools and Features](#211-tools-and-features)
+        -   [2.1.2 Portal and Platform Pages](#212-portal-and-platform-pages)
         -   [2.1.3 Shared Libraries](#213-shared-libraries)
-        -   [2.1.4 Additional features](#214-additional-features)
-        -   [2.1.5 Architecture Diagram](#215-architecture-diagram)
+        -   [2.1.4 Architecture Diagram](#214-architecture-diagram)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Architecture Diagram](#213-storybook)
     -   [2.3 Database](#23-database)
@@ -40,11 +39,16 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-### 2.1.1 Tools
+### 2.1.1 Tools and Features
 
-**Angular 19**, managed within an **Nx** workspace.
+-   Framework: **Angular 19**
+-   Monorepo workspace: **Nx** .
+-   **Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
+-   **API Integration**: Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
+-   **Role-Based Access Control (RBAC)**: Roles: User, Premium User, Admin.
+-   **Application Modularity**: Lazy-loading sub-applications and routes within the platform for improved performance and scalability.
 
-### 2.1.2 Platform Pages
+### 2.1.2 Portal And Platform Pages
 
 #### User Account:
 
@@ -78,17 +82,7 @@ I am building a platform housing multiple applications where users can make an a
     -   Table utils service
     -   Auth Interceptor
 
-### 2.1.4 Additional features
-
--   **Role-Based Access Control (RBAC)**:
-    -   User roles: User, Premium User, Admin.
--   **Application Modularity**:
-    -   Lazy-loading sub-applications and routes within the platform for improved performance and scalability.
--   **API Integration**:
-    -   Utilizes **TanStack Query** to efficiently fetch and manage data from the backend REST API.
--   **Storybook 8**: Used to document and visually test components from the shared UI library, ensuring consistency and reusability across the platform. I wrote a couple of stories per component.
-
-### 2.1.5 Architecture Diagram
+### 2.1.4 Architecture Diagram
 
 ![Frontend Setup Diagram](./diagrams/images/frontend-architecturev4.png)
 
