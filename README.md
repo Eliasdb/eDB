@@ -31,9 +31,11 @@
         -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
         -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
         -   [3.2.3 CI/CD Flow](#323-cicd-flow)
--   [4. K3s Handy Commands Cheat Sheet](#4-k3s-handy-commands-cheat-sheet)
+-   [4. Handy Commands Cheat Sheet](#4-k3s-handy-commands-cheat-sheet)
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
+-   [5. Current Goals](#5-current-goals)
+-   [6. Unresolved Questions](#6-unresolved-questions)
 
 ---
 
@@ -566,7 +568,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ---
 
-## 4. K3s Handy Commands Cheat Sheet
+## 4. Handy Commands Cheat Sheet
 
 ### 4.1 General Commands
 
@@ -605,16 +607,17 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ---
 
-### 5 TO DO
+## 5. Current Goals
 
--   Production diagram
--   Readme
--   Refactor backend (automapper and code quality, adding missing DTOs for application controller)
--   Add unit, integration and E2E testing to pipeline
--   maybe adding something like Argo CD to pipeline
+-   [ ] Production diagram
+-   [ ] Streamline README
+-   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
+-   [ ] Add unit, integration, and E2E testing to the pipeline
+-   [ ] Maybe add something like Argo CD to the pipeline
+-   [ ] Redis integration
 
-### Questions
+## 6. Unresolved Questions
 
--   Best practices observables and signals
--   Overall FE architecture
--   Feedback on clarity documentation and diagrams
+-   [ ] Best practices for Observables and Signals
+-   [ ] Overall Frontend architecture
+-   [ ] Feedback on clarity of documentation and diagrams
