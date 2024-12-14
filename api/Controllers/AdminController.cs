@@ -7,7 +7,7 @@ using AutoMapper;
 using api.Models;
 using AutoMapper.QueryableExtensions;
 using System.Linq.Dynamic.Core;
-using api.DTOs;
+using api.DTOs.Admin;
 
 namespace api.Controllers
 {
@@ -236,7 +236,7 @@ namespace api.Controllers
                     SubscriberCount = app.Subscriptions.Count(sub => sub.User != null), // Count the number of valid subscribers
                     SubscribedUsers = app.Subscriptions
                         .Where(sub => sub.User != null) // Ensure User is not null
-                        .Select(sub => new UserSubscriptionDto
+                        .Select(sub => new SubscriptionDto
                         {
                             UserId = sub.UserId, // Populate UserId
                             UserName = sub.User != null ? $"{sub.User.FirstName} {sub.User.LastName}" : "Unknown User",

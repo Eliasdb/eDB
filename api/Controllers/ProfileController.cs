@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using api.Data;
-using api.DTOs;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using api.DTOs.Profile;
 
 namespace api.Controllers
 {
