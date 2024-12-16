@@ -416,7 +416,7 @@ I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Dock
 
 #### 3.1.1 Architecture Diagram
 
-![Development Setup Diagram](./diagrams/images/devops/devopsv4.png)
+![Development Setup Diagram](./diagrams/images/devops/dev/devopsv4.png)
 
 #### 3.1.2 Spinning up a cluster locally
 
@@ -504,6 +504,8 @@ Once deployed, your frontend will be available at `http://localhost:3200` and yo
 ### 3.2 Production
 
 #### 3.2.1 Architecture Diagram
+
+![Development Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv1.png)
 
 #### 3.2.2 CI/CD Pipeline
 
@@ -616,6 +618,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [ ] Maybe add something like Argo CD to the pipeline
 -   [ ] Redis integration
 -   [ ] Frontend refactor and make UI look nicer and responsive
+-   [ ] Look into Swagger and add diagrams for dockerfiles
 
 ## 6. Unresolved Questions
 
@@ -624,3 +627,5 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [ ] [Violation] warnings in console
 -   [ ] Feedback on clarity of documentation and diagrams
 -   [ ] Nx Cloud?
+-   [] Why do I need a staging environment?
+-   [] Database backups?
