@@ -16,7 +16,6 @@ const meta: Meta<UiSelectComponent> = {
     invalid: false,
     warn: false,
     skeleton: false,
-    model: null,
     display: 'default',
   },
   argTypes: {
@@ -66,10 +65,7 @@ const meta: Meta<UiSelectComponent> = {
       control: 'boolean',
       description: 'Whether to show a skeleton loader for the select input.',
     },
-    model: {
-      control: 'object',
-      description: 'The model for ngModel binding.',
-    },
+
     display: {
       control: 'select',
       options: ['inline', 'default'],
@@ -86,7 +82,6 @@ type Story = StoryObj<UiSelectComponent>;
 export const DefaultSelect: Story = {
   args: {
     label: 'Choose a category',
-    model: null,
   },
   render: (args) => ({
     props: args,
