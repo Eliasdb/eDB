@@ -68,7 +68,7 @@ import { loginFormFields } from './login-form.config';
           icon="faPlus"
           [fullWidth]="true"
           [isExpressive]="true"
-          [variant]="'tertiary'"
+          variant="tertiary"
           (click)="navigateToRegister()"
         >
           Create one

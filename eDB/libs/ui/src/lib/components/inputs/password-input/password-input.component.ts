@@ -11,7 +11,7 @@ import { InputModule } from 'carbon-components-angular';
       [invalid]="invalid()"
       [invalidText]="invalidText()"
       [warn]="warn()"
-      [disabled]="isDisabled()"
+      [disabled]="disabled"
       [skeleton]="skeleton()"
       [warnText]="warnText()"
     >
@@ -22,7 +22,7 @@ import { InputModule } from 'carbon-components-angular';
         [size]="size()"
         [invalid]="invalid()"
         [warn]="warn()"
-        [disabled]="isDisabled()"
+        [disabled]="disabled"
         [theme]="theme()"
         [placeholder]="placeholder()"
         [autocomplete]="autocomplete()"
@@ -44,7 +44,7 @@ import { InputModule } from 'carbon-components-angular';
 export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly label = input<string>('');
   readonly placeholder = input<string>('');
-  readonly isDisabled = input<boolean>(false); // Renamed input
+  readonly isDisabled = input<boolean>(false);
   readonly invalid = input<boolean>(false);
   readonly helperText = input<string>('');
   readonly invalidText = input<string>('');
@@ -56,12 +56,21 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly readonly = input<boolean>(false);
   readonly autocomplete = input<string>('');
 
+  // Use a separate Signal for dynamic disabled state
   private _disabled = signal(false);
 
   value: string = '';
 
   private onChange: (value: string) => void = () => {};
   public onTouched: () => void = () => {};
+
+  get disabled(): boolean {
+    return this._disabled();
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._disabled.set(isDisabled); // Dynamically update the signal value
+  }
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -79,13 +88,5 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this._disabled.set(isDisabled); // Update the reactive signal
-  }
-
-  get disabled(): boolean {
-    return this._disabled();
   }
 }
