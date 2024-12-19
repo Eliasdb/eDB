@@ -35,9 +35,9 @@ export class UiButtonComponent {
     'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'
   >('primary');
   readonly size = input<'sm' | 'md' | 'lg' | 'xl' | '2xl'>('lg');
-  readonly disabled = input<boolean>(false);
-  readonly loading = input<boolean>(false);
-  readonly icon = input<string>();
+  disabled = input<boolean>(false);
+  loading = input<boolean>(false);
+  icon = input<string>();
   readonly isExpressive = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);
 

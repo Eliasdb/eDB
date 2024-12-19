@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { FieldDefinition } from '../../forms/models/field-definition.model';
+import { FieldDefinition } from '../../models/field-definition.model';
 
 @Injectable({ providedIn: 'root' })
 export class FormUtilsService {

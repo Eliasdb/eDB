@@ -6,7 +6,7 @@ import {
   ExpandedDataConfig,
   RowMapperConfig,
   TableColumnConfig,
-} from '../../forms/models/table.model';
+} from '../../models/table.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class TableUtilsService {
   getTableHeaders(
     columnConfigs: TableColumnConfig[],
     activeSortField?: string,
-    activeSortDirection?: 'asc' | 'desc'
+    activeSortDirection?: 'asc' | 'desc',
   ): TableHeaderItem[] {
     return columnConfigs.map(
       (config) =>
@@ -34,7 +34,7 @@ export class TableUtilsService {
           metadata: {
             sortField: config.sortField || null,
           },
-        })
+        }),
     );
   }
 
@@ -49,7 +49,7 @@ export class TableUtilsService {
   prepareData<T>(
     rows: T[],
     mapperConfigs: RowMapperConfig<T>[],
-    overflowTemplate?: TemplateRef<any>
+    overflowTemplate?: TemplateRef<any>,
   ): TableItem[][] {
     return rows.map((row) =>
       mapperConfigs.map((config) => {
@@ -72,14 +72,14 @@ export class TableUtilsService {
         }
 
         return tableItem;
-      })
+      }),
     );
   }
 
   createExpandedData<T>(
     items: T[],
     config: ExpandedDataConfig<T>,
-    context?: { [key: string]: any }
+    context?: { [key: string]: any },
   ): TableItem[][] {
     const { rowMapper, expandedDataMapper } = config;
 

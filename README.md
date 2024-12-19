@@ -19,19 +19,24 @@
         -   [2.2.3 Architecture Diagram](#223-architecture-diagram)
     -   [2.3 Database](#23-database)
 -   [3. Environments](#3-environments)
+
     -   [3.1 Development](#31-development)
+
         -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
         -   [3.1.2 Spinning up a cluster locally](#312-spinning-up-a-cluster-locally)
             -   [Step 0: Prerequisites](#step-0-prerequisites)
             -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
             -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
-            -   [Step 4: Run Skaffold for Local Development](#step-4-run-skaffold-for-local-development)
+            -   [Step 4: Configure Skaffold](#step-4-configure-skaffold)
+            -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
+
     -   [3.2 Production](#32-production)
         -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
         -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
         -   [3.2.3 CI/CD Flow](#323-cicd-flow)
--   [4. Handy Commands Cheat Sheet](#4-k3s-handy-commands-cheat-sheet)
+
+-   [4. Handy Commands Cheat Sheet](#4-handy-commands-cheat-sheet)
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
 -   [5. Current Goals](#5-current-goals)
@@ -483,7 +488,11 @@ Create Kubernetes manifests for all resources required by your application. Thes
 
 Ensure your manifests include the necessary annotations to work with k3d's local LoadBalancer and any ingress controllers you may use.
 
-##### Step 4: Run Skaffold for Local Development
+##### Step 4: Configure Skaffold
+
+Create a `skaffold.yaml` file to manage your local development setup. This file defines how Skaffold will build, push, and deploy your services. Like where your Dockerfiles or Kubernetes manifests are located.
+
+##### Step 5: Run Skaffold for Local Development
 
 Use **Skaffold** to build and deploy your services automatically:
 
@@ -503,7 +512,7 @@ Once deployed, your frontend will be available at `http://localhost:3200` and yo
 
 ### 3.2 Production
 
-#### 3.2.1 Architecture Diagram
+#### 3.2.1 Architecture Diagrams
 
 ![Development Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv1.png)
 
@@ -611,7 +620,10 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ## 5. Current Goals
 
--   [ ] Production diagram
+-   [x] Production diagram
+-   [ ] Refactor CI/CD pipeline
+-   [ ] list pipeline jobs separately on readme
+-   [ ] add graphs to admin page
 -   [ ] Streamline README
 -   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
 -   [ ] Add unit, integration, and E2E testing to the pipeline
@@ -627,5 +639,6 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [ ] [Violation] warnings in console
 -   [ ] Feedback on clarity of documentation and diagrams
 -   [ ] Nx Cloud?
--   [] Why do I need a staging environment?
--   [] Database backups?
+-   [ ] Why do I need a staging environment?
+-   [ ] Database backups?
+-   [ ] SOLID principles?
