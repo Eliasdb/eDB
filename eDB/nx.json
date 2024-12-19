@@ -36,16 +36,15 @@
         "{workspaceRoot}/eslint.config.js"
       ]
     },
-    "@nx/jest:jest": {
+    "@nx/vite:test": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": ["default", "^production"],
       "options": {
         "passWithNoTests": true
       },
       "configurations": {
         "ci": {
-          "ci": true,
-          "codeCoverage": true
+          "coverage": true
         }
       }
     },
@@ -79,6 +78,12 @@
       }
     },
     {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
       "plugin": "@nx/storybook/plugin",
       "options": {
         "serveStorybookTargetName": "storybook",
@@ -97,7 +102,7 @@
     },
     "@nx/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "vitest"
     },
     "@nx/angular:component": {
       "style": "css"

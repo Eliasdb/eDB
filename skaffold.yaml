@@ -36,4 +36,3 @@ deploy:
             - k8s/dev/db/*.yaml
             - k8s/dev/api/*.yaml
             - k8s/dev/eDB/*.yaml
-            - k8s/prod/ingress/*.yaml

@@ -7,10 +7,10 @@
   "tags": [],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
       "options": {
-        "jestConfig": "libs/ui/jest.config.ts"
+        "vitestConfig": "libs/ui/vitest.config.ts",
+        "passWithNoTests": true
       }
     },
     "lint": {
