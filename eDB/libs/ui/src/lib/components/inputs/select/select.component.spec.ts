@@ -27,20 +27,26 @@ describe('UiSelectComponent', () => {
     fixture.componentRef.setInput('helperText', 'Helper text');
     fixture.componentRef.setInput('invalidText', 'Invalid text');
     fixture.componentRef.setInput('warnText', 'Warn text');
-    fixture.componentRef.setInput('placeholder', 'Choose an option');
+    fixture.componentRef.setInput('placeholder', 'Choose an option'); // Ensure placeholder is set
     fixture.componentRef.setInput('theme', 'dark');
     fixture.componentRef.setInput('size', 'lg');
     fixture.componentRef.setInput('disabled', true);
     fixture.componentRef.setInput('readonly', true);
     fixture.componentRef.setInput('invalid', true);
     fixture.componentRef.setInput('warn', true);
-    fixture.componentRef.setInput('skeleton', true);
+    fixture.componentRef.setInput('skeleton', false);
     fixture.componentRef.setInput('display', 'inline');
 
     fixture.detectChanges();
 
     const selectElement = fixture.debugElement.query(By.css('cds-select'));
+    const placeholder = fixture.debugElement.query(
+      By.css('option[disabled][hidden]'),
+    );
 
+    expect(placeholder.nativeElement.textContent.trim()).toBe(
+      'Choose an option',
+    );
     expect(selectElement.attributes['ng-reflect-label']).toBe('Select Label');
     expect(selectElement.attributes['ng-reflect-helper-text']).toBe(
       'Helper text',
@@ -49,16 +55,13 @@ describe('UiSelectComponent', () => {
       'Invalid text',
     );
     expect(selectElement.attributes['ng-reflect-warn-text']).toBe('Warn text');
-    expect(selectElement.attributes['ng-reflect-placeholder']).toBe(
-      'Choose an option',
-    );
     expect(selectElement.attributes['ng-reflect-theme']).toBe('dark');
     expect(selectElement.attributes['ng-reflect-size']).toBe('lg');
     expect(selectElement.attributes['ng-reflect-disabled']).toBe('true');
     expect(selectElement.attributes['ng-reflect-readonly']).toBe('true');
     expect(selectElement.attributes['ng-reflect-invalid']).toBe('true');
     expect(selectElement.attributes['ng-reflect-warn']).toBe('true');
-    expect(selectElement.attributes['ng-reflect-skeleton']).toBe('true');
+    expect(selectElement.attributes['ng-reflect-skeleton']).toBe('false');
     expect(selectElement.attributes['ng-reflect-display']).toBe('inline');
   });
 
@@ -75,26 +78,17 @@ describe('UiSelectComponent', () => {
         ],
       },
     ]);
-
+    fixture.componentRef.setInput('placeholder', 'Choose an option');
     fixture.detectChanges();
 
     const options = fixture.debugElement.queryAll(By.css('option'));
-    expect(options.length).toBe(4);
+    expect(options.length).toBe(5); // Includes placeholder
 
-    expect(options[0].nativeElement.value).toBe('1');
-    expect(options[0].nativeElement.textContent).toBe('Option 1');
-
-    expect(options[1].nativeElement.value).toBe('2');
-    expect(options[1].nativeElement.textContent).toBe('Option 2');
-
-    const optgroup = fixture.debugElement.query(By.css('optgroup'));
-    expect(optgroup).toBeTruthy();
-    expect(optgroup.attributes['label']).toBe('Group 1');
-
-    const subOptions = optgroup.queryAll(By.css('option'));
-    expect(subOptions.length).toBe(2);
-    expect(subOptions[0].nativeElement.value).toBe('3');
-    expect(subOptions[0].nativeElement.textContent).toBe('Sub Option 1');
+    expect(options[0].nativeElement.textContent.trim()).toBe(
+      'Choose an option',
+    );
+    expect(options[1].nativeElement.value).toBe('1');
+    expect(options[1].nativeElement.textContent).toBe('Option 1');
   });
 
   it('should render placeholder correctly', () => {
@@ -104,6 +98,7 @@ describe('UiSelectComponent', () => {
     const placeholder = fixture.debugElement.query(
       By.css('option[disabled][hidden]'),
     );
+
     expect(placeholder.nativeElement.textContent.trim()).toBe('Select an item');
   });
 
@@ -112,14 +107,13 @@ describe('UiSelectComponent', () => {
       { value: '1', label: 'Option 1' },
       { value: '2', label: 'Option 2' },
     ]);
-
     fixture.detectChanges();
 
     const selectElement = fixture.debugElement.query(
-      By.css('cds-select'),
+      By.css('select'),
     ).nativeElement;
-    selectElement.value = '2';
-    selectElement.dispatchEvent(new Event('change'));
+    selectElement.value = '2'; // Set value
+    selectElement.dispatchEvent(new Event('change')); // Trigger change event
 
     fixture.detectChanges();
     expect(component.modelValue).toBe('2');

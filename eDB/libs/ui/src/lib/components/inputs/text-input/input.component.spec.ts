@@ -3,11 +3,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { InputModule } from 'carbon-components-angular';
 import { vi } from 'vitest';
-import { UiPasswordInputComponent } from './password-input.component';
+import { UiTextInputComponent } from './input.component';
 
-describe('UiPasswordInputComponent', () => {
-  let component: UiPasswordInputComponent;
-  let fixture: ComponentFixture<UiPasswordInputComponent>;
+describe('UiTextInputComponent', () => {
+  let component: UiTextInputComponent;
+  let fixture: ComponentFixture<UiTextInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,11 +15,11 @@ describe('UiPasswordInputComponent', () => {
         InputModule,
         FormsModule,
         ReactiveFormsModule,
-        UiPasswordInputComponent,
+        UiTextInputComponent,
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UiPasswordInputComponent);
+    fixture = TestBed.createComponent(UiTextInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -29,16 +29,13 @@ describe('UiPasswordInputComponent', () => {
   });
 
   it('should display the correct label', () => {
-    fixture.componentRef.setInput('label', 'Password');
+    fixture.componentRef.setInput('label', 'Text Input Label');
     fixture.detectChanges();
 
-    const labelElement = fixture.debugElement.query(By.css('.cds--label')); // Querying the actual label element
-    expect(labelElement).toBeTruthy(); // Ensure the element exists
-
-    // Extract only the text content of the label element
-    const textContent =
-      labelElement.nativeElement.firstChild?.textContent.trim();
-    expect(textContent).toBe('Password');
+    const labelElement = fixture.debugElement.query(By.css('cds-text-label'));
+    expect(labelElement.nativeElement.textContent.trim()).toContain(
+      'Text Input Label',
+    );
   });
 
   it('should update the value on input event', () => {
@@ -46,35 +43,22 @@ describe('UiPasswordInputComponent', () => {
       By.css('input'),
     ).nativeElement;
 
-    inputElement.value = 'testPassword';
+    inputElement.value = 'Test value';
     inputElement.dispatchEvent(new Event('input'));
 
-    expect(component.value).toBe('testPassword');
-  });
-
-  it('should update the value and trigger onChange when the input changes', () => {
-    const inputElement = fixture.debugElement.query(
-      By.css('input'),
-    ).nativeElement;
-
-    const newValue = 'newPassword';
-    inputElement.value = newValue;
-    inputElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    expect(component.value).toBe(newValue); // Verify the component's value is updated
+    expect(component.value).toBe('Test value');
   });
 
   it('should call onTouched when the input loses focus', () => {
     const onTouchedSpy = vi.fn();
-    component.registerOnTouched(onTouchedSpy); // Register a spy for the onTouched method
+    component.registerOnTouched(onTouchedSpy);
 
     const inputElement = fixture.debugElement.query(
       By.css('input'),
     ).nativeElement;
     inputElement.dispatchEvent(new Event('blur'));
 
-    expect(onTouchedSpy).toHaveBeenCalled(); // Verify the spy was called
+    expect(onTouchedSpy).toHaveBeenCalled();
   });
 
   it('should set disabled state', () => {
@@ -89,27 +73,23 @@ describe('UiPasswordInputComponent', () => {
   });
 
   it('should display helper text', () => {
-    fixture.componentRef.setInput('helperText', 'This is helper text');
+    fixture.componentRef.setInput('helperText', 'Helper text');
     fixture.detectChanges();
 
-    const labelElement = fixture.debugElement.query(
-      By.css('cds-password-label'),
-    );
+    const labelElement = fixture.debugElement.query(By.css('cds-text-label'));
     expect(labelElement.attributes['ng-reflect-helper-text']).toBe(
-      'This is helper text',
+      'Helper text',
     );
   });
 
   it('should display invalid text when invalid is true', () => {
     fixture.componentRef.setInput('invalid', true);
-    fixture.componentRef.setInput('invalidText', 'Invalid password');
+    fixture.componentRef.setInput('invalidText', 'Invalid input');
     fixture.detectChanges();
 
-    const labelElement = fixture.debugElement.query(
-      By.css('cds-password-label'),
-    );
+    const labelElement = fixture.debugElement.query(By.css('cds-text-label'));
     expect(labelElement.attributes['ng-reflect-invalid-text']).toBe(
-      'Invalid password',
+      'Invalid input',
     );
   });
 
@@ -123,13 +103,34 @@ describe('UiPasswordInputComponent', () => {
     expect(inputElement.readOnly).toBeTruthy();
   });
 
-  it('should apply autocomplete attribute', () => {
-    fixture.componentRef.setInput('autocomplete', 'new-password');
+  it('should update theme', () => {
+    fixture.componentRef.setInput('theme', 'light');
     fixture.detectChanges();
 
     const inputElement = fixture.debugElement.query(
       By.css('input'),
     ).nativeElement;
-    expect(inputElement.autocomplete).toBe('new-password');
+
+    expect(inputElement.getAttribute('ng-reflect-theme')).toBe('light');
+  });
+
+  it('should update size', () => {
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+
+    const inputElement = fixture.debugElement.query(
+      By.css('input'),
+    ).nativeElement;
+    expect(inputElement.getAttribute('size')).toBe('sm');
+  });
+
+  it('should update autocomplete attribute', () => {
+    fixture.componentRef.setInput('autocomplete', 'username');
+    fixture.detectChanges();
+
+    const inputElement = fixture.debugElement.query(
+      By.css('input'),
+    ).nativeElement;
+    expect(inputElement.getAttribute('autocomplete')).toBe('username');
   });
 });

@@ -16,7 +16,7 @@ const meta: Meta<UiTextInputComponent> = {
     warnText: 'Warning text.',
     skeleton: false,
     size: 'md',
-    theme: 'light',
+    theme: 'dark',
     readonly: false,
     autocomplete: 'on',
   },

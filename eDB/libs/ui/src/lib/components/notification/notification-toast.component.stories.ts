@@ -3,7 +3,7 @@ import { NotificationModule } from 'carbon-components-angular';
 import { UiNotificationToastComponent } from './notification-toast.component';
 
 const meta: Meta<UiNotificationToastComponent> = {
-  title: 'UI/Toast',
+  title: 'Components/Toast',
   component: UiNotificationToastComponent,
   decorators: [
     moduleMetadata({
