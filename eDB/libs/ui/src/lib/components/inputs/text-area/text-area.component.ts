@@ -1,4 +1,4 @@
-import { Component, forwardRef, input, Provider, signal } from '@angular/core';
+import { Component, forwardRef, input, Provider } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
@@ -17,7 +17,7 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
       [invalid]="invalid()"
       [invalidText]="invalidText()"
       [warn]="warn()"
-      [disabled]="isDisabled()"
+      [disabled]="disabled()"
       [skeleton]="skeleton()"
       [warnText]="warnText()"
     >
@@ -26,7 +26,7 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
         cdsTextArea
         [placeholder]="placeholder()"
         [value]="value"
-        [disabled]="isDisabled()"
+        [disabled]="disabled()"
         [theme]="theme()"
         [rows]="rows()"
         [cols]="cols()"
@@ -42,7 +42,7 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
 export class UiTextAreaComponent implements ControlValueAccessor {
   readonly label = input<string>(''); // Label for the textarea field
   readonly placeholder = input<string>(''); // Placeholder text
-  readonly isDisabled = input<boolean>(false); // Whether the textarea is disabled
+  readonly disabled = input<boolean>(false); // Whether the textarea is disabled
   readonly invalid = input<boolean>(false); // Whether the textarea is in invalid state
   readonly helperText = input<string>(''); // Helper text displayed below the input
   readonly invalidText = input<string>(''); // Error text shown when invalid
@@ -54,8 +54,6 @@ export class UiTextAreaComponent implements ControlValueAccessor {
   readonly readonly = input<boolean>(false); // Whether the textarea is read-only
   readonly rows = input<number>(4); // Number of rows for the textarea
   readonly cols = input<number>(101); // Number of columns for the textarea
-
-  private _disabled = signal(false);
 
   value: string = ''; // Value of the textarea field
   private onChange: (value: string) => void = () => {};
@@ -71,14 +69,6 @@ export class UiTextAreaComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this._disabled.set(isDisabled); // Update the reactive signal
-  }
-
-  get disabled(): boolean {
-    return this._disabled();
   }
 
   onInput(event: Event): void {

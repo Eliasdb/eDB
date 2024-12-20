@@ -1,4 +1,4 @@
-import { Component, forwardRef, input, signal } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
@@ -11,7 +11,7 @@ import { InputModule } from 'carbon-components-angular';
       [invalid]="invalid()"
       [invalidText]="invalidText()"
       [warn]="warn()"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [skeleton]="skeleton()"
       [warnText]="warnText()"
     >
@@ -22,7 +22,7 @@ import { InputModule } from 'carbon-components-angular';
         [size]="size()"
         [invalid]="invalid()"
         [warn]="warn()"
-        [disabled]="disabled"
+        [disabled]="disabled()"
         [theme]="theme()"
         [placeholder]="placeholder()"
         [autocomplete]="autocomplete()"
@@ -44,7 +44,7 @@ import { InputModule } from 'carbon-components-angular';
 export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly label = input<string>('');
   readonly placeholder = input<string>('');
-  readonly isDisabled = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
   readonly invalid = input<boolean>(false);
   readonly helperText = input<string>('');
   readonly invalidText = input<string>('');
@@ -57,20 +57,16 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly autocomplete = input<string>('');
 
   // Use a separate Signal for dynamic disabled state
-  private _disabled = signal(false);
+  // private _disabled = signal(false);
 
   value: string = '';
 
   private onChange: (value: string) => void = () => {};
   public onTouched: () => void = () => {};
 
-  get disabled(): boolean {
-    return this._disabled();
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this._disabled.set(isDisabled); // Dynamically update the signal value
-  }
+  // setDisabledState(isDisabled: boolean): void {
+  //   this._disabled.set(isDisabled); // Dynamically update the signal value
+  // }
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;

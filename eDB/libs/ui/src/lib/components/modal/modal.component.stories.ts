@@ -1,42 +1,81 @@
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { ModalModule, ModalService } from 'carbon-components-angular';
-import { UiModalComponent } from './actual-modal.component';
-import { DataPassingModal } from './modal.component';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Meta, StoryObj } from '@storybook/angular';
+import { UiModalComponent } from './modal.component';
 
-const meta: Meta<DataPassingModal> = {
-  title: 'Components/DataPassingModal',
-  component: DataPassingModal,
-  decorators: [
-    moduleMetadata({
-      declarations: [],
-      imports: [ModalModule, UiModalComponent],
-      providers: [ModalService], // Add ModalService here
-    }),
-  ],
+const meta: Meta<UiModalComponent> = {
+  title: 'Components/Modal',
+  component: UiModalComponent,
+  args: {
+    header: 'Default Header',
+    content: 'This is a confirmation modal.',
+    hasForm: false,
+    cancelRoute: undefined,
+  },
   argTypes: {
-    modalText: {
+    header: {
       control: 'text',
-      description: 'Text displayed in the modal header',
+      description: 'The header of the modal.',
     },
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: 'Size of the modal',
+    content: {
+      control: 'text',
+      description: 'The content of the modal if no form is present.',
+    },
+    hasForm: {
+      control: 'boolean',
+      description: 'Whether the modal includes a form.',
+    },
+    cancelRoute: {
+      control: 'text',
+      description: 'The route to navigate to on cancel.',
+    },
+    template: {
+      control: false,
+      description: 'Custom template to render in the modal.',
+    },
+    context: {
+      control: false,
+      description: 'Context to pass to the custom template.',
     },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<DataPassingModal>;
+type Story = StoryObj<UiModalComponent>;
 
-export const Default: Story = {
-  args: {
-    modalText: 'Add Application',
-    size: 'md',
+// Wrapper component to pass the `TemplateRef`
+@Component({
+  selector: 'story-custom-template-wrapper',
+  template: `
+    <ng-template #customTemplate let-data>
+      <p>{{ data.message }}</p>
+    </ng-template>
+    <ui-modal
+      [header]="header"
+      [template]="customTemplate"
+      [context]="context"
+    ></ui-modal>
+  `,
+})
+class CustomTemplateWrapperComponent {
+  @ViewChild('customTemplate', { static: true })
+  customTemplate!: TemplateRef<any>;
+  @Input() header!: string;
+  @Input() context!: any;
+}
+
+export const CustomTemplateModal: Story = {
+  render: (args) => {
+    return {
+      component: CustomTemplateWrapperComponent,
+      props: {
+        header: args.header,
+        context: args.context,
+      },
+    };
   },
-  play: async ({ canvasElement }) => {
-    const button = canvasElement.querySelector('button') as HTMLButtonElement;
-    if (button) button.click(); // Simulate clicking the "Open Modal" button
+  args: {
+    header: 'Custom Modal',
+    context: { message: 'This is custom content passed to the template.' },
   },
 };

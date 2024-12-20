@@ -17,6 +17,20 @@ const meta: Meta<UiSelectComponent> = {
     warn: false,
     skeleton: false,
     display: 'default',
+    placeholder: 'Choose an option',
+    options: [
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2' },
+      {
+        label: 'Group 1',
+        group: true,
+        options: [
+          { value: 'suboption1', label: 'Sub Option 1' },
+          { value: 'suboption2', label: 'Sub Option 2' },
+        ],
+      },
+    ],
+    model: 'option1',
   },
   argTypes: {
     label: {
@@ -65,11 +79,22 @@ const meta: Meta<UiSelectComponent> = {
       control: 'boolean',
       description: 'Whether to show a skeleton loader for the select input.',
     },
-
     display: {
       control: 'select',
       options: ['inline', 'default'],
       description: 'The display type of the select input.',
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the select input.',
+    },
+    options: {
+      control: 'object',
+      description: 'Array of options or option groups to display.',
+    },
+    model: {
+      control: 'text',
+      description: 'The selected value of the select input.',
     },
   },
 };
@@ -78,36 +103,10 @@ export default meta;
 
 type Story = StoryObj<UiSelectComponent>;
 
-// Default select
 export const DefaultSelect: Story = {
   args: {
     label: 'Choose a category',
   },
-  render: (args) => ({
-    props: args,
-    template: `
-      <ui-select 
-        [label]="label" 
-        [helperText]="helperText"
-        [invalidText]="invalidText" 
-        [warnText]="warnText"
-        [theme]="theme"
-        [size]="size"
-        [fluid]="fluid"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [invalid]="invalid"
-        [warn]="warn"
-        [skeleton]="skeleton"
-        [(ngModel)]="model"
-        [display]="display">
-        <option value="default" disabled selected hidden>Choose an option</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </ui-select>
-    `,
-  }),
 };
 
 export const DisabledSelect: Story = {
@@ -115,31 +114,6 @@ export const DisabledSelect: Story = {
     label: 'Choose a category',
     disabled: true,
   },
-  render: (args) => ({
-    props: args,
-    template: `
-      <ui-select 
-        [label]="label" 
-        [helperText]="helperText"
-        [invalidText]="invalidText" 
-        [warnText]="warnText"
-        [theme]="theme"
-        [size]="size"
-        [fluid]="fluid"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [invalid]="invalid"
-        [warn]="warn"
-        [skeleton]="skeleton"
-        [(ngModel)]="model"
-        [display]="display">
-        <option value="default" disabled selected hidden>Choose an option</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </ui-select>
-    `,
-  }),
 };
 
 export const InvalidSelect: Story = {
@@ -148,63 +122,12 @@ export const InvalidSelect: Story = {
     invalid: true,
     invalidText: 'This selection is invalid.',
   },
-  render: (args) => ({
-    props: args,
-    template: `
-      <ui-select 
-        [label]="label" 
-        [helperText]="helperText"
-        [invalidText]="invalidText" 
-        [warnText]="warnText"
-        [theme]="theme"
-        [size]="size"
-        [fluid]="fluid"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [invalid]="invalid"
-        [warn]="warn"
-        [skeleton]="skeleton"
-        [(ngModel)]="model"
-        [display]="display">
-        <option value="default" disabled selected hidden>Choose an option</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </ui-select>
-    `,
-  }),
 };
 
-// With a warning state select
 export const WarningSelect: Story = {
   args: {
     label: 'Choose a category',
     warn: true,
     warnText: 'Please note this option.',
   },
-  render: (args) => ({
-    props: args,
-    template: `
-      <ui-select 
-        [label]="label" 
-        [helperText]="helperText"
-        [invalidText]="invalidText" 
-        [warnText]="warnText"
-        [theme]="theme"
-        [size]="size"
-        [fluid]="fluid"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [invalid]="invalid"
-        [warn]="warn"
-        [skeleton]="skeleton"
-        [(ngModel)]="model"
-        [display]="display">
-        <option value="default" disabled selected hidden>Choose an option</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </ui-select>
-    `,
-  }),
 };

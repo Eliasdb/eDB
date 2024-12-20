@@ -1,4 +1,4 @@
-import { Component, forwardRef, input, signal } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -15,17 +15,17 @@ import { InputModule } from 'carbon-components-angular';
       [invalid]="invalid()"
       [invalidText]="invalidText()"
       [warn]="warn()"
-      [disabled]="isDisabled()"
+      [disabled]="disabled()"
       [skeleton]="skeleton()"
       [warnText]="warnText()"
     >
       {{ label() }}
       <input
         cdsText
-        [size]="size()"
+        [attr.size]="size()"
         [invalid]="invalid()"
         [warn]="warn()"
-        [disabled]="isDisabled()"
+        [disabled]="disabled()"
         [theme]="theme()"
         [placeholder]="placeholder()"
         [readonly]="readonly()"
@@ -47,7 +47,7 @@ import { InputModule } from 'carbon-components-angular';
 export class UiTextInputComponent implements ControlValueAccessor {
   readonly label = input<string>('');
   readonly placeholder = input<string>('');
-  readonly isDisabled = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
   readonly invalid = input<boolean>(false);
   readonly helperText = input<string>('');
   readonly invalidText = input<string>('');
@@ -58,8 +58,6 @@ export class UiTextInputComponent implements ControlValueAccessor {
   readonly theme = input<'light' | 'dark'>('dark');
   readonly readonly = input<boolean>(false);
   readonly autocomplete = input<string>('');
-
-  private _disabled = signal(false);
 
   value: string = '';
 
@@ -82,13 +80,5 @@ export class UiTextInputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this._disabled.set(isDisabled); // Update the reactive signal
-  }
-
-  get disabled(): boolean {
-    return this._disabled();
   }
 }
