@@ -49,9 +49,6 @@ export class PlatformLayout implements OnInit {
 
   ngOnInit(): void {
     this.updateCurrentPage();
-    this.authService.getUserRole().subscribe((role) => {
-      console.log('User role:', role);
-    });
     this.isAdmin$.subscribe((isAdmin) => {
       if (isAdmin) {
         this.addAdminLinks();

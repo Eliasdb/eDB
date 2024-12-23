@@ -14,7 +14,10 @@ module.exports = [
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
+          allow: [
+            '^.*/eslint(\\.base)?\\.config\\.[cm]?js$',
+            '@eDB/appointment-app',
+          ],
           depConstraints: [
             {
               sourceTag: '*',
