@@ -91,7 +91,6 @@ export class LoginFormComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
 
-  // Define field definitions
   fieldDefinitions = loginFormFields;
 
   // Capture the returnUrl (default to dashboard)
