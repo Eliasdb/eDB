@@ -16,41 +16,44 @@ jobs:
         name: Check if Backend or Frontend Code Changed
         runs-on: ubuntu-latest
         outputs:
-            backend: ${{ steps.filter.outputs.backend }}
-            frontend: ${{ steps.filter.outputs.frontend }}
+            backend: ${{ steps.set_backend.outputs.backend }}
+            frontend: ${{ steps.set_frontend.outputs.frontend }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
               with:
-                  fetch-depth: 0 # Fetch full history for accurate comparisons
+                  fetch-depth: 2 # Fetch the latest and previous commit
 
-            - name: Determine Base for Comparison
-              id: determine_base
+            - name: Get Changed Files
+              id: changed_files
               run: |
-                  # Check if there's a parent commit
-                  if git rev-parse HEAD~1 > /dev/null 2>&1; then
-                    echo "base=HEAD~1" >> $GITHUB_OUTPUT
+                  echo "files=$(git diff --name-only HEAD~1 HEAD)" >> $GITHUB_OUTPUT
+              shell: bash
+
+            - name: Set Backend Changed
+              id: set_backend
+              run: |
+                  if echo "${{ steps.changed_files.outputs.files }}" | grep -q '^api/'; then
+                    echo "backend=true" >> $GITHUB_OUTPUT
                   else
-                    # Fallback to merge-base with origin/main
-                    echo "base=$(git merge-base HEAD origin/main)" >> $GITHUB_OUTPUT
+                    echo "backend=false" >> $GITHUB_OUTPUT
                   fi
               shell: bash
 
-            - name: Filter Paths
-              id: filter
-              uses: dorny/paths-filter@v2
-              with:
-                  base: ${{ steps.determine_base.outputs.base }}
-                  filters: |
-                      backend:
-                        - 'api/**'
-                      frontend:
-                        - 'eDB/**'
+            - name: Set Frontend Changed
+              id: set_frontend
+              run: |
+                  if echo "${{ steps.changed_files.outputs.files }}" | grep -q '^eDB/'; then
+                    echo "frontend=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "frontend=false" >> $GITHUB_OUTPUT
+                  fi
+              shell: bash
 
             - name: Debug Filter Outputs
               run: |
-                  echo "Backend changed: ${{ steps.filter.outputs.backend }}"
-                  echo "Frontend changed: ${{ steps.filter.outputs.frontend }}"
+                  echo "Backend changed: ${{ steps.set_backend.outputs.backend }}"
+                  echo "Frontend changed: ${{ steps.set_frontend.outputs.frontend }}"
 
     lint:
         name: Lint Code
