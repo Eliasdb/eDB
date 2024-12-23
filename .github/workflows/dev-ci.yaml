@@ -19,6 +19,8 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: '20'
+            - name: Install pnpm
+              run: corepack enable && corepack prepare pnpm@latest --activate
             - name: Install Dependencies
               run: pnpm install
               working-directory: ./eDB # Set the path to where package.json is located
@@ -40,8 +42,10 @@ jobs:
               run: corepack enable && corepack prepare pnpm@latest --activate
             - name: Install Dependencies
               run: pnpm install
+              working-directory: ./eDB # Set the path to where package.json is located
             - name: Run Tests
               run: pnpm nx run-many --target=test --all --exclude=appointment-app
+              working-directory: ./eDB # Set the path to where package.json is located
 
     build-backend:
         name: Build Backend
