@@ -9,22 +9,22 @@ on:
             - main
 
 jobs:
-  lint:
-      name: Lint Code
-      runs-on: ubuntu-latest
-      steps:
-          - name: Checkout Code
-            uses: actions/checkout@v3
-          - name: Setup Node.js
-            uses: actions/setup-node@v3
-            with:
-                node-version: '20'
-          - name: Install Dependencies
-            run: pnpm install
-            working-directory: ./eDB/eDB # Set the path to where package.json is located
-          - name: Run Lint for All Projects
-            run: pnpm nx run-many --target=lint --all || true
-            working-directory: ./eDB/eDB # Adjust as needed
+    lint:
+        name: Lint Code
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+            - name: Install Dependencies
+              run: pnpm install
+              working-directory: ./eDB/eDB # Set the path to where package.json is located
+            - name: Run Lint for All Projects
+              run: pnpm nx run-many --target=lint --all || true
+              working-directory: ./eDB/eDB # Adjust as needed
 
     test:
         name: Run Tests
