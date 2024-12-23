@@ -30,6 +30,7 @@ jobs:
                     echo "base=HEAD^" >> $GITHUB_ENV
                   else
                     echo "base=$(git merge-base HEAD origin/dev)" >> $GITHUB_ENV
+                  fi
               shell: bash
             - name: Debug Base
               run: |
