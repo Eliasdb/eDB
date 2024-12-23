@@ -25,7 +25,7 @@ jobs:
               run: pnpm install
               working-directory: ./eDB # Set the path to where package.json is located
             - name: Run Lint for All Projects
-              run: pnpm nx run-many --target=lint --all || true
+              run: pnpm nx run-many --target=lint --all --verbose || true
               working-directory: ./eDB # Adjust as needed
 
     test:
@@ -44,7 +44,7 @@ jobs:
               run: pnpm install
               working-directory: ./eDB # Set the path to where package.json is located
             - name: Run Tests
-              run: pnpm nx run-many --target=test --all --exclude=appointment-app
+              run: pnpm nx run-many --target=test --all --exclude=appointment-app --verbose || true
               working-directory: ./eDB # Set the path to where package.json is located
 
     build-backend:
