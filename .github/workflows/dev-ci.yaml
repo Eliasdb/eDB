@@ -22,7 +22,7 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
               with:
-                  fetch-depth: 2 # Fetch the latest and previous commit
+                  fetch-depth: 2 # Fetch the latest and previous commit for comparison
 
             - name: Get Changed Files
               id: changed_files
