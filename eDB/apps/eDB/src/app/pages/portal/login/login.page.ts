@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginFormComponent } from '../../../components/portal/login/login-form/login-form.component';
+import { LoginFormComponent } from '@eDB/platform-components/portal';
 
 @Component({
   selector: 'platform-login-page',
@@ -14,7 +14,7 @@ import { LoginFormComponent } from '../../../components/portal/login/login-form/
         <div class="intro-image-section">
           <img
             src="https://www.ibm.com/account/ibmidutil/login-ui/img/illustration-final.svg"
-            alt=""
+            alt="Abstract illustration."
             height="850"
             width="auto"
           />

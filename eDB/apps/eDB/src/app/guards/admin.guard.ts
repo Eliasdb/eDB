@@ -6,8 +6,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { AuthService } from '@eDB/platform-services';
 import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
-import { AuthService } from '../services/auth-service/auth.service';
 
 @Injectable({
   providedIn: 'root',

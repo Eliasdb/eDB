@@ -1,9 +1,12 @@
 import { Route } from '@angular/router';
+
 import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
+
 import { PlatformLayout } from './layouts/platform/platform.layout';
 import { PortalLayout } from './layouts/portal/portal.layout';
+
 import { NotFoundPage } from './pages/404/not-found.page';
 import { LoginPage } from './pages/portal/login/login.page';
 import { RegisterPage } from './pages/portal/register/register.page';

@@ -1,3 +1,9 @@
+import {
+  UiLoadingSpinnerComponent,
+  UiPlatformOverflowMenuComponent,
+  UiTableComponent,
+} from '@eDB/shared-ui';
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -8,14 +14,13 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import {
-  UiLoadingSpinnerComponent,
-  UiPlatformOverflowMenuComponent,
-  UiTableComponent,
-} from '@eDB/shared-ui';
+
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+
+import { AdminService, UsersParamsService } from '@eDB/platform-services';
 import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
+
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { TableModel } from 'carbon-components-angular';
 import {
@@ -27,11 +32,10 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { PaginatedResponse } from '../../../../models/paged-result.model';
-import { SortEvent } from '../../../../models/sort-event.model';
-import { UserProfile } from '../../../../models/user.model';
-import { AdminService } from '../../../../services/admin-service/admin.service';
-import { UserParamService } from '../../../../services/users-params-service/users-params.service';
+
+import { PaginatedResponse } from '@eDB/platform-models/paged-result.model';
+import { SortEvent } from '@eDB/platform-models/sort-event.model';
+import { UserProfile } from '@eDB/platform-models/user.model';
 import {
   MODAL_CONFIG,
   USER_ROW_MAPPER_CONFIG,
@@ -111,14 +115,14 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
 
   private adminService = inject(AdminService);
   private modalUtils = inject(ModalUtilsService);
-  private userParamService = inject(UserParamService);
+  private usersParamsService = inject(UsersParamsService);
   private tableUtilsService = inject(TableUtilsService);
   private router = inject(Router);
 
-  private searchParam = toSignal(this.userParamService.query$, {
+  private searchParam = toSignal(this.usersParamsService.query$, {
     initialValue: '',
   });
-  private sortParam = toSignal(this.userParamService.sort$, {
+  private sortParam = toSignal(this.usersParamsService.sort$, {
     initialValue: 'id,asc',
   });
 
@@ -261,7 +265,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
       .pipe(debounceTime(300), takeUntil(this.destroy$))
       .subscribe((sort: SortEvent) => {
         const sortParam = `${sort.sortField},${sort.sortDirection}`;
-        this.userParamService.navigate({
+        this.usersParamsService.navigate({
           sort: sortParam,
           search: this.searchParam(),
         });
@@ -272,7 +276,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     this.searchChange$
       .pipe(debounceTime(300), takeUntil(this.destroy$))
       .subscribe((search: string) => {
-        this.userParamService.navigate({
+        this.usersParamsService.navigate({
           search,
           sort: this.sortParam(),
         });

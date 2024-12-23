@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { RegisterFormComponent } from '@eDB/platform-components/portal';
 import { UiTitleComponent } from '@eDB/shared-ui';
-import { RegisterFormComponent } from '../../../components/portal/register/register-form/register-form.component';
 
 @Component({
   selector: 'platform-register-page',

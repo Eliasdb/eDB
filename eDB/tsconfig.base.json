@@ -15,6 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@eDB/platform-services": ["apps/eDB/src/app/services/index"],
+      "@eDB/platform-models/*": ["apps/eDB/src/app/models/*"],
+      "@eDB/platform-components/portal": [
+        "apps/eDB/src/app/components/portal/index"
+      ],
+      "@eDB/platform-components/platform": [
+        "apps/eDB/src/app/components/platform/index"
+      ],
       "@eDB/appointment-app": ["apps/appointment-app/src/index"],
       "@eDB/shared-ui": ["libs/ui/src/index"],
       "@eDB/shared-utils": ["libs/utils/src/index"]

@@ -56,17 +56,10 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly readonly = input<boolean>(false);
   readonly autocomplete = input<string>('');
 
-  // Use a separate Signal for dynamic disabled state
-  // private _disabled = signal(false);
-
   value: string = '';
 
   private onChange: (value: string) => void = () => {};
   public onTouched: () => void = () => {};
-
-  // setDisabledState(isDisabled: boolean): void {
-  //   this._disabled.set(isDisabled); // Dynamically update the signal value
-  // }
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;

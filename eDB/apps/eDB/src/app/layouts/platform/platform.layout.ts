@@ -1,8 +1,11 @@
+import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
+
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
+
+import { AuthService } from '@eDB/platform-services';
+
 import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'platform-layout',

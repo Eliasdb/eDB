@@ -1,17 +1,20 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
   UiTextInputComponent,
   UiTitleComponent,
 } from '@eDB/shared-ui';
+
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { AuthService } from '@eDB/platform-services';
 import { FormUtilsService } from '@eDB/shared-utils';
-import { NotificationService } from 'carbon-components-angular'; // Import NotificationService
-import { Credentials, LoginResponse } from '../../../../models/auth.model'; // Import Credentials
-import { AuthService } from '../../../../services/auth-service/auth.service';
+import { NotificationService } from 'carbon-components-angular';
+
+import { Credentials, LoginResponse } from '@eDB/platform-models/auth.model';
 import { loginFormFields } from './login-form.config';
 
 @Component({

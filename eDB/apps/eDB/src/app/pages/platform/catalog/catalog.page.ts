@@ -1,7 +1,7 @@
 import { Component, effect, inject } from '@angular/core';
+import { CatalogItem } from '@eDB/platform-models/catalog.model';
+import { CatalogService } from '@eDB/platform-services';
 import { UiTileComponent } from '@eDB/shared-ui';
-import { CatalogItem } from '../../../models/catalog.model';
-import { CatalogService } from '../../../services/catalog-service/catalog.service';
 
 @Component({
   selector: 'platform-catalog',
