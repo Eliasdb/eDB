@@ -81,7 +81,7 @@ namespace api.Controllers
                 return NotFound(new
                 {
                     error = "NotFound",
-                    message = "User not found"
+                    message = "User not found."
                 });
             }
 
