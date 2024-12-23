@@ -133,7 +133,7 @@ export class ProfilePage {
 
     const row = group.rows[rowIndex];
     const field = row.label;
-    let payload: any = {};
+    const payload: any = {};
 
     switch (field) {
       case 'Password':

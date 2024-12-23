@@ -20,15 +20,27 @@ module.exports = [
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: 'platform',
           style: 'kebab-case',
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      semi: ['error', 'always'],
+      quotes: [
+        'error',
+        'single',
+        {
+          avoidEscape: true, // Allow double quotes if it avoids escaping
         },
       ],
     },
   },
   {
     files: ['**/*.html'],
-    // Override or add rules here
-    rules: {},
+    rules: {
+      '@angular-eslint/template/no-negated-async': 'error',
+      '@angular-eslint/template/no-call-expression': 'warn',
+    },
   },
 ];
