@@ -134,7 +134,7 @@ export class RegisterFormComponent implements OnInit {
             duration: 5000,
             smart: true,
           });
-          this.isSubmitting = false; // End submission
+          this.isSubmitting = false;
         },
         onError: (error) => {
           this.isSubmitting = false;

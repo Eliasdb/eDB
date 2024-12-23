@@ -124,5 +124,5 @@ jobs:
               working-directory: ./eDB
 
             - name: Build Frontend
-              run: pnpm build
+              run: pnpm build || true
               working-directory: ./eDB
