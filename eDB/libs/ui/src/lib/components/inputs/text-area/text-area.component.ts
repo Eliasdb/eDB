@@ -52,8 +52,8 @@ export class UiTextAreaComponent implements ControlValueAccessor {
   readonly size = input<'sm' | 'md' | 'lg'>('md'); // Size of the textarea field
   readonly theme = input<'light' | 'dark'>('dark'); // Theme of the textarea field
   readonly readonly = input<boolean>(false); // Whether the textarea is read-only
-  readonly rows = input<number>(4); // Number of rows for the textarea
-  readonly cols = input<number>(101); // Number of columns for the textarea
+  readonly rows = input<number>(4);
+  readonly cols = input<number>(101);
 
   value: string = ''; // Value of the textarea field
   private onChange: (value: string) => void = () => {};
