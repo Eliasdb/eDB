@@ -21,10 +21,10 @@ jobs:
                   node-version: '20'
             - name: Install Dependencies
               run: pnpm install
-              working-directory: ./eDB/eDB # Set the path to where package.json is located
+              working-directory: ./eDB # Set the path to where package.json is located
             - name: Run Lint for All Projects
               run: pnpm nx run-many --target=lint --all || true
-              working-directory: ./eDB/eDB # Adjust as needed
+              working-directory: ./eDB # Adjust as needed
 
     test:
         name: Run Tests
