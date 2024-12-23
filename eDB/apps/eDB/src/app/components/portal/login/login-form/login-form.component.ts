@@ -93,7 +93,6 @@ export class LoginFormComponent implements OnInit {
 
   fieldDefinitions = loginFormFields;
 
-  // Capture the returnUrl (default to dashboard)
   private returnUrl: string = '/dashboard';
 
   loginMutation = this.authService.loginMutation();
