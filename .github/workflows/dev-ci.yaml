@@ -22,12 +22,13 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
               with:
-                  fetch-depth: 0 # Fetch full history for accurate comparisons
+                  fetch-depth: 2 # Fetch enough history for comparison
             - name: Determine Base for Comparison
               id: determine_base
               run: |
-                  if git rev-parse HEAD~1 > /dev/null 2>&1; then
-                    echo "HEAD~1" > base.txt
+                  # Use HEAD^ if it exists, fallback to merge-base
+                  if git rev-parse HEAD^ > /dev/null 2>&1; then
+                    echo "HEAD^" > base.txt
                   else
                     echo "$(git merge-base HEAD origin/dev)" > base.txt
                   fi
@@ -38,6 +39,7 @@ jobs:
               id: filter
               uses: dorny/paths-filter@v2
               with:
+                  # Use base determined in previous step
                   base: ${{ steps.determine_base.outputs.base }}
                   filters: |
                       backend:

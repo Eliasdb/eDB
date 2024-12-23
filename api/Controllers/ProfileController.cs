@@ -90,7 +90,7 @@ namespace api.Controllers
 
             return Ok(new
             {
-                message = "Profile updated successfully!",
+                message = "Profile updated successfully.",
                 user = new
                 {
                     user.Email,
