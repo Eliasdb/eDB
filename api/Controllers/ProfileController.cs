@@ -29,7 +29,7 @@ namespace api.Controllers
                 return Unauthorized(new
                 {
                     error = "Unauthorized",
-                    message = "User not authenticated"
+                    message = "User not authenticated."
                 });
             }
 
