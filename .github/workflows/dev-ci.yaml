@@ -22,13 +22,23 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
               with:
-                  fetch-depth: 0 # Fetch at least 2 commits for comparison
+                  fetch-depth: 2 # Fetch at least the current and parent commits
+            - name: Determine Base for Comparison
+              id: determine_base
+              run: |
+                  if git rev-parse HEAD^ > /dev/null 2>&1; then
+                    echo "base=HEAD^" >> $GITHUB_ENV
+                  else
+                    echo "base=$(git merge-base HEAD origin/dev)" >> $GITHUB_ENV
+              shell: bash
+            - name: Debug Base
+              run: |
+                  echo "Using base: ${{ env.base }}"
             - name: Filter Paths
               id: filter
               uses: dorny/paths-filter@v2
               with:
-                  # Use HEAD^ to compare the current commit with its parent
-                  base: HEAD^
+                  base: ${{ env.base }}
                   filters: |
                       backend:
                         - 'api/**'
@@ -38,7 +48,6 @@ jobs:
               run: |
                   echo "Backend changed: ${{ steps.filter.outputs.backend }}"
                   echo "Frontend changed: ${{ steps.filter.outputs.frontend }}"
-
     lint:
         name: Lint Code
         runs-on: ubuntu-latest
