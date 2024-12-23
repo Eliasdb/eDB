@@ -103,7 +103,6 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
   `,
 })
 export class UiModalComponent {
-  // Using the new `input` function for reactive inputs
   header = model<string>();
   content = model<string>();
   hasForm = model<boolean>(false);

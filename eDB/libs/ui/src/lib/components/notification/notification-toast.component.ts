@@ -22,7 +22,7 @@ import { NotificationModule } from 'carbon-components-angular';
         [notificationObj]="{
           type: notificationType(),
           title: title(),
-          subtitle: subtitle(),
+          message: subtitle(),
           showClose: showClose(),
         }"
       ></cds-notification>
@@ -33,7 +33,7 @@ import { NotificationModule } from 'carbon-components-angular';
         [notificationObj]="{
           type: notificationType(),
           title: title(),
-          subtitle: subtitle(),
+          message: subtitle(),
           showClose: showClose(),
         }"
       ></cds-actionable-notification>

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { TilesModule } from 'carbon-components-angular';
 import { UiIconButtonComponent } from '../buttons/icon-button/icon-button.component';
 import { UiTagComponent } from '../tag/tag.component';
@@ -26,7 +26,7 @@ import { UiTagComponent } from '../tag/tag.component';
           iconSize="16px"
           iconColor="#ffffff"
           description="Subscribe"
-          (click)="onSubscribeClick()"
+          (click)="emitSubscribe()"
         ></ui-icon-button>
       </div>
     </cds-tile>
@@ -38,7 +38,10 @@ export class UiTileComponent {
   readonly description = input.required<string>();
   readonly tags = input<string[]>([]);
 
-  onSubscribeClick() {
-    alert('Subscribed!');
+  @Output() subscribe = new EventEmitter<void>();
+
+  emitSubscribe() {
+    this.subscribe.emit();
+    alert('subscribed');
   }
 }

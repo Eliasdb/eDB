@@ -53,8 +53,11 @@ export class UiContentSwitcherComponent {
    * Handles selection changes from the Content Switcher.
    * @param selectedOption The selected ContentSwitcherOption.
    */
-  onSelectionChange(selectedOption: ContentSwitcherOption): void {
-    const selectedIndex = this.optionsList.toArray().indexOf(selectedOption);
+  onSelectionChange(selectedOption: ContentSwitcherOption | number): void {
+    const selectedIndex =
+      typeof selectedOption === 'number'
+        ? selectedOption
+        : this.optionsList.toArray().indexOf(selectedOption);
     if (selectedIndex !== -1 && selectedIndex !== this.activeSection()) {
       this.activeSection.set(selectedIndex);
       this.activeSectionChange.emit(selectedIndex);
