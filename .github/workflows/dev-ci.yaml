@@ -21,10 +21,14 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 2 # Fetch at least 2 commits for comparison
             - name: Filter Paths
               id: filter
               uses: dorny/paths-filter@v2
               with:
+                  # Use HEAD^ to compare the current commit with its parent
+                  base: HEAD^
                   filters: |
                       backend:
                         - 'api/**'
@@ -34,6 +38,7 @@ jobs:
               run: |
                   echo "Backend changed: ${{ steps.filter.outputs.backend }}"
                   echo "Frontend changed: ${{ steps.filter.outputs.frontend }}"
+
     lint:
         name: Lint Code
         runs-on: ubuntu-latest
