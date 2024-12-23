@@ -175,7 +175,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     cacheTime: 0, // Cache is cleared immediately
-    staleTime: 0, // Data is considered stale immediately
+    staleTime: 0,
   }));
 
   protected users$: Observable<UserProfile[]> = toObservable(
