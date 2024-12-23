@@ -25,7 +25,7 @@ jobs:
                   fetch-depth: 2 # Fetch the latest and previous commit for comparison
 
             - name: Get Changed Files
-              id: changed_files
+              id: get_changed_files
               run: |
                   changed_files=$(git diff --name-only HEAD~1 HEAD)
                   echo "changed_files=$changed_files" >> $GITHUB_OUTPUT
@@ -34,7 +34,7 @@ jobs:
             - name: Set Backend Changed
               id: set_backend
               run: |
-                  if echo "${{ steps.changed_files.outputs.changed_files }}" | grep -q '^api/'; then
+                  if echo "${{ steps.get_changed_files.outputs.changed_files }}" | grep -q '^api/'; then
                     echo "backend=true" >> $GITHUB_OUTPUT
                   else
                     echo "backend=false" >> $GITHUB_OUTPUT
@@ -44,7 +44,7 @@ jobs:
             - name: Set Frontend Changed
               id: set_frontend
               run: |
-                  if echo "${{ steps.changed_files.outputs.changed_files }}" | grep -q '^eDB/'; then
+                  if echo "${{ steps.get_changed_files.outputs.changed_files }}" | grep -q '^eDB/'; then
                     echo "frontend=true" >> $GITHUB_OUTPUT
                   else
                     echo "frontend=false" >> $GITHUB_OUTPUT
