@@ -1,8 +1,10 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { UiSidenavComponent, UiStructuredListComponent } from '@eDB/shared-ui';
-import { SettingsGroup } from '../../../models/settings.model';
-import { LinkItem } from '../../../models/user.model';
-import { UserProfileService } from '../../../services/user-profile-service/user-profile.service';
+
+import { UserProfileService } from '@eDB/platform-services';
+
+import { SettingsGroup } from '@eDB/platform-models/settings.model';
+import { LinkItem } from '@eDB/platform-models/user.model';
 import { settingsGroups } from './profile.page.config';
 
 @Component({

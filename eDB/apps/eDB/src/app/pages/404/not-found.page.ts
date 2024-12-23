@@ -1,6 +1,8 @@
+import { UiButtonComponent } from '@eDB/shared-ui';
+
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { UiButtonComponent } from '@eDB/shared-ui';
+
 import { IconModule } from 'carbon-components-angular';
 
 @Component({

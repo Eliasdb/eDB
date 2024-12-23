@@ -1,15 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
   UiTextInputComponent,
 } from '@eDB/shared-ui';
+
+import { Component, OnInit, inject } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from '@eDB/platform-services';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
+
 import { User } from '../../../../models/user.model';
-import { AuthService } from '../../../../services/auth-service/auth.service';
 import { registerFormFields } from './register-form.config';
 
 @Component({
@@ -23,7 +26,7 @@ import { registerFormFields } from './register-form.config';
   template: `
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        @for (row of fieldRows; track row.indexOf) {
+        @for (row of fieldRows; track row) {
           <div class="form-row">
             @for (field of row; track field?.controlName) {
               @if (field) {

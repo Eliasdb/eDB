@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   UiPortalFooterComponent,
   UiPortalHeaderComponent,
 } from '@eDB/shared-ui';
+
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'platform-portal-layout',

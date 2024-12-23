@@ -74,10 +74,10 @@
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
       "options": {
-        "jestConfig": "apps/eDB/jest.config.ts"
+        "vitestConfig": "apps/eDB/vitest.config.ts",
+        "passWithNoTests": true
       }
     },
     "serve-static": {

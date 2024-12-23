@@ -11,7 +11,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class UserParamService {
+export class UsersParamsService {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private queryParams$ = this.activatedRoute.queryParams;
@@ -19,13 +19,13 @@ export class UserParamService {
   public query$ = this.queryParams$.pipe(
     map((params): string => params[SEARCH_QUERY_PARAM] || ''),
     distinctUntilChanged(),
-    shareReplay({ bufferSize: 1, refCount: false })
+    shareReplay({ bufferSize: 1, refCount: false }),
   );
 
   public sort$ = this.queryParams$.pipe(
     map((params): string => params[SORT_QUERY_PARAM] || 'id,asc'),
     distinctUntilChanged(),
-    shareReplay({ bufferSize: 1, refCount: false })
+    shareReplay({ bufferSize: 1, refCount: false }),
   );
 
   public cursor$ = this.queryParams$.pipe(
@@ -34,7 +34,7 @@ export class UserParamService {
       return cursor ? Number(cursor) : null;
     }),
     distinctUntilChanged(),
-    shareReplay({ bufferSize: 1, refCount: false })
+    shareReplay({ bufferSize: 1, refCount: false }),
   );
 
   public navigate(params: UserQueryParams): void {

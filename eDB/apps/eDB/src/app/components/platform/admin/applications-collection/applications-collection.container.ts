@@ -1,4 +1,10 @@
 import {
+  UiButtonComponent,
+  UiPlatformOverflowMenuComponent,
+  UiTableComponent,
+} from '@eDB/shared-ui';
+
+import {
   Component,
   computed,
   effect,
@@ -7,19 +13,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  UiButtonComponent,
-  UiPlatformOverflowMenuComponent,
-  UiTableComponent,
-} from '@eDB/shared-ui';
+
+import { AdminService } from '@eDB/platform-services';
 import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
+
 import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
+
 import {
   Application,
   CreateApplicationDto,
-} from '../../../../models/application-overview.model';
-import { AdminService } from '../../../../services/admin-service/admin.service';
+} from '@eDB/platform-models/application-overview.model';
 import {
   APPLICATION_TABLE_CONFIG,
   MODAL_CONFIG,

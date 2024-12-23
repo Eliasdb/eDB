@@ -1,7 +1,9 @@
+import { UiButtonComponent, UiStructuredListComponent } from '@eDB/shared-ui';
+
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UiButtonComponent, UiStructuredListComponent } from '@eDB/shared-ui';
-import { AdminService } from '../../../../services/admin-service/admin.service';
+
+import { AdminService } from '@eDB/platform-services';
 
 @Component({
   selector: 'app-user-profile',

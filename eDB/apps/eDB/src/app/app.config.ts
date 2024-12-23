@@ -6,11 +6,14 @@ import {
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16'; // Import required icons
+
 import { AuthInterceptor } from '@eDB/shared-utils';
+
 import {
   provideTanStackQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
+
 import {
   ExperimentalService,
   IconService,

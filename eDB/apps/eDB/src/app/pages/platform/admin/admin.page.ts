@@ -1,7 +1,10 @@
+import {
+  ApplicationsCollectionContainer,
+  UsersCollectionContainer,
+} from '@eDB/platform-components/platform';
+
 import { Component } from '@angular/core';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import { ApplicationsCollectionContainer } from '../../../components/platform/admin/applications-collection/applications-collection.container';
-import { UsersCollectionContainer } from '../../../components/platform/admin/users-collection/users-collection.container';
 
 @Component({
   selector: 'platform-admin',
