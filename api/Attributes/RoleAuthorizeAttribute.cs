@@ -27,7 +27,6 @@ public class RoleAuthorizeAttribute : Attribute, IAuthorizationFilter
             .Select(c => c.Value)
             .ToList();
 
-        // Log the roles for debugging
         Console.WriteLine($"User roles: {string.Join(", ", userRoles)}");
 
         if (!_roles.Any(requiredRole => userRoles.Contains(requiredRole, StringComparer.OrdinalIgnoreCase)))
