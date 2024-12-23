@@ -96,7 +96,6 @@ export class LoginFormComponent implements OnInit {
   // Capture the returnUrl (default to dashboard)
   private returnUrl: string = '/dashboard';
 
-  // Initialize the mutation
   loginMutation = this.authService.loginMutation();
 
   ngOnInit(): void {
