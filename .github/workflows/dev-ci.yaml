@@ -4,14 +4,37 @@ on:
     push:
         branches:
             - dev
+        paths:
+            - 'api/**' # Trigger backend-related changes
+            - 'eDB/**' # Trigger frontend-related changes
     pull_request:
         branches:
             - main
 
 jobs:
+    filter:
+        name: Filter Changed Paths
+        runs-on: ubuntu-latest
+        outputs:
+            backend: ${{ steps.filter.outputs.backend }}
+            frontend: ${{ steps.filter.outputs.frontend }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+            - name: Filter Paths
+              id: filter
+              uses: dorny/paths-filter@v2
+              with:
+                  filters: |
+                      backend:
+                        - 'api/**'
+                      frontend:
+                        - 'eDB/**'
+
     lint:
         name: Lint Code
         runs-on: ubuntu-latest
+        needs: filter
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -23,14 +46,15 @@ jobs:
               run: corepack enable && corepack prepare pnpm@latest --activate
             - name: Install Dependencies
               run: pnpm install
-              working-directory: ./eDB # Set the path to where package.json is located
+              working-directory: ./eDB
             - name: Run Lint for All Projects
               run: pnpm nx run-many --target=lint --all --verbose || true
-              working-directory: ./eDB # Adjust as needed
+              working-directory: ./eDB
 
     test:
         name: Run Tests
         runs-on: ubuntu-latest
+        needs: filter
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -42,15 +66,16 @@ jobs:
               run: corepack enable && corepack prepare pnpm@latest --activate
             - name: Install Dependencies
               run: pnpm install
-              working-directory: ./eDB # Set the path to where package.json is located
+              working-directory: ./eDB
             - name: Run Tests
               run: pnpm nx run-many --target=test --all --exclude=appointment-app --verbose || true
-              working-directory: ./eDB # Set the path to where package.json is located
+              working-directory: ./eDB
 
     build-backend:
         name: Build Backend
         runs-on: ubuntu-latest
-        needs: [lint, test]
+        needs: [filter, lint, test]
+        if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -60,7 +85,8 @@ jobs:
     build-frontend:
         name: Build Frontend
         runs-on: ubuntu-latest
-        needs: [lint, test]
+        needs: [filter, lint, test]
+        if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -68,5 +94,6 @@ jobs:
               run: corepack enable && corepack prepare pnpm@latest --activate
             - name: Install Dependencies
               run: pnpm install
+              working-directory: ./eDB
             - name: Build Frontend
               run: pnpm build
