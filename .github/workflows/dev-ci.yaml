@@ -30,7 +30,10 @@ jobs:
                         - 'api/**'
                       frontend:
                         - 'eDB/**'
-
+            - name: Debug Filter Outputs
+              run: |
+                  echo "Backend changed: ${{ steps.filter.outputs.backend }}"
+                  echo "Frontend changed: ${{ steps.filter.outputs.frontend }}"
     lint:
         name: Lint Code
         runs-on: ubuntu-latest
