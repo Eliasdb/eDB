@@ -621,27 +621,45 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ---
 
+## 5. Achieved Goals
+
+-   [x] Setup development environment
+-   [x] Setup production environment
+-   [x] Diagrams for CI/CD, Dockerfiles, production and dev setup, frontend and backend architecture
+-   [x] Documentation
+-   [x] Refactor CI/CD pipeline into prod and dev workflows
+-   [x] Linting, unit testing, build checks in pipeline before merge to dev branch.
+
 ## 5. Current Goals
 
--   [x] Production diagram
--   [ ] Refactor CI/CD pipeline
--   [ ] list pipeline jobs separately on readme
--   [ ] add graphs to admin page
--   [ ] Streamline README
--   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
--   [ ] Add unit, integration, and E2E testing to the pipeline
--   [ ] Maybe add something like Argo CD to the pipeline
--   [ ] Redis integration
--   [ ] Frontend refactor and make UI look nicer and responsive
--   [ ] Look into Swagger and add diagrams for dockerfiles
+### Documentation
 
-## 6. Unresolved Questions
+-   [ ] Streamline README documentation
+-   [ ] Look into Swagger
+
+### Frontend
+
+-   [ ] Add graphs to the admin page
+-   [ ] Make UI look nicer and responsive
+
+### Backend
+
+-   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
+
+### Devops & Testing
+
+-   [ ] Test CI/CD pipeline production
+-   [ ] Add integration, E2E testing, and unit testing for backend to the pipeline
+
+### 6. Unresolved Questions
 
 -   [ ] Best practices for Observables and Signals
 -   [ ] Overall Frontend architecture
 -   [ ] [Violation] warnings in console
 -   [ ] Feedback on clarity of documentation and diagrams
 -   [ ] Nx Cloud?
--   [ ] Why do I need a staging environment?
+-   [ ] Staging environment?
 -   [ ] Database backups?
 -   [ ] SOLID principles?
+-   [ ] Argo CD?
+-   [ ] Redis caching integration?
