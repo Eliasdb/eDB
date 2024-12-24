@@ -30,7 +30,7 @@
             -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
         -   [3.1.3 Development Workflow](#313-development-workflow)
     -   [3.2 Production](#32-production)
-        -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
+        -   [3.2.1 Architecture Diagrams](#321-architecture-diagrams)
         -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
         -   [3.2.3 CI/CD Flow](#323-cicd-flow)
 -   [4. Handy Commands Cheat Sheet](#4-handy-commands-cheat-sheet)
