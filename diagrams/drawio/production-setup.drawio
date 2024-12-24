@@ -131,7 +131,7 @@
           <mxGeometry x="2175" y="-16690" width="540" height="180" as="geometry" />
         </mxCell>
         <mxCell id="pb-QOjSHvFlhCj56YCVK-31" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;b style=&quot;&quot;&gt;CI/CD Pipeline Production&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
-          <mxGeometry x="796.25" y="-19300" width="2520" height="140" as="geometry" />
+          <mxGeometry x="725" y="-19300" width="2580" height="140" as="geometry" />
         </mxCell>
         <mxCell id="pb-QOjSHvFlhCj56YCVK-57" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;b style=&quot;&quot;&gt;Dockerfiles&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="1690" y="-15450" width="730" height="140" as="geometry" />
