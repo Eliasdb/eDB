@@ -517,7 +517,7 @@ When you are able to spin up the cluster and access the frontend and backend, yo
 
 #### 3.2.1 Architecture Diagrams
 
-![Development Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv1.png)
+![Production Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv2.png)
 
 #### 3.2.2 CI/CD Pipeline
 
@@ -531,7 +531,6 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ##### Preparation
 
--   Ensures that the job runs only for commits not made by the GitHub Actions bot.
 -   Checks out the repository code with full commit history for accurate versioning.
 
 ##### Versioning
@@ -541,7 +540,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ##### Docker Setup
 
--   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM63).
+-   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
 -   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
 
 ##### Build and Push Docker Images
@@ -628,13 +627,13 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [x] Diagrams for CI/CD, Dockerfiles, production and dev setup, frontend and backend architecture
 -   [x] Documentation
 -   [x] Refactor CI/CD pipeline into prod and dev workflows
--   [x] Linting, unit testing, build checks in pipeline before merge to dev branch.
+-   [x] Linting, unit testing, build checks in pipeline before merging with dev branch.
+-   [x] Streamline README documentation
 
 ## 5. Current Goals
 
 ### Documentation
 
--   [ ] Streamline README documentation
 -   [ ] Look into Swagger
 
 ### Frontend
@@ -645,11 +644,13 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 ### Backend
 
 -   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
+-   [ ] Testing to add to the pipeline
 
 ### Devops & Testing
 
 -   [ ] Test CI/CD pipeline production
--   [ ] Add integration, E2E testing, and unit testing for backend to the pipeline
+-   [ ] Refactor CI/CD prod to include pull requests and checks before merging with main
+-   [ ] Add integration, E2E testing to pipeline
 
 ### 6. Unresolved Questions
 
