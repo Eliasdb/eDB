@@ -28,6 +28,7 @@
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
             -   [Step 4: Configure Skaffold](#step-4-configure-skaffold)
             -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
+        -   [3.1.3 Development Workflow](#313-development-workflow)
     -   [3.2 Production](#32-production)
         -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
         -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
@@ -505,6 +506,12 @@ This command will:
 -   Monitor your source code for changes and redeploy the services when updates are detected.
 
 Once deployed, your frontend will be available at `http://localhost:3200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+
+#### 3.1.3 Development Workflow
+
+Once you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
+
+![Development Workflow](./diagrams/images/devops/dev/dev-workflowv1.png)
 
 ### 3.2 Production
 
