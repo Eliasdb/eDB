@@ -3,7 +3,6 @@ name: Development Workflow
 on:
     pull_request:
         branches:
-            - main
             - dev
         paths:
             - 'api/**'
