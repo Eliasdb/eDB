@@ -8,7 +8,7 @@
         -   [2.1.1 Tools and Features](#211-tools-and-features)
         -   [2.1.2 Portal and Platform Pages](#212-portal-and-platform-pages)
         -   [2.1.3 Shared Libraries](#213-shared-libraries)
-        -   [2.1.4 Architecture Diagrams](#214-architecture-diagram)
+        -   [2.1.4 Architecture Diagrams](#214-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Tools and Features](#221-tools-and-features)
         -   [2.2.2 Controllers and Endpoints](#222-controllers-and-endpoints)
@@ -505,11 +505,11 @@ This command will:
 -   Apply your Kubernetes manifests to the cluster.
 -   Monitor your source code for changes and redeploy the services when updates are detected.
 
-Once deployed, your frontend will be available at `http://localhost:3200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 #### 3.1.3 Development Workflow
 
-Once you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
+When you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
 
 ![Development Workflow](./diagrams/images/devops/dev/dev-workflowv1.png)
 
