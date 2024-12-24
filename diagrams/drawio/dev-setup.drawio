@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="6210" dy="3925" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="none" math="0" shadow="0">
+    <mxGraphModel dx="8280" dy="5233" grid="1" gridSize="11" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="3000" background="none" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -329,16 +329,16 @@
         <mxCell id="YDz6m_touQn1HkdPR0xz-0" value="&lt;pre style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 39px;&quot;&gt;Skaffold&lt;/font&gt;&lt;/b&gt;&lt;/pre&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Helvetica;fontSize=22;strokeColor=default;fontStyle=0;spacingBottom=0;spacingRight=0;horizontal=1;sketch=1;curveFitting=1;jiggle=2;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="579.6" y="165" width="223.4" height="66" as="geometry" />
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-0" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="297" y="3102" width="2431" height="4576" as="geometry" />
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-0" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="132" y="3102" width="3003" height="4576" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-1" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;b style=&quot;&quot;&gt;How to contribute code&lt;/b&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="437.00000000000006" y="3388" width="510" height="190" as="geometry" />
+          <mxGeometry x="285.55999999999995" y="3498" width="748" height="190" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;flowAnimation=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="JSGE_uW-jFPcK0BmKunx-3" target="JSGE_uW-jFPcK0BmKunx-5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-44" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;frontend changed?&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="JSGE_uW-jFPcK0BmKunx-2">
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-44" value="&lt;font style=&quot;font-size: 35px;&quot;&gt;frontend changed?&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="JSGE_uW-jFPcK0BmKunx-2">
           <mxGeometry x="0.0835" relative="1" as="geometry">
             <mxPoint y="120" as="offset" />
           </mxGeometry>
@@ -346,78 +346,84 @@
         <mxCell id="JSGE_uW-jFPcK0BmKunx-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;sketch=1;curveFitting=1;jiggle=2;strokeWidth=5;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="JSGE_uW-jFPcK0BmKunx-3" target="JSGE_uW-jFPcK0BmKunx-60">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="2013" y="5128" />
+              <mxPoint x="2025.64" y="5909" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-3" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;0.Check if backend code or frontend changed&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1121.9999999999998" y="5038" width="540" height="180" as="geometry" />
+          <mxGeometry x="1134.6399999999999" y="5819" width="540" height="180" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="JSGE_uW-jFPcK0BmKunx-5" target="JSGE_uW-jFPcK0BmKunx-7">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-5" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;1.&amp;nbsp;Lint Code with ESLint&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px;&quot;&gt;pnpm nx run-many --target=lint --all --verbose || true&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="548.7800000000001" y="5423" width="540" height="180" as="geometry" />
+          <mxGeometry x="561.4200000000001" y="6204" width="540" height="180" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-7" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;2.&amp;nbsp;Run Frontend Unit and Integration Tests&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px;&quot;&gt;pnpm nx run-many --target=test --all --exclude=appointment-app --verbose || true&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="548.7800000000001" y="5775" width="540" height="180" as="geometry" />
+          <mxGeometry x="561.4200000000001" y="6556" width="540" height="180" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-38" value="&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Development Workflow&lt;/b&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1232.31" y="3182" width="599.37" height="140" as="geometry" />
+          <mxGeometry x="295.28" y="3212" width="2266" height="140" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-42" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=50;endSize=12.706666666666665;width=27.333333333333332;sketch=1;curveFitting=1;jiggle=2;shadow=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1388.55" y="3430" as="sourcePoint" />
-            <mxPoint x="1314.1799999999998" y="3520" as="targetPoint" />
+            <mxPoint x="660" y="3751" as="sourcePoint" />
+            <mxPoint x="744.26" y="3883" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="JSGE_uW-jFPcK0BmKunx-43" target="JSGE_uW-jFPcK0BmKunx-57">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1030.4099999999999" y="6875" as="sourcePoint" />
-            <mxPoint x="961.3299999999999" y="6479" as="targetPoint" />
+            <mxPoint x="1043.05" y="7656" as="sourcePoint" />
+            <mxPoint x="973.9699999999999" y="7260" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-43" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;2.&amp;nbsp;Build Frontend&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px;&quot;&gt;pnpm build&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="547.28" y="6149" width="540" height="180" as="geometry" />
+          <mxGeometry x="559.92" y="6930" width="540" height="180" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="JSGE_uW-jFPcK0BmKunx-43">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="816.7199999999997" y="5955" as="sourcePoint" />
-            <mxPoint x="817" y="6138" as="targetPoint" />
+            <mxPoint x="829.3599999999997" y="6736" as="sourcePoint" />
+            <mxPoint x="829.64" y="6919" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-51" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;0. Create and Checkout New Feature Branch&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;br&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git checkout -b feature/your-branch-name #&lt;/font&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="430.12" y="3729" width="657.16" height="385" as="geometry" />
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-51" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;1. Create and Checkout New Feature Branch&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;br&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git checkout -b feature/your-branch-name&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1201.16" y="4015" width="770" height="280.5" as="geometry" />
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-52" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;Make Your Changes&lt;/b&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1268.65" y="3723.5" width="383.94" height="396" as="geometry" />
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-52" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;2. Make Your Changes&lt;/b&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="2112.05" y="4015" width="956.95" height="280.5" as="geometry" />
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-53" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Stage and Commit Your Changes&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git add .&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git commit -m &quot;Add [feature/fix] description&quot;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 45px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/b&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1868.09" y="3718" width="627.74" height="407" as="geometry" />
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-53" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;3. Stage and Commit&amp;nbsp;&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Your Changes&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git add .&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git commit -m &quot;Add [feature/fix] description&quot;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 45px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/b&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="2112.05" y="4488" width="956.95" height="280.5" as="geometry" />
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-54" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Push Your Feature Branch&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1975.15" y="4301" width="533.7" height="440" as="geometry" />
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-54" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;4. Push Your&amp;nbsp;&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Feature Branch&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;git push origin feature/your-branch-name&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 45px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/b&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1190.41" y="4477" width="791.51" height="286" as="geometry" />
         </mxCell>
-        <mxCell id="JSGE_uW-jFPcK0BmKunx-55" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Open PR and Select Branches to Compare&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1298" y="4290" width="517" height="429" as="geometry" />
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-55" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;5. Open PR and Select Branches to Compare&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="285.5600000000002" y="4477" width="767.84" height="286" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-56" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Wait for CI/CD Checks to Pass&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="440.84" y="4290" width="725.16" height="429" as="geometry" />
+          <mxGeometry x="285.55999999999995" y="5115" width="770" height="280.5" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-57" value="&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Merge the Pull Request to dev Branch&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1150.38" y="6688" width="533.7" height="231" as="geometry" />
+          <mxGeometry x="837.64" y="7469" width="1210" height="231" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="JSGE_uW-jFPcK0BmKunx-60" target="JSGE_uW-jFPcK0BmKunx-57">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-60" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;2.&amp;nbsp;Build Backend&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 25px;&quot;&gt;pnpm build&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1743.99" y="6138" width="540" height="180" as="geometry" />
+          <mxGeometry x="1756.63" y="6919" width="540" height="180" as="geometry" />
         </mxCell>
         <mxCell id="JSGE_uW-jFPcK0BmKunx-64" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=50;endSize=12.706666666666665;width=27.333333333333332;sketch=1;curveFitting=1;jiggle=2;shadow=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="983.75" y="4796" as="sourcePoint" />
-            <mxPoint x="1106.28" y="4919" as="targetPoint" />
+            <mxPoint x="2283.99" y="5544" as="sourcePoint" />
+            <mxPoint x="2406.52" y="5667" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-65" value="&lt;font style=&quot;font-size: 35px;&quot;&gt;backend changed?&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="2014.6385898305116" y="6038.999999952198" as="geometry" />
+        </mxCell>
+        <mxCell id="JSGE_uW-jFPcK0BmKunx-66" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;0. Ensure you have&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;&amp;nbsp;latest cod&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;b style=&quot;background-color: initial; font-size: 40px;&quot;&gt;e&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;background-color: initial; font-size: 40px;&quot;&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial; font-size: 30px;&quot;&gt;&lt;font color=&quot;#665a0a&quot;&gt;➜&amp;nbsp; eDB git:(&lt;/font&gt;&lt;font color=&quot;#ffff00&quot;&gt;dev&lt;/font&gt;&lt;font color=&quot;#665a0a&quot;&gt;)&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;font color=&quot;#665a0a&quot; style=&quot;font-size: 30px;&quot;&gt;&amp;nbsp;git checkout dev&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#665a0a&quot; style=&quot;font-size: 30px;&quot;&gt;&amp;gt; git pull origin dev&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="285.56" y="4015" width="770" height="385" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
