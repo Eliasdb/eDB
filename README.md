@@ -8,7 +8,7 @@
         -   [2.1.1 Tools and Features](#211-tools-and-features)
         -   [2.1.2 Portal and Platform Pages](#212-portal-and-platform-pages)
         -   [2.1.3 Shared Libraries](#213-shared-libraries)
-        -   [2.1.4 Architecture Diagrams](#214-architecture-diagram)
+        -   [2.1.4 Architecture Diagrams](#214-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Tools and Features](#221-tools-and-features)
         -   [2.2.2 Controllers and Endpoints](#222-controllers-and-endpoints)
@@ -19,9 +19,7 @@
         -   [2.2.3 Architecture Diagram](#223-architecture-diagram)
     -   [2.3 Database](#23-database)
 -   [3. Environments](#3-environments)
-
     -   [3.1 Development](#31-development)
-
         -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
         -   [3.1.2 Spinning up a cluster locally](#312-spinning-up-a-cluster-locally)
             -   [Step 0: Prerequisites](#step-0-prerequisites)
@@ -30,12 +28,11 @@
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
             -   [Step 4: Configure Skaffold](#step-4-configure-skaffold)
             -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
-
+        -   [3.1.3 Development Workflow](#313-development-workflow)
     -   [3.2 Production](#32-production)
-        -   [3.2.1 Architecture Diagram](#321-architecture-diagram)
+        -   [3.2.1 Architecture Diagrams](#321-architecture-diagrams)
         -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
         -   [3.2.3 CI/CD Flow](#323-cicd-flow)
-
 -   [4. Handy Commands Cheat Sheet](#4-handy-commands-cheat-sheet)
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
@@ -508,13 +505,19 @@ This command will:
 -   Apply your Kubernetes manifests to the cluster.
 -   Monitor your source code for changes and redeploy the services when updates are detected.
 
-Once deployed, your frontend will be available at `http://localhost:3200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
+
+#### 3.1.3 Development Workflow
+
+When you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
+
+![Development Workflow](./diagrams/images/devops/dev/dev-workflowv1.png)
 
 ### 3.2 Production
 
 #### 3.2.1 Architecture Diagrams
 
-![Development Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv1.png)
+![Production Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv2.png)
 
 #### 3.2.2 CI/CD Pipeline
 
@@ -528,7 +531,6 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ##### Preparation
 
--   Ensures that the job runs only for commits not made by the GitHub Actions bot.
 -   Checks out the repository code with full commit history for accurate versioning.
 
 ##### Versioning
@@ -538,7 +540,7 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ##### Docker Setup
 
--   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM63).
+-   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
 -   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
 
 ##### Build and Push Docker Images
@@ -618,27 +620,47 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ---
 
+## 5. Achieved Goals
+
+-   [x] Setup development environment
+-   [x] Setup production environment
+-   [x] Diagrams for CI/CD, Dockerfiles, production and dev setup, frontend and backend architecture
+-   [x] Documentation
+-   [x] Refactor CI/CD pipeline into prod and dev workflows
+-   [x] Linting, unit testing, build checks in pipeline before merging with dev branch.
+-   [x] Streamline README documentation
+
 ## 5. Current Goals
 
--   [x] Production diagram
--   [ ] Refactor CI/CD pipeline
--   [ ] list pipeline jobs separately on readme
--   [ ] add graphs to admin page
--   [ ] Streamline README
--   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
--   [ ] Add unit, integration, and E2E testing to the pipeline
--   [ ] Maybe add something like Argo CD to the pipeline
--   [ ] Redis integration
--   [ ] Frontend refactor and make UI look nicer and responsive
--   [ ] Look into Swagger and add diagrams for dockerfiles
+### Documentation
 
-## 6. Unresolved Questions
+-   [ ] Look into Swagger
+
+### Frontend
+
+-   [ ] Add graphs to the admin page
+-   [ ] Make UI look nicer and responsive
+
+### Backend
+
+-   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
+-   [ ] Testing to add to the pipeline
+
+### Devops & Testing
+
+-   [ ] Test CI/CD pipeline production
+-   [ ] Refactor CI/CD prod to include pull requests and checks before merging with main
+-   [ ] Add integration, E2E testing to pipeline
+
+### 6. Unresolved Questions
 
 -   [ ] Best practices for Observables and Signals
 -   [ ] Overall Frontend architecture
 -   [ ] [Violation] warnings in console
 -   [ ] Feedback on clarity of documentation and diagrams
 -   [ ] Nx Cloud?
--   [ ] Why do I need a staging environment?
+-   [ ] Staging environment?
 -   [ ] Database backups?
 -   [ ] SOLID principles?
+-   [ ] Argo CD?
+-   [ ] Redis caching integration?

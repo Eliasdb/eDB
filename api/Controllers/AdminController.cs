@@ -148,7 +148,6 @@ namespace api.Controllers
             return (mappedField, sortDirection);
         }
 
-
         [HttpGet("users/{userId}")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)

@@ -29,7 +29,7 @@ namespace api.Controllers
                 return Unauthorized(new
                 {
                     error = "Unauthorized",
-                    message = "User not authenticated"
+                    message = "User not authenticated!"
                 });
             }
 
@@ -41,7 +41,7 @@ namespace api.Controllers
                 return NotFound(new
                 {
                     error = "NotFound",
-                    message = "User not found"
+                    message = "User not found."
                 });
             }
 
@@ -69,7 +69,7 @@ namespace api.Controllers
                 return Unauthorized(new
                 {
                     error = "Unauthorized",
-                    message = "User not authenticated"
+                    message = "User not authenticated."
                 });
             }
 
@@ -81,7 +81,7 @@ namespace api.Controllers
                 return NotFound(new
                 {
                     error = "NotFound",
-                    message = "User not found"
+                    message = "User not found."
                 });
             }
 
@@ -90,7 +90,7 @@ namespace api.Controllers
 
             return Ok(new
             {
-                message = "Profile updated successfully",
+                message = "Profile updated successfully!",
                 user = new
                 {
                     user.Email,
