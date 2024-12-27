@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { AuthService } from '@eDB/platform-services';
 import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
 
@@ -18,10 +12,7 @@ export class AdminGuard implements CanActivate {
     private router: Router,
   ) {}
 
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Promise<boolean | UrlTree> {
+  async canActivate(): Promise<boolean | UrlTree> {
     const isAuthenticated = this.authService.isAuthenticated();
     const isAdmin = await firstValueFrom(this.authService.isAdmin()); // Convert Observable to boolean
 

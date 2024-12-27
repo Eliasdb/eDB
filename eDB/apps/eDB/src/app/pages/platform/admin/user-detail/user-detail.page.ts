@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '@eDB/platform-services';
 
 @Component({
-  selector: 'app-user-profile',
+  selector: 'platform-user-profile',
   imports: [UiStructuredListComponent, UiButtonComponent],
   template: `
     <div class="profile-container">
@@ -40,7 +40,7 @@ import { AdminService } from '@eDB/platform-services';
           [isEditingAny]="isEditingAny"
           [inputValues]="inputValues"
           (actionClick)="onActionClick($event)"
-          (updateEdit)="onUpdateEdit($event)"
+          (updateEdit)="onUpdateEdit()"
           (cancelEdit)="onCancelEdit()"
         ></ui-structured-list>
 
@@ -51,7 +51,7 @@ import { AdminService } from '@eDB/platform-services';
           [isEditingAny]="isEditingAny"
           [inputValues]="inputValues"
           (actionClick)="onActionClick($event)"
-          (updateEdit)="onUpdateEdit($event)"
+          (updateEdit)="onUpdateEdit()"
           (cancelEdit)="onCancelEdit()"
         ></ui-structured-list>
       </div>
@@ -71,7 +71,7 @@ export class UserDetailPage {
 
   personalDetails = computed(() => this.computePersonalDetails());
   accountDetails = computed(() => this.computeAccountDetails());
-  isAdmin: boolean = true;
+  isAdmin = true;
 
   constructor() {
     this.initializeUser();
@@ -130,7 +130,7 @@ export class UserDetailPage {
     this.initializeInputValues(rowIndex);
   }
 
-  onUpdateEdit(rowIndex: number): void {
+  onUpdateEdit(): void {
     this.onCancelEdit();
   }
 
