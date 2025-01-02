@@ -624,9 +624,8 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 -   [x] Setup development environment
 -   [x] Setup production environment
--   [x] Diagrams for CI/CD, Dockerfiles, production and dev setup, frontend and backend architecture
--   [x] Documentation
--   [x] Refactor CI/CD pipeline into prod and dev workflows
+-   [x] Documentation -> Diagrams for CI/CD, Dockerfiles, production and dev setup, frontend and backend architecture
+-   [x] Refactored CI/CD pipeline into prod and dev workflows
 -   [x] Linting, unit testing, build checks in pipeline before merging with dev branch.
 -   [x] Streamline README documentation
 

@@ -4,7 +4,7 @@ metadata:
     name: my-app
 build:
     tagPolicy:
-        gitCommit: {} # Automatically tags images with the current Git commit SHA
+        sha256: {} # Avoid Git state affecting rebuilds
     artifacts:
         - image: edb-app
           context: eDB/
@@ -12,13 +12,10 @@ build:
               dockerfile: Dockerfile.dev
           sync:
               manual:
-                  - src: '**/*.ts'
-                    dest: .
-                  - src: '**/*.html'
-                    dest: .
-                  - src: '**/*.scss'
-                    dest: .
-
+                  - src: 'src/**/*'
+                    dest: /app/src
+                  - src: 'styles/**/*.scss'
+                    dest: /app/styles
         - image: api
           context: api/
           docker:
