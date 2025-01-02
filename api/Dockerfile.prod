@@ -5,6 +5,8 @@ WORKDIR /app
 # Copy the project file(s) and restore dependencies
 COPY api.csproj ./
 
+RUN dotnet nuget locals all --clear
+
 RUN dotnet restore api.csproj
 
 # Copy the rest of the application and build it
