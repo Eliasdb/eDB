@@ -139,7 +139,7 @@ jobs:
             - name: Update API Deployment YAML with Image Tag
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
 
             # 12a. Debug: Output Updated API Deployment YAML
             - name: Debug API Deployment YAML
