@@ -20,7 +20,6 @@ spec:
             containers:
                 - name: edb-app
                   image: edb-app # Updated image name
-                  imagePullPolicy: IfNotPresent
                   ports:
                       - containerPort: 4200 # Match with Angular's development port
                         protocol: TCP
@@ -43,4 +42,3 @@ spec:
                       periodSeconds: 20
                       timeoutSeconds: 5
                       failureThreshold: 3
-            restartPolicy: Always
