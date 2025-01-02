@@ -197,7 +197,7 @@ namespace api.Controllers
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
 
-                // Return a success response
+
                 return Ok(new { Message = "User deleted successfully." });
             }
             catch (Exception ex)
