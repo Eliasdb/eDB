@@ -110,10 +110,6 @@ jobs:
                   echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
-            - name: Set up QEMU for ARM64
-              uses: docker/setup-qemu-action@v2
-              with:
-                  platforms: arm64
             - name: Clear NuGet Caches
               run: dotnet nuget locals all --clear
             - name: Set up Docker Buildx
@@ -125,7 +121,7 @@ jobs:
                   file: ./api/Dockerfile.prod
                   push: true
                   tags: ${{ env.DOCKER_IMAGE_API }}:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/arm64
+                  platforms: linux/amd64
             # 11. Replace Placeholder with Image Tag for API Deployment
             - name: Update API Deployment YAML with Image Tag
               run: |
