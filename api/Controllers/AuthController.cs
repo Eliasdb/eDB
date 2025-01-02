@@ -85,7 +85,7 @@ namespace api.Controllers
 
             return Ok(new
             {
-                message = "Login successful",
+                message = "Login successful!",
                 token,
                 user = new
                 {
