@@ -44,7 +44,7 @@ public static class DbInitializer
             context.SaveChanges();
         }
 
-        // Ensure the admin user exists
+        // Ensure the admin user exists.
         if (!context.Users.Any(u => u.Email == "admin@example.com"))
         {
             var (hashedPassword, salt) = HashPassword("AdminPassword123");
