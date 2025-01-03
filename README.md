@@ -108,7 +108,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.2.1 Tools and Features
 
--   Frameworks: **.NET 7** with **Entity Framework**
+-   Frameworks: **.NET 8** with **Entity Framework**
 -   Architecture: **REST API**
 -   Role-Based Access Control (RBAC): User, Premium User, Admin with **JWT**
 
@@ -430,34 +430,34 @@ I am building a platform housing multiple applications where users can make an a
 
 ### Step 1: Configure server on Hetzner
 
-Under the 'Servers' tab you should find a button to add a server to your account. Let's go over the steps needed to configure our server. It's pretty straight forward.
+Under the 'Servers' tab you should find a button to add a server to your account. Let's go over the easy steps first needed to configure our server. It's pretty straight forward.
 
-[Adding server](./diagrams/images/docs/add-server.png)
+![Adding server](./diagrams/images/docs/add-server.png)
 
 You will need to set
 
 -   #### Location
 
     Location of server.
-    [Location](./diagrams/images/docs/location.png)
+    ![Location](./diagrams/images/docs/location.png)
 
 -   #### Image OS:
 
     This project runs on Ubuntu.
-    [ImageOS](./diagrams/images/docs/image.png)
+    ![ImageOS](./diagrams/images/docs/image.png)
 
 -   #### Type:
 
     I'm on shared ARM64 vCPUs.
-    [Type](./diagrams/images/docs/type.png)
+    ![Type](./diagrams/images/docs/type.png)
 
 -   #### Networking:
 
-    [Location](./diagrams/images/docs/networking.png)
+    ![Location](./diagrams/images/docs/networking.png)
 
 ### Step 2: Generating an SSH key
 
-[SSH](./diagrams/images/docs/ssh.png)
+![SSH](./diagrams/images/docs/ssh.png)
 Run following command on your machine: `ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f /path/to/your/custom_key_name`
 
 -   -t rsa: Specifies the type of key (RSA).
@@ -475,7 +475,7 @@ To retrieve the public key:
 `cat /path/to/your/custom_key.pub`
 Copy the output to use in your cloud-config or in the setup of the server as seen below here.
 
-[SSH Key](./diagrams/images/docs/ssh-key.png)
+![SSH Key](./diagrams/images/docs/ssh-key.png)
 
 ### Step 4: Volumes
 
