@@ -61,21 +61,6 @@ jobs:
                   echo "Backend changed: ${{ steps.set_backend.outputs.backend }}"
                   echo "Frontend changed: ${{ steps.set_frontend.outputs.frontend }}"
 
-    k8s-setup:
-        name: Configure Kubernetes Cluster
-        runs-on: [self-hosted]
-        steps:
-            - name: Set up kubectl
-              uses: azure/setup-kubectl@v3
-              with:
-                  version: 'latest'
-            - name: Configure Kubernetes
-              run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
-                  chmod 600 ~/.kube/config
-                  kubectl cluster-info
-
     lint-yaml:
         name: Lint YAML Files
         runs-on: [self-hosted]
@@ -94,7 +79,7 @@ jobs:
     deploy-backend:
         name: Build and Deploy Backend
         runs-on: [self-hosted]
-        needs: [version, k8s-setup, lint-yaml, filter]
+        needs: [version, lint-yaml, filter]
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
@@ -157,7 +142,7 @@ jobs:
     deploy-frontend:
         name: Build and Deploy Frontend
         runs-on: [self-hosted]
-        needs: [version, k8s-setup, lint-yaml, filter]
+        needs: [version, lint-yaml, filter]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
