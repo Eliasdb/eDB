@@ -35,7 +35,6 @@ export const appConfig: ApplicationConfig = {
     ExperimentalService,
     NotificationDisplayService,
     PlaceholderService,
-
     {
       provide: IconService,
       useFactory: () => {
