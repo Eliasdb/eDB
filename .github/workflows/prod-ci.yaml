@@ -110,8 +110,6 @@ jobs:
                   echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
-            - name: Clear NuGet Caches
-              run: dotnet nuget locals all --clear
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
             - name: Build and Push Backend Docker Image
