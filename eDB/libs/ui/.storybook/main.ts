@@ -53,7 +53,7 @@ const config: StorybookConfig = {
 
     // Add rule for your component SCSS files
     config.module.rules.push({
-      test: /component\.scss$/, // Target component SCSS files
+      test: /component\.scss$/,
       use: [
         'to-string-loader', // Converts CSS to strings for Angular components
         'css-loader',
