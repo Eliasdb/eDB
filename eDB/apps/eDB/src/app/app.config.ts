@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import AddIcon from '@carbon/icons/es/add/16'; // Import required icons
+import AddIcon from '@carbon/icons/es/add/16';
 
 import { AuthInterceptor } from '@eDB/shared-utils';
 
