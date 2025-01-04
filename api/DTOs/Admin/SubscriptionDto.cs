@@ -4,7 +4,7 @@ namespace api.DTOs.Admin
     {
         public required string UserName { get; set; }
         public required string UserEmail { get; set; }
-        public required int UserId { get; set; } // Add UserId
+        public required int UserId { get; set; }
         public DateTime SubscriptionDate { get; set; }
     }
 }
