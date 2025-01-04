@@ -43,7 +43,7 @@ public class ApplicationsController : ControllerBase
         {
             _context.Subscriptions.Remove(existingSubscription);
             await _context.SaveChangesAsync();
-            return Ok(new { message = "Unsubscribed successfully" });
+            return Ok(new { message = "Unsubscribed successfully!" });
         }
 
         var userApplication = new Subscription
