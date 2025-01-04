@@ -195,16 +195,29 @@ jobs:
                   kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
                   kubectl rollout status deployment/edb-nx-prod || kubectl rollout undo deployment/edb-nx-prod
 
-            # 20. Commit Frontend Deployment YAML
-            - name: Commit Frontend Deployment YAML
+            # 20. Commit and Create Pull Request for Frontend Deployment YAML
+            - name: Commit and Push Frontend Deployment Changes
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Eliasdb/eDB.git
+                  git checkout -b update-frontend-deployment
                   git add k8s/prod/eDB/frontend-deployment.prod.yaml
                   git commit -m "Update Frontend deployment to ${{ needs.version.outputs.image_tag }}" || echo "No changes to commit"
-                  git push origin main
+                  git push origin update-frontend-deployment
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Create Pull Request
+              uses: peter-evans/create-pull-request@v5
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: update-frontend-deployment
+                  title: 'Automated Update: Frontend Deployment'
+                  body: |
+                      This pull request updates the frontend deployment file with the latest image tag.
+                      **Image Tag**: ${{ needs.version.outputs.image_tag }}
+                  base: main
 
         env:
             DOCKER_IMAGE_FRONTEND: eliasdb/edb-nx
