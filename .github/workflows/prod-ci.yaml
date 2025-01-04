@@ -22,7 +22,7 @@ jobs:
                   COMMIT_COUNT=$(git rev-list --count HEAD)
                   VERSION=v1.0.${COMMIT_COUNT}-prod
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
-                  echo "::set-output name=image_tag::${VERSION}"
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
     filter:
         name: Check if Backend or Frontend Code Changed
