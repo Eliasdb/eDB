@@ -8,7 +8,7 @@ on:
 jobs:
     version:
         name: Set Version
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
@@ -26,7 +26,7 @@ jobs:
 
     filter:
         name: Check if Backend or Frontend Code Changed
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         outputs:
             backend: ${{ steps.set_backend.outputs.backend }}
             frontend: ${{ steps.set_frontend.outputs.frontend }}
@@ -63,7 +63,7 @@ jobs:
 
     k8s-setup:
         name: Configure Kubernetes Cluster
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         steps:
             - name: Set up kubectl
               uses: azure/setup-kubectl@v3
@@ -78,7 +78,7 @@ jobs:
 
     lint-yaml:
         name: Lint YAML Files
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -93,7 +93,7 @@ jobs:
 
     deploy-backend:
         name: Build and Deploy Backend
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         needs: [version, k8s-setup, lint-yaml, filter]
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
@@ -158,7 +158,7 @@ jobs:
 
     deploy-frontend:
         name: Build and Deploy Frontend
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         needs: [version, k8s-setup, lint-yaml, filter]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
@@ -220,7 +220,7 @@ jobs:
 
     push-changes:
         name: Push Changes to GitHub
-        runs-on: [self-hosted, cicd]
+        runs-on: [self-hosted]
         needs: [deploy-backend, deploy-frontend]
         steps:
             - name: Push Changes
