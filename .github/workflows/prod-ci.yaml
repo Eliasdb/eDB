@@ -186,7 +186,7 @@ jobs:
             - name: Update Frontend Deployment YAML with Image Tag
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ env.IMAGE_TAG }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
 
             # 12b. Debug: Output Updated Frontend Deployment YAML
             - name: Debug Frontend Deployment YAML
