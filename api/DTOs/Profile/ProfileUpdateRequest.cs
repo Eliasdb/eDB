@@ -2,7 +2,7 @@ namespace api.DTOs.Profile
 {
     public class ProfileUpdateRequest
     {
-        public string? Email { get; set; } // Required for locating the user
+        public string? Email { get; set; } // locating the user
         public string? Password { get; set; } // Allow updating password
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
