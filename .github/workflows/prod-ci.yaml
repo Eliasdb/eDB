@@ -119,7 +119,7 @@ jobs:
                   file: ./api/Dockerfile.prod
                   push: true
                   tags: ${{ env.DOCKER_IMAGE_API }}:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/amd64
+                  platforms: linux/arm64
             # 11. Replace Placeholder with Image Tag for API Deployment
             - name: Update API Deployment YAML with Image Tag
               run: |
@@ -180,7 +180,7 @@ jobs:
                   file: ./eDB/Dockerfile.prod
                   push: true
                   tags: ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/amd64
+                  platforms: linux/arm64
 
             # 12. Replace Placeholder with Image Tag for Frontend Deployment
             - name: Update Frontend Deployment YAML with Image Tag
