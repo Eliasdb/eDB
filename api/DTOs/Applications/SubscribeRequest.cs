@@ -4,5 +4,4 @@ namespace api.DTOs.Applications
     {
         public int ApplicationId { get; set; }
     }
-
 }
