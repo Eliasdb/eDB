@@ -80,7 +80,7 @@ public static class DbInitializer
         // Seed subscriptions for random users
         if (!context.Subscriptions.Any())
         {
-            var subscriptions = GenerateSubscriptions(context, 50); // Generate 50 random subscriptions
+            var subscriptions = GenerateSubscriptions(context, 50); // Generate 50 subscriptions
             context.Subscriptions.AddRange(subscriptions);
             context.SaveChanges();
         }
