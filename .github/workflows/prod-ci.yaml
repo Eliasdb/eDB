@@ -220,6 +220,7 @@ jobs:
         name: Push Changes to GitHub
         runs-on: ubuntu-latest
         needs: [deploy-backend, deploy-frontend]
+        if: ${{ needs.deploy-backend.result == 'success' || needs.deploy-frontend.result == 'success' }}
         steps:
             - name: Push Changes
               uses: ad-m/github-push-action@v0.6.0
