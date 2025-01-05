@@ -757,3 +757,4 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 -   [ ] SOLID principles?
 -   [ ] Argo CD?
 -   [ ] Redis caching integration?
+-   [ ] Terraform for repeated server setup?
