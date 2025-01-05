@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: edb-api-staging-service
+    labels:
+        app: api-staging
+spec:
+    type: ClusterIP
+    selector:
+        app: api-staging
+    ports:
+        - protocol: TCP
+          port: 9101
+          targetPort: 9101
