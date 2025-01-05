@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: api-staging
+    namespace: default
+    labels:
+        app: api-staging
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: api-staging
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: api-staging
+        spec:
+            containers:
+                - name: api
+                  image: eliasdb/edb-api:${IMAGE_TAG}
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 9101
+                        protocol: TCP
+                  env:
+                      - name: ASPNETCORE_ENVIRONMENT
+                        value: 'Staging'
+                      - name: ConnectionStrings__DefaultConnection
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: CONNECTION_STRING
+                      - name: Jwt__Key
+                        valueFrom:
+                            secretKeyRef:
+                                name: jwt-secret-staging
+                                key: JWT_KEY
+                  #   readinessProbe:
+                  #       httpGet:
+                  #           path: /health
+                  #           port: 9101
+                  #       initialDelaySeconds: 5
+                  #       periodSeconds: 10
+                  #       timeoutSeconds: 5
+                  #       failureThreshold: 3
+                  #   livenessProbe:
+                  #       httpGet:
+                  #           path: /health
+                  #           port: 9101
+                  #       initialDelaySeconds: 15
+                  #       periodSeconds: 20
+                  #       timeoutSeconds: 5
+                  #       failureThreshold: 3
+                  resources:
+                      requests:
+                          memory: '256Mi'
+                          cpu: '500m'
+                      limits:
+                          memory: '1Gi'
+                          cpu: '1'

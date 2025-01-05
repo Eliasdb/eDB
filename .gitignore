@@ -20,7 +20,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 *secrets.yaml
-
+ingress-nginx-controller.yaml
 # Editor directories and files
 .idea
 .vscode
