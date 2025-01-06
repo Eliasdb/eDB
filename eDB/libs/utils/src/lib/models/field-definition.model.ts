@@ -6,5 +6,5 @@ export interface FieldDefinition {
   controlType: 'text' | 'password' | 'email' | 'number' | 'textarea' | 'select';
   validators: any[];
   errorMessages: { [key: string]: string };
-  options?: { label: string; value: any }[]; // For select fields
+  options?: { label: string; value: any }[];
 }
