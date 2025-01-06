@@ -52,7 +52,7 @@ namespace api.Controllers
 
             return Ok(new
             {
-                message = "Registration successful",
+                message = "Registration successful!",
                 user = new
                 {
                     user.Id,

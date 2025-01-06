@@ -57,16 +57,17 @@ jobs:
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
-            - name: Set Version
+            - name: Set Version with PR Number
               id: version
               run: |
+                  PR_NUMBER=${{ github.event.pull_request.number }}
                   SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-                  VERSION=${SHORT_SHA}-staging
+                  VERSION=pr-${PR_NUMBER}-${SHORT_SHA}-staging
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
                   echo "${VERSION}" > version.txt
             - name: Upload Version Artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: version-tag
                   path: version.txt
