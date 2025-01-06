@@ -11,7 +11,7 @@ import {
 })
 export class InfiniteScrollDirective {
   readonly isFetching = input<boolean | null>(false);
-  readonly hasMore = input<boolean | null>(true); // Stop triggering when no more data
+  readonly hasMore = input<boolean | null>(true);
   @Output() scrolled = new EventEmitter<void>();
 
   @HostListener('scroll', ['$event.target'])
