@@ -9,28 +9,9 @@ on:
             - 'eDB/**'
 
 jobs:
-    version:
-        name: Set Version
-        runs-on: [self-hosted]
-        outputs:
-            image_tag: ${{ steps.version.outputs.image_tag }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-            - name: Set Version
-              id: version
-              run: |
-                  SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-                  VERSION=${SHORT_SHA}-staging
-                  echo "image_tag=${VERSION}" >> $GITHUB_ENV
-                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
-
     filter:
         name: Check if Backend or Frontend Code Changed
         runs-on: [self-hosted]
-        needs: version
         outputs:
             backend: ${{ steps.set_backend.outputs.backend }}
             frontend: ${{ steps.set_frontend.outputs.frontend }}
@@ -64,6 +45,31 @@ jobs:
               run: |
                   echo "Backend changed: ${{ steps.set_backend.outputs.backend }}"
                   echo "Frontend changed: ${{ steps.set_frontend.outputs.frontend }}"
+
+    version:
+        name: Set Version
+        runs-on: [self-hosted]
+        needs: filter
+        outputs:
+            image_tag: ${{ steps.version.outputs.image_tag }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - name: Set Version
+              id: version
+              run: |
+                  SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+                  VERSION=${SHORT_SHA}-staging
+                  echo "image_tag=${VERSION}" >> $GITHUB_ENV
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+                  echo "${VERSION}" > version.txt
+            - name: Upload Version Artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: version-tag
+                  path: version.txt
 
     lint:
         name: Lint Frontend Code
