@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isAuthenticated()) {
       return true;
     } else {
-      // Redirect to login page with return URL
       return this.router.createUrlTree(['/auth/login'], {
         queryParams: { returnUrl: state.url },
       });
