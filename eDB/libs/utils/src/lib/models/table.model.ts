@@ -17,7 +17,7 @@ export interface TableColumnConfig {
 export interface RowMapperConfig<T> {
   field: string;
   isTemplate?: boolean; // Indicates if this field uses a template (e.g., actions column)
-  isExpandable?: boolean; // Indicates if this column is expandable
+  isExpandable?: boolean; // Indicates if column is expandable
   getExpandedData?: (row: T) => TableItem[][]; // Function to retrieve expanded data
   valueGetter?: (row: T) => any; // Function to transform the field's data
 }
