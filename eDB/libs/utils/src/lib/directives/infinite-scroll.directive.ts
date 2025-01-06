@@ -10,7 +10,7 @@ import {
   selector: '[infiniteScroll]',
 })
 export class InfiniteScrollDirective {
-  readonly isFetching = input<boolean | null>(false); // Avoid triggering while fetching
+  readonly isFetching = input<boolean | null>(false);
   readonly hasMore = input<boolean | null>(true); // Stop triggering when no more data
   @Output() scrolled = new EventEmitter<void>();
 
