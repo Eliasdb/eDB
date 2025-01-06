@@ -89,8 +89,6 @@ describe('UiNotificationToastComponent', () => {
     );
     expect(actionableNotificationElement).toBeTruthy();
 
-    // Carbon’s actionable notifications often mirror inline classes
-    // Check your actual markup to confirm the exact class name
     const title = actionableNotificationElement?.querySelector(
       '.cds--actionable-notification__title, .cds--inline-notification__title',
     );

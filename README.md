@@ -716,18 +716,21 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ## 5. Achieved Goals
 
--   [x] Setup development environment
--   [x] Setup production environment
--   [x] Documentation -> Diagrams for CI/CD, Dockerfiles, production and dev setup, frontend and backend architecture
--   [x] Refactored CI/CD pipeline into prod and dev workflows
--   [x] Linting, unit testing, build checks in pipeline before merging with dev branch.
--   [x] Streamline README documentation
+-   [x] Setup development environment (k3s cluster using k3d managed with Skaffold)
+-   [x] Setup staging environment (k3s cluster on VPS)
+-   [x] Setup production environment (k3s cluster on VPS)
+-   [x] Setup CI/CD pipeline with production, staging and pre-merge workflows
+-   [x] Linting, unit testing, build checks for frontend in pipeline before merging with dev branch.
+-   [x] Documentation
 
 ## 5. Current Goals
 
-### Documentation
+### Documentation & Planning
 
 -   [ ] Look into Swagger
+-   [ ] Refactor goals and unresolved questions into stories and tickets on Jira
+-   [ ] Setup my first sprint
+-   [ ] Documententation for pipeline, new diagrams for production pipeline and premerge checks and deploy to staging workflows
 
 ### Frontend
 
@@ -741,9 +744,10 @@ This CI/CD pipeline is designed to automate the process of building, validating,
 
 ### Devops & Testing
 
--   [ ] Test CI/CD pipeline production
+-   [ ] Test and refactor all CI/CD pipelines
 -   [ ] Refactor CI/CD prod to include pull requests and checks before merging with main
--   [ ] Add integration, E2E testing to pipeline
+-   [ ] Add integration, E2E testing to pipeline and also unit testing for backend
+-   [ ] Secure server
 
 ### 6. Unresolved Questions
 
