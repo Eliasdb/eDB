@@ -6,9 +6,33 @@ on:
             - dev
 
 jobs:
+    derive-pr-tag:
+        name: Derive Tag from Most Recent PR
+        runs-on: [self-hosted]
+        outputs:
+            image_tag: ${{ steps.derive_tag.outputs.image_tag }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
+
+            - name: Derive Docker Image Tag
+              id: derive_tag
+              run: |
+                  PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
+                  if [ -z "$PR_NUMBER" ]; then
+                      echo "Error: Could not derive PR number"
+                      exit 1
+                  fi
+                  SHORT_SHA=$(git rev-parse --short HEAD)
+                  VERSION=pr-${PR_NUMBER}-${SHORT_SHA}-staging
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+
     filter:
         name: Check if Backend or Frontend Code Changed
         runs-on: [self-hosted]
+        needs: derive-pr-tag
         outputs:
             backend: ${{ steps.set_backend.outputs.backend }}
             frontend: ${{ steps.set_frontend.outputs.frontend }}
@@ -38,27 +62,10 @@ jobs:
                   fi
               shell: bash
 
-    version:
-        name: Retrieve Version
-        runs-on: [self-hosted]
-        needs: filter
-        outputs:
-            image_tag: ${{ steps.get_version.outputs.image_tag }}
-        steps:
-            - name: Download Version Artifact
-              uses: actions/download-artifact@v3
-              with:
-                  name: version-tag
-            - name: Read Version
-              id: get_version
-              run: |
-                  VERSION=$(cat version.txt)
-                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
-
     deploy-backend:
         name: Deploy Backend to Staging
         runs-on: [self-hosted]
-        needs: [filter, version]
+        needs: [filter, derive-pr-tag]
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
@@ -74,7 +81,7 @@ jobs:
             - name: Replace Placeholder with Image Tag in API Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/staging/api/api-deployment-template.yaml > k8s/staging/api/api-deployment.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/api/api-deployment-template.yaml > k8s/staging/api/api-deployment.yaml
 
             - name: Debug API Deployment YAML
               run: |
@@ -92,7 +99,7 @@ jobs:
     deploy-frontend:
         name: Deploy Frontend to Staging
         runs-on: [self-hosted]
-        needs: [filter, version]
+        needs: [filter, derive-pr-tag]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
@@ -108,7 +115,7 @@ jobs:
             - name: Replace Placeholder with Image Tag in Frontend Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/staging/eDB/frontend-deployment-template.yaml > k8s/staging/eDB/frontend-deployment.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/eDB/frontend-deployment-template.yaml > k8s/staging/eDB/frontend-deployment.yaml
 
             - name: Debug Frontend Deployment YAML
               run: |
