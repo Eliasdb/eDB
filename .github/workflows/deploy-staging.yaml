@@ -81,19 +81,19 @@ jobs:
             - name: Replace Placeholder with Image Tag in API Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/api/api-deployment-template.yaml > k8s/staging/api/api-deployment.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/api/api-deployment-template.staging.yaml > k8s/staging/api/api-deployment.staging.yaml
 
             - name: Debug API Deployment YAML
               run: |
-                  echo "Updated API Deployment YAML:" && cat k8s/staging/api/api-deployment.yaml
+                  echo "Updated API Deployment YAML:" && cat k8s/staging/api/api-deployment.staging.yaml
 
             - name: Validate API Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.yaml
+                  kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.staging.yaml
 
             - name: Deploy API to Kubernetes
               run: |
-                  kubectl apply -f k8s/staging/api/api-deployment.yaml
+                  kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
     deploy-frontend:
@@ -115,17 +115,17 @@ jobs:
             - name: Replace Placeholder with Image Tag in Frontend Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/eDB/frontend-deployment-template.yaml > k8s/staging/eDB/frontend-deployment.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/eDB/frontend-deployment-template.staging.yaml > k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Debug Frontend Deployment YAML
               run: |
-                  echo "Updated Frontend Deployment YAML:" && cat k8s/staging/eDB/frontend-deployment.yaml
+                  echo "Updated Frontend Deployment YAML:" && cat k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Validate Frontend Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.yaml
+                  kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Deploy Frontend to Kubernetes
               run: |
-                  kubectl apply -f k8s/staging/eDB/frontend-deployment.yaml
+                  kubectl apply -f k8s/staging/eDB/frontend-deployment.staging.yaml
                   kubectl rollout status deployment/edb-nx-staging || kubectl rollout undo deployment/edb-nx-staging
