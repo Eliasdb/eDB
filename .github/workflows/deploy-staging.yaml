@@ -6,20 +6,100 @@ on:
             - dev
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-
+    version:
+        name: Set Version
+        runs-on: [self-hosted]
+        outputs:
+            image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
-            - name: Checkout code
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - name: Set Version
+              id: version
+              run: |
+                  COMMIT_COUNT=$(git rev-list --count HEAD)
+                  VERSION=v1.0.${COMMIT_COUNT}-staging
+                  echo "image_tag=${VERSION}" >> $GITHUB_ENV
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+
+    filter:
+        name: Check if Backend or Frontend Code Changed
+        runs-on: [self-hosted]
+        needs: version
+        outputs:
+            backend: ${{ steps.set_backend.outputs.backend }}
+            frontend: ${{ steps.set_frontend.outputs.frontend }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 2
+
+            - name: Set Backend Changed
+              id: set_backend
+              run: |
+                  if git diff --name-only HEAD~1 HEAD | grep -q '^api/'; then
+                    echo "backend=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "backend=false" >> $GITHUB_OUTPUT
+                  fi
+              shell: bash
+
+            - name: Set Frontend Changed
+              id: set_frontend
+              run: |
+                  if git diff --name-only HEAD~1 HEAD | grep -q '^eDB/'; then
+                    echo "frontend=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "frontend=false" >> $GITHUB_OUTPUT
+                  fi
+              shell: bash
+
+    deploy-backend:
+        name: Deploy Backend to Staging
+        runs-on: [self-hosted]
+        needs: [filter, version]
+        if: ${{ needs.filter.outputs.backend == 'true' }}
+        steps:
+            - name: Checkout Code
               uses: actions/checkout@v3
 
-            - name: Deploy to Staging
-              run: ./deploy-to-staging.sh # Your deployment script
+            - name: Configure Kubernetes for Staging
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  chmod 600 ~/.kube/config
+                  kubectl cluster-info
 
-    e2e-tests:
-        needs: deploy
-        runs-on: ubuntu-latest
+            - name: Replace Placeholder with Image Tag in API Deployment YAML
+              run: |
+                  set -e
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/staging/api/api-deployment-template.yaml > k8s/staging/api/api-deployment.yaml
 
-        steps:
-            - name: Run E2E Tests
-              run: npm run e2e # Cypress, Playwright, or Selenium tests
+            - name: Debug API Deployment YAML
+              run: |
+                  echo "Updated API Deployment YAML:" && cat k8s/staging/api/api-deployment.yaml
+
+            - name: Validate API Deployment YAML
+              run: |
+                  kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.yaml
+
+            - name: Deploy API to Kubernetes
+              run: |
+                  kubectl apply -f k8s/staging/api/api-deployment.yaml
+                  kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
+
+            - name: Commit Updated API Deployment YAML
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git add k8s/staging/api/api-deployment.yaml
+                  git commit -m "Update API staging deployment to ${{ needs.version.outputs.image_tag }}" || echo "No changes to commit"
+
+            - name: Push Changes
+              run: |
+                  git push origin dev
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

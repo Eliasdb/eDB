@@ -3,7 +3,7 @@ import {
   EventEmitter,
   HostListener,
   Output,
-  input
+  input,
 } from '@angular/core';
 
 @Directive({
@@ -12,7 +12,7 @@ import {
 export class InfiniteScrollDirective {
   readonly isFetching = input<boolean | null>(false); // Avoid triggering while fetching
   readonly hasMore = input<boolean | null>(true); // Stop triggering when no more data
-  @Output() scrolled = new EventEmitter<void>(); // Notify when the bottom is reached
+  @Output() scrolled = new EventEmitter<void>();
 
   @HostListener('scroll', ['$event.target'])
   onScroll(container: HTMLElement): void {
