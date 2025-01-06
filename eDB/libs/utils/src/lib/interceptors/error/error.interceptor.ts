@@ -15,10 +15,10 @@ import { catchError, Observable, throwError } from 'rxjs';
 
 export const ErrorInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
   const router = inject(Router);
-  const injector = inject(Injector); // Use Injector instead of direct service injection
+  const injector = inject(Injector);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -28,7 +28,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (
           type: NotificationType,
           title: string,
           subtitle: string,
-          caption?: string
+          caption?: string,
         ) => {
           notificationService.showToast({
             type,
@@ -59,6 +59,6 @@ export const ErrorInterceptor: HttpInterceptorFn = (
         }
       }
       return throwError(() => error);
-    })
+    }),
   );
 };

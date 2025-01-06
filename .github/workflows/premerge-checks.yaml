@@ -7,6 +7,7 @@ on:
         paths:
             - 'api/**'
             - 'eDB/**'
+
 jobs:
     filter:
         name: Check if Backend or Frontend Code Changed
@@ -39,15 +40,41 @@ jobs:
                     echo "frontend=false" >> $GITHUB_OUTPUT
                   fi
               shell: bash
+
             - name: Debug Filter Outputs
               run: |
                   echo "Backend changed: ${{ steps.set_backend.outputs.backend }}"
                   echo "Frontend changed: ${{ steps.set_frontend.outputs.frontend }}"
 
+    version:
+        name: Set Version
+        runs-on: [self-hosted]
+        needs: filter
+        outputs:
+            image_tag: ${{ steps.version.outputs.image_tag }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - name: Set Version
+              id: version
+              run: |
+                  SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+                  VERSION=${SHORT_SHA}-staging
+                  echo "image_tag=${VERSION}" >> $GITHUB_ENV
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+                  echo "${VERSION}" > version.txt
+            - name: Upload Version Artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: version-tag
+                  path: version.txt
+
     lint:
         name: Lint Frontend Code
         runs-on: [self-hosted]
-        needs: filter
+        needs: [filter, version]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
@@ -72,7 +99,7 @@ jobs:
     test:
         name: Run Frontend Unit and Integration Tests
         runs-on: [self-hosted]
-        needs: filter
+        needs: [filter, version]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
@@ -97,7 +124,7 @@ jobs:
     build-backend:
         name: Build and Push Backend Docker Image
         runs-on: [self-hosted]
-        needs: filter
+        needs: [filter, version]
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
@@ -118,13 +145,13 @@ jobs:
                   context: ./api
                   file: ./api/Dockerfile.prod
                   push: true
-                  tags: eliasdb/edb-api:pr-${{ github.event.number }}-staging
+                  tags: eliasdb/edb-api:${{ needs.version.outputs.image_tag }}
                   platforms: linux/arm64
 
     build-frontend:
         name: Build and Push Frontend Docker Image
         runs-on: [self-hosted]
-        needs: [filter, lint, test]
+        needs: [filter, lint, test, version]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
@@ -142,5 +169,5 @@ jobs:
                   context: ./eDB
                   file: ./eDB/Dockerfile.prod
                   push: true
-                  tags: eliasdb/edb-nx:pr-${{ github.event.number }}-staging
+                  tags: eliasdb/edb-nx:${{ needs.version.outputs.image_tag }}
                   platforms: linux/arm64

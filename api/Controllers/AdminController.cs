@@ -364,7 +364,7 @@ namespace api.Controllers
                 var application = await _context.Applications
                     .FirstOrDefaultAsync(a => a.Id == applicationId);
 
-                // If the application is not found, return a 404 response
+                // If the application is not found, return a 404 responsee
                 if (application == null)
                 {
                     return NotFound(new { Message = "Application not found." });
