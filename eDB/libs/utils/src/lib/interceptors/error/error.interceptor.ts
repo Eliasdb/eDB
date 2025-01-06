@@ -23,7 +23,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error) {
-        const notificationService = injector.get(NotificationService); // Lazy injection
+        const notificationService = injector.get(NotificationService);
         const showToast = (
           type: NotificationType,
           title: string,
