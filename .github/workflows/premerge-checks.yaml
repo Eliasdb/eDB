@@ -61,11 +61,9 @@ jobs:
               id: version
               run: |
                   PR_NUMBER=${{ github.event.pull_request.number }}
-                  SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-                  VERSION=pr-${PR_NUMBER}-${SHORT_SHA}-staging
+                  VERSION=pr-${PR_NUMBER}-staging
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
-                  echo "${VERSION}" > version.txt
 
     lint:
         name: Lint Frontend Code
