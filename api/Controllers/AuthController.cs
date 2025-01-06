@@ -77,7 +77,7 @@ namespace api.Controllers
                 return Unauthorized(new
                 {
                     error = "InvalidCredentials",
-                    message = "Invalid email or password."
+                    message = "Invalid email or password!"
                 });
             }
 
