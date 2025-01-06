@@ -10,7 +10,7 @@ on:
 jobs:
     filter:
         name: Check if Backend or Frontend Code Changed
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted]
         outputs:
             backend: ${{ steps.set_backend.outputs.backend }}
             frontend: ${{ steps.set_frontend.outputs.frontend }}
@@ -46,7 +46,7 @@ jobs:
 
     lint:
         name: Lint Frontend Code
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted]
         needs: filter
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
@@ -71,7 +71,7 @@ jobs:
 
     test:
         name: Run Frontend Unit and Integration Tests
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted]
         needs: filter
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
@@ -96,7 +96,7 @@ jobs:
 
     build-backend:
         name: Build and Push Backend Docker Image
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted]
         needs: filter
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
@@ -123,7 +123,7 @@ jobs:
 
     build-frontend:
         name: Build and Push Frontend Docker Image
-        runs-on: ubuntu-latest
+        runs-on: [self-hosted]
         needs: [filter, lint, test]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
