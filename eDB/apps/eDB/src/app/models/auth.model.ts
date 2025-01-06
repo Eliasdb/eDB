@@ -1,6 +1,5 @@
 import { User } from './user.model';
 
-// auth.model.ts
 export interface RegisterResponse {
   message: string;
   user: User;
@@ -15,7 +14,6 @@ export interface LoginResponse {
 export interface ErrorResponse {
   error: {
     message: string;
-    // Add other properties if necessary
   };
 }
 
