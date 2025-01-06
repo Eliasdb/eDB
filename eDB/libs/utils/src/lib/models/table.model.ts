@@ -1,5 +1,3 @@
-// src/app/models/table.model.ts
-
 import { TableHeaderItem, TableItem } from 'carbon-components-angular';
 
 /**
@@ -10,7 +8,7 @@ export interface TableColumnConfig {
   field?: string;
   sortable?: boolean;
   sortField?: string;
-  isTemplate?: boolean; // Indicates if the column uses a template (e.g., for actions)
+  isTemplate?: boolean; // Indicates if the column uses a template
 }
 
 /**
@@ -47,6 +45,6 @@ export interface ExpandedDataConfig<T> {
   rowMapper: (item: T, context?: { [key: string]: any }) => TableItem[];
   expandedDataMapper?: (
     item: T,
-    context?: { [key: string]: any }
+    context?: { [key: string]: any },
   ) => TableItem[][];
 }

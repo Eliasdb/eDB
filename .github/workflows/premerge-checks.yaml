@@ -66,11 +66,6 @@ jobs:
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
                   echo "${VERSION}" > version.txt
-            - name: Upload Version Artifact
-              uses: actions/upload-artifact@v4
-              with:
-                  name: version-tag
-                  path: version.txt
 
     lint:
         name: Lint Frontend Code
