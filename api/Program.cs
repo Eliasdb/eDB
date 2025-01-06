@@ -19,12 +19,9 @@ if (string.IsNullOrEmpty(jwtKey))
     throw new InvalidOperationException("JWT Key is not configured.");
 }
 
-
 // --- Service Registrations ---
 // Add controllers
 builder.Services.AddControllers();
-
-
 
 // Configure the DbContext with PostgreSQL connection string
 builder.Services.AddDbContext<MyDbContext>(options =>
@@ -36,16 +33,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "https://app.eliasdebock.com")
+        policy.WithOrigins("http://localhost:4200", "https://app.eliasdebock.com", "https://app.staging.eliasdebock.com")
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
 });
 
-
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.WebHost.UseUrls("http://0.0.0.0:9101");
-
 
 // Add authentication and authorization (if applicable)
 builder.Services.AddAuthentication("Bearer")
