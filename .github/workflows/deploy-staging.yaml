@@ -6,28 +6,9 @@ on:
             - dev
 
 jobs:
-    version:
-        name: Set Version
-        runs-on: [self-hosted]
-        outputs:
-            image_tag: ${{ steps.version.outputs.image_tag }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-            - name: Set Version
-              id: version
-              run: |
-                  COMMIT_COUNT=$(git rev-list --count HEAD)
-                  VERSION=v1.0.${COMMIT_COUNT}-staging
-                  echo "image_tag=${VERSION}" >> $GITHUB_ENV
-                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
-
     filter:
         name: Check if Backend or Frontend Code Changed
         runs-on: [self-hosted]
-        needs: version
         outputs:
             backend: ${{ steps.set_backend.outputs.backend }}
             frontend: ${{ steps.set_frontend.outputs.frontend }}
@@ -56,6 +37,23 @@ jobs:
                     echo "frontend=false" >> $GITHUB_OUTPUT
                   fi
               shell: bash
+
+    version:
+        name: Retrieve Version
+        runs-on: [self-hosted]
+        needs: filter
+        outputs:
+            image_tag: ${{ steps.get_version.outputs.image_tag }}
+        steps:
+            - name: Download Version Artifact
+              uses: actions/download-artifact@v3
+              with:
+                  name: version-tag
+            - name: Read Version
+              id: get_version
+              run: |
+                  VERSION=$(cat version.txt)
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
     deploy-backend:
         name: Deploy Backend to Staging
@@ -91,15 +89,36 @@ jobs:
                   kubectl apply -f k8s/staging/api/api-deployment.yaml
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
-            - name: Commit Updated API Deployment YAML
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add k8s/staging/api/api-deployment.yaml
-                  git commit -m "Update API staging deployment to ${{ needs.version.outputs.image_tag }}" || echo "No changes to commit"
+    deploy-frontend:
+        name: Deploy Frontend to Staging
+        runs-on: [self-hosted]
+        needs: [filter, version]
+        if: ${{ needs.filter.outputs.frontend == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
 
-            - name: Push Changes
+            - name: Configure Kubernetes for Staging
               run: |
-                  git push origin dev
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  chmod 600 ~/.kube/config
+                  kubectl cluster-info
+
+            - name: Replace Placeholder with Image Tag in Frontend Deployment YAML
+              run: |
+                  set -e
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/staging/eDB/frontend-deployment-template.yaml > k8s/staging/eDB/frontend-deployment.yaml
+
+            - name: Debug Frontend Deployment YAML
+              run: |
+                  echo "Updated Frontend Deployment YAML:" && cat k8s/staging/eDB/frontend-deployment.yaml
+
+            - name: Validate Frontend Deployment YAML
+              run: |
+                  kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.yaml
+
+            - name: Deploy Frontend to Kubernetes
+              run: |
+                  kubectl apply -f k8s/staging/eDB/frontend-deployment.yaml
+                  kubectl rollout status deployment/edb-nx-staging || kubectl rollout undo deployment/edb-nx-staging
