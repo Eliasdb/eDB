@@ -25,7 +25,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Build the production-ready app
-RUN pnpm run build:production
+RUN pnpm run build:staging
 
 # Stage 2: Serve with a lightweight web server
 FROM nginx:alpine
