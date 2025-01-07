@@ -82,6 +82,7 @@ using (var scope = app.Services.CreateScope())
     }
 
 }
+app.UseCors("AllowFrontend");
 
 // --- Middleware Configuration ---
 if (app.Environment.IsDevelopment())
@@ -95,10 +96,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-app.UseHttpsRedirection(); // Uncomment for production when HTTPS is enabled
 app.UseAuthentication();   // Use authentication middleware
 app.UseAuthorization();    // Use authorization middleware
-app.UseCors("AllowFrontend");
 
 app.Use(async (context, next) =>
 {
