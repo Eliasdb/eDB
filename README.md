@@ -38,10 +38,12 @@
             -   [Step 4: Configure Skaffold](#step-4-configure-skaffold)
             -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
         -   [3.1.3 Development Workflow](#313-development-workflow)
-    -   [3.2 Production](#32-production)
-        -   [3.2.1 Architecture Diagrams](#321-architecture-diagrams)
-        -   [3.2.2 CI/CD Pipeline](#322-cicd-pipeline)
-        -   [3.2.3 CI/CD Flow](#323-cicd-flow)
+    -   [3.2 Staging](#32-staging)
+        -   [3.2.1 Deploying to staging](#321-deploying-to-staging)
+    -   [3.3 Production](#33-production)
+        -   [3.3.1 Architecture Diagrams](#331-architecture-diagrams)
+        -   [3.3.2 CI/CD Pipeline](#332-cicd-pipeline)
+        -   [3.3.3 CI/CD Flow](#333-cicd-flow)
 -   [4. Handy Commands Cheat Sheet](#4-handy-commands-cheat-sheet)
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
@@ -605,19 +607,27 @@ Once deployed, your frontend will be available at `http://localhost:4200` and yo
 
 When you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
 
-![Development Workflow](./diagrams/images/devops/dev/dev-workflowv1.png)
+![Development Workflow](./diagrams/images/devops/dev/dev-workflowv2.png)
 
-### 3.2 Production
+### 3.2 Staging
 
-#### 3.2.1 Architecture Diagrams
+#### 3.2.1 Deploying to staging
+
+![Development Workflow](./diagrams/images/devops/dev/dev-workflowv2.png)
+
+After merging successfully
+
+### 3.3 Production
+
+#### 3.3.1 Architecture Diagrams
 
 ![Production Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv2.png)
 
-#### 3.2.2 CI/CD Pipeline
+#### 3.3.2 CI/CD Pipeline
 
 This CI/CD pipeline is designed to automate the process of building, validating, and deploying applications to a **Hetzner CAX21 VPS** running a **k3s cluster**. It ensures seamless updates to the live environment by leveraging **GitHub Actions**. Whenever code is pushed to the `main` branch, the pipeline builds Docker images for the backend and frontend, validates Kubernetes manifests, and deploys updated services to the k3s cluster. The pipeline also includes steps to roll back in case of errors during deployment.
 
-#### 3.2.3 CI/CD Flow
+#### 3.3.3 CI/CD Flow
 
 ##### Trigger
 
