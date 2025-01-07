@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.4">
+  <diagram name="Page-1" id="V5H8sHE0U_d2jvzVKu3O">
+    <mxGraphModel dx="3549" dy="2243" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4000" pageHeight="20000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="230" width="2880" height="3390" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-2" value="&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Deployment to staging&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="790" y="340" width="2500" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;startArrow=none;startFill=0;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-3" target="HPJAi-LUw1QC0v0Y9s_r-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-3" value="&lt;font style=&quot;line-height: 240%; font-size: 40px;&quot;&gt;Derive Tag from Most Recent PR&lt;/font&gt;&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 30px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); line-height: 240%;&quot;&gt;VERSION=pr-${PR_NUMBER}-staging&lt;/span&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;font-size: 35px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1610" y="910" width="860" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-4" target="HPJAi-LUw1QC0v0Y9s_r-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-4" target="HPJAi-LUw1QC0v0Y9s_r-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-4" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;background-color: transparent; line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Check if Backend or Frontend Code Changed&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1610" y="1400" width="860" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-5" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy Frontend to Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="840" y="1920" width="860" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-6" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy Backend to Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2390" y="1920" width="860" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-9" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Configure Kubernetes for Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="840" y="2290" width="860" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-10" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Configure Kubernetes for Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2400" y="2290" width="860" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-11" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Replace Placeholder with Image Tag in Frontend Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="840" y="2530" width="860" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-12" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&amp;nbsp;Validate Frontend Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="840" y="2770" width="860" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-13" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy Frontend to Kubernetes&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="840" y="2990" width="860" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-14" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Replace Placeholder with Image Tag in API Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2400" y="2540" width="860" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-15" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Validate API Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2400" y="2770" width="860" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-16" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy API to Kubernetes&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2400" y="2980" width="860" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-18" value="&lt;font style=&quot;font-size: 35px;&quot;&gt;On succesful merge to dev branch&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillStyle=zigzag-line;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1692.5" y="540" width="715" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-23" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;sketch=1;curveFitting=1;jiggle=2;endWidth=40.76923076923077;endSize=12.461904761904762;width=41.42857142857142;exitX=0.486;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="2010.5" y="740" as="sourcePoint" />
+            <mxPoint x="2000" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-27" value="&lt;div&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;https://app.staging.eliasdebock.com&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="3210" width="790" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-28" value="&lt;div&gt;&lt;span style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;https://api.staging.eliasdebock.com&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="3210" width="790" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
