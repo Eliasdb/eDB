@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   apiBaseUrl: 'https://api.staging.eliasdebock.com/api',
   apiAdminUrl: 'https://api.staging.eliasdebock.com/api/admin',
   apiAuthUrl: 'https://api.staging.eliasdebock.com/api/auth',

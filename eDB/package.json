@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve eDB --host 0.0.0.0",
-    "build": "nx build eDB --prod --skip-nx-cache",
+    "build:production": "nx build eDB --prod --skip-nx-cache",
+    "build:staging": "nx build eDB --staging --skip-nx-cache",
     "test:utils": "nx test utils --verbose"
   },
   "private": true,
