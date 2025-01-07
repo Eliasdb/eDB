@@ -7,7 +7,7 @@ public class Subscription
     public int ApplicationId { get; set; } // Foreign key to the Application
     public DateTime SubscriptionDate { get; set; }
 
-    // Navigation Properties
+    // Navigation Properties /
     public User? User { get; set; }
     public Application? Application { get; set; }
 }
