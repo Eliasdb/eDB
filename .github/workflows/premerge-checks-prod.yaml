@@ -1,9 +1,9 @@
-name: Pre-Merge Checks Dev Branch
+name: Pre-Merge Checks Main Branch
 
 on:
     pull_request:
         branches:
-            - dev
+            - main
         paths:
             - 'api/**'
             - 'eDB/**'
