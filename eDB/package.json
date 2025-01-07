@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nx serve eDB --host 0.0.0.0",
     "build:production": "nx build eDB --prod --skip-nx-cache",
-    "build:staging": "nx build eDB --staging --skip-nx-cache",
+    "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
     "test:utils": "nx test utils --verbose"
   },
   "private": true,
