@@ -613,9 +613,17 @@ When you are able to spin up the cluster and access the frontend and backend, yo
 
 #### 3.2.1 Deploying to staging
 
-![Development Workflow](./diagrams/images/devops/dev/dev-workflowv2.png)
+![Premerge checks](./diagrams/images/devops/staging/premerge-checksv1.png)
 
-After merging successfully
+After all checks pass and you have merged successfully, a pipeline will run deploying the build to a staging environment that mimics production.
+**URLs**:
+
+-   https://app.staging.eliasdebock.com
+-   https://api.staging.eliasdebock.com
+
+#### 3.2.2 Pipeline Diagram
+
+![Staging Deployment Pipeline](./diagrams/images/devops/staging/cicd-staging-setupv1.png)
 
 ### 3.3 Production
 
