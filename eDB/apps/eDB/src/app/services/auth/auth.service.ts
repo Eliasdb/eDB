@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { injectMutation } from '@tanstack/angular-query-experimental';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import {
   Credentials,
   LoginResponse,
