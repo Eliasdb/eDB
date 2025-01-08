@@ -42,9 +42,10 @@
         -   [3.2.1 Deploying to staging](#321-deploying-to-staging)
         -   [3.2.2 Pipeline diagram](#322-pipeline-diagram)
     -   [3.3 Production](#33-production)
-        -   [3.3.1 Architecture Diagrams](#331-architecture-diagrams)
-        -   [3.3.2 CI/CD Pipeline](#332-cicd-pipeline)
-        -   [3.3.3 CI/CD Flow](#333-cicd-flow)
+        -   [3.3.1 Pre-merge pipeline main branch](#331-pre-merge-pipeline-main-branch)
+        -   [3.3.2 Deploying to production](#332-deploying-to-production)
+        -   [3.3.3 Dockerfiles](#333-dockerfiles)
+        -   [3.3.4 Architecture Diagram](#334-architecture-diagram)
 -   [4. Handy Commands Cheat Sheet](#4-handy-commands-cheat-sheet)
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
@@ -617,6 +618,7 @@ When you are able to spin up the cluster and access the frontend and backend, yo
 ![Premerge checks](./diagrams/images/devops/staging/premerge-checksv1.png)
 
 After all checks pass and you have merged successfully, a pipeline will run deploying the build to a staging environment that mimics production.
+
 **URLs**:
 
 -   https://app.staging.eliasdebock.com
@@ -628,71 +630,26 @@ After all checks pass and you have merged successfully, a pipeline will run depl
 
 ### 3.3 Production
 
-#### 3.3.1 Architecture Diagrams
+After you merged to the dev branch, you can proceed to make another PR. This time to push to production, to merge with the main branch. A pre-merge pipeline will run doing some checks again. After those pass you can merge to main branch.
 
-![Production Setup Diagram](./diagrams/images/devops/prod/devops-architecture-prodv2.png)
+#### 3.3.1 Pre-merge pipeline main branch
 
-#### 3.3.2 CI/CD Pipeline
+![Production Pre-merge Checks Diagram](./diagrams/images/devops/prod/cicd-prod-setupv1.png)
 
-This CI/CD pipeline is designed to automate the process of building, validating, and deploying applications to a **Hetzner CAX21 VPS** running a **k3s cluster**. It ensures seamless updates to the live environment by leveraging **GitHub Actions**. Whenever code is pushed to the `main` branch, the pipeline builds Docker images for the backend and frontend, validates Kubernetes manifests, and deploys updated services to the k3s cluster. The pipeline also includes steps to roll back in case of errors during deployment.
+#### 3.3.2 Deploying to production
 
-#### 3.3.3 CI/CD Flow
+When you have all checks passed, you can then click the button to merge to main branch. This will trigger the final pipeline to deploy to production.
+![Production Setup Diagram](./diagrams/images/devops/prod/cicd-prod-setupv1.png)
 
-##### Trigger
+#### 3.3.3 Dockerfiles
 
--   The pipeline is triggered by a push to the `main` branch of the GitHub repository.
+These are the multi-stage Dockerfiles used in production for my frontend and backend.
+![Production Setup Diagram](./diagrams/images/devops/prod/dockerfiles-prodv1.png)
 
-##### Preparation
+#### 3.3.4 Architecture Diagram
 
--   Checks out the repository code with full commit history for accurate versioning.
-
-##### Versioning
-
--   Automatically increments the application version using the total number of commits in the repository.
--   Sets a unique Docker image tag based on the computed version (e.g., `v1.0.<commit_count>-prod`).
-
-##### Docker Setup
-
--   Configures **Docker Buildx** to build multi-platform Docker images (e.g., for ARM64).
--   Authenticates to Docker Hub using credentials stored as GitHub Secrets.
-
-##### Build and Push Docker Images
-
--   Builds and pushes the Docker image for the backend service from the `api` directory.
--   Builds and pushes the Docker image for the frontend service from the `eDB` directory.
-
-##### Kubernetes Configuration
-
--   Configures `kubectl` using the kubeconfig stored as a GitHub Secret to interact with the k3s cluster.
--   Validates access to the Kubernetes cluster by displaying cluster information.
-
-##### Linting
-
--   Lints the Kubernetes YAML manifests for both the backend and frontend services to ensure they are properly formatted.
-
-##### Update Kubernetes Manifests
-
--   Replaces placeholders in the Kubernetes deployment YAML files with the new Docker image tag to deploy the latest version of the services.
-
-##### Validation
-
--   Performs a dry-run validation of the updated YAML files to ensure they are correct and will apply successfully to the cluster.
-
-##### Deployment
-
--   Deploys the updated Kubernetes manifests to the k3s cluster using `kubectl apply`.
--   Monitors the rollout status of each deployment to ensure it succeeds.
--   Automatically rolls back the deployment if there are issues during the rollout.
-
-##### Commit Updated Manifests
-
--   Commits the updated Kubernetes manifests with the new image tags back to the GitHub repository for record-keeping.
-
-##### Push Changes
-
--   Pushes the committed changes to the `main` branch of the repository.
-
----
+xxx
+![Production Setup Diagram](./diagrams/images/devops/prod/production-setupv1.png)
 
 ## 4. Handy Commands Cheat Sheet
 
