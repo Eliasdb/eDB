@@ -1,9 +1,177 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.4">
   <diagram name="Page-1" id="2JL8U4BCLr4c2kvkF6KN">
-    <mxGraphModel>
+    <mxGraphModel dx="6210" dy="23925" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4000" pageHeight="20000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="np_1fv96D_44VkqeR2-l-1" value="" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="590" y="-19420" width="2890" height="3670" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-2" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;b style=&quot;&quot;&gt;Push to main branch&lt;/b&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="-19050" width="1310" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-4" target="np_1fv96D_44VkqeR2-l-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1740" y="-18520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-4" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;0. Checkout the repository&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;&amp;nbsp;with full history&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="805" y="-18610" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-6" target="np_1fv96D_44VkqeR2-l-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-6" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;2. Setup &lt;font color=&quot;#394700&quot;&gt;QEMU&lt;/font&gt; for &lt;font color=&quot;#394700&quot;&gt;ARM64&lt;/font&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2665" y="-18610" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-8" target="np_1fv96D_44VkqeR2-l-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-8" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.1 Clear &lt;font color=&quot;#394700&quot;&gt;NuGet&lt;/font&gt; Caches&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="805" y="-17180" width="540" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-10" target="np_1fv96D_44VkqeR2-l-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-10" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;1. Set version number&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;based on commit&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1740" y="-18610" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-12" target="np_1fv96D_44VkqeR2-l-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-12" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.2 Set up &lt;font color=&quot;#394700&quot;&gt;Buildx&lt;/font&gt;&amp;nbsp;with&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;docker-container driver&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="-17180" width="540" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-14" target="np_1fv96D_44VkqeR2-l-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-14" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;3 Log in to &lt;font color=&quot;#394700&quot;&gt;Docker Hub&lt;/font&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2665" y="-18260" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-16" target="np_1fv96D_44VkqeR2-l-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-16" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.3&lt;/font&gt;&lt;span style=&quot;font-size: 30px; background-color: initial;&quot;&gt;&amp;nbsp;Build and Push&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;div&gt;&lt;font color=&quot;#394700&quot; style=&quot;font-size: 30px;&quot;&gt;API Docker image for ARM&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="-16950" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-18" target="np_1fv96D_44VkqeR2-l-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-18" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.&amp;nbsp;Build and Deploy Backend&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="805" y="-17450" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-20" target="np_1fv96D_44VkqeR2-l-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-20" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;4.1 Set up &lt;font color=&quot;#394700&quot;&gt;kubectl&lt;/font&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1735" y="-17960" width="540" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-22" target="np_1fv96D_44VkqeR2-l-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-22" value="&lt;div&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;4.&amp;nbsp;Configure&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;&lt;font color=&quot;#394700&quot;&gt;Kubernetes Cluster&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1735" y="-18260" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-24" target="np_1fv96D_44VkqeR2-l-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-24" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;5.&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Lint&lt;/font&gt; YAML Files&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="805" y="-18260" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-26" target="np_1fv96D_44VkqeR2-l-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-26" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.4&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#394700&quot;&gt;&lt;span style=&quot;font-size: 30px;&quot;&gt;Update API Deployment YAML with Image Tag&lt;/span&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="805" y="-16950" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-28" target="np_1fv96D_44VkqeR2-l-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-28" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.5&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Validate&lt;/font&gt; API Deployment YAML&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="805" y="-16690" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-30" target="np_1fv96D_44VkqeR2-l-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-30" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;7.4&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Validate&lt;/font&gt; Frontend Deployment YAML&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2795" y="-16950" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-32" target="np_1fv96D_44VkqeR2-l-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-32" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.6&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Deploy API to Kubernetes&lt;/font&gt; with Rollback&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="-16690" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-34" target="np_1fv96D_44VkqeR2-l-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-34" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;7.5&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Deploy Frontend to Kubernetes&lt;/font&gt;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-size: 30px; background-color: initial;&quot;&gt;with Rollback&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2795" y="-16690" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-36" target="np_1fv96D_44VkqeR2-l-49">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2075" y="-16330" />
+              <mxPoint x="2075" y="-17360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-36" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;6.7&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Commit&lt;/font&gt; Updated API Deployment YAML&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="-16420" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-38" target="np_1fv96D_44VkqeR2-l-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-38" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;7.6&amp;nbsp;&lt;font color=&quot;#394700&quot;&gt;Commit&lt;/font&gt; Frontend Deployment YAML&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2175" y="-16690" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-39" value="&lt;font style=&quot;font-size: 45px;&quot;&gt;&lt;b style=&quot;&quot;&gt;CI/CD Pipeline Production&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="725" y="-19300" width="2580" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-40" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=50;endSize=12.706666666666665;width=27.333333333333332;sketch=1;curveFitting=1;jiggle=2;shadow=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1219.37" y="-18810" as="sourcePoint" />
+            <mxPoint x="1145" y="-18720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-6" target="np_1fv96D_44VkqeR2-l-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-43" target="np_1fv96D_44VkqeR2-l-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-43" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 30px;&quot;&gt;7.3&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: initial; font-size: 30px;&quot;&gt;Update Frontend Deployment YAML with Image Tag&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2175" y="-16950" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-45" target="np_1fv96D_44VkqeR2-l-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-45" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 30px;&quot;&gt;7.2&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: initial; font-size: 30px;&quot;&gt;Build and Push Frontend Docker Image&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2175" y="-17180" width="540" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-47" target="np_1fv96D_44VkqeR2-l-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-47" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;4.2 Configure &lt;font color=&quot;#394700&quot;&gt;Kubernetes&lt;/font&gt;&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="1735" y="-17750" width="540" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-49" target="np_1fv96D_44VkqeR2-l-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-49" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;7.&amp;nbsp;Build and Deploy Frontend&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2795" y="-17450" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="np_1fv96D_44VkqeR2-l-51" target="np_1fv96D_44VkqeR2-l-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-51" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;7.1 Set up &lt;font color=&quot;#394700&quot;&gt;Buildx&lt;/font&gt;&amp;nbsp;with&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 30px;&quot;&gt;docker-container driver&lt;/font&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2795" y="-17180" width="540" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="np_1fv96D_44VkqeR2-l-52" value="&lt;span style=&quot;font-size: 30px;&quot;&gt;Push Changes to GitHub&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+          <mxGeometry x="2450.7799999999997" y="-16160" width="540" height="180" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
