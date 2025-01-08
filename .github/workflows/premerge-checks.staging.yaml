@@ -1,4 +1,4 @@
-name: Pre-Merge Checks Dev Branch
+name: Pre-Merge Checks Staging
 
 on:
     pull_request:

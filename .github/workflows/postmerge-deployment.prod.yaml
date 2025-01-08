@@ -1,4 +1,4 @@
-name: Production Deployment Workflow
+name: Production Deployment
 
 on:
     push:
