@@ -19,7 +19,7 @@
         -   [2.2.3 Architecture Diagram](#223-architecture-diagram)
     -   [2.3 Database](#23-database)
     -   [2.4 VPS](#24-vps)
-        -   [2.4.1 What is a VPS?](#241-what-is-a-VPS?)
+        -   [2.4.1 What is a VPS?](#241-what-is-a-vps)
         -   [2.4.2 Setting up a VPS with Hetzner](#242-setting-up-a-vps-with-hetzner)
             -   [Step 0: Setting up your account](#step-0-setting-up-your-account)
             -   [Step 1: Configure server on Hetzner](#step-1-configure-server-on-hetzner)
@@ -639,11 +639,13 @@ After you merged to the dev branch, you can proceed to make another PR. This tim
 #### 3.3.2 Deploying to production
 
 When you have all checks passed, you can then click the button to merge to main branch. This will trigger the final pipeline to deploy to production.
+
 ![Production Setup Diagram](./diagrams/images/devops/prod/cicd-prod-setupv1.png)
 
 #### 3.3.3 Dockerfiles
 
 These are the multi-stage Dockerfiles used in production for my frontend and backend.
+
 ![Production Setup Diagram](./diagrams/images/devops/prod/dockerfiles-prodv1.png)
 
 #### 3.3.4 Architecture Diagram
@@ -692,21 +694,18 @@ xxx
 
 ## 5. Achieved Goals
 
--   [x] Setup development environment (k3s cluster using k3d managed with Skaffold)
--   [x] Setup staging environment (k3s cluster on VPS)
--   [x] Setup production environment (k3s cluster on VPS)
--   [x] Setup CI/CD pipeline with production, staging and pre-merge workflows
--   [x] Linting, unit testing, build checks for frontend in pipeline before merging with dev branch.
+-   [x] Development environment (k3s cluster using k3d managed with Skaffold)
+-   [x] Staging environment (k3s cluster on VPS)
+-   [x] Production environment (k3s cluster on VPS)
+-   [x] CI/CD pipelines for production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS).
 -   [x] Documentation
 
 ## 5. Current Goals
 
-### Documentation & Planning
+### Project Management
 
--   [ ] Look into Swagger
 -   [ ] Refactor goals and unresolved questions into stories and tickets on Jira
 -   [ ] Setup my first sprint
--   [ ] Documententation for pipeline, new diagrams for production pipeline and premerge checks and deploy to staging workflows
 
 ### Frontend
 
@@ -717,11 +716,10 @@ xxx
 
 -   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
 -   [ ] Testing to add to the pipeline
+-   [ ] Look into Swagger
 
 ### Devops & Testing
 
--   [ ] Test and refactor all CI/CD pipelines
--   [ ] Refactor CI/CD prod to include pull requests and checks before merging with main
 -   [ ] Add integration, E2E testing to pipeline and also unit testing for backend
 -   [ ] Secure server
 
@@ -730,9 +728,7 @@ xxx
 -   [ ] Best practices for Observables and Signals
 -   [ ] Overall Frontend architecture
 -   [ ] [Violation] warnings in console
--   [ ] Feedback on clarity of documentation and diagrams
 -   [ ] Nx Cloud?
--   [ ] Staging environment?
 -   [ ] Database backups?
 -   [ ] SOLID principles?
 -   [ ] Argo CD?

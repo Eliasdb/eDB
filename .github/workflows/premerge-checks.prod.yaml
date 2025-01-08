@@ -1,4 +1,4 @@
-name: Pre-Merge Checks Main Branch
+name: Pre-Merge Checks Production
 
 on:
     pull_request:
