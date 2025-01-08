@@ -634,7 +634,7 @@ After you merged to the dev branch, you can proceed to make another PR. This tim
 
 #### 3.3.1 Pre-merge pipeline main branch
 
-![Production Pre-merge Checks Diagram](./diagrams/images/devops/prod/cicd-prod-setupv1.png)
+![Production Pre-merge Checks Diagram](./diagrams/images/devops/prod/cicd-premerge-prod-setupv1.png)
 
 #### 3.3.2 Deploying to production
 
