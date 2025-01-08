@@ -4,102 +4,102 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#000000);sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
           <mxGeometry x="620" y="230" width="2880" height="3590" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-2" value="&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Deployment to staging&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#CC0000);sketch=1;curveFitting=1;jiggle=2;fillStyle=zigzag;" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-2" value="&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Deployment to staging&lt;/b&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#000000,#FF3333);sketch=1;curveFitting=1;jiggle=2;fillStyle=hachure;" parent="1" vertex="1">
           <mxGeometry x="790" y="340" width="2500" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;startArrow=none;startFill=0;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-3" target="HPJAi-LUw1QC0v0Y9s_r-4">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;startArrow=none;startFill=0;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-3" target="HPJAi-LUw1QC0v0Y9s_r-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-3" value="&lt;font style=&quot;line-height: 240%; font-size: 40px;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 190, 129));&quot;&gt;Derive Tag&lt;/font&gt; from Most Recent PR&lt;/font&gt;&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 30px; background-color: transparent; line-height: 240%;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(231, 209, 187));&quot;&gt;VERSION=pr-${PR_NUMBER}-staging&lt;/font&gt;&lt;/span&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;font-size: 35px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-3" value="&lt;font style=&quot;line-height: 240%; font-size: 40px;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 190, 129));&quot;&gt;Derive Tag&lt;/font&gt; from Most Recent PR&lt;/font&gt;&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 30px; background-color: transparent; line-height: 240%;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(231, 209, 187));&quot;&gt;VERSION=pr-${PR_NUMBER}-staging&lt;/font&gt;&lt;/span&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;div style=&quot;font-size: 35px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="1610" y="910" width="860" height="320" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-4" target="HPJAi-LUw1QC0v0Y9s_r-5">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-4" target="HPJAi-LUw1QC0v0Y9s_r-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-4" target="HPJAi-LUw1QC0v0Y9s_r-6">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-4" target="HPJAi-LUw1QC0v0Y9s_r-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-4" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;background-color: transparent; line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Check if Backend or Frontend Code Changed&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-4" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;background-color: transparent; line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Check if Backend or Frontend Code Changed&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="1610" y="1400" width="860" height="320" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-5" target="HPJAi-LUw1QC0v0Y9s_r-9">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-5" target="HPJAi-LUw1QC0v0Y9s_r-9" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-5" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 190, 129));&quot;&gt;Deploy Frontend to Staging&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;gradientColor=none;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-5" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 190, 129));&quot;&gt;Deploy Frontend to Staging&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;gradientColor=none;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="840" y="1920" width="860" height="320" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-6" target="HPJAi-LUw1QC0v0Y9s_r-10">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-6" target="HPJAi-LUw1QC0v0Y9s_r-10" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-6" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 190, 129));&quot;&gt;Deploy Backend to Staging&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-6" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(178, 190, 129));&quot;&gt;Deploy Backend to Staging&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="2390" y="1920" width="860" height="320" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-9" target="HPJAi-LUw1QC0v0Y9s_r-11">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-9" target="HPJAi-LUw1QC0v0Y9s_r-11" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-9" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Configure Kubernetes for Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-9" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Configure Kubernetes for Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="840" y="2340" width="860" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-10" target="HPJAi-LUw1QC0v0Y9s_r-14">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-10" target="HPJAi-LUw1QC0v0Y9s_r-14" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-10" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Configure Kubernetes for Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-10" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Configure Kubernetes for Staging&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="2390" y="2340" width="860" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-11" target="HPJAi-LUw1QC0v0Y9s_r-12">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-11" target="HPJAi-LUw1QC0v0Y9s_r-12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-11" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Replace Placeholder with Image Tag in Frontend Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-11" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Replace Placeholder with Image Tag in Frontend Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="840" y="2640" width="860" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-12" target="HPJAi-LUw1QC0v0Y9s_r-13">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-12" target="HPJAi-LUw1QC0v0Y9s_r-13" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-12" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&amp;nbsp;Validate Frontend Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-12" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;&amp;nbsp;Validate Frontend Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="840" y="2930" width="860" height="170" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-13">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-13" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1270" y="3450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-13" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy Frontend to Kubernetes&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-13" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy Frontend to Kubernetes&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="840" y="3185" width="860" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-14" target="HPJAi-LUw1QC0v0Y9s_r-15">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-14" target="HPJAi-LUw1QC0v0Y9s_r-15" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-14" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Replace Placeholder with Image Tag in API Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-14" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Replace Placeholder with Image Tag in API Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="2390" y="2640" width="860" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-15" target="HPJAi-LUw1QC0v0Y9s_r-16">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-15" target="HPJAi-LUw1QC0v0Y9s_r-16" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-15" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Validate API Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-15" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Validate API Deployment YAML&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="2390" y="2930" width="860" height="170" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-16" target="HPJAi-LUw1QC0v0Y9s_r-28">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=5;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-16" target="HPJAi-LUw1QC0v0Y9s_r-28" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-16" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy API to Kubernetes&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-16" value="&lt;div style=&quot;line-height: 240%;&quot;&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Deploy API to Kubernetes&lt;/span&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;sketch=1;curveFitting=1;jiggle=2;fillColor=light-dark(#FFFFFF,#000000);" parent="1" vertex="1">
           <mxGeometry x="2390" y="3185" width="860" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-18" value="&lt;font style=&quot;font-size: 35px;&quot;&gt;On succesful merge to dev branch&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillStyle=dots;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-18" value="&lt;font style=&quot;font-size: 35px;&quot;&gt;On succesful merge to dev branch&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillStyle=dots;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
           <mxGeometry x="1690" y="570" width="715" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-23" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;sketch=1;curveFitting=1;jiggle=2;endWidth=40.76923076923077;endSize=12.461904761904762;width=41.42857142857142;exitX=0.486;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-23" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;sketch=1;curveFitting=1;jiggle=2;endWidth=40.76923076923077;endSize=12.461904761904762;width=41.42857142857142;exitX=0.486;exitY=0.145;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="HPJAi-LUw1QC0v0Y9s_r-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="2010.5" y="740" as="sourcePoint" />
-            <mxPoint x="2000" y="820" as="targetPoint" />
+            <mxPoint x="1990" y="830" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-28" value="&lt;div&gt;&lt;span style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;https://api.staging.eliasdebock.com&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#1A1A1A);fillStyle=zigzag-line;strokeColor=light-dark(#666666,#959595);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-28" value="&lt;div&gt;&lt;span style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;https://api.staging.eliasdebock.com&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#1A1A1A);fillStyle=zigzag-line;strokeColor=light-dark(#666666,#959595);" parent="1" vertex="1">
           <mxGeometry x="2425" y="3460" width="790" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-41" value="&lt;div&gt;&lt;span style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;https://app.staging.eliasdebock.com&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#1A1A1A);fillStyle=zigzag-line;strokeColor=light-dark(#666666,#959595);" vertex="1" parent="1">
+        <mxCell id="HPJAi-LUw1QC0v0Y9s_r-41" value="&lt;div&gt;&lt;span style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;https://app.staging.eliasdebock.com&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#FFFFFF,#1A1A1A);fillStyle=zigzag-line;strokeColor=light-dark(#666666,#959595);" parent="1" vertex="1">
           <mxGeometry x="870" y="3450" width="790" height="130" as="geometry" />
         </mxCell>
       </root>
