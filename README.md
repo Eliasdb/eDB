@@ -624,7 +624,7 @@ After all checks pass and you have merged successfully, a pipeline will run depl
 
 #### 3.2.2 Pipeline Diagram
 
-![Staging Deployment Pipeline](./diagrams/images/devops/staging/cicd-staging-setupv2.png)
+![Staging Deployment Pipeline](./diagrams/images/devops/staging/cicd-staging-setupv3.png)
 
 ### 3.3 Production
 
