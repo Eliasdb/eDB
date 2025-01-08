@@ -107,7 +107,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1.4 Architecture Diagrams
 
-![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecturev4.png)
+![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v4.png)
 
 ### 2.2 Backend
 
@@ -413,7 +413,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.2.3 Architecture Diagram
 
-![Backend Setup Diagram](./diagrams/images/backend/backend-architeturev2.png)
+![Backend Setup Diagram](./diagrams/images/backend/backend-architeture_v2.png)
 
 ---
 
@@ -516,7 +516,7 @@ I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Dock
 
 #### 3.1.1 Architecture Diagram
 
-![Development Setup Diagram](./diagrams/images/devops/dev/devopsv4.png)
+![Development Setup Diagram](./diagrams/images/devops/dev/environment-setup.dev_v4.png)
 
 #### 3.1.2 Spinning up a cluster locally
 
@@ -609,13 +609,13 @@ Once deployed, your frontend will be available at `http://localhost:4200` and yo
 
 When you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
 
-![Development Workflow](./diagrams/images/devops/dev/dev-workflowv2.png)
+![Development Workflow](./diagrams/images/devops/dev/workflow-premerge-checks.staging_v2.png)
 
 ### 3.2 Staging
 
 #### 3.2.1 Deploying to staging
 
-![Premerge checks](./diagrams/images/devops/staging/premerge-checksv1.png)
+![Premerge checks](./diagrams/images/devops/staging/premerge-checks_v1.png)
 
 After all checks pass and you have merged successfully, a pipeline will run deploying the build to a staging environment that mimics production.
 
@@ -626,7 +626,7 @@ After all checks pass and you have merged successfully, a pipeline will run depl
 
 #### 3.2.2 Pipeline Diagram
 
-![Staging Deployment Pipeline](./diagrams/images/devops/staging/cicd-staging-setupv3.png)
+![Staging Deployment Pipeline](./diagrams/images/devops/staging/postmerge-deployment.staging_v3.png)
 
 ### 3.3 Production
 
@@ -634,24 +634,24 @@ After you merged to the dev branch, you can proceed to make another PR. This tim
 
 #### 3.3.1 Pre-merge pipeline main branch
 
-![Production Pre-merge Checks Diagram](./diagrams/images/devops/prod/cicd-premerge-prod-setupv1.png)
+![Production Pre-merge Checks Diagram](./diagrams/images/devops/prod/premerge-checks.prod_v1.png)
 
 #### 3.3.2 Deploying to production
 
 When you have all checks passed, you can then click the button to merge to main branch. This will trigger the final pipeline to deploy to production.
 
-![Production Setup Diagram](./diagrams/images/devops/prod/cicd-prod-setupv1.png)
+![Production Setup Diagram](./diagrams/images/devops/prod/postmerge-deployment.prod_v1.png)
 
 #### 3.3.3 Dockerfiles
 
 These are the multi-stage Dockerfiles used in production for my frontend and backend.
 
-![Production Setup Diagram](./diagrams/images/devops/prod/dockerfiles-prodv1.png)
+![Production Setup Diagram](./diagrams/images/devops/prod/dockerfiles.prod_v1.png)
 
 #### 3.3.4 Architecture Diagram
 
 xxx
-![Production Setup Diagram](./diagrams/images/devops/prod/production-setupv1.png)
+![Production Setup Diagram](./diagrams/images/devops/prod/environment-setup.prod_v1.png)
 
 ## 4. Handy Commands Cheat Sheet
 
