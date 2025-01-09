@@ -70,10 +70,10 @@ importers:
         version: 0.15.0
     devDependencies:
       '@analogjs/vite-plugin-angular':
-        specifier: ~1.10.0
+        specifier: ~1.10.3
         version: 1.10.3(xelqsdxr42nziatdpqsdcssroy)
       '@analogjs/vitest-angular':
-        specifier: ~1.10.0
+        specifier: ~1.10.3
         version: 1.10.3(@analogjs/vite-plugin-angular@1.10.3(xelqsdxr42nziatdpqsdcssroy))(@angular-devkit/architect@0.1900.0(chokidar@4.0.2))(vitest@2.1.8)
       '@angular-devkit/architect':
         specifier: 0.1900.0
