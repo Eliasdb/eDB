@@ -61,8 +61,7 @@ jobs:
             - name: Set Version
               id: version
               run: |
-                  COMMIT_COUNT=$(git rev-list --count HEAD)
-                  VERSION=v1.0.0-alpha
+                  VERSION=v1.0.1-alpha
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
