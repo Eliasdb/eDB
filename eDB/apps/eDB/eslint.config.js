@@ -31,7 +31,7 @@ module.exports = [
         'error',
         'single',
         {
-          avoidEscape: true, // Allow double quotes if it avoids escaping
+          avoidEscape: true,
         },
       ],
     },
