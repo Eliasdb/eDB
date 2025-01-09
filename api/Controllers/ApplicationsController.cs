@@ -66,7 +66,7 @@ public class ApplicationsController : ControllerBase
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userIdClaim))
         {
-            return Unauthorized(new { message = "User is not authenticated." });
+            return Unauthorized(new { message = "User is not authenticated!" });
         }
 
         var userId = int.Parse(userIdClaim);

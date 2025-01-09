@@ -24,6 +24,10 @@ RUN pnpm install --frozen-lockfile
 # Copy the rest of the application code
 COPY . .
 
+ENV NX_CLOUD=false
+
+RUN echo "NX_CLOUD=$NX_CLOUD"
+
 # Build the production-ready app
 RUN pnpm run build:staging
 
