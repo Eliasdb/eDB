@@ -20,7 +20,7 @@ namespace api.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Store Role as a string in the database
+            // Store Role as a string in database
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .HasConversion<string>();
