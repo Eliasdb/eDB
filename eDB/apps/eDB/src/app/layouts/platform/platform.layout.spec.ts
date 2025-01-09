@@ -20,7 +20,7 @@ describe('PlatformLayout', () => {
       mockRouter.url = '/' + routes[0];
       return Promise.resolve(true);
     }),
-    url: '/dashboard', // Initial URL
+    url: '/dashboard',
   };
 
   const mockNotificationService = {
