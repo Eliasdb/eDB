@@ -57,13 +57,25 @@ jobs:
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
+
             - name: Set Version
               id: version
               run: |
                   COMMIT_COUNT=$(git rev-list --count HEAD)
-                  VERSION=v1.0.${COMMIT_COUNT}-prod
+                  VERSION=v1.0.0-alpha
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+
+            - name: Create Git Tag
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  # Create a tag using the version computed
+                  git tag ${{ steps.version.outputs.image_tag }}
+                  # Push the tag to origin
+                  git push origin ${{ steps.version.outputs.image_tag }}
 
     lint:
         name: Lint Frontend Code

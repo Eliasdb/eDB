@@ -16,13 +16,14 @@ jobs:
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
-            - name: Set Version
+
+            - name: Set Version from Latest Tag
               id: version
               run: |
-                  COMMIT_COUNT=$(git rev-list --count HEAD)
-                  VERSION=v1.0.${COMMIT_COUNT}-prod
-                  echo "image_tag=${VERSION}" >> $GITHUB_ENV
-                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+                  git fetch --tags
+                  LATEST_TAG=$(git describe --tags --abbrev=0)
+                  echo "image_tag=${LATEST_TAG}" >> $GITHUB_ENV
+                  echo "image_tag=${LATEST_TAG}" >> $GITHUB_OUTPUT
 
     filter:
         name: Check if Backend or Frontend Code Changed
@@ -77,147 +78,97 @@ jobs:
                   yamllint k8s/prod/eDB/
 
     deploy-backend:
-        name: Build and Deploy Backend
+        name: Deploy and Update Backend
         runs-on: [self-hosted]
         needs: [version, lint-yaml, filter]
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_TOKEN }}
+
             - name: Configure Kubernetes
               run: |
                   mkdir -p ~/.kube
                   echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
-            - name: Build and Push Backend Docker Image
-              uses: docker/build-push-action@v3
-              with:
-                  context: ./api
-                  file: ./api/Dockerfile.prod
-                  push: true
-                  tags: ${{ env.DOCKER_IMAGE_API }}:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/arm64
-            # 11. Replace Placeholder with Image Tag for API Deployment
+
             - name: Update API Deployment YAML with Image Tag
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
 
-            # 12a. Debug: Output Updated API Deployment YAML
             - name: Debug API Deployment YAML
               run: |
                   echo "Updated API Deployment YAML:"
                   cat k8s/prod/api/api-deployment.prod.yaml
 
-            # 13. Validate API Deployment YAML
             - name: Validate API Deployment YAML
               run: |
                   kubectl apply --dry-run=client -f k8s/prod/api/api-deployment.prod.yaml
 
-            # 17. Deploy API to Kubernetes with Rollback
             - name: Deploy API to Kubernetes
               run: |
                   kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
                   kubectl rollout status deployment/api-prod || kubectl rollout undo deployment/api-prod
 
-            # 19. Commit Updated API Deployment YAML
             - name: Commit API Deployment YAML
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "github-actions[bot]@users.noreply.github.com"
                   git add k8s/prod/api/api-deployment.prod.yaml
-                  git commit -m "Update API deployment to ${{ needs.version.outputs.image_tag }}" || echo "No changes to commit"
-            - name: Push Changes
+                  git commit -m "Update API deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
+
+            - name: Push Backend Changes
               run: |
                   git push origin main
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        env:
-            DOCKER_IMAGE_API: eliasdb/edb-api
-
     deploy-frontend:
-        name: Build and Deploy Frontend
+        name: Deploy and Update Frontend
         runs-on: [self-hosted]
         needs: [version, lint-yaml, filter]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_TOKEN }}
+
             - name: Configure Kubernetes
               run: |
                   mkdir -p ~/.kube
                   echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
-            - name: Build and Push Frontend Docker Image
-              uses: docker/build-push-action@v3
-              with:
-                  context: ./eDB
-                  file: ./eDB/Dockerfile.prod
-                  push: true
-                  tags: ${{ env.DOCKER_IMAGE_FRONTEND }}:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/arm64
 
-            # 12. Replace Placeholder with Image Tag for Frontend Deployment
             - name: Update Frontend Deployment YAML with Image Tag
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
 
-            # 12b. Debug: Output Updated Frontend Deployment YAML
             - name: Debug Frontend Deployment YAML
               run: |
                   echo "Updated Frontend Deployment YAML:"
                   cat k8s/prod/eDB/frontend-deployment.prod.yaml
 
-            # 16. Validate Frontend Deployment YAML
             - name: Validate Frontend Deployment YAML
               run: |
                   kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.prod.yaml
 
-            # 18. Deploy Frontend to Kubernetes with Rollback
             - name: Deploy Frontend to Kubernetes
               run: |
                   kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
                   kubectl rollout status deployment/edb-nx-prod || kubectl rollout undo deployment/edb-nx-prod
 
-            # 20. Commit and Create Pull Request for Frontend Deployment YAML
-            - name: Commit and Push Frontend Deployment Changes
+            - name: Commit Frontend Deployment YAML
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Eliasdb/eDB.git
-                  git checkout -b update-frontend-deployment
                   git add k8s/prod/eDB/frontend-deployment.prod.yaml
-                  git commit -m "Update Frontend deployment to ${{ needs.version.outputs.image_tag }}" || echo "No changes to commit"
-                  git push origin update-frontend-deployment
+                  git commit -m "Update Frontend deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
+
+            - name: Push Frontend Changes
+              run: |
+                  git push origin main
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Create Pull Request
-              uses: peter-evans/create-pull-request@v5
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: update-frontend-deployment
-                  title: 'Automated Update: Frontend Deployment'
-                  body: |
-                      This pull request updates the frontend deployment file with the latest image tag.
-                      **Image Tag**: ${{ needs.version.outputs.image_tag }}
-                  base: main
-
-        env:
-            DOCKER_IMAGE_FRONTEND: eliasdb/edb-nx
