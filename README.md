@@ -27,6 +27,9 @@
             -   [Step 3: Retrieving the public key](#step-3-retrieving-the-public-key)
             -   [Step 4: Volumes](#step-4-volumes)
             -   [Step 5: Cloud config and server name](#step-5-cloud-config-and-server-name)
+    -   [2.5 Project Management and Documentation](#24-project-management-and-documentation)
+        -   [2.5.1 Jira](#251-jira)
+        -   [2.5.1 Confluence](#252-confluence)
 -   [3. Environments](#3-environments)
     -   [3.1 Development](#31-development)
         -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
@@ -49,8 +52,7 @@
 -   [4. Handy Commands Cheat Sheet](#4-handy-commands-cheat-sheet)
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
--   [5. Current Goals](#5-current-goals)
--   [6. Unresolved Questions](#6-unresolved-questions)
+-   [5. Achieved Goals](#5-achieved-goals)
 
 ---
 
@@ -508,6 +510,84 @@ You can add volumes to store data. This is needed if you want the data of your d
 Cloud-init is a powerful tool used for automating the initial setup and configuration of cloud servers during their first boot.
 [This article](https://community.hetzner.com/tutorials/basic-cloud-config) takes you step by step in the setup of a cloud-init script. The script will handle users set up, SSH keys and permissions, install packages, run custom scripts, configure firewalls or securing SSH.
 
+### 2.5 Project Management and Documentation
+
+#### 2.5.1 Jira
+
+Jira is used as a central tool to organize, track, and manage work. It supports various issue types for different kinds of work items, helps structure tasks under epics, and facilitates agile sprint planning and execution.
+
+---
+
+#### 2.5.1.1 Issue Types
+
+Jira provides different issue types to categorize work, each serving a unique purpose. Understanding these types helps in organizing and managing issues effectively:
+
+**Epics:**
+
+-   **Purpose:** Large bodies of work that can be broken down into smaller tasks (stories, tasks, spikes).
+-   **Usage:** In this project, four main epics categorize all work:
+    -   **Project Management:** Organizing work, planning sprints, refining backlog items, and improving management processes.
+    -   **Frontend:** Focusing on user interface, user experience, data visualization, responsiveness, testing, and code quality improvements.
+    -   **Backend:** Pertaining to API development, code refactoring, testing, architectural decisions, and infrastructure improvements.
+    -   **DevOps:** Covering CI/CD pipelines, server management, security, infrastructure automation, and related research (spikes) for deployment tools and strategies.
+
+**Stories:**
+
+-   **Purpose:** Represent user-centric features or requirements from an end-user’s perspective.
+-   **Usage:** Capture specific functionalities or enhancements that deliver value to users. For example: “As an admin, I want to see graphs on the dashboard so that I can analyze data trends easily.”
+
+**Tasks:**
+
+-   **Purpose:** Represent technical or operational work that doesn’t directly translate into a user feature but is necessary for project progress.
+-   **Usage:** Used for maintenance, setup, refactoring, and other work items like “Setup My First Sprint” or “Refactor Goals and Unresolved Questions into Jira Tickets.”
+
+**Spikes:**
+
+-   **Purpose:** Time-boxed research or investigation tasks to explore solutions, reduce uncertainty, or gather information.
+-   **Usage:** Used for exploring best practices, evaluating new tools, or researching architectural approaches. Spikes are labeled as such for easy identification.
+
+---
+
+#### 2.5.1.2 Setting Up a Sprint
+
+![Frontend Setup Diagram](./diagrams/images/docs/jira_backlog.png)
+
+**1. Prepare Your Backlog:**  
+Ensure that your backlog is prioritized and contains refined stories, tasks, and spikes linked to their respective epics.
+
+**2. Create a New Sprint:**  
+Navigate to the **Backlog** view on your Scrum board and click on **“Create sprint”** at the top of the backlog. A new sprint container will appear, ready to be populated with issues.
+
+**3. Select Issues for the Sprint:**  
+Drag and drop high-priority issues from the backlog into the new sprint container. Choose issues that align with the sprint goal and team capacity, maintaining a balance of feature development, technical tasks, and research activities.
+
+**4. Define Sprint Goals and Timeline:**  
+Optionally, edit the sprint details to set a clear sprint goal that describes what you aim to achieve. Set start and end dates, and determine the sprint duration.
+
+**5. Start the Sprint:**  
+Once the sprint is populated and goals are defined, click **“Start sprint”**. Jira automatically creates a Scrum board for the sprint if one isn’t already configured. This board visualizes the sprint backlog, in-progress tasks, and completed work.
+
+---
+
+#### 2.5.1.3 Working with the Jira Board During a Sprint
+
+-   **Automatic Board Creation:**  
+    When a sprint is started, Jira generates a Scrum board that reflects the sprint’s issues. The board typically includes columns (e.g., To Do, In Progress, Done) that represent the workflow stages.
+
+-   **Using the Board:**
+
+    -   **Visualize Progress:** Team members can drag issues across columns as work progresses.
+    -   **Daily Standups:** Use the board during standups to discuss what’s in progress, what’s completed, and identify blockers.
+    -   **Update Issues:** Team members update issue statuses, log work, and add comments directly on the board to keep everyone informed.
+
+-   **Completing the Sprint:**  
+    At the end of the sprint, review completed work on the board. Use Jira’s **“Complete sprint”** feature to close the sprint, move unfinished tasks back to the backlog or the next sprint, and plan for future sprints.
+
+#### 2.5.2 Confluence
+
+I intend to migrate this README to Confluence pages. More on this at a later time.
+This is the URL to the space there: https://metanoi4.atlassian.net/wiki/spaces/eDB/overview (only visible if you are part of the team)
+
 ## 3. Environments
 
 ### 3.1 Development
@@ -699,38 +779,3 @@ This is my current production cluster. When the pipeline runs to deploy it's act
 -   [x] Production environment (k3s cluster on VPS)
 -   [x] CI/CD pipelines for production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS).
 -   [x] Documentation
-
-## 5. Current Goals
-
-### Project Management
-
--   [ ] Refactor goals and unresolved questions into stories and tickets on Jira
--   [ ] Setup my first sprint
-
-### Frontend
-
--   [ ] Add graphs to the admin page
--   [ ] Make UI look nicer and responsive
-
-### Backend
-
--   [ ] Refactor backend (use AutoMapper, improve code quality, add missing DTOs for Application Controller)
--   [ ] Testing to add to the pipeline
--   [ ] Look into Swagger
-
-### Devops & Testing
-
--   [ ] Add integration, E2E testing to pipeline and also unit testing for backend
--   [ ] Secure server
-
-### 6. Unresolved Questions
-
--   [ ] Best practices for Observables and Signals
--   [ ] Overall Frontend architecture
--   [ ] [Violation] warnings in console
--   [ ] Nx Cloud?
--   [ ] Database backups?
--   [ ] SOLID principles?
--   [ ] Argo CD?
--   [ ] Redis caching integration?
--   [ ] Terraform for repeated server setup?
