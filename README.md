@@ -27,9 +27,13 @@
             -   [Step 3: Retrieving the public key](#step-3-retrieving-the-public-key)
             -   [Step 4: Volumes](#step-4-volumes)
             -   [Step 5: Cloud config and server name](#step-5-cloud-config-and-server-name)
-    -   [2.5 Project Management and Documentation](#24-project-management-and-documentation)
+    -   [2.5 Project Management and Documentation](#25-project-management-and-documentation)
         -   [2.5.1 Jira](#251-jira)
-        -   [2.5.1 Confluence](#252-confluence)
+            -   [2.5.1.1 Issue types](#2511-issue-types)
+            -   [2.5.1.2 Setting up a sprint](#2512-setting-up-a-sprint)
+            -   [2.5.1.3 Working with the Jira Board during a sprint](#2513-working-with-the-jira-board-during-a-sprint)
+        -   [2.5.2 Tags and releases](#252-tags-and-releases)
+        -   [2.5.3 Confluence](#252-confluence)
 -   [3. Environments](#3-environments)
     -   [3.1 Development](#31-development)
         -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
@@ -518,7 +522,7 @@ Jira is used as a central tool to organize, track, and manage work. It supports 
 
 ---
 
-#### 2.5.1.1 Issue Types
+#### 2.5.1.1 Issue types
 
 Jira provides different issue types to categorize work, each serving a unique purpose. Understanding these types helps in organizing and managing issues effectively:
 
@@ -548,45 +552,51 @@ Jira provides different issue types to categorize work, each serving a unique pu
 
 ---
 
-#### 2.5.1.2 Setting Up a Sprint
+#### 2.5.1.2 Setting up a sprint
 
 ![Frontend Setup Diagram](./diagrams/images/docs/jira_backlog.png)
 
-**1. Prepare Your Backlog:**  
+**1. Prepare your backlog:**  
 Ensure that your backlog is prioritized and contains refined stories, tasks, and spikes linked to their respective epics.
 
-**2. Create a New Sprint:**  
+**2. Create a new sprint:**  
 Navigate to the **Backlog** view on your Scrum board and click on **“Create sprint”** at the top of the backlog. A new sprint container will appear, ready to be populated with issues.
 
-**3. Select Issues for the Sprint:**  
+**3. Select issues for the sprint:**  
 Drag and drop high-priority issues from the backlog into the new sprint container. Choose issues that align with the sprint goal and team capacity, maintaining a balance of feature development, technical tasks, and research activities.
 
-**4. Define Sprint Goals and Timeline:**  
+**4. Define sprint goals and timeline:**  
 Optionally, edit the sprint details to set a clear sprint goal that describes what you aim to achieve. Set start and end dates, and determine the sprint duration.
 
-**5. Start the Sprint:**  
+**5. Start the sprint:**  
 Once the sprint is populated and goals are defined, click **“Start sprint”**. Jira automatically creates a Scrum board for the sprint if one isn’t already configured. This board visualizes the sprint backlog, in-progress tasks, and completed work.
 
 ---
 
-#### 2.5.1.3 Working with the Jira Board During a Sprint
+#### 2.5.1.3 Working with the Jira Board during a sprint
 
--   **Automatic Board Creation:**  
+-   **Automatic board creation:**  
     When a sprint is started, Jira generates a Scrum board that reflects the sprint’s issues. The board typically includes columns (e.g., To Do, In Progress, Done) that represent the workflow stages.
 
--   **Using the Board:**
+-   **Using the board:**
 
-    -   **Visualize Progress:** Team members can drag issues across columns as work progresses.
-    -   **Daily Standups:** Use the board during standups to discuss what’s in progress, what’s completed, and identify blockers.
-    -   **Update Issues:** Team members update issue statuses, log work, and add comments directly on the board to keep everyone informed.
+    -   **Visualize progress:** Team members can drag issues across columns as work progresses.
+    -   **Daily standups:** Use the board during standups to discuss what’s in progress, what’s completed, and identify blockers.
+    -   **Update issues:** Team members update issue statuses, log work, and add comments directly on the board to keep everyone informed.
 
 -   **Completing the Sprint:**  
     At the end of the sprint, review completed work on the board. Use Jira’s **“Complete sprint”** feature to close the sprint, move unfinished tasks back to the backlog or the next sprint, and plan for future sprints.
 
-#### 2.5.2 Confluence
+#### 2.5.2 Tags and releases
+
+At the end of each sprint, there will be a new version to be settled upon. This will become the new tag made in the pipeline to tag the Docker image and also will be used in the release notes to publish a release on GitHub from.
+
+Here is an [overview](https://github.com/Eliasdb/eDB/releases) of all releases so far.
+
+#### 2.5.3 Confluence
 
 I intend to migrate this README to Confluence pages. More on this at a later time.
-This is the URL to the space there: https://metanoi4.atlassian.net/wiki/spaces/eDB/overview (only visible if you are part of the team)
+URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overview). Only visible if you are part of the team.
 
 ## 3. Environments
 
