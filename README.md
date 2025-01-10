@@ -26,7 +26,7 @@
             -   [Step 2: Generating an SSH key](#step-2-generating-an-ssh-key)
             -   [Step 3: Retrieving the public key](#step-3-retrieving-the-public-key)
             -   [Step 4: Volumes](#step-4-volumes)
-            -   [Step 5: Cloud config and name](#step-5-cloud-config-and-name)
+            -   [Step 5: Cloud config and server name](#step-5-cloud-config-and-server-name)
 -   [3. Environments](#3-environments)
     -   [3.1 Development](#31-development)
         -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
@@ -615,7 +615,7 @@ When you are able to spin up the cluster and access the frontend and backend, yo
 
 #### 3.2.1 Deploying to staging
 
-![Premerge checks](./diagrams/images/devops/staging/premerge-checks_v1.png)
+![Premerge checks](./diagrams/images/devops/staging/premerge-checks_v2.png)
 
 After all checks pass and you have merged successfully, a pipeline will run deploying the build to a staging environment that mimics production.
 
@@ -640,7 +640,7 @@ After you merged to the dev branch, you can proceed to make another PR. This tim
 
 When you have all checks passed, you can then click the button to merge to main branch. This will trigger the final pipeline to deploy to production.
 
-![Production Setup Diagram](./diagrams/images/devops/prod/postmerge-deployment.prod_v1.png)
+![Production Setup Diagram](./diagrams/images/devops/prod/postmerge-deployment.prod_v2.png)
 
 #### 3.3.3 Dockerfiles
 
@@ -650,7 +650,7 @@ These are the multi-stage Dockerfiles used in production for my frontend and bac
 
 #### 3.3.4 Architecture Diagram
 
-xxx
+This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here with a new Docker image or it rolls back if that does not go as planned. My domain was bought and configured at CloudFlare to point to the IP of my VPS. To configure different URLS, I had to add a A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
 ![Production Setup Diagram](./diagrams/images/devops/prod/environment-setup.prod_v1.png)
 
 ## 4. Handy Commands Cheat Sheet
