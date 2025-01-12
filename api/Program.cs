@@ -11,6 +11,7 @@ if (builder.Environment.IsDevelopment())
 {
     // Load user secrets in development
     builder.Configuration.AddUserSecrets<Program>();
+
 }
 
 var jwtKey = builder.Configuration["Jwt:Key"];
@@ -22,6 +23,9 @@ if (string.IsNullOrEmpty(jwtKey))
 // --- Service Registrations ---
 // Add controllers
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();             // Required for minimal API endpoint discovery
+builder.Services.AddSwaggerGen();                       // Register the Swagger generator
+
 
 // Configure the DbContext with PostgreSQL connection string
 builder.Services.AddDbContext<MyDbContext>(options =>
@@ -88,6 +92,8 @@ app.UseCors("AllowFrontend");
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    app.UseSwagger();                                   // Serves the Swagger JSON
+    app.UseSwaggerUI();
 }
 
 if (!app.Environment.IsDevelopment())
@@ -99,16 +105,7 @@ if (!app.Environment.IsDevelopment())
 app.UseAuthentication();   // Use authentication middleware
 app.UseAuthorization();    // Use authorization middleware
 
-app.Use(async (context, next) =>
-{
-    if (context.Request.Method == HttpMethods.Options)
-    {
-        context.Response.StatusCode = StatusCodes.Status204NoContent;
-        return;
-    }
 
-    await next();
-});
 
 // Map controllers
 app.MapControllers();
