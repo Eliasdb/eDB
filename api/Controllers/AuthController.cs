@@ -1,70 +1,46 @@
-using Microsoft.AspNetCore.Mvc;
 using api.Data;
+using api.DTOs.Admin;
 using api.DTOs.Auth;
 using api.Models;
 using api.Services;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController(MyDbContext context, AuthService authService, IMapper mapper)
+        : ControllerBase
     {
-        private readonly MyDbContext _context;
-        private readonly AuthService _authService;
-
-        public AuthController(MyDbContext context, AuthService authService)
-        {
-            _context = context;
-            _authService = authService;
-        }
+        private readonly MyDbContext _context = context;
+        private readonly AuthService _authService = authService;
+        private readonly IMapper _mapper = mapper;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             {
-                return BadRequest(new
-                {
-                    error = "ValidationError",
-                    message = "Email already exists!"
-                });
+                return BadRequest(
+                    new { error = "ValidationError", message = "Email already exists!" }
+                );
             }
 
             var (hashedPassword, salt) = _authService.HashPassword(request.Password);
 
-            var user = new User
-            {
-                Email = request.Email,
-                PasswordHash = hashedPassword,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Country = request.Country,
-                State = request.State,
-                Company = request.Company,
-                Salt = salt,
-                Role = UserRole.User // Default role
-            };
+            var user = _mapper.Map<User>(request);
+            user.PasswordHash = hashedPassword;
+            user.Salt = salt;
+            user.Role = UserRole.User; // Default role
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                message = "Registration successful!",
-                user = new
-                {
-                    user.Id,
-                    user.Email,
-                    user.FirstName,
-                    user.LastName,
-                    user.Country,
-                    user.State,
-                    user.Company,
-                    user.Role
-                }
-            });
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(new { message = "Registration successful!", user = userDto });
         }
 
         [HttpPost("login")]
@@ -72,30 +48,29 @@ namespace api.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null || string.IsNullOrEmpty(user.Salt) || !_authService.VerifyPassword(request.Password, user.PasswordHash, user.Salt))
+            if (
+                user == null
+                || string.IsNullOrEmpty(user.Salt)
+                || !_authService.VerifyPassword(request.Password, user.PasswordHash, user.Salt)
+            )
             {
-                return Unauthorized(new
-                {
-                    error = "InvalidCredentials",
-                    message = "Invalid email or password!"
-                });
+                return Unauthorized(
+                    new { error = "InvalidCredentials", message = "Invalid email or password!" }
+                );
             }
 
             var token = _authService.GenerateJwtToken(user);
 
-            return Ok(new
-            {
-                message = "Login successful!",
-                token,
-                user = new
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(
+                new
                 {
-                    user.Id,
-                    user.Email,
-                    user.FirstName,
-                    user.LastName,
-                    user.Role
+                    message = "Login successful!",
+                    token,
+                    user = userDto,
                 }
-            });
+            );
         }
     }
 }

@@ -40,15 +40,21 @@ namespace api.Services
         public string GenerateJwtToken(User user)
         {
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.Role, user.Role.ToString()) // Use ClaimTypes.Role
-    };
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString()), // Use ClaimTypes.Role
+            };
 
-            var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
-            var jwtIssuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured.");
-            var jwtAudience = _configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
+            var jwtKey =
+                _configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("JWT Key is not configured.");
+            var jwtIssuer =
+                _configuration["Jwt:Issuer"]
+                ?? throw new InvalidOperationException("JWT Issuer is not configured.");
+            var jwtAudience =
+                _configuration["Jwt:Audience"]
+                ?? throw new InvalidOperationException("JWT Audience is not configured.");
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -63,6 +69,5 @@ namespace api.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

@@ -143,7 +143,7 @@ export class AdminService {
       queryFn: async () => {
         const subscriptions = await firstValueFrom(
           this.http.get<Application[]>(
-            `${environment.apiAdminUrl}/applications-overview`,
+            `${environment.apiAdminUrl}/applications`,
           ),
         );
         if (!subscriptions) {
