@@ -4,7 +4,7 @@ public enum UserRole
 {
     User,
     Admin,
-    PremiumUser
+    PremiumUser,
 }
 
 public class User
@@ -23,6 +23,5 @@ public class User
     public string? Address { get; set; }
     public string? Salt { get; set; }
     public UserRole Role { get; set; } = UserRole.User; // Default role
-    public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
-
+    public ICollection<Subscription> Subscriptions { get; set; } = [];
 }

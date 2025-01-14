@@ -1,28 +1,27 @@
-// Controllers/AdminController.cs
-
+using System.Linq.Dynamic.Core;
+using api.Attributes;
+using api.Data;
+using api.DTOs.Admin;
+using api.Interfaces;
+using api.Models;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using api.Data;
-using AutoMapper;
-using api.Models;
-using AutoMapper.QueryableExtensions;
-using System.Linq.Dynamic.Core;
-using api.DTOs.Admin;
 
 namespace api.Controllers
 {
     [ApiController]
     [Route("api/admin")]
-    public class AdminController : ControllerBase
+    public class AdminController(
+        MyDbContext context,
+        IMapper mapper,
+        IUserQueryService userQueryService
+    ) : ControllerBase
     {
-        private readonly MyDbContext _context;
-        private readonly IMapper _mapper;
-
-        public AdminController(MyDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        private readonly MyDbContext _context = context;
+        private readonly IMapper _mapper = mapper;
+        private readonly IUserQueryService _userQueryService = userQueryService;
 
         [HttpGet("area")]
         [RoleAuthorize("Admin")]
@@ -32,402 +31,200 @@ namespace api.Controllers
             return Ok("Welcome, Admin!");
         }
 
-        // Endpoint to get the list of users with pagination and sorting using AutoMapper
-        /// <summary>
-        /// Endpoint to get the list of users with cursor-based pagination, sorting, and search.
-        /// </summary>
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUsers(
-           [FromQuery] string? cursor = null, // Cursor for pagination
-           [FromQuery] string? sort = "id,asc", // Sort syntax
-           [FromQuery] string? search = null) // Optional search query
+            [FromQuery] object? cursor = null,
+            [FromQuery] string? sort = "id,asc",
+            [FromQuery] string? search = null
+        )
         {
-            try
+            // Parse sorting parameters
+            var (sortField, sortDirection) = _userQueryService.ParseSortParameter(sort);
+
+            // Build and configure the base query for users
+            IQueryable<User> query = _userQueryService.BuildUserQuery(
+                search,
+                cursor,
+                sortField,
+                sortDirection
+            );
+
+            // Apply dynamic sorting
+            query = _userQueryService.ApplySorting(query, sortField, sortDirection);
+
+            // Fetch the next set of users
+            var users = await query
+                .Take(15)
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            // Determine pagination details
+            var (hasMore, nextCursor) = _userQueryService.DetermineNextCursor(
+                users,
+                sortField,
+                sortDirection
+            );
+
+            // Construct and return the paged result
+            var result = new PagedUserResult<UserDto>
             {
-                // Parse sort parameter
-                var sortParams = ParseSortParameter(sort);
-                var sortField = sortParams.Item1;
-                var sortDirection = sortParams.Item2;
+                Data = users,
+                NextCursor = nextCursor,
+                HasMore = hasMore,
+            };
 
-                // Build base query
-                IQueryable<User> query = _context.Users.AsNoTracking();
-
-                // Apply search filter
-                if (!string.IsNullOrWhiteSpace(search))
-                {
-                    search = search.ToLower();
-                    query = query.Where(u =>
-                        (u.FirstName != null && u.FirstName.ToLower().Contains(search)) ||
-                        (u.LastName != null && u.LastName.ToLower().Contains(search)) ||
-                        (u.Email != null && u.Email.ToLower().Contains(search)));
-                }
-
-                // Apply cursor-based pagination
-                if (!string.IsNullOrWhiteSpace(cursor))
-                {
-                    if (sortDirection == "asc")
-                    {
-                        query = query.Where($"{sortField} > @0", cursor);
-                    }
-                    else
-                    {
-                        query = query.Where($"{sortField} < @0", cursor);
-                    }
-                }
-
-                // Apply sorting
-                query = ApplySorting(query, sortField, sortDirection);
-
-                // Fetch the next 15 records
-                var users = await query
-                    .Take(15)
-                    .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-
-                // Determine next cursor
-                var hasMore = users.Count == 15;
-                var nextCursor = hasMore ? (sortDirection == "asc" ? users.Last() : users.First())?.GetType()
-                    .GetProperty(sortField)
-                    ?.GetValue(users.LastOrDefault()) : null;
-
-                // Construct response
-                var result = new
-                {
-                    Data = users,
-                    NextCursor = nextCursor,
-                    HasMore = hasMore
-                };
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                // Log the full exception
-                Console.Error.WriteLine($"Error in GetUsers: {ex.Message}");
-                Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
-                return StatusCode(500, "An error occurred while retrieving users.");
-            }
-        }
-
-        // Helper method to parse the "sort" parameter
-        private (string, string) ParseSortParameter(string? sort)
-        {
-            if (string.IsNullOrWhiteSpace(sort))
-            {
-                return ("Id", "asc"); // Default sorting
-            }
-
-            var sortParts = sort.Split(',');
-            var sortField = sortParts.Length > 0 ? sortParts[0] : "id";
-            var sortDirection = sortParts.Length > 1 ? sortParts[1].ToLower() : "asc";
-
-            // Map camelCase to PascalCase database fields
-            var fieldMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-    {
-        { "firstName", "FirstName" },
-        { "lastName", "LastName" },
-        { "email", "Email" },
-        { "role", "Role" },
-        { "state", "State" },
-        { "id", "Id" }
-    };
-
-            if (!fieldMapping.TryGetValue(sortField, out var mappedField))
-            {
-                Console.WriteLine($"Invalid sort field: {sortField}. Defaulting to Id.");
-                mappedField = "Id"; // Default to Id if field is invalid
-            }
-
-            // Validate sort direction
-            if (sortDirection != "asc" && sortDirection != "desc")
-            {
-                sortDirection = "asc"; // Default to ascending
-            }
-
-            return (mappedField, sortDirection);
+            return Ok(result);
         }
 
         [HttpGet("users/{userId}")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)
         {
-            try
-            {
-                // Fetch the user based on userId
-                var user = await _context.Users
-                    .AsNoTracking()
-                    .Where(u => u.Id == userId)
-                    .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync();
+            // Fetch the user based on userId
+            var user = await _context
+                .Users.AsNoTracking()
+                .Where(u => u.Id == userId)
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
 
-                // Check if user exists
-                if (user == null)
-                {
-                    return NotFound(new { Message = "User not found." });
-                }
-
-                // Return the user details
-                return Ok(user);
-            }
-            catch (Exception ex)
+            // Check if user exists
+            if (user == null)
             {
-                // Log error and return a server error response
-                Console.Error.WriteLine($"Error in GetUserById: {ex.Message}");
-                return StatusCode(500, new { Message = "An error occurred while retrieving the user." });
+                return NotFound(new { Message = "User not found." });
             }
+
+            // Return the user details
+            return Ok(user);
         }
 
         [HttpDelete("users/{userId}")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] int userId)
         {
-            try
+            // Fetch the user based on the provided userId
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            // If the user is not found, return a 404 response
+            if (user == null)
             {
-                // Fetch the user based on the provided userId
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-                // If the user is not found, return a 404 response
-                if (user == null)
-                {
-                    return NotFound(new { Message = "User not found." });
-                }
-
-                // Remove the user from the database
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
-
-
-                return Ok(new { Message = "User deleted successfully." });
+                return NotFound(new { Message = "User not found." });
             }
-            catch (Exception ex)
-            {
-                // Log the error and return a server error response
-                Console.Error.WriteLine($"Error in DeleteUser: {ex.Message}");
-                return StatusCode(500, new { Message = "An error occurred while deleting the user." });
-            }
+
+            // Remove the user from the database
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "User deleted successfully." });
         }
 
-
-
-        [HttpGet("applications-overview")]
+        [HttpGet("applications")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> GetApplicationsOverview()
+        public async Task<IActionResult> GetApplications()
         {
-            try
-            {
-                // Fetch all applications with their subscriptions
-                var applications = await _context.Applications
-                    .Include(a => a.Subscriptions)
-                        .ThenInclude(s => s.User) // Include users for subscriptions
-                    .AsNoTracking()
-                    .ToListAsync();
+            var applications = await _context
+                .Applications.Include(a => a.Subscriptions)
+                .ThenInclude(s => s.User)
+                .AsNoTracking()
+                .ProjectTo<ApplicationOverviewDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
 
-                // Map to ApplicationOverviewDto
-                var applicationOverviews = applications.Select(app => new ApplicationOverviewDto
-                {
-                    ApplicationId = app.Id, // Populate ApplicationId
-                    ApplicationName = app.Name,
-                    ApplicationIconUrl = app.IconUrl,
-                    ApplicationRoutePath = app.RoutePath,
-                    ApplicationDescription = app.Description,
-                    ApplicationTags = app.Tags,
-                    SubscriberCount = app.Subscriptions.Count(sub => sub.User != null), // Count the number of valid subscribers
-                    SubscribedUsers = app.Subscriptions
-                        .Where(sub => sub.User != null) // Ensure User is not null
-                        .Select(sub => new SubscriptionDto
-                        {
-                            UserId = sub.UserId, // Populate UserId
-                            UserName = sub.User != null ? $"{sub.User.FirstName} {sub.User.LastName}" : "Unknown User",
-                            UserEmail = sub.User?.Email ?? "No Email",
-                            SubscriptionDate = sub.SubscriptionDate
-                        }).ToList()
-                }).ToList();
-
-                return Ok(applicationOverviews);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                Console.Error.WriteLine($"Error in GetApplicationsOverview: {ex.Message}");
-                return StatusCode(500, "An error occurred while retrieving application overviews.");
-            }
+            return Ok(applications);
         }
 
         [HttpPost("applications/create")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> AddApplication([FromBody] CreateApplicationDto applicationDto)
+        public async Task<IActionResult> AddApplication(
+            [FromBody] CreateApplicationDto applicationDto
+        )
         {
-            try
-            {
-                var application = new Application
-                {
-                    Name = applicationDto.Name,
-                    Description = applicationDto.Description,
-                    IconUrl = applicationDto.IconUrl,
-                    RoutePath = applicationDto.RoutePath,
-                    Tags = applicationDto.Tags
-                };
+            // Use AutoMapper to map the DTO to an Application entity
+            var application = _mapper.Map<Application>(applicationDto);
 
-                _context.Applications.Add(application);
-                await _context.SaveChangesAsync();
+            _context.Applications.Add(application);
+            await _context.SaveChangesAsync();
 
-                return Ok(application);
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Error in AddApplication: {ex.Message}");
-                return StatusCode(500, "An error occurred while adding the application.");
-            }
+            // Optionally map to a response DTO or return the application entity as needed
+            return Ok(application);
         }
 
         [HttpPut("applications/{applicationId}")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> UpdateApplication(
-    [FromRoute] int applicationId,
-    [FromBody] UpdateApplicationDto applicationDto)
+            [FromRoute] int applicationId,
+            [FromBody] UpdateApplicationDto applicationDto
+        )
         {
-            try
+            // Fetch the application based on the provided applicationId
+            var application = await _context.Applications.FirstOrDefaultAsync(a =>
+                a.Id == applicationId
+            );
+
+            // If the application is not found, return a 404 response
+            if (application == null)
             {
-                // Fetch the application based on the provided applicationId
-                var application = await _context.Applications
-                    .FirstOrDefaultAsync(a => a.Id == applicationId);
-
-                // If the application is not found, return a 404 response
-                if (application == null)
-                {
-                    return NotFound(new { Message = "Application not found." });
-                }
-
-                // Update the application's properties
-                application.Name = applicationDto.Name ?? application.Name;
-                application.Description = applicationDto.Description ?? application.Description;
-                application.IconUrl = applicationDto.IconUrl ?? application.IconUrl;
-                application.RoutePath = applicationDto.RoutePath ?? application.RoutePath;
-                application.Tags = applicationDto.Tags ?? application.Tags;
-
-                // Save changes to the database
-                await _context.SaveChangesAsync();
-
-                // Return a success response with the updated application
-                return Ok(new { Message = "Application updated successfully.", Application = application });
+                return NotFound(new { Message = "Application not found." });
             }
-            catch (Exception ex)
-            {
-                // Log the error and return a server error response
-                Console.Error.WriteLine($"Error in UpdateApplication: {ex.Message}");
-                return StatusCode(500, new { Message = "An error occurred while updating the application." });
-            }
+
+            // Use AutoMapper to update the entity
+            _mapper.Map(applicationDto, application);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Return a success response with the updated application
+            return Ok(
+                new { Message = "Application updated successfully.", Application = application }
+            );
         }
-
 
         [HttpDelete("applications/{applicationId}/subscriptions/{userId}")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> RevokeSubscriptionByUserAndApplication(
-           [FromRoute] int applicationId,
-           [FromRoute] int userId)
+        public async Task<IActionResult> RevokeSubscription(
+            [FromRoute] int applicationId,
+            [FromRoute] int userId
+        )
         {
-            try
+            // Fetch the subscription record based on applicationId and userId
+            var subscription = await _context.Subscriptions.FirstOrDefaultAsync(s =>
+                s.ApplicationId == applicationId && s.UserId == userId
+            );
+
+            // If no matching subscription is found, return 404
+            if (subscription == null)
             {
-                // Fetch the subscription record based on applicationId and userId
-                var subscription = await _context.Subscriptions
-                    .FirstOrDefaultAsync(s => s.ApplicationId == applicationId && s.UserId == userId);
-
-                // If no matching subscription is found, return 404
-                if (subscription == null)
-                {
-                    return NotFound(new { Message = "Subscription not found." });
-                }
-
-                // Remove the subscription record
-                _context.Subscriptions.Remove(subscription);
-                await _context.SaveChangesAsync();
-
-                // Return success response
-                return Ok(new { Message = "Subscription revoked successfully." });
+                return NotFound(new { Message = "Subscription not found." });
             }
-            catch (Exception ex)
-            {
-                // Log error and return server error response
-                Console.Error.WriteLine($"Error in RevokeSubscriptionByUserAndApplication: {ex.Message}");
-                return StatusCode(500, new { Message = "An error occurred while revoking the subscription." });
-            }
+
+            // Remove the subscription record
+            _context.Subscriptions.Remove(subscription);
+            await _context.SaveChangesAsync();
+
+            // Return success response
+            return Ok(new { Message = "Subscription revoked successfully." });
         }
 
         [HttpDelete("applications/{applicationId}")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> DeleteApplication([FromRoute] int applicationId)
         {
-            try
+            // Fetch the application based on the provided applicationId
+            var application = await _context.Applications.FirstOrDefaultAsync(a =>
+                a.Id == applicationId
+            );
+
+            // If the application is not found, return a 404 response
+            if (application == null)
             {
-                // Fetch the application based on the provided applicationId
-                var application = await _context.Applications
-                    .FirstOrDefaultAsync(a => a.Id == applicationId);
-
-                // If the application is not found, return a 404 responsee
-                if (application == null)
-                {
-                    return NotFound(new { Message = "Application not found." });
-                }
-
-                // Remove the application from the database
-                _context.Applications.Remove(application);
-                await _context.SaveChangesAsync();
-
-                // Return a success response
-                return Ok(new { Message = "Application deleted successfully." });
-            }
-            catch (Exception ex)
-            {
-                // Log the error and return a server error response
-                Console.Error.WriteLine($"Error in DeleteApplication: {ex.Message}");
-                return StatusCode(500, new { Message = "An error occurred while deleting the application." });
-            }
-        }
-
-        /// <summary>
-        /// Applies dynamic sorting to the user query based on the provided sort field and direction.
-        /// </summary>
-        /// <param name="query">The IQueryable of Users.</param>
-        /// <param name="sortField">The field to sort by.</param>
-        /// <param name="sortDirection">The direction of sorting: "asc" or "desc".</param>
-        /// <returns>The sorted IQueryable of Users.</returns>
-        static IQueryable<User> ApplySorting(IQueryable<User> query, string sortField, string sortDirection)
-        {
-            // Define allowed sort fields
-            var allowedSortFields = new List<string> { "Id", "FirstName", "LastName", "Email", "Role", "State" };
-
-            if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
-            {
-                Console.WriteLine($"Invalid sort field: {sortField}. Defaulting to Id.");
-                sortField = "Id"; // Default to Id if field is invalid
+                return NotFound(new { Message = "Application not found." });
             }
 
-            // Apply sorting dynamically using System.Linq.Dynamic.Core
-            var sorting = $"{sortField} {sortDirection}";
-            Console.WriteLine($"Applying sorting: {sorting}");
-            return query.OrderBy(sorting);
-        }
+            // Remove the application from the database
+            _context.Applications.Remove(application);
+            await _context.SaveChangesAsync();
 
-        static IQueryable<Subscription> ApplySorting(IQueryable<Subscription> query, string sortField, string sortDirection)
-        {
-            var allowedSortFields = new List<string>
-            {
-                "SubscriptionDate",
-                "User.FirstName",
-                "User.LastName",
-                "User.Email",
-                "Application.Name",
-                "Application.Description"
-            };
-
-            if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
-            {
-                sortField = "SubscriptionDate"; // Default sort field
-            }
-
-            var sorting = $"{sortField} {sortDirection}";
-            return query.OrderBy(sorting);
+            // Return a success response
+            return Ok(new { Message = "Application deleted successfully." });
         }
     }
 }

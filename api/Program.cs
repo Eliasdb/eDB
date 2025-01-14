@@ -1,8 +1,9 @@
 using api.Data;
+using api.Interfaces;
+using api.Mapping;
+using API.Middleware;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
-using api.Mapping;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,6 @@ if (builder.Environment.IsDevelopment())
 {
     // Load user secrets in development
     builder.Configuration.AddUserSecrets<Program>();
-
 }
 
 var jwtKey = builder.Configuration["Jwt:Key"];
@@ -23,45 +23,61 @@ if (string.IsNullOrEmpty(jwtKey))
 // --- Service Registrations ---
 // Add controllers
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();             // Required for minimal API endpoint discovery
-builder.Services.AddSwaggerGen();                       // Register the Swagger generator
-
+builder.Services.AddEndpointsApiExplorer(); // Required for minimal API endpoint discovery
+builder.Services.AddSwaggerGen(); // Register the Swagger generator
 
 // Configure the DbContext with PostgreSQL connection string
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200", "https://app.eliasdebock.com", "https://app.staging.eliasdebock.com")
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+    options.AddPolicy(
+        "AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins(
+                    "http://localhost:4200",
+                    "https://app.eliasdebock.com",
+                    "https://app.staging.eliasdebock.com"
+                )
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        }
+    );
 });
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
 builder.WebHost.UseUrls("http://0.0.0.0:9101");
 
 // Add authentication and authorization (if applicable)
-builder.Services.AddAuthentication("Bearer")
+builder
+    .Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-        };
+        options.TokenValidationParameters =
+            new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                    System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+                ),
+            };
     });
+
+builder.Services.AddHealthChecks();
 
 builder.Services.AddAuthorization();
 
@@ -77,35 +93,29 @@ using (var scope = app.Services.CreateScope())
         dbContext.Database.Migrate(); // Apply pending migrations on startup
 
         DbInitializer.Initialize(dbContext);
-
     }
     catch (Exception ex)
     {
         Console.WriteLine($"An error occurred while seeding the database: {ex.Message}");
-
     }
-
 }
-app.UseCors("AllowFrontend");
 
-// --- Middleware Configuration ---
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
-    app.UseSwagger();                                   // Serves the Swagger JSON
+    app.UseMiddleware<ExceptionMiddleware>();
+    // app.UseDeveloperExceptionPage();
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-if (!app.Environment.IsDevelopment())
+else
 {
     app.UseHttpsRedirection();
 }
-
-
-app.UseAuthentication();   // Use authentication middleware
-app.UseAuthorization();    // Use authorization middleware
-
-
+app.UseCors("AllowFrontend");
+app.UseAuthentication(); // Use authentication middleware
+app.UseAuthorization(); // Use authorization middleware
 
 // Map controllers
 app.MapControllers();

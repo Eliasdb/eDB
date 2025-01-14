@@ -3,14 +3,9 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 [ApiController]
 [Route("[controller]")]
-public class HealthController : ControllerBase
+public class HealthController(HealthCheckService healthCheckService) : ControllerBase
 {
-    private readonly HealthCheckService _healthCheckService;
-
-    public HealthController(HealthCheckService healthCheckService)
-    {
-        _healthCheckService = healthCheckService;
-    }
+    private readonly HealthCheckService _healthCheckService = healthCheckService;
 
     [HttpGet("/health")]
     public async Task<IActionResult> Get()
@@ -24,9 +19,9 @@ public class HealthController : ControllerBase
             {
                 name = entry.Key,
                 status = entry.Value.Status.ToString(),
-                description = entry.Value.Description
+                description = entry.Value.Description,
             }),
-            totalDuration = report.TotalDuration
+            totalDuration = report.TotalDuration,
         };
 
         return Ok(response);
