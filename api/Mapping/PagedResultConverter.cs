@@ -1,25 +1,27 @@
-// Mapping/PagedResultConverter.cs
+using api.DTOs.Admin;
 using AutoMapper;
-using api.DTOs;
 
 namespace api.Mapping
 {
-    public class PagedResultConverter<TSource, TDestination> : ITypeConverter<PagedResult<TSource>, PagedResult<TDestination>>
+    public class PagedResultConverter<TSource, TDestination>
+        : ITypeConverter<PagedUserResult<TSource>, PagedUserResult<TDestination>>
     {
-        public PagedResult<TDestination> Convert(PagedResult<TSource> source, PagedResult<TDestination> destination, ResolutionContext context)
+        public PagedUserResult<TDestination> Convert(
+            PagedUserResult<TSource> source,
+            PagedUserResult<TDestination> destination,
+            ResolutionContext context
+        )
         {
             if (source == null)
-                return new PagedResult<TDestination>();
+                return new PagedUserResult<TDestination>();
 
-            var mappedItems = context.Mapper.Map<List<TDestination>>(source.Items);
+            var mappedItems = context.Mapper.Map<List<TDestination>>(source.Data);
 
-            return new PagedResult<TDestination>
+            return new PagedUserResult<TDestination>
             {
-                Items = mappedItems,
+                Data = mappedItems,
                 HasMore = source.HasMore,
-                PageNumber = source.PageNumber,
-                PageSize = source.PageSize,
-                TotalCount = source.TotalCount
+                NextCursor = source.NextCursor,
             };
         }
     }

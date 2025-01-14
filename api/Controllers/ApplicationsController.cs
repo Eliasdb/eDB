@@ -1,85 +1,69 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+using api.Attributes;
 using api.Data;
 using api.DTOs.Applications;
+using api.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ApplicationsController : ControllerBase
+namespace api.Controllers
 {
-    private readonly MyDbContext _context;
-
-    public ApplicationsController(MyDbContext context)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ApplicationsController(
+        MyDbContext context,
+        IMapper mapper,
+        ISubscriptionService subscriptionService
+    ) : ControllerBase
     {
-        _context = context;
-    }
+        private readonly MyDbContext _context = context;
+        private readonly IMapper _mapper = mapper;
+        private readonly ISubscriptionService _subscriptionService = subscriptionService;
 
-    // GET: api/applications
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Application>>> GetApplications()
-    {
-        return await _context.Applications.ToListAsync();
-    }
-
-    // POST: api/applications/subscribe
-
-    [HttpPost("subscribe")]
-    public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
-    {
-        var applicationId = request.ApplicationId;
-        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrEmpty(userIdClaim))
+        [HttpGet]
+        [RoleAuthorize("User")]
+        public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
         {
-            return Unauthorized(new { message = "User is not authenticated." });
+            var applications = await _context
+                .Applications.ProjectTo<ApplicationDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return Ok(applications);
         }
 
-        var userId = int.Parse(userIdClaim);
-
-        var existingSubscription = await _context.Subscriptions
-            .FirstOrDefaultAsync(ua => ua.UserId == userId && ua.ApplicationId == applicationId);
-
-        if (existingSubscription != null)
+        [HttpPost("subscribe")]
+        [RoleAuthorize("User")]
+        public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
         {
-            _context.Subscriptions.Remove(existingSubscription);
-            await _context.SaveChangesAsync();
-            return Ok(new { message = "Unsubscribed successfully!" });
+            var userId = _subscriptionService.GetAuthenticatedUserId(User);
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "User is not authenticated." });
+            }
+
+            var result = await _subscriptionService.ToggleSubscription(
+                userId.Value,
+                request.ApplicationId
+            );
+            return Ok(new { message = result });
         }
 
-        var userApplication = new Subscription
+        [HttpGet("user")]
+        [RoleAuthorize("User")]
+        public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
         {
-            UserId = userId,
-            ApplicationId = applicationId,
-            SubscriptionDate = DateTime.UtcNow
-        };
+            var userId = _subscriptionService.GetAuthenticatedUserId(User);
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "User is not authenticated!" });
+            }
 
-        _context.Subscriptions.Add(userApplication);
-        await _context.SaveChangesAsync();
-        return Ok(new { message = "Subscribed successfully" });
-    }
+            var subscribedApplications = await _subscriptionService.GetSubscribedApplications(
+                userId.Value
+            );
 
-    // GET: api/applications/user
-    [HttpGet("user")]
-    public async Task<ActionResult<IEnumerable<Application>>> GetUserApplications()
-    {
-        // Extract the userId from JWT claims
-        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrEmpty(userIdClaim))
-        {
-            return Unauthorized(new { message = "User is not authenticated!" });
+            return Ok(subscribedApplications);
         }
-
-        var userId = int.Parse(userIdClaim);
-
-        // Get the subscribed applications for the user
-        var subscribedApplications = await _context.Subscriptions
-            .Where(ua => ua.UserId == userId)
-            .Join(_context.Applications,
-                ua => ua.ApplicationId,
-                app => app.Id,
-                (ua, app) => app)
-            .ToListAsync();
-
-        return subscribedApplications;
     }
 }

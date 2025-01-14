@@ -1,4 +1,4 @@
-using api.Models;
+namespace api.Models;
 
 public class Subscription
 {

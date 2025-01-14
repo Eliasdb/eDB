@@ -1,24 +1,19 @@
-using Microsoft.AspNetCore.Mvc;
-using api.Data;
-using api.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using api.Attributes;
+using api.Data;
 using api.DTOs.Profile;
+using api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
     [ApiController]
     [Route("api/profile")]
     [RoleAuthorize("User", "Admin")]
-
-    public class ProfileController : ControllerBase
+    public class ProfileController(MyDbContext context) : ControllerBase
     {
-        private readonly MyDbContext _context;
-
-        public ProfileController(MyDbContext context)
-        {
-            _context = context;
-        }
+        private readonly MyDbContext _context = context;
 
         [HttpGet("settings")]
         public async Task<IActionResult> GetProfileSettings()
@@ -26,11 +21,9 @@ namespace api.Controllers
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdClaim))
             {
-                return Unauthorized(new
-                {
-                    error = "Unauthorized",
-                    message = "User not authenticated!"
-                });
+                return Unauthorized(
+                    new { error = "Unauthorized", message = "User not authenticated!" }
+                );
             }
 
             int userId = int.Parse(userIdClaim);
@@ -38,60 +31,11 @@ namespace api.Controllers
 
             if (user == null)
             {
-                return NotFound(new
-                {
-                    error = "NotFound",
-                    message = "User not found!s"
-                });
+                return NotFound(new { error = "NotFound", message = "User not found!s" });
             }
 
-            return Ok(new
-            {
-                user.Email,
-                user.FirstName,
-                user.LastName,
-                user.Country,
-                user.State,
-                user.Company,
-                user.DisplayName,
-                user.PreferredLanguage,
-                user.Title,
-                user.Address
-            });
-        }
-
-        [HttpPut("update")]
-        public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
-        {
-            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim))
-            {
-                return Unauthorized(new
-                {
-                    error = "Unauthorized",
-                    message = "User not authenticated."
-                });
-            }
-
-            int userId = int.Parse(userIdClaim);
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-            if (user == null)
-            {
-                return NotFound(new
-                {
-                    error = "NotFound",
-                    message = "User not found."
-                });
-            }
-
-            UpdateUserFields(user, request);
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                message = "Profile updated successfully!",
-                user = new
+            return Ok(
+                new
                 {
                     user.Email,
                     user.FirstName,
@@ -102,12 +46,55 @@ namespace api.Controllers
                     user.DisplayName,
                     user.PreferredLanguage,
                     user.Title,
-                    user.Address
+                    user.Address,
                 }
-            });
+            );
         }
 
-        private void UpdateUserFields(User user, ProfileUpdateRequest request)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
+        {
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized(
+                    new { error = "Unauthorized", message = "User not authenticated." }
+                );
+            }
+
+            int userId = int.Parse(userIdClaim);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound(new { error = "NotFound", message = "User not found." });
+            }
+
+            UpdateUserFields(user, request);
+            await _context.SaveChangesAsync();
+
+            return Ok(
+                new
+                {
+                    message = "Profile updated successfully!",
+                    user = new
+                    {
+                        user.Email,
+                        user.FirstName,
+                        user.LastName,
+                        user.Country,
+                        user.State,
+                        user.Company,
+                        user.DisplayName,
+                        user.PreferredLanguage,
+                        user.Title,
+                        user.Address,
+                    },
+                }
+            );
+        }
+
+        private static void UpdateUserFields(User user, ProfileUpdateRequest request)
         {
             var updates = new Dictionary<string, string?>
             {
@@ -120,7 +107,7 @@ namespace api.Controllers
                 { nameof(user.DisplayName), request.DisplayName },
                 { nameof(user.PreferredLanguage), request.PreferredLanguage },
                 { nameof(user.Title), request.Title },
-                { nameof(user.Address), request.Address }
+                { nameof(user.Address), request.Address },
             };
 
             foreach (var (property, value) in updates)
