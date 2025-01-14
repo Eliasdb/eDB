@@ -9,5 +9,5 @@ public class ApplicationOverviewDto
     public required string ApplicationDescription { get; set; }
     public required int ApplicationId { get; set; }
     public int SubscriberCount { get; set; } // New property for subscriber count
-    public List<SubscriptionDto> SubscribedUsers { get; set; } = new();
+    public List<SubscriptionDto> SubscribedUsers { get; set; } = [];
 }
