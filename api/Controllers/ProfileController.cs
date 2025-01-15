@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [ApiController]
-    [Route("api/profile")]
-    [RoleAuthorize("User", "Admin")]
-    public class ProfileController(IProfileService profileService) : ControllerBase
+    public class ProfileController(IProfileService profileService) : BaseApiController
     {
         private readonly IProfileService _profileService = profileService;
 
         [HttpGet("settings")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<IActionResult> GetProfileSettings()
         {
             var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);
@@ -35,6 +33,7 @@ namespace api.Controllers
         }
 
         [HttpPut("update")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
         {
             var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);

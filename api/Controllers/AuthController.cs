@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [ApiController]
-    [Route("api/auth")]
-    public class AuthController(AuthService authService) : ControllerBase
+    public class AuthController(AuthService authService) : BaseApiController
     {
         private readonly AuthService _authService = authService;
 

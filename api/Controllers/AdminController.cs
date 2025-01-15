@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [ApiController]
-    [Route("api/admin")]
-    public class AdminController(IAdminService adminService) : ControllerBase
+    public class AdminController(IAdminService adminService) : BaseApiController
     {
         private readonly IAdminService _adminService = adminService;
 

@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ApplicationsController(IApplicationsService applicationsService) : ControllerBase
+    public class ApplicationsController(IApplicationsService applicationsService)
+        : BaseApiController
     {
         private readonly IApplicationsService _applicationsService = applicationsService;
 
