@@ -1,6 +1,6 @@
 using api.Attributes;
 using api.DTOs.Profile;
-using api.Services;
+using api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -8,9 +8,9 @@ namespace api.Controllers
     [ApiController]
     [Route("api/profile")]
     [RoleAuthorize("User", "Admin")]
-    public class ProfileController(ProfileService profileService) : ControllerBase
+    public class ProfileController(IProfileService profileService) : ControllerBase
     {
-        private readonly ProfileService _profileService = profileService;
+        private readonly IProfileService _profileService = profileService;
 
         [HttpGet("settings")]
         public async Task<IActionResult> GetProfileSettings()
