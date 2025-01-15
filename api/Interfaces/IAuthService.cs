@@ -12,8 +12,5 @@ namespace api.Interfaces
         Task<(bool Success, string Message, string? Token, UserDto? User)> LoginAsync(
             LoginRequest request
         );
-        (string Hash, string Salt) HashPassword(string password);
-        bool VerifyPassword(string password, string storedHash, string storedSalt);
-        string GenerateJwtToken(User user);
     }
 }
