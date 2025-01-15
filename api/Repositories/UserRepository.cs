@@ -26,6 +26,16 @@ namespace api.Repositories
             await Task.CompletedTask; // This is to align with async APIs
         }
 
+        public async Task AddAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+        }
+
+        public async Task<bool> ExistsByEmailAsync(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

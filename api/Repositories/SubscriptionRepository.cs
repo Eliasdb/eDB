@@ -16,6 +16,20 @@ namespace api.Repositories
             );
         }
 
+        public async Task<List<Subscription>> GetSubscriptionsByUserIdAsync(int userId)
+        {
+            return await _context
+                .Subscriptions.Where(s => s.UserId == userId)
+                .Include(s => s.Application) // Include related Application
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task AddSubscriptionAsync(Subscription subscription)
+        {
+            await _context.Subscriptions.AddAsync(subscription);
+        }
+
         public async Task DeleteSubscriptionAsync(Subscription subscription)
         {
             _context.Subscriptions.Remove(subscription);

@@ -23,7 +23,7 @@ namespace api.Data
                         Description = "Manage appointments",
                         IconUrl = "/icons/appointments.png",
                         RoutePath = "/appointments",
-                        Tags = new List<string> { "Angular", ".NET" },
+                        Tags = ["Angular", ".NET"],
                     },
                     new Application
                     {
@@ -31,7 +31,7 @@ namespace api.Data
                         Description = "Track inventory",
                         IconUrl = "/icons/inventory.png",
                         RoutePath = "/inventory",
-                        Tags = new List<string> { "React", "Python" },
+                        Tags = ["React", "Python"],
                     },
                     new Application
                     {
@@ -39,7 +39,7 @@ namespace api.Data
                         Description = "Generate detailed reports",
                         IconUrl = "/icons/reports.png",
                         RoutePath = "/reports",
-                        Tags = new List<string> { "Vue", "Laravel", "Insights" },
+                        Tags = ["Vue", "Laravel", "Insights"],
                     }
                 );
 
@@ -103,6 +103,8 @@ namespace api.Data
             return (hash, salt);
         }
 
+        private static readonly string[] items = ["en", "fr", "de", "es"];
+
         private static List<User> GenerateUsers(int count)
         {
             var faker = new Faker();
@@ -124,7 +126,7 @@ namespace api.Data
                         State = faker.Address.State(),
                         Company = faker.Company.CompanyName(),
                         DisplayName = faker.Name.FullName(),
-                        PreferredLanguage = faker.PickRandom(new[] { "en", "fr", "de", "es" }),
+                        PreferredLanguage = faker.PickRandom(items),
                         Title = faker.Name.JobTitle(),
                         Address = faker.Address.FullAddress(),
                         Role =

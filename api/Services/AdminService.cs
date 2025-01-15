@@ -1,5 +1,4 @@
 using System.Linq.Dynamic.Core;
-using api.Data;
 using api.DTOs.Admin;
 using api.Interfaces;
 using api.Models;
@@ -20,7 +19,6 @@ namespace api.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IApplicationRepository _applicationRepository = applicationRepository;
         private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
-
         private readonly IMapper _mapper = mapper;
 
         public async Task<PagedUserResult<UserDto>> GetUsersAsync(

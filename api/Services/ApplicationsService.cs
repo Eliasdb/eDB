@@ -1,66 +1,83 @@
 using System.Security.Claims;
-using api.Data;
 using api.Interfaces;
 using api.Models;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Services
 {
-    public class ApplicationsService(MyDbContext context, IMapper mapper) : IApplicationsService
+    public class ApplicationsService(
+        IApplicationRepository applicationRepository,
+        ISubscriptionRepository subscriptionRepository,
+        IUserRepository userRepository,
+        IMapper mapper
+    ) : IApplicationsService
     {
-        private readonly MyDbContext _context = context;
+        private readonly IApplicationRepository _applicationRepository = applicationRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
 
-        public int? GetAuthenticatedUserId(ClaimsPrincipal user)
+        public async Task<List<ApplicationDto>> GetApplicationsAsync()
         {
-            var userIdClaim = user.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userIdClaim))
-            {
-                return null;
-            }
-
-            return int.TryParse(userIdClaim, out var userId) ? userId : null;
+            var applications = await _applicationRepository.GetApplicationsAsync();
+            return _mapper.Map<List<ApplicationDto>>(applications);
         }
 
-        public async Task<string> ToggleSubscription(int userId, int applicationId)
+        public int? GetAuthenticatedUserId(ClaimsPrincipal userPrincipal)
         {
-            var existingSubscription = await _context.Subscriptions.FirstOrDefaultAsync(s =>
-                s.UserId == userId && s.ApplicationId == applicationId
+            var userIdClaim = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(userIdClaim, out var userId) ? userId : (int?)null;
+        }
+
+        public async Task<string> ToggleSubscriptionAsync(int userId, int applicationId)
+        {
+            // Validate user existence
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return "User not found.";
+            }
+
+            // Validate application existence
+            var application = await _applicationRepository.GetByIdAsync(applicationId);
+            if (application == null)
+            {
+                return "Application not found.";
+            }
+
+            // Check for existing subscription
+            var subscription = await _subscriptionRepository.GetSubscriptionAsync(
+                applicationId,
+                userId
             );
 
-            if (existingSubscription != null)
+            if (subscription != null)
             {
-                _context.Subscriptions.Remove(existingSubscription);
-                await _context.SaveChangesAsync();
-                return "Unsubscribed successfully!";
+                // Remove subscription if exists
+                await _subscriptionRepository.DeleteSubscriptionAsync(subscription);
+                await _subscriptionRepository.SaveChangesAsync();
+                return "Subscription removed successfully.";
             }
 
+            // Add new subscription
             var newSubscription = new Subscription
             {
-                UserId = userId,
                 ApplicationId = applicationId,
-                SubscriptionDate = DateTime.UtcNow,
+                UserId = userId,
             };
 
-            _context.Subscriptions.Add(newSubscription);
-            await _context.SaveChangesAsync();
-            return "Subscribed successfully!";
+            await _subscriptionRepository.AddSubscriptionAsync(newSubscription);
+            await _subscriptionRepository.SaveChangesAsync();
+            return "Subscription added successfully.";
         }
 
-        public async Task<IEnumerable<ApplicationDto>> GetSubscribedApplications(int userId)
+        public async Task<IEnumerable<ApplicationDto>> GetSubscribedApplicationsAsync(int userId)
         {
-            return await _context
-                .Subscriptions.Where(ua => ua.UserId == userId)
-                .Join(
-                    _context.Applications,
-                    ua => ua.ApplicationId,
-                    app => app.Id,
-                    (ua, app) => app
-                )
-                .ProjectTo<ApplicationDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            var subscriptions = await _subscriptionRepository.GetSubscriptionsByUserIdAsync(userId);
+            var applications = subscriptions.Select(s => s.Application);
+
+            // Map applications to ApplicationDto
+            return _mapper.Map<List<ApplicationDto>>(applications);
         }
     }
 }
