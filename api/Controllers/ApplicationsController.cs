@@ -1,34 +1,21 @@
 using api.Attributes;
-using api.Data;
 using api.DTOs.Applications;
 using api.Interfaces;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ApplicationsController(
-        MyDbContext context,
-        IMapper mapper,
-        IApplicationsService applicationsService
-    ) : ControllerBase
+    public class ApplicationsController(IApplicationsService applicationsService) : ControllerBase
     {
-        private readonly MyDbContext _context = context;
-        private readonly IMapper _mapper = mapper;
         private readonly IApplicationsService _applicationsService = applicationsService;
 
         [HttpGet]
         [RoleAuthorize("User")]
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
         {
-            var applications = await _context
-                .Applications.ProjectTo<ApplicationDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-
+            var applications = await _applicationsService.GetApplicationsAsync();
             return Ok(applications);
         }
 
@@ -42,10 +29,11 @@ namespace api.Controllers
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
-            var result = await _applicationsService.ToggleSubscription(
+            var result = await _applicationsService.ToggleSubscriptionAsync(
                 userId.Value,
                 request.ApplicationId
             );
+
             return Ok(new { message = result });
         }
 
@@ -59,7 +47,7 @@ namespace api.Controllers
                 return Unauthorized(new { message = "User is not authenticated!" });
             }
 
-            var subscribedApplications = await _applicationsService.GetSubscribedApplications(
+            var subscribedApplications = await _applicationsService.GetSubscribedApplicationsAsync(
                 userId.Value
             );
 
