@@ -14,12 +14,12 @@ namespace api.Controllers
     public class ApplicationsController(
         MyDbContext context,
         IMapper mapper,
-        ISubscriptionService subscriptionService
+        IApplicationsService applicationsService
     ) : ControllerBase
     {
         private readonly MyDbContext _context = context;
         private readonly IMapper _mapper = mapper;
-        private readonly ISubscriptionService _subscriptionService = subscriptionService;
+        private readonly IApplicationsService _applicationsService = applicationsService;
 
         [HttpGet]
         [RoleAuthorize("User")]
@@ -36,13 +36,13 @@ namespace api.Controllers
         [RoleAuthorize("User")]
         public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
         {
-            var userId = _subscriptionService.GetAuthenticatedUserId(User);
+            var userId = _applicationsService.GetAuthenticatedUserId(User);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
-            var result = await _subscriptionService.ToggleSubscription(
+            var result = await _applicationsService.ToggleSubscription(
                 userId.Value,
                 request.ApplicationId
             );
@@ -53,13 +53,13 @@ namespace api.Controllers
         [RoleAuthorize("User")]
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
         {
-            var userId = _subscriptionService.GetAuthenticatedUserId(User);
+            var userId = _applicationsService.GetAuthenticatedUserId(User);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User is not authenticated!" });
             }
 
-            var subscribedApplications = await _subscriptionService.GetSubscribedApplications(
+            var subscribedApplications = await _applicationsService.GetSubscribedApplications(
                 userId.Value
             );
 

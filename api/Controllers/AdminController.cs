@@ -13,15 +13,12 @@ namespace api.Controllers
 {
     [ApiController]
     [Route("api/admin")]
-    public class AdminController(
-        MyDbContext context,
-        IMapper mapper,
-        IUserQueryService userQueryService
-    ) : ControllerBase
+    public class AdminController(MyDbContext context, IMapper mapper, IAdminService adminService)
+        : ControllerBase
     {
         private readonly MyDbContext _context = context;
         private readonly IMapper _mapper = mapper;
-        private readonly IUserQueryService _userQueryService = userQueryService;
+        private readonly IAdminService _adminService = adminService;
 
         [HttpGet("area")]
         [RoleAuthorize("Admin")]
@@ -40,10 +37,10 @@ namespace api.Controllers
         )
         {
             // Parse sorting parameters
-            var (sortField, sortDirection) = _userQueryService.ParseSortParameter(sort);
+            var (sortField, sortDirection) = _adminService.ParseSortParameter(sort);
 
             // Build and configure the base query for users
-            IQueryable<User> query = _userQueryService.BuildUserQuery(
+            IQueryable<User> query = _adminService.BuildUserQuery(
                 search,
                 cursor,
                 sortField,
@@ -51,7 +48,7 @@ namespace api.Controllers
             );
 
             // Apply dynamic sorting
-            query = _userQueryService.ApplySorting(query, sortField, sortDirection);
+            query = _adminService.ApplySorting(query, sortField, sortDirection);
 
             // Fetch the next set of users
             var users = await query
@@ -60,7 +57,7 @@ namespace api.Controllers
                 .ToListAsync();
 
             // Determine pagination details
-            var (hasMore, nextCursor) = _userQueryService.DetermineNextCursor(
+            var (hasMore, nextCursor) = _adminService.DetermineNextCursor(
                 users,
                 sortField,
                 sortDirection

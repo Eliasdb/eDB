@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace api.Interfaces
 {
-    public interface ISubscriptionService
+    public interface IApplicationsService
     {
         int? GetAuthenticatedUserId(ClaimsPrincipal user);
         Task<string> ToggleSubscription(int userId, int applicationId);

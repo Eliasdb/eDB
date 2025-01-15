@@ -15,8 +15,8 @@ namespace api.Controllers
         : ControllerBase
     {
         private readonly MyDbContext _context = context;
-        private readonly AuthService _authService = authService;
         private readonly IMapper _mapper = mapper;
+        private readonly AuthService _authService = authService;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)

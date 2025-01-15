@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Services
 {
-    public class SubscriptionService(MyDbContext context, IMapper mapper) : ISubscriptionService
+    public class ApplicationsService(MyDbContext context, IMapper mapper) : IApplicationsService
     {
         private readonly MyDbContext _context = context;
         private readonly IMapper _mapper = mapper;

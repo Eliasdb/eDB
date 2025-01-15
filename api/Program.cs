@@ -32,8 +32,9 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 );
 
 builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<IUserQueryService, UserQueryService>();
-builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IApplicationsService, ApplicationsService>();
+builder.Services.AddScoped<ProfileService>();
 
 builder.Services.AddCors(options =>
 {
