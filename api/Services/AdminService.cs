@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Services
 {
-    public class UserQueryService(MyDbContext context) : IUserQueryService
+    public class AdminService(MyDbContext context) : IAdminService
     {
         private readonly MyDbContext _context = context;
 

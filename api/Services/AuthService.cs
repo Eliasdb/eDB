@@ -2,19 +2,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using api.Interfaces;
 using api.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
-    public class AuthService
+    public class AuthService(IConfiguration configuration) : IAuthService
     {
-        private readonly IConfiguration _configuration;
-
-        public AuthService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         public (string Hash, string Salt) HashPassword(string password)
         {
@@ -41,9 +37,9 @@ namespace api.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString()), // Use ClaimTypes.Role
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Role, user.Role.ToString()),
             };
 
             var jwtKey =

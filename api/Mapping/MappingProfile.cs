@@ -1,5 +1,6 @@
 using api.DTOs.Admin;
 using api.DTOs.Auth;
+using api.DTOs.Profile;
 using api.Models;
 using AutoMapper;
 
@@ -53,6 +54,13 @@ namespace api.Mapping
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<CreateApplicationDto, Application>();
+
+            // Map User -> ProfileSettingsResponse
+            CreateMap<User, ProfileSettingsResponse>();
+
+            // Map ProfileUpdateRequest -> User
+            CreateMap<ProfileUpdateRequest, User>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

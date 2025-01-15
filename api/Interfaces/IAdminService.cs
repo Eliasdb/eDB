@@ -3,7 +3,7 @@ using api.Models;
 
 namespace api.Interfaces
 {
-    public interface IUserQueryService
+    public interface IAdminService
     {
         IQueryable<User> BuildUserQuery(
             string? search,
