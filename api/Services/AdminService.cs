@@ -3,24 +3,60 @@ using api.Data;
 using api.DTOs.Admin;
 using api.Interfaces;
 using api.Models;
+using api.Utilities;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Services
 {
-    public class AdminService(MyDbContext context) : IAdminService
+    public class AdminService(
+        IUserRepository userRepository,
+        IApplicationRepository applicationRepository,
+        ISubscriptionRepository subscriptionRepository,
+        IMapper mapper
+    ) : IAdminService
     {
-        private readonly MyDbContext _context = context;
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IApplicationRepository _applicationRepository = applicationRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
 
-        public IQueryable<User> BuildUserQuery(
+        private readonly IMapper _mapper = mapper;
+
+        public async Task<PagedUserResult<UserDto>> GetUsersAsync(
             string? search,
             object? cursor,
-            string sortField,
-            string sortDirection
+            string sort,
+            int pageSize = 15
         )
         {
-            IQueryable<User> query = _context.Users.AsNoTracking();
+            // Allowed sort fields and mapping
+            var allowedSortFields = new List<string>
+            {
+                "Id",
+                "FirstName",
+                "LastName",
+                "Email",
+                "Role",
+                "State",
+            };
+            var fieldMapping = new Dictionary<string, string>
+            {
+                { "firstName", "FirstName" },
+                { "lastName", "LastName" },
+                { "email", "Email" },
+                { "role", "Role" },
+                { "state", "State" },
+                { "id", "Id" },
+            };
 
-            // Apply search filter if provided for first name, last name and email
+            // Parse sorting parameters
+            var (sortField, sortDirection) = QueryUtils.ParseSortParameter(sort, fieldMapping);
+
+            // Fetch base query
+            var query = _userRepository.GetUsers();
+
+            // Apply filters and sorting
             if (!string.IsNullOrWhiteSpace(search))
             {
                 var pattern = $"%{search}%";
@@ -31,8 +67,10 @@ namespace api.Services
                 );
             }
 
-            // Apply cursor-based pagination logic
-            if (cursor is string cursorStr && !string.IsNullOrWhiteSpace(cursorStr))
+            query = QueryUtils.ApplySorting(query, sortField, sortDirection, allowedSortFields);
+
+            // Apply cursor-based pagination
+            if (cursor != null)
             {
                 if (sortDirection == "asc")
                 {
@@ -44,95 +82,130 @@ namespace api.Services
                 }
             }
 
-            return query;
+            // Fetch the next set of users
+            var users = await query
+                .Take(pageSize)
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            // Determine pagination details
+            var (hasMore, nextCursor) = QueryUtils.DetermineNextCursor(
+                users,
+                sortField,
+                sortDirection
+            );
+
+            // Construct the paged result
+            return new PagedUserResult<UserDto>
+            {
+                Data = users,
+                NextCursor = nextCursor,
+                HasMore = hasMore,
+            };
         }
 
-        public (bool hasMore, object? nextCursor) DetermineNextCursor(
-            List<UserDto> users,
-            string sortField,
-            string sortDirection
+        public async Task<UserDto?> GetUserByIdAsync(int userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            return user != null ? _mapper.Map<UserDto>(user) : null;
+        }
+
+        public async Task<bool> DeleteUserAsync(int userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return false; // User not found
+            }
+
+            await _userRepository.DeleteAsync(user);
+            await _userRepository.SaveChangesAsync();
+            return true; // User deleted successfully
+        }
+
+        public async Task<List<ApplicationOverviewDto>> GetApplicationsAsync()
+        {
+            var applications = await _applicationRepository.GetApplicationsAsync();
+            return _mapper.Map<List<ApplicationOverviewDto>>(applications);
+        }
+
+        public async Task<Application> AddApplicationAsync(CreateApplicationDto applicationDto)
+        {
+            // Map the DTO to the Application entity
+            var application = _mapper.Map<Application>(applicationDto);
+
+            // Add the application to the repository
+            await _applicationRepository.AddApplicationAsync(application);
+
+            // Save changes to the database
+            await _applicationRepository.SaveChangesAsync();
+
+            return application;
+        }
+
+        public async Task<Application?> UpdateApplicationAsync(
+            int applicationId,
+            UpdateApplicationDto applicationDto
         )
         {
-            var hasMore = users.Count == 15;
-            object? nextCursor = null;
+            // Fetch the application by ID
+            var application = await _applicationRepository.GetByIdAsync(applicationId);
 
-            if (hasMore)
+            if (application == null)
             {
-                // Choose the last or first user based on sort direction
-                var referenceUser = sortDirection == "asc" ? users.Last() : users.First();
-                nextCursor = referenceUser
-                    ?.GetType()
-                    .GetProperty(sortField)
-                    ?.GetValue(referenceUser);
+                return null; // Application not found
             }
 
-            return (hasMore, nextCursor);
+            // Map the DTO to the existing application entity
+            _mapper.Map(applicationDto, application);
+
+            // Update the application in the repository
+            await _applicationRepository.UpdateApplicationAsync(application);
+
+            // Save changes
+            await _applicationRepository.SaveChangesAsync();
+
+            return application;
         }
 
-        public IQueryable<User> ApplySorting(
-            IQueryable<User> query,
-            string sortField,
-            string sortDirection
-        )
+        public async Task<bool> DeleteApplicationAsync(int applicationId)
         {
-            // Define allowed sort fields
-            var allowedSortFields = new List<string>
+            // Fetch the application by ID
+            var application = await _applicationRepository.GetByIdAsync(applicationId);
+            if (application == null)
             {
-                "Id",
-                "FirstName",
-                "LastName",
-                "Email",
-                "Role",
-                "State",
-            };
-
-            if (!allowedSortFields.Contains(sortField, StringComparer.OrdinalIgnoreCase))
-            {
-                Console.WriteLine($"Invalid sort field: {sortField}. Defaulting to Id.");
-                sortField = "Id"; // Default to Id if field is invalid
+                return false; // Application not found
             }
 
-            // Apply sorting dynamically using System.Linq.Dynamic.Core
-            var sorting = $"{sortField} {sortDirection}";
-            Console.WriteLine($"Applying sorting: {sorting}");
-            return query.OrderBy(sorting);
+            // Remove the application
+            await _applicationRepository.DeleteApplicationAsync(application);
+
+            // Save changes to the database
+            await _applicationRepository.SaveChangesAsync();
+
+            return true; // Application deleted successfully
         }
 
-        public (string sortField, string sortDirection) ParseSortParameter(string? sort)
+        public async Task<bool> RevokeSubscriptionAsync(int applicationId, int userId)
         {
-            if (string.IsNullOrWhiteSpace(sort))
+            // Fetch the subscription by applicationId and userId
+            var subscription = await _subscriptionRepository.GetSubscriptionAsync(
+                applicationId,
+                userId
+            );
+
+            if (subscription == null)
             {
-                return ("Id", "asc"); // Default sorting
+                return false; // Subscription not found
             }
 
-            var sortParts = sort.Split(',');
-            var sortField = sortParts.Length > 0 ? sortParts[0] : "id";
-            var sortDirection = sortParts.Length > 1 ? sortParts[1].ToLower() : "asc";
+            // Remove the subscription
+            await _subscriptionRepository.DeleteSubscriptionAsync(subscription);
 
-            // Map camelCase to PascalCase database fields
-            var fieldMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                { "firstName", "FirstName" },
-                { "lastName", "LastName" },
-                { "email", "Email" },
-                { "role", "Role" },
-                { "state", "State" },
-                { "id", "Id" },
-            };
+            // Save changes to the database
+            await _subscriptionRepository.SaveChangesAsync();
 
-            if (!fieldMapping.TryGetValue(sortField, out var mappedField))
-            {
-                Console.WriteLine($"Invalid sort field: {sortField}. Defaulting to Id.");
-                mappedField = "Id"; // Default to Id if field is invalid
-            }
-
-            // Validate sort direction
-            if (sortDirection != "asc" && sortDirection != "desc")
-            {
-                sortDirection = "asc";
-            }
-
-            return (mappedField, sortDirection);
+            return true; // Subscription revoked successfully
         }
     }
 }

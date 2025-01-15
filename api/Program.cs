@@ -2,6 +2,7 @@ using api.Data;
 using api.Interfaces;
 using api.Mapping;
 using API.Middleware;
+using api.Repositories;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,9 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IApplicationsService, ApplicationsService>();
-builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddCors(options =>
 {

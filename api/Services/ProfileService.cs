@@ -1,13 +1,14 @@
 using System.Security.Claims;
 using api.Data;
 using api.DTOs.Profile;
+using api.Interfaces;
 using api.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Services
 {
-    public class ProfileService(MyDbContext context, IMapper mapper)
+    public class ProfileService(MyDbContext context, IMapper mapper) : IProfileService
     {
         private readonly MyDbContext _context = context;
         private readonly IMapper _mapper = mapper;

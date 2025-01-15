@@ -5,22 +5,21 @@ namespace api.Interfaces
 {
     public interface IAdminService
     {
-        IQueryable<User> BuildUserQuery(
+        Task<PagedUserResult<UserDto>> GetUsersAsync(
             string? search,
             object? cursor,
-            string sortField,
-            string sortDirection
+            string sort,
+            int pageSize = 15
         );
-        (bool hasMore, object? nextCursor) DetermineNextCursor(
-            List<UserDto> users,
-            string sortField,
-            string sortDirection
+        Task<UserDto?> GetUserByIdAsync(int userId);
+        Task<List<ApplicationOverviewDto>> GetApplicationsAsync();
+        Task<Application> AddApplicationAsync(CreateApplicationDto applicationDto);
+        Task<Application?> UpdateApplicationAsync(
+            int applicationId,
+            UpdateApplicationDto applicationDto
         );
-        IQueryable<User> ApplySorting(
-            IQueryable<User> query,
-            string sortField,
-            string sortDirection
-        );
-        (string sortField, string sortDirection) ParseSortParameter(string? sort);
+        Task<bool> DeleteUserAsync(int userId);
+        Task<bool> DeleteApplicationAsync(int applicationId);
+        Task<bool> RevokeSubscriptionAsync(int applicationId, int userId);
     }
 }
