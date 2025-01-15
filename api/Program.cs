@@ -57,7 +57,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // --- Middleware Configuration ---
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseCustomMiddlewares();
 
 if (app.Environment.IsDevelopment())
 {
