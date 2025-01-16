@@ -20,7 +20,7 @@ namespace api.Controllers
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
         public async Task<IActionResult> GetUsers(
-            [FromQuery] object? cursor = null,
+            [FromQuery] string? cursor = null,
             [FromQuery] string sort = "id,asc",
             [FromQuery] string? search = null
         )
@@ -63,6 +63,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetApplications()
         {
             var applications = await _adminService.GetApplicationsAsync();
+
             return Ok(applications);
         }
 
@@ -73,7 +74,18 @@ namespace api.Controllers
         )
         {
             var application = await _adminService.AddApplicationAsync(applicationDto);
-            return Ok(application);
+
+            if (application == null)
+            {
+                return BadRequest("Unable to create application.");
+            }
+
+            // Construct a location URI for the newly created resource.
+            // This URI doesn't need to point to a working endpoint right now.
+            var locationUri = $"api/applications/{application.Id}";
+
+            // Return a 201 Created response, including the Location header and the created application.
+            return Created(locationUri, application);
         }
 
         [HttpPut("applications/{applicationId}")]

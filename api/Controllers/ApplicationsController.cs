@@ -11,7 +11,7 @@ namespace api.Controllers
         private readonly IApplicationsService _applicationsService = applicationsService;
 
         [HttpGet]
-        [RoleAuthorize("User")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
         {
             var applications = await _applicationsService.GetApplicationsAsync();
@@ -19,7 +19,7 @@ namespace api.Controllers
         }
 
         [HttpPost("subscribe")]
-        [RoleAuthorize("User")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
         {
             var userId = _applicationsService.GetAuthenticatedUserId(User);
@@ -37,7 +37,7 @@ namespace api.Controllers
         }
 
         [HttpGet("user")]
-        [RoleAuthorize("User")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
         {
             var userId = _applicationsService.GetAuthenticatedUserId(User);

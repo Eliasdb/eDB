@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using api.DTOs.Applications;
 
 namespace api.Interfaces
 {

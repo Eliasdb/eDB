@@ -7,7 +7,7 @@ namespace api.Interfaces
     {
         Task<PagedUserResult<UserDto>> GetUsersAsync(
             string? search,
-            object? cursor,
+            string? cursor,
             string sort,
             int pageSize = 15
         );
