@@ -1,65 +1,52 @@
 using api.Attributes;
-using api.Data;
 using api.DTOs.Applications;
 using api.Interfaces;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ApplicationsController(
-        MyDbContext context,
-        IMapper mapper,
-        ISubscriptionService subscriptionService
-    ) : ControllerBase
+    public class ApplicationsController(IApplicationsService applicationsService)
+        : BaseApiController
     {
-        private readonly MyDbContext _context = context;
-        private readonly IMapper _mapper = mapper;
-        private readonly ISubscriptionService _subscriptionService = subscriptionService;
+        private readonly IApplicationsService _applicationsService = applicationsService;
 
         [HttpGet]
-        [RoleAuthorize("User")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
         {
-            var applications = await _context
-                .Applications.ProjectTo<ApplicationDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-
+            var applications = await _applicationsService.GetApplicationsAsync();
             return Ok(applications);
         }
 
         [HttpPost("subscribe")]
-        [RoleAuthorize("User")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
         {
-            var userId = _subscriptionService.GetAuthenticatedUserId(User);
+            var userId = _applicationsService.GetAuthenticatedUserId(User);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
-            var result = await _subscriptionService.ToggleSubscription(
+            var result = await _applicationsService.ToggleSubscriptionAsync(
                 userId.Value,
                 request.ApplicationId
             );
+
             return Ok(new { message = result });
         }
 
         [HttpGet("user")]
-        [RoleAuthorize("User")]
+        [RoleAuthorize("User", "Admin")]
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
         {
-            var userId = _subscriptionService.GetAuthenticatedUserId(User);
+            var userId = _applicationsService.GetAuthenticatedUserId(User);
             if (userId == null)
             {
                 return Unauthorized(new { message = "User is not authenticated!" });
             }
 
-            var subscribedApplications = await _subscriptionService.GetSubscribedApplications(
+            var subscribedApplications = await _applicationsService.GetSubscribedApplicationsAsync(
                 userId.Value
             );
 
