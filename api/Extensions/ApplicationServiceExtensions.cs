@@ -1,5 +1,6 @@
 using api.Data;
 using api.Interfaces;
+using api.Mapping;
 using api.Repositories;
 using api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +20,15 @@ public static class ApplicationServiceExtensions
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
+        services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IApplicationsService, ApplicationsService>();
 
         // Add AutoMapper
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
         services.AddCors(options =>
         {
@@ -32,7 +37,11 @@ public static class ApplicationServiceExtensions
                 policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost:4200", "https://app.eliasdebock.com")
+                        .WithOrigins(
+                            "http://localhost:4200",
+                            "https://app.staging.eliasdebock.com",
+                            "https://app.eliasdebock.com"
+                        )
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                 }

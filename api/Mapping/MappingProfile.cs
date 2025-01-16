@@ -1,4 +1,5 @@
 using api.DTOs.Admin;
+using api.DTOs.Applications;
 using api.DTOs.Auth;
 using api.DTOs.Profile;
 using api.Models;
@@ -40,12 +41,29 @@ namespace api.Mapping
                     opt => opt.MapFrom(src => src.SubscriptionDate)
                 );
 
-            // Map Application to ApplicationOverviewDto
             CreateMap<Application, ApplicationOverviewDto>()
+                .ForMember(dest => dest.ApplicationId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ApplicationIconUrl, opt => opt.MapFrom(src => src.IconUrl))
+                .ForMember(
+                    dest => dest.ApplicationRoutePath,
+                    opt => opt.MapFrom(src => src.RoutePath)
+                )
+                .ForMember(dest => dest.ApplicationTags, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.ApplicationName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(
                     dest => dest.ApplicationDescription,
                     opt => opt.MapFrom(src => src.Description)
+                )
+                .ForMember(
+                    dest => dest.SubscriberCount,
+                    opt => opt.MapFrom(src => src.Subscriptions.Count(sub => sub.User != null))
+                )
+                .ForMember(
+                    dest => dest.SubscribedUsers,
+                    opt =>
+                        opt.MapFrom(src =>
+                            src.Subscriptions.Where(sub => sub.User != null).ToList()
+                        )
                 );
 
             CreateMap<Application, ApplicationDto>();

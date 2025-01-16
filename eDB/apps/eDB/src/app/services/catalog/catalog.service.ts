@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { injectMutation } from '@tanstack/angular-query-experimental';
+import { firstValueFrom } from 'rxjs';
+
 import { environment } from '../../environments/environment';
 import { CatalogItem } from '../../models/catalog.model';
 
@@ -42,5 +45,24 @@ export class CatalogService {
           this.isLoading.set(false);
         },
       });
+  }
+
+  subscribeToApplicationMutation() {
+    return injectMutation(() => ({
+      mutationFn: async (applicationId: number) => {
+        return firstValueFrom(
+          this.http.post(`${environment.apiBaseUrl}/applications/subscribe`, {
+            applicationId,
+          }),
+        );
+      },
+      onSuccess: () => {
+        // Optionally, refetch the catalog or update the state
+        this.fetchCatalog();
+      },
+      onError: (error: any) => {
+        console.error('Failed to subscribe:', error);
+      },
+    }));
   }
 }

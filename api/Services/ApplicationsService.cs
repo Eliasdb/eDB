@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using api.DTOs.Applications;
 using api.Interfaces;
 using api.Models;
 using AutoMapper;

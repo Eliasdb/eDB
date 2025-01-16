@@ -57,7 +57,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 // --- Middleware Configuration ---
-app.UseCustomMiddlewares();
 
 if (app.Environment.IsDevelopment())
 {
@@ -70,6 +69,8 @@ else
 }
 
 app.UseCors("AllowFrontend");
+app.UseCustomMiddlewares();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

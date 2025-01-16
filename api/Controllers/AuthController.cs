@@ -1,12 +1,12 @@
 using api.DTOs.Auth;
-using api.Services;
+using api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    public class AuthController(AuthService authService) : BaseApiController
+    public class AuthController(IAuthService authService) : BaseApiController
     {
-        private readonly AuthService _authService = authService;
+        private readonly IAuthService _authService = authService;
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
