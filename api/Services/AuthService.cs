@@ -1,73 +1,68 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using api.DTOs.Admin;
+using api.DTOs.Auth;
+using api.Interfaces;
 using api.Models;
-using Microsoft.IdentityModel.Tokens;
+using api.Utilities;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Services
 {
-    public class AuthService
+    public class AuthService(
+        IConfiguration configuration,
+        IUserRepository userRepository,
+        IMapper mapper
+    ) : IAuthService
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration = configuration;
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IMapper _mapper = mapper;
 
-        public AuthService(IConfiguration configuration)
+        public async Task<(bool Success, string Message, UserDto? User)> RegisterUserAsync(
+            RegisterRequest request
+        )
         {
-            _configuration = configuration;
-        }
-
-        public (string Hash, string Salt) HashPassword(string password)
-        {
-            byte[] saltBytes = RandomNumberGenerator.GetBytes(16);
-            string salt = Convert.ToBase64String(saltBytes);
-
-            string saltedPassword = salt + password;
-            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword));
-            string hash = Convert.ToBase64String(hashBytes);
-
-            return (hash, salt);
-        }
-
-        public bool VerifyPassword(string password, string storedHash, string storedSalt)
-        {
-            string saltedPassword = storedSalt + password;
-            byte[] hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword));
-            string computedHash = Convert.ToBase64String(hashBytes);
-
-            return computedHash == storedHash;
-        }
-
-        public string GenerateJwtToken(User user)
-        {
-            var claims = new List<Claim>
+            if (await _userRepository.ExistsByEmailAsync(request.Email))
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString()), // Use ClaimTypes.Role
-            };
+                return (false, "Email already exists!", null);
+            }
 
-            var jwtKey =
-                _configuration["Jwt:Key"]
-                ?? throw new InvalidOperationException("JWT Key is not configured.");
-            var jwtIssuer =
-                _configuration["Jwt:Issuer"]
-                ?? throw new InvalidOperationException("JWT Issuer is not configured.");
-            var jwtAudience =
-                _configuration["Jwt:Audience"]
-                ?? throw new InvalidOperationException("JWT Audience is not configured.");
+            var (hashedPassword, salt) = AuthUtils.HashPassword(request.Password);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var user = _mapper.Map<User>(request);
+            user.PasswordHash = hashedPassword;
+            user.Salt = salt;
+            user.Role = UserRole.User;
 
-            var token = new JwtSecurityToken(
-                issuer: jwtIssuer,
-                audience: jwtAudience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: creds
-            );
+            await _userRepository.AddAsync(user);
+            await _userRepository.SaveChangesAsync();
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var userDto = _mapper.Map<UserDto>(user);
+            return (true, "Registration successful!", userDto);
+        }
+
+        public async Task<(bool Success, string Message, string? Token, UserDto? User)> LoginAsync(
+            LoginRequest request
+        )
+        {
+            var user = await _userRepository
+                .GetUsers()
+                .FirstOrDefaultAsync(u => u.Email == request.Email);
+
+            if (
+                user == null
+                || string.IsNullOrEmpty(user.Salt)
+                || !AuthUtils.VerifyPassword(request.Password, user.PasswordHash, user.Salt)
+            )
+            {
+                return (false, "Invalid email or password!", null, null);
+            }
+
+            var token = AuthUtils.GenerateJwtToken(user, _configuration);
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return (true, "Login successful!", token, userDto);
         }
     }
 }

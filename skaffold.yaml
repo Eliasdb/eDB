@@ -3,6 +3,9 @@ kind: Config
 metadata:
     name: my-app
 build:
+    local:
+        push: false
+        useBuildkit: true
     tagPolicy:
         sha256: {} # Avoid Git state affecting rebuilds
     artifacts:
@@ -11,21 +14,13 @@ build:
           docker:
               dockerfile: Dockerfile.dev
           sync:
-              manual:
-                  - src: 'src/**/*'
-                    dest: /app/src
-                  - src: 'styles/**/*.scss'
-                    dest: /app/styles
+              infer: []
         - image: api
           context: api/
           docker:
               dockerfile: Dockerfile.dev
           sync:
-              manual:
-                  - src: '**/*.cs'
-                    dest: .
-                  - src: '**/*.json'
-                    dest: .
+              infer: []
 deploy:
     kubectl:
         manifests:

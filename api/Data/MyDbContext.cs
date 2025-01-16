@@ -5,11 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Data
 {
-    public class MyDbContext : DbContext
+    public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
     {
-        public MyDbContext(DbContextOptions<MyDbContext> options)
-            : base(options) { }
-
         public required DbSet<User> Users { get; set; }
         public required DbSet<Application> Applications { get; set; }
         public required DbSet<Subscription> Subscriptions { get; set; }
