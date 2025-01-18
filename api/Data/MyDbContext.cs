@@ -7,9 +7,9 @@ namespace api.Data
 {
     public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
     {
-        public required DbSet<User> Users { get; set; }
-        public required DbSet<Application> Applications { get; set; }
-        public required DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Application> Applications { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
