@@ -19,7 +19,7 @@ namespace api.Controllers
 
         [HttpGet("users")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> GetUsers(
+        public async Task<ActionResult<PagedUserResult<UserDto>>> GetUsers(
             [FromQuery] string? cursor = null,
             [FromQuery] string sort = "id,asc",
             [FromQuery] string? search = null
@@ -32,7 +32,7 @@ namespace api.Controllers
 
         [HttpGet("users/{userId}")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> GetUserById([FromRoute] int userId)
+        public async Task<ActionResult<UserDto>> GetUserById([FromRoute] int userId)
         {
             var user = await _adminService.GetUserByIdAsync(userId);
 
@@ -60,9 +60,11 @@ namespace api.Controllers
 
         [HttpGet("applications")]
         [RoleAuthorize("Admin")]
-        public async Task<IActionResult> GetApplications()
+        public async Task<
+            ActionResult<IEnumerable<ApplicationOverviewDto>>
+        > GetApplicationsWithSubscribers()
         {
-            var applications = await _adminService.GetApplicationsAsync();
+            var applications = await _adminService.GetApplicationsWithSubscribersAsync();
 
             return Ok(applications);
         }

@@ -12,7 +12,7 @@ namespace api.Interfaces
             int pageSize = 15
         );
         Task<UserDto?> GetUserByIdAsync(int userId);
-        Task<List<ApplicationOverviewDto>> GetApplicationsAsync();
+        Task<List<ApplicationOverviewDto>> GetApplicationsWithSubscribersAsync();
         Task<Application> AddApplicationAsync(CreateApplicationDto applicationDto);
         Task<Application?> UpdateApplicationAsync(
             int applicationId,
