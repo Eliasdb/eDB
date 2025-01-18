@@ -22,6 +22,67 @@ namespace api.Tests.Controllers
             _output = output;
         }
 
+        #region GetUsers Tests
+        [Fact]
+        public async Task GetUsers_ReturnsOkResult_WithPagedResult()
+        {
+            // Arrange
+            string? cursor = null;
+            string sort = "id,asc";
+            string? search = null;
+
+            var pagedResult = new PagedUserResult<UserDto>
+            {
+                Data = new List<UserDto>
+                {
+                    new()
+                    {
+                        Id = 1,
+                        FirstName = "John",
+                        LastName = "Doe",
+                        Email = "john.doe@example.com",
+                        Role = "Admin",
+                        State = "Active",
+                    },
+                    new()
+                    {
+                        Id = 2,
+                        FirstName = "Jane",
+                        LastName = "Smith",
+                        Email = "jane.smith@example.com",
+                        Role = "User",
+                        State = "Inactive",
+                    },
+                },
+                NextCursor = "nextCursorValue",
+                HasMore = true,
+            };
+
+            _mockAdminService
+                .Setup(s => s.GetUsersAsync(search, cursor, sort, 15))
+                .ReturnsAsync(pagedResult);
+
+            // Act
+            var actionResult = await _controller.GetUsers(cursor, sort, search);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            Assert.NotNull(okResult.Value);
+
+            var returnedResult = Assert.IsType<PagedUserResult<UserDto>>(okResult.Value);
+            Assert.Equal(pagedResult.Data.Count(), returnedResult.Data.Count());
+            Assert.Equal(pagedResult.NextCursor, returnedResult.NextCursor);
+            Assert.Equal(pagedResult.HasMore, returnedResult.HasMore);
+
+            // Optionally, verify details of the user data
+            var expectedFirstUser = pagedResult.Data.First();
+            var actualFirstUser = returnedResult.Data.First();
+            Assert.Equal(expectedFirstUser.Id, actualFirstUser.Id);
+            Assert.Equal(expectedFirstUser.FirstName, actualFirstUser.FirstName);
+        }
+        #endregion
+
+        #region GetUserById Tests
         [Fact]
         public async Task GetUserById_UserExists_ReturnsOkResult()
         {
@@ -36,10 +97,11 @@ namespace api.Tests.Controllers
             _mockAdminService.Setup(s => s.GetUserByIdAsync(userId)).ReturnsAsync(mockUser);
 
             // Act
-            var result = await _controller.GetUserById(userId);
+            var actionResult = await _controller.GetUserById(userId);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
+
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var returnedUser = Assert.IsType<UserDto>(okResult.Value);
             Assert.Equal(userId, returnedUser.Id);
         }
@@ -52,12 +114,14 @@ namespace api.Tests.Controllers
             _mockAdminService.Setup(s => s.GetUserByIdAsync(userId)).ReturnsAsync((UserDto?)null);
 
             // Act
-            var result = await _controller.GetUserById(userId);
+            var actionResult = await _controller.GetUserById(userId);
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
+        #endregion
 
+        #region DeleteUser Tests
         [Fact]
         public async Task DeleteUser_UserExists_ReturnsOkResult()
         {
@@ -107,12 +171,13 @@ namespace api.Tests.Controllers
 
             Assert.Equal("User not found.", message);
         }
+        #endregion
 
+        #region GetApplications Tests
         [Fact]
         public async Task GetApplications_ReturnsOkResult_WithApplicationsList()
         {
             // Arrange
-            // Create a sample list of ApplicationOverviewDto objects with required properties set
             var applications = new List<ApplicationOverviewDto>
             {
                 new()
@@ -121,7 +186,7 @@ namespace api.Tests.Controllers
                     ApplicationName = "Test App 1",
                     ApplicationIconUrl = "http://example.com/icon1.png",
                     ApplicationRoutePath = "/test-app-1",
-                    ApplicationTags = ["tag1", "tag2"],
+                    ApplicationTags = new List<string> { "tag1", "tag2" },
                     ApplicationDescription = "Description for Test App 1",
                 },
                 new()
@@ -130,33 +195,32 @@ namespace api.Tests.Controllers
                     ApplicationName = "Test App 2",
                     ApplicationIconUrl = "http://example.com/icon2.png",
                     ApplicationRoutePath = "/test-app-2",
-                    ApplicationTags = ["tag3", "tag4"],
+                    ApplicationTags = new List<string> { "tag3", "tag4" },
                     ApplicationDescription = "Description for Test App 2",
                 },
             };
 
-            // Set up the mock to return the sample list
-            _mockAdminService.Setup(s => s.GetApplicationsAsync()).ReturnsAsync(applications);
+            _mockAdminService
+                .Setup(s => s.GetApplicationsWithSubscribersAsync())
+                .ReturnsAsync(applications);
 
             // Act
-            var result = await _controller.GetApplications();
+            var actionResult = await _controller.GetApplicationsWithSubscribers();
 
             // Assert
-            // Verify the result is an OkObjectResult
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             Assert.NotNull(okResult.Value);
 
-            // Check that the returned value is a list of ApplicationOverviewDto
             var returnedApplications = Assert.IsType<IEnumerable<ApplicationOverviewDto>>(
                 okResult.Value,
                 exactMatch: false
             );
-
-            // Optionally, validate that the returned list matches the expected list
             Assert.Equal(applications.Count, returnedApplications.Count());
-            // Further assertions can check properties of each item if needed
         }
 
+        #endregion
+
+        #region AddApplication Tests
         [Fact]
         public async Task AddApplication_ValidDto_ReturnsCreatedResult_WithApplication()
         {
@@ -231,41 +295,147 @@ namespace api.Tests.Controllers
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Unable to create application.", badRequestResult.Value);
         }
+        #endregion
 
-        // [Fact]
-        // public async Task UpdateApplication_ApplicationExists_ReturnsOkResult()
-        // {
-        //     // Arrange
-        //     int applicationId = 1;
-        //     var updateDto = new UpdateApplicationDto
-        //     {
-        //         // Initialize properties as needed for update
-        //     };
+        #region UpdateApplication Tests
+        [Fact]
+        public async Task UpdateApplication_ApplicationExists_ReturnsOkResult()
+        {
+            // Arrange
+            int applicationId = 1;
+            var updateDto = new UpdateApplicationDto
+            {
+                Name = "Updated Name",
+                Description = "Updated Description",
+                IconUrl = "http://example.com/icon_updated.png",
+                RoutePath = "/updated-route",
+                Tags = new List<string> { "updatedTag1", "updatedTag2" },
+            };
 
-        //     var updatedApplication = new Application
-        //     {
-        //         Id = applicationId,
-        //         // Initialize other properties to simulate an updated application
-        //     };
+            var updatedApplication = new Application
+            {
+                Id = applicationId,
+                Name = updateDto.Name ?? "Default Name",
+                Description = updateDto.Description ?? "Default Description",
+                IconUrl = updateDto.IconUrl ?? "http://example.com/default_icon.png",
+                RoutePath = updateDto.RoutePath ?? "/default-route",
+                Tags = updateDto.Tags ?? new List<string>(),
+                Subscriptions = new List<Subscription>(),
+            };
 
-        //     _mockAdminService
-        //         .Setup(s => s.UpdateApplicationAsync(applicationId, updateDto))
-        //         .ReturnsAsync(updatedApplication);
+            _mockAdminService
+                .Setup(s => s.UpdateApplicationAsync(applicationId, updateDto))
+                .ReturnsAsync(updatedApplication);
 
-        //     // Act
-        //     var result = await _controller.UpdateApplication(applicationId, updateDto);
+            // Act
+            var result = await _controller.UpdateApplication(applicationId, updateDto);
 
-        //     // Assert
-        //     var okResult = Assert.IsType<OkObjectResult>(result);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
 
-        //     dynamic response = okResult.Value;
-        //     Assert.Equal("Application updated successfully.", (string)response.Message);
+            // Ensure the Value is not null to satisfy nullability checks.
+            Assert.NotNull(okResult.Value);
 
-        //     // Verify the application in the response matches the updated application
-        //     var returnedApplication = response.Application as Application;
-        //     Assert.NotNull(returnedApplication);
-        //     Assert.Equal(updatedApplication.Id, returnedApplication.Id);
-        //     // Optionally check other properties...
-        // }
+            // Use the null-forgiving operator after asserting non-null.
+            dynamic response = okResult.Value!;
+
+            Assert.Equal("Application updated successfully.", (string)response.Message);
+
+            var returnedApplication = response.Application as Application;
+            Assert.NotNull(returnedApplication);
+            Assert.Equal(updatedApplication.Id, returnedApplication.Id);
+            Assert.Equal(updatedApplication.Name, returnedApplication.Name);
+            Assert.Equal(updatedApplication.Description, returnedApplication.Description);
+            Assert.Equal(updatedApplication.IconUrl, returnedApplication.IconUrl);
+            Assert.Equal(updatedApplication.RoutePath, returnedApplication.RoutePath);
+            Assert.Equal(updatedApplication.Tags, returnedApplication.Tags);
+        }
+        #endregion
+
+        #region RevokeSubscription Tests
+        [Fact]
+        public async Task RevokeSubscription_SubscriptionExists_ReturnsOk()
+        {
+            // Arrange
+            int applicationId = 1;
+            int userId = 2;
+            _mockAdminService
+                .Setup(s => s.RevokeSubscriptionAsync(applicationId, userId))
+                .ReturnsAsync(true);
+
+            // Act
+            var result = await _controller.RevokeSubscription(applicationId, userId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(okResult.Value);
+
+            dynamic response = okResult.Value!;
+            Assert.Equal("Subscription revoked successfully.", (string)response.Message);
+        }
+
+        [Fact]
+        public async Task RevokeSubscription_SubscriptionNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            int applicationId = 1;
+            int userId = 2;
+            _mockAdminService
+                .Setup(s => s.RevokeSubscriptionAsync(applicationId, userId))
+                .ReturnsAsync(false);
+
+            // Act
+            var result = await _controller.RevokeSubscription(applicationId, userId);
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.NotNull(notFoundResult.Value);
+
+            dynamic response = notFoundResult.Value!;
+            Assert.Equal("Subscription not found.", (string)response.Message);
+        }
+        #endregion
+
+        #region DeleteApplication Tests
+        [Fact]
+        public async Task DeleteApplication_ApplicationExists_ReturnsOk()
+        {
+            // Arrange
+            int applicationId = 1;
+            _mockAdminService
+                .Setup(s => s.DeleteApplicationAsync(applicationId))
+                .ReturnsAsync(true);
+
+            // Act
+            var result = await _controller.DeleteApplication(applicationId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(okResult.Value);
+
+            dynamic response = okResult.Value!;
+            Assert.Equal("Application deleted successfully.", (string)response.Message);
+        }
+
+        [Fact]
+        public async Task DeleteApplication_ApplicationNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            int applicationId = 99; // Assume this ID does not exist
+            _mockAdminService
+                .Setup(s => s.DeleteApplicationAsync(applicationId))
+                .ReturnsAsync(false);
+
+            // Act
+            var result = await _controller.DeleteApplication(applicationId);
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.NotNull(notFoundResult.Value);
+
+            dynamic response = notFoundResult.Value!;
+            Assert.Equal("Application not found.", (string)response.Message);
+        }
+        #endregion
     }
 }
