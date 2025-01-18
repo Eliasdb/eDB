@@ -11,7 +11,7 @@ namespace api.Controllers
 
         [HttpGet("settings")]
         [RoleAuthorize("User", "Admin")]
-        public async Task<IActionResult> GetProfileSettings()
+        public async Task<ActionResult<ProfileSettingsResponse>> GetProfileSettings()
         {
             var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);
             if (user == null)

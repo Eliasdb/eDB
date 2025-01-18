@@ -121,7 +121,7 @@ namespace api.Services
             return true; // User deleted successfully
         }
 
-        public async Task<List<ApplicationOverviewDto>> GetApplicationsAsync()
+        public async Task<List<ApplicationOverviewDto>> GetApplicationsWithSubscribersAsync()
         {
             var applications = await _applicationRepository.GetApplicationsAsync();
             return _mapper.Map<List<ApplicationOverviewDto>>(applications);
