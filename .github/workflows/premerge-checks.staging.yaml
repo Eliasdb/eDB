@@ -149,6 +149,8 @@ jobs:
               uses: actions/setup-dotnet@v3
               with:
                   dotnet-version: '8.0' # Adjust to your project's .NET version
+              env:
+                  DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet
 
             - name: Install Dependencies
               run: dotnet restore ./PlatformAPI
