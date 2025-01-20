@@ -192,8 +192,8 @@ jobs:
             - name: Build and Push Backend Docker Image
               uses: docker/build-push-action@v3
               with:
-                  context: ./api
-                  file: ./api/Dockerfile.prod
+                  context: ./PlatformAPI
+                  file: ./PlatformAPI/Dockerfile.prod
                   push: true
                   tags: eliasdb/edb-api:${{ needs.version.outputs.image_tag }}
                   platforms: linux/arm64
