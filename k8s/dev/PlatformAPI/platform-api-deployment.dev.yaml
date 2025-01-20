@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: platform-api-dev
+    labels:
+        app: platform-api-dev
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: platform-api-dev
+    template:
+        metadata:
+            labels:
+                app: platform-api-dev
+        spec:
+            containers:
+                - name: platform-api-dev
+                  image: platform-api-dev
+                  ports:
+                      - containerPort: 9101
+                        protocol: TCP
+                  env:
+                      - name: ASPNETCORE_ENVIRONMENT
+                        value: 'Development'
+                      - name: ConnectionStrings__DefaultConnection
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret
+                                key: CONNECTION_STRING
