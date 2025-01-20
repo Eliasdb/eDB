@@ -9,14 +9,14 @@ build:
     tagPolicy:
         sha256: {} # Avoid Git state affecting rebuilds
     artifacts:
-        - image: edb-app
+        - image: platform-app-dev
           context: eDB/
           docker:
               dockerfile: Dockerfile.dev
           sync:
               infer: []
-        - image: api
-          context: api/
+        - image: platform-api-dev
+          context: PlatformAPI/
           docker:
               dockerfile: Dockerfile.dev
           sync:
@@ -26,5 +26,5 @@ deploy:
         manifests:
             - k8s/dev/adminer/*.yaml
             - k8s/dev/db/*.yaml
-            - k8s/dev/api/*.yaml
+            - k8s/dev/PlatformAPI/*.yaml
             - k8s/dev/eDB/*.yaml
