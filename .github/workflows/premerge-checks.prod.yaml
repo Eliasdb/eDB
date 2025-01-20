@@ -76,7 +76,7 @@ jobs:
                   # Push the tag to origin
                   git push origin ${{ steps.version.outputs.image_tag }}
 
-    lint:
+    lint-frontend:
         name: Lint Frontend Code
         runs-on: [self-hosted]
         needs: [filter, version]
@@ -101,7 +101,29 @@ jobs:
               run: pnpm nx run-many --target=lint --all --verbose || true
               working-directory: ./eDB
 
-    test:
+    lint-backend:
+        name: Lint Backend Code
+        runs-on: [self-hosted]
+        needs: [filter, version]
+        if: ${{ needs.filter.outputs.backend == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0' # Adjust to your .NET version
+
+            - name: Install dotnet format
+              run: dotnet tool install --global dotnet-format
+
+            - name: Lint Backend Code
+              env:
+                  DOTNET_ROOT: ${{ env.DOTNET_ROOT }} # Ensures dotnet tool is in PATH
+              run: dotnet format ./PlatformAPI --verify-no-changes --severity info --verbosity detailed || true
+
+    test-frontend:
         name: Run Frontend Unit and Integration Tests
         runs-on: [self-hosted]
         needs: [filter, version]
@@ -126,10 +148,33 @@ jobs:
               run: pnpm nx run-many --target=test --all --exclude=appointment-app --verbose || true
               working-directory: ./eDB
 
+    test-backend:
+        name: Run Backend Unit and Integration Tests
+        runs-on: [self-hosted]
+        needs: [filter, version]
+        if: ${{ needs.filter.outputs.backend == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0' # Adjust to your project's .NET version
+
+            - name: Install Dependencies
+              run: dotnet restore ./PlatformAPI
+
+            - name: Build Backend Tests
+              run: dotnet build ./PlatformAPITests/PlatformAPITests.csproj --configuration Release
+
+            - name: Run Backend Tests
+              run: dotnet test ./PlatformAPITests/PlatformAPITests.csproj --configuration Release --no-build --logger trx
+
     build-backend:
         name: Build and Push Backend Docker Image
         runs-on: [self-hosted]
-        needs: [filter, version]
+        needs: [filter, lint-backend, test-backend, version]
         if: ${{ needs.filter.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
@@ -147,8 +192,8 @@ jobs:
             - name: Build and Push Backend Docker Image
               uses: docker/build-push-action@v3
               with:
-                  context: ./api
-                  file: ./api/Dockerfile.prod
+                  context: ./PlatformAPI
+                  file: ./PlatformAPI/Dockerfile.prod
                   push: true
                   tags: eliasdb/edb-api:${{ needs.version.outputs.image_tag }}
                   platforms: linux/arm64
@@ -156,7 +201,7 @@ jobs:
     build-frontend:
         name: Build and Push Frontend Docker Image
         runs-on: [self-hosted]
-        needs: [filter, lint, test, version]
+        needs: [filter, lint-frontend, test-frontend, version]
         if: ${{ needs.filter.outputs.frontend == 'true' }}
         steps:
             - name: Checkout Code

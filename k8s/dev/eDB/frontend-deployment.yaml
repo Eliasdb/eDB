@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: edb-app
+    name: platform-app-dev
     namespace: default
     labels:
-        app: edb-app
+        app: platform-app-dev
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: edb-app
+            app: platform-app-dev
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: edb-app
+                app: platform-app-dev
         spec:
             containers:
-                - name: edb-app
-                  image: edb-app # Updated image name
+                - name: platform-app-dev
+                  image: platform-app-dev # Updated image name
                   ports:
                       - containerPort: 4200 # Match with Angular's development port
                         protocol: TCP
