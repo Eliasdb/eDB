@@ -112,18 +112,18 @@ jobs:
                   kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
                   kubectl rollout status deployment/api-prod || kubectl rollout undo deployment/api-prod
 
-            - name: Commit API Deployment YAML
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add k8s/prod/api/api-deployment.prod.yaml
-                  git commit -m "Update API deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
+            # - name: Commit API Deployment YAML
+            #   run: |
+            #       git config user.name "github-actions[bot]"
+            #       git config user.email "github-actions[bot]@users.noreply.github.com"
+            #       git add k8s/prod/api/api-deployment.prod.yaml
+            #       git commit -m "Update API deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
 
-            - name: Push Backend Changes
-              run: |
-                  git push origin main
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            # - name: Push Backend Changes
+            #   run: |
+            #       git push origin main
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     deploy-frontend:
         name: Deploy and Update Frontend
@@ -160,15 +160,15 @@ jobs:
                   kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
                   kubectl rollout status deployment/edb-nx-prod || kubectl rollout undo deployment/edb-nx-prod
 
-            - name: Commit Frontend Deployment YAML
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add k8s/prod/eDB/frontend-deployment.prod.yaml
-                  git commit -m "Update Frontend deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
+            # - name: Commit Frontend Deployment YAML
+            #   run: |
+            #       git config user.name "github-actions[bot]"
+            #       git config user.email "github-actions[bot]@users.noreply.github.com"
+            #       git add k8s/prod/eDB/frontend-deployment.prod.yaml
+            #       git commit -m "Update Frontend deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
 
-            - name: Push Frontend Changes
-              run: |
-                  git push origin main
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            # - name: Push Frontend Changes
+            #   run: |
+            #       git push origin main
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
