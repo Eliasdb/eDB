@@ -44,7 +44,9 @@
             -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
             -   [Step 4: Configure Skaffold](#step-4-configure-skaffold)
             -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
-        -   [3.1.3 Development Workflow](#313-development-workflow)
+        -   [3.1.3 Swagger](#313-swagger)
+        -   [3.1.4 Storybook](#314-storybook)
+        -   [3.1.5 Development Workflow](#314-development-workflow)
     -   [3.2 Staging](#32-staging)
         -   [3.2.1 Deploying to staging](#321-deploying-to-staging)
         -   [3.2.2 Pipeline diagram](#322-pipeline-diagram)
@@ -695,7 +697,21 @@ This command will:
 
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
-#### 3.1.3 Development Workflow
+#### 3.1.3 Swagger
+
+You can find the Swagger API docs at: `http://localhost:9101/swagger/index.html`. You have a nice overview here of all endpoints, models and DTOs. You can even try out the endpoints here.
+
+![Swagger](./diagrams/images/docs/swagger2.png)
+
+![Swagger](./diagrams/images/docs/swagger.png)
+
+#### 3.1.4 Storybook
+
+You can find the Storybook overview by running: `nx storybook ui`. You will get a nice overview of all components at `http://localhost:4400/`.
+
+![Swagger](./diagrams/images/docs/storybook.png)
+
+#### 3.1.5 Development Workflow
 
 When you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
 
@@ -759,6 +775,7 @@ This is my current production cluster. When the pipeline runs to deploy it's act
 | `kubectl delete -f <filename>.yaml`                              | Delete resources defined in a YAML file      |
 | `k3d cluster create <name>`                                      | Create a new K3s cluster                     |
 | `k3d cluster delete <name>`                                      | Delete an existing K3s cluster               |
+| `k3d cluster start <name>`                                       | Start an existing K3s cluster                |
 | `skaffold dev`                                                   | Start Skaffold in development mode           |
 | `skaffold run`                                                   | Deploy the application to the cluster        |
 | `skaffold delete`                                                | Remove all Skaffold-managed resources        |

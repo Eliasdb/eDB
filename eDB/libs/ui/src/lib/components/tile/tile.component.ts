@@ -34,14 +34,14 @@ import { UiTagComponent } from '../tag/tag.component';
   styleUrls: ['tile.component.scss'],
 })
 export class UiTileComponent {
+  readonly id = input<number>(0);
   readonly title = input.required<string>();
   readonly description = input.required<string>();
   readonly tags = input<string[]>([]);
 
-  @Output() subscribe = new EventEmitter<void>();
+  @Output() subscribe = new EventEmitter<number>();
 
   emitSubscribe() {
-    this.subscribe.emit();
-    alert('subscribed');
+    this.subscribe.emit(this.id());
   }
 }

@@ -12,11 +12,13 @@ import { UiTileComponent } from '@eDB/shared-ui';
       @if (!isLoading) {
         @if (catalog) {
           <div class="catalog-tiles">
-            @for (item of catalog; track item.id) {
+            @for (item of catalog; track item.name) {
               <ui-tile
                 [title]="item.name"
                 [description]="item.description"
                 [tags]="item.tags"
+                [id]="item.id"
+                (subscribe)="onSubscribe($event)"
               ></ui-tile>
             }
           </div>
@@ -36,12 +38,26 @@ export class CatalogPage {
   error: string | null = null;
 
   private catalogService = inject(CatalogService);
+  private subscribeMutation =
+    this.catalogService.subscribeToApplicationMutation();
 
   constructor() {
     effect(() => {
       this.catalog = this.catalogService.catalog();
       this.isLoading = this.catalogService.isLoading();
       this.error = this.catalogService.error();
+    });
+  }
+
+  onSubscribe(appId: number) {
+    // Handle the subscription logic here (e.g., call a service to subscribe)
+    this.subscribeMutation.mutate(appId, {
+      onSuccess: () => {
+        console.log('Subscribed to app with ID:', appId);
+      },
+      onError: (error) => {
+        console.error('Failed to subscribe', error);
+      },
     });
   }
 }

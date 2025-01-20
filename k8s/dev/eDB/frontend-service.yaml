@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: edb-service # Updated service name
+    name: edb-nx-service # Updated service name
     namespace: default
     labels:
-        app: edb-app
+        app: platform-app-dev
 spec:
     type: LoadBalancer
     selector:
-        app: edb-app
+        app: platform-app-dev
     ports:
         - protocol: TCP
           port: 4200 # The port accessible externally
