@@ -3,18 +3,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
+  Application,
+  CreateApplicationDto,
+} from '@eDB/platform-models/application-overview.model';
+import { PaginatedResponse } from '@eDB/platform-models/paged-result.model';
+import { UserProfile } from '@eDB/platform-models/user.model';
+import {
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
-import {
-  Application,
-  CreateApplicationDto,
-} from '../../models/application-overview.model';
-import { PaginatedResponse } from '../../models/paged-result.model';
-import { UserProfile } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',

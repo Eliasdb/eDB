@@ -1,6 +1,10 @@
-/* ui-button.component.scss */
-:host:host {
+:host {
   display: inline-block;
+  width: auto; /* Default to intrinsic width */
+}
+
+:host(.full-width) {
+  width: 100%; /* Expand the host element to full width */
 }
 
 button {
