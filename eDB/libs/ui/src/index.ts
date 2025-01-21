@@ -7,6 +7,7 @@ export { UiIconComponent } from './lib/components/icon/icon.component';
 export { UiPasswordInputComponent } from './lib/components/inputs/password-input/password-input.component';
 export { UiTextAreaComponent } from './lib/components/inputs/text-area/text-area.component';
 export { UiTextInputComponent } from './lib/components/inputs/text-input/input.component';
+export { UiLaunchTileComponent } from './lib/components/launch-tile/launch-tile.component';
 export { UiLoadingSpinnerComponent } from './lib/components/loading/loading-spinner.component';
 export { UiModalComponent } from './lib/components/modal/modal.component';
 export { UiContentSwitcherComponent } from './lib/components/navigation/content-switcher/content-switcher.component';
