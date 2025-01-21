@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output, input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Output,
+  input,
+} from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
 import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.component';
@@ -42,6 +48,10 @@ export class UiButtonComponent {
   readonly fullWidth = input<boolean>(false);
 
   @Output() buttonClick = new EventEmitter<Event>();
+  // Dynamically add 'full-width' class to the host element
+  @HostBinding('class.full-width') get isFullWidth() {
+    return this.fullWidth();
+  }
 
   handleClick(event: Event): void {
     if (!this.disabled() && !this.loading()) {

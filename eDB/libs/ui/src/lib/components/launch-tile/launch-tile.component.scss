@@ -1,0 +1,22 @@
+.tile-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.launch-tile {
+  max-width: 24rem;
+  padding: 0;
+  border-top: 5px solid #393939;
+  background-color: #fff;
+}
+
+.launch-btn-container {
+  width: 100%;
+}
+
+.tile-tags {
+  padding: 1rem;
+}
