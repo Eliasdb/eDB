@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { injectMutation } from '@tanstack/angular-query-experimental';
+import {
+  injectMutation,
+  QueryClient,
+} from '@tanstack/angular-query-experimental';
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '../../environments/environment';
@@ -16,6 +19,7 @@ export class CatalogService {
   error = signal<string | null>(null);
 
   http = inject(HttpClient);
+  private queryClient = inject(QueryClient);
 
   constructor() {
     // Fetch catalog data on service initialization
@@ -59,6 +63,7 @@ export class CatalogService {
       onSuccess: () => {
         // Optionally, refetch the catalog or update the state
         this.fetchCatalog();
+        this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
       },
       onError: (error: any) => {
         console.error('Failed to subscribe:', error);
