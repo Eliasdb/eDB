@@ -107,7 +107,6 @@
       "style": "css"
     }
   },
-
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
