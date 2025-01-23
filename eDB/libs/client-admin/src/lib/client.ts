@@ -1,23 +1,23 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import {
-  Application,
-  CreateApplicationDto,
-} from '@eDB/platform-models/application-overview.model';
-import { PaginatedResponse } from '@eDB/platform-models/paged-result.model';
-import { UserProfile } from '@eDB/platform-models/user.model';
+import { environment } from '@eDB/shared-env';
 import {
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
-import { environment } from '../../../../apps/eDB/src/app/environments/environment';
+import {
+  Application,
+  CreateApplicationDto,
+} from './types/application-overview.model';
+import { PaginatedResponse } from './types/paged-result.model';
+import { UserProfile } from './types/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClientAdmin {
+export class AdminService {
   private http = inject(HttpClient);
   private queryClient = inject(QueryClient);
 

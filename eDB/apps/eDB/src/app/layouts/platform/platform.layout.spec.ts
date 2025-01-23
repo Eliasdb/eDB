@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 import { Router } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { AuthService } from '@eDB/platform-services';
+import { AuthService } from '@eDB/client-auth';
 import { NotificationService } from 'carbon-components-angular';
 
 import { UiPlatformHeaderComponent } from '@eDB/shared-ui';

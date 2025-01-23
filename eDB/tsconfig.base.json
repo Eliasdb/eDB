@@ -15,8 +15,21 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@e-db/client-admin": ["client-admin/src/index.ts"],
+      "@eDB/shared-env": ["libs/config/shared-env/src/index.ts"],
       "@eDB/appointment-app": ["apps/appointment-app/src/index"],
+      "@eDB/client-admin": ["libs/client-admin/src/index.ts"],
+      "@eDB/client-auth": ["libs/client-auth/src/index.ts"],
+      "@eDB/client-catalog": ["libs/client-catalog/src/index.ts"],
+      "@eDB/client-dashboard": ["libs/client-dashboard/src/index.ts"],
+      "@eDB/client-profile": ["libs/client-profile/src/index.ts"],
+      "@eDB/client-user-params": ["libs/client-user-params/src/index.ts"],
+      "@eDB/feature-404": ["libs/feature-404/src/index.ts"],
+      "@eDB/feature-admin": ["libs/feature-admin/src/index.ts"],
+      "@eDB/feature-catalog": ["libs/feature-catalog/src/index.ts"],
+      "@eDB/feature-dashboard": ["libs/feature-dashboard/src/index.ts"],
+      "@eDB/feature-login": ["libs/feature-login/src/index.ts"],
+      "@eDB/feature-profile": ["libs/feature-profile/src/index.ts"],
+      "@eDB/feature-register": ["libs/feature-register/src/index.ts"],
       "@eDB/platform-components/platform": [
         "apps/eDB/src/app/components/platform/index"
       ],

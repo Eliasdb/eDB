@@ -3,7 +3,7 @@ import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { AuthService } from '@eDB/platform-services';
+import { AuthService } from '@eDB/client-auth';
 
 import { Observable } from 'rxjs';
 
