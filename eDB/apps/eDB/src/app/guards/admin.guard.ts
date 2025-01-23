@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { AuthService } from '@eDB/platform-services';
+import { AuthService } from '@eDB/client-auth';
 import { firstValueFrom } from 'rxjs'; // Import firstValueFrom
 
 @Injectable({

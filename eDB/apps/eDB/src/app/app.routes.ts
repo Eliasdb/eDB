@@ -7,10 +7,6 @@ import { LoginGuard } from './guards/login.guard';
 import { PlatformLayout } from './layouts/platform/platform.layout';
 import { PortalLayout } from './layouts/portal/portal.layout';
 
-import { NotFoundPage } from './pages/404/not-found.page';
-import { LoginPage } from './pages/portal/login/login.page';
-import { RegisterPage } from './pages/portal/register/register.page';
-
 export const routes: Route[] = [
   {
     path: '',
@@ -19,45 +15,48 @@ export const routes: Route[] = [
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./pages/platform/home/home.page').then((m) => m.HomePage),
-      },
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./pages/platform/profile/profile.page').then(
-            (m) => m.ProfilePage,
+        loadChildren: () =>
+          import('@eDB/feature-dashboard').then(
+            (m) => m.featureDashboardRoutes,
           ),
       },
+
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('@eDB/feature-profile').then((m) => m.featureProfileRoutes),
+      },
+
       {
         path: 'admin',
         canActivate: [AdminGuard],
         loadChildren: () =>
-          import('./pages/platform/admin/admin.routes').then(
-            (m) => m.ADMIN_ROUTES,
-          ), // Lazy load the admin routes
+          import('@eDB/feature-admin').then((m) => m.featureAdminRoutes),
       },
+
       {
         path: 'catalog',
-        loadComponent: () =>
-          import('./pages/platform/catalog/catalog.page').then(
-            (m) => m.CatalogPage,
-          ),
+        loadChildren: () =>
+          import('@eDB/feature-catalog').then((m) => m.featureCatalogRoutes),
       },
     ],
   },
+
   {
     path: 'auth',
     component: PortalLayout,
     children: [
       {
         path: 'login',
-        component: LoginPage,
+        loadChildren: () =>
+          import('@eDB/feature-login').then((m) => m.featureLoginRoutes),
         canActivate: [LoginGuard],
       },
+
       {
         path: 'register',
-        component: RegisterPage,
+        loadChildren: () =>
+          import('@eDB/feature-register').then((m) => m.featureRegisterRoutes),
         canActivate: [LoginGuard],
       },
     ],
@@ -70,8 +69,10 @@ export const routes: Route[] = [
 
   {
     path: 'not-found',
-    component: NotFoundPage, // Add the not-found route
+    loadChildren: () =>
+      import('@eDB/feature-404').then((m) => m.feature404Routes),
   },
+
   {
     path: '**',
     redirectTo: 'not-found',
