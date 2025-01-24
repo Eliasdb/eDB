@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@eDB/shared-env": ["libs/config/shared-env/src/index.ts"],
+      "@eDB/feature-admin-dashboard": [
+        "libs/feature-admin-dashboard/src/index.ts"
+      ],
       "@eDB/appointment-app": ["apps/appointment-app/src/index"],
       "@eDB/client-admin": ["libs/client-admin/src/index.ts"],
       "@eDB/client-auth": ["libs/client-auth/src/index.ts"],
@@ -38,6 +40,7 @@
       ],
       "@eDB/platform-models/*": ["apps/eDB/src/app/models/*"],
       "@eDB/platform-services": ["apps/eDB/src/app/services/index"],
+      "@eDB/shared-env": ["libs/config/shared-env/src/index.ts"],
       "@eDB/shared-ui": ["libs/ui/src/index"],
       "@eDB/shared-utils": ["libs/utils/src/index"]
     }

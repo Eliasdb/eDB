@@ -1,1 +1,1 @@
-export * from './lib/client';
+export { AdminService } from './lib/client';

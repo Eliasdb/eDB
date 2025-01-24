@@ -21,6 +21,12 @@ build:
               dockerfile: Dockerfile.dev
           sync:
               infer: []
+        - image: admin-app-dev
+          context: eDB/ # Path to your admin app directory
+          docker:
+              dockerfile: Dockerfile.dev # Specify the Dockerfile for the admin app
+          sync:
+              infer: []
 deploy:
     kubectl:
         manifests:
@@ -28,3 +34,4 @@ deploy:
             - k8s/dev/db/*.yaml
             - k8s/dev/PlatformAPI/*.yaml
             - k8s/dev/eDB/*.yaml
+            - k8s/dev/eDB-admin/*.yaml # Path to your admin app Kubernetes manifests

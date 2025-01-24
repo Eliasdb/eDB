@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { firstValueFrom, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { environment } from '@eDB/shared-env';
 import { injectMutation } from '@tanstack/angular-query-experimental';
@@ -17,6 +17,13 @@ import { User } from './types/user.model';
 })
 export class AuthService {
   private readonly tokenKey = 'token';
+  isAuthenticatedSubject: BehaviorSubject<boolean>;
+
+  constructor() {
+    // Initialize the BehaviorSubject with the current authentication state
+    const token = this.getToken();
+    this.isAuthenticatedSubject = new BehaviorSubject<boolean>(token !== null);
+  }
 
   http = inject(HttpClient);
 
@@ -58,6 +65,7 @@ export class AuthService {
    */
   handleLogin(token: string): void {
     localStorage.setItem(this.tokenKey, token);
+    this.isAuthenticatedSubject.next(true);
   }
 
   /**
@@ -109,9 +117,8 @@ export class AuthService {
     return this.getUserRole().pipe(map((role) => role === 'Admin'));
   }
 
-  isAuthenticated(): boolean {
-    const token = this.getToken();
-    return token != null;
+  isAuthenticated(): Observable<boolean> {
+    return this.isAuthenticatedSubject.asObservable();
   }
 
   /**
@@ -119,5 +126,6 @@ export class AuthService {
    */
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    this.isAuthenticatedSubject.next(false);
   }
 }

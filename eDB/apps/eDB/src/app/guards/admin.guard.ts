@@ -13,7 +13,9 @@ export class AdminGuard implements CanActivate {
   ) {}
 
   async canActivate(): Promise<boolean | UrlTree> {
-    const isAuthenticated = this.authService.isAuthenticated();
+    const isAuthenticated = await firstValueFrom(
+      this.authService.isAuthenticated(),
+    );
     const isAdmin = await firstValueFrom(this.authService.isAdmin()); // Convert Observable to boolean
 
     if (isAuthenticated && isAdmin) {

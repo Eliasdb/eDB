@@ -12,29 +12,33 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
         <cds-hamburger (click)="hamburgerToggle.emit($event)"></cds-hamburger>
       }
 
-      <!-- Header Navigation -->
-      <cds-header-navigation>
-        @for (link of navigationLinks(); track link.id) {
-          <cds-header-item
-            (click)="linkClick.emit(link.id)"
-            [isCurrentPage]="link.isCurrentPage"
-          >
-            {{ link.label }}
-          </cds-header-item>
-        }
-      </cds-header-navigation>
+      @if (navigationLinks().length > 0) {
+        <!-- Header Navigation -->
+        <cds-header-navigation>
+          @for (link of navigationLinks(); track link.id) {
+            <cds-header-item
+              (click)="linkClick.emit(link.id)"
+              [isCurrentPage]="link.isCurrentPage"
+            >
+              {{ link.label }}
+            </cds-header-item>
+          }
+        </cds-header-navigation>
+      }
 
+      @if (menuOptions().length > 0) {
+        <cds-header-global>
+          <ui-platform-overflow-menu
+            placement="bottom"
+            icon="faUser"
+            [menuOptions]="menuOptions()"
+            [flip]="true"
+            [offset]="{ x: 0, y: 10 }"
+            (menuOptionSelected)="menuOptionSelected.emit($event)"
+          ></ui-platform-overflow-menu>
+        </cds-header-global>
+      }
       <!-- Global Actions -->
-      <cds-header-global>
-        <ui-platform-overflow-menu
-          placement="bottom"
-          icon="faUser"
-          [menuOptions]="menuOptions()"
-          [flip]="true"
-          [offset]="{ x: 0, y: 10 }"
-          (menuOptionSelected)="menuOptionSelected.emit($event)"
-        ></ui-platform-overflow-menu>
-      </cds-header-global>
     </cds-header>
 
     <!-- Brand Template -->

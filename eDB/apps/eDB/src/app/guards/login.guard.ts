@@ -9,6 +9,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '@eDB/client-auth';
 import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -23,15 +24,21 @@ export class LoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ):
-    | boolean
-    | UrlTree
     | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
-    if (this.authService.isAuthenticated()) {
-      // Redirect to dashboard or home if already logged in
-      return this.router.createUrlTree(['/dashboard']);
-    } else {
-      return true;
-    }
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.authService.isAuthenticated().pipe(
+      take(1), // Take the first emitted value and complete the observable
+      map((isAuth) => {
+        if (isAuth) {
+          // If authenticated, redirect to the dashboard
+          return this.router.createUrlTree(['/dashboard']);
+        } else {
+          // If not authenticated, allow access to the route
+          return true;
+        }
+      }),
+    );
   }
 }
