@@ -1,7 +1,7 @@
 import { TableHeaderItem, TableItem } from 'carbon-components-angular';
 
 export interface User {
-  id?: number;
+  id: number;
   email: string;
   password?: string; // Only required during registration
   firstName: string;

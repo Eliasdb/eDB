@@ -8,7 +8,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { AuthService } from '@eDB/client-auth';
-import { Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,16 +23,22 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ):
-    | boolean
-    | UrlTree
     | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    } else {
-      return this.router.createUrlTree(['/auth/login'], {
-        queryParams: { returnUrl: state.url },
-      });
-    }
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.authService.isAuthenticated().pipe(
+      take(1), // Take the first emitted value and complete
+      map((isAuth) => {
+        if (isAuth) {
+          return true;
+        } else {
+          // Redirect to the login page with the return URL
+          return this.router.createUrlTree(['/auth/login'], {
+            queryParams: { returnUrl: state.url },
+          });
+        }
+      }),
+    );
   }
 }

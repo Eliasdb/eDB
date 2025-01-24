@@ -1,0 +1,17 @@
+.notification-overlay {
+  position: absolute;
+  right: 0;
+  z-index: 8001;
+}
+
+.platform-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+
+  .platform-content {
+    flex: 1;
+    overflow: auto;
+  }
+}

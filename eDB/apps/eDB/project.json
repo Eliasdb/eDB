@@ -7,12 +7,11 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular-builders/custom-webpack:browser",
       "options": {
         "outputPath": "dist/apps/eDB",
+        "main": "apps/eDB/src/main.ts",
         "index": "apps/eDB/src/index.html",
-        "browser": "apps/eDB/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/eDB/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -23,10 +22,15 @@
           }
         ],
         "scripts": [],
-        "styles": ["apps/eDB/src/app/styles/styles.scss"],
+        "styles": ["apps/eDB/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["./node_modules"]
-        }
+          "includePaths": ["./node_modules", "libs/ui/src/lib/styles"]
+        },
+
+        "customWebpackConfig": {
+          "path": "apps/eDB/webpack.config.js"
+        },
+        "namedChunks": false
       },
       "configurations": {
         "production": {
@@ -76,7 +80,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular-builders/custom-webpack:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "eDB:build:production"
