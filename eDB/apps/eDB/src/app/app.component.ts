@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
   authService = inject(AuthService);
 
   // Observable to track admin status
-  isAdmin$ = this.authService.isAdmin();
   isAuthenticated$ = this.authService.isAuthenticated();
 
   // Define navigation links
@@ -67,40 +66,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateCurrentPage();
-    this.isAdmin$.subscribe((isAdmin) => {
-      if (isAdmin) {
-        this.addAdminLinks();
-      } else {
-        this.removeAdminLinks();
-      }
-      this.updateCurrentPage();
-    });
-  }
-
-  // Add admin links if the user is an admin
-  private addAdminLinks(): void {
-    if (!this.navigationLinks.find((link) => link.id === 'admin')) {
-      this.navigationLinks.push({
-        id: 'admin',
-        label: 'Admin',
-        isCurrentPage: false,
-      });
-    }
-
-    if (!this.menuOptions.find((option) => option.id === 'admin')) {
-      this.menuOptions.push({ id: 'admin', label: 'Admin' });
-    }
-  }
-
-  // Remove admin links if the user is not an admin
-  private removeAdminLinks(): void {
-    this.navigationLinks = this.navigationLinks.filter(
-      (link) => link.id !== 'admin',
-    );
-
-    this.menuOptions = this.menuOptions.filter(
-      (option) => option.id !== 'admin',
-    );
   }
 
   // Update current page status
