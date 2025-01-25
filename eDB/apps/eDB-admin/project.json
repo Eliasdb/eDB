@@ -31,7 +31,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "4mb"
             },
             {
               "type": "anyComponentStyle",
@@ -74,7 +74,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "eDB-admin:build",
-        "port": 4200,
+        "port": 4300,
         "staticFilePath": "dist/apps/eDB-admin/browser",
         "spa": true
       }

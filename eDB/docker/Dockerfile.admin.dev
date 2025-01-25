@@ -16,8 +16,8 @@ RUN pnpm install --frozen-lockfile
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port your app runs on
-EXPOSE 4200
- 
-# Start the Nx server in development mode
-CMD ["pnpm", "start"]
+# Expose the port your admin app runs on
+EXPOSE 4300
+
+# Start the Nx server for the admin app
+CMD ["pnpm", "start:admin"]

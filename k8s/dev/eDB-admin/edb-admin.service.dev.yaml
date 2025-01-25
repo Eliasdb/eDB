@@ -8,5 +8,5 @@ spec:
         app: admin-app-dev
     ports:
         - protocol: TCP
-          port: 80
-          targetPort: 4200 # Match your admin app container port
+          port: 4300
+          targetPort: 4300 # Match your admin app container port
