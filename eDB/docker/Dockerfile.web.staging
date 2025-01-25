@@ -1,0 +1,47 @@
+# Stage 1: Build
+FROM node:20.11.1-bullseye-slim AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install necessary packages: curl and bash
+RUN apt-get update && \
+    apt-get install -y curl bash && \
+    rm -rf /var/lib/apt/lists/*
+
+# Use bash as the shell for subsequent RUN commands
+SHELL ["/bin/bash", "-c"]
+
+# Install pnpm globally using npm
+RUN npm install -g pnpm
+
+# Copy package.json and pnpm-lock.yaml first for better caching
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies (including dev dependencies)
+RUN pnpm install --frozen-lockfile
+
+# Copy the rest of the application code
+COPY . .
+
+ENV NX_CLOUD=false
+
+RUN echo "NX_CLOUD=$NX_CLOUD"
+
+# Build the production-ready app
+RUN pnpm run build:staging
+
+# Stage 2: Serve with a lightweight web server
+FROM nginx:alpine
+
+# Copy built files from the previous stage
+COPY --from=builder /app/dist/apps/eDB /etc/nginx/html
+
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose the HTTP port
+EXPOSE 80
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]

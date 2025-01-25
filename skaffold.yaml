@@ -7,12 +7,18 @@ build:
         push: false
         useBuildkit: true
     tagPolicy:
-        sha256: {} # Avoid Git state affecting rebuilds
+        sha256: {}
     artifacts:
         - image: platform-app-dev
-          context: eDB/
+          context: eDB
           docker:
-              dockerfile: Dockerfile.dev
+              dockerfile: docker/Dockerfile.web.dev
+          sync:
+              infer: []
+        - image: admin-app-dev
+          context: eDB
+          docker:
+              dockerfile: docker/Dockerfile.admin.dev
           sync:
               infer: []
         - image: platform-api-dev
@@ -21,6 +27,7 @@ build:
               dockerfile: Dockerfile.dev
           sync:
               infer: []
+
 deploy:
     kubectl:
         manifests:
@@ -28,3 +35,4 @@ deploy:
             - k8s/dev/db/*.yaml
             - k8s/dev/PlatformAPI/*.yaml
             - k8s/dev/eDB/*.yaml
+            - k8s/dev/eDB-admin/*.yaml

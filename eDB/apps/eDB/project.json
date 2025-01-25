@@ -7,12 +7,11 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular-builders/custom-webpack:browser",
       "options": {
         "outputPath": "dist/apps/eDB",
+        "main": "apps/eDB/src/main.ts",
         "index": "apps/eDB/src/index.html",
-        "browser": "apps/eDB/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/eDB/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -23,10 +22,15 @@
           }
         ],
         "scripts": [],
-        "styles": ["apps/eDB/src/app/styles/styles.scss"],
+        "styles": ["apps/eDB/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["./node_modules"]
-        }
+          "includePaths": ["./node_modules", "libs/ui/src/lib/styles"]
+        },
+
+        "customWebpackConfig": {
+          "path": "apps/eDB/webpack.config.js"
+        },
+        "namedChunks": false
       },
       "configurations": {
         "production": {
@@ -45,8 +49,9 @@
           "outputHashing": "all",
           "fileReplacements": [
             {
-              "replace": "apps/eDB/src/app/environments/environment.ts",
-              "with": "apps/eDB/src/app/environments/environment.prod.ts"
+              "replace": "libs/config/shared-env/src/lib/environments/environment.ts",
+
+              "with": "libs/config/shared-env/src/lib/environments/environment.prod.ts"
             }
           ]
         },
@@ -55,8 +60,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "apps/eDB/src/app/environments/environment.ts",
-              "with": "apps/eDB/src/app/environments/environment.staging.ts"
+              "replace": "libs/config/shared-env/src/lib/environments/environment.ts",
+              "with": "libs/config/shared-env/src/lib/environments/environment.staging.ts"
             }
           ]
         },
@@ -66,8 +71,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "apps/eDB/src/app/environments/environment.ts",
-              "with": "apps/eDB/src/app/environments/environment.ts"
+              "replace": "libs/config/shared-env/src/lib/environments/environment.ts",
+              "with": "libs/config/shared-env/src/lib/environments/environment.ts"
             }
           ]
         }
@@ -75,7 +80,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular-builders/custom-webpack:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "eDB:build:production"
