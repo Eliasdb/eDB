@@ -1,35 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: admin-app-dev
+    name: admin-app-staging
     namespace: default
     labels:
-        app: admin-app-dev
+        app: admin-app
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: admin-app-dev
+            app: admin-app
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: admin-app-dev
+                app: admin-app
         spec:
             containers:
-                - name: admin-app-dev
-                  image: admin-app-dev # Updated image name for the admin app
+                - name: admin-app
+                  image: eliasdb/admin-app:${IMAGE_TAG}
+                  imagePullPolicy: Always
                   ports:
-                      - containerPort: 4300 # Match with Angular's development port
+                      - containerPort: 80
                         protocol: TCP
                   env:
                       - name: NODE_ENV
-                        value: development
+                        value: staging
                   readinessProbe:
                       httpGet:
                           path: /
-                          port: 4300
+                          port: 80
                       initialDelaySeconds: 5
                       periodSeconds: 10
                       timeoutSeconds: 5
@@ -37,7 +38,7 @@ spec:
                   livenessProbe:
                       httpGet:
                           path: /
-                          port: 4300
+                          port: 80
                       initialDelaySeconds: 15
                       periodSeconds: 20
                       timeoutSeconds: 5

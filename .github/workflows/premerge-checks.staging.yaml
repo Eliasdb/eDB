@@ -207,7 +207,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   context: ./eDB
-                  file: ./eDB/Dockerfile.staging
+                  file: ./eDB/docker/Dockerfile.web.staging
                   push: true
                   tags: eliasdb/edb-nx:${{ needs.version.outputs.image_tag }}
                   platforms: linux/arm64
