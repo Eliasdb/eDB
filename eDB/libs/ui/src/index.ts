@@ -2,7 +2,6 @@ export { UiButtonComponent } from './lib/components/buttons/button/button.compon
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiPortalFooterComponent } from './lib/components/footers/portal-footer/portal-footer.component';
 export { UiPlatformHeaderComponent } from './lib/components/headers/platform-header/platform-header.component';
-export { UiPortalHeaderComponent } from './lib/components/headers/portal-header/portal-header.component';
 export { UiIconComponent } from './lib/components/icon/icon.component';
 export { UiPasswordInputComponent } from './lib/components/inputs/password-input/password-input.component';
 export { UiTextAreaComponent } from './lib/components/inputs/text-area/text-area.component';

@@ -4,11 +4,11 @@ metadata:
     name: edb-nx-service # Updated service name
     namespace: default
     labels:
-        app: platform-app-dev
+        app: web-app-dev
 spec:
     type: LoadBalancer
     selector:
-        app: platform-app-dev
+        app: web-app-dev
     ports:
         - protocol: TCP
           port: 4200 # The port accessible externally
