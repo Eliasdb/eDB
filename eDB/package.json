@@ -8,7 +8,7 @@
     "start:dev": "concurrently \"pnpm start:web\" \"pnpm start:admin\"",
     "build:production": "nx build eDB --prod --skip-nx-cache",
     "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
-    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache",
+    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/",
     "test:utils": "nx test utils --verbose"
   },
   "private": true,
