@@ -6,6 +6,10 @@ import { LoginGuard } from './guards/login.guard';
 export const routes: Route[] = [
   {
     path: '',
+    loadChildren: () =>
+      import('@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */).then(
+        (m) => m.featureDashboardRoutes,
+      ),
     canActivate: [AuthGuard],
     children: [
       {

@@ -19,3 +19,4 @@ export { UiTagComponent } from './lib/components/tag/tag.component';
 export { UiSkeletonTextComponent } from './lib/components/text/skeleton-text/skeleton-text.component';
 export { UiTitleComponent } from './lib/components/text/title/title.component';
 export { UiTileComponent } from './lib/components/tile/tile.component';
+export { CustomModalService } from './lib/services/custom-modal.service';

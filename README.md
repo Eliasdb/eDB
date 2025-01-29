@@ -5,10 +5,9 @@
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Tools and Features](#211-tools-and-features)
-        -   [2.1.2 Portal and Platform Pages](#212-portal-and-platform-pages)
-        -   [2.1.3 Shared Libraries](#213-shared-libraries)
-        -   [2.1.4 Architecture Diagrams](#214-architecture-diagrams)
+        -   [2.1.1 Platform Pages](#211-platform-pages)
+        -   [2.1.2 Stack & Architecture](#212-stack-&-architecture)
+        -   [2.1.3 Architecture Diagrams](#213-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Tools and Features](#221-tools-and-features)
         -   [2.2.2 Controllers and Endpoints](#222-controllers-and-endpoints)
@@ -70,16 +69,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-### 2.1.1 Tools and Features
-
--   Framework: **Angular 19**
--   Monorepo workspace: **Nx**
--   Documenting components: **Storybook 8**
--   API Integration: **TanStack Query** to efficiently fetch and manage data from the backend REST API.
--   Role-Based Access Control (RBAC): User, Premium User, Admin with **JWT**
--   Application Modularity: **Lazy-loading** sub-applications and routes within the platform for improved performance and scalability.
-
-### 2.1.2 Portal And Platform Pages
+### 2.1.1 Platform Pages
 
 #### User Account:
 
@@ -99,23 +89,66 @@ I am building a platform housing multiple applications where users can make an a
 
 -   Dashboard to manage and launch subscribed applications.
 
-### 2.1.3 Shared Libraries
+### 2.1.2 Stack & Architecture
 
-**UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
+-   **Framework**: **Angular 19**
+-   **Monorepo workspace**: **Nx 20**
+-   **Component Documentation**: **Storybook 8**
+-   **Unit Testing**: **Vitest** for fast and reliable unit testing.
+-   **Linting**: **ESLint** to enforce consistent code quality and best practices.
+-   **Code Formatting**: **Prettier** for automatic code formatting and style consistency.
+-   **API Integration**: **TanStack Query** for efficient data fetching and state management with the backend REST API.
+-   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**.
+-   **Application Modularity**: **A structured layered approach** that ensures scalability, maintainability, and clear separation of concerns.
 
--   Current amount of components: 21
+#### Layered Modular Architecture
 
-**Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
 
--   Current shared utils:
-    -   Form utils service
-    -   Modal utils service
-    -   Table utils service
-    -   Auth Interceptor
+##### 1. Application Layer (Apps) 🏛
 
-### 2.1.4 Architecture Diagrams
+-   Contains **root-level orchestration** (e.g., routing).
+-   Does **not** contain feature logic but instead delegates to feature modules.
+-   Directly interacts only with the **Feature Layer**.
 
-![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v4.png)
+##### 2. Feature Layer (Feature Libs) 📦
+
+-   Implements **business logic** for different pages (e.g., Dashboard, Profile, Appointments).
+-   Depends on **UI components** for presentation and **Data-Access** for API communication.
+-   Features are **structured as pages**, ensuring modularity within the platform.
+
+##### 3. UI/Presentation Layer (UI Libs) 🎨
+
+-   Houses **reusable UI components** shared across pages.
+-   Focuses purely on **presentation**, without business or data-fetching logic.
+-   Built with **Storybook 8** for documentation and design consistency.
+-   Built using **Carbon Design System**.
+
+##### 4. Data-Access Layer (Client Libs) 🔄
+
+-   Handles **API communication, caching, and state management** using **TanStack Query**.
+-   Provides an abstraction over direct API calls, making feature modules independent of API changes.
+-   Ensures a **clean separation** between UI and backend interactions.
+
+##### 5. Utility & Shared Layer (Utils, Shared-Env, etc.) 🔧
+
+-   Contains **cross-cutting utilities**, such as environment configurations, constants, and helper functions.
+-   Keeps global concerns separate from features, ensuring **clean code structure**.
+
+##### Why This Structure? 🚀
+
+This **modular and scalable structure** ensures:
+
+-   **Decoupling of concerns**, improving maintainability and testability.
+-   **Optimized builds**, as changes in one layer do not trigger unnecessary rebuilds.
+-   **Easier feature expansion**, allowing new pages to be added without affecting existing ones.
+
+By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time.
+
+### 2.1.3 Architecture Diagrams
+
+This is a visual representation of the entire workspace architecture. You will see v1 is an example of a standard application flow, how it was set ip before. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
+![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
 
 ### 2.2 Backend
 

@@ -1,4 +1,5 @@
 import {
+  CustomModalService,
   UiLoadingSpinnerComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
@@ -18,8 +19,8 @@ import { Router } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { AdminService } from '@eDB/client-admin';
-import { UsersParamsService } from '@eDB/client-user-params';
-import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
+import { TableUtilsService } from '@eDB/shared-utils';
+import { UsersParamsService } from '@eDB/utils-user-params';
 
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { TableModel } from 'carbon-components-angular';
@@ -114,7 +115,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   private searchChange$ = new Subject<string>();
 
   private adminService = inject(AdminService);
-  private modalUtils = inject(ModalUtilsService);
+  private modalUtils = inject(CustomModalService);
   private usersParamsService = inject(UsersParamsService);
   private tableUtilsService = inject(TableUtilsService);
   private router = inject(Router);

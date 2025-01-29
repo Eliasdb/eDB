@@ -1,4 +1,5 @@
 import {
+  CustomModalService,
   UiButtonComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
@@ -15,8 +16,7 @@ import {
 import { Router } from '@angular/router';
 
 import { AdminService } from '@eDB/client-admin';
-import { ModalUtilsService, TableUtilsService } from '@eDB/shared-utils';
-
+import { TableUtilsService } from '@eDB/shared-utils';
 import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
@@ -77,7 +77,7 @@ export class ApplicationsCollectionContainer {
 
   adminService = inject(AdminService);
   tableUtils = inject(TableUtilsService);
-  modalUtils = inject(ModalUtilsService);
+  modalUtils = inject(CustomModalService);
   router = inject(Router);
 
   private applicationsQuery = this.adminService.queryApplications();
