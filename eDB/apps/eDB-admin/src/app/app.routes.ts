@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AdminHomeComponent } from '../test/test.component';
+import { AdminHomeComponent } from '../app/test/test.component';
 
 export const routes: Route[] = [
   {
