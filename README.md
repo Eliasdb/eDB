@@ -6,10 +6,10 @@
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
         -   [2.1.1 Platform Pages](#211-platform-pages)
-        -   [2.1.2 Stack & Architecture](#212-stack-&-architecture)
+        -   [2.1.2 Stack & Architecture](#212-stack--architecture)
         -   [2.1.3 Architecture Diagrams](#213-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
-        -   [2.2.1 Tools and Features](#221-tools-and-features)
+        -   [2.2.1 Stack & Architecture](#221-stack--architecture)
         -   [2.2.2 Controllers and Endpoints](#222-controllers-and-endpoints)
             -   [2.2.2.1 Admin Controller](#2221-admin-controller)
             -   [2.2.2.2 Applications Controller](#2222-applications-controller)
@@ -71,23 +71,36 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1.1 Platform Pages
 
-#### User Account:
+#### Web App:
 
--   Login and registration page.
--   Profile page for updates, account deletion, and preference management.
+-   **User Account**:
 
-#### Admin Panel:
+    -   [Login page](https://app.eliasdebock.com/login)
+    -   [Registration page](https://app.eliasdebock.com/register)
+    -   [Profile page](https://app.eliasdebock.com/profile) for updates, account deletion, and preference management
 
--   Admin page to manage users and potentially revoke their subscriptions.
--   Separate view more page for every user.
+-   [**Catalog**](https://app.eliasdebock.com/catalog):
 
-#### Catalog:
+    -   Browse available applications
 
--   Catalog page to browse applications.
+-   [**My eDB**](https://app.eliasdebock.com/dashboard):
 
-#### My eDB:
+    -   Dashboard to manage and launch subscribed applications
 
--   Dashboard to manage and launch subscribed applications.
+-   [**404**](https://app.eliasdebock.com/not-found):
+
+    -   For routes that are not found
+
+#### Admin App:
+
+-   [**User Management**](https://app.eliasdebock.com/admin):
+
+    -   [Admin dashboard](https://app.eliasdebock.com/admin/dashboard) to manage users and their subscriptions.
+    -   Dedicated view page for each user.
+
+-   [**Subscription Control**](https://app.eliasdebock.com/admin/dashboard):
+
+    -   Ability to revoke or modify user subscriptions.
 
 ### 2.1.2 Stack & Architecture
 
@@ -143,20 +156,22 @@ This **modular and scalable structure** ensures:
 -   **Optimized builds**, as changes in one layer do not trigger unnecessary rebuilds.
 -   **Easier feature expansion**, allowing new pages to be added without affecting existing ones.
 
-By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time.
+By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time. That is the goal at least...
 
 ### 2.1.3 Architecture Diagrams
 
-This is a visual representation of the entire workspace architecture. You will see v1 is an example of a standard application flow, how it was set ip before. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
+This is a visual representation of the entire workspace dependency graph. You will see v1 is an example of a standard application flow, how it was set up before. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
 ![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
 
 ### 2.2 Backend
 
-### 2.2.1 Tools and Features
+### 2.2.1 Stack & Architecture
 
--   Frameworks: **.NET 8** with **Entity Framework**
--   Architecture: **REST API**
--   Role-Based Access Control (RBAC): User, Premium User, Admin with **JWT**
+-   **Frameworks**: **.NET 8**
+-   **ORM**: **Entity Framework**
+-   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
+-   **Testing**: **xUnit** and **Moq** for unit and integration testing
+-   **Architecture**: **REST API**
 
 ### 2.2.2 Controllers and Endpoints
 
@@ -226,7 +241,7 @@ This is a visual representation of the entire workspace architecture. You will s
 
 ### **Get Applications Overview**
 
--   **URL**: `GET /api/admin/applications-overview`
+-   **URL**: `GET /api/admin/applications`
 -   **Authorization**: Admin
 -   **Description**: Fetch an overview of all applications, including subscription data.
 -   **Response**:
@@ -250,7 +265,7 @@ This is a visual representation of the entire workspace architecture. You will s
 
 ### **Add Application**
 
--   **URL**: `POST /api/admin/applications/create`
+-   **URL**: `POST /api/admin/applications`
 -   **Authorization**: Admin
 -   **Description**: Add a new application.
 -   **Request Body**:
