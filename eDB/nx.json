@@ -52,6 +52,20 @@
     },
     "build-storybook": {
       "cache": true
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "build": {
+      "dependsOn": ["^build", "codegen", "^codegen"]
+    },
+    "codegen": {
+      "cache": true
+    },
+    "swagger": {
+      "cache": true
     }
   },
   "plugins": [
@@ -90,7 +104,8 @@
         "testStorybookTargetName": "test-storybook",
         "staticStorybookTargetName": "static-storybook"
       }
-    }
+    },
+    "@nx-dotnet/core"
   ],
   "generators": {
     "@nx/angular:application": {
@@ -111,7 +126,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test"],
+        "cacheableOperations": ["build", "lint", "test", "codegen", "swagger"],
         "parallel": 3,
         "captureLogs": true
       }

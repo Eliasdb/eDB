@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@eDB/utils-user-params": ["libs/utils-user-params/src/index.ts"],
-      "@eDB/appointment-app": ["apps/appointment-app/src/index"],
+      "@e-db/generated-platform-api-types": [
+        "libs/generated/platform-api-types/src/index.ts"
+      ],
       "@eDB/client-admin": ["libs/client-admin/src/index.ts"],
       "@eDB/client-auth": ["libs/client-auth/src/index.ts"],
       "@eDB/client-catalog": ["libs/client-catalog/src/index.ts"],
@@ -33,17 +34,10 @@
       "@eDB/feature-profile": ["libs/feature-profile/src/index.ts"],
       "@eDB/feature-register": ["libs/feature-register/src/index.ts"],
       "@eDB/feature-shell": ["libs/feature-shell/src/index.ts"],
-      "@eDB/platform-components/platform": [
-        "apps/eDB/src/app/components/platform/index"
-      ],
-      "@eDB/platform-components/portal": [
-        "apps/eDB/src/app/components/portal/index"
-      ],
-      "@eDB/platform-models/*": ["apps/eDB/src/app/models/*"],
-      "@eDB/platform-services": ["apps/eDB/src/app/services/index"],
       "@eDB/shared-env": ["libs/config/shared-env/src/index.ts"],
       "@eDB/shared-ui": ["libs/ui/src/index"],
-      "@eDB/shared-utils": ["libs/utils/src/index"]
+      "@eDB/shared-utils": ["libs/utils/src/index"],
+      "@eDB/utils-user-params": ["libs/utils-user-params/src/index.ts"]
     }
   },
   "exclude": ["tmp"]

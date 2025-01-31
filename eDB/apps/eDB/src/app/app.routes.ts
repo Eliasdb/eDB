@@ -6,10 +6,6 @@ import { LoginGuard } from './guards/login.guard';
 export const routes: Route[] = [
   {
     path: '',
-    loadChildren: () =>
-      import('@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */).then(
-        (m) => m.featureDashboardRoutes,
-      ),
     canActivate: [AuthGuard],
     children: [
       {
@@ -55,13 +51,6 @@ export const routes: Route[] = [
         canActivate: [LoginGuard],
       },
     ],
-  },
-  {
-    path: 'appointments',
-    loadChildren: () =>
-      import(
-        '@eDB/appointment-app' /* webpackChunkName: "appointments" */
-      ).then((m) => m.AppointmentsModule),
   },
   {
     path: 'not-found',

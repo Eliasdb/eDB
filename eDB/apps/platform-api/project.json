@@ -1,0 +1,17 @@
+{
+  "name": "platform-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/platform-api",
+  "tags": [],
+  "targets": {
+    "swagger": {
+      "executor": "@nx-dotnet/core:update-swagger",
+      "outputs": ["{workspaceRoot}/libs/generated/platform-api-swagger"],
+      "options": {
+        "output": "libs/generated/platform-api-swagger"
+      },
+      "dependsOn": ["build"]
+    }
+  }
+}
