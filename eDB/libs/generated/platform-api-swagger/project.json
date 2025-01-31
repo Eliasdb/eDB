@@ -1,0 +1,23 @@
+{
+  "name": "platform-api-swagger",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "build": {
+      "executor": "nx:noop",
+      "outputs": ["libs/generated/platform-api-swagger"]
+    },
+    "codegen": {
+      "executor": "@nx-dotnet/core:openapi-codegen",
+      "options": {
+        "useOpenApiGenerator": true,
+        "openApiGenerator": "typescript",
+        "openapiJsonPath": "libs/generated/platform-api-swagger",
+        "outputProject": "generated-platform-api-types"
+      },
+      "dependsOn": ["swagger"],
+      "inputs": ["{projectRoot}/libs/generated/platform-api-swagger"],
+      "outputs": ["{workspaceRoot}"]
+    }
+  },
+  "implicitDependencies": ["platform-api"]
+}
