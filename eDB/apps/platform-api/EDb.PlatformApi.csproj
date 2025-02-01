@@ -38,6 +38,14 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.9" />
-     </ItemGroup>
+  </ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\..\libs\platform-api\features\feature-applications\EDb.FeatureApplications.csproj" />
+    <ProjectReference Include="..\..\libs\platform-api\shared\utils\util-attributes\EDb.UtilAttributes.csproj" /> 
+  <ProjectReference Include="..\..\libs\platform-api\shared\data-access\EDb.DataAccess.csproj" />
+   <ProjectReference Include="..\..\libs\platform-api\shared\domain\EDb.Domain.csproj" />
+
+</ItemGroup>
 
 </Project>

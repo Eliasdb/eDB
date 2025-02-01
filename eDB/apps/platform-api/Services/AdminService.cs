@@ -1,10 +1,11 @@
 using System.Linq.Dynamic.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using EDb.Domain.Entities;
+using EDb.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using PlatformAPI.DTOs.Admin;
 using PlatformAPI.Interfaces;
-using PlatformAPI.Models;
 using PlatformAPI.Utilities;
 
 namespace PlatformAPI.Services

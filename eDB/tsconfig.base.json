@@ -16,28 +16,35 @@
     "baseUrl": ".",
     "paths": {
       "@e-db/generated-platform-api-types": [
-        "libs/generated/platform-api-types/src/index.ts"
+        "libs/generated/platform-api-types/src/index"
       ],
-      "@eDB/client-admin": ["libs/client-admin/src/index.ts"],
-      "@eDB/client-auth": ["libs/client-auth/src/index.ts"],
-      "@eDB/client-catalog": ["libs/client-catalog/src/index.ts"],
-      "@eDB/client-dashboard": ["libs/client-dashboard/src/index.ts"],
-      "@eDB/client-profile": ["libs/client-profile/src/index.ts"],
-      "@eDB/feature-404": ["libs/feature-404/src/index.ts"],
-      "@eDB/feature-admin": ["libs/feature-admin/src/index.ts"],
+      "@eDB/client-admin": [
+        "libs/eDB-admin/data-access/client-admin/src/index"
+      ],
+      "@eDB/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
+      "@eDB/client-catalog": ["libs/eDB/data-access/client-catalog/src/index"],
+      "@eDB/client-dashboard": [
+        "libs/eDB/data-access/client-dashboard/src/index"
+      ],
+      "@eDB/client-profile": ["libs/eDB/data-access/client-profile/src/index"],
+      "@eDB/feature-404": ["libs/eDB/features/feature-404/src/index"],
       "@eDB/feature-admin-dashboard": [
-        "libs/feature-admin-dashboard/src/index.ts"
+        "libs/eDB-admin/features/feature-admin-dashboard/src/index"
       ],
-      "@eDB/feature-catalog": ["libs/feature-catalog/src/index.ts"],
-      "@eDB/feature-dashboard": ["libs/feature-dashboard/src/index.ts"],
-      "@eDB/feature-login": ["libs/feature-login/src/index.ts"],
-      "@eDB/feature-profile": ["libs/feature-profile/src/index.ts"],
-      "@eDB/feature-register": ["libs/feature-register/src/index.ts"],
-      "@eDB/feature-shell": ["libs/feature-shell/src/index.ts"],
-      "@eDB/shared-env": ["libs/config/shared-env/src/index.ts"],
-      "@eDB/shared-ui": ["libs/ui/src/index"],
-      "@eDB/shared-utils": ["libs/utils/src/index"],
-      "@eDB/utils-user-params": ["libs/utils-user-params/src/index.ts"]
+      "@eDB/feature-catalog": ["libs/eDB/features/feature-catalog/src/index"],
+      "@eDB/feature-dashboard": [
+        "libs/eDB/features/feature-dashboard/src/index"
+      ],
+      "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index"],
+      "@eDB/feature-profile": ["libs/eDB/features/feature-profile/src/index"],
+      "@eDB/feature-register": ["libs/eDB/features/feature-register/src/index"],
+      "@eDB/feature-shell": ["libs/eDB/features/feature-shell/src/index"],
+      "@eDB/shared-env": ["libs/shared/utils/environment/src/index"],
+      "@eDB/shared-ui": ["libs/shared/presentation-layer/ui/src/index"],
+      "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
+      "@eDB/utils-user-params": [
+        "libs/shared/utils/utils-user-params/src/index"
+      ]
     }
   },
   "exclude": ["tmp"]
