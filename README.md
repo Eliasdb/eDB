@@ -104,6 +104,8 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1.2 Stack & Architecture
 
+#### Stack
+
 -   **Framework**: **Angular 19**
 -   **Monorepo workspace**: **Nx 20**
 -   **Component Documentation**: **Storybook 8**
@@ -160,316 +162,312 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 
 ### 2.1.3 Architecture Diagrams
 
-This is a visual representation of the entire workspace dependency graph. You will see v1 is an example of a standard application flow, how it was set up before. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
+This is a visual representation of the entire workspace dependency graph. You will see v1 is an example of a standard application flow, how it was set up before as a monolithic structure. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
 ![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
 
-### 2.2 Backend
+## 2.2 Backend
 
-### 2.2.1 Stack & Architecture
+### 2.2.1 APIs
 
--   **Frameworks**: **.NET 8**
--   **ORM**: **Entity Framework**
--   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
--   **Testing**: **xUnit** and **Moq** for unit and integration testing
--   **Architecture**: **REST API**
+#### **Platform API**
 
-### 2.2.2 Controllers and Endpoints
+The **Platform API** serves as the backbone for all core functionalities, providing endpoints for application management, user subscriptions, and authentication.
 
-### 2.2.2.1 Admin Controller
+##### **Endpoints**
 
-### **Admin Area**
+###### **Applications**
 
--   **URL**: `GET /api/admin/area`
--   **Authorization**: Admin
--   **Description**: Check access to the admin area.
--   **Response**:
-    ```json
-    "Welcome, Admin!"
-    ```
+-   **Get Applications**
 
-### **Get Users with Pagination, Sorting, and Search**
-
--   **URL**: `GET /api/admin/users`
--   **Authorization**: Admin
--   **Query Parameters**:
-    -   `cursor` (optional): Cursor for pagination.
-    -   `sort` (optional): Sorting parameter in the format `field,direction` (e.g., `id,asc`).
-    -   `search` (optional): Search query.
--   **Description**: Fetch a paginated, sorted list of users with optional search.
--   **Response**:
-    ```json
-    {
-        "data": [
+    -   **URL**: `GET /api/applications`
+    -   **Description**: Fetch a list of all applications.
+    -   **Response:**
+        ```json
+        [
             {
                 "id": 1,
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "john.doe@example.com"
+                "name": "App1",
+                "description": "Description of App1"
             }
-        ],
-        "nextCursor": "next_cursor_value",
-        "hasMore": true
-    }
-    ```
+        ]
+        ```
 
-### **Get User by ID**
+-   **Subscribe/Unsubscribe to Application**
 
--   **URL**: `GET /api/admin/users/{userId}`
--   **Authorization**: Admin
--   **Description**: Fetch details of a user by their ID.
--   **Response**:
-    ```json
-    {
-        "id": 1,
-        "firstName": "John",
-        "lastName": "Doe",
-        "email": "john.doe@example.com"
-    }
-    ```
-
-### **Delete User**
-
--   **URL**: `DELETE /api/admin/users/{userId}`
--   **Authorization**: Admin
--   **Description**: Delete a user by their ID.
--   **Response**:
-    ```json
-    {
-        "Message": "User deleted successfully."
-    }
-    ```
-
-### **Get Applications Overview**
-
--   **URL**: `GET /api/admin/applications`
--   **Authorization**: Admin
--   **Description**: Fetch an overview of all applications, including subscription data.
--   **Response**:
-    ```json
-    [
+    -   **URL**: `POST /api/applications/subscribe`
+    -   **Description**: Subscribe or unsubscribe to an application based on current subscription status.
+    -   **Request Body:**
+        ```json
         {
-            "ApplicationId": 1,
-            "ApplicationName": "App1",
-            "SubscriberCount": 10,
-            "SubscribedUsers": [
+            "applicationId": 1
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Subscribed successfully."
+        }
+        ```
+
+-   **Get User's Applications**
+    -   **URL**: `GET /api/applications/user`
+    -   **Description**: Fetch applications subscribed to by the authenticated user.
+    -   **Response:**
+        ```json
+        [
+            {
+                "id": 1,
+                "name": "App1",
+                "description": "Description of App1"
+            }
+        ]
+        ```
+
+###### **Authentication**
+
+-   **Register**
+
+    -   **URL**: `POST /api/auth/register`
+    -   **Description**: Register a new user.
+    -   **Request Body:**
+        ```json
+        {
+            "email": "john.doe@example.com",
+            "password": "password123",
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Registration successful."
+        }
+        ```
+
+-   **Login**
+    -   **URL**: `POST /api/auth/login`
+    -   **Description**: Authenticate a user and generate a JWT token.
+    -   **Request Body:**
+        ```json
+        {
+            "email": "john.doe@example.com",
+            "password": "password123"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Login successful.",
+            "token": "jwt_token_here"
+        }
+        ```
+
+###### **Profile**
+
+-   **Get Profile Settings**
+
+    -   **URL**: `GET /api/profile/settings`
+    -   **Authorization**: User/Admin
+    -   **Description**: Fetch the profile settings of the authenticated user.
+    -   **Response:**
+        ```json
+        {
+            "email": "john.doe@example.com",
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+        ```
+
+-   **Update Profile**
+    -   **URL**: `PUT /api/profile`
+    -   **Authorization**: User/Admin
+    -   **Description**: Update profile settings for the authenticated user.
+    -   **Request Body:**
+        ```json
+        {
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Profile updated successfully."
+        }
+        ```
+
+#### **Admin API**
+
+The **Admin API** handles administrative tasks, including user management, application CRUD operations, and subscription management.
+
+##### **Endpoints**
+
+###### **Admin Management**
+
+-   **Admin Area**
+    -   **URL**: `GET /api/admin/area`
+    -   **Authorization**: Admin
+    -   **Description**: Check access to the admin area.
+    -   **Response:**
+        ```json
+        "Welcome, Admin!"
+        ```
+
+###### **User Management**
+
+-   **Get Users with Pagination, Sorting, and Search**
+
+    -   **URL**: `GET /api/admin/users`
+    -   **Authorization**: Admin
+    -   **Query Parameters:**
+        -   `cursor` (optional): Cursor for pagination.
+        -   `sort` (optional): Sorting parameter in the format `field,direction`.
+        -   `search` (optional): Search query.
+    -   **Description**: Fetch a paginated, sorted list of users with optional search.
+    -   **Response:**
+        ```json
+        {
+            "data": [
                 {
-                    "UserId": 1,
-                    "UserName": "John Doe",
-                    "UserEmail": "john.doe@example.com",
-                    "SubscriptionDate": "2024-12-14T12:34:56Z"
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "john.doe@example.com"
                 }
-            ]
+            ],
+            "nextCursor": "next_cursor_value",
+            "hasMore": true
         }
-    ]
-    ```
+        ```
 
-### **Add Application**
+-   **Get User by ID**
 
--   **URL**: `POST /api/admin/applications`
--   **Authorization**: Admin
--   **Description**: Add a new application.
--   **Request Body**:
-    ```json
-    {
-        "name": "App1",
-        "description": "Description of App1",
-        "iconUrl": "https://example.com/icon.png",
-        "routePath": "/app1",
-        "tags": ["tag1", "tag2"]
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "id": 1,
-        "name": "App1",
-        "description": "Description of App1",
-        "iconUrl": "https://example.com/icon.png",
-        "routePath": "/app1",
-        "tags": ["tag1", "tag2"]
-    }
-    ```
+    -   **URL**: `GET /api/admin/users/{userId}`
+    -   **Authorization**: Admin
+    -   **Description**: Fetch details of a user by their ID.
+    -   **Response:**
+        ```json
+        {
+            "id": 1,
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com"
+        }
+        ```
 
-### **Update Application**
+-   **Delete User**
+    -   **URL**: `DELETE /api/admin/users/{userId}`
+    -   **Authorization**: Admin
+    -   **Description**: Delete a user by their ID.
+    -   **Response:**
+        ```json
+        {
+            "Message": "User deleted successfully."
+        }
+        ```
 
--   **URL**: `PUT /api/admin/applications/{applicationId}`
--   **Authorization**: Admin
--   **Description**: Update an application.
--   **Request Body**:
-    ```json
-    {
-        "name": "Updated App Name",
-        "description": "Updated description",
-        "iconUrl": "https://example.com/updated-icon.png",
-        "routePath": "/updated-app",
-        "tags": ["updatedTag"]
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "Message": "Application updated successfully."
-    }
-    ```
+###### **Application Management**
 
-### **Revoke Subscription**
+-   **Get Applications Overview**
 
--   **URL**: `DELETE /api/admin/applications/{applicationId}/subscriptions/{userId}`
--   **Authorization**: Admin
--   **Description**: Revoke a user's subscription to an application.
--   **Response**:
-    ```json
-    {
-        "Message": "Subscription revoked successfully."
-    }
-    ```
+    -   **URL**: `GET /api/admin/applications`
+    -   **Authorization**: Admin
+    -   **Description**: Fetch an overview of all applications, including subscription data.
+    -   **Response:**
+        ```json
+        [
+            {
+                "ApplicationId": 1,
+                "ApplicationName": "App1",
+                "SubscriberCount": 10,
+                "SubscribedUsers": [
+                    {
+                        "UserId": 1,
+                        "UserName": "John Doe",
+                        "UserEmail": "john.doe@example.com",
+                        "SubscriptionDate": "2024-12-14T12:34:56Z"
+                    }
+                ]
+            }
+        ]
+        ```
 
-### **Delete Application**
+-   **Add Application**
 
--   **URL**: `DELETE /api/admin/applications/{applicationId}`
--   **Authorization**: Admin
--   **Description**: Delete an application by its ID.
--   **Response**:
-    ```json
-    {
-        "Message": "Application deleted successfully."
-    }
-    ```
-
----
-
-### 2.2.2.2 Applications Controller
-
-### **Get Applications**
-
--   **URL**: `GET /api/applications`
--   **Description**: Fetch a list of all applications.
--   **Response**:
-    ```json
-    [
+    -   **URL**: `POST /api/admin/applications`
+    -   **Authorization**: Admin
+    -   **Description**: Add a new application.
+    -   **Request Body:**
+        ```json
+        {
+            "name": "App1",
+            "description": "Description of App1",
+            "iconUrl": "https://example.com/icon.png",
+            "routePath": "/app1",
+            "tags": ["tag1", "tag2"]
+        }
+        ```
+    -   **Response:**
+        ```json
         {
             "id": 1,
             "name": "App1",
-            "description": "Description of App1"
+            "description": "Description of App1",
+            "iconUrl": "https://example.com/icon.png",
+            "routePath": "/app1",
+            "tags": ["tag1", "tag2"]
         }
-    ]
-    ```
+        ```
 
-### **Subscribe/Unsubscribe to Application**
+-   **Update Application**
 
--   **URL**: `POST /api/applications/subscribe`
--   **Description**: Subscribe or unsubscribe to an application based on current subscription status.
--   **Request Body**:
-    ```json
-    {
-        "applicationId": 1
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Subscribed successfully."
-    }
-    ```
-
-### **Get User's Applications**
-
--   **URL**: `GET /api/applications/user`
--   **Description**: Fetch applications subscribed to by the authenticated user.
--   **Response**:
-    ```json
-    [
+    -   **URL**: `PUT /api/admin/applications/{applicationId}`
+    -   **Authorization**: Admin
+    -   **Description**: Update an application.
+    -   **Request Body:**
+        ```json
         {
-            "id": 1,
-            "name": "App1",
-            "description": "Description of App1"
+            "name": "Updated App Name",
+            "description": "Updated description",
+            "iconUrl": "https://example.com/updated-icon.png",
+            "routePath": "/updated-app",
+            "tags": ["updatedTag"]
         }
-    ]
-    ```
+        ```
+    -   **Response:**
+        ```json
+        {
+            "Message": "Application updated successfully."
+        }
+        ```
 
----
+-   **Revoke Subscription**
 
-### 2.2.2.3 Authentication Controller
+    -   **URL**: `DELETE /api/admin/applications/{applicationId}/subscriptions/{userId}`
+    -   **Authorization**: Admin
+    -   **Description**: Revoke a user's subscription to an application.
+    -   **Response:**
+        ```json
+        {
+            "Message": "Subscription revoked successfully."
+        }
+        ```
 
-### **Register**
-
--   **URL**: `POST /api/auth/register`
--   **Description**: Register a new user.
--   **Request Body**:
-    ```json
-    {
-        "email": "john.doe@example.com",
-        "password": "password123",
-        "firstName": "John",
-        "lastName": "Doe"
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Registration successful."
-    }
-    ```
-
-### **Login**
-
--   **URL**: `POST /api/auth/login`
--   **Description**: Authenticate a user and generate a JWT token.
--   **Request Body**:
-    ```json
-    {
-        "email": "john.doe@example.com",
-        "password": "password123"
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Login successful.",
-        "token": "jwt_token_here"
-    }
-    ```
-
----
-
-### 2.2.2.4 Profile Controller
-
-### **Get Profile Settings**
-
--   **URL**: `GET /api/profile/settings`
--   **Authorization**: User/Admin
--   **Description**: Fetch the profile settings of the authenticated user.
--   **Response**:
-    ```json
-    {
-        "email": "john.doe@example.com",
-        "firstName": "John",
-        "lastName": "Doe"
-    }
-    ```
-
-### **Update Profile**
-
--   **URL**: `PUT /api/profile/update`
--   **Authorization**: User/Admin
--   **Description**: Update profile settings for the authenticated user.
--   **Request Body**:
-    ```json
-    {
-        "firstName": "John",
-        "lastName": "Doe"
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Profile updated successfully."
-    }
-    ```
+-   **Delete Application**
+    -   **URL**: `DELETE /api/admin/applications/{applicationId}`
+    -   **Authorization**: Admin
+    -   **Description**: Delete an application by its ID.
+    -   **Response:**
+        ```json
+        {
+            "Message": "Application deleted successfully."
+        }
+        ```
 
 ### 2.2.3 Architecture Diagram
 
-![Backend Setup Diagram](./diagrams/images/backend/backend-architeture_v2.png)
+![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v3.png)
 
 ---
 
