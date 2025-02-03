@@ -5,16 +5,14 @@
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Platform Pages](#211-platform-pages)
+        -   [2.1.1 Application Pages](#211-application-pages)
         -   [2.1.2 Stack & Architecture](#212-stack--architecture)
         -   [2.1.3 Architecture Diagrams](#213-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Stack & Architecture](#221-stack--architecture)
-        -   [2.2.2 Controllers and Endpoints](#222-controllers-and-endpoints)
-            -   [2.2.2.1 Admin Controller](#2221-admin-controller)
-            -   [2.2.2.2 Applications Controller](#2222-applications-controller)
-            -   [2.2.2.3 Authentication Controller](#2223-authentication-controller)
-            -   [2.2.2.4 Profile Controller](#2224-profile-controller)
+        -   [2.2.2 APIs](#222-apis)
+            -   [2.2.2.1 Platform API](#2221-platform-api)
+            -   [2.2.2.2 Admin API](#2222-admin-api)
         -   [2.2.3 Architecture Diagram](#223-architecture-diagram)
     -   [2.3 Database](#23-database)
     -   [2.4 VPS](#24-vps)
@@ -69,7 +67,7 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-### 2.1.1 Platform Pages
+### 2.1.1 Application Pages
 
 #### Web App:
 
@@ -165,11 +163,23 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 This is a visual representation of the entire workspace dependency graph. You will see v1 is an example of a standard application flow, how it was set up before as a monolithic structure. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
 ![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
 
+> **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
+
+![Nx dependency graph](./diagrams/images/docs/dep-graph.png)
+
 ## 2.2 Backend
 
-### 2.2.1 APIs
+### 2.2.1 Stack & Architecture
 
-#### **Platform API**
+-   **Frameworks**: **.NET 8**
+-   **ORM**: **Entity Framework**
+-   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
+-   **Testing**: **xUnit** and **Moq** for unit and integration testing
+-   **Architecture**: **REST API**
+
+### 2.2.2 APIs
+
+#### 2.2.2.1 **Platform API**
 
 The **Platform API** serves as the backbone for all core functionalities, providing endpoints for application management, user subscriptions, and authentication.
 
@@ -297,7 +307,7 @@ The **Platform API** serves as the backbone for all core functionalities, provid
         }
         ```
 
-#### **Admin API**
+#### 2.2.2.2 **Admin API**
 
 The **Admin API** handles administrative tasks, including user management, application CRUD operations, and subscription management.
 
@@ -466,6 +476,8 @@ The **Admin API** handles administrative tasks, including user management, appli
         ```
 
 ### 2.2.3 Architecture Diagram
+
+v1 is a monolithic approach, v2 is how I tried refactoring into Nx apps and libraries. Also introduces separate admin API.
 
 ![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v3.png)
 
