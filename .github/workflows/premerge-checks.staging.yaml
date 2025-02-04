@@ -50,6 +50,13 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
 
+            - name: Install pnpm Directly (Skip Corepack)
+              run: npm install -g pnpm --force
+
+            - name: Install Dependencies
+              run: pnpm install
+              working-directory: ./eDB
+
             - name: Lint Affected Projects
               run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel --verbose
 
