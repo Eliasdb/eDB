@@ -21,6 +21,8 @@ export class AdminGuard implements CanActivate {
     if (isAuthenticated && isAdmin) {
       return true;
     } else {
+      console.log('console');
+
       // Optionally, redirect to unauthorized page or dashboard
       return this.router.createUrlTree(['/not-found']);
     }

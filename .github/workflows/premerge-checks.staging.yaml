@@ -4,18 +4,18 @@ on:
     pull_request:
         branches:
             - dev
-    # workflow_dispatch: # Enable manual trigger
-    #     inputs:
-    #         job_to_run:
-    #             description: 'Select the job to run'
-    #             required: false
-    #             default: 'all'
-    #             type: choice
-    #             options:
-    #                 - all
-    #                 - lint
-    #                 - test
-    #                 - build
+    workflow_dispatch: # Enable manual trigger
+        inputs:
+            job_to_run:
+                description: 'Select the job to run'
+                required: false
+                default: 'all'
+                type: choice
+                options:
+                    - all
+                    - lint
+                    - test
+                    - build
 
 jobs:
     setup:
