@@ -22,12 +22,8 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: Clear Corepack Cache & Install pnpm
-              run: |
-                  corepack disable
-                  rm -rf ~/.cache/corepack
-                  corepack enable
-                  corepack prepare pnpm@latest --activate
+            - name: Install pnpm Directly
+              run: npm install -g pnpm
 
             - name: Install Dependencies
               run: pnpm install
