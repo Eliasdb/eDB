@@ -1,0 +1,6 @@
+@EDb.PlatformApi_HostAddress = http://localhost:5098
+
+GET {{EDb.PlatformApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

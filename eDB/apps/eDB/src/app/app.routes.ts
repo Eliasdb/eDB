@@ -53,13 +53,6 @@ export const routes: Route[] = [
     ],
   },
   {
-    path: 'appointments',
-    loadChildren: () =>
-      import(
-        '@eDB/appointment-app' /* webpackChunkName: "appointments" */
-      ).then((m) => m.AppointmentsModule),
-  },
-  {
     path: 'not-found',
     loadChildren: () =>
       import('@eDB/feature-404' /* webpackChunkName: "not-found" */).then(
