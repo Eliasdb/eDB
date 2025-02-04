@@ -59,12 +59,19 @@
       "inputs": ["production", "^production"]
     },
     "build": {
-      "dependsOn": ["^build", "codegen", "^codegen"]
+      "dependsOn": ["^build", "codegen", "^codegen"],
+      "cache": true
     },
     "codegen": {
       "cache": true
     },
     "swagger": {
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "test": {
       "cache": true
     }
   },
@@ -124,12 +131,10 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "codegen", "swagger"],
-        "parallel": 3,
         "captureLogs": true
       }
     }
-  }
+  },
+  "parallel": 3
 }
