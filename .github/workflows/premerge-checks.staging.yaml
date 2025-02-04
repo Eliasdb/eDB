@@ -4,18 +4,6 @@ on:
     pull_request:
         branches:
             - dev
-    # workflow_dispatch: # Enable manual trigger
-    #     inputs:
-    #         job_to_run:
-    #             description: 'Select the job to run'
-    #             required: false
-    #             default: 'all'
-    #             type: choice
-    #             options:
-    #                 - all
-    #                 - lint
-    #                 - test
-    #                 - build
 
 jobs:
     setup:
@@ -51,7 +39,6 @@ jobs:
         name: Lint Affected Projects
         runs-on: [self-hosted]
         needs: setup
-        if: ${{ github.event.inputs.job_to_run == 'lint' || github.event.inputs.job_to_run == 'all' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -81,7 +68,6 @@ jobs:
         name: Test Affected Projects
         runs-on: [self-hosted]
         needs: lint
-        if: ${{ github.event.inputs.job_to_run == 'test' || github.event.inputs.job_to_run == 'all' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -111,7 +97,6 @@ jobs:
         name: Build Docker Images for Affected Projects
         runs-on: [self-hosted]
         needs: [test, setup]
-        if: ${{ github.event.inputs.job_to_run == 'build' || github.event.inputs.job_to_run == 'all' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
