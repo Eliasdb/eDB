@@ -127,7 +127,21 @@ jobs:
             - name: Build and Push Docker Images for Affected Projects
               run: |
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
+
+                  # Debugging output
+                  echo "Affected Apps: $AFFECTED_APPS"
+
+                  if [ -z "$AFFECTED_APPS" ]; then
+                    echo "❌ No affected apps detected. Exiting..."
+                    exit 1
+                  fi
+
                   for app in $AFFECTED_APPS; do
-                    docker build -f $app/Dockerfile.staging -t eliasdb/$app:${{ needs.setup.outputs.image_tag }} .
-                    # docker push eliasdb/$app:${{ needs.setup.outputs.image_tag }}
+                    echo "🚀 Building Docker image for $app"
+                    if [ -f "$app/Dockerfile.staging" ]; then
+                      docker build -f $app/Dockerfile.staging -t eliasdb/$app:pr-87-staging .
+                    else
+                      echo "❌ Missing Dockerfile: $app/Dockerfile.staging"
+                      exit 1
+                    fi
                   done
