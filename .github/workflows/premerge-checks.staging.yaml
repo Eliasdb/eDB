@@ -4,6 +4,18 @@ on:
     pull_request:
         branches:
             - dev
+    # workflow_dispatch: # Enable manual trigger
+    #     inputs:
+    #         job_to_run:
+    #             description: 'Select the job to run'
+    #             required: false
+    #             default: 'all'
+    #             type: choice
+    #             options:
+    #                 - all
+    #                 - lint
+    #                 - test
+    #                 - build
 
 jobs:
     setup:
@@ -12,25 +24,15 @@ jobs:
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - name: Install .NET SDK
-              uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
+            # - name: Checkout Code
+            #   uses: actions/checkout@v3
+            #   with:
+            #       fetch-depth: 0
 
             - name: Set Version with PR Number
               id: version
               run: |
-                  PR_NUMBER=${{ github.run_number }}
+                  PR_NUMBER=${{ github.event.pull_request.number }}
                   VERSION=pr-${PR_NUMBER}-staging
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
