@@ -1,9 +1,18 @@
 name: Pre-Merge Checks Staging
 
 on:
-    pull_request:
-        branches:
-            - dev
+    workflow_dispatch: # Manual trigger only
+        inputs:
+            job_to_run:
+                description: 'Select the job to run'
+                required: true
+                default: 'all'
+                type: choice
+                options:
+                    - all
+                    - lint
+                    - test
+                    - build
 
 jobs:
     setup:
@@ -30,7 +39,7 @@ jobs:
             - name: Set Version with PR Number
               id: version
               run: |
-                  PR_NUMBER=${{ github.event.pull_request.number }}
+                  PR_NUMBER=${{ github.run_number }}
                   VERSION=pr-${PR_NUMBER}-staging
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
@@ -39,6 +48,7 @@ jobs:
         name: Lint Affected Projects
         runs-on: [self-hosted]
         needs: setup
+        if: ${{ github.event.inputs.job_to_run == 'lint' || github.event.inputs.job_to_run == 'all' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -68,6 +78,7 @@ jobs:
         name: Test Affected Projects
         runs-on: [self-hosted]
         needs: lint
+        if: ${{ github.event.inputs.job_to_run == 'test' || github.event.inputs.job_to_run == 'all' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -97,6 +108,7 @@ jobs:
         name: Build Docker Images for Affected Projects
         runs-on: [self-hosted]
         needs: [test, setup]
+        if: ${{ github.event.inputs.job_to_run == 'build' || github.event.inputs.job_to_run == 'all' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -130,10 +142,10 @@ jobs:
               working-directory: ./eDB
               run: |
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
-                  echo "Affected Apps: $AFFECTED_APPS"  # Output affected apps for debugging
+                  echo "Affected Apps: $AFFECTED_APPS"
                   for app in $AFFECTED_APPS; do
-                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')  # Convert app name to lowercase
-                    echo "Building Docker image for: $lower_app"  # Output each app being built
+                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+                    echo "Building Docker image for: $lower_app"
                     docker build -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
                     # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
                   done
