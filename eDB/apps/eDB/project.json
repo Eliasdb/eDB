@@ -24,7 +24,10 @@
         "scripts": [],
         "styles": ["apps/eDB/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["./node_modules", "libs/ui/src/lib/styles"]
+          "includePaths": [
+            "./node_modules",
+            "libs/shared/presentation-layer/ui/src/lib/styles"
+          ]
         },
 
         "customWebpackConfig": {
@@ -49,9 +52,9 @@
           "outputHashing": "all",
           "fileReplacements": [
             {
-              "replace": "libs/config/shared-env/src/lib/environments/environment.ts",
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
 
-              "with": "libs/config/shared-env/src/lib/environments/environment.prod.ts"
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
             }
           ]
         },
@@ -60,8 +63,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/config/shared-env/src/lib/environments/environment.ts",
-              "with": "libs/config/shared-env/src/lib/environments/environment.staging.ts"
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
             }
           ]
         },
@@ -71,8 +74,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/config/shared-env/src/lib/environments/environment.ts",
-              "with": "libs/config/shared-env/src/lib/environments/environment.ts"
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.ts"
             }
           ]
         }
