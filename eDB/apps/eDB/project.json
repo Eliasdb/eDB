@@ -26,7 +26,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "./node_modules",
-            "libs/frontend/presentation-layer/ui/src/lib/styles"
+            "libs/shared/presentation-layer/ui/src/lib/styles"
           ]
         },
 
@@ -52,9 +52,9 @@
           "outputHashing": "all",
           "fileReplacements": [
             {
-              "replace": "libs/frontend/infrastructure-layer/shared-env/src/lib/environments/environment.ts",
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
 
-              "with": "libs/frontend/infrastructure-layer/shared-env/shared-env/src/lib/environments/environment.prod.ts"
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
             }
           ]
         },
@@ -63,8 +63,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/frontend/infrastructure-layer/shared-env/src/lib/environments/environment.ts",
-              "with": "libs/frontend/infrastructure-layer/shared-env/src/lib/environments/environment.staging.ts"
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
             }
           ]
         },
@@ -74,8 +74,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/frontend/infrastructure-layer/shared-env/src/lib/environments/environment.ts",
-              "with": "libs/frontend/infrastructure-layer/shared-env/src/lib/environments/environment.ts"
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.ts"
             }
           ]
         }

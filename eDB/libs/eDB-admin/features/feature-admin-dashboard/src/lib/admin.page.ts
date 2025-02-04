@@ -4,8 +4,7 @@ import {
 } from './components';
 
 import { Component } from '@angular/core';
-import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import { UiButtonComponent } from '../../../ui/src/lib/components/buttons/button/button.component';
+import { UiButtonComponent, UiContentSwitcherComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'platform-admin',

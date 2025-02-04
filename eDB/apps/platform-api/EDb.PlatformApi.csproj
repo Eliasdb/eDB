@@ -10,6 +10,7 @@
     <EnableRazorCompileOnPublish>false</EnableRazorCompileOnPublish>
     <EnableDefaultStaticWebAssets>false</EnableDefaultStaticWebAssets>
     <EnableScopedCss>false</EnableScopedCss>
+     <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +38,7 @@
     <!-- Utilities -->
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.9" />
+   <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.1" />
   </ItemGroup>
 
 <ItemGroup>
@@ -45,7 +46,14 @@
     <ProjectReference Include="..\..\libs\platform-api\shared\utils\util-attributes\EDb.UtilAttributes.csproj" /> 
   <ProjectReference Include="..\..\libs\platform-api\shared\data-access\EDb.DataAccess.csproj" />
    <ProjectReference Include="..\..\libs\platform-api\shared\domain\EDb.Domain.csproj" />
+</ItemGroup>
+
+<ItemGroup>
+    <None Remove="project.json" />
 
 </ItemGroup>
+<PropertyGroup>
+  <PublishTrimmed>true</PublishTrimmed>
+</PropertyGroup>
 
 </Project>

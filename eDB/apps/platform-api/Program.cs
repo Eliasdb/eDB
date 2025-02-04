@@ -27,10 +27,7 @@ builder.Services.AddIdentityServices(builder.Configuration); // Identity & JWT s
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 // Add Swagger services
-if (builder.Environment.IsDevelopment())
-{
-  builder.Services.AddSwaggerGen();
-}
+builder.Services.AddSwaggerGen();
 
 // Add controller support
 builder.Services.AddControllers();
