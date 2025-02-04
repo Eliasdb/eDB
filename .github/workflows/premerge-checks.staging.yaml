@@ -125,29 +125,10 @@ jobs:
                   password: ${{ secrets.DOCKER_TOKEN }}
 
             - name: Build and Push Docker Images for Affected Projects
+              working-directory: ./eDB
               run: |
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
-
-                  # Debugging output
-                  echo "Affected Apps: $AFFECTED_APPS"
-
-                  if [ -z "$AFFECTED_APPS" ]; then
-                    echo "❌ No affected apps detected. Exiting..."
-                    exit 1
-                  fi
-
                   for app in $AFFECTED_APPS; do
-                    echo "🚀 Building Docker image for $app"
-                    
-                    # Check if the Dockerfile exists
-                    if [ -f "$app/Dockerfile.staging" ]; then
-                      # Adding verbose output for Docker build
-                      docker build --progress=plain -f $app/Dockerfile.staging -t eliasdb/$app:pr-87-staging . || {
-                        echo "❌ Docker build failed for $app"
-                        exit 1
-                      }
-                    else
-                      echo "❌ Missing Dockerfile: $app/Dockerfile.staging"
-                      exit 1
-                    fi
+                    docker build -f $app/Dockerfile.staging -t eliasdb/$app:${{ needs.setup.outputs.image_tag }} .
+                    # docker push eliasdb/$app:${{ needs.setup.outputs.image_tag }}
                   done
