@@ -1,7 +1,7 @@
 name: Pre-Merge Checks Staging
 
 on:
-    workflow_dispatch: # Manual trigger only
+    workflow_dispatch:
         inputs:
             job_to_run:
                 description: 'Select the job to run'
