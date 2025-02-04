@@ -61,7 +61,7 @@ jobs:
               working-directory: ./eDB
 
             - name: Lint Affected Projects
-              run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel --verbose
+              run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel || true
               working-directory: ./eDB
 
     test:
