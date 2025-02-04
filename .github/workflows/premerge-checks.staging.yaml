@@ -22,8 +22,12 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: Install pnpm
-              run: corepack enable && corepack prepare pnpm@latest --activate
+            - name: Clear Corepack Cache & Install pnpm
+              run: |
+                  corepack disable
+                  rm -rf ~/.cache/corepack
+                  corepack enable
+                  corepack prepare pnpm@latest --activate
 
             - name: Install Dependencies
               run: pnpm install
@@ -79,7 +83,7 @@ jobs:
               run: pnpm nx affected --target=test --base=origin/dev --head=HEAD --parallel --verbose
 
     build:
-        name: Build and Push Docker Images for Affected Projects
+        name: Build Docker Images for Affected Projects
         runs-on: [self-hosted]
         needs: [test, setup]
         steps:
