@@ -3,7 +3,7 @@ name: Pre-Merge Checks Staging
 on:
     pull_request:
         branches:
-            - sprint-2
+            - dev
 
 jobs:
     setup:
