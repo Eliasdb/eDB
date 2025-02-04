@@ -22,11 +22,12 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: Install pnpm Directly (Skip Corepack)
+            - name: Install pnpm (Skip Corepack)
               run: npm install -g pnpm --force
 
             - name: Install Dependencies
               run: pnpm install
+              working-directory: ./eDB
 
             - name: Set Version with PR Number
               id: version
@@ -43,16 +44,6 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - name: Install pnpm
-              run: corepack enable && corepack prepare pnpm@latest --activate
-
-            - name: Install Dependencies
-              run: pnpm install
 
             - name: Lint Affected Projects
               run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel --verbose
@@ -64,16 +55,6 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - name: Install pnpm
-              run: corepack enable && corepack prepare pnpm@latest --activate
-
-            - name: Install Dependencies
-              run: pnpm install
 
             - name: Test Affected Projects
               run: pnpm nx affected --target=test --base=origin/dev --head=HEAD --parallel --verbose
@@ -85,17 +66,6 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - name: Install pnpm
-              run: corepack enable && corepack prepare pnpm@latest --activate
-
-            - name: Install Dependencies
-              run: pnpm install
 
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
