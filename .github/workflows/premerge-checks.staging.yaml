@@ -22,7 +22,12 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: Install pnpm (Skip Corepack)
+            - name: Install .NET SDK
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0' # Match the version you're using in the project
+
+            - name: Install pnpm Directly (Skip Corepack)
               run: npm install -g pnpm --force
 
             - name: Install Dependencies
