@@ -69,7 +69,7 @@ jobs:
 
             - name: Lint Affected Projects
               run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel --verbose
-
+              working-directory: ./eDB
     test:
         name: Test Affected Projects
         runs-on: [self-hosted]
