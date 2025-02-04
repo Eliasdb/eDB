@@ -134,6 +134,6 @@ jobs:
                   for app in $AFFECTED_APPS; do
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')  # Convert app name to lowercase
                     echo "Building Docker image for: $lower_app"  # Output each app being built
-                    docker build -f $app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
+                    docker build -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
                     # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
                   done
