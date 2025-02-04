@@ -1,11 +1,14 @@
 name: Pre-Merge Checks Staging
 
 on:
-    workflow_dispatch:
+    pull_request:
+        branches:
+            - dev
+    workflow_dispatch: # Enable manual trigger
         inputs:
             job_to_run:
                 description: 'Select the job to run'
-                required: true
+                required: false
                 default: 'all'
                 type: choice
                 options:
