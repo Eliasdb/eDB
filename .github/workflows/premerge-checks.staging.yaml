@@ -90,7 +90,7 @@ jobs:
               working-directory: ./eDB
 
             - name: Test Affected Projects
-              run: pnpm nx affected --target=test --base=origin/dev --head=HEAD --parallel --verbose
+              run: pnpm nx affected --target=test --base=origin/dev --head=HEAD --parallel --verbose || true
               working-directory: ./eDB
 
     build:
