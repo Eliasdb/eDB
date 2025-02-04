@@ -138,8 +138,14 @@ jobs:
 
                   for app in $AFFECTED_APPS; do
                     echo "🚀 Building Docker image for $app"
+                    
+                    # Check if the Dockerfile exists
                     if [ -f "$app/Dockerfile.staging" ]; then
-                      docker build -f $app/Dockerfile.staging -t eliasdb/$app:pr-87-staging .
+                      # Adding verbose output for Docker build
+                      docker build --progress=plain -f $app/Dockerfile.staging -t eliasdb/$app:pr-87-staging . || {
+                        echo "❌ Docker build failed for $app"
+                        exit 1
+                      }
                     else
                       echo "❌ Missing Dockerfile: $app/Dockerfile.staging"
                       exit 1
