@@ -1,8 +1,7 @@
 # Stage 1: Build
 FROM node:20-bookworm-slim AS builder
 
-# Set working directory to the NX workspace folder
-WORKDIR /app/eDB
+WORKDIR /app
 
 # Install necessary packages
 RUN apt-get update && \
@@ -16,32 +15,35 @@ RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh && \
     ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet && \
     rm dotnet-install.sh
 
-# Use bash as the shell for subsequent RUN commands
+# Use bash as the shell
 SHELL ["/bin/bash", "-c"]
 
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Copy NX workspace files (adjust paths to match your repo)
-# Assuming your NX workspace is in the subfolder "eDB"
-COPY eDB/package.json eDB/pnpm-lock.yaml eDB/nx.json eDB/workspace.json ./
+# Copy configuration and package files
+COPY package.json pnpm-lock.yaml nx.json workspace.json ./
 
-# Copy the rest of the NX workspace (including apps, libs, etc.)
-COPY eDB .
+# Copy the rest of the workspace (including apps, libs, etc.)
+COPY . .
 
-# Build the admin app for staging
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Build the admin app (which runs: nx build eDB-admin …)
 RUN pnpm run build:staging:admin
 
 # Stage 2: Serve with a lightweight web server
 FROM nginx:alpine
 
-# Copy built files from the previous stage.
-# (Adjust the output path if necessary—here it’s assumed the build outputs to dist/apps/eDB-admin)
-COPY --from=builder /app/eDB/dist/apps/eDB-admin /etc/nginx/html/admin-app
+# Copy built files (assumed output is in dist/apps/eDB-admin)
+COPY --from=builder /app/dist/apps/eDB-admin /etc/nginx/html/admin-app
 
-# Copy custom nginx configuration
-COPY eDB/apps/eDB-admin/nginx.admin.conf /etc/nginx/conf.d/default.conf
+# Copy custom nginx configuration for the admin app
+COPY apps/eDB-admin/nginx.admin.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80 and start Nginx
+# Expose port 80
 EXPOSE 80
+
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
