@@ -28,6 +28,8 @@ COPY package.json pnpm-lock.yaml nx.json ./
 # Copy the rest of the NX workspace (apps, libs, etc.)
 COPY . .
 
+RUN ls -la /app
+
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
