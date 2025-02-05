@@ -130,15 +130,27 @@ jobs:
 
             - name: Build and Push Docker Images for Affected Projects
               working-directory: ./eDB
-
               run: |
-                  pnpm nx affected --target=build --base=origin/dev --head=HEAD --parallel --verbose
+                  # Get affected apps
+                  AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
+                  echo "Affected Apps: $AFFECTED_APPS"
 
-                  # AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
-                  # echo "Affected Apps: $AFFECTED_APPS"
-                  # for app in $AFFECTED_APPS; do
-                  #   lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
-                  #   echo "Building Docker image for: $lower_app"
-                  #   docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
-                  #   # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
-                  # done
+                  # Build affected projects with staging configuration
+                  pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel --verbose
+
+                  # Build Docker images for affected apps
+                  for app in $AFFECTED_APPS; do
+                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+                    echo "Building Docker image for: $lower_app"
+
+                    # Ensure the correct path for Dockerfiles and build context
+                    if [ -f "docker/$app/Dockerfile.staging" ]; then
+                      docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
+                    else
+                      # Fallback if Dockerfile.staging isn't found
+                      docker build --platform linux/arm64 -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
+                    fi
+
+                    # Uncomment this to push the images
+                    # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
+                  done
