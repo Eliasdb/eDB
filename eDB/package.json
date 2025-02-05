@@ -9,7 +9,7 @@
     "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
     "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/",
     "test:utils": "nx test utils --verbose",
-    "prepare": "if [ \"$SKIP_DOTNET\" != \"true\" ]; then nx g @nx-dotnet/core:restore; fi"
+    "prepare": "nx g @nx-dotnet/core:restore"
   },
   "private": true,
   "dependencies": {
