@@ -1,52 +1,9 @@
-# Stage 1: Build
-FROM node:20-bookworm-slim AS builder
-
-WORKDIR /app
-
-# Install necessary packages
-RUN apt-get update && \
-    apt-get install -y curl bash wget gnupg apt-transport-https ca-certificates software-properties-common && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install .NET 8 SDK using the dotnet-install script
-RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh && \
-    chmod +x dotnet-install.sh && \
-    ./dotnet-install.sh --channel 8.0 --install-dir /usr/share/dotnet && \
-    ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet && \
-    rm dotnet-install.sh
-
-# Use bash as the shell
-SHELL ["/bin/bash", "-c"]
-
-# Install pnpm globally
-RUN npm install -g pnpm
-
-# Copy configuration and package files
-COPY package.json pnpm-lock.yaml nx.json ./
-
-# Copy the rest of the workspace (including apps, libs, etc.)
-COPY . .
-
-RUN ls -la /app/apps/eDB
-RUN ls -la /app/apps/eDB-admin
-
-RUN ls -la /app/apps
-RUN ls -la /app
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-RUN pnpm exec nx reset
-
-# Build the admin app (which runs: nx build eDB-admin …)
-ENV NX_VERBOSE_LOGGING=true
-RUN pnpm exec nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/ --verbose
-
-# Stage 2: Serve with a lightweight web server
+# Base image for serving static files
 FROM nginx:alpine
 
-# Copy built files (assumed output is in dist/apps/eDB-admin)
-COPY --from=builder /app/dist/apps/eDB-admin /etc/nginx/html/admin-app
+# Copy built files from CI/CD pipeline output
+# Assuming the CI/CD pipeline outputs the build to 'dist/apps/eDB-admin'
+COPY dist/apps/eDB-admin /etc/nginx/html/admin-app
 
 # Copy custom nginx configuration for the admin app
 COPY apps/eDB-admin/nginx.admin.conf /etc/nginx/conf.d/default.conf
