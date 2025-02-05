@@ -4,9 +4,17 @@ FROM node:20.11.1-bullseye-slim AS builder
 # Set working directory
 WORKDIR /app
 
-# Install necessary packages: curl and bash
+# Install necessary packages: curl, bash, and dependencies for .NET
 RUN apt-get update && \
-    apt-get install -y curl bash && \
+    apt-get install -y curl bash wget gnupg apt-transport-https ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add Microsoft package signing key and repository for .NET
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-sdk-8.0 && \
     rm -rf /var/lib/apt/lists/*
 
 # Use bash as the shell for subsequent RUN commands
@@ -18,8 +26,6 @@ RUN npm install -g pnpm
 # Copy package.json and pnpm-lock.yaml first for better caching
 COPY package.json pnpm-lock.yaml ./
 
-ENV SKIP_DOTNET=true
-
 # Install dependencies (including dev dependencies)
 RUN pnpm install --frozen-lockfile
 
@@ -28,7 +34,7 @@ COPY . .
 
 
 # Build the production-ready app
-RUN pnpm run build:staging
+RUN pnpm run build:staging:admin
 
 # Stage 2: Serve with a lightweight web server
 FROM nginx:alpine
