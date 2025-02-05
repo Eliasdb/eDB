@@ -137,6 +137,6 @@ jobs:
                   for app in $AFFECTED_APPS; do
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
-                    docker build -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
+                    docker build --platform linux/arm64 -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
                     # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
                   done
