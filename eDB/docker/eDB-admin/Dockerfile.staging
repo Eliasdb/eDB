@@ -27,6 +27,9 @@ COPY package.json pnpm-lock.yaml nx.json ./
 # Copy the rest of the workspace (including apps, libs, etc.)
 COPY . .
 
+RUN ls -la /app/apps/eDB
+RUN ls -la /app/apps/eDB-admin
+
 RUN ls -la /app/apps
 RUN ls -la /app
 
