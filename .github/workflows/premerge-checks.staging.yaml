@@ -137,8 +137,10 @@ jobs:
                     # Build with special configuration for eDB-admin
                     if [ "$app" = "eDB-admin" ]; then
                       pnpm nx run $app:build --configuration=staging --base-href=/admin/ --deploy-url=/admin/
+                      # pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
                     else
                       pnpm nx run $app:build --configuration=staging
+                      # pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel
                     fi
 
                     # Build Docker image
