@@ -132,11 +132,13 @@ jobs:
               working-directory: ./eDB
 
               run: |
-                  AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
-                  echo "Affected Apps: $AFFECTED_APPS"
-                  for app in $AFFECTED_APPS; do
-                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
-                    echo "Building Docker image for: $lower_app"
-                    docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
-                    # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
-                  done
+                  pnpm nx affected --target=build --base=origin/dev --head=HEAD --parallel --verbose
+
+                  # AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
+                  # echo "Affected Apps: $AFFECTED_APPS"
+                  # for app in $AFFECTED_APPS; do
+                  #   lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+                  #   echo "Building Docker image for: $lower_app"
+                  #   docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
+                  #   # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
+                  # done
