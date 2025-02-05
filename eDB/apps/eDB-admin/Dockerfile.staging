@@ -32,6 +32,8 @@ RUN ls -la /app/apps
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
+RUN nx reset
+
 # Build the admin app (which runs: nx build eDB-admin …)
 RUN pnpm run build:staging:admin
 
