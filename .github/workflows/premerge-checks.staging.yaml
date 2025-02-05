@@ -130,15 +130,18 @@ jobs:
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
                   echo "Affected Apps: $AFFECTED_APPS"
 
-                  # Build affected projects with staging configuration
-                  if [ "$app" = "eDB-admin" ]; then
-                    pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel --base-href=/admin/ --deploy-url=/admin/ 
-                  else
-                    pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel
-                  fi
-
-                  # Build Docker images for affected apps
+                  # Loop through each affected app
                   for app in $AFFECTED_APPS; do
+                    echo "Processing app: $app"
+
+                    # Build with special configuration for eDB-admin
+                    if [ "$app" = "eDB-admin" ]; then
+                      pnpm nx run $app:build --configuration=staging --base-href=/admin/ --deploy-url=/admin/
+                    else
+                      pnpm nx run $app:build --configuration=staging
+                    fi
+
+                    # Build Docker image
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
 
