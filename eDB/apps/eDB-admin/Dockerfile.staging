@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:20.11.1-bullseye-slim AS builder
+FROM node:20-bookworm-slim AS builder
 
 # Set working directory
 WORKDIR /app
@@ -29,7 +29,7 @@ COPY package.json pnpm-lock.yaml ./
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Copy the admin application code
+# Copy the application code
 COPY . .
 
 # Build the admin app for staging
