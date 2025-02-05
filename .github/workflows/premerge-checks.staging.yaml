@@ -130,6 +130,7 @@ jobs:
 
             - name: Build and Push Docker Images for Affected Projects
               working-directory: ./eDB
+
               run: |
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
                   echo "Affected Apps: $AFFECTED_APPS"
