@@ -59,8 +59,8 @@ export const routes: Route[] = [
         (m) => m.feature404Routes,
       ),
   },
-  {
-    path: '**',
-    redirectTo: 'not-found',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: 'not-found',
+  // },
 ];
