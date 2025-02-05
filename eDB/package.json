@@ -7,7 +7,7 @@
     "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
     "build:production": "nx build eDB --prod --skip-nx-cache",
     "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
-    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/",
+    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/ --verbose",
     "test:utils": "nx test utils --verbose",
     "prepare": "nx g @nx-dotnet/core:restore"
   },
