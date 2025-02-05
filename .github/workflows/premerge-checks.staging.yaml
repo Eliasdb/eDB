@@ -131,7 +131,7 @@ jobs:
                   echo "Affected Apps: $AFFECTED_APPS"
 
                   # Build affected projects with staging configuration
-                  pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel 
+                  pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel --base-href=/admin/ --deploy-url=/admin/ 
 
                   # Build Docker images for affected apps
                   for app in $AFFECTED_APPS; do
