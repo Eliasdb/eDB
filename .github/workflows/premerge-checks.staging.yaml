@@ -24,11 +24,6 @@ jobs:
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
-            # - name: Checkout Code
-            #   uses: actions/checkout@v3
-            #   with:
-            #       fetch-depth: 0
-
             - name: Set Version with PR Number
               id: version
               run: |
@@ -143,14 +138,6 @@ jobs:
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
 
-                    # Ensure the correct path for Dockerfiles and build context
-                    if [ -f "docker/$app/Dockerfile.staging" ]; then
-                      docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
-                    else
-                      # Fallback if Dockerfile.staging isn't found
-                      docker build --platform linux/arm64 -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
-                    fi
-
-                    # Uncomment this to push the images
-                    # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
+                    docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
+                    docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
                   done
