@@ -1,49 +1,14 @@
-# Stage 1: Build
-FROM node:20-bookworm-slim AS builder
-
-# Set working directory (the workspace is the build context)
-WORKDIR /app
-
-# Install necessary packages
-RUN apt-get update && \
-    apt-get install -y curl bash wget gnupg apt-transport-https ca-certificates software-properties-common && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install .NET 8 SDK using the dotnet-install script
-RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh && \
-    chmod +x dotnet-install.sh && \
-    ./dotnet-install.sh --channel 8.0 --install-dir /usr/share/dotnet && \
-    ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet && \
-    rm dotnet-install.sh
-
-# Use bash for subsequent RUN commands
-SHELL ["/bin/bash", "-c"]
-
-# Install pnpm globally
-RUN npm install -g pnpm
-
-# Copy configuration and package files for caching
-COPY package.json pnpm-lock.yaml nx.json ./
-
-# Copy the rest of the NX workspace (apps, libs, etc.)
-COPY . .
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-# Build the main app (assumes the script runs: nx build eDB …)
-RUN pnpm run build:staging
-
-# Stage 2: Serve with a lightweight web server
+# Base image for serving static files
 FROM nginx:alpine
 
-# Copy built files (assumed output is in dist/apps/eDB)
-COPY --from=builder /app/dist/apps/eDB /etc/nginx/html/app
+# Copy built files from CI/CD pipeline output
+# Assuming the CI/CD pipeline outputs the build to 'dist/apps/eDB-admin'
+COPY dist/apps/eDB /etc/nginx/html/app
 
-# Copy custom nginx configuration
+# Copy custom nginx configuration for the admin app
 COPY apps/eDB/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose HTTP port
+# Expose port 80
 EXPOSE 80
 
 # Start Nginx
