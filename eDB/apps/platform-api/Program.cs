@@ -12,11 +12,12 @@ if (builder.Environment.IsDevelopment())
 {
   Env.Load();
   builder.Configuration.AddEnvironmentVariables();
-}
-if (string.IsNullOrEmpty(Env.GetString("JWT_KEY")))
+  if (string.IsNullOrEmpty(Env.GetString("JWT_KEY")))
 {
   throw new InvalidOperationException("JWT Key is not configured.");
 }
+}
+
 
 // --- Service Registrations ---
 // Add modular services from extension methods
