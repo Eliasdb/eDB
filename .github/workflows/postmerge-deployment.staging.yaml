@@ -64,7 +64,7 @@ jobs:
               id: print_affected
               run: |
                   # Compare HEAD~1 to HEAD (this may need to be adjusted in some repos)
-                  pnpm nx show projects --affected --with-target=build --base=origin/dev~1 --head=origin/dev > affected.json
+                  pnpm nx show projects --affected --with-target=build --base=origin/dev~1 --head=HEAD > affected.json
                   echo "Affected JSON:"
                   cat affected.json
 
