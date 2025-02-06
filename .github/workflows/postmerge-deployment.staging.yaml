@@ -75,19 +75,19 @@ jobs:
                   AFFECTED=$(cat affected.txt)
                   echo "Affected Projects: $AFFECTED"
 
-                  if echo "$AFFECTED" | grep -q "platform-api"; then
+                  if echo "$AFFECTED" | grep -x -q "platform-api"; then
                     echo "backend=true" >> $GITHUB_OUTPUT
                   else
                     echo "backend=false" >> $GITHUB_OUTPUT
                   fi
 
-                  if echo "$AFFECTED" | grep -q "eDB"; then
+                  if echo "$AFFECTED" | grep -x -q "eDB"; then
                     echo "platform-app=true" >> $GITHUB_OUTPUT
                   else
                     echo "platform-app=false" >> $GITHUB_OUTPUT
                   fi
 
-                  if echo "$AFFECTED" | grep -q "eDB-admin"; then
+                  if echo "$AFFECTED" | grep -x -q "eDB-admin"; then
                     echo "admin-app=true" >> $GITHUB_OUTPUT
                   else
                     echo "admin-app=false" >> $GITHUB_OUTPUT
