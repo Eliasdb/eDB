@@ -22,7 +22,6 @@ export class CatalogService {
   private queryClient = inject(QueryClient);
 
   constructor() {
-    // Fetch catalog data on service initialization
     this.fetchCatalog();
   }
 

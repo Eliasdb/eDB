@@ -34,9 +34,9 @@ jobs:
         runs-on: [self-hosted]
         needs: derive-pr-tag
         outputs:
-            platform-api: ${{ steps.print_affected.outputs.backend }}
-            platform-app: ${{ steps.print_affected.outputs.platform }}
-            admin-app: ${{ steps.print_affected.outputs.admin }}
+            backend: ${{ steps.print_affected.outputs.backend }}
+            platform-app: ${{ steps.print_affected.outputs.platform-app }}
+            admin-app: ${{ steps.print_affected.outputs.admin-app }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -82,17 +82,17 @@ jobs:
                   fi
 
                   if echo "$AFFECTED" | grep -q "eDB"; then
-                    echo "platform=true" >> $GITHUB_OUTPUT
+                    echo "platform-app=true" >> $GITHUB_OUTPUT
                   else
-                    echo "platform=false" >> $GITHUB_OUTPUT
+                    echo "platform-app=false" >> $GITHUB_OUTPUT
                   fi
 
                   if echo "$AFFECTED" | grep -q "eDB-admin"; then
-                    echo "admin=true" >> $GITHUB_OUTPUT
+                    echo "admin-app=true" >> $GITHUB_OUTPUT
                   else
-                    echo "admin=false" >> $GITHUB_OUTPUT
+                    echo "admin-app=false" >> $GITHUB_OUTPUT
                   fi
-                  echo "Final values: backend=$(grep '^backend=' $GITHUB_OUTPUT), platform=$(grep '^platform=' $GITHUB_OUTPUT), admin=$(grep '^admin=' $GITHUB_OUTPUT)"
+                  echo "Final values: backend=$(grep '^backend=' $GITHUB_OUTPUT), platform-app=$(grep '^platform-app=' $GITHUB_OUTPUT), admin-app=$(grep '^admin-app=' $GITHUB_OUTPUT)"
 
               shell: bash
 
@@ -100,7 +100,7 @@ jobs:
         name: Deploy Platform API to Staging
         runs-on: [self-hosted]
         needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.platform-api == 'true' }}
+        if: ${{ needs.nx-affected.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
