@@ -48,10 +48,7 @@
    <ProjectReference Include="..\..\libs\platform-api\shared\domain\EDb.Domain.csproj" />
 </ItemGroup>
 
-<ItemGroup>
-    <None Remove="project.json" />
 
-</ItemGroup>
 
 
 </Project>

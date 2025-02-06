@@ -7,5 +7,10 @@
         <OutputType>Library</OutputType>
 
   </PropertyGroup>
+<ItemGroup>
+    <None Update="project.json">
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+</ItemGroup>
 
 </Project>
