@@ -15,5 +15,12 @@
     <ProjectReference Include="..\..\shared\domain\EDb.Domain.csproj" />
     <ProjectReference Include="..\..\shared\utils\util-attributes\EDb.UtilAttributes.csproj" /> 
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="project.json">
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+</ItemGroup>
+
 
 </Project>

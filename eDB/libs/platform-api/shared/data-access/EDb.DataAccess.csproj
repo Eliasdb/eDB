@@ -21,4 +21,11 @@
  <ItemGroup>
     <ProjectReference Include="..\domain\EDb.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="project.json">
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+</ItemGroup>
+
 </Project>
