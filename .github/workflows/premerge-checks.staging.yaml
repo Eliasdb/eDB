@@ -32,63 +32,63 @@ jobs:
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
-    # lint:
-    #     name: Lint Affected Projects
-    #     runs-on: [self-hosted]
-    #     needs: setup
-    #     steps:
-    #         - name: Checkout Code
-    #           uses: actions/checkout@v3
+    lint:
+        name: Lint Affected Projects
+        runs-on: [self-hosted]
+        needs: setup
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
 
-    #         - name: Setup Node.js
-    #           uses: actions/setup-node@v3
-    #           with:
-    #               node-version: '20'
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
 
-    #         - name: Install .NET SDK
-    #           uses: actions/setup-dotnet@v3
-    #           with:
-    #               dotnet-version: '8.0'
+            - name: Install .NET SDK
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0'
 
-    #         - name: Install pnpm
-    #           run: npm install -g pnpm --force
+            - name: Install pnpm
+              run: npm install -g pnpm --force
 
-    #         - name: Install Dependencies
-    #           run: pnpm install
-    #           working-directory: ./eDB
+            - name: Install Dependencies
+              run: pnpm install
+              working-directory: ./eDB
 
-    #         - name: Lint Affected Projects
-    #           run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel || true
-    #           working-directory: ./eDB
+            - name: Lint Affected Projects
+              run: pnpm nx affected --target=lint --base=origin/dev --head=HEAD --parallel || true
+              working-directory: ./eDB
 
-    # test:
-    # name: Test Affected Projects
-    # runs-on: [self-hosted]
-    # needs: lint
-    # steps:
-    #     - name: Checkout Code
-    #       uses: actions/checkout@v3
+    test:
+        name: Test Affected Projects
+        runs-on: [self-hosted]
+        needs: lint
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
 
-    #     - name: Setup Node.js
-    #       uses: actions/setup-node@v3
-    #       with:
-    #           node-version: '20'
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
 
-    #     - name: Install .NET SDK
-    #       uses: actions/setup-dotnet@v3
-    #       with:
-    #           dotnet-version: '8.0'
+            - name: Install .NET SDK
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0'
 
-    #     - name: Install pnpm
-    #       run: npm install -g pnpm --force
+            - name: Install pnpm
+              run: npm install -g pnpm --force
 
-    #     - name: Install Dependencies
-    #       run: pnpm install
-    #       working-directory: ./eDB
+            - name: Install Dependencies
+              run: pnpm install
+              working-directory: ./eDB
 
-    #     - name: Test Affected Projects
-    #       run: pnpm nx affected --target=test --base=origin/dev --head=HEAD --parallel --verbose || true
-    #       working-directory: ./eDB
+            - name: Test Affected Projects
+              run: pnpm nx affected --target=test --base=origin/dev --head=HEAD --parallel --verbose || true
+              working-directory: ./eDB
 
     build:
         name: Build Docker Images for Affected Projects
