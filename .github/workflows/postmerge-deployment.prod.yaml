@@ -25,43 +25,6 @@ jobs:
                   echo "image_tag=${LATEST_TAG}" >> $GITHUB_ENV
                   echo "image_tag=${LATEST_TAG}" >> $GITHUB_OUTPUT
 
-    filter:
-        name: Check if Backend or Frontend Code Changed
-        runs-on: [self-hosted]
-        outputs:
-            backend: ${{ steps.set_backend.outputs.backend }}
-            frontend: ${{ steps.set_frontend.outputs.frontend }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 2
-
-            - name: Set Backend Changed
-              id: set_backend
-              run: |
-                  if git diff --name-only HEAD~1 HEAD | grep -q '^api/'; then
-                    echo "backend=true" >> $GITHUB_OUTPUT
-                  else
-                    echo "backend=false" >> $GITHUB_OUTPUT
-                  fi
-              shell: bash
-
-            - name: Set Frontend Changed
-              id: set_frontend
-              run: |
-                  if git diff --name-only HEAD~1 HEAD | grep -q '^eDB/'; then
-                    echo "frontend=true" >> $GITHUB_OUTPUT
-                  else
-                    echo "frontend=false" >> $GITHUB_OUTPUT
-                  fi
-              shell: bash
-
-            - name: Debug Filter Outputs
-              run: |
-                  echo "Backend changed: ${{ steps.set_backend.outputs.backend }}"
-                  echo "Frontend changed: ${{ steps.set_frontend.outputs.frontend }}"
-
     lint-yaml:
         name: Lint YAML Files
         runs-on: [self-hosted]
@@ -77,98 +40,213 @@ jobs:
                   yamllint k8s/prod/api/
                   yamllint k8s/prod/eDB/
 
+                      derive-pr-tag:
+        name: Derive Tag from Most Recent PR
+        runs-on: self-hosted
+        outputs:
+            image_tag: ${{ steps.derive_tag.outputs.image_tag }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
+
+            - name: Derive Docker Image Tag
+              id: derive_tag
+              run: |
+                  # Attempt to parse the merged PR number from the git log
+                  PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
+                  if [ -z "$PR_NUMBER" ]; then
+                      echo "Error: Could not derive PR number"
+                      exit 1
+                  fi
+                  VERSION="pr-${PR_NUMBER}-staging"
+                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+
+    nx-affected:
+        name: Determine Nx Affected Projects
+        runs-on: self-hosted
+        needs: [version, lint-yaml]
+        outputs:
+            backend: ${{ steps.set_booleans.outputs.backend }}
+            platform-app: ${{ steps.set_booleans.outputs.platform-app }}
+            admin-app: ${{ steps.set_booleans.outputs.admin-app }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  # Ensure we have enough commit history to compare
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+            - name: Install .NET SDK
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0'
+
+            - name: Install pnpm
+              run: npm i -g pnpm
+
+            - name: Install Dependencies
+              run: pnpm install
+              working-directory: ./eDB
+
+            - name: Print Affected
+              working-directory: ./eDB
+              run: |
+                  # Compare HEAD~1 to HEAD (this may need to be adjusted in some repos)
+                  pnpm nx show projects --affected --with-target=build --base=$(git rev-parse HEAD^1) --head=HEAD > ../affected.txt || true
+                  echo "Affected Projects:"
+                  cat ../affected.txt
+
+            - name: Extract and set booleans for affected projects
+              id: set_booleans
+              run: |
+                  # Read the plain text list (each affected project on a new line)
+                  AFFECTED=$(cat affected.txt)
+                  echo "Affected Projects: $AFFECTED"
+
+                  if echo "$AFFECTED" | grep -x -q "platform-api"; then
+                    echo "backend=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "backend=false" >> $GITHUB_OUTPUT
+                  fi
+
+                  if echo "$AFFECTED" | grep -x -q "eDB"; then
+                    echo "platform-app=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "platform-app=false" >> $GITHUB_OUTPUT
+                  fi
+
+                  if echo "$AFFECTED" | grep -x -q "eDB-admin"; then
+                    echo "admin-app=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "admin-app=false" >> $GITHUB_OUTPUT
+                  fi
+
+                  # Now, extract the values into variables
+                  backend=$(grep '^backend=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  platform=$(grep '^platform-app=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  admin=$(grep '^admin-app=' $GITHUB_OUTPUT | cut -d'=' -f2)
+
+                  # Use printf to format the final output nicely
+                  printf "\nFinal values:\n  backend: %s\n  platform-app: %s\n  admin-app: %s\n\n" "$backend" "$platform" "$admin"
+              shell: bash
+
     deploy-backend:
-        name: Deploy and Update Backend
-        runs-on: [self-hosted]
-        needs: [version, lint-yaml, filter]
-        if: ${{ needs.filter.outputs.backend == 'true' }}
+        name: Deploy Platform API to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, version, lint-yaml]
+        if: ${{ needs.nx-affected.outputs.backend == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
 
-            - name: Configure Kubernetes
+            - name: Configure Kubernetes for Staging
               run: |
                   mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
-            - name: Update API Deployment YAML with Image Tag
+            - name: Replace Placeholder with Image Tag in API Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/prod/api/api-deployment-template.prod.yaml > k8s/prod/api/api-deployment.prod.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
+                    k8s/staging/api/api-deployment-template.staging.yaml \
+                    > k8s/staging/api/api-deployment.staging.yaml
 
             - name: Debug API Deployment YAML
               run: |
                   echo "Updated API Deployment YAML:"
-                  cat k8s/prod/api/api-deployment.prod.yaml
+                  cat k8s/staging/api/api-deployment.staging.yaml
 
             - name: Validate API Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/prod/api/api-deployment.prod.yaml
+                  kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.staging.yaml
 
             - name: Deploy API to Kubernetes
               run: |
-                  kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
-                  kubectl rollout status deployment/api-prod || kubectl rollout undo deployment/api-prod
+                  kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
+                  kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
-            # - name: Commit API Deployment YAML
-            #   run: |
-            #       git config user.name "github-actions[bot]"
-            #       git config user.email "github-actions[bot]@users.noreply.github.com"
-            #       git add k8s/prod/api/api-deployment.prod.yaml
-            #       git commit -m "Update API deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
-
-            # - name: Push Backend Changes
-            #   run: |
-            #       git push origin main
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    deploy-frontend:
-        name: Deploy and Update Frontend
-        runs-on: [self-hosted]
-        needs: [version, lint-yaml, filter]
-        if: ${{ needs.filter.outputs.frontend == 'true' }}
+    deploy-platform:
+        name: Deploy Platform App to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, version, lint-yaml]
+        if: ${{ needs.nx-affected.outputs.platform-app == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
 
-            - name: Configure Kubernetes
+            - name: Configure Kubernetes for Staging
               run: |
                   mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
-            - name: Update Frontend Deployment YAML with Image Tag
+            - name: Replace Placeholder with Image Tag in Frontend Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" k8s/prod/eDB/frontend-deployment-template.prod.yaml > k8s/prod/eDB/frontend-deployment.prod.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
+                    k8s/staging/eDB/frontend-deployment-template.staging.yaml \
+                    > k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Debug Frontend Deployment YAML
               run: |
                   echo "Updated Frontend Deployment YAML:"
-                  cat k8s/prod/eDB/frontend-deployment.prod.yaml
+                  cat k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Validate Frontend Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.prod.yaml
+                  kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Deploy Frontend to Kubernetes
               run: |
-                  kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
-                  kubectl rollout status deployment/edb-nx-prod || kubectl rollout undo deployment/edb-nx-prod
+                  kubectl apply -f k8s/staging/eDB/frontend-deployment.staging.yaml
+                  kubectl rollout status deployment/web-app-staging || kubectl rollout undo deployment/web-app-staging
 
-            # - name: Commit Frontend Deployment YAML
-            #   run: |
-            #       git config user.name "github-actions[bot]"
-            #       git config user.email "github-actions[bot]@users.noreply.github.com"
-            #       git add k8s/prod/eDB/frontend-deployment.prod.yaml
-            #       git commit -m "Update Frontend deployment to ${{ needs.version.outputs.image_tag }} [skip ci]" || echo "No changes to commit"
+    deploy-admin-app:
+        name: Deploy Admin App to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, version, lint-yaml]
+        if: ${{ needs.nx-affected.outputs.admin-app == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
 
-            # - name: Push Frontend Changes
-            #   run: |
-            #       git push origin main
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Configure Kubernetes for Staging
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  chmod 600 ~/.kube/config
+                  kubectl cluster-info
+
+            - name: Replace Placeholder with Image Tag in Admin Deployment YAML
+              run: |
+                  set -e
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/eDB-admin/edb-admin.deployment-template.staging.yaml \
+                    > k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+
+            - name: Debug Admin Deployment YAML
+              run: |
+                  echo "Updated Admin Deployment YAML:"
+                  cat k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+
+            - name: Validate Admin Deployment YAML
+              run: |
+                  kubectl apply --dry-run=client -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+
+            - name: Deploy Admin to Kubernetes
+              run: |
+                  # Apply both the deployment and service
+                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.service.staging.yaml
+                  # Wait for rollout
+                  kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
+

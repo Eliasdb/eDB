@@ -8,7 +8,7 @@ on:
 jobs:
     derive-pr-tag:
         name: Derive Tag from Most Recent PR
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         outputs:
             image_tag: ${{ steps.derive_tag.outputs.image_tag }}
         steps:
@@ -31,7 +31,7 @@ jobs:
 
     nx-affected:
         name: Determine Nx Affected Projects
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         needs: derive-pr-tag
         outputs:
             backend: ${{ steps.set_booleans.outputs.backend }}
@@ -104,7 +104,7 @@ jobs:
 
     deploy-backend:
         name: Deploy Platform API to Staging
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.backend == 'true' }}
         steps:
@@ -139,9 +139,9 @@ jobs:
                   kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
-    deploy-frontend:
-        name: Deploy Frontend App to Staging
-        runs-on: [self-hosted]
+    deploy-platform:
+        name: Deploy Platform App to Staging
+        runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.platform-app == 'true' }}
         steps:
@@ -178,7 +178,7 @@ jobs:
 
     deploy-admin-app:
         name: Deploy Admin App to Staging
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.admin-app == 'true' }}
         steps:
