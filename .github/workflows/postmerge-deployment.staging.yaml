@@ -92,6 +92,8 @@ jobs:
                   else
                     echo "admin=false" >> $GITHUB_OUTPUT
                   fi
+                  echo "Final values: backend=$(grep '^backend=' $GITHUB_OUTPUT), platform=$(grep '^platform=' $GITHUB_OUTPUT), admin=$(grep '^admin=' $GITHUB_OUTPUT)"
+
               shell: bash
 
     deploy-backend:
