@@ -139,8 +139,8 @@ jobs:
                       pnpm nx run $app:build --configuration=staging --base-href=/admin/ --deploy-url=/admin/
                       # pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
                     else
-                      pnpm nx run $app:build --configuration=staging
-                      # pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel
+                      # pnpm nx run $app:build --configuration=staging
+                      pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel --verbose
                     fi
 
                     # Build Docker image
