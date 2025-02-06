@@ -32,7 +32,7 @@ export class LoginGuard implements CanActivate {
       take(1), // Take the first emitted value and complete the observable
       map((isAuth) => {
         if (isAuth) {
-          // If authenticated, redirect to the dashboard
+          // If authenticated, redirect to dashboard
           return this.router.createUrlTree(['/dashboard']);
         } else {
           // If not authenticated, allow access to the route

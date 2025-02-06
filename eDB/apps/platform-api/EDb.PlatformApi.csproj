@@ -11,6 +11,8 @@
     <EnableDefaultStaticWebAssets>false</EnableDefaultStaticWebAssets>
     <EnableScopedCss>false</EnableScopedCss>
      <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
+         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,12 +50,7 @@
    <ProjectReference Include="..\..\libs\platform-api\shared\domain\EDb.Domain.csproj" />
 </ItemGroup>
 
-<ItemGroup>
-    <None Remove="project.json" />
 
-</ItemGroup>
-<PropertyGroup>
-  <PublishTrimmed>true</PublishTrimmed>
-</PropertyGroup>
+
 
 </Project>

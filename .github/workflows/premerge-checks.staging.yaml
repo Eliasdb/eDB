@@ -4,54 +4,38 @@ on:
     pull_request:
         branches:
             - dev
-    workflow_dispatch: # Enable manual trigger
-        inputs:
-            job_to_run:
-                description: 'Select the job to run'
-                required: false
-                default: 'all'
-                type: choice
-                options:
-                    - all
-                    - lint
-                    - test
-                    - build
+    # workflow_dispatch: # Enable manual trigger
+    #     inputs:
+    #         job_to_run:
+    #             description: 'Select the job to run'
+    #             required: false
+    #             default: 'all'
+    #             type: choice
+    #             options:
+    #                 - all
+    #                 - lint
+    #                 - test
+    #                 - build
 
 jobs:
-    setup:
+    version:
         name: Set Version
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - name: Install .NET SDK
-              uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
-
             - name: Set Version with PR Number
               id: version
               run: |
-                  PR_NUMBER=${{ github.run_number }}
+                  PR_NUMBER=${{ github.event.pull_request.number }}
                   VERSION=pr-${PR_NUMBER}-staging
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
     lint:
         name: Lint Affected Projects
-        runs-on: [self-hosted]
-        needs: setup
-        if: ${{ github.event.inputs.job_to_run == 'lint' || github.event.inputs.job_to_run == 'all' }}
+        runs-on: self-hosted
+        needs: version
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -79,9 +63,8 @@ jobs:
 
     test:
         name: Test Affected Projects
-        runs-on: [self-hosted]
-        needs: lint
-        if: ${{ github.event.inputs.job_to_run == 'test' || github.event.inputs.job_to_run == 'all' }}
+        runs-on: self-hosted
+        needs: [version, lint]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -109,9 +92,8 @@ jobs:
 
     build:
         name: Build Docker Images for Affected Projects
-        runs-on: [self-hosted]
-        needs: [test, setup]
-        if: ${{ github.event.inputs.job_to_run == 'build' || github.event.inputs.job_to_run == 'all' }}
+        runs-on: self-hosted
+        needs: [version, lint, test]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -144,11 +126,27 @@ jobs:
             - name: Build and Push Docker Images for Affected Projects
               working-directory: ./eDB
               run: |
+                  # Get affected apps
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
                   echo "Affected Apps: $AFFECTED_APPS"
+
+                  # Loop through each affected app
                   for app in $AFFECTED_APPS; do
+                    echo "Processing app: $app"
+
+                    # Build with special configuration for eDB-admin
+                    if [ "$app" = "eDB-admin" ]; then
+                      pnpm nx run $app:build --configuration=staging --base-href=/admin/ --deploy-url=/admin/
+                      # pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
+                    else
+                      pnpm nx run $app:build --configuration=staging
+                      # pnpm nx affected --target=build --configuration=staging --base=origin/dev --head=HEAD --parallel --verbose
+                    fi
+
+                    # Build Docker image
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
-                    docker build -f apps/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
-                    # docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
+
+                    docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
+                    docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
                   done

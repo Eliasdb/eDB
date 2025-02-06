@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: admin-app
-                  image: eliasdb/admin-app:${IMAGE_TAG}
+                  image: eliasdb/edb-admin:${IMAGE_TAG}
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
