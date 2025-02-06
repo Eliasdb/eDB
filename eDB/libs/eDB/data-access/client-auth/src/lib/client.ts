@@ -37,7 +37,7 @@ export class AuthService {
           ),
         );
       },
-      // Optionally handle onSuccess or other mutation options here
+      // Optionally handle onSuccess
     }));
   }
 
