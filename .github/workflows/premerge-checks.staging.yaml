@@ -147,6 +147,6 @@ jobs:
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
 
-                    docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }} .
-                    docker push eliasdb/$lower_app:${{ needs.setup.outputs.image_tag }}
+                    docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
+                    docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
                   done
