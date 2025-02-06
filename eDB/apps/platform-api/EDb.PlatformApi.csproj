@@ -11,6 +11,8 @@
     <EnableDefaultStaticWebAssets>false</EnableDefaultStaticWebAssets>
     <EnableScopedCss>false</EnableScopedCss>
      <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
+         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+
   </PropertyGroup>
 
   <ItemGroup>
