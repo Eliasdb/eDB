@@ -18,9 +18,9 @@ on:
     #                 - build
 
 jobs:
-    setup:
+    version:
         name: Set Version
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
@@ -34,8 +34,8 @@ jobs:
 
     lint:
         name: Lint Affected Projects
-        runs-on: [self-hosted]
-        needs: setup
+        runs-on: self-hosted
+        needs: version
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -63,8 +63,8 @@ jobs:
 
     test:
         name: Test Affected Projects
-        runs-on: [self-hosted]
-        needs: lint
+        runs-on: self-hosted
+        needs: [version, lint]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -92,8 +92,8 @@ jobs:
 
     build:
         name: Build Docker Images for Affected Projects
-        runs-on: [self-hosted]
-        needs: [setup]
+        runs-on: self-hosted
+        needs: [version, lint, test]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
