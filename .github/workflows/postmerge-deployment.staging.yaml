@@ -20,52 +20,76 @@ jobs:
             - name: Derive Docker Image Tag
               id: derive_tag
               run: |
+                  # Attempt to parse the merged PR number from the git log
                   PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
                   if [ -z "$PR_NUMBER" ]; then
                       echo "Error: Could not derive PR number"
                       exit 1
                   fi
-                  VERSION=pr-${PR_NUMBER}-staging
+                  VERSION="pr-${PR_NUMBER}-staging"
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
-    filter:
-        name: Check if Backend or Frontend Code Changed
+    nx-affected:
+        name: Determine Nx Affected Projects
         runs-on: [self-hosted]
         needs: derive-pr-tag
         outputs:
-            backend: ${{ steps.set_backend.outputs.backend }}
-            frontend: ${{ steps.set_frontend.outputs.frontend }}
+            platform-api: ${{ steps.parse_affected.outputs.backend }}
+            platform-app: ${{ steps.parse_affected.outputs.platform }}
+            admin-app: ${{ steps.parse_affected.outputs.admin }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
               with:
-                  fetch-depth: 2
+                  # Ensure we have enough commit history to compare
+                  fetch-depth: 0
 
-            - name: Set Backend Changed
-              id: set_backend
+            - name: Install pnpm
+              run: npm i -g pnpm
+
+            - name: Install Dependencies
+              run: pnpm install
+              working-directory: ./eDB
+
+            - name: Print Affected
+              id: print_affected
               run: |
-                  if git diff --name-only HEAD~1 HEAD | grep -q '^api/'; then
+                  # Compare HEAD~1 to HEAD (this may need to be adjusted in some repos)
+                  npx nx print-affected --base=HEAD~1 --head=HEAD --target=build > affected.json
+                  echo "Affected JSON:"
+                  cat affected.json
+
+            - name: Parse Affected
+              id: parse_affected
+              run: |
+                  # Extract list of affected projects
+                  PROJECTS=$(cat affected.json | jq -r '.projects[]')
+                  echo "Affected Projects: $PROJECTS"
+
+                  # Adjust the grep checks below to match your Nx project names
+                  if echo "$PROJECTS" | grep -q "platform-api"; then
                     echo "backend=true" >> $GITHUB_OUTPUT
                   else
                     echo "backend=false" >> $GITHUB_OUTPUT
                   fi
-              shell: bash
 
-            - name: Set Frontend Changed
-              id: set_frontend
-              run: |
-                  if git diff --name-only HEAD~1 HEAD | grep -q '^eDB/'; then
-                    echo "frontend=true" >> $GITHUB_OUTPUT
+                  if echo "$PROJECTS" | grep -q "eDB"; then
+                    echo "platform=true" >> $GITHUB_OUTPUT
                   else
-                    echo "frontend=false" >> $GITHUB_OUTPUT
+                    echo "platform=false" >> $GITHUB_OUTPUT
                   fi
-              shell: bash
+
+                  if echo "$PROJECTS" | grep -q "eDB-admin"; then
+                    echo "admin=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "admin=false" >> $GITHUB_OUTPUT
+                  fi
 
     deploy-backend:
-        name: Deploy Backend to Staging
+        name: Deploy Platform API to Staging
         runs-on: [self-hosted]
-        needs: [filter, derive-pr-tag]
-        if: ${{ needs.filter.outputs.backend == 'true' }}
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.platform-api == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -80,11 +104,14 @@ jobs:
             - name: Replace Placeholder with Image Tag in API Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/api/api-deployment-template.staging.yaml > k8s/staging/api/api-deployment.staging.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/api/api-deployment-template.staging.yaml \
+                    > k8s/staging/api/api-deployment.staging.yaml
 
             - name: Debug API Deployment YAML
               run: |
-                  echo "Updated API Deployment YAML:" && cat k8s/staging/api/api-deployment.staging.yaml
+                  echo "Updated API Deployment YAML:"
+                  cat k8s/staging/api/api-deployment.staging.yaml
 
             - name: Validate API Deployment YAML
               run: |
@@ -96,10 +123,10 @@ jobs:
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
     deploy-frontend:
-        name: Deploy Frontend to Staging
+        name: Deploy Frontend App to Staging
         runs-on: [self-hosted]
-        needs: [filter, derive-pr-tag]
-        if: ${{ needs.filter.outputs.frontend == 'true' }}
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.platform-app == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -114,11 +141,14 @@ jobs:
             - name: Replace Placeholder with Image Tag in Frontend Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" k8s/staging/eDB/frontend-deployment-template.staging.yaml > k8s/staging/eDB/frontend-deployment.staging.yaml
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/eDB/frontend-deployment-template.staging.yaml \
+                    > k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Debug Frontend Deployment YAML
               run: |
-                  echo "Updated Frontend Deployment YAML:" && cat k8s/staging/eDB/frontend-deployment.staging.yaml
+                  echo "Updated Frontend Deployment YAML:"
+                  cat k8s/staging/eDB/frontend-deployment.staging.yaml
 
             - name: Validate Frontend Deployment YAML
               run: |
@@ -127,4 +157,44 @@ jobs:
             - name: Deploy Frontend to Kubernetes
               run: |
                   kubectl apply -f k8s/staging/eDB/frontend-deployment.staging.yaml
-                  kubectl rollout status deployment/edb-nx-staging || kubectl rollout undo deployment/edb-nx-staging
+                  kubectl rollout status deployment/web-app-staging || kubectl rollout undo deployment/web-app-staging
+
+    deploy-admin-app:
+        name: Deploy Admin App to Staging
+        runs-on: [self-hosted]
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.admin-app == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Configure Kubernetes for Staging
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  chmod 600 ~/.kube/config
+                  kubectl cluster-info
+
+            - name: Replace Placeholder with Image Tag in Admin Deployment YAML
+              run: |
+                  set -e
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/eDB-admin/edb-admin.deployment-template.staging.yaml \
+                    > k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+
+            - name: Debug Admin Deployment YAML
+              run: |
+                  echo "Updated Admin Deployment YAML:"
+                  cat k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+
+            - name: Validate Admin Deployment YAML
+              run: |
+                  kubectl apply --dry-run=client -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+
+            - name: Deploy Admin to Kubernetes
+              run: |
+                  # Apply both the deployment and service
+                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.service.staging.yaml
+                  # Wait for rollout
+                  kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
