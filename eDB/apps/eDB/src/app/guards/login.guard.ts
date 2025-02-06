@@ -29,7 +29,7 @@ export class LoginGuard implements CanActivate {
     | boolean
     | UrlTree {
     return this.authService.isAuthenticated().pipe(
-      take(1), // Take the first emitted value and complete the observable
+      take(1), // Takes the first emitted value and complete the observable
       map((isAuth) => {
         if (isAuth) {
           // If authenticated, redirect to dashboard
