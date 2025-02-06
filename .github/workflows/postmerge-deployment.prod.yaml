@@ -40,29 +40,6 @@ jobs:
                   yamllint k8s/prod/api/
                   yamllint k8s/prod/eDB/
 
-                      derive-pr-tag:
-        name: Derive Tag from Most Recent PR
-        runs-on: self-hosted
-        outputs:
-            image_tag: ${{ steps.derive_tag.outputs.image_tag }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 1
-
-            - name: Derive Docker Image Tag
-              id: derive_tag
-              run: |
-                  # Attempt to parse the merged PR number from the git log
-                  PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
-                  if [ -z "$PR_NUMBER" ]; then
-                      echo "Error: Could not derive PR number"
-                      exit 1
-                  fi
-                  VERSION="pr-${PR_NUMBER}-staging"
-                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
-
     nx-affected:
         name: Determine Nx Affected Projects
         runs-on: self-hosted
@@ -229,7 +206,7 @@ jobs:
             - name: Replace Placeholder with Image Tag in Admin Deployment YAML
               run: |
                   set -e
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
                     k8s/staging/eDB-admin/edb-admin.deployment-template.staging.yaml \
                     > k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
 
@@ -249,4 +226,3 @@ jobs:
                   kubectl apply -f k8s/staging/eDB-admin/edb-admin.service.staging.yaml
                   # Wait for rollout
                   kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
-
