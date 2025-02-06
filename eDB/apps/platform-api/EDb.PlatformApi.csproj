@@ -52,8 +52,6 @@
     <None Remove="project.json" />
 
 </ItemGroup>
-<PropertyGroup>
-  <PublishTrimmed>true</PublishTrimmed>
-</PropertyGroup>
+
 
 </Project>
