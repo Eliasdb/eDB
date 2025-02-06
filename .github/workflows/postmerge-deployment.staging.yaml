@@ -34,9 +34,9 @@ jobs:
         runs-on: [self-hosted]
         needs: derive-pr-tag
         outputs:
-            platform-api: ${{ steps.parse_affected.outputs.backend }}
-            platform-app: ${{ steps.parse_affected.outputs.platform }}
-            admin-app: ${{ steps.parse_affected.outputs.admin }}
+            platform-api: ${{ steps.print_affected.outputs.backend }}
+            platform-app: ${{ steps.print_affected.outputs.platform }}
+            admin-app: ${{ steps.print_affected.outputs.admin }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -65,35 +65,34 @@ jobs:
               working-directory: ./eDB
               run: |
                   # Compare HEAD~1 to HEAD (this may need to be adjusted in some repos)
-                  pnpm nx show projects --affected --with-target=build --base=$(git rev-parse HEAD^1) --head=HEAD > affected.json || true
-                  echo "Affected JSON:"
-                  cat affected.json
+                  pnpm nx show projects --affected --with-target=build --base=$(git rev-parse HEAD^1) --head=HEAD > ../affected.txt || true
+                  echo "Affected Projects:"
+                  cat ../affected.txt
 
-            - name: Parse Affected
-              id: parse_affected
+            - name: Extract and set booleans for affected projects
               run: |
-                  # Extract list of affected projects
-                  PROJECTS=$(cat affected.json | jq -r '.projects[]')
-                  echo "Affected Projects: $PROJECTS"
+                  # Read the plain text list (each affected project on a new line)
+                  AFFECTED=$(cat affected.txt)
+                  echo "Affected Projects: $AFFECTED"
 
-                  # Adjust the grep checks below to match your Nx project names
-                  if echo "$PROJECTS" | grep -q "platform-api"; then
+                  if echo "$AFFECTED" | grep -q "platform-api"; then
                     echo "backend=true" >> $GITHUB_OUTPUT
                   else
                     echo "backend=false" >> $GITHUB_OUTPUT
                   fi
 
-                  if echo "$PROJECTS" | grep -q "eDB"; then
+                  if echo "$AFFECTED" | grep -q "eDB"; then
                     echo "platform=true" >> $GITHUB_OUTPUT
                   else
                     echo "platform=false" >> $GITHUB_OUTPUT
                   fi
 
-                  if echo "$PROJECTS" | grep -q "eDB-admin"; then
+                  if echo "$AFFECTED" | grep -q "eDB-admin"; then
                     echo "admin=true" >> $GITHUB_OUTPUT
                   else
                     echo "admin=false" >> $GITHUB_OUTPUT
                   fi
+              shell: bash
 
     deploy-backend:
         name: Deploy Platform API to Staging
