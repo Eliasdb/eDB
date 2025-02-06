@@ -50,7 +50,6 @@ export class CatalogPage {
   }
 
   onSubscribe(appId: number) {
-    // Handle the subscription logic here (e.g., call a service to subscribe)
     this.subscribeMutation.mutate(appId, {
       onSuccess: () => {
         console.log('Subscribed to app with ID:', appId);
