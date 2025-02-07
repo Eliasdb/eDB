@@ -114,7 +114,7 @@ jobs:
               shell: bash
 
     deploy-backend:
-        name: Deploy Platform API to Staging
+        name: Deploy Platform API to Production
         runs-on: self-hosted
         needs: [nx-affected, version, lint-yaml]
         if: ${{ needs.nx-affected.outputs.backend == 'true' }}
@@ -122,10 +122,10 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
 
-            - name: Configure Kubernetes for Staging
+            - name: Configure Kubernetes for Production
               run: |
                   mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
@@ -133,25 +133,25 @@ jobs:
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-                    k8s/staging/api/api-deployment-template.staging.yaml \
-                    > k8s/staging/api/api-deployment.staging.yaml
+                    k8s/staging/api/api-deployment-template.prod.yaml \
+                    > k8s/prod/api/api-deployment.prod.yaml
 
             - name: Debug API Deployment YAML
               run: |
                   echo "Updated API Deployment YAML:"
-                  cat k8s/staging/api/api-deployment.staging.yaml
+                  cat k8s/prod/api/api-deployment.prod.yaml
 
             - name: Validate API Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.staging.yaml
+                  kubectl apply --dry-run=client -f k8s/prod/api/api-deployment.prod.yaml
 
             - name: Deploy API to Kubernetes
               run: |
-                  kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
-                  kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
+                  kubectl apply -f k8s/prod/api/api-deployment.prod.yaml
+                  kubectl rollout status deployment/platform-api-prod || kubectl rollout undo deployment/platform-api-prod
 
     deploy-platform:
-        name: Deploy Platform App to Staging
+        name: Deploy Platform App to Production
         runs-on: self-hosted
         needs: [nx-affected, version, lint-yaml]
         if: ${{ needs.nx-affected.outputs.platform-app == 'true' }}
@@ -159,10 +159,10 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
 
-            - name: Configure Kubernetes for Staging
+            - name: Configure Kubernetes for Production
               run: |
                   mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
@@ -184,11 +184,11 @@ jobs:
 
             - name: Deploy Frontend to Kubernetes
               run: |
-                  kubectl apply -f k8s/staging/eDB/frontend-deployment.staging.yaml
-                  kubectl rollout status deployment/web-app-staging || kubectl rollout undo deployment/web-app-staging
+                  kubectl apply -f k8s/prod/eDB/frontend-deployment.prod.yaml
+                  kubectl rollout status deployment/web-app-prod || kubectl rollout undo deployment/web-app-prod
 
     deploy-admin-app:
-        name: Deploy Admin App to Staging
+        name: Deploy Admin App to Production
         runs-on: self-hosted
         needs: [nx-affected, version, lint-yaml]
         if: ${{ needs.nx-affected.outputs.admin-app == 'true' }}
@@ -196,10 +196,10 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
 
-            - name: Configure Kubernetes for Staging
+            - name: Configure Kubernetes for Production
               run: |
                   mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
                   chmod 600 ~/.kube/config
                   kubectl cluster-info
 
@@ -207,22 +207,22 @@ jobs:
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-                    k8s/staging/eDB-admin/edb-admin.deployment-template.staging.yaml \
-                    > k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+                    k8s/prod/eDB-admin/edb-admin.deployment-template.prod.yaml \
+                    > k8s/prod/eDB-admin/edb-admin.deployment.prod.yaml
 
             - name: Debug Admin Deployment YAML
               run: |
                   echo "Updated Admin Deployment YAML:"
-                  cat k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+                  cat k8s/prod/eDB-admin/edb-admin.deployment.prod.yaml
 
             - name: Validate Admin Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+                  kubectl apply --dry-run=client -f k8s/prod/eDB-admin/edb-admin.deployment.prod.yaml
 
             - name: Deploy Admin to Kubernetes
               run: |
                   # Apply both the deployment and service
-                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.service.staging.yaml
+                  kubectl apply -f k8s/prod/eDB-admin/edb-admin.deployment.prod.yaml
+                  kubectl apply -f k8s/prod/eDB-admin/edb-admin.service.prod.yaml
                   # Wait for rollout
-                  kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
+                  kubectl rollout status deployment/admin-app-prod || kubectl rollout undo deployment/admin-app-prod
