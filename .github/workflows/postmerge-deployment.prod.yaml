@@ -39,6 +39,7 @@ jobs:
               run: |
                   yamllint k8s/prod/api/
                   yamllint k8s/prod/eDB/
+                  yamllint k8s/prod/eDB-admin/
 
     nx-affected:
         name: Determine Nx Affected Projects
@@ -133,7 +134,7 @@ jobs:
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-                    k8s/staging/api/api-deployment-template.prod.yaml \
+                    k8s/prod/api/api-deployment-template.prod.yaml \
                     > k8s/prod/api/api-deployment.prod.yaml
 
             - name: Debug API Deployment YAML
@@ -170,17 +171,17 @@ jobs:
               run: |
                   set -e
                   sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-                    k8s/staging/eDB/frontend-deployment-template.staging.yaml \
-                    > k8s/staging/eDB/frontend-deployment.staging.yaml
+                    k8s/prod/eDB/frontend-deployment-template.prod.yaml \
+                    > k8s/prod/eDB/frontend-deployment.prod.yaml
 
             - name: Debug Frontend Deployment YAML
               run: |
                   echo "Updated Frontend Deployment YAML:"
-                  cat k8s/staging/eDB/frontend-deployment.staging.yaml
+                  cat k8s/prod/eDB/frontend-deployment.prod.yaml
 
             - name: Validate Frontend Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.staging.yaml
+                  kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.staging.yaml
 
             - name: Deploy Frontend to Kubernetes
               run: |
