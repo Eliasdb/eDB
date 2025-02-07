@@ -47,7 +47,7 @@ using (var scope = app.Services.CreateScope())
   {
     var dbContext = services.GetRequiredService<MyDbContext>();
     dbContext.Database.Migrate();
-    DbInitializer.Initialize(dbContext); // Seed database
+    DbInitializer.Initialize(dbContext); // Seed database.
   }
   catch (Exception ex)
   {
