@@ -1,76 +1,63 @@
 import { Route } from '@angular/router';
 
-import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
-
-import { PlatformLayout } from './layouts/platform/platform.layout';
-import { PortalLayout } from './layouts/portal/portal.layout';
-
-import { NotFoundPage } from './pages/404/not-found.page';
-import { LoginPage } from './pages/portal/login/login.page';
-import { RegisterPage } from './pages/portal/register/register.page';
 
 export const routes: Route[] = [
   {
     path: '',
-    component: PlatformLayout,
     canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./pages/platform/home/home.page').then((m) => m.HomePage),
+        loadChildren: () =>
+          import(
+            '@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */
+          ).then((m) => m.featureDashboardRoutes),
       },
       {
         path: 'profile',
-        loadComponent: () =>
-          import('./pages/platform/profile/profile.page').then(
-            (m) => m.ProfilePage,
+        loadChildren: () =>
+          import('@eDB/feature-profile' /* webpackChunkName: "profile" */).then(
+            (m) => m.featureProfileRoutes,
           ),
       },
       {
-        path: 'admin',
-        canActivate: [AdminGuard],
-        loadChildren: () =>
-          import('./pages/platform/admin/admin.routes').then(
-            (m) => m.ADMIN_ROUTES,
-          ), // Lazy load the admin routes
-      },
-      {
         path: 'catalog',
-        loadComponent: () =>
-          import('./pages/platform/catalog/catalog.page').then(
-            (m) => m.CatalogPage,
+        loadChildren: () =>
+          import('@eDB/feature-catalog' /* webpackChunkName: "catalog" */).then(
+            (m) => m.featureCatalogRoutes,
           ),
       },
     ],
   },
   {
     path: 'auth',
-    component: PortalLayout,
     children: [
       {
         path: 'login',
-        component: LoginPage,
+        loadChildren: () =>
+          import('@eDB/feature-login' /* webpackChunkName: "login" */).then(
+            (m) => m.featureLoginRoutes,
+          ),
         canActivate: [LoginGuard],
       },
       {
         path: 'register',
-        component: RegisterPage,
+        loadChildren: () =>
+          import(
+            '@eDB/feature-register' /* webpackChunkName: "register" */
+          ).then((m) => m.featureRegisterRoutes),
         canActivate: [LoginGuard],
       },
     ],
   },
   {
-    path: 'appointments',
-    loadChildren: () =>
-      import('@eDB/appointment-app').then((m) => m.AppointmentsModule),
-  },
-
-  {
     path: 'not-found',
-    component: NotFoundPage, // Add the not-found route
+    loadChildren: () =>
+      import('@eDB/feature-404' /* webpackChunkName: "not-found" */).then(
+        (m) => m.feature404Routes,
+      ),
   },
   {
     path: '**',

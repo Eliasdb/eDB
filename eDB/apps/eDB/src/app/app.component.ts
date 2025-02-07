@@ -1,18 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  I18nModule,
-  NotificationService,
-  PlaceholderModule,
-} from 'carbon-components-angular';
+import { ShellComponent } from '@eDB/feature-shell';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule, PlaceholderModule, I18nModule],
-  providers: [NotificationService],
-  template: `
-    <router-outlet></router-outlet>
-    <cds-placeholder></cds-placeholder>
-  `,
+  imports: [ShellComponent],
+  template: ` <app-shell></app-shell> `,
 })
 export class AppComponent {}

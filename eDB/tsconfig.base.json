@@ -15,17 +15,36 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@eDB/platform-services": ["apps/eDB/src/app/services/index"],
-      "@eDB/platform-models/*": ["apps/eDB/src/app/models/*"],
-      "@eDB/platform-components/portal": [
-        "apps/eDB/src/app/components/portal/index"
+      "@e-db/generated-platform-api-types": [
+        "libs/generated/platform-api-types/src/index"
       ],
-      "@eDB/platform-components/platform": [
-        "apps/eDB/src/app/components/platform/index"
+      "@eDB/client-admin": [
+        "libs/eDB-admin/data-access/client-admin/src/index"
       ],
-      "@eDB/appointment-app": ["apps/appointment-app/src/index"],
-      "@eDB/shared-ui": ["libs/ui/src/index"],
-      "@eDB/shared-utils": ["libs/utils/src/index"]
+      "@eDB/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
+      "@eDB/client-catalog": ["libs/eDB/data-access/client-catalog/src/index"],
+      "@eDB/client-dashboard": [
+        "libs/eDB/data-access/client-dashboard/src/index"
+      ],
+      "@eDB/client-profile": ["libs/eDB/data-access/client-profile/src/index"],
+      "@eDB/feature-404": ["libs/eDB/features/feature-404/src/index"],
+      "@eDB/feature-admin-dashboard": [
+        "libs/eDB-admin/features/feature-admin-dashboard/src/index"
+      ],
+      "@eDB/feature-catalog": ["libs/eDB/features/feature-catalog/src/index"],
+      "@eDB/feature-dashboard": [
+        "libs/eDB/features/feature-dashboard/src/index"
+      ],
+      "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index"],
+      "@eDB/feature-profile": ["libs/eDB/features/feature-profile/src/index"],
+      "@eDB/feature-register": ["libs/eDB/features/feature-register/src/index"],
+      "@eDB/feature-shell": ["libs/eDB/features/feature-shell/src/index"],
+      "@eDB/shared-env": ["libs/shared/utils/environment/src/index"],
+      "@eDB/shared-ui": ["libs/shared/presentation-layer/ui/src/index"],
+      "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
+      "@eDB/utils-user-params": [
+        "libs/shared/utils/utils-user-params/src/index"
+      ]
     }
   },
   "exclude": ["tmp"]

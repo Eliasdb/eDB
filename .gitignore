@@ -5,13 +5,15 @@ node_modules
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
-
+.nx
+.cache
 # local env files
 .env.local
 .env.*.local
 .env
 
 *-secrets.yaml
+*-config.yaml
 
 # Log files
 npm-debug.log*

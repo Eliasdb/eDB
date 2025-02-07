@@ -4,64 +4,30 @@ on:
     pull_request:
         branches:
             - main
-        paths:
-            - 'api/**'
-            - 'eDB/**'
+    # workflow_dispatch: # Enable manual trigger
+    #     inputs:
+    #         job_to_run:
+    #             description: 'Select the job to run'
+    #             required: false
+    #             default: 'all'
+    #             type: choice
+    #             options:
+    #                 - all
+    #                 - lint
+    #                 - test
+    #                 - build
 
 jobs:
-    filter:
-        name: Check if Backend or Frontend Code Changed
-        runs-on: [self-hosted]
-        outputs:
-            backend: ${{ steps.set_backend.outputs.backend }}
-            frontend: ${{ steps.set_frontend.outputs.frontend }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 2
-
-            - name: Set Backend Changed
-              id: set_backend
-              run: |
-                  if git diff --name-only HEAD~1 HEAD | grep -q '^api/'; then
-                    echo "backend=true" >> $GITHUB_OUTPUT
-                  else
-                    echo "backend=false" >> $GITHUB_OUTPUT
-                  fi
-              shell: bash
-
-            - name: Set Frontend Changed
-              id: set_frontend
-              run: |
-                  if git diff --name-only HEAD~1 HEAD | grep -q '^eDB/'; then
-                    echo "frontend=true" >> $GITHUB_OUTPUT
-                  else
-                    echo "frontend=false" >> $GITHUB_OUTPUT
-                  fi
-              shell: bash
-
-            - name: Debug Filter Outputs
-              run: |
-                  echo "Backend changed: ${{ steps.set_backend.outputs.backend }}"
-                  echo "Frontend changed: ${{ steps.set_frontend.outputs.frontend }}"
-
     version:
-        name: Set Version
-        runs-on: [self-hosted]
-        needs: filter
+        name: Set Version and Tag
+        runs-on: self-hosted
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
             - name: Set Version
               id: version
               run: |
-                  VERSION=v1.0.2-alpha
+                  VERSION=v1.0.3-beta
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
@@ -76,112 +42,99 @@ jobs:
                       git config user.name "github-actions[bot]"
                       git config user.email "github-actions[bot]@users.noreply.github.com"
                       git tag $TAG
+                      git remote set-url origin https://$GITHUB_ACTOR:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
                       git push origin $TAG
                   fi
+              shell: bash
 
-    lint-frontend:
-        name: Lint Frontend Code
-        runs-on: [self-hosted]
-        needs: [filter, version]
-        if: ${{ needs.filter.outputs.frontend == 'true' }}
+    lint:
+        name: Lint Affected Projects
+        runs-on: self-hosted
+        needs: version
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
                   node-version: '20'
 
+            - name: Install .NET SDK
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0'
+
             - name: Install pnpm
-              run: corepack enable && corepack prepare pnpm@latest --activate
+              run: npm install -g pnpm --force
 
             - name: Install Dependencies
               run: pnpm install
               working-directory: ./eDB
 
-            - name: Run Lint for All Projects
-              run: pnpm nx run-many --target=lint --all --verbose || true
+            - name: Lint Affected Projects
+              run: pnpm nx affected --target=lint --base=origin/main --head=HEAD --parallel || true
               working-directory: ./eDB
 
-    lint-backend:
-        name: Lint Backend Code
-        runs-on: [self-hosted]
-        needs: [filter, version]
-        if: ${{ needs.filter.outputs.backend == 'true' }}
+    test:
+        name: Test Affected Projects
+        runs-on: self-hosted
+        needs: [version, lint]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-
-            - name: Set up .NET
-              uses: actions/setup-dotnet@v3
               with:
-                  dotnet-version: '8.0' # Adjust to your .NET version
-
-            - name: Install dotnet format
-              run: dotnet tool install --global dotnet-format
-
-            - name: Lint Backend Code
-              env:
-                  DOTNET_ROOT: ${{ env.DOTNET_ROOT }} # Ensures dotnet tool is in PATH
-              run: dotnet format ./PlatformAPI --verify-no-changes --severity info --verbosity detailed || true
-
-    test-frontend:
-        name: Run Frontend Unit and Integration Tests
-        runs-on: [self-hosted]
-        needs: [filter, version]
-        if: ${{ needs.filter.outputs.frontend == 'true' }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
+                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
                   node-version: '20'
 
+            - name: Install .NET SDK
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '8.0'
+
             - name: Install pnpm
-              run: corepack enable && corepack prepare pnpm@latest --activate
+              run: npm install -g pnpm --force
 
             - name: Install Dependencies
               run: pnpm install
               working-directory: ./eDB
 
-            - name: Run Tests
-              run: pnpm nx run-many --target=test --all --exclude=appointment-app --verbose || true
+            - name: Test Affected Projects
+              run: pnpm nx affected --target=test --base=origin/main --head=HEAD --parallel || true
               working-directory: ./eDB
 
-    test-backend:
-        name: Run Backend Unit and Integration Tests
-        runs-on: [self-hosted]
-        needs: [filter, version]
-        if: ${{ needs.filter.outputs.backend == 'true' }}
+    build:
+        name: Build Docker Images for Affected Projects
+        runs-on: self-hosted
+        needs: [version, lint, test]
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
-            - name: Set up .NET
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+
+            - name: Install .NET SDK
               uses: actions/setup-dotnet@v3
               with:
-                  dotnet-version: '8.0' # Adjust to your project's .NET version
+                  dotnet-version: '8.0'
+
+            - name: Install pnpm
+              run: npm install -g pnpm --force
 
             - name: Install Dependencies
-              run: dotnet restore ./PlatformAPI
-
-            - name: Build Backend Tests
-              run: dotnet build ./PlatformAPITests/PlatformAPITests.csproj --configuration Release
-
-            - name: Run Backend Tests
-              run: dotnet test ./PlatformAPITests/PlatformAPITests.csproj --configuration Release --no-build --logger trx || true
-
-    build-backend:
-        name: Build and Push Backend Docker Image
-        runs-on: [self-hosted]
-        needs: [filter, lint-backend, test-backend, version]
-        if: ${{ needs.filter.outputs.backend == 'true' }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
+              run: pnpm install
+              working-directory: ./eDB
 
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
@@ -189,38 +142,30 @@ jobs:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
+            - name: Build and Push Docker Images for Affected Projects
+              working-directory: ./eDB
+              run: |
+                  # Get affected apps
+                  AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/main --head=HEAD --plain)
+                  echo "Affected Apps: $AFFECTED_APPS"
 
-            - name: Build and Push Backend Docker Image
-              uses: docker/build-push-action@v3
-              with:
-                  context: ./PlatformAPI
-                  file: ./PlatformAPI/Dockerfile.prod
-                  push: true
-                  tags: eliasdb/edb-api:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/arm64
+                  # Loop through each affected app
+                  for app in $AFFECTED_APPS; do
+                    echo "Processing app: $app"
 
-    build-frontend:
-        name: Build and Push Frontend Docker Image
-        runs-on: [self-hosted]
-        needs: [filter, lint-frontend, test-frontend, version]
-        if: ${{ needs.filter.outputs.frontend == 'true' }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
+                    # Build with special configuration for eDB-admin
+                    if [ "$app" = "eDB-admin" ]; then
+                      pnpm nx run $app:build --configuration=production --base-href=/admin/ --deploy-url=/admin/
+                      # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
+                    else
+                      pnpm nx run $app:build --configuration=production
+                      # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --parallel --verbose
+                    fi
 
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_TOKEN }}
+                    # Build Docker image
+                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+                    echo "Building Docker image for: $lower_app"
 
-            - name: Build and Push Frontend Docker Image
-              uses: docker/build-push-action@v3
-              with:
-                  context: ./eDB
-                  file: ./eDB/Dockerfile.prod
-                  push: true
-                  tags: eliasdb/edb-nx:${{ needs.version.outputs.image_tag }}
-                  platforms: linux/arm64
+                    docker build --platform linux/arm64 -f docker/$app/Dockerfile.prod -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
+                    docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
+                  done

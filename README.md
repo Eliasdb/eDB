@@ -5,17 +5,14 @@
 -   [1. Project Goal](#1-project-goal)
 -   [2. Setup](#2-setup)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Tools and Features](#211-tools-and-features)
-        -   [2.1.2 Portal and Platform Pages](#212-portal-and-platform-pages)
-        -   [2.1.3 Shared Libraries](#213-shared-libraries)
-        -   [2.1.4 Architecture Diagrams](#214-architecture-diagrams)
+        -   [2.1.1 Application Pages](#211-application-pages)
+        -   [2.1.2 Stack & Architecture](#212-stack--architecture)
+        -   [2.1.3 Architecture Diagrams](#213-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
-        -   [2.2.1 Tools and Features](#221-tools-and-features)
-        -   [2.2.2 Controllers and Endpoints](#222-controllers-and-endpoints)
-            -   [2.2.2.1 Admin Controller](#2221-admin-controller)
-            -   [2.2.2.2 Applications Controller](#2222-applications-controller)
-            -   [2.2.2.3 Authentication Controller](#2223-authentication-controller)
-            -   [2.2.2.4 Profile Controller](#2224-profile-controller)
+        -   [2.2.1 Stack & Architecture](#221-stack--architecture)
+        -   [2.2.2 APIs](#222-apis)
+            -   [2.2.2.1 Platform API](#2221-platform-api)
+            -   [2.2.2.2 Admin API](#2222-admin-api)
         -   [2.2.3 Architecture Diagram](#223-architecture-diagram)
     -   [2.3 Database](#23-database)
     -   [2.4 VPS](#24-vps)
@@ -70,358 +67,419 @@ I am building a platform housing multiple applications where users can make an a
 
 ### 2.1 Frontend
 
-### 2.1.1 Tools and Features
+### 2.1.1 Application Pages
 
--   Framework: **Angular 19**
--   Monorepo workspace: **Nx**
--   Documenting components: **Storybook 8**
--   API Integration: **TanStack Query** to efficiently fetch and manage data from the backend REST API.
--   Role-Based Access Control (RBAC): User, Premium User, Admin with **JWT**
--   Application Modularity: **Lazy-loading** sub-applications and routes within the platform for improved performance and scalability.
+#### Web App:
 
-### 2.1.2 Portal And Platform Pages
+-   **User Account**:
 
-#### User Account:
+    -   [Login page](https://app.eliasdebock.com/login)
+    -   [Registration page](https://app.eliasdebock.com/register)
+    -   [Profile page](https://app.eliasdebock.com/profile) for updates, account deletion, and preference management
 
--   Login and registration page.
--   Profile page for updates, account deletion, and preference management.
+-   [**Catalog**](https://app.eliasdebock.com/catalog):
 
-#### Admin Panel:
+    -   Browse available applications
 
--   Admin page to manage users and potentially revoke their subscriptions.
--   Separate view more page for every user.
+-   [**My eDB**](https://app.eliasdebock.com/dashboard):
 
-#### Catalog:
+    -   Dashboard to manage and launch subscribed applications
 
--   Catalog page to browse applications.
+-   [**404**](https://app.eliasdebock.com/not-found):
 
-#### My eDB:
+    -   For routes that are not found
 
--   Dashboard to manage and launch subscribed applications.
+#### Admin App:
 
-### 2.1.3 Shared Libraries
+-   [**User Management**](https://app.eliasdebock.com/admin):
 
-**UI Library**: Built using **Carbon Design System**. Provides reusable components such as buttons, modals, and input fields to ensure consistent design across applications.
+    -   [Admin dashboard](https://app.eliasdebock.com/admin/dashboard) to manage users and their subscriptions.
+    -   Dedicated view page for each user.
 
--   Current amount of components: 21
+-   [**Subscription Control**](https://app.eliasdebock.com/admin/dashboard):
 
-**Utils Library**: Contains shared utility functions, services, and helpers to promote DRY (Don't Repeat Yourself) principles.
+    -   Ability to revoke or modify user subscriptions.
 
--   Current shared utils:
-    -   Form utils service
-    -   Modal utils service
-    -   Table utils service
-    -   Auth Interceptor
+### 2.1.2 Stack & Architecture
 
-### 2.1.4 Architecture Diagrams
+#### Stack
 
-![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v4.png)
+-   **Framework**: **Angular 19**
+-   **Monorepo workspace**: **Nx 20**
+-   **Component Documentation**: **Storybook 8**
+-   **Unit Testing**: **Vitest** for fast and reliable unit testing.
+-   **Linting**: **ESLint** to enforce consistent code quality and best practices.
+-   **Code Formatting**: **Prettier** for automatic code formatting and style consistency.
+-   **API Integration**: **TanStack Query** for efficient data fetching and state management with the backend REST API.
+-   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**.
+-   **Application Modularity**: **A structured layered approach** that ensures scalability, maintainability, and clear separation of concerns.
 
-### 2.2 Backend
+#### Layered Modular Architecture
 
-### 2.2.1 Tools and Features
+The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
 
--   Frameworks: **.NET 8** with **Entity Framework**
--   Architecture: **REST API**
--   Role-Based Access Control (RBAC): User, Premium User, Admin with **JWT**
+##### 1. Application Layer (Apps) 🏛
 
-### 2.2.2 Controllers and Endpoints
+-   Contains **root-level orchestration** (e.g., routing).
+-   Does **not** contain feature logic but instead delegates to feature modules.
+-   Directly interacts only with the **Feature Layer**.
 
-### 2.2.2.1 Admin Controller
+##### 2. Feature Layer (Feature Libs) 📦
 
-### **Admin Area**
+-   Implements **business logic** for different pages (e.g., Dashboard, Profile, Appointments).
+-   Depends on **UI components** for presentation and **Data-Access** for API communication.
+-   Features are **structured as pages**, ensuring modularity within the platform.
 
--   **URL**: `GET /api/admin/area`
--   **Authorization**: Admin
--   **Description**: Check access to the admin area.
--   **Response**:
-    ```json
-    "Welcome, Admin!"
-    ```
+##### 3. UI/Presentation Layer (UI Libs) 🎨
 
-### **Get Users with Pagination, Sorting, and Search**
+-   Houses **reusable UI components** shared across pages.
+-   Focuses purely on **presentation**, without business or data-fetching logic.
+-   Built with **Storybook 8** for documentation and design consistency.
+-   Built using **Carbon Design System**.
 
--   **URL**: `GET /api/admin/users`
--   **Authorization**: Admin
--   **Query Parameters**:
-    -   `cursor` (optional): Cursor for pagination.
-    -   `sort` (optional): Sorting parameter in the format `field,direction` (e.g., `id,asc`).
-    -   `search` (optional): Search query.
--   **Description**: Fetch a paginated, sorted list of users with optional search.
--   **Response**:
-    ```json
-    {
-        "data": [
+##### 4. Data-Access Layer (Client Libs) 🔄
+
+-   Handles **API communication, caching, and state management** using **TanStack Query**.
+-   Provides an abstraction over direct API calls, making feature modules independent of API changes.
+-   Ensures a **clean separation** between UI and backend interactions.
+
+##### 5. Utility & Shared Layer (Utils, Shared-Env, etc.) 🔧
+
+-   Contains **cross-cutting utilities**, such as environment configurations, constants, and helper functions.
+-   Keeps global concerns separate from features, ensuring **clean code structure**.
+
+##### Why This Structure? 🚀
+
+This **modular and scalable structure** ensures:
+
+-   **Decoupling of concerns**, improving maintainability and testability.
+-   **Optimized builds**, as changes in one layer do not trigger unnecessary rebuilds.
+-   **Easier feature expansion**, allowing new pages to be added without affecting existing ones.
+
+By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time. That is the goal at least...
+
+### 2.1.3 Architecture Diagrams
+
+This is a visual representation of the entire workspace dependency graph. You will see v1 is an example of a standard application flow, how it was set up before as a monolithic structure. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
+![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
+
+> **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
+
+![Nx dependency graph](./diagrams/images/docs/dep-graph.png)
+
+## 2.2 Backend
+
+### 2.2.1 Stack & Architecture
+
+-   **Frameworks**: **.NET 8**
+-   **ORM**: **Entity Framework**
+-   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
+-   **Testing**: **xUnit** and **Moq** for unit and integration testing
+-   **Architecture**: **REST API**
+
+### 2.2.2 APIs
+
+#### 2.2.2.1 **Platform API**
+
+The **Platform API** serves as the backbone for all core functionalities, providing endpoints for application management, user subscriptions, and authentication.
+
+##### **Endpoints**
+
+###### **Applications**
+
+-   **Get Applications**
+
+    -   **URL**: `GET /api/applications`
+    -   **Description**: Fetch a list of all applications.
+    -   **Response:**
+        ```json
+        [
             {
                 "id": 1,
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "john.doe@example.com"
+                "name": "App1",
+                "description": "Description of App1"
             }
-        ],
-        "nextCursor": "next_cursor_value",
-        "hasMore": true
-    }
-    ```
+        ]
+        ```
 
-### **Get User by ID**
+-   **Subscribe/Unsubscribe to Application**
 
--   **URL**: `GET /api/admin/users/{userId}`
--   **Authorization**: Admin
--   **Description**: Fetch details of a user by their ID.
--   **Response**:
-    ```json
-    {
-        "id": 1,
-        "firstName": "John",
-        "lastName": "Doe",
-        "email": "john.doe@example.com"
-    }
-    ```
-
-### **Delete User**
-
--   **URL**: `DELETE /api/admin/users/{userId}`
--   **Authorization**: Admin
--   **Description**: Delete a user by their ID.
--   **Response**:
-    ```json
-    {
-        "Message": "User deleted successfully."
-    }
-    ```
-
-### **Get Applications Overview**
-
--   **URL**: `GET /api/admin/applications-overview`
--   **Authorization**: Admin
--   **Description**: Fetch an overview of all applications, including subscription data.
--   **Response**:
-    ```json
-    [
+    -   **URL**: `POST /api/applications/subscribe`
+    -   **Description**: Subscribe or unsubscribe to an application based on current subscription status.
+    -   **Request Body:**
+        ```json
         {
-            "ApplicationId": 1,
-            "ApplicationName": "App1",
-            "SubscriberCount": 10,
-            "SubscribedUsers": [
+            "applicationId": 1
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Subscribed successfully."
+        }
+        ```
+
+-   **Get User's Applications**
+    -   **URL**: `GET /api/applications/user`
+    -   **Description**: Fetch applications subscribed to by the authenticated user.
+    -   **Response:**
+        ```json
+        [
+            {
+                "id": 1,
+                "name": "App1",
+                "description": "Description of App1"
+            }
+        ]
+        ```
+
+###### **Authentication**
+
+-   **Register**
+
+    -   **URL**: `POST /api/auth/register`
+    -   **Description**: Register a new user.
+    -   **Request Body:**
+        ```json
+        {
+            "email": "john.doe@example.com",
+            "password": "password123",
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Registration successful."
+        }
+        ```
+
+-   **Login**
+    -   **URL**: `POST /api/auth/login`
+    -   **Description**: Authenticate a user and generate a JWT token.
+    -   **Request Body:**
+        ```json
+        {
+            "email": "john.doe@example.com",
+            "password": "password123"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Login successful.",
+            "token": "jwt_token_here"
+        }
+        ```
+
+###### **Profile**
+
+-   **Get Profile Settings**
+
+    -   **URL**: `GET /api/profile/settings`
+    -   **Authorization**: User/Admin
+    -   **Description**: Fetch the profile settings of the authenticated user.
+    -   **Response:**
+        ```json
+        {
+            "email": "john.doe@example.com",
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+        ```
+
+-   **Update Profile**
+    -   **URL**: `PUT /api/profile`
+    -   **Authorization**: User/Admin
+    -   **Description**: Update profile settings for the authenticated user.
+    -   **Request Body:**
+        ```json
+        {
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+            "message": "Profile updated successfully."
+        }
+        ```
+
+#### 2.2.2.2 **Admin API**
+
+The **Admin API** handles administrative tasks, including user management, application CRUD operations, and subscription management.
+
+##### **Endpoints**
+
+###### **Admin Management**
+
+-   **Admin Area**
+    -   **URL**: `GET /api/admin/area`
+    -   **Authorization**: Admin
+    -   **Description**: Check access to the admin area.
+    -   **Response:**
+        ```json
+        "Welcome, Admin!"
+        ```
+
+###### **User Management**
+
+-   **Get Users with Pagination, Sorting, and Search**
+
+    -   **URL**: `GET /api/admin/users`
+    -   **Authorization**: Admin
+    -   **Query Parameters:**
+        -   `cursor` (optional): Cursor for pagination.
+        -   `sort` (optional): Sorting parameter in the format `field,direction`.
+        -   `search` (optional): Search query.
+    -   **Description**: Fetch a paginated, sorted list of users with optional search.
+    -   **Response:**
+        ```json
+        {
+            "data": [
                 {
-                    "UserId": 1,
-                    "UserName": "John Doe",
-                    "UserEmail": "john.doe@example.com",
-                    "SubscriptionDate": "2024-12-14T12:34:56Z"
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "john.doe@example.com"
                 }
-            ]
+            ],
+            "nextCursor": "next_cursor_value",
+            "hasMore": true
         }
-    ]
-    ```
+        ```
 
-### **Add Application**
+-   **Get User by ID**
 
--   **URL**: `POST /api/admin/applications/create`
--   **Authorization**: Admin
--   **Description**: Add a new application.
--   **Request Body**:
-    ```json
-    {
-        "name": "App1",
-        "description": "Description of App1",
-        "iconUrl": "https://example.com/icon.png",
-        "routePath": "/app1",
-        "tags": ["tag1", "tag2"]
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "id": 1,
-        "name": "App1",
-        "description": "Description of App1",
-        "iconUrl": "https://example.com/icon.png",
-        "routePath": "/app1",
-        "tags": ["tag1", "tag2"]
-    }
-    ```
+    -   **URL**: `GET /api/admin/users/{userId}`
+    -   **Authorization**: Admin
+    -   **Description**: Fetch details of a user by their ID.
+    -   **Response:**
+        ```json
+        {
+            "id": 1,
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com"
+        }
+        ```
 
-### **Update Application**
+-   **Delete User**
+    -   **URL**: `DELETE /api/admin/users/{userId}`
+    -   **Authorization**: Admin
+    -   **Description**: Delete a user by their ID.
+    -   **Response:**
+        ```json
+        {
+            "Message": "User deleted successfully."
+        }
+        ```
 
--   **URL**: `PUT /api/admin/applications/{applicationId}`
--   **Authorization**: Admin
--   **Description**: Update an application.
--   **Request Body**:
-    ```json
-    {
-        "name": "Updated App Name",
-        "description": "Updated description",
-        "iconUrl": "https://example.com/updated-icon.png",
-        "routePath": "/updated-app",
-        "tags": ["updatedTag"]
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "Message": "Application updated successfully."
-    }
-    ```
+###### **Application Management**
 
-### **Revoke Subscription**
+-   **Get Applications Overview**
 
--   **URL**: `DELETE /api/admin/applications/{applicationId}/subscriptions/{userId}`
--   **Authorization**: Admin
--   **Description**: Revoke a user's subscription to an application.
--   **Response**:
-    ```json
-    {
-        "Message": "Subscription revoked successfully."
-    }
-    ```
+    -   **URL**: `GET /api/admin/applications`
+    -   **Authorization**: Admin
+    -   **Description**: Fetch an overview of all applications, including subscription data.
+    -   **Response:**
+        ```json
+        [
+            {
+                "ApplicationId": 1,
+                "ApplicationName": "App1",
+                "SubscriberCount": 10,
+                "SubscribedUsers": [
+                    {
+                        "UserId": 1,
+                        "UserName": "John Doe",
+                        "UserEmail": "john.doe@example.com",
+                        "SubscriptionDate": "2024-12-14T12:34:56Z"
+                    }
+                ]
+            }
+        ]
+        ```
 
-### **Delete Application**
+-   **Add Application**
 
--   **URL**: `DELETE /api/admin/applications/{applicationId}`
--   **Authorization**: Admin
--   **Description**: Delete an application by its ID.
--   **Response**:
-    ```json
-    {
-        "Message": "Application deleted successfully."
-    }
-    ```
-
----
-
-### 2.2.2.2 Applications Controller
-
-### **Get Applications**
-
--   **URL**: `GET /api/applications`
--   **Description**: Fetch a list of all applications.
--   **Response**:
-    ```json
-    [
+    -   **URL**: `POST /api/admin/applications`
+    -   **Authorization**: Admin
+    -   **Description**: Add a new application.
+    -   **Request Body:**
+        ```json
+        {
+            "name": "App1",
+            "description": "Description of App1",
+            "iconUrl": "https://example.com/icon.png",
+            "routePath": "/app1",
+            "tags": ["tag1", "tag2"]
+        }
+        ```
+    -   **Response:**
+        ```json
         {
             "id": 1,
             "name": "App1",
-            "description": "Description of App1"
+            "description": "Description of App1",
+            "iconUrl": "https://example.com/icon.png",
+            "routePath": "/app1",
+            "tags": ["tag1", "tag2"]
         }
-    ]
-    ```
+        ```
 
-### **Subscribe/Unsubscribe to Application**
+-   **Update Application**
 
--   **URL**: `POST /api/applications/subscribe`
--   **Description**: Subscribe or unsubscribe to an application based on current subscription status.
--   **Request Body**:
-    ```json
-    {
-        "applicationId": 1
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Subscribed successfully."
-    }
-    ```
-
-### **Get User's Applications**
-
--   **URL**: `GET /api/applications/user`
--   **Description**: Fetch applications subscribed to by the authenticated user.
--   **Response**:
-    ```json
-    [
+    -   **URL**: `PUT /api/admin/applications/{applicationId}`
+    -   **Authorization**: Admin
+    -   **Description**: Update an application.
+    -   **Request Body:**
+        ```json
         {
-            "id": 1,
-            "name": "App1",
-            "description": "Description of App1"
+            "name": "Updated App Name",
+            "description": "Updated description",
+            "iconUrl": "https://example.com/updated-icon.png",
+            "routePath": "/updated-app",
+            "tags": ["updatedTag"]
         }
-    ]
-    ```
+        ```
+    -   **Response:**
+        ```json
+        {
+            "Message": "Application updated successfully."
+        }
+        ```
 
----
+-   **Revoke Subscription**
 
-### 2.2.2.3 Authentication Controller
+    -   **URL**: `DELETE /api/admin/applications/{applicationId}/subscriptions/{userId}`
+    -   **Authorization**: Admin
+    -   **Description**: Revoke a user's subscription to an application.
+    -   **Response:**
+        ```json
+        {
+            "Message": "Subscription revoked successfully."
+        }
+        ```
 
-### **Register**
-
--   **URL**: `POST /api/auth/register`
--   **Description**: Register a new user.
--   **Request Body**:
-    ```json
-    {
-        "email": "john.doe@example.com",
-        "password": "password123",
-        "firstName": "John",
-        "lastName": "Doe"
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Registration successful."
-    }
-    ```
-
-### **Login**
-
--   **URL**: `POST /api/auth/login`
--   **Description**: Authenticate a user and generate a JWT token.
--   **Request Body**:
-    ```json
-    {
-        "email": "john.doe@example.com",
-        "password": "password123"
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Login successful.",
-        "token": "jwt_token_here"
-    }
-    ```
-
----
-
-### 2.2.2.4 Profile Controller
-
-### **Get Profile Settings**
-
--   **URL**: `GET /api/profile/settings`
--   **Authorization**: User/Admin
--   **Description**: Fetch the profile settings of the authenticated user.
--   **Response**:
-    ```json
-    {
-        "email": "john.doe@example.com",
-        "firstName": "John",
-        "lastName": "Doe"
-    }
-    ```
-
-### **Update Profile**
-
--   **URL**: `PUT /api/profile/update`
--   **Authorization**: User/Admin
--   **Description**: Update profile settings for the authenticated user.
--   **Request Body**:
-    ```json
-    {
-        "firstName": "John",
-        "lastName": "Doe"
-    }
-    ```
--   **Response**:
-    ```json
-    {
-        "message": "Profile updated successfully."
-    }
-    ```
+-   **Delete Application**
+    -   **URL**: `DELETE /api/admin/applications/{applicationId}`
+    -   **Authorization**: Admin
+    -   **Description**: Delete an application by its ID.
+    -   **Response:**
+        ```json
+        {
+            "Message": "Application deleted successfully."
+        }
+        ```
 
 ### 2.2.3 Architecture Diagram
 
-![Backend Setup Diagram](./diagrams/images/backend/backend-architeture_v2.png)
+v1 is a monolithic approach, v2 is how I tried refactoring into Nx apps and libraries. Also introduces separate admin API.
+
+![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v3.png)
 
 ---
 

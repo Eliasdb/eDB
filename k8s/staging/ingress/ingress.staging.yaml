@@ -1,4 +1,3 @@
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -13,6 +12,14 @@ spec:
         - host: app.staging.eliasdebock.com
           http:
               paths:
+                  - path: /admin/
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: admin-app-staging-service
+                            port:
+                                number: 80
+
                   - path: /
                     pathType: Prefix
                     backend:
@@ -20,6 +27,7 @@ spec:
                             name: edb-nx-staging-service
                             port:
                                 number: 80
+
         - host: api.staging.eliasdebock.com
           http:
               paths:
@@ -30,6 +38,7 @@ spec:
                             name: edb-api-staging-service
                             port:
                                 number: 9101
+
     tls:
         - hosts:
               - app.staging.eliasdebock.com

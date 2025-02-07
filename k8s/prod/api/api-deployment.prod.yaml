@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: api-prod
+    name: platform-api-prod
     namespace: default
     labels:
         app: api
@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: api
-                  image: eliasdb/edb-api:v1.0.256-prod
+                  image: eliasdb/platform-api:v1.0.1
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 9101

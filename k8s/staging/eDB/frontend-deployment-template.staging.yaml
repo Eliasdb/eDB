@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: edb-nx-staging
+    name: web-app-staging
     namespace: default
     labels:
         app: edb-nx
@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: edb-nx
-                  image: eliasdb/edb-nx:${IMAGE_TAG}
+                  image: eliasdb/edb:${IMAGE_TAG}
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
