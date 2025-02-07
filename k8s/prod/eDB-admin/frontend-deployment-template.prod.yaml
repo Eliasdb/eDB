@@ -2,25 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: web-app-prod
+    name: admin-app-prod
     namespace: default
     labels:
-        app: web-app
+        app: admin-app
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: web-app
+            app: admin-app
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: web-app
+                app: admin-app
         spec:
             containers:
-                - name: web-app
-                  image: eliasdb/edb-nx:v1.0.256-prod
+                - name: admin-app
+                  image: eliasdb/edb-admin:${IMAGE_TAG}
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80

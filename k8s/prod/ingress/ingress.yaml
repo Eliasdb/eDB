@@ -16,7 +16,15 @@ spec:
                     pathType: Prefix
                     backend:
                         service:
-                            name: edb-nx-prod-service
+                            name: web-app-prod-service
+                            port:
+                                number: 80
+
+                  - path: /admin/
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: admin-app-prod-service
                             port:
                                 number: 80
         - host: api.eliasdebock.com
@@ -26,7 +34,7 @@ spec:
                     pathType: Prefix
                     backend:
                         service:
-                            name: edb-api-prod-service
+                            name: platform-api-prod-service
                             port:
                                 number: 9101
     tls:
