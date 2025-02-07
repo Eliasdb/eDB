@@ -27,7 +27,7 @@ jobs:
             - name: Set Version
               id: version
               run: |
-                  VERSION=v1.0.3‑beta
+                  VERSION=v1.0.3-beta
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
@@ -54,6 +54,8 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
@@ -83,6 +85,8 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
