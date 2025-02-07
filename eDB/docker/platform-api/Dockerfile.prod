@@ -1,0 +1,26 @@
+# Build Stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+COPY apps/platform-api/EDb.PlatformApi.csproj ./apps/platform-api/
+COPY nx.json ./
+COPY tsconfig.base.json ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY libs ./libs
+COPY apps ./apps
+
+RUN dotnet nuget locals all --clear
+RUN dotnet restore apps/platform-api/EDb.PlatformApi.csproj --runtime linux-arm64
+RUN dotnet publish apps/platform-api/EDb.PlatformApi.csproj -c Release -o /app/publish
+
+# Runtime Stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+COPY --from=build /app/publish .
+COPY apps/platform-api/wait-for-postgres.sh ./wait-for-postgres.sh
+RUN chmod +x ./wait-for-postgres.sh
+
+EXPOSE 9101
+ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service-prod", "dotnet", "EDb.PlatformApi.dll"]

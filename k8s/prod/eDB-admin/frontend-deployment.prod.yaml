@@ -2,25 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: web-app-prod
+    name: admin-app-prod
     namespace: default
     labels:
-        app: web-app
+        app: admin-app
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: web-app
+            app: admin-app
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: web-app
+                app: admin-app
         spec:
             containers:
-                - name: web-app
-                  image: eliasdb/edb-nx:v1.0.256-prod
+                - name: admin-app
+                  image: eliasdb/edb-admin:v1.0.0-prod
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
@@ -30,7 +30,7 @@ spec:
                         value: production
                   readinessProbe:
                       httpGet:
-                          path: /
+                          path: /admin/
                           port: 80
                       initialDelaySeconds: 5
                       periodSeconds: 10
@@ -38,7 +38,7 @@ spec:
                       failureThreshold: 3
                   livenessProbe:
                       httpGet:
-                          path: /
+                          path: /admin/
                           port: 80
                       initialDelaySeconds: 15
                       periodSeconds: 20

@@ -2,25 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: edb-nx-prod
+    name: web-app-prod
     namespace: default
     labels:
-        app: edb-nx
+        app: web-app
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: edb-nx
+            app: web-app
     strategy:
         type: Recreate
     template:
         metadata:
             labels:
-                app: edb-nx
+                app: web-app
         spec:
             containers:
-                - name: edb-nx
-                  image: eliasdb/edb-nx:${IMAGE_TAG}
+                - name: web-app
+                  image: eliasdb/edb:${IMAGE_TAG}
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
