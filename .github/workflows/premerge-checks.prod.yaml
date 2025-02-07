@@ -42,8 +42,11 @@ jobs:
                       git config user.name "github-actions[bot]"
                       git config user.email "github-actions[bot]@users.noreply.github.com"
                       git tag $TAG
+                      git remote set-url origin https://$GITHUB_ACTOR:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
                       git push origin $TAG
                   fi
+              shell: bash
+
     lint:
         name: Lint Affected Projects
         runs-on: self-hosted
