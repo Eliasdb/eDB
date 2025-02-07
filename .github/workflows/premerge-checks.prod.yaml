@@ -19,19 +19,31 @@ on:
 
 jobs:
     version:
-        name: Set Version
+        name: Set Version and Tag
         runs-on: self-hosted
         outputs:
             image_tag: ${{ steps.version.outputs.image_tag }}
         steps:
-            - name: Set Version with PR Number
+            - name: Set Version
               id: version
               run: |
-                  PR_NUMBER=${{ github.event.pull_request.number }}
-                  VERSION=pr-${PR_NUMBER}-staging
+                  VERSION=v1.0.3‑beta
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
+            - name: Create Git Tag
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  TAG=${{ steps.version.outputs.image_tag }}
+                  if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+                      echo "Tag $TAG already exists. Skipping tag creation."
+                  else
+                      git config user.name "github-actions[bot]"
+                      git config user.email "github-actions[bot]@users.noreply.github.com"
+                      git tag $TAG
+                      git push origin $TAG
+                  fi
     lint:
         name: Lint Affected Projects
         runs-on: self-hosted
