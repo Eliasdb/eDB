@@ -181,7 +181,7 @@ jobs:
 
             - name: Validate Frontend Deployment YAML
               run: |
-                  kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.staging.yaml
+                  kubectl apply --dry-run=client -f k8s/prod/eDB/frontend-deployment.prod.yaml
 
             - name: Deploy Frontend to Kubernetes
               run: |
