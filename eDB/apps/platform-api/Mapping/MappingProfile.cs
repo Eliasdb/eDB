@@ -52,7 +52,7 @@ public class MappingProfile : Profile
         opt => opt.MapFrom(src => src.Subscriptions.Where(sub => sub.User != null).ToList())
       );
 
-    CreateMap<Application, ApplicationDto>();
+    // CreateMap<Application, ApplicationDto>();
 
     CreateMap<UpdateApplicationDto, Application>()
       .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
