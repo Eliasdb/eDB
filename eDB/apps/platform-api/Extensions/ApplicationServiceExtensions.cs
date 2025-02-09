@@ -9,50 +9,73 @@ using PlatformAPI.Interfaces;
 using PlatformAPI.Mapping;
 using PlatformAPI.Services;
 
-namespace PlatformAPI.Extensions;
-
-public static class ApplicationServiceExtensions
+namespace PlatformAPI.Extensions
 {
-  public static IServiceCollection AddApplicationServices(
-    this IServiceCollection services,
-    IConfiguration config
-  )
-  {
-    var connectionString =
-      $"Host={Env.GetString("DB_HOST")};Port={Env.GetString("DB_PORT")};Database={Env.GetString("DB_NAME")};Username={Env.GetString("DB_USER")};Password={Env.GetString("DB_PASSWORD")}";
-
-    services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
-
-    services.AddScoped<IUserRepository, UserRepository>();
-    services.AddScoped<IApplicationRepository, ApplicationRepository>();
-    services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-
-    services.AddScoped<IAdminService, AdminService>();
-    services.AddScoped<IProfileService, ProfileService>();
-    services.AddScoped<IAuthService, AuthService>();
-    services.AddScoped<IApplicationsService, ApplicationsService>();
-
-    // Add AutoMapper
-    services.AddAutoMapper(typeof(MappingProfile).Assembly);
-
-    services.AddCors(options =>
+    public static class ApplicationServiceExtensions
     {
-      options.AddPolicy(
-        "AllowFrontend",
-        policy =>
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-          policy
-            .WithOrigins(
-              "http://localhost:4200",
-              "https://app.staging.eliasdebock.com",
-              "https://app.eliasdebock.com"
-            )
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-        }
-      );
-    });
+            // Determine the current environment. Default to "Production" if not set.
+            var environment = config["ASPNETCORE_ENVIRONMENT"] ?? "Production";
 
-    return services;
-  }
+            string connectionString;
+
+            if (environment == "Development")
+            {
+                // For development, load environment variables from the .env file.
+                Env.Load();
+
+                var host = Env.GetString("DB_HOST");
+                var port = Env.GetString("DB_PORT");
+                var database = Env.GetString("DB_NAME");
+                var username = Env.GetString("DB_USER");
+                var password = Env.GetString("DB_PASSWORD");
+
+                connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
+            }
+            else
+            {
+                // For staging and production, use the full connection string directly from configuration.
+                // This expects that your secret populates the environment variable 
+                // "ConnectionStrings__DefaultConnection", which maps to config key "ConnectionStrings:DefaultConnection".
+                connectionString = config.GetConnectionString("DefaultConnection");
+
+                // Alternatively, you could use:
+                // connectionString = config["ConnectionStrings:DefaultConnection"];
+            }
+
+            services.AddDbContext<MyDbContext>(options =>
+                options.UseNpgsql(connectionString));
+
+            // Register repositories
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IApplicationRepository, ApplicationRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+
+            // Register services
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IApplicationsService, ApplicationsService>();
+
+            // Add AutoMapper with the specified mapping profile assembly.
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+            // Configure CORS policies.
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins(
+                            "http://localhost:4200",
+                            "https://app.staging.eliasdebock.com",
+                            "https://app.eliasdebock.com")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
+            return services;
+        }
+    }
 }

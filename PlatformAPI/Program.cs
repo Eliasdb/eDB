@@ -35,7 +35,7 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddControllers();
 
 // Set custom host URL
-builder.WebHost.UseUrls("http://0.0.0.0:9101");
+builder.WebHost.UseUrls("https://0.0.0.0:9101");
 
 // --- Build Application ---
 var app = builder.Build();
