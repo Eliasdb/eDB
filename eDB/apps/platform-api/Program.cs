@@ -13,11 +13,10 @@ if (builder.Environment.IsDevelopment())
   Env.Load();
   builder.Configuration.AddEnvironmentVariables();
   if (string.IsNullOrEmpty(Env.GetString("JWT_KEY")))
-{
-  throw new InvalidOperationException("JWT Key is not configured.");
+  {
+    throw new InvalidOperationException("JWT Key is not configured.");
+  }
 }
-}
-
 
 // --- Service Registrations ---
 // Add modular services from extension methods
@@ -34,7 +33,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 // Set custom host URL
-// builder.WebHost.UseUrls("http://0.0.0.0:9101");
+builder.WebHost.UseUrls("http://0.0.0.0:9101");
 
 // --- Build Application ---
 var app = builder.Build();
