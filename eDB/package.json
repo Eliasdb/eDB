@@ -4,10 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start:web": "nx serve eDB --host 0.0.0.0",
-    "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
-    "build:production": "nx build eDB --prod --skip-nx-cache",
     "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
-    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/ --verbose",
+    "start:platform-api": "nx serve platform-api",
+    "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
+    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/",
+    "build:prod": "nx build eDB --prod --skip-nx-cache",
+    "build:prod:admin": "nx build eDB-admin --prod --skip-nx-cache",
     "test:utils": "nx test utils --verbose",
     "prepare": "nx g @nx-dotnet/core:restore"
   },

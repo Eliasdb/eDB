@@ -1,5 +1,6 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
+using EDb.FeatureApplications.Mapping;
 using Microsoft.EntityFrameworkCore;
 using PlatformAPI.Extensions;
 using PlatformAPI.Mapping;
@@ -25,6 +26,7 @@ builder.Services.AddIdentityServices(builder.Configuration); // Identity & JWT s
 
 // AutoMapper registration
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();
@@ -33,7 +35,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 // Set custom host URL
-builder.WebHost.UseUrls("http://0.0.0.0:9101");
+if (builder.Environment.IsProduction() || builder.Environment.IsStaging())
+{
+  builder.WebHost.UseUrls("http://0.0.0.0:9101");
+}
 
 // --- Build Application ---
 var app = builder.Build();
