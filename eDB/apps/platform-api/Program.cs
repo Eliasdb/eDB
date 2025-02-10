@@ -24,10 +24,6 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
 builder.Services.AddIdentityServices(builder.Configuration); // Identity & JWT services
 
-// AutoMapper registration
-builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
-
 // Add Swagger services
 builder.Services.AddSwaggerGen();
 

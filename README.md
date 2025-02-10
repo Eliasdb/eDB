@@ -3,47 +3,42 @@
 ## Table of Contents
 
 -   [1. Project Goal](#1-project-goal)
--   [2. Setup](#2-setup)
+-   [2. Setup Nx Monorepo](#2-setup-nx-monorepo)
     -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Application Pages](#211-application-pages)
-        -   [2.1.2 Stack & Architecture](#212-stack--architecture)
-        -   [2.1.3 Architecture Diagrams](#213-architecture-diagrams)
+        -   [2.1.1 Stack & Architecture](#211-stack--architecture)
+        -   [2.1.2 Application Pages](#212-application-pages)
+            -   [Web App](#web-app)
+            -   [Admin App](#admin-app)
+        -   [2.1.3 Layers of Modular Architecture](#213-layers-of-modular-architecture)
+        -   [2.1.4 Architecture Diagrams](#214-architecture-diagrams)
     -   [2.2 Backend](#22-backend)
         -   [2.2.1 Stack & Architecture](#221-stack--architecture)
         -   [2.2.2 APIs](#222-apis)
-            -   [2.2.2.1 Platform API](#2221-platform-api)
-            -   [2.2.2.2 Admin API](#2222-admin-api)
-        -   [2.2.3 Architecture Diagram](#223-architecture-diagram)
+            -   [Platform API](#platform-api)
+            -   [Admin API](#admin-api)
+        -   [2.2.3 Architecture Diagrams](#223-architecture-diagrams)
     -   [2.3 Database](#23-database)
     -   [2.4 VPS](#24-vps)
         -   [2.4.1 What is a VPS?](#241-what-is-a-vps)
         -   [2.4.2 Setting up a VPS with Hetzner](#242-setting-up-a-vps-with-hetzner)
-            -   [Step 0: Setting up your account](#step-0-setting-up-your-account)
-            -   [Step 1: Configure server on Hetzner](#step-1-configure-server-on-hetzner)
-            -   [Step 2: Generating an SSH key](#step-2-generating-an-ssh-key)
-            -   [Step 3: Retrieving the public key](#step-3-retrieving-the-public-key)
-            -   [Step 4: Volumes](#step-4-volumes)
-            -   [Step 5: Cloud config and server name](#step-5-cloud-config-and-server-name)
     -   [2.5 Project Management and Documentation](#25-project-management-and-documentation)
         -   [2.5.1 Jira](#251-jira)
-            -   [2.5.1.1 Issue types](#2511-issue-types)
-            -   [2.5.1.2 Setting up a sprint](#2512-setting-up-a-sprint)
-            -   [2.5.1.3 Working with the Jira Board during a sprint](#2513-working-with-the-jira-board-during-a-sprint)
         -   [2.5.2 Tags and releases](#252-tags-and-releases)
         -   [2.5.3 Confluence](#252-confluence)
 -   [3. Environments](#3-environments)
     -   [3.1 Development](#31-development)
-        -   [3.1.1 Architecture Diagram](#311-architecture-diagram)
-        -   [3.1.2 Spinning up a cluster locally](#312-spinning-up-a-cluster-locally)
-            -   [Step 0: Prerequisites](#step-0-prerequisites)
-            -   [Step 1: Create and start a k3d cluster](#step-1-create-and-start-a-k3d-cluster)
-            -   [Step 2: Create Dockerfiles for Your Services](#step-2-create-dockerfiles-for-your-services)
-            -   [Step 3: Create Kubernetes Manifests](#step-3-create-kubernetes-manifests)
-            -   [Step 4: Configure Skaffold](#step-4-configure-skaffold)
-            -   [Step 5: Run Skaffold for Local Development](#step-5-run-skaffold-for-local-development)
-        -   [3.1.3 Swagger](#313-swagger)
-        -   [3.1.4 Storybook](#314-storybook)
-        -   [3.1.5 Development Workflow](#314-development-workflow)
+        -   [3.1.1 Setup](#311-setup)
+            -   [Local k3s Cluster (k3d + Skaffold)](#3111-local-k3s-cluster-k3d--skaffold)
+            -   [[NEW] Nx Development Setup](#3112-new-nx-development-setup)
+        -   [3.1.2 Tools](#311-setup)
+            -   [Swagger](#swagger)
+            -   [Postman](#postman)
+            -   [xUnit](#xunit)
+            -   [Storybook](#storybook)
+            -   [Vitest](#vitest)
+            -   [Prettier](#prettier)
+            -   [ESLint](#eslint)
+        -   [3.1.3 Development Workflow](#313-development-workflow)
     -   [3.2 Staging](#32-staging)
         -   [3.2.1 Deploying to staging](#321-deploying-to-staging)
         -   [3.2.2 Pipeline diagram](#322-pipeline-diagram)
@@ -56,18 +51,51 @@
     -   [4.1 General Commands](#41-general-commands)
     -   [4.2 Database Management Commands](#42-database-management-commands)
 -   [5. Achieved Goals](#5-achieved-goals)
+-   [6. TLDR: All Tools Used](#6-tldr-all-tools-used)
+-   [7. Tools I'm working towards using](#6-tools-im-working-towards-using)
 
 ---
 
 ## 1. Project Goal
 
-I am building a platform housing multiple applications where users can make an account and subscribe to the apps and launch them.
+I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them.
 
-## 2. Setup
+## 2. Setup Nx Monorepo
+
+This project uses Nx to efficiently manage multiple applications and shared libraries within a monorepo structure. Nx provides several key advantages:
+
+### 🚀 **Why Use Nx?**
+
+1. **Modular Architecture** – Nx helps divide the project into separate **apps** and **reusable libraries**, promoting maintainability and scalability.
+2. **Efficient CI/CD** – With `nx affected`, only the changed parts of the codebase are rebuilt and tested, making the CI process **faster and more efficient**.
+3. **Code Sharing** – Shared libraries eliminate code duplication by allowing different applications to **reuse UI components, utilities, and services**.
+4. **Better Developer Experience** – Nx provides **powerful CLI tools**, **caching**, and **dependency graph visualization**, making development more streamlined.
+5. **Optimized Builds** – Nx uses smart caching and incremental builds, ensuring that only necessary files are compiled, reducing build times.
+6. **Consistent Tooling** – It enforces best practices by integrating with Angular, React, TypeScript, Jest, ESLint, Storybook, and other tools seamlessly.
+
+By leveraging Nx, this monorepo allows for a more structured, scalable, and optimized development workflow, making it easier to maintain and extend over time.
+
+Initially I used this only for the frontend. Using the `@nx-dotnet/core` package I was able to get my frontend and backend code together in this one codebase.
 
 ### 2.1 Frontend
 
-### 2.1.1 Application Pages
+### 2.1.1 Stack & Architecture
+
+#### Stack
+
+-   **Framework**: **Angular 19**
+-   **Component Documentation**: **Storybook 8**
+-   **Unit Testing**: **Vitest** for fast and reliable unit testing.
+-   **Linting**: **ESLint** to enforce consistent code quality and best practices.
+-   **Code Formatting**: **Prettier** for automatic code formatting and style consistency.
+-   **API Integration**: **TanStack Query** for efficient data fetching and state management with the backend REST API.
+-   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**.
+
+#### Architecture
+
+The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
+
+### 2.1.2 Application Pages
 
 #### Web App:
 
@@ -100,23 +128,7 @@ I am building a platform housing multiple applications where users can make an a
 
     -   Ability to revoke or modify user subscriptions.
 
-### 2.1.2 Stack & Architecture
-
-#### Stack
-
--   **Framework**: **Angular 19**
--   **Monorepo workspace**: **Nx 20**
--   **Component Documentation**: **Storybook 8**
--   **Unit Testing**: **Vitest** for fast and reliable unit testing.
--   **Linting**: **ESLint** to enforce consistent code quality and best practices.
--   **Code Formatting**: **Prettier** for automatic code formatting and style consistency.
--   **API Integration**: **TanStack Query** for efficient data fetching and state management with the backend REST API.
--   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**.
--   **Application Modularity**: **A structured layered approach** that ensures scalability, maintainability, and clear separation of concerns.
-
-#### Layered Modular Architecture
-
-The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
+### 2.1.3 Layers of Modular Architecture
 
 ##### 1. Application Layer (Apps) 🏛
 
@@ -158,14 +170,20 @@ This **modular and scalable structure** ensures:
 
 By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time. That is the goal at least...
 
-### 2.1.3 Architecture Diagrams
+### 2.1.4 Architecture Diagrams
 
-This is a visual representation of the entire workspace dependency graph. You will see v1 is an example of a standard application flow, how it was set up before as a monolithic structure. v2 is the upgraded layered modular approach. Also tries to answer some how and why questions.
+**V1: Monolithic Platform App**
+The first model of the platform using a familiar monolithic approach.
 ![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
+
+**V2: Layered Modular Platform App and Admin App**
+This is a visual representation of the workspace dependency graph concerning the frontend as is right now. This is a more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. To learn more check out their [documentation](https://nx.dev/concepts/decisions). Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture.
+![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v6.png)
 
 > **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
 
-![Nx dependency graph](./diagrams/images/docs/dep-graph.png)
+![Nx dependency graph](./diagrams/images/docs/dep-graphv2.png)
+![Nx dependency graph](./diagrams/images/docs/dep-graphv3.png)
 
 ## 2.2 Backend
 
@@ -173,13 +191,14 @@ This is a visual representation of the entire workspace dependency graph. You wi
 
 -   **Frameworks**: **.NET 8**
 -   **ORM**: **Entity Framework**
+-   **Object Mapper**: **Automapper** is library for .NET that automatically maps data between objects, eliminating the need for manual property assignments.
 -   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
 -   **Testing**: **xUnit** and **Moq** for unit and integration testing
 -   **Architecture**: **REST API**
 
 ### 2.2.2 APIs
 
-#### 2.2.2.1 **Platform API**
+#### **Platform API**
 
 The **Platform API** serves as the backbone for all core functionalities, providing endpoints for application management, user subscriptions, and authentication.
 
@@ -307,7 +326,7 @@ The **Platform API** serves as the backbone for all core functionalities, provid
         }
         ```
 
-#### 2.2.2.2 **Admin API**
+#### **Admin API**
 
 The **Admin API** handles administrative tasks, including user management, application CRUD operations, and subscription management.
 
@@ -475,10 +494,14 @@ The **Admin API** handles administrative tasks, including user management, appli
         }
         ```
 
-### 2.2.3 Architecture Diagram
+### 2.2.3 Architecture Diagrams
 
-v1 is a monolithic approach, v2 is how I tried refactoring into Nx apps and libraries. Also introduces separate admin API.
+**V1: Monolithic Platform API**
+The first model of the platform using a familiar monolithic approach.
+![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v2.png)
 
+**V2: Layered Modular Platform API and Admin API**
+This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
 ![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v3.png)
 
 ---
@@ -633,7 +656,7 @@ Once the sprint is populated and goals are defined, click **“Start sprint”**
 
 ---
 
-#### 2.5.1.3 Working with the Jira Board during a sprint
+#### 2.5.1.3 Working with the Jira Board
 
 -   **Automatic board creation:**  
     When a sprint is started, Jira generates a Scrum board that reflects the sprint’s issues. The board typically includes columns (e.g., To Do, In Progress, Done) that represent the workflow stages.
@@ -662,13 +685,15 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 
 ### 3.1 Development
 
-I am using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
+#### 3.1.1 Setup
 
-#### 3.1.1 Architecture Diagram
+**3.1.1.1 Local k3s Cluster (k3d + Skaffold)**
 
-![Development Setup Diagram](./diagrams/images/devops/dev/environment-setup.dev_v4.png)
+**The first setup I ever created for development on my local machine:**
 
-#### 3.1.2 Spinning up a cluster locally
+The project is using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
+
+**Spinning up a cluster locally**
 
 ##### Step 0: Prerequisites
 
@@ -755,31 +780,77 @@ This command will:
 
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
-#### 3.1.3 Swagger
+Here is a diagram of the setup:
+![Development Setup Diagram](./diagrams/images/devops/dev/environment-setup.dev_v4.png)
 
-You can find the Swagger API docs at: `http://localhost:9101/swagger/index.html`. You have a nice overview here of all endpoints, models and DTOs. You can even try out the endpoints here.
+**3.1.1.2 [NEW] Nx development setup**
+
+However I did not like rebuilding images all the time and even though it went smooth to set up staging and production because I had a pretty similar setup on my own machine. I simplified the dev setup after refactoring my backend to be included in the Nx workspace.
+
+```
+  "scripts": {
+    "start:web": "nx serve eDB --host 0.0.0.0",
+    "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
+    "start:platform-api": "nx serve platform-api",
+  },
+```
+
+Running these scripts with pnpm (e.g. `pnpm start:web`) will start up either the platform app, the admin app or the platform-api. Can be extended with more as the platform grows. You will have to setup a local db which is easily done through your terminal and through the Postgres App.
+
+#### 3.1.2 Tools
+
+These are some of the tools I use when developing locally:
+
+##### Swagger
+
+You can find the Swagger API docs at: `http://localhost:5098/swagger/index.html`. Which gives you a nice overview of all endpoints, models and DTOs. You can also try out the endpoints here.
 
 ![Swagger](./diagrams/images/docs/swagger2.png)
 
 ![Swagger](./diagrams/images/docs/swagger.png)
 
-#### 3.1.4 Storybook
+##### Postman
+
+I use Postman to test my endpoints in isolation. [Installation link](https://www.postman.com/downloads).
+
+![Storybook](./diagrams/images/docs/postman.png)
+
+##### XUnit and Moq
+
+I use XUnit and Moq to do unit and integration testing.
+![Storybook](./diagrams/images/docs/postman.png)
+
+##### Storybook
 
 You can find the Storybook overview by running: `nx storybook ui`. You will get a nice overview of all components at `http://localhost:4400/`.
 
-![Swagger](./diagrams/images/docs/storybook.png)
+![Storybook](./diagrams/images/docs/storybook.png)
 
-#### 3.1.5 Development Workflow
+##### Vitest
 
-When you are able to spin up the cluster and access the frontend and backend, you are ready to contribute if you wish. Below is a visual representation of this workflow. You basically create a branch, make changes, open a PR and wait for checks to pass. After checks pass you can then merge to dev branch.
+I use Vitest to do unit and integration testing in frontend.
 
-![Development Workflow](./diagrams/images/devops/dev/workflow-premerge-checks.staging_v2.png)
+![Storybook](./diagrams/images/docs/postman.png)
+
+##### Prettier
+
+I use Prettier to test my endpoints in isolation.
+
+##### ESLint
+
+I use ESLint to test my endpoints in isolation.
+
+#### 3.1.3 Development Workflow
+
+Below is a visual representation of the development workflow. You create a branch, make changes, open a PR. When you open the PR, a pre-merge pipeline will attempt to lint, test and build only the affected code. When these checks pass, you can then merge to dev branch to start deployment to staging.
+
+![Development Workflow](./diagrams/images/devops/dev/workflow-premerge-checks.staging_v3.png)
 
 ### 3.2 Staging
 
 #### 3.2.1 Deploying to staging
 
-![Premerge checks](./diagrams/images/devops/staging/premerge-checks_v2.png)
+![Premerge checks](./diagrams/images/devops/staging/premerge-checks_v3.png)
 
 After all checks pass and you have merged successfully, a pipeline will run deploying the build to a staging environment that mimics production.
 
@@ -790,7 +861,11 @@ After all checks pass and you have merged successfully, a pipeline will run depl
 
 #### 3.2.2 Pipeline Diagram
 
-![Staging Deployment Pipeline](./diagrams/images/devops/staging/postmerge-deployment.staging_v3.png)
+The pipeline will only deploy what has been affected based on PR number for now.
+![Staging Deployment Pipeline](./diagrams/images/devops/staging/postmerge-deployment.staging_v4.png)
+
+You can also see this on GitHub, under the Actions tab:
+![Staging Deployment Pipeline Github](./diagrams/images/devops/staging/postmerge-deployment-github.png)
 
 ### 3.3 Production
 
@@ -810,7 +885,7 @@ When you have all checks passed, you can then click the button to merge to main 
 
 These are the multi-stage Dockerfiles used in production for my frontend and backend.
 
-![Production Setup Diagram](./diagrams/images/devops/prod/dockerfiles.prod_v1.png)
+![Production Dockerfiles](./diagrams/images/devops/prod/dockerfiles.prod_v1.png)
 
 #### 3.3.4 Architecture Diagram
 
@@ -859,8 +934,85 @@ This is my current production cluster. When the pipeline runs to deploy it's act
 
 ## 5. Achieved Goals
 
--   [x] Development environment (k3s cluster using k3d managed with Skaffold)
+-   [x] Containerizing applications (Dockerfiles)
+-   [x] Development environment (k3s cluster using k3d managed with Skaffold OR Nx)
 -   [x] Staging environment (k3s cluster on VPS)
 -   [x] Production environment (k3s cluster on VPS)
 -   [x] CI/CD pipelines for production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS).
 -   [x] Documentation
+-   [x] Layered Modular Architecture for Frontend and Backend
+
+## 6. TLDR: All Tools Used
+
+**DevOps**
+
+-   [x] **Docker**: Docker Compose - Docker Desktop - Dockerfiles - Docker images
+-   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - deployments - services - pods - secrets - configmaps - YAML
+-   [x] **Servers**: Linux - VPS - Static file web server (NGINX) - API web server (.NET Web API) - Database server (Postgres) - shell scripts (wait-for-postgres to ping database to start up API)
+-   [x] **CI/CD**: Github Actions - GitFlow - `nx affected`
+
+**Monorepo**
+
+-   [x] **Nx**: apps - libs - Nx Generators/Scaffolding commands - nx affected
+
+**Frontend**
+
+-   [x] **Language**: Typescript
+-   [x] **Node Package Manager**: pnpm
+-   [x] **Angular**: Components - Services - RxJS - Signals - @Output - Interceptors - Guards
+-   [x] **Testing**: Vitest - Storybook
+-   [x] **Linting + formatting**: Prettier - ESLint
+-   [x] **UI**: HTML - SCSS - Carbon Design System - FontAwesome
+-   [x] **API Integration**: TanStack Query
+
+**Backend**
+
+-   [x] **Language**: C#
+-   [x] **Package Manager**: NuGet
+-   [x] **ORM**: EF
+-   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext
+-   [x] **Formatting**: dotnet format
+-   [x] **API Documentation**: Swagger
+-   [x] **Testing**: xUnit - Moq - Postman
+-   [x] **Object Mapper**: Automapper
+
+## 7. Tools I'm working towards using
+
+**DevOps**
+
+-   [ ] **Monitoring & analytics**: Grafana, Prometheus
+-   [ ] **Secrets Management**: HashiCorp Vault, SealedSecrets, External Secrets Operator
+-   [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch, Logstash, Kibana), Fluentd, Loki
+-   [ ] **Cluster Management**: ArgoCD (GitOps), Helm, Kustomize
+-   [ ] **Hotfixes and Feature Flags**
+
+**Azure**
+
+-   [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes instead of K3s
+-   [ ] **Azure Container Registry (ACR)** – Store and manage Docker images
+-   [ ] **Azure DevOps Pipelines** – Alternative to GitHub Actions
+-   [ ] **Azure Resource Manager (ARM) / Terraform / Bicep** – Infrastructure as Code (IaC)
+-   [ ] **Azure App Service** – Deploy apps without full Kubernetes
+-   [ ] **Azure Functions** – Serverless execution for background jobs
+
+**Monorepo**
+
+-   [ ] **Caching & Performance Optimization**: Nx Cloud, TurboRepo
+
+**Frontend**
+
+-   [ ] **State Management**: NgRx, Akita, SignalStore
+-   [ ] **Guard**: Restricting access to apps user isn't subscribed to
+-   [ ] **Microfrontends**: Module Federation
+-   [ ] **End-to-End Testing**: Cypress, Playwright
+-   [ ] **Error Handling & Monitoring**: Sentry, PostHog
+-   [ ] **Accessibility (a11y) Testing**: Axe DevTools, Lighthouse
+
+**Backend**
+
+-   [ ] **Architecture**: Event Driven Architecture, Domain Driven Architecture
+-   [ ] **Background Jobs & Messaging**: Hangfire, MassTransit, MediatR, RabbitMQ, Kafka
+-   [ ] **Caching**: Redis
+-   [ ] **Auth**: Find solution for auth
+-   [ ] **Rate Limiting & API Gateway**: Ocelot, YARP, Envoy
+-   [ ] **Feature Flags & Config Management**: Unleash, ConfigCat
