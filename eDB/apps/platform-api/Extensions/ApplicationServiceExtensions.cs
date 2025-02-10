@@ -3,6 +3,7 @@ using EDb.DataAccess.Data;
 using EDb.DataAccess.Repositories;
 using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.Interfaces;
+using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
 using Microsoft.EntityFrameworkCore;
 using PlatformAPI.Interfaces;
@@ -63,6 +64,7 @@ namespace PlatformAPI.Extensions
 
       // Add AutoMapper with the specified mapping profile assembly.
       services.AddAutoMapper(typeof(MappingProfile).Assembly);
+      services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
 
       // Configure CORS policies.
       services.AddCors(options =>
