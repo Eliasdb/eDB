@@ -63,6 +63,7 @@ namespace PlatformAPI.Extensions
 
       // Add AutoMapper with the specified mapping profile assembly.
       services.AddAutoMapper(typeof(MappingProfile).Assembly);
+      services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
 
       // Configure CORS policies.
       services.AddCors(options =>
