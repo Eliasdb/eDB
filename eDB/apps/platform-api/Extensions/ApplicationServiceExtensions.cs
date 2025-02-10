@@ -3,6 +3,7 @@ using EDb.DataAccess.Data;
 using EDb.DataAccess.Repositories;
 using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.Interfaces;
+using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
 using Microsoft.EntityFrameworkCore;
 using PlatformAPI.Interfaces;
