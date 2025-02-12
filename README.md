@@ -1,9 +1,9 @@
 # eDB
 
-## Table of Contents
+## Documentation
 
 -   [1. Project Goal](#1-project-goal)
--   [2. Nx Setup](#2-setup-nx-monorepo)
+-   [2. Nx Setup](#2-nx-setup)
     -   [2.1 Frontend](#21-frontend)
         -   [2.1.1 Stack & Architecture](#211-stack--architecture)
         -   [2.1.2 Application Pages](#212-application-pages)
@@ -20,8 +20,8 @@
 -   [3. Environments](#3-environments)
     -   [3.1 Development](#31-development)
         -   [3.1.1 Setup](#311-setup)
-            -   [Local k3s Cluster (k3d + Skaffold)](#3111-local-k3s-cluster-k3d--skaffold)
-            -   [[NEW] Nx Development Setup](#3112-new-nx-development-setup)
+            -   [Local k3s Cluster (k3d + Skaffold)](#local-k3s-cluster-k3d--skaffold)
+            -   [[NEW] Nx Development Setup](#new-nx-development-setup)
         -   [3.1.2 Tools](#312-tools)
             -   [Swagger](#swagger)
             -   [Postman](#postman)
@@ -55,7 +55,7 @@
 
 I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them.
 
-## 2. Setup Nx Monorepo
+## 2. Nx Setup
 
 This project uses Nx to efficiently manage multiple applications and shared libraries within a monorepo structure. Nx provides several key advantages:
 
@@ -186,7 +186,7 @@ This is a visual representation of the workspace dependency graph concerning the
 
 -   **Frameworks**: **.NET 8**
 -   **ORM**: **Entity Framework**
--   **Object Mapper**: **Automapper** is library for .NET that automatically maps data between objects, eliminating the need for manual property assignments.
+-   **Object Mapper**: **Automapper** is a library for .NET that automatically maps data between objects, eliminating the need for manual property assignments.
 -   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
 -   **Testing**: **xUnit** and **Moq** for unit and integration testing
 -   **Architecture**: **REST API**
@@ -508,9 +508,9 @@ This is a visual representation of the workspace dependency graph regarding back
 
 #### 3.1.1 Setup
 
-**3.1.1.1 Local k3s Cluster (k3d + Skaffold)**
+##### **Local k3s Cluster (k3d + Skaffold)**
 
-> **Note:** The first setup I ever created for development on my local machine
+> **Note:** This is the first setup I ever created for development on my local machine
 
 The project is using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
@@ -604,7 +604,7 @@ Once deployed, your frontend will be available at `http://localhost:4200` and yo
 Here is a diagram of the setup:
 ![Development Setup Diagram](./diagrams/images/devops/dev/environment-setup.dev_v4.png)
 
-**3.1.1.2 [NEW] Nx development setup**
+##### **[NEW] Nx development setup**
 
 However I did not like rebuilding images all the time and even though it went smooth to set up staging and production because I had a pretty similar setup on my own machine. I simplified the dev setup after refactoring my backend to be included in the Nx workspace.
 
@@ -665,14 +665,14 @@ I use ESLint to test my endpoints in isolation.
 
 #### 3.2.1 Dockerfiles
 
-These are the multi-stage Dockerfiles used in production for my frontend and backend.
+These are the Dockerfiles used in production for my frontend and backend apps. The frontend Docker images just serve the built files provided by the pipeline. The backend still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this. Staging has a similar setup.
 
-![Production Dockerfiles](./diagrams/images/devops/prod/dockerfiles.prod_v1.png)
+![Production Dockerfiles](./diagrams/images/devops/prod/dockerfiles.prod_v2.png)
 
 #### 3.2.2 Architecture Diagram
 
-This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here with a new Docker image or it rolls back if that does not go as planned. My domain was bought and configured at CloudFlare to point to the IP of my VPS. To configure different URLS, I had to add a A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
-![Production Setup Diagram](./diagrams/images/devops/prod/environment-setup.prod_v1.png)
+This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
+![Production Setup Diagram](./diagrams/images/devops/prod/environment-setup.prod_v2.png)
 
 ## 4. CI/CD
 
@@ -725,11 +725,11 @@ You can also see this run live on GitHub, under the Actions tab:
 
 ## 6. VPS
 
-#### 6.1 What is a VPS?
+### 6.1 What is a VPS?
 
 A **Virtual Private Server (VPS)** is a virtualized environment that provides dedicated resources on a shared physical server. It offers a balance between cost, performance, and control, making it a popular choice for hosting applications and services.
 
-##### Key Features of a VPS
+#### Key Features of a VPS
 
 -   **Dedicated Resources**: Allocated CPU, RAM, and storage that are exclusive to your VPS.
 -   **Root Access**: Full control over the server to customize it as needed.
@@ -741,13 +741,13 @@ A **Virtual Private Server (VPS)** is a virtualized environment that provides de
 
 #### 6.2 Setting up a VPS with Hetzner
 
-### Step 0: Setting up your account
+#### Step 0: Setting up your account
 
 -   Create an account on [Hetzner](https://accounts.hetzner.com/signUp).
 
 -   Navigate to your [account section](https://console.hetzner.cloud/projects).
 
-### Step 1: Configure server on Hetzner
+#### Step 1: Configure server on Hetzner
 
 Under the 'Servers' tab you should find a button to add a server to your account. Let's go over the easy steps first needed to configure our server. It's pretty straight forward.
 
@@ -774,7 +774,7 @@ You will need to set
 
     ![Location](./diagrams/images/docs/networking.png)
 
-### Step 2: Generating an SSH key
+#### Step 2: Generating an SSH key
 
 ![SSH](./diagrams/images/docs/ssh.png)
 
@@ -789,7 +789,7 @@ Run following command on your machine:
 
 You can add an optional passphrase. Skip or add one for more security.
 
-### Step 3: Retrieving the public key
+#### Step 3: Retrieving the public key
 
 After generating the key, the private key will be at /path/to/your/custom_key, and the public key will be at /path/to/your/custom_key.pub.
 
@@ -799,18 +799,18 @@ Copy the output to use in your cloud-config or in the setup of the server as see
 
 ![SSH Key](./diagrams/images/docs/ssh-key.png)
 
-### Step 4: Volumes
+#### Step 4: Volumes
 
 You can add volumes to store data. This is needed if you want the data of your database to be persistent.
 
-### Step 5: Cloud config and server name
+#### Step 5: Cloud config and server name
 
 Cloud-init is a powerful tool used for automating the initial setup and configuration of cloud servers during their first boot.
 [This article](https://community.hetzner.com/tutorials/basic-cloud-config) takes you step by step in the setup of a cloud-init script. The script will handle users set up, SSH keys and permissions, install packages, run custom scripts, configure firewalls or securing SSH.
 
 ## 7. Project Management and Documentation
 
-#### 7.1 Jira
+### 7.1 Jira
 
 Jira is used as a central tool to organize, track, and manage work. It supports various issue types for different kinds of work items, helps structure tasks under epics, and facilitates agile sprint planning and execution.
 
@@ -881,13 +881,13 @@ Once the sprint is populated and goals are defined, click **“Start sprint”**
 -   **Completing the Sprint:**  
     At the end of the sprint, review completed work on the board. Use Jira’s **“Complete sprint”** feature to close the sprint, move unfinished tasks back to the backlog or the next sprint, and plan for future sprints.
 
-#### 7.2 Tags and releases
+### 7.2 Tags and releases
 
 At the end of each sprint, there will be a new version to be settled upon. This will become the new tag made in the pipeline to tag the Docker image and also will be used in the release notes to publish a release on GitHub from.
 
 Here is an [overview](https://github.com/Eliasdb/eDB/releases) of all releases so far.
 
-#### 7.3 Confluence
+### 7.3 Confluence
 
 I intend to migrate this README to Confluence pages. More on this at a later time.
 URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overview). Only visible if you are part of the team.
@@ -946,14 +946,14 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 
 **DevOps**
 
--   [x] **Docker**: Docker Compose - Docker Desktop - Dockerfiles - Docker images
+-   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images
 -   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - deployments - services - pods - secrets - configmaps - YAML
 -   [x] **Servers**: Linux - VPS - Static file web server (NGINX) - API web server (.NET Web API) - Database server (Postgres) - shell scripts (wait-for-postgres to ping database to start up API)
 -   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint
 
 **Monorepo**
 
--   [x] **Nx**: apps - libs - Nx Generators/Scaffolding commands - nx affected
+-   [x] **Nx**: apps - libs - Nx Generators/Scaffolding commands - nx affected - modular layered architecture
 
 **Frontend**
 
