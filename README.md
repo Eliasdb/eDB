@@ -168,10 +168,12 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 ### 2.1.4 Architecture Diagrams
 
 **V1: Monolithic Platform App**
+
 The first model of the platform using a familiar monolithic approach.
 ![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
 
 **V2: Layered Modular Platform App and Admin App**
+
 This is a visual representation of the workspace dependency graph concerning the frontend as is right now. This is a more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. To learn more check out their [documentation](https://nx.dev/concepts/decisions). Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture.
 ![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v6.png)
 
@@ -679,14 +681,17 @@ This is my current production cluster. When the pipeline runs to deploy it's act
 To smoothly update my staging and production environments, I have built several pipelines. This is how it goes:
 
 **Creating a branch**
+
 Checkout dev branch and pull latest code. Create a feature-branch locally, make changes and open a PR to compare your branch to the dev branch.
 
 **Opening a PR: pre-merge checks**
+
 When you open the PR, a pre-merge pipeline will attempt to lint, test and build only the affected code. It will also push Docker images to Docker Hub. When these checks pass, you can then safely merge to dev branch to automatically start deployment to staging.
 
 ![Development Workflow](./diagrams/images/devops/staging/premerge-checks_v3.png)
 
 **Deploying to staging: post-merge deployment**
+
 After all checks pass and you have merged successfully, a pipeline will run deploying the build to a staging environment that mimics production.
 
 **URLs**:
