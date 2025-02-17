@@ -61,7 +61,7 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 ## 2. Project Details
 
-### Client-Server Interaction Diagram
+### Client-Server Interaction
 
 Below you see a visual representation of the request-response model. Also mentioned protocols used and general information about headers.
 ![Client-Server Interaction Diagram](./diagrams/images/docs/client-server.drawio.png)
