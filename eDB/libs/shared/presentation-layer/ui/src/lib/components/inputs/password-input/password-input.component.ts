@@ -51,7 +51,7 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly warn = input<boolean>(false);
   readonly warnText = input<string>('');
   readonly skeleton = input<boolean>(false);
-  readonly size = input<'sm' | 'md' | 'lg'>('lg');
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
   readonly theme = input<'light' | 'dark'>('dark');
   readonly readonly = input<boolean>(false);
   readonly autocomplete = input<string>('');

@@ -1,6 +1,5 @@
 .login-form-container {
   max-width: 415px;
-  border-radius: 8px;
 }
 
 .login-form-title {
@@ -25,5 +24,11 @@ ui-button {
 @media (max-width: 1055px) {
   .login-form-container {
     margin: 0 auto;
+  }
+}
+
+@media (max-width: 430px) {
+  .login-form-container {
+    max-width: 90%;
   }
 }

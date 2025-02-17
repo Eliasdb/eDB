@@ -26,12 +26,8 @@ import {
   template: `
     <div class="platform-layout">
       <ui-platform-header
-        [navigationLinks]="
-          (authService.isAuthenticated() | async) ? navigationLinks : []
-        "
-        [menuOptions]="
-          (authService.isAuthenticated() | async) ? menuOptions : []
-        "
+        [navigationLinks]="(isAuthenticated$ | async) ? navigationLinks : []"
+        [menuOptions]="(isAuthenticated$ | async) ? menuOptions : []"
         (linkClick)="navigateTo($event)"
         (menuOptionSelected)="handleMenuOption($event)"
       ></ui-platform-header>
@@ -39,7 +35,9 @@ import {
         <router-outlet></router-outlet>
         <cds-placeholder></cds-placeholder>
       </main>
-      <ui-portal-footer></ui-portal-footer>
+      @if (!(isAuthenticated$ | async)) {
+        <ui-portal-footer></ui-portal-footer>
+      }
     </div>
   `,
   styleUrl: 'shell.component.scss',
