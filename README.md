@@ -3,26 +3,30 @@
 ## Documentation
 
 -   [1. Project Goal](#1-project-goal)
--   [2. Nx Setup](#2-nx-setup)
-    -   [2.1 Frontend](#21-frontend)
-        -   [2.1.1 Stack & Architecture](#211-stack--architecture)
-        -   [2.1.2 Application Pages](#212-application-pages)
+-   [2. Project Details](#2-project-details)
+    -   [Client-Server Interaction](#client-server-interaction)
+    -   [Critical Rendering Path (CRP)](#critical-rendering-path-crp)
+    -   [The Event Loop](#the-event-loop)
+-   [3. Nx Setup](#3-nx-setup)
+    -   [3.1 Frontend](#31-frontend)
+        -   [3.1.1 Stack & Architecture](#311-stack--architecture)
+        -   [3.1.2 Application Pages](#312-application-pages)
             -   [Web App](#web-app)
             -   [Admin App](#admin-app)
-        -   [2.1.3 Layers of Modular Architecture](#213-layers-of-modular-architecture)
-        -   [2.1.4 Architecture Diagrams](#214-architecture-diagrams)
-    -   [2.2 Backend](#22-backend)
-        -   [2.2.1 Stack & Architecture](#221-stack--architecture)
-        -   [2.2.2 APIs](#222-apis)
+        -   [3.1.3 Layers of Modular Architecture](#313-layers-of-modular-architecture)
+        -   [3.1.4 Architecture Diagrams](#314-architecture-diagrams)
+    -   [3.2 Backend](#22-backend)
+        -   [3.2.1 Stack & Architecture](#321-stack--architecture)
+        -   [3.2.2 APIs](#322-apis)
             -   [Platform API](#platform-api)
             -   [Admin API](#admin-api)
-        -   [2.2.3 Architecture Diagrams](#223-architecture-diagrams)
--   [3. Environments](#3-environments)
-    -   [3.1 Development](#31-development)
-        -   [3.1.1 Setup](#311-setup)
+        -   [3.2.3 Architecture Diagrams](#323-architecture-diagrams)
+-   [4. Environments](#4-environments)
+    -   [4.1 Development](#41-development)
+        -   [4.1.1 Setup](#411-setup)
             -   [Local k3s Cluster (k3d + Skaffold)](#local-k3s-cluster-k3d--skaffold)
             -   [[NEW] Nx Development Setup](#new-nx-development-setup)
-        -   [3.1.2 Tools](#312-tools)
+        -   [4.1.2 Tools](#412-tools)
             -   [Swagger](#swagger)
             -   [Postman](#postman)
             -   [xUnit](#xunit)
@@ -30,24 +34,24 @@
             -   [Vitest](#vitest)
             -   [Prettier](#prettier)
             -   [ESLint](#eslint)
-    -   [3.2 Staging & Production](#32-staging--production)
-        -   [3.2.1 Dockerfiles](#321-dockerfiles)
-        -   [3.2.2 Architecture Diagram](#322-architecture-diagram)
--   [4. CI/CD](#4-cicd)
--   [5. Database](#5-database)
--   [6. VPS](#6-vps)
-    -   [6.1 What is a VPS?](#61-what-is-a-vps)
-    -   [6.2 Setting up a VPS with Hetzner](#62-setting-up-a-vps-with-hetzner)
--   [7. Project Management and Documentation](#7-project-management-and-documentation)
-    -   [7.1 Jira](#71-jira)
-    -   [7.2 Tags and releases](#72-tags-and-releases)
-    -   [7.3 Confluence](#73-confluence)
--   [8. Handy Commands Cheat Sheet](#8-handy-commands-cheat-sheet)
-    -   [8.1 General Commands](#81-general-commands)
-    -   [8.2 Database Management Commands](#82-database-management-commands)
--   [9. Achieved Goals](#9-achieved-goals)
--   [10. TLDR: All Tools Used](#10-tldr-all-tools-used)
--   [11. Tools I'm working towards using](#11-tools-im-working-towards-using)
+    -   [4.2 Staging & Production](#42-staging--production)
+        -   [4.2.1 Dockerfiles](#421-dockerfiles)
+        -   [4.2.2 Architecture Diagram](#422-architecture-diagram)
+-   [5. CI/CD](#5-cicd)
+-   [6. Database](#6-database)
+-   [7. VPS](#7-vps)
+    -   [7.1 What is a VPS?](#71-what-is-a-vps)
+    -   [7.2 Setting up a VPS with Hetzner](#72-setting-up-a-vps-with-hetzner)
+-   [8. Project Management and Documentation](#8-project-management-and-documentation)
+    -   [8.1 Jira](#81-jira)
+    -   [8.2 Tags and releases](#82-tags-and-releases)
+    -   [8.3 Confluence](#83-confluence)
+-   [9. Handy Commands Cheat Sheet](#9-handy-commands-cheat-sheet)
+    -   [9.1 General Commands](#91-general-commands)
+    -   [9.2 Database Management Commands](#92-database-management-commands)
+-   [10. Achieved Goals](#10-achieved-goals)
+-   [11. TLDR: All Tools Used](#11-tldr-all-tools-used)
+-   [12. Tools I'm working towards using](#12-tools-im-working-towards-using)
 
 ---
 
@@ -55,7 +59,34 @@
 
 I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them.
 
-## 2. Nx Setup
+## 2. Project Details
+
+### Client-Server Interaction Diagram
+
+Below you see a visual representation of the request-response model. Also mentioned protocols used and general information about headers.
+![Client-Server Interaction Diagram](./diagrams/images/docs/client-server.drawio.png)
+
+### Critical Rendering Path (CRP)
+
+Illustrated roughly what's going on in the CRP in a framework-agnostic way. The CRP is responsible for turning HTML, CSS, and JavaScript into pixels on the screen.
+
+-   Parsing HTML → DOM (Document Object Model)
+-   Parsing CSS → CSSOM (CSS Object Model)
+-   Executing JavaScript (which may modify the DOM and CSSOM)
+-   Creating the Render Tree (DOM + CSSOM)
+-   Layout Calculation (determining positions and sizes)
+-   Painting (filling pixels)
+-   Compositing (layering elements for final rendering)
+
+![Critical Rendering Path](./diagrams/images/docs/crp.drawio.png)
+
+### The Event Loop
+
+The event loop is the mechanism that JavaScript uses to handle asynchronous operations efficiently, ensuring that the single-threaded JavaScript runtime remains non-blocking.
+
+![The Event Loop](./diagrams/images/docs/event-loop.png)
+
+## 3. Nx Setup
 
 This project uses Nx to efficiently manage multiple applications and shared libraries within a monorepo structure. Nx provides several key advantages:
 
@@ -72,9 +103,9 @@ By leveraging Nx, this monorepo allows for a more structured, scalable, and opti
 
 Initially I used this only for the frontend. Using the `@nx-dotnet/core` package I was able to get my frontend and backend code together in this one codebase.
 
-### 2.1 Frontend
+### 3.1 Frontend
 
-### 2.1.1 Stack & Architecture
+### 3.1.1 Stack & Architecture
 
 #### Stack
 
@@ -90,7 +121,7 @@ Initially I used this only for the frontend. Using the `@nx-dotnet/core` package
 
 The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
 
-### 2.1.2 Application Pages
+### 3.1.2 Application Pages
 
 #### Web App:
 
@@ -123,7 +154,7 @@ The application follows a **Layered Modular Architecture** in Nx, designed for f
 
     -   Ability to revoke or modify user subscriptions.
 
-### 2.1.3 Layers of Modular Architecture
+### 3.1.3 Layers of Modular Architecture
 
 ##### 1. Application Layer (Apps) 🏛
 
@@ -165,7 +196,7 @@ This **modular and scalable structure** ensures:
 
 By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time. That is the goal at least...
 
-### 2.1.4 Architecture Diagrams
+### 3.1.4 Architecture Diagrams
 
 **V1: Monolithic Platform App**
 
@@ -182,9 +213,9 @@ This is a visual representation of the workspace dependency graph concerning the
 ![Nx dependency graph](./diagrams/images/docs/dep-graphv2.png)
 ![Nx dependency graph](./diagrams/images/docs/dep-graphv3.png)
 
-### 2.2 Backend
+### 3.2 Backend
 
-### 2.2.1 Stack & Architecture
+### 3.2.1 Stack & Architecture
 
 -   **Frameworks**: **.NET 8**
 -   **ORM**: **Entity Framework**
@@ -193,7 +224,7 @@ This is a visual representation of the workspace dependency graph concerning the
 -   **Testing**: **xUnit** and **Moq** for unit and integration testing
 -   **Architecture**: **REST API**
 
-### 2.2.2 APIs
+### 3.2.2 APIs
 
 #### **Platform API**
 
@@ -491,7 +522,7 @@ The **Admin API** handles administrative tasks, including user management, appli
         }
         ```
 
-### 2.2.3 Architecture Diagrams
+### 3.2.3 Architecture Diagrams
 
 **V1: Monolithic Platform API**
 The first model of the platform using a familiar monolithic approach.
@@ -504,11 +535,11 @@ This is a visual representation of the workspace dependency graph regarding back
 
 ---
 
-## 3. Environments
+## 4. Environments
 
-### 3.1 Development
+### 4.1 Development
 
-#### 3.1.1 Setup
+#### 4.1.1 Setup
 
 ##### **Local k3s Cluster (k3d + Skaffold)**
 
@@ -620,7 +651,7 @@ However I did not like rebuilding images all the time and even though it went sm
 
 Running these scripts with pnpm (e.g. `pnpm start:web`) will start up either the platform app, the admin app or the platform-api. Can be extended with more as the platform grows. You will have to setup a local db which is easily done through your terminal and through the Postgres App.
 
-#### 3.1.2 Tools
+#### 4.1.2 Tools
 
 These are some of the tools I use when developing locally:
 
@@ -663,20 +694,20 @@ I use Prettier to test my endpoints in isolation.
 
 I use ESLint to test my endpoints in isolation.
 
-### 3.2 Staging & Production
+### 4.2 Staging & Production
 
-#### 3.2.1 Dockerfiles
+#### 4.2.1 Dockerfiles
 
 These are the Dockerfiles used in production for my frontend and backend apps. The frontend Docker images just serve the built files provided by the pipeline. The backend still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this. Staging has a similar setup.
 
 ![Production Dockerfiles](./diagrams/images/devops/prod/dockerfiles.prod_v2.png)
 
-#### 3.2.2 Architecture Diagram
+#### 4.2.2 Architecture Diagram
 
 This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
 ![Production Setup Diagram](./diagrams/images/devops/prod/environment-setup.prod_v2.png)
 
-## 4. CI/CD
+## 5. CI/CD
 
 To smoothly update my staging and production environments, I have built several pipelines. This is how it goes:
 
@@ -722,15 +753,15 @@ You can also see this run live on GitHub, under the Actions tab:
 
 ---
 
-## 5. Database
+## 6. Database
 
 **Database**: PostgreSQL
 
 ---
 
-## 6. VPS
+## 7. VPS
 
-### 6.1 What is a VPS?
+### 7.1 What is a VPS?
 
 A **Virtual Private Server (VPS)** is a virtualized environment that provides dedicated resources on a shared physical server. It offers a balance between cost, performance, and control, making it a popular choice for hosting applications and services.
 
@@ -744,7 +775,7 @@ A **Virtual Private Server (VPS)** is a virtualized environment that provides de
 
 > **Note:** While the physical hardware is shared, the virtualization layer ensures resource isolation and predictable performance.
 
-#### 6.2 Setting up a VPS with Hetzner
+#### 7.2 Setting up a VPS with Hetzner
 
 #### Step 0: Setting up your account
 
@@ -813,9 +844,9 @@ You can add volumes to store data. This is needed if you want the data of your d
 Cloud-init is a powerful tool used for automating the initial setup and configuration of cloud servers during their first boot.
 [This article](https://community.hetzner.com/tutorials/basic-cloud-config) takes you step by step in the setup of a cloud-init script. The script will handle users set up, SSH keys and permissions, install packages, run custom scripts, configure firewalls or securing SSH.
 
-## 7. Project Management and Documentation
+## 8. Project Management and Documentation
 
-### 7.1 Jira
+### 8.1 Jira
 
 Jira is used as a central tool to organize, track, and manage work. It supports various issue types for different kinds of work items, helps structure tasks under epics, and facilitates agile sprint planning and execution.
 
@@ -886,20 +917,20 @@ Once the sprint is populated and goals are defined, click **“Start sprint”**
 -   **Completing the Sprint:**  
     At the end of the sprint, review completed work on the board. Use Jira’s **“Complete sprint”** feature to close the sprint, move unfinished tasks back to the backlog or the next sprint, and plan for future sprints.
 
-### 7.2 Tags and releases
+### 8.2 Tags and releases
 
 At the end of each sprint, there will be a new version to be settled upon. This will become the new tag made in the pipeline to tag the Docker image and also will be used in the release notes to publish a release on GitHub from.
 
 Here is an [overview](https://github.com/Eliasdb/eDB/releases) of all releases so far.
 
-### 7.3 Confluence
+### 8.3 Confluence
 
 I intend to migrate this README to Confluence pages. More on this at a later time.
 URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overview). Only visible if you are part of the team.
 
-## 8. Handy Commands Cheat Sheet
+## 9. Handy Commands Cheat Sheet
 
-### 5.1 General Commands
+### 9.1 General Commands
 
 | Command                                                          | Description                                  |
 | ---------------------------------------------------------------- | -------------------------------------------- |
@@ -918,7 +949,7 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 | `skaffold run`                                                   | Deploy the application to the cluster        |
 | `skaffold delete`                                                | Remove all Skaffold-managed resources        |
 
-### 5.2 Database Management Commands
+### 9.2 Database Management Commands
 
 | Command                                                 | Description                                                           |
 | ------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -937,7 +968,7 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 
 ---
 
-## 9. Achieved Goals
+## 10. Achieved Goals
 
 -   [x] Containerizing applications (Dockerfiles)
 -   [x] Development environment (k3s cluster using k3d managed with Skaffold OR Nx)
@@ -947,12 +978,12 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [x] Documentation
 -   [x] Layered Modular Architecture for Frontend and Backend
 
-## 10. TLDR: All Tools Used
+## 11. TLDR: All Tools Used
 
 **DevOps**
 
 -   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images
--   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - deployments - services - pods - secrets - configmaps - YAML
+-   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - Deployments - Services - Pods - Secrets - Configmaps - YAML
 -   [x] **Servers**: Linux - VPS - Static file web server (NGINX) - API web server (.NET Web API) - Database server (Postgres) - shell scripts (wait-for-postgres to ping database to start up API)
 -   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint
 
@@ -981,7 +1012,7 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [x] **Testing**: xUnit - Moq - Postman
 -   [x] **Object Mapper**: Automapper
 
-## 11. Tools I'm working towards using
+## 12. Tools I'm working towards using
 
 **DevOps**
 
