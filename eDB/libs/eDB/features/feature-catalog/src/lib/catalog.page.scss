@@ -1,5 +1,4 @@
 .catalog {
-  padding-top: 6rem;
   display: flex;
   justify-content: center;
   background-color: rgb(255 255 255);
@@ -13,4 +12,11 @@
   gap: 1rem; /* Space between tiles */
   justify-content: center;
   max-width: 80rem;
+}
+
+@media (max-width: 768px) {
+  .catalog {
+    flex-direction: column;
+    align-items: anchor-center;
+  }
 }

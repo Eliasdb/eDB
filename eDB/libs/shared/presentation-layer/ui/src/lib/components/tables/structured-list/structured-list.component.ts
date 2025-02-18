@@ -37,14 +37,14 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
         </cds-list-column>
       </cds-list-header>
 
-      @if (editMode()) {
+      @if (uneditedMode()) {
         @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
-            <cds-list-column class="w-20">
+            <cds-list-column>
               <p class="row-0">{{ row[0] }}</p>
             </cds-list-column>
 
-            <cds-list-column class="w-60">
+            <cds-list-column>
               @if (!isEditing(rowIndex)) {
                 <section class="skeleton-text-wrapper">
                   <p>{{ row[1] }}</p>
@@ -148,11 +148,11 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
       } @else {
         @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
-            <cds-list-column class="w-20">
+            <cds-list-column>
               <p class="row-0">{{ row[0] }}</p>
             </cds-list-column>
 
-            <cds-list-column class="w-60">
+            <cds-list-column>
               <section class="skeleton-text-wrapper">
                 <p>{{ row[1] }}</p>
               </section>
@@ -171,7 +171,7 @@ export class UiStructuredListComponent {
   readonly editingRowIndex = input<number | null>(null);
   readonly isEditingAny = input(false);
   readonly inputValues = input<any>({});
-  readonly editMode = input<boolean>(false); // New input to control edit visibility
+  readonly uneditedMode = input<boolean>(false); // New input to control edit visibility
 
   @Output() actionClick = new EventEmitter<number>();
   @Output() updateEdit = new EventEmitter<number>();
