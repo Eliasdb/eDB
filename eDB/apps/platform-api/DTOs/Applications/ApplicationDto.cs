@@ -1,4 +1,4 @@
-namespace PlatformAPI.DTOs.Applications;
+namespace Edb.PlatformAPI.DTOs.Applications;
 
 public class ApplicationDto
 {

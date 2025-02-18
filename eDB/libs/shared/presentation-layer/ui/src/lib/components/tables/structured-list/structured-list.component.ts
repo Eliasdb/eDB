@@ -89,24 +89,25 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                       ></ui-text-input>
                     </ng-container>
                   </ng-container>
-                  <cds-button-set>
-                    <div class="button-container">
-                      <ui-button
-                        (buttonClick)="cancelEdit.emit(rowIndex)"
-                        variant="secondary"
-                        size="md"
-                      >
-                        Cancel
-                      </ui-button>
-                      <ui-button
-                        (buttonClick)="updateEdit.emit(rowIndex)"
-                        variant="primary"
-                        size="md"
-                      >
-                        Update
-                      </ui-button>
-                    </div>
-                  </cds-button-set>
+
+                  <div class="button-container">
+                    <ui-button
+                      (buttonClick)="cancelEdit.emit(rowIndex)"
+                      variant="secondary"
+                      size="md"
+                      [fullWidth]="true"
+                    >
+                      Cancel
+                    </ui-button>
+                    <ui-button
+                      (buttonClick)="updateEdit.emit(rowIndex)"
+                      variant="primary"
+                      size="md"
+                      [fullWidth]="true"
+                    >
+                      Update
+                    </ui-button>
+                  </div>
                 </div>
               }
             </cds-list-column>

@@ -1,6 +1,6 @@
-using PlatformAPI.Middleware;
+using Edb.PlatformAPI.Middleware;
 
-namespace PlatformAPI.Extensions;
+namespace Edb.PlatformAPI.Extensions;
 
 public static class MiddlewareExtensions
 {

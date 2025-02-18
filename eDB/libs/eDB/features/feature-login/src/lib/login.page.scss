@@ -1,6 +1,6 @@
 .login-container {
   width: 100%;
-  height: 95vh; // Full viewport height
+  height: calc(100vh - 3rem);
   overflow: hidden;
   background-color: white;
 }
@@ -13,7 +13,7 @@
 .login-section {
   flex: 0 0 32%; // 32% width for the login form
   margin-left: 7rem;
-  margin-top: 3.5rem;
+  margin-top: 6rem;
 }
 
 .intro-image-section {
@@ -30,6 +30,10 @@
 }
 
 @media (max-width: 1055px) {
+  .login-container {
+    height: initial;
+    min-height: calc(100vh - 3rem);
+  }
   .intro-image-section {
     display: none; // Hide image section on smaller screens
   }

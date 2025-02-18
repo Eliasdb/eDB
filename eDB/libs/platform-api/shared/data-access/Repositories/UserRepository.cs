@@ -17,7 +17,7 @@ public class UserRepository(MyDbContext context) : IUserRepository
 
   public async Task<User?> GetByIdAsync(int id)
   {
-    return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+    return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
   }
 
   public async Task DeleteAsync(User user)

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PlatformAPI.DTOs.Admin;
+namespace Edb.PlatformAPI.DTOs.Admin;
 
 public class UserDto
 {

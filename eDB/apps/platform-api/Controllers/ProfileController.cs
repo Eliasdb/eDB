@@ -1,9 +1,9 @@
+using Edb.PlatformAPI.DTOs.Profile;
+using Edb.PlatformAPI.Interfaces;
 using EDb.UtilAttributes.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using PlatformAPI.DTOs.Profile;
-using PlatformAPI.Interfaces;
 
-namespace PlatformAPI.Controllers
+namespace Edb.PlatformAPI.Controllers
 {
   public class ProfileController(IProfileService profileService) : BaseApiController
   {
@@ -41,7 +41,7 @@ namespace PlatformAPI.Controllers
       await _profileService.UpdateUserProfileAsync(user, request);
 
       var response = _profileService.GetUserProfile(user);
-      return Ok(new { message = "Profile updated successfully!", user = response });
+      return Ok(new { message = "Profile updated  successfully!", user = response });
     }
   }
 }

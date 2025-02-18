@@ -5,12 +5,12 @@ using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.Interfaces;
 using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
+using Edb.PlatformAPI.Interfaces;
+using Edb.PlatformAPI.Mapping;
+using Edb.PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using PlatformAPI.Interfaces;
-using PlatformAPI.Mapping;
-using PlatformAPI.Services;
 
-namespace PlatformAPI.Extensions
+namespace Edb.PlatformAPI.Extensions
 {
   public static class ApplicationServiceExtensions
   {
