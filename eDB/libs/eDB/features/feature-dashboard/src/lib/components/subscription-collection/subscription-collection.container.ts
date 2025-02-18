@@ -31,6 +31,19 @@ import { UiLaunchTileComponent } from '@eDB/shared-ui';
       }
     </div>
   `,
+  styles: `
+    .subscriptions-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .subscriptions-tiles {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  `,
 })
 export class SubscriptionsCollectionContainer {
   private dashboardService = inject(DashboardService);
