@@ -1,8 +1,8 @@
 using System.Net;
 using System.Text.Json;
-using PlatformAPI.Errors;
+using Edb.PlatformAPI.Errors;
 
-namespace PlatformAPI.Middleware;
+namespace Edb.PlatformAPI.Middleware;
 
 public class ExceptionMiddleware(
   RequestDelegate next,

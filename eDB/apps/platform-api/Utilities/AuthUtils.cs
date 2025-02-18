@@ -6,7 +6,7 @@ using EDb.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace PlatformAPI.Utilities
+namespace Edb.PlatformAPI.Utilities
 {
   public static class AuthUtils
   {

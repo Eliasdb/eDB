@@ -2,7 +2,7 @@
 .footer {
   background-color: #333;
   color: #fff;
-  padding: 1rem 0;
+  block-size: 3rem;
   margin-top: auto; /* Ensures the footer is at the bottom if content is small */
   display: flex;
   justify-content: center;
@@ -11,7 +11,6 @@
     display: flex;
     justify-content: space-around; /* Spacing between the content */
     align-items: center; /* Vertically center the items */
-    min-width: 30rem;
     max-width: 1200px;
 
     p {

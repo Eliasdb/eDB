@@ -1,4 +1,4 @@
-namespace PlatformAPI.Errors;
+namespace Edb.PlatformAPI.Errors;
 
 public class ApiException(int statusCode, string? message = null, string? details = null)
 {

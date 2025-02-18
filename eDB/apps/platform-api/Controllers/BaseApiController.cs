@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace PlatformAPI.Controllers
+namespace Edb.PlatformAPI.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]

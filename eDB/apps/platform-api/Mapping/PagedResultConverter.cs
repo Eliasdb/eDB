@@ -1,7 +1,7 @@
 using AutoMapper;
-using PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.DTOs.Admin;
 
-namespace PlatformAPI.Mapping;
+namespace Edb.PlatformAPI.Mapping;
 
 public class PagedResultConverter<TSource, TDestination>
   : ITypeConverter<PagedUserResult<TSource>, PagedUserResult<TDestination>>

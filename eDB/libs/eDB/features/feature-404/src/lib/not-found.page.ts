@@ -36,6 +36,7 @@ import { IconModule } from 'carbon-components-angular';
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background: white;
       }
       h1 {
         font-size: 5rem;

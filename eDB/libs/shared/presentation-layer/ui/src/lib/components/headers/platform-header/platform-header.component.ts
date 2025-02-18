@@ -57,6 +57,11 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
       </a>
     </ng-template>
   `,
+  styles: `
+    .logo {
+      margin-left: -0.5rem;
+    }
+  `,
 })
 export class UiPlatformHeaderComponent {
   readonly name = input<string>('eDB');

@@ -60,6 +60,7 @@ export class ShellComponent implements OnInit {
   menuOptions = [
     { id: 'dashboard', label: 'My eDB' },
     { id: 'profile', label: 'Profile' },
+    { id: 'catalog', label: 'Catalog' },
     { id: 'logout', label: 'Logout' },
   ];
 

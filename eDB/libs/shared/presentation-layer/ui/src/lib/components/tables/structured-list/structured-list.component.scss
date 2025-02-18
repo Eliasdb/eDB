@@ -100,3 +100,9 @@ cds-list-column p {
   pointer-events: none;
   opacity: 0.5; /* Optional: makes it visually clear that the element is disabled */
 }
+
+@media (max-width: 430px) {
+  .button-container {
+    flex-direction: column;
+  }
+}
