@@ -1,20 +1,27 @@
-/* Container styles */
+.register-form-page {
+  width: 100%;
+}
+
+.register-page-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 3rem); /* Subtract navbar height */
+  overflow-x: hidden;
+}
+
+/* Left and right sections each take up 50% of the width */
+.register-info-container,
 .register-form-container {
-  width: 100%;
-  min-height: 95vh;
-  display: flex;
-  background-color: white;
-}
-
-/* Content layout */
-.register-page-content {
-  display: flex;
-  width: 100%;
-}
-
-.register-info {
   flex: 1;
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 1rem;
+}
+
+/* Optional: background colors for clarity */
+.register-info-container {
+  background-color: #f5f5f5;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -40,41 +47,19 @@
     z-index: 1; /* Place overlay on top of the background */
   }
 
-  ui-title {
-    margin-bottom: 1rem;
-    z-index: 2; /* Ensure content is above the overlay */
-  }
-
   .left-titles {
-    margin-top: 1.5rem;
-    padding-left: 5rem;
-    max-width: 32rem;
     z-index: 2; /* Ensure content is above the overlay */
+    max-width: 32rem;
   }
 }
 
-/* Right side styles */
-.register-form-section {
-  flex: 1;
-  padding: 2rem 3rem 3rem 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-top: 1.5rem;
-
-  ui-title {
-    margin-bottom: 0.5rem;
-  }
-
+.register-form-container {
+  background-color: #ffffff;
   .right-titles {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  p {
-    margin-bottom: 1.5rem;
-
+    p {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
     a {
       color: #0070c9;
       text-decoration: none;
@@ -87,37 +72,17 @@
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .register-page-content {
+@media (max-width: 1024px) {
+  .register-page-content-wrapper {
     flex-direction: column;
+    height: initial;
   }
 
-  .register-info,
-  .register-form-section {
-    flex: none;
+  .register-info-container {
+    max-height: 20rem;
+  }
+
+  .register-form-container {
     padding: 1rem;
   }
-
-  .register-info {
-    ui-title {
-      text-align: center;
-    }
-
-    .left-titles {
-      padding-left: 0;
-      align-self: center;
-    }
-  }
-
-  .register-form-section {
-    ui-title,
-    p {
-      text-align: center;
-    }
-  }
-}
-
-.already-text {
-  margin-top: 0;
 }

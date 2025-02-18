@@ -1,4 +1,4 @@
-namespace PlatformAPI.DTOs;
+namespace Edb.PlatformAPI.DTOs;
 
 public class ApiResponse
 {

@@ -1,10 +1,10 @@
+using Edb.PlatformAPI.DTOs;
+using Edb.PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.Interfaces;
 using EDb.UtilAttributes.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using PlatformAPI.DTOs;
-using PlatformAPI.DTOs.Admin;
-using PlatformAPI.Interfaces;
 
-namespace PlatformAPI.Controllers
+namespace Edb.PlatformAPI.Controllers
 {
   public class AdminController(IAdminService adminService) : BaseApiController
   {

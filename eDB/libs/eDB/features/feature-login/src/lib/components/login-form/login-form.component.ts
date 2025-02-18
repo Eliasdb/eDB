@@ -1,4 +1,3 @@
-// login-form.component.ts
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
@@ -30,7 +29,7 @@ import { loginFormFields } from './login-form.config';
   template: `
     <div class="login-form-container">
       <section class="login-form-title">
-        <ui-title text="Log in to eDB"></ui-title>
+        <ui-title text="Log in to eDB" fontSize="2rem"></ui-title>
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -64,7 +63,7 @@ import { loginFormFields } from './login-form.config';
           </ui-button>
         </div>
       </form>
-      <section>
+      <section class="no-account">
         <p>Don't have an account?</p>
         <ui-button
           icon="faPlus"
@@ -90,10 +89,10 @@ export class LoginFormComponent implements OnInit {
   loginForm: FormGroup = this.formUtils.createFormGroup(loginFormFields);
 
   fieldDefinitions = loginFormFields;
-  isLoading = false;
   private returnUrl: string = '/dashboard';
 
   loginMutation = this.authService.loginMutation();
+  isLoading = this.loginMutation.isPending();
 
   ngOnInit(): void {
     this.returnUrl =

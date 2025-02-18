@@ -1,13 +1,13 @@
 using AutoMapper;
 using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
+using Edb.PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.DTOs.Auth;
+using Edb.PlatformAPI.Interfaces;
+using Edb.PlatformAPI.Utilities;
 using Microsoft.EntityFrameworkCore;
-using PlatformAPI.DTOs.Admin;
-using PlatformAPI.DTOs.Auth;
-using PlatformAPI.Interfaces;
-using PlatformAPI.Utilities;
 
-namespace PlatformAPI.Services
+namespace Edb.PlatformAPI.Services
 {
   public class AuthService(
     IConfiguration configuration,

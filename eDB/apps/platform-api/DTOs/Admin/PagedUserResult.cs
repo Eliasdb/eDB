@@ -1,4 +1,4 @@
-namespace PlatformAPI.DTOs.Admin;
+namespace Edb.PlatformAPI.DTOs.Admin;
 
 public class PagedUserResult<T>
 {

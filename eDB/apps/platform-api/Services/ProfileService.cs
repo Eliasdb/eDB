@@ -2,10 +2,10 @@ using System.Security.Claims;
 using AutoMapper;
 using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
-using PlatformAPI.DTOs.Profile;
-using PlatformAPI.Interfaces;
+using Edb.PlatformAPI.DTOs.Profile;
+using Edb.PlatformAPI.Interfaces;
 
-namespace PlatformAPI.Services
+namespace Edb.PlatformAPI.Services
 {
   public class ProfileService(IUserRepository userRepository, IMapper mapper) : IProfileService
   {

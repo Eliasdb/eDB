@@ -1,11 +1,11 @@
 using AutoMapper;
 using EDb.Domain.Entities;
-using PlatformAPI.DTOs.Admin;
-using PlatformAPI.DTOs.Applications;
-using PlatformAPI.DTOs.Auth;
-using PlatformAPI.DTOs.Profile;
+using Edb.PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.DTOs.Applications;
+using Edb.PlatformAPI.DTOs.Auth;
+using Edb.PlatformAPI.DTOs.Profile;
 
-namespace PlatformAPI.Mapping;
+namespace Edb.PlatformAPI.Mapping;
 
 public class MappingProfile : Profile
 {

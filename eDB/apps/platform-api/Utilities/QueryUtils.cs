@@ -1,7 +1,7 @@
 using System.Linq.Dynamic.Core;
-using PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.DTOs.Admin;
 
-namespace PlatformAPI.Utilities
+namespace Edb.PlatformAPI.Utilities
 {
   public static class QueryUtils
   {
