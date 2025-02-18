@@ -170,7 +170,6 @@ export class UiStructuredListComponent {
   readonly editingRowIndex = input<number | null>(null);
   readonly isEditingAny = input(false);
   readonly inputValues = input<any>({});
-
   readonly editMode = input<boolean>(false); // New input to control edit visibility
 
   @Output() actionClick = new EventEmitter<number>();
