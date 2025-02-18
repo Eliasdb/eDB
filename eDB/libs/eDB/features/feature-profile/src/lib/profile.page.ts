@@ -34,7 +34,7 @@ import { SettingsGroup } from './types/settings.type';
             (actionClick)="onActionClick(group.id, $event)"
             (updateEdit)="onUpdateEdit(group.id, $event)"
             (cancelEdit)="onCancelEdit()"
-            [editMode]="true"
+            [uneditedMode]="true"
             [id]="group.id"
           ></ui-structured-list>
         }
