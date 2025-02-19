@@ -2,18 +2,21 @@
 .settings-page {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 3rem);
-  overflow: hidden;
+  height: calc(100vh - 3rem); /* Fixed height for the whole page */
+  overflow: hidden; /* Prevent page-level scrolling */
   justify-content: center;
   gap: 2rem;
   padding-top: 6rem;
+}
 
-  @media screen and (max-width: 1055px) {
+@media screen and (max-width: 1055px) {
+  .settings-page {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    height: auto;
-    overflow: visible;
+    /* Keep fixed height and hidden overflow on mobile as well */
+    height: calc(100vh - 3rem);
+    overflow: hidden;
   }
 }
 
@@ -43,9 +46,6 @@
 
 .sidenav-mobile {
   display: none;
-}
-
-.sidenav-mobile {
   position: sticky;
   top: 50%;
   left: 50%;
@@ -67,24 +67,31 @@
 /* ====== SETTINGS CONTAINER ====== */
 .settings-container {
   flex-grow: 1;
+  /* Let this container scroll while the page itself is fixed */
   overflow-y: auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   max-width: 50%;
-  padding-bottom: 20rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  @media screen and (max-width: 1055px) {
-    min-width: 90%;
-    padding-bottom: 60rem;
-    /* Added mobile constraint for scrolling */
-    max-height: calc(100vh - 70rem); /* Adjust this value as needed */
-    overflow-y: auto;
-  }
 
-  @media screen and (max-width: 320px) {
+  /* On all screen sizes, allow this container to handle its own scrolling */
+  height: 100%;
+}
+
+@media screen and (max-width: 1055px) {
+  .settings-container {
+    min-width: 90%;
+    padding-bottom: 5rem;
+    /* Remove any fixed max-height override so it simply fills the remaining space */
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .settings-container {
     max-width: none;
     scroll-padding-top: 3rem;
   }
@@ -117,7 +124,7 @@
   :host ::ng-deep cds-list-row {
     display: flex !important;
     flex-wrap: wrap;
-    align-items: flex-start; /* Push content to the top */
+    align-items: flex-start;
   }
 
   :host ::ng-deep cds-list-row cds-list-column:nth-child(1) {
@@ -151,4 +158,13 @@
   font-size: 1.75rem;
   font-weight: 400;
   text-align: left;
+}
+
+.settings-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.spacer {
+  height: 25rem; // Adjust as needed to provide enough room
+  flex-shrink: 0;
 }

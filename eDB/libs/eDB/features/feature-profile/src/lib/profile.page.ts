@@ -60,6 +60,7 @@ import { SettingsGroup } from './types/settings.type';
             [id]="group.id"
           ></ui-structured-list>
         }
+        <div class="spacer"></div>
       </section>
     </section>
   `,
