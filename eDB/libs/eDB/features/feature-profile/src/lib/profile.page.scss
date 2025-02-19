@@ -14,11 +14,9 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    /* Keep fixed height and hidden overflow on mobile as well */
-    height: calc(100vh - 3rem);
-
     position: fixed;
     touch-action: none;
+    width: 100%;
   }
 }
 
@@ -87,7 +85,6 @@
   .settings-container {
     min-width: 90%;
     padding-bottom: 5rem;
-    /* Remove any fixed max-height override so it simply fills the remaining space */
     height: 100%;
   }
 }
@@ -95,7 +92,6 @@
 @media screen and (max-width: 320px) {
   .settings-container {
     max-width: none;
-    scroll-padding-top: 3rem;
   }
 }
 
@@ -147,14 +143,6 @@
   }
 }
 
-/* (Optional) Additional styling for headings and text */
-.cds-list-header cds-list-column {
-  display: flex;
-  align-items: center;
-  padding-top: 2rem;
-  padding-bottom: 1.5rem;
-}
-
 .profile-title {
   margin: 0;
   font-size: 1.75rem;
@@ -162,16 +150,12 @@
   text-align: left;
 }
 
-.settings-container::-webkit-scrollbar {
+.settings-container::-webkit-scrollbar,
+.settings-page::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 
 .spacer {
   height: 25rem; // Adjust as needed to provide enough room
   flex-shrink: 0;
-}
-
-/* Hide scrollbar for WebKit-based browsers (Safari, Chrome) */
-.settings-page::-webkit-scrollbar {
-  display: none;
 }
