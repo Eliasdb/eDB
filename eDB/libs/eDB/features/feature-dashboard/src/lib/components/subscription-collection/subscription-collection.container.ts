@@ -7,7 +7,6 @@ import { UiLaunchTileComponent } from '@eDB/shared-ui';
   imports: [UiLaunchTileComponent],
   template: `
     <div class="subscriptions-container">
-      <h1>My products</h1>
       @if (!isLoading()) {
         @if (error()) {
           <p>Error loading subscriptions: {{ error() }}</p>
@@ -31,19 +30,7 @@ import { UiLaunchTileComponent } from '@eDB/shared-ui';
       }
     </div>
   `,
-  styles: `
-    .subscriptions-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .subscriptions-tiles {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-  `,
+  styleUrl: './subscription-collection-container.scss',
 })
 export class SubscriptionsCollectionContainer {
   private dashboardService = inject(DashboardService);
