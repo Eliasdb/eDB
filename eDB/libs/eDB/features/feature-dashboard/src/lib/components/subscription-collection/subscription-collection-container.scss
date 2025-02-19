@@ -1,0 +1,11 @@
+.subscriptions-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; // adjust as needed
+
+  @media (max-width: 671px) {
+    grid-template-columns: 1fr; // switch to a single column
+    width: 100%;
+    margin: 0 auto; // center the grid container
+  }
+}
