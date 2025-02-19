@@ -16,7 +16,9 @@
     gap: 1rem;
     /* Keep fixed height and hidden overflow on mobile as well */
     height: calc(100vh - 3rem);
-    overflow: hidden;
+
+    position: fixed;
+    touch-action: none;
   }
 }
 
@@ -167,4 +169,9 @@
 .spacer {
   height: 25rem; // Adjust as needed to provide enough room
   flex-shrink: 0;
+}
+
+/* Hide scrollbar for WebKit-based browsers (Safari, Chrome) */
+.settings-page::-webkit-scrollbar {
+  display: none;
 }
