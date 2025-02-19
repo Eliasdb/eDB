@@ -1,7 +1,8 @@
+/* ====== GENERAL PAGE STYLES ====== */
 .settings-page {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 3rem); /* Make the container fill the viewport height */
+  height: calc(100vh - 3rem);
   overflow: hidden;
   justify-content: center;
   gap: 2rem;
@@ -16,6 +17,7 @@
   }
 }
 
+/* ====== SIDENAV STYLES ====== */
 .sidenav {
   width: 20rem;
   position: sticky;
@@ -34,6 +36,35 @@
   }
 }
 
+/* Hide mobile select on desktop */
+.sidenav-desktop {
+  display: block;
+}
+
+.sidenav-mobile {
+  display: none;
+}
+
+.sidenav-mobile {
+  position: sticky;
+  top: 50%;
+  left: 50%;
+  z-index: 100; /* Ensure it sits above other content */
+}
+
+/* Show only mobile select on small screens */
+@media screen and (max-width: 1055px) {
+  .sidenav-desktop {
+    display: none;
+  }
+  .sidenav-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ====== SETTINGS CONTAINER ====== */
 .settings-container {
   flex-grow: 1;
   overflow-y: auto;
@@ -43,28 +74,76 @@
   gap: 1rem;
   max-width: 50%;
   padding-bottom: 20rem;
-  -ms-overflow-style: none; /* Hide scrollbars for Internet Explorer and Edge */
-  scrollbar-width: none; /* Hide scrollbars for Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   @media screen and (max-width: 1055px) {
     min-width: 90%;
-    padding-bottom: 5rem;
+    padding-bottom: 60rem;
+    /* Added mobile constraint for scrolling */
+    max-height: calc(100vh - 70rem); /* Adjust this value as needed */
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 320px) {
+    max-width: none;
+    scroll-padding-top: 3rem;
   }
 }
 
-.setting-group {
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  border-radius: 8px;
+/* ====== STRUCTURED LIST STYLES ====== */
 
-  @media screen and (max-width: 1055px) {
-    padding: 0.8rem;
+/* General table layout on desktop */
+:host ::ng-deep cds-structured-list {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Ensure cell content is aligned at the top */
+:host ::ng-deep cds-list-row cds-list-column {
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+}
+
+/* Mobile reordering using flex: 
+   - First column (label) and third column (edit action) appear side-by-side on top,
+   - Second column moves below as a full-width row. */
+@media (max-width: 688px) {
+  :host ::ng-deep cds-structured-list {
+    table-layout: auto !important;
+    width: 100%;
+  }
+
+  :host ::ng-deep cds-list-row {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: flex-start; /* Push content to the top */
+  }
+
+  :host ::ng-deep cds-list-row cds-list-column:nth-child(1) {
+    order: 1;
+    flex: 1 1 50%;
+  }
+
+  :host ::ng-deep cds-list-row cds-list-column:nth-child(3) {
+    order: 2;
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  :host ::ng-deep cds-list-row cds-list-column:nth-child(2) {
+    order: 3;
+    flex: 1 1 100%;
   }
 }
 
-/* Utility classes for consistent spacing */
-.ui-title {
-  margin-bottom: 1rem;
+/* (Optional) Additional styling for headings and text */
+.cds-list-header cds-list-column {
+  display: flex;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
 }
 
 .profile-title {

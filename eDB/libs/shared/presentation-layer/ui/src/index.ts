@@ -4,6 +4,7 @@ export { UiPortalFooterComponent } from './lib/components/footers/portal-footer/
 export { UiPlatformHeaderComponent } from './lib/components/headers/platform-header/platform-header.component';
 export { UiIconComponent } from './lib/components/icon/icon.component';
 export { UiPasswordInputComponent } from './lib/components/inputs/password-input/password-input.component';
+export { UiSelectComponent } from './lib/components/inputs/select/select.component';
 export { UiTextAreaComponent } from './lib/components/inputs/text-area/text-area.component';
 export { UiTextInputComponent } from './lib/components/inputs/text-input/input.component';
 export { UiLaunchTileComponent } from './lib/components/launch-tile/launch-tile.component';
