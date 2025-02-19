@@ -15,9 +15,15 @@ import { UiIconComponent } from '../../icon/icon.component';
             (click)="onItemClick($event, item)"
           >
             @if (item.icon) {
-              <ui-icon [name]="item.icon" class="sidenav-icon"></ui-icon>
+              <section class="icon-container">
+                <ui-icon
+                  [name]="item.icon"
+                  class="sidenav-icon"
+                  [fixedWidth]="true"
+                ></ui-icon>
+                <p>{{ item.label }}</p>
+              </section>
             }
-            {{ item.label }}
           </cds-sidenav-item>
         }
       </cds-sidenav>

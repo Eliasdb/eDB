@@ -1,9 +1,10 @@
 .catalog {
-  display: flex;
-  justify-content: center;
   background-color: rgb(255 255 255);
-  min-height: 100vh;
+  display: flex;
   gap: 1rem;
+
+  min-height: 100vh;
+  padding-top: 6rem;
 }
 
 .catalog-tiles {

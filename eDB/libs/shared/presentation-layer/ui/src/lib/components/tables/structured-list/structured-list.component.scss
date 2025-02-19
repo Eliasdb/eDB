@@ -61,9 +61,13 @@ cds-list-header cds-list-column h3 {
 .action-container {
   display: flex;
   justify-content: flex-end;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   gap: 0.2rem;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    margin-right: 0.5rem;
+  }
 }
 
 .delete-account-btn-container {
@@ -80,7 +84,7 @@ cds-list-header cds-list-column h3 {
   }
 
   .cds--structured-list-td {
-    padding: 0.5rem 1rem 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem;
   }
   /* Override the table‐layout for the list */
   :host ::ng-deep cds-structured-list {
