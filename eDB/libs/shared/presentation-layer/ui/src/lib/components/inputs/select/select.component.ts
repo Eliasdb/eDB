@@ -1,4 +1,11 @@
-import { Component, effect, input, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  input,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'carbon-components-angular';
 
@@ -71,6 +78,8 @@ export class UiSelectComponent {
   // Writable signal for managing local state
   localModel = signal(this.model());
 
+  @Output() valueChange = new EventEmitter<string>();
+
   constructor() {
     // Sync localModel with input model
     effect(() => {
@@ -86,5 +95,7 @@ export class UiSelectComponent {
   // Setter for modelValue (called when the value changes in the UI)
   onModelChange(newValue: string): void {
     this.localModel.set(newValue); // Update the local signal
+    // Emit the new value so the parent can react.
+    this.valueChange.emit(newValue);
   }
 }
