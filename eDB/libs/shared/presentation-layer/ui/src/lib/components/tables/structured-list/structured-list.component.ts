@@ -40,11 +40,13 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
       @if (uneditedMode()) {
         @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
-            <cds-list-column>
-              <p class="row-0">{{ row[0] }}</p>
+            <cds-list-column class="row-0 ">
+              <section class="row-text">
+                <p>{{ row[0] }}</p>
+              </section>
             </cds-list-column>
 
-            <cds-list-column>
+            <cds-list-column class="row-1">
               @if (!isEditing(rowIndex)) {
                 <section class="skeleton-text-wrapper">
                   <p>{{ row[1] }}</p>

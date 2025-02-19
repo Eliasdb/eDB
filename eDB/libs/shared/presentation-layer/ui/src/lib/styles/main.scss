@@ -27,11 +27,11 @@
   }
 }
 
-@media (max-width: 700px) {
-  .cds--structured-list-tbody {
-    display: initial;
-  }
-}
+// @media (max-width: 700px) {
+//   .cds--structured-list-tbody {
+//     display: initial;
+//   }
+// }
 
 .cds--data-table {
   table-layout: fixed;
@@ -150,4 +150,8 @@ cds-modal-footer footer {
 
 .toast-exit {
   animation: slideOut 0.5s forwards;
+}
+
+.cds--structured-list-td {
+  padding: 0.5rem 0.5rem 3rem;
 }
