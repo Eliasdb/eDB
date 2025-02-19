@@ -1,5 +1,6 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import {
+  CustomModalService,
   UiSelectComponent,
   UiSidenavComponent,
   UiStructuredListComponent,
@@ -7,7 +8,7 @@ import {
 
 import { ProfileService } from '@eDB/client-profile';
 
-import { settingsGroups } from './profile.page.config';
+import { MODAL_CONFIG, settingsGroups } from './profile.page.config';
 import { LinkItem } from './types/linkitem.type';
 import { SettingsGroup } from './types/settings.type';
 
@@ -94,6 +95,8 @@ export class ProfilePage {
 
   // ... your service injections and constructor, etc.
   private profileService = inject(ProfileService);
+  private modalUtils = inject(CustomModalService);
+
   private userProfileQuery = this.profileService.fetchUserProfile();
   private updateUserProfileMutation = this.profileService.updateUserProfile();
 
@@ -179,11 +182,38 @@ export class ProfilePage {
   }
 
   onActionClick(groupId: string, rowIndex: number): void {
-    if (this.isEditingAny) return;
-    this.editingGroupId = groupId;
-    this.editingRowIndex = rowIndex;
-    this.isEditingAny = true;
-    this.initializeInputValues(groupId, rowIndex);
+    const group = this.settingsGroups.find((g) => g.id === groupId);
+    if (!group) return;
+
+    if (group.header === 'Offboarding') {
+      // For deleting the user account, get the profile data.
+      this.openDeleteConfirmationModal();
+    } else {
+      // For editing fields
+      if (this.isEditingAny) return;
+      this.editingGroupId = groupId;
+      this.editingRowIndex = rowIndex;
+      this.isEditingAny = true;
+      this.initializeInputValues(groupId, rowIndex);
+    }
+  }
+
+  openDeleteConfirmationModal() {
+    const profile = this.userProfileQuery.data();
+    if (!profile) {
+      console.error('No profile data available.');
+      return;
+    }
+    this.modalUtils.openModal({
+      ...MODAL_CONFIG.deactivateAccount(profile.firstName),
+      onSave: () => this.handleDeactivateAccount(profile.id),
+    });
+  }
+
+  // Handle deletion of the user account (implement your deletion logic here)
+  handleDeactivateAccount(userId: string | number): void {
+    console.log('Deleting user account with ID:', userId);
+    // Add your deletion logic here (e.g., call a service to delete the account)
   }
 
   onUpdateEdit(groupId: string, rowIndex: number): void {
