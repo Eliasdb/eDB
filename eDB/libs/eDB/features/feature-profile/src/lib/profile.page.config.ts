@@ -103,3 +103,10 @@ export const settingsGroups: SettingsGroup[] = [
     ],
   },
 ];
+
+export const MODAL_CONFIG = {
+  deactivateAccount: (userName: string) => ({
+    header: 'Confirm Account Deactivation',
+    content: `Are you sure you want to deactivate your account for "${userName}"? This action cannot be undone.`,
+  }),
+};
