@@ -155,3 +155,16 @@ cds-modal-footer footer {
 .cds--structured-list-td {
   padding: 0.5rem 0.5rem 3rem;
 }
+
+.cds--skeleton__placeholder {
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.cds--skeleton__text {
+  margin-block-end: 0;
+}
+
+cds-skeleton-text p {
+  margin: 0;
+}
