@@ -178,3 +178,37 @@ cds-skeleton-text p {
 .cds--overflow-menu {
   block-size: var(--cds-layout-size-height-local);
 }
+
+@keyframes overlayFadeIn {
+  from {
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(3rem);
+    opacity: 1;
+  }
+}
+
+.cds--inline-notification {
+  max-inline-size: none;
+}
+
+.notification-overlay {
+  width: 100%;
+  top: 0;
+
+  animation: overlayFadeIn 200ms ease-in-out forwards;
+}
+
+.cds--inline-notification__title {
+  line-height: 21px;
+}
+
+.cds--inline-notification__subtitle span {
+  font-size: 0.9rem;
+}
+
+.cds--header {
+  z-index: 201;
+}

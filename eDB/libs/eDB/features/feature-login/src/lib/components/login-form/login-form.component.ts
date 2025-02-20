@@ -130,24 +130,22 @@ export class LoginFormComponent implements OnInit {
   private handleLoginSuccess(response: LoginResponse): void {
     this.authService.handleLogin(response.token);
     this.router.navigateByUrl(this.returnUrl);
-    this.notificationService.showToast({
+    this.notificationService.showNotification({
       type: 'success',
-      title: 'Success',
-      subtitle: 'You have successfully logged in.',
-      caption: 'Welcome back!',
-      duration: 5000,
+      title: 'Welcome back - ',
+      message: 'You have successfully logged in.',
+      duration: 4000,
     });
     this.isLoading = false;
   }
 
   private handleLoginError(error: HttpErrorResponse): void {
     this.isLoading = false;
-    this.notificationService.showToast({
+    this.notificationService.showNotification({
       type: 'error',
-      title: 'Login Failed',
-      subtitle: 'Unable to log in.',
-      caption: error.error.message || 'An unexpected error occurred.',
-      duration: 5000,
+      title: 'Login Failed - ',
+      message: error.error.message || 'An unexpected error occurred.',
+      duration: 4000,
     });
   }
 
