@@ -95,12 +95,6 @@ export class LoginFormComponent implements OnInit {
   isLoading = this.loginMutation.isPending();
 
   ngOnInit(): void {
-    this.notificationService.showNotification({
-      type: 'success',
-      title: 'Welcome back - ',
-      message: 'You have successfully logged in.',
-      duration: 0,
-    });
     this.returnUrl =
       this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
