@@ -2,7 +2,7 @@
 .settings-page {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 3rem); /* Fixed height for the whole page */
+  height: calc(100dvh - 3rem); /* Fixed height for the whole page */
   overflow: hidden; /* Prevent page-level scrolling */
   justify-content: center;
   gap: 2rem;
