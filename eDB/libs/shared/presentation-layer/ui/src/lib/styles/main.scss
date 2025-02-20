@@ -198,12 +198,11 @@ cds-skeleton-text p {
   width: 100%;
   animation: overlayFadeIn 200ms ease-in-out forwards;
   position: absolute;
-  z-index: 200;
 }
 
-.notification-overlay::-webkit-scrollbar {
-  display: none;
-}
+// .notification-overlay::-webkit-scrollbar {
+//   display: none;
+// }
 
 .cds--inline-notification__title {
   line-height: 21px;
