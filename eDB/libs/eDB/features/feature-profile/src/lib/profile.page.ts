@@ -110,6 +110,14 @@ export class ProfilePage {
     this.initializeComputedRows();
   }
 
+  ngOnInit(): void {
+    document.body.classList.add('no-scroll');
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('no-scroll');
+  }
+
   // SIDENAV / SELECT HANDLERS
 
   // Original sidenav click handler (for desktop)
