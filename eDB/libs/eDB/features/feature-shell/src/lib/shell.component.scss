@@ -5,6 +5,7 @@
   background-color: #f4f4f4;
 
   .platform-content {
+    z-index: 200;
     flex: 1;
     overflow: auto;
     // height: calc(100vh - 3rem);
