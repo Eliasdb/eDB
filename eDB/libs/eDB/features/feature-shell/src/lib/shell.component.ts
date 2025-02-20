@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '@eDB/client-auth';
 import {
   UiPlatformHeaderComponent,
@@ -11,6 +11,7 @@ import {
   NotificationService,
   PlaceholderModule,
 } from 'carbon-components-angular';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-shell',
@@ -65,6 +66,12 @@ export class ShellComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateCurrentPage();
+      });
+
     this.updateCurrentPage();
   }
 
