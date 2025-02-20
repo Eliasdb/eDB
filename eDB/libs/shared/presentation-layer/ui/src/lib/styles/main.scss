@@ -196,9 +196,13 @@ cds-skeleton-text p {
 
 .notification-overlay {
   width: 100%;
-  top: 0;
-
   animation: overlayFadeIn 200ms ease-in-out forwards;
+  position: absolute;
+  z-index: 200;
+}
+
+.notification-overlay::-webkit-scrollbar {
+  display: none;
 }
 
 .cds--inline-notification__title {
