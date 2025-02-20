@@ -33,7 +33,7 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
             icon="faUser"
             [menuOptions]="menuOptions()"
             [flip]="true"
-            [offset]="{ x: 0, y: 10 }"
+            [offset]="{ x: 0, y: 0 }"
             (menuOptionSelected)="menuOptionSelected.emit($event)"
           ></ui-platform-overflow-menu>
         </cds-header-global>

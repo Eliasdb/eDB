@@ -9,12 +9,7 @@ import { UiIconComponent } from '../icon/icon.component';
     <cds-tag [type]="type()" [size]="size()" class="ui-tag">
       @if (icon()) {
         <div cdsTagIcon>
-          <ui-icon
-            [name]="icon()"
-            size="16px"
-            [color]="'inherit'"
-            [fixedWidth]="false"
-          ></ui-icon>
+          <ui-icon></ui-icon>
         </div>
       }
       {{ label() }}
