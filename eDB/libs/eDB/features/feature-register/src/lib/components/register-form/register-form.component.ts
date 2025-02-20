@@ -128,7 +128,6 @@ export class RegisterFormComponent {
 
   private handleSuccess(capitalizedFirstName: string): void {
     this.registerForm.reset();
-    this.router.navigate(['auth/login']);
     this.notificationService.showNotification({
       type: 'success',
       title: 'You have been registered!',
@@ -136,6 +135,7 @@ export class RegisterFormComponent {
       duration: 5000,
       smart: true,
     });
+    this.router.navigate(['auth/login']);
     this.isSubmitting = false;
   }
 

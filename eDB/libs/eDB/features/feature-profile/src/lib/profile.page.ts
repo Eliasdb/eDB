@@ -142,7 +142,7 @@ export class ProfilePage {
       // If the sections are inside a scrollable container:
       const container = document.querySelector('.settings-container');
       const headerOffset =
-        13 * parseFloat(getComputedStyle(document.documentElement).fontSize); // 3rem in px
+        15 * parseFloat(getComputedStyle(document.documentElement).fontSize); // 3rem in px
       if (container) {
         // Calculate the offset from the container top
         const offset =
