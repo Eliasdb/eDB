@@ -1,11 +1,29 @@
 .subscriptions-tiles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem; // adjust as needed
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 6rem;
 
-  @media (max-width: 671px) {
-    grid-template-columns: 1fr; // switch to a single column
-    width: 100%;
-    margin: 0 auto; // center the grid container
+  // Desktop: three tiles per row.
+  > * {
+    flex: 0 0 calc((100% - 4rem) / 3);
+  }
+}
+
+@media (max-width: 1312px) {
+  .subscriptions-tiles {
+    > * {
+      flex: 0 0 calc((100% - 2rem) / 2);
+    }
+  }
+}
+
+@media (max-width: 671px) {
+  .subscriptions-tiles {
+    flex-direction: column;
+  }
+  .subscriptions-tiles > * {
+    flex: 0 0 100%;
   }
 }

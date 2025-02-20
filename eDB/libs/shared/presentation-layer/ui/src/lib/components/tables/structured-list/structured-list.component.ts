@@ -7,6 +7,7 @@ import { UiButtonComponent } from '../../buttons/button/button.component';
 import { UiIconComponent } from '../../icon/icon.component';
 import { UiPasswordInputComponent } from '../../inputs/password-input/password-input.component';
 import { UiTextInputComponent } from '../../inputs/text-input/input.component';
+import { UiSkeletonTextComponent } from '../../text/skeleton-text/skeleton-text.component';
 
 @Component({
   selector: 'ui-structured-list',
@@ -19,6 +20,7 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
     UiTextInputComponent,
     UiPasswordInputComponent,
     ButtonModule,
+    UiSkeletonTextComponent,
   ],
   template: `
     <cds-structured-list>
@@ -49,7 +51,11 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
             <cds-list-column class="row-1">
               @if (!isEditing(rowIndex)) {
                 <section class="skeleton-text-wrapper">
-                  <p>{{ row[1] }}</p>
+                  @if (skeleton()) {
+                    <ui-skeleton-text [lines]="1"></ui-skeleton-text>
+                  } @else {
+                    <p>{{ row[1] }}</p>
+                  }
                 </section>
               } @else {
                 <div class="input-button-container">
@@ -173,6 +179,8 @@ export class UiStructuredListComponent {
   readonly editingRowIndex = input<number | null>(null);
   readonly isEditingAny = input(false);
   readonly inputValues = input<any>({});
+  readonly skeleton = input<boolean>(false);
+
   readonly uneditedMode = input<boolean>(false); // New input to control edit visibility
 
   @Output() actionClick = new EventEmitter<number>();

@@ -58,6 +58,7 @@ import { SettingsGroup } from './types/settings.type';
             (cancelEdit)="onCancelEdit()"
             [uneditedMode]="true"
             [id]="group.id"
+            [skeleton]="isLoading()"
           ></ui-structured-list>
         }
         <div class="spacer"></div>
@@ -99,6 +100,8 @@ export class ProfilePage {
   private modalUtils = inject(CustomModalService);
 
   private userProfileQuery = this.profileService.fetchUserProfile();
+  protected isLoading = this.profileService.fetchUserProfile().isLoading;
+
   private updateUserProfileMutation = this.profileService.updateUserProfile();
 
   constructor() {

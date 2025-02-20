@@ -15,6 +15,6 @@ import { SkeletonModule } from 'carbon-components-angular';
 })
 export class UiSkeletonTextComponent {
   readonly lines = input<number>(3); // Default number of skeleton lines
-  readonly minLineWidth = input<number>(50); // Minimum width percentage of a line
-  readonly maxLineWidth = input<number>(100); // Maximum width percentage of a line
+  readonly minLineWidth = input<number>(75); // Minimum width percentage of a line
+  readonly maxLineWidth = input<number>(150); // Maximum width percentage of a line
 }
