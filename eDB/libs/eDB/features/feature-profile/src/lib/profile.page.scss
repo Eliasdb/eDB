@@ -9,7 +9,7 @@
   padding-top: 8rem;
 }
 
-@media screen and (max-width: 1055px) {
+@media screen and (max-width: 1255px) {
   .settings-page {
     flex-direction: column;
     align-items: center;
@@ -30,7 +30,7 @@
   flex-direction: column;
   gap: 0.5rem;
 
-  @media screen and (max-width: 1055px) {
+  @media screen and (max-width: 1255px) {
     position: static;
     align-self: center;
     text-align: center;
@@ -53,7 +53,7 @@
 }
 
 /* Show only mobile select on small screens */
-@media screen and (max-width: 1055px) {
+@media screen and (max-width: 1255px) {
   .sidenav-desktop {
     display: none;
   }
@@ -81,7 +81,7 @@
   height: 100%;
 }
 
-@media screen and (max-width: 1055px) {
+@media screen and (max-width: 1255px) {
   .settings-container {
     min-width: 90%;
     padding-bottom: 5rem;

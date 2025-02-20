@@ -1,7 +1,7 @@
 .sidenav-container {
   width: 20rem;
 
-  @media (max-width: 1055px) {
+  @media (max-width: 1255px) {
     width: 100%;
   }
 }
@@ -18,7 +18,7 @@ cds-sidenav {
     padding: 0;
   }
 
-  @media (max-width: 1055px) {
+  @media (max-width: 1255px) {
     inline-size: 100%;
     max-inline-size: 100%;
   }
