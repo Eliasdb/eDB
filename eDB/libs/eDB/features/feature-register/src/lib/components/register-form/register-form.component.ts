@@ -129,11 +129,10 @@ export class RegisterFormComponent {
   private handleSuccess(capitalizedFirstName: string): void {
     this.registerForm.reset();
     this.router.navigate(['auth/login']);
-    this.notificationService.showToast({
+    this.notificationService.showNotification({
       type: 'success',
-      title: 'Success',
-      subtitle: 'You have been registered!',
-      caption: `Enjoy your stay, ${capitalizedFirstName}.`,
+      title: 'You have been registered!',
+      message: `Enjoy your stay, ${capitalizedFirstName}.`,
       duration: 5000,
       smart: true,
     });
@@ -141,11 +140,10 @@ export class RegisterFormComponent {
   }
 
   private handleError(error: any): void {
-    this.notificationService.showToast({
+    this.notificationService.showNotification({
       type: 'error',
-      title: 'Error',
-      subtitle: 'Something went wrong.',
-      caption: error.error.message || 'An unexpected error occurred.',
+      title: 'Something went wrong.',
+      message: error.error.message || 'An unexpected error occurred.',
       duration: 5000,
       smart: true,
     });

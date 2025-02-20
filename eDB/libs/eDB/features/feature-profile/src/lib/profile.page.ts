@@ -8,6 +8,7 @@ import {
 
 import { ProfileService } from '@eDB/client-profile';
 
+import { NotificationService } from 'carbon-components-angular';
 import { MODAL_CONFIG, settingsGroups } from './profile.page.config';
 import { LinkItem } from './types/linkitem.type';
 import { SettingsGroup } from './types/settings.type';
@@ -98,6 +99,7 @@ export class ProfilePage {
   // ... your service injections and constructor, etc.
   private profileService = inject(ProfileService);
   private modalUtils = inject(CustomModalService);
+  private notificationService = inject(NotificationService);
 
   private userProfileQuery = this.profileService.fetchUserProfile();
   protected isLoading = this.profileService.fetchUserProfile().isLoading;
@@ -258,6 +260,12 @@ export class ProfilePage {
     this.updateUserProfileMutation.mutate(payload, {
       onSuccess: () => {
         console.log('User profile updated successfully', payload);
+        this.notificationService.showNotification({
+          type: 'success',
+          title: 'Success - ',
+          message: 'User profile updated successfully!',
+          duration: 4000,
+        });
         this.onCancelEdit();
       },
       onError: (err) => {
