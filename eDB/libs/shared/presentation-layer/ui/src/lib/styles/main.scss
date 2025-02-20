@@ -159,12 +159,22 @@ cds-modal-footer footer {
 .cds--skeleton__placeholder {
   block-size: 100%;
   inline-size: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .cds--skeleton__text {
   margin-block-end: 0;
 }
 
+// .cds--popover-container {
+//   display: flex;
+// }
+
 cds-skeleton-text p {
   margin: 0;
+}
+
+.cds--overflow-menu {
+  block-size: var(--cds-layout-size-height-local);
 }
