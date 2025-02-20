@@ -4,7 +4,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16';
 import UserIcon from '@carbon/icons/es/user/16';
 
@@ -28,7 +28,11 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+    ),
+
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(
       withFetch(),
