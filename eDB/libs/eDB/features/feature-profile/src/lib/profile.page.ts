@@ -17,7 +17,7 @@ import { SettingsGroup } from './types/settings.type';
   selector: 'platform-settings',
   imports: [UiSidenavComponent, UiStructuredListComponent, UiSelectComponent],
   template: `
-    <section class="settings-page">
+    <section class="settings-page bg-gray-100">
       <!-- Sidenav area -->
       <section class="sidenav">
         <!-- Desktop version: show the original sidenav -->
@@ -111,11 +111,17 @@ export class ProfilePage {
   }
 
   ngOnInit(): void {
-    document.body.classList.add('no-scroll');
+    // Only add the no-scroll class if the screen width is less than 768px
+    if (window.innerWidth < 768) {
+      document.body.classList.add('no-scroll');
+    }
   }
 
   ngOnDestroy(): void {
-    document.body.classList.remove('no-scroll');
+    // Remove the no-scroll class if it was added
+    if (window.innerWidth < 768) {
+      document.body.classList.remove('no-scroll');
+    }
   }
 
   // SIDENAV / SELECT HANDLERS

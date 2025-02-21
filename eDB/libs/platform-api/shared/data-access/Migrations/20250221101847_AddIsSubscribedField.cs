@@ -5,10 +5,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace EDb.PlatformApi.Migrations
+namespace EDb.DataAccess.Migrations
 {
   /// <inheritdoc />
-  public partial class InitialMigration : Migration
+  public partial class AddIsSubscribedField : Migration
   {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,7 @@ namespace EDb.PlatformApi.Migrations
           IconUrl = table.Column<string>(type: "text", nullable: false),
           RoutePath = table.Column<string>(type: "text", nullable: false),
           Tags = table.Column<List<string>>(type: "text[]", nullable: false),
+          IsSubscribed = table.Column<bool>(type: "boolean", nullable: false),
         },
         constraints: table =>
         {

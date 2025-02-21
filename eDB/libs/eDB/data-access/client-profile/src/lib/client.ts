@@ -31,8 +31,11 @@ export class ProfileService {
         if (!profile) {
           throw new Error('User profile not found');
         }
+
         return profile;
       },
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
     }));
   }
 

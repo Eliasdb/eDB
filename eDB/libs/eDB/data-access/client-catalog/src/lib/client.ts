@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import {
   injectMutation,
+  injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom } from 'rxjs';
@@ -13,42 +14,22 @@ import { CatalogItem } from './types/catalog.model';
   providedIn: 'root',
 })
 export class CatalogService {
-  // Signals for reactive state management
-  catalog = signal<CatalogItem[] | null>(null);
-  isLoading = signal<boolean>(true);
-  error = signal<string | null>(null);
-
   http = inject(HttpClient);
   private queryClient = inject(QueryClient);
 
-  constructor() {
-    this.fetchCatalog();
-  }
+  private queryResult = injectQuery(() => ({
+    queryKey: ['catalog'],
+    queryFn: async () =>
+      await firstValueFrom(
+        this.http.get<CatalogItem[]>(`${environment.apiBaseUrl}/applications`),
+      ),
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+  }));
 
-  fetchCatalog() {
-    this.isLoading.set(true);
-    this.error.set(null);
-
-    this.http
-      .get<CatalogItem[]>(`${environment.apiBaseUrl}/applications`)
-      .subscribe({
-        next: (data) => {
-          if (data && data.length > 0) {
-            this.catalog.set(data);
-            this.error.set(null);
-          } else {
-            this.catalog.set(null);
-            this.error.set('Catalog is empty');
-          }
-          this.isLoading.set(false);
-        },
-        error: (err) => {
-          this.catalog.set(null);
-          this.error.set('Error fetching catalog: ' + err.message);
-          this.isLoading.set(false);
-        },
-      });
-  }
+  catalog = computed(() => this.queryResult.data?.() || []);
+  isLoading = computed(() => this.queryResult.isLoading?.());
+  error = computed(() => this.queryResult.error?.()?.message || null);
 
   subscribeToApplicationMutation() {
     return injectMutation(() => ({
@@ -61,7 +42,6 @@ export class CatalogService {
       },
       onSuccess: () => {
         // Optionally, refetch the catalog or update the state
-        this.fetchCatalog();
         this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
       },
       onError: (error: any) => {

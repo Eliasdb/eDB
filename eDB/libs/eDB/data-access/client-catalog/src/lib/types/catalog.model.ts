@@ -4,5 +4,6 @@ export interface CatalogItem {
   description: string;
   iconUrl: string;
   tags: string[];
+  isSubscribed: boolean;
   routePath: string;
 }
