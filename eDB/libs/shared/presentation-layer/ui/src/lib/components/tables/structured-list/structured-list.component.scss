@@ -95,7 +95,7 @@ cds-list-header cds-list-column h3 {
   :host ::ng-deep cds-list-row {
     display: flex !important;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
   }
 
   /* First column: show on top left */

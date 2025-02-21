@@ -52,7 +52,6 @@ namespace EDb.DataAccess.Data
         context.Users.Add(
           new User
           {
-            Id = 1,
             Email = "admin@example.com",
             PasswordHash = hashedPassword,
             Salt = salt,

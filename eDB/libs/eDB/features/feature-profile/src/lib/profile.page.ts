@@ -17,7 +17,7 @@ import { SettingsGroup } from './types/settings.type';
   selector: 'platform-settings',
   imports: [UiSidenavComponent, UiStructuredListComponent, UiSelectComponent],
   template: `
-    <section class="settings-page">
+    <section class="settings-page bg-gray-100">
       <!-- Sidenav area -->
       <section class="sidenav">
         <!-- Desktop version: show the original sidenav -->

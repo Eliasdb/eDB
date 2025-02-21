@@ -218,3 +218,30 @@ cds-skeleton-text p {
 .cds--header {
   z-index: 201;
 }
+
+.cds--list-box,
+.cds--tag,
+.cds--btn,
+.cds--tile,
+.cds--list-box__menu,
+.cds--list-box__menu-item,
+.cds--list-box__field,
+.cds--form-item,
+.cds--search-input,
+.cds--select-input,
+.cds--text-input,
+.cds--structured-list,
+.cds--list-box__menu-item--highlighted {
+  border-radius: 0.5rem;
+}
+
+.cds--structured-list-tbody,
+.cds--structured-list-row {
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.cds--inline-notification {
+  border-radius: 0.5rem;
+  width: 95%;
+  margin: 0 auto;
+}

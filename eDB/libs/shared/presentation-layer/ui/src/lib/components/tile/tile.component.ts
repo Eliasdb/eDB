@@ -7,7 +7,7 @@ import { UiTagComponent } from '../tag/tag.component';
   selector: 'ui-tile',
   imports: [TilesModule, UiTagComponent, UiIconButtonComponent],
   template: `
-    <cds-tile class="ui-tile">
+    <cds-tile class="relative flex flex-col min-w-[20rem] rounded-md">
       <div class="tile-header">
         <h3 class="tile-title">{{ title() }}</h3>
         <p class="tile-description">{{ description() }}</p>
@@ -38,6 +38,7 @@ export class UiTileComponent {
   readonly title = input.required<string>();
   readonly description = input.required<string>();
   readonly tags = input<string[]>([]);
+  readonly isSubscribed = input<boolean>(false); // new input for subscribed state
 
   @Output() subscribe = new EventEmitter<number>();
 
