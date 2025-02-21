@@ -1,4 +1,7 @@
-@import '@carbon/styles/css/styles.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '@carbon/styles';
 
 :root {
   --cds-ui-01: yellow;
@@ -27,11 +30,11 @@
   }
 }
 
-// @media (max-width: 700px) {
+/* // @media (max-width: 700px) {
 //   .cds--structured-list-tbody {
 //     display: initial;
 //   }
-// }
+// } */
 
 .cds--data-table {
   table-layout: fixed;
@@ -41,13 +44,13 @@
   padding-inline: 1rem 2rem;
 }
 
-// .cds--btn {
+/* // .cds--btn {
 //   --temp-1lh: (var(--cds-body-compact-01-line-height, 2.28572) * 1em);
-// }
+// } */
 
-// .cds--data-table tbody tr:nth-child(3) {
+/* // .cds--data-table tbody tr:nth-child(3) {
 //   background-color: rebeccapurple;
-// }
+// } */
 
 td[title='User Name'] {
   background-color: #f4f4f4;
@@ -167,9 +170,9 @@ cds-modal-footer footer {
   margin-block-end: 0;
 }
 
-// .cds--popover-container {
+/* // .cds--popover-container {
 //   display: flex;
-// }
+// } */
 
 cds-skeleton-text p {
   margin: 0;
@@ -200,9 +203,9 @@ cds-skeleton-text p {
   position: absolute;
 }
 
-// .notification-overlay::-webkit-scrollbar {
+/* // .notification-overlay::-webkit-scrollbar {
 //   display: none;
-// }
+// } */
 
 .cds--inline-notification__title {
   line-height: 21px;

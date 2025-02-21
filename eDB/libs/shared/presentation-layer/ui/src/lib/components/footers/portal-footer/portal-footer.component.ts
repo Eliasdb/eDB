@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'ui-portal-footer',
   template: `
-    <footer class="footer">
+    <footer class="footer bg-black">
       <div class="footer-content">
         <!-- <div class="footer-links">
           <a href="/contact" class="footer-link">Contact</a>
