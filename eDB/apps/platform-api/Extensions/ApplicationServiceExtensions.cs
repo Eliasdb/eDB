@@ -43,13 +43,16 @@ namespace Edb.PlatformAPI.Extensions
         // For staging and production, use the full connection string directly from configuration.
         // This expects that your secret populates the environment variable
         // "ConnectionStrings__DefaultConnection", which maps to config key "ConnectionStrings:DefaultConnection".
-        connectionString = config.GetConnectionString("DefaultConnection");
-
+        connectionString =
+          config.GetConnectionString("DefaultConnection")
+          ?? throw new InvalidOperationException("Default connection string is not configured.");
         // Alternatively, you could use:
         // connectionString = config["ConnectionStrings:DefaultConnection"];
       }
 
-      services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
+      services.AddDbContext<MyDbContext>(options =>
+        options.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
+      );
 
       // Register repositories
       services.AddScoped<IUserRepository, UserRepository>();

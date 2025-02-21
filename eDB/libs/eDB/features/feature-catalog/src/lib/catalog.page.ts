@@ -1,56 +1,123 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CatalogService } from '@eDB/client-catalog';
-import { UiTileComponent } from '@eDB/shared-ui';
-import { CatalogItem } from '../types/catalog.model';
+import { UiComboboxComponent, UiTileComponent } from '@eDB/shared-ui';
+import { ListItem } from 'carbon-components-angular';
 
 @Component({
   selector: 'platform-catalog',
-  imports: [UiTileComponent],
+  standalone: true,
+  imports: [UiTileComponent, UiComboboxComponent],
   template: `
-    <div class="catalog">
-      <h3>Catalog</h3>
-      @if (!isLoading) {
-        @if (catalog) {
-          <div class="catalog-tiles">
-            @for (item of catalog; track item.name) {
+    <section
+      class="relative bg-white flex flex-col items-center min-h-screen pt-32 px-4 overflow-hidden"
+    >
+      <!-- Background Shapes for a futuristic look with breathing animation -->
+      <!-- Neon rotated polygon -->
+      <div
+        class="absolute top-[-12rem] left-[-12rem] w-96 h-96 opacity-30 animate-pulse"
+        style="background: linear-gradient(135deg, #0f62fe, #6f2da8); clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%); transform: rotate(20deg);"
+      ></div>
+      <!-- Large neon circle -->
+      <div
+        class="absolute bottom-[-16rem] right-[-16rem] w-[36rem] h-[36rem] rounded-full opacity-20 animate-pulse"
+        style="background: radial-gradient(circle, #0f62fe, #00d7c3, transparent);"
+      ></div>
+      <!-- Futuristic rotated rectangle -->
+      <div
+        class="absolute top-20 right-[-10rem] w-80 h-48 opacity-40 animate-pulse "
+        style="background: linear-gradient(90deg, #da1e28, #0f62fe); transform: rotate(-15deg);"
+      ></div>
+      <!-- Neon diamond shape -->
+      <div
+        class="absolute bottom-24 left-[-8rem] w-64 h-64 opacity-40 animate-bounce"
+        style="background: linear-gradient(135deg, #00d7c3, #0f62fe); transform: rotate(45deg);"
+      ></div>
+      <!-- Vertical neon stripe -->
+      <div
+        class="absolute top-0 right-0 h-full w-6 opacity-30 animate-bounce"
+        style="background: linear-gradient(180deg, #f1c21b, transparent);"
+      ></div>
+
+      <!-- Header & ComboBox -->
+      <section
+        class="relative z-10 w-full max-w-[80rem] grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        <section class="">
+          <h3 class="mb-4">Catalog</h3>
+          <ui-combobox label="Filter by tags." [items]="items"></ui-combobox>
+        </section>
+        <div></div>
+      </section>
+
+      <!-- Catalog tiles -->
+      <section class="relative z-10 w-full max-w-[80rem] mt-8 mb-16 ">
+        @if (!isLoading()) {
+          @if (catalog() && catalog().length > 0) {
+            <div class=" grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 ">
+              <!-- Reserve first cell with an invisible tile for layout -->
               <ui-tile
-                [title]="item.name"
-                [description]="item.description"
-                [tags]="item.tags"
-                [id]="item.id"
-                (subscribe)="onSubscribe($event)"
+                title="hidden"
+                description="hidden tile"
+                class="hidden lg:block lg:invisible
+"
               ></ui-tile>
-            }
-          </div>
+              @for (item of catalog(); track item.name) {
+                <ui-tile
+                  [title]="item.name"
+                  [description]="item.description"
+                  [tags]="item.tags"
+                  [id]="item.id"
+                  [isSubscribed]="item.isSubscribed"
+                  (subscribe)="onSubscribe($event)"
+                ></ui-tile>
+              }
+            </div>
+          } @else {
+            <p class="text-white text-center">No catalog items found.</p>
+          }
         } @else {
-          <p>Error loading catalog: {{ error }}</p>
+          <p class="text-gray-300 text-center">Loading catalog...</p>
         }
-      } @else {
-        <p>Loading catalog...</p>
-      }
-    </div>
+      </section>
+    </section>
   `,
-  styleUrls: ['./catalog.page.scss'],
+  styles: [],
 })
 export class CatalogPage {
-  catalog: (CatalogItem & { tags: any[] })[] | null = null;
-  isLoading = true;
-  error: string | null = null;
-
   private catalogService = inject(CatalogService);
-  private subscribeMutation =
+
+  protected items: ListItem[] = [
+    {
+      content: '.NET',
+      selected: false,
+    },
+    {
+      content: 'Angular',
+      selected: false,
+    },
+    {
+      content: 'React',
+      selected: false,
+    },
+    {
+      content: 'Postgres',
+      selected: false,
+    },
+  ];
+
+  protected catalog = this.catalogService.catalog;
+  protected isLoading = this.catalogService.isLoading;
+  protected error = this.catalogService.error;
+
+  private toggleSubscribeMutation =
     this.catalogService.subscribeToApplicationMutation();
 
-  constructor() {
-    effect(() => {
-      this.catalog = this.catalogService.catalog();
-      this.isLoading = this.catalogService.isLoading();
-      this.error = this.catalogService.error();
-    });
+  trackByName(index: number, item: any): any {
+    return item.name;
   }
 
   onSubscribe(appId: number) {
-    this.subscribeMutation.mutate(appId, {
+    this.toggleSubscribeMutation.mutate(appId, {
       onSuccess: () => {
         console.log('Subscribed to app with ID:', appId);
       },
