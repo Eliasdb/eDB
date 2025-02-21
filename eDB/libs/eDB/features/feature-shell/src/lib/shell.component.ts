@@ -31,6 +31,7 @@ import { filter } from 'rxjs';
         [menuOptions]="(isAuthenticated$ | async) ? menuOptions : []"
         (linkClick)="navigateTo($event)"
         (menuOptionSelected)="handleMenuOption($event)"
+        [isAdmin]="isAdmin$ | async"
       ></ui-platform-header>
       <main class="platform-content">
         <router-outlet></router-outlet>
@@ -49,7 +50,7 @@ export class ShellComponent implements OnInit {
 
   // Observable to track admin status
   isAuthenticated$ = this.authService.isAuthenticated();
-
+  isAdmin$ = this.authService.isAdmin();
   // Define navigation links
   navigationLinks = [
     { id: 'dashboard', label: 'My eDB', isCurrentPage: false },
