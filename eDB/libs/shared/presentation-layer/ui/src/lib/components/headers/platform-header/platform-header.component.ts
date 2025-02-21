@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Output, input } from '@angular/core';
 import { HeaderModule } from 'carbon-components-angular';
+import { UiButtonComponent } from '../../buttons/button/button.component';
 import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/overflow-menu.component';
 
 @Component({
   selector: 'ui-platform-header',
-  imports: [HeaderModule, UiPlatformOverflowMenuComponent],
+  imports: [HeaderModule, UiPlatformOverflowMenuComponent, UiButtonComponent],
   template: `
     <cds-header [brand]="brandTemplate" [name]="name()">
       <!-- Hamburger Menu (for mobile) -->
@@ -28,6 +29,15 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
 
       @if (menuOptions().length > 0) {
         <cds-header-global>
+          @if (isAdmin()) {
+            <div class="admin-btn">
+              <a href="https://app.staging.eliasdebock.com/admin">
+                <ui-button size="sm" [icon]="'faArrowRight'">
+                  To admin app
+                </ui-button></a
+              >
+            </div>
+          }
           <ui-platform-overflow-menu
             placement="bottom"
             icon="faUser"
@@ -60,6 +70,7 @@ import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/
   styleUrls: ['platform-header.component.scss'],
 })
 export class UiPlatformHeaderComponent {
+  readonly isAdmin = input<boolean | null>();
   readonly name = input<string>('eDB');
   readonly hasHamburger = input<boolean>(false);
   readonly navigationLinks = input<
