@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@carbon/styles';
+@import '@carbon/styles/css/styles.min.css';
 
 :root {
   --cds-ui-01: yellow;
