@@ -28,6 +28,7 @@
     "@fortawesome/angular-fontawesome": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
+    "@ibm/plex": "^6.4.1",
     "@tanstack/angular-query-experimental": "^5.62.2",
     "carbon-components-angular": "^5.56.5",
     "ngx-toastr": "^19.0.0",
