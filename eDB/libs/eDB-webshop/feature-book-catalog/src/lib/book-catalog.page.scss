@@ -44,14 +44,17 @@ label {
 }
 
 .page {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  padding-top: 8rem;
 }
 
 .books-wrapper {
-  min-width: 65rem;
+  max-width: 65rem;
 
   @media (max-width: 1024px) {
-    min-width: 100%;
+    max-width: 90%;
   }
 }
 

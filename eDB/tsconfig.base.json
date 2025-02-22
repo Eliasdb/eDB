@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@eDB-webshop": ["apps/eDB-webshop/src/app/webshop.module"],
       "@e-db/generated-platform-api-types": [
         "libs/generated/platform-api-types/src/index"
       ],
