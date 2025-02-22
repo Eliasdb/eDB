@@ -151,6 +151,6 @@ export class UserDetailPage {
   }
 
   goToOverview(): void {
-    this.router.navigate(['/dashboard']); // Adjust '/overview' to your actual overview route
+    this.router.navigate(['/']); // Adjust '/overview' to your actual overview route
   }
 }

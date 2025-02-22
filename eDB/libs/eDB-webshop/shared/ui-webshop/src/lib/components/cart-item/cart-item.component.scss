@@ -1,0 +1,33 @@
+.single-book-image {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.img-container {
+  width: 5rem;
+  height: 7.5rem;
+}
+
+.content-container {
+  display: flex;
+  align-items: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.cursive {
+  font-family: cursive;
+}
+
+.checkbox {
+  accent-color: lightgreen;
+  margin-right: 10px;
+  outline: lightgreen;
+}
+
+.book-data-container {
+  margin-left: 10px;
+}
