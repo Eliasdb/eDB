@@ -138,7 +138,7 @@ export class UiPlatformHeaderComponent implements OnInit {
     const isAdminApp = currentPath.startsWith('/admin');
     if (isAdminApp) {
       this.targetButtonText = 'To Web App';
-      this.targetUrl = origin; // Web app assumed to be at root
+      this.targetUrl = `${origin}/dashboard`; // Web app assumed to be at root
     } else {
       this.targetButtonText = 'To Admin App';
       this.targetUrl = `${origin}/admin`;
