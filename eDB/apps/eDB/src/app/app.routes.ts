@@ -29,6 +29,10 @@ export const routes: Route[] = [
             (m) => m.featureCatalogRoutes,
           ),
       },
+      {
+        path: 'webshop',
+        loadChildren: () => import('@eDB-webshop').then((m) => m.WebshopModule),
+      },
     ],
   },
   {
