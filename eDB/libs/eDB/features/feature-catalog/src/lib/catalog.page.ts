@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CatalogService } from '@eDB/client-catalog';
 import { UiComboboxComponent, UiTileComponent } from '@eDB/shared-ui';
-import { ListItem } from 'carbon-components-angular';
+import { ListItem, NotificationService } from 'carbon-components-angular';
 
 @Component({
   selector: 'platform-catalog',
@@ -85,6 +85,7 @@ import { ListItem } from 'carbon-components-angular';
 })
 export class CatalogPage {
   private catalogService = inject(CatalogService);
+  private notificationService = inject(NotificationService);
 
   protected items: ListItem[] = [
     {
@@ -119,11 +120,21 @@ export class CatalogPage {
   onSubscribe(appId: number) {
     this.toggleSubscribeMutation.mutate(appId, {
       onSuccess: () => {
-        console.log('Subscribed to app with ID:', appId);
+        this.handleSubscriptionToggle(appId),
+          console.log('Subscribed to app with ID:', appId);
       },
       onError: (error) => {
         console.error('Failed to subscribe', error);
       },
+    });
+  }
+
+  private handleSubscriptionToggle(appId: number): void {
+    this.notificationService.showNotification({
+      type: 'success',
+      title: 'Subscription',
+      message: 'Succesful',
+      duration: 4000,
     });
   }
 }

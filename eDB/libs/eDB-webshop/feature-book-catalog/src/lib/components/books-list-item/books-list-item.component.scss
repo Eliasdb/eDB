@@ -1,0 +1,34 @@
+.book-img-container {
+  width: 30%;
+  height: auto;
+}
+
+.book-img-container img {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.card-text {
+  max-width: 24rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.book-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+@media (max-width: 430px) {
+  .card-text {
+    min-width: 100%;
+  }
+
+  .book-card {
+    flex-direction: column;
+  }
+}

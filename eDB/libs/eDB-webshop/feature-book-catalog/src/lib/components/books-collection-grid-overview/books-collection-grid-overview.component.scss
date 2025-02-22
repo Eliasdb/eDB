@@ -1,0 +1,27 @@
+.books-grid-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  justify-items: center;
+  min-width: 35rem;
+}
+
+@media (max-width: 1024px) {
+  .books-grid-overview {
+    grid-template-columns: repeat(5, 1fr);
+    min-width: initial;
+  }
+}
+
+@media (max-width: 768px) {
+  .books-grid-overview {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 425px) {
+  .books-grid-overview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

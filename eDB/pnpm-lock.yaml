@@ -23,6 +23,9 @@ importers:
       '@angular/forms':
         specifier: 19.0.3
         version: 19.0.3(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@19.0.3(@angular/animations@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1)
+      '@angular/material':
+        specifier: ^19.1.5
+        version: 19.1.5(k3y22sbprbxhbtaypohkaovncu)
       '@angular/platform-browser':
         specifier: 19.0.3
         version: 19.0.3(@angular/animations@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))
@@ -50,6 +53,9 @@ importers:
       '@ibm/plex':
         specifier: ^6.4.1
         version: 6.4.1
+      '@ngneat/query':
+        specifier: ^3.1.1
+        version: 3.1.1(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(@tanstack/query-core@5.62.8)
       '@tanstack/angular-query-experimental':
         specifier: ^5.62.2
         version: 5.62.8(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))
@@ -524,6 +530,13 @@ packages:
       tailwindcss:
         optional: true
 
+  '@angular/cdk@19.1.5':
+    resolution: {integrity: sha512-+g20LIvYHThKBD6oXTYWVL6+ecaOWtPJu08R5xIfGrwXoj0l/9prLwuSW8GlIATI3mDkSesyhQsomb9jAUzKwQ==}
+    peerDependencies:
+      '@angular/common': ^19.0.0 || ^20.0.0
+      '@angular/core': ^19.0.0 || ^20.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+
   '@angular/cli@19.0.5':
     resolution: {integrity: sha512-AalLr1EbgJqBbzk+5ZtXwg6wCwLlRLd+CRrZZcC6QSee69mfsU9jEP2KFlMAecajOCqAGK3H4ZRiTZNeQ3y5AA==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -572,6 +585,17 @@ packages:
   '@angular/language-service@19.0.3':
     resolution: {integrity: sha512-SkUFggQayulgMWW4rwslLVCD7woZ1m7dCB87NCQdlZv9NIrHbNkaPfxHzaX3YrdKhw+u65XcttzD7cworcMcVQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0}
+
+  '@angular/material@19.1.5':
+    resolution: {integrity: sha512-Fi04Toe+z0qorfpZkQ5rIRE9cVgBOHdgCig5oFrHpycSDW2LMTrvZtSV/qMwrIe5GPn49EXE2jCGcSpgumW4KA==}
+    peerDependencies:
+      '@angular/animations': ^19.0.0 || ^20.0.0
+      '@angular/cdk': 19.1.5
+      '@angular/common': ^19.0.0 || ^20.0.0
+      '@angular/core': ^19.0.0 || ^20.0.0
+      '@angular/forms': ^19.0.0 || ^20.0.0
+      '@angular/platform-browser': ^19.0.0 || ^20.0.0
+      rxjs: ^6.5.3 || ^7.4.0
 
   '@angular/platform-browser-dynamic@19.0.3':
     resolution: {integrity: sha512-gFh+QN7JvepnD3mS0XmOtDmfY8h5sSkk2/guesE2A68Na8q+M3fGZlz7I37tCXToLth5us1X0Gi0UPCSESc4SA==}
@@ -2230,6 +2254,12 @@ packages:
         optional: true
       '@nestjs/websockets':
         optional: true
+
+  '@ngneat/query@3.1.1':
+    resolution: {integrity: sha512-QGaY9V/jlDjE27n2QMexmXpvuelRL/7Q4jTZ5A0v8sIWLBazppPaKFJahXS/RLTFrUd+w5be0CStlzI9HfSefw==}
+    peerDependencies:
+      '@angular/core': '>=16.0.0 <20.0.0'
+      '@tanstack/query-core': ^5.62.7
 
   '@ngtools/webpack@19.0.4':
     resolution: {integrity: sha512-N3WCbQz5ipdAZoSWHNf81RLET6+isq35+GZu9u0StpFtJCpXAmRRAv4vdMUYL7DLOzRmvEgwww6Rd5AwGeLFSw==}
@@ -9480,6 +9510,15 @@ snapshots:
       - terser
     optional: true
 
+  '@angular/cdk@19.1.5(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/common': 19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/core': 19.0.3(rxjs@7.8.1)(zone.js@0.15.0)
+      rxjs: 7.8.1
+      tslib: 2.8.1
+    optionalDependencies:
+      parse5: 7.2.1
+
   '@angular/cli@19.0.5(@types/node@22.13.4)(chokidar@4.0.2)':
     dependencies:
       '@angular-devkit/architect': 0.1900.5(chokidar@4.0.2)
@@ -9547,6 +9586,17 @@ snapshots:
       tslib: 2.8.1
 
   '@angular/language-service@19.0.3': {}
+
+  '@angular/material@19.1.5(k3y22sbprbxhbtaypohkaovncu)':
+    dependencies:
+      '@angular/animations': 19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))
+      '@angular/cdk': 19.1.5(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/common': 19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/core': 19.0.3(rxjs@7.8.1)(zone.js@0.15.0)
+      '@angular/forms': 19.0.3(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@19.0.3(@angular/animations@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1)
+      '@angular/platform-browser': 19.0.3(@angular/animations@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))
+      rxjs: 7.8.1
+      tslib: 2.8.1
 
   '@angular/platform-browser-dynamic@19.0.3(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/compiler@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@19.0.3(@angular/animations@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))':
     dependencies:
@@ -11393,6 +11443,12 @@ snapshots:
       uid: 2.0.2
     transitivePeerDependencies:
       - encoding
+
+  '@ngneat/query@3.1.1(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0))(@tanstack/query-core@5.62.8)':
+    dependencies:
+      '@angular/core': 19.0.3(rxjs@7.8.1)(zone.js@0.15.0)
+      '@tanstack/query-core': 5.62.8
+      tslib: 2.8.1
 
   '@ngtools/webpack@19.0.4(@angular/compiler-cli@19.0.3(@angular/compiler@19.0.3(@angular/core@19.0.3(rxjs@7.8.1)(zone.js@0.15.0)))(typescript@5.6.3))(typescript@5.6.3)(webpack@5.96.1(@swc/core@1.5.29(@swc/helpers@0.5.15))(esbuild@0.24.0))':
     dependencies:

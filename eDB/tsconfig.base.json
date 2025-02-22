@@ -18,6 +18,28 @@
       "@e-db/generated-platform-api-types": [
         "libs/generated/platform-api-types/src/index"
       ],
+      "@eDB-webshop/shared-types": [
+        "libs/eDB-webshop/shared/shared-types/src/index.ts"
+      ],
+      "@eDB-webshop/client-account": [
+        "libs/eDB-webshop/client-account/src/index.ts"
+      ],
+      "@eDB-webshop/client-books": [
+        "libs/eDB-webshop/client-books/src/index.ts"
+      ],
+      "@eDB-webshop/client-cart": ["libs/eDB-webshop/client-cart/src/index.ts"],
+      "@eDB-webshop/feature-book-catalog": [
+        "libs/eDB-webshop/feature-book-catalog/src/index.ts"
+      ],
+      "@eDB-webshop/shared-data": [
+        "libs/eDB-webshop/shared/shared-data/src/index.ts"
+      ],
+      "@eDB-webshop/shared-env": [
+        "libs/eDB-webshop/shared/shared-env/src/index.ts"
+      ],
+      "@eDB-webshop/ui-webshop": [
+        "libs/eDB-webshop/shared/ui-webshop/src/index.ts"
+      ],
       "@eDB/client-admin": [
         "libs/eDB-admin/data-access/client-admin/src/index"
       ],
@@ -42,6 +64,9 @@
       "@eDB/shared-env": ["libs/shared/utils/environment/src/index"],
       "@eDB/shared-ui": ["libs/shared/presentation-layer/ui/src/index"],
       "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
+      "@eDB/util-book-params": [
+        "libs/eDB-webshop/util-book-params/src/index.ts"
+      ],
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
       ]
