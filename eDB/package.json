@@ -5,6 +5,7 @@
   "scripts": {
     "start:web": "nx serve eDB --host 0.0.0.0",
     "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
+    "start:webshop": "nx serve eDB-webshop",
     "start:platform-api": "nx serve platform-api",
     "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
     "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/",
@@ -20,6 +21,7 @@
     "@angular/compiler": "19.0.3",
     "@angular/core": "19.0.3",
     "@angular/forms": "19.0.3",
+    "@angular/material": "^19.1.5",
     "@angular/platform-browser": "19.0.3",
     "@angular/platform-browser-dynamic": "19.0.3",
     "@angular/router": "19.0.3",
@@ -29,6 +31,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@ibm/plex": "^6.4.1",
+    "@ngneat/query": "^3.1.1",
     "@tanstack/angular-query-experimental": "^5.62.2",
     "carbon-components-angular": "^5.56.5",
     "ngx-toastr": "^19.0.0",

@@ -43,6 +43,7 @@ export class CatalogService {
       onSuccess: () => {
         // Optionally, refetch the catalog or update the state
         this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+        this.queryClient.invalidateQueries({ queryKey: ['catalog'] });
       },
       onError: (error: any) => {
         console.error('Failed to subscribe:', error);
