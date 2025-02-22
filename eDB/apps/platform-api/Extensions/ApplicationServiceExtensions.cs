@@ -79,6 +79,7 @@ namespace Edb.PlatformAPI.Extensions
             policy
               .WithOrigins(
                 "http://localhost:4200",
+                "http://localhost:4300",
                 "https://app.staging.eliasdebock.com",
                 "https://app.eliasdebock.com"
               )

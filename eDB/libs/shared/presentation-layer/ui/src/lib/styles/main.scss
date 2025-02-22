@@ -40,6 +40,10 @@
 
 .cds--data-table {
   table-layout: fixed;
+
+  @media (max-width: 768px) {
+    table-layout: initial;
+  }
 }
 
 .cds--data-table thead th.cds--table-column-checkbox {
