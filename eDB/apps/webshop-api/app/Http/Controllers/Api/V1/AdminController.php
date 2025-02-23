@@ -19,7 +19,6 @@ class AdminController extends Controller
         $loaned_books = Book::where('status', '=', 'loaned')->get()->all();
 
         $action_books = Book::where('genre', '=', 'action')->get()->all();
-        // $adventure_books = Book::where('genre', '=', 'adventure')->get()->all();
         // $comedy_books = Book::where('genre', '=', 'comedy')->get()->all();
         // $crime_books = Book::where('genre', '=', 'crime')->get()->all();
         // $drama_books = Book::where('genre', '=', 'drama')->get()->all();
@@ -89,7 +88,6 @@ class AdminController extends Controller
 
             return  $city_array;
         }
-
 
         return [
             'data' => [
