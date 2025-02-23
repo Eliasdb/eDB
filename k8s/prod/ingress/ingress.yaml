@@ -30,13 +30,20 @@ spec:
         - host: api.eliasdebock.com
           http:
               paths:
-                  - path: /
-                    pathType: Prefix
+                  - path: /platform(/|$)(.*)
+                    pathType: ImplementationSpecific
                     backend:
                         service:
                             name: platform-api-prod-service
                             port:
                                 number: 9101
+                  - path: /webshop(/|$)(.*)
+                    pathType: ImplementationSpecific
+                    backend:
+                        service:
+                            name: edb-webshop-api-prod-service
+                            port:
+                                number: 8000
     tls:
         - hosts:
               - app.eliasdebock.com
