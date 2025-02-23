@@ -1,11 +1,18 @@
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SkeletonModule, TilesModule } from 'carbon-components-angular';
 import { UiButtonComponent } from '../buttons/button/button.component';
 import { UiTagComponent } from '../tag/tag.component';
 
 @Component({
   selector: 'ui-launch-tile',
-  imports: [TilesModule, UiTagComponent, UiButtonComponent, SkeletonModule],
+  imports: [
+    TilesModule,
+    UiTagComponent,
+    UiButtonComponent,
+    SkeletonModule,
+    RouterLink,
+  ],
   template: `
     <cds-tile class="launch-tile">
       @if (skeleton()) {
@@ -46,7 +53,9 @@ import { UiTagComponent } from '../tag/tag.component';
         </div>
 
         <div class="launch-btn-container">
-          <ui-button [fullWidth]="true" size="sm">Launch</ui-button>
+          <a routerLink="{{ routePath() }}"
+            ><ui-button [fullWidth]="true" size="sm">Launch</ui-button></a
+          >
         </div>
       </div>
     </cds-tile>
@@ -54,8 +63,9 @@ import { UiTagComponent } from '../tag/tag.component';
   styleUrls: ['launch-tile.component.scss'],
 })
 export class UiLaunchTileComponent {
-  readonly title = input<string>();
+  readonly title = input<string>('Test');
   readonly description = input<string>();
   readonly tags = input<string[]>([]);
   readonly skeleton = input<boolean>(false);
+  readonly routePath = input<string>();
 }

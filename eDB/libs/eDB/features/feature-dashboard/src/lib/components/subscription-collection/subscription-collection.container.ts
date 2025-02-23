@@ -14,7 +14,7 @@ import { SubscribedApplication } from 'libs/eDB/data-access/client-dashboard/src
         <div class="subscriptions-tiles">
           @if (isLoading()) {
             <!-- Render a fixed number of skeleton tiles while loading -->
-            @for (i of [1, 2, 3]; track $index) {
+            @for (i of [1]; track $index) {
               <ui-launch-tile [skeleton]="true"></ui-launch-tile>
             }
           } @else {
@@ -25,6 +25,7 @@ import { SubscribedApplication } from 'libs/eDB/data-access/client-dashboard/src
                   [description]="app.description"
                   [tags]="app.tags"
                   [skeleton]="false"
+                  [routePath]="app.routePath"
                 ></ui-launch-tile>
               }
             } @else {
@@ -41,13 +42,6 @@ export class SubscriptionsCollectionContainer {
   private dashboardService = inject(DashboardService);
 
   subscriptions = this.dashboardService.subscriptions;
-
-  // constructor() {
-  //   // Set up an effect to log whenever the subscriptions signal changes.
-  //   effect(() => {
-  //     console.log('Subscriptions updated:', this.subscriptions());
-  //   });
-  // }
 
   trackByApp(index: number, app: SubscribedApplication): number {
     console.log(index);

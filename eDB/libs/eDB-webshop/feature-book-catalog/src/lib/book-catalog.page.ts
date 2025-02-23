@@ -33,6 +33,9 @@ import {
   selector: 'books-container',
   template: `
     <section class="page">
+      <section class="page-title w-full">
+        <h2>Webshop</h2>
+      </section>
       <section class="books-wrapper">
         <section class="books-container">
           <book-filters
