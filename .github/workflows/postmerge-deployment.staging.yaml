@@ -107,7 +107,7 @@ jobs:
                   admin_app=$(grep '^admin_app=' $GITHUB_OUTPUT | cut -d'=' -f2)
 
                   # Use printf to format the final output nicely
-                  printf "\nFinal values:\n  Platform API: 🚀 %s\n  Platform App: 📱 %s\n  Admin App: 👑 %s\n  Webshop API: 🛒 %s\n\n" "$platform_api" "$platform_app" "$admin_app" "$webshop_api"
+                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n\n" "$platform_api" "$platform_app" "$admin_app" "$webshop_api"
               shell: bash
 
     deploy-platform-api:
