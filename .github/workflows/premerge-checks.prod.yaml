@@ -159,7 +159,7 @@ jobs:
                       continue
                     fi
 
-                       # If the app is "webshop-api" (case insensitive), skip the nx build step
+                    # If the app is "webshop-api" (case insensitive), skip the nx build step
                     if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "webshop-api" ]; then
                       echo "Skipping nx build for webshop-api; building Docker image directly."
                     else
@@ -167,15 +167,15 @@ jobs:
                       if [ "$app" = "eDB-admin" ]; then
                         pnpm nx run $app:build --configuration=production --base-href=/admin/ --deploy-url=/admin/
                         # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
-                    else
-                      pnpm nx run $app:build --configuration=production
-                      # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --parallel --verbose
+                      else
+                        pnpm nx run $app:build --configuration=production
+                        # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --parallel --verbose
+                      fi
                     fi
-
+                    
                     # Build Docker image
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
-
                     docker build --platform linux/arm64 -f docker/$app/Dockerfile.prod -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
                     docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
                   done
