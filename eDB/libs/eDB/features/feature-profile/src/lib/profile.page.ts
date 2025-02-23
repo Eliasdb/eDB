@@ -1,4 +1,11 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  Signal,
+} from '@angular/core';
 import {
   CustomModalService,
   UiSelectComponent,
@@ -68,7 +75,7 @@ import { SettingsGroup } from './types/settings.type';
   `,
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage {
+export class ProfilePage implements OnInit, OnDestroy {
   // Existing properties...
   settingsGroups = settingsGroups;
   links: LinkItem[] = settingsGroups.map((g) => ({

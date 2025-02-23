@@ -8,9 +8,10 @@
   align-items: center;
   margin-bottom: 2rem;
   column-gap: 2rem;
+  min-width: 40rem;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 1224px) {
   .horizontal-sort {
     display: grid;
     grid-template-columns: 1fr;
@@ -25,13 +26,14 @@
     margin-right: 0.5rem;
   }
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .horizontal-sort {
     column-gap: 2rem;
+    min-width: initial;
   }
 
   hr {
-    min-width: 13rem;
+    min-width: initial;
   }
 }
 p {
@@ -92,7 +94,21 @@ select {
   text-align: right;
 }
 
+@media (max-width: 1224px) {
+  .book-count {
+    text-align: left;
+  }
+}
+
+p.book-count {
+  margin: 0;
+}
+
 .sort-container {
   display: flex;
   align-items: center;
+}
+
+.sort-container label {
+  min-width: 3rem;
 }

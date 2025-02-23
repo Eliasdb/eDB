@@ -24,7 +24,7 @@
 }
 
 .mdc-label {
-  color: black;
+  color: black !important;
   font-size: 12px !important;
 }
 
@@ -76,6 +76,7 @@
 }
 
 html {
+  --mat-switch-label-text-color: black !important;
   --mdc-filled-text-field-caret-color: lightgreen !important;
   --mdc-filled-text-field-focus-active-indicator-color: lightgreen !important;
   --mdc-filled-text-field-focus-label-text-color: rgba(123, 31, 162, 0.87);
@@ -181,4 +182,8 @@ html {
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+label.mdc-label {
+  color: black;
 }

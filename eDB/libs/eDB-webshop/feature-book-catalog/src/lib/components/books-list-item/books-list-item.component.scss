@@ -1,34 +1,47 @@
-.book-img-container {
-  width: 30%;
-  height: auto;
-}
-
-.book-img-container img {
-  height: 100%;
-  width: 100%;
-  border-radius: 5px;
-}
-
-.card-text {
-  max-width: 24rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .book-card {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  max-width: 40rem; /* Maximum width for the card */
+  width: 100%; /* Let it shrink on smaller screens */
+  gap: 1rem;
+  margin: 0 auto;
+
+  align-items: stretch; /* Ensure children fill the card’s height */
+  align-items: flex-end;
 }
 
 @media (max-width: 430px) {
-  .card-text {
-    min-width: 100%;
-  }
-
   .book-card {
     flex-direction: column;
   }
+}
+
+/* Image container uses a typical book cover ratio (e.g. 2:3) */
+.book-img-container {
+  flex: 0 0 40%; /* Occupies 40% of the card's width */
+  aspect-ratio: 2 / 3; /* Lock in the 2:3 ratio */
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+/* Image: use object-fit: contain so it scales without cropping */
+.book-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keeps the image's natural ratio */
+  display: block;
+}
+
+/* Text container takes up remaining space */
+.card-text {
+  flex: 1;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+.card-text h3,
+.card-text p {
+  margin: 0;
 }

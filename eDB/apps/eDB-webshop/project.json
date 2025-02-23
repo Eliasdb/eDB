@@ -23,8 +23,8 @@
           }
         ],
         "styles": [
-          "apps/eDB-webshop/src/styles.scss",
-          "@angular/material/prebuilt-themes/purple-green.css"
+          "@angular/material/prebuilt-themes/purple-green.css",
+          "apps/eDB-webshop/src/styles.scss"
         ],
         "scripts": []
       },
