@@ -134,6 +134,12 @@ jobs:
                   for app in $AFFECTED_APPS; do
                     echo "Processing app: $app"
 
+                    # Check if the app is eDB-webshop (case insensitive) and skip Docker image build/push if so
+                    if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "edb-webshop" ]; then
+                      echo "Skipping Docker build and push for eDB-webshop, as it is part of the main app."
+                      continue
+                    fi
+
                     # If the app is "webshop-api" (case insensitive), skip the nx build step
                     if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "webshop-api" ]; then
                       echo "Skipping nx build for webshop-api; building Docker image directly."
