@@ -32,7 +32,6 @@ class AdminController extends Controller
 
         // $count_array = [count($action_books), count($adventure_books), count($comedy_books), count($crime_books),
         // count($drama_books), count($fantasy_books), count($history_books),count($horror_books), count($mystery_books),
-        // count($non_fiction_books),count($thriller_books)];
 
         $genres = ['action', 'adventure', 'comedy', 'crime', 'drama', 'fantasy', 'history', 'horror', 'mystery', 'non fiction', 'thriller' ];
 
