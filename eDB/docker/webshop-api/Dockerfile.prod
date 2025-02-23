@@ -44,4 +44,4 @@ RUN chmod +x /var/www/entrypoint.prod.sh
 # Expose the port Nginx will use (ensure this matches your nginx.conf)
 EXPOSE 8000
 
-ENTRYPOINT ["/var/www/entrypoint.sh"]
+ENTRYPOINT ["/var/www/entrypoint.prod.sh"]
