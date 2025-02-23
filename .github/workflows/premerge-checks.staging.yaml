@@ -52,6 +52,7 @@ jobs:
 
             - name: NX Reset Cache
               run: pnpm nx reset
+              working-directory: ./eDB
 
             - name: Install pnpm
               run: npm install -g pnpm --force
