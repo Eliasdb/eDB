@@ -65,7 +65,7 @@ export class AccountService {
     return this.mutation({
       mutationFn: (user: RawApiDataUser) =>
         this.http.put<RawApiDataUser>(
-          `http://localhost:8000/api/v1/user`,
+          `http://localhost:8081/api/v1/user`,
           user.data,
         ),
       onSuccess: () =>
@@ -79,7 +79,7 @@ export class AccountService {
       queryFn: () => {
         return this.http
           .get<RawApiDataUser>(
-            `http://localhost:8000/api/v1/user?includeFavourites=true`,
+            `http://localhost:8081/api/v1/user?includeFavourites=true`,
           )
           .pipe(map((response) => response.data));
       },
@@ -90,7 +90,7 @@ export class AccountService {
     return this.mutation({
       mutationFn: (book: FavouriteBook) =>
         this.http.post<FavouriteBook>(
-          `http://localhost:8000/api/v1/favourites`,
+          `http://localhost:8081/api/v1/favourites`,
           book,
         ),
       onSuccess: () =>
@@ -102,7 +102,7 @@ export class AccountService {
     return this.mutation({
       mutationFn: (id: number) =>
         this.http.delete<FavouriteBook>(
-          `http://localhost:8000/api/v1/favourites/${id}`,
+          `http://localhost:8081/api/v1/favourites/${id}`,
         ),
       onSuccess: () =>
         this.queryClient.invalidateQueries({ queryKey: ['USER_DETAILS'] }),
@@ -115,7 +115,7 @@ export class AccountService {
     localStorage.removeItem('id');
     this.currentUserSource.next(null);
 
-    return this.http.get<LogOut>('http://localhost:8000/api/v1/logout').pipe(
+    return this.http.get<LogOut>('http://localhost:8081/api/v1/logout').pipe(
       // projects what we are getting back from API
       map((response) => {
         return response;

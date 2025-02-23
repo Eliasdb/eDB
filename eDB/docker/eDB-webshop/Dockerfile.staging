@@ -1,0 +1,41 @@
+# Build stage: use Composer to install PHP dependencies
+FROM composer:2 AS build
+
+WORKDIR /var/www
+
+# Copy application files and install PHP dependencies
+COPY . .
+
+RUN composer install --no-dev --optimize-autoloader
+
+# Production runtime stage: PHP-FPM with Nginx
+FROM php:8.4-fpm-alpine
+
+# Install build dependencies (including PostgreSQL dev files) along with runtime deps,
+# compile the PDO extensions, then remove build-only packages and install runtime libs.
+RUN apk add --no-cache --virtual .build-deps postgresql-dev \
+    && apk add --no-cache nginx bash \
+    && docker-php-ext-install pdo pdo_pgsql \
+    && apk del .build-deps \
+    && apk add --no-cache postgresql-libs
+
+# Copy application files from the build stage
+COPY --from=build /var/www /var/www
+
+WORKDIR /var/www
+
+# Set file permissions
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www/storage
+RUN chmod +x /var/www/wait-for-postgres.sh
+
+# Copy nginx configuration file
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Expose the port Nginx will use
+EXPOSE 8000
+
+COPY entrypoint.sh /var/www/entrypoint.sh
+RUN chmod +x /var/www/entrypoint.sh
+
+ENTRYPOINT ["/var/www/entrypoint.sh"]
