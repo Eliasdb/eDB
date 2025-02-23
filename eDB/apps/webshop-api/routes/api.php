@@ -51,7 +51,6 @@ Route::group(["prefix" => "v1", "namespace" => "App\Http\Controllers\Api\V1"], f
     Route::post("login", [AuthController::class, "login"]);
     Route::get("logout", [AuthController::class, "logout"]);
     Route::get("admin-stats", [AdminController::class, "adminStats"]);
-    Route::apiResource("products", ProductController::class);
     Route::apiResource("books", BookController::class);
 
 });
