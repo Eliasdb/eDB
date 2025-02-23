@@ -50,10 +50,6 @@ jobs:
               with:
                   dotnet-version: '8.0'
 
-            - name: NX Reset Cache
-              working-directory: ./eDB
-              run: pnpm exec nx reset
-
             - name: Install pnpm
               run: npm install -g pnpm --force
 
