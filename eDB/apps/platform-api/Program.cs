@@ -1,10 +1,10 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
 using EDb.FeatureApplications.Mapping;
+using Edb.PlatformAPI.Extensions;
+using Edb.PlatformAPI.Mapping;
+using Edb.PlatformAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
-using PlatformAPI.Extensions;
-using PlatformAPI.Mapping;
-using PlatformAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

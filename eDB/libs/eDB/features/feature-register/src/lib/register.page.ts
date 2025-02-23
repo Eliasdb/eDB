@@ -7,34 +7,35 @@ import { RegisterFormComponent } from './components/register-form/register-form.
   selector: 'platform-register-page',
   imports: [UiTitleComponent, RegisterFormComponent],
   template: `
-    <div class="register-form-container">
-      <div class="register-page-content">
+    <section class="register-form-page">
+      <div class="register-page-content-wrapper">
         <!-- Left Side -->
-        <div class="register-info">
+        <section class="register-info-container">
           <div class="left-titles">
-            <ui-title text="Welcome to eDB"></ui-title>
+            <ui-title class="welcome-title" text="Welcome to eDB"></ui-title>
             <ui-title
               text="Create an account to access trials, demos and services."
+              className="create-title"
             ></ui-title>
           </div>
-        </div>
+        </section>
 
         <!-- Right Side -->
-        <div class="register-form-section">
+        <section class="register-form-container">
           <div class="right-titles">
             <ui-title
               text="Create an account"
-              [className]="'custom-title-class'"
+              className="create-title"
             ></ui-title>
             <p class="already-text">
               Already have one?
               <a (click)="navigateToLogin()">Log in</a>.
             </p>
           </div>
-          <platform-portal-register-form></platform-portal-register-form>
-        </div>
+          <platform-portal-register-form> </platform-portal-register-form>
+        </section>
       </div>
-    </div>
+    </section>
   `,
   styleUrls: ['./register.page.scss'],
 })

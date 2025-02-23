@@ -29,7 +29,7 @@ import { loginFormFields } from './login-form.config';
   template: `
     <div class="login-form-container">
       <section class="login-form-title">
-        <ui-title text="Log in to eDB"></ui-title>
+        <ui-title text="Log in to eDB" fontSize="2rem"></ui-title>
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -50,7 +50,6 @@ import { loginFormFields } from './login-form.config';
               ></ui-password-input>
             }
           }
-
           <ui-button
             type="submit"
             icon="faArrowRight"
@@ -64,8 +63,7 @@ import { loginFormFields } from './login-form.config';
           </ui-button>
         </div>
       </form>
-
-      <section>
+      <section class="no-account">
         <p>Don't have an account?</p>
         <ui-button
           icon="faPlus"
@@ -84,21 +82,19 @@ import { loginFormFields } from './login-form.config';
 export class LoginFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
   private authService = inject(AuthService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute); // Inject ActivatedRoute
   private notificationService = inject(NotificationService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  loginForm!: FormGroup;
-  isLoading = false;
+  loginForm: FormGroup = this.formUtils.createFormGroup(loginFormFields);
 
   fieldDefinitions = loginFormFields;
-
   private returnUrl: string = '/dashboard';
 
   loginMutation = this.authService.loginMutation();
+  isLoading = this.loginMutation.isPending();
 
   ngOnInit(): void {
-    this.loginForm = this.formUtils.createFormGroup(loginFormFields);
     this.returnUrl =
       this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
@@ -121,45 +117,36 @@ export class LoginFormComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
-
       const credentials: Credentials = this.loginForm.getRawValue();
-      console.log(credentials);
 
       this.loginMutation.mutate(credentials, {
-        onSuccess: (response: LoginResponse) => {
-          this.authService.handleLogin(response.token);
-          // Navigate to returnUrl after login
-          this.router.navigateByUrl(this.returnUrl);
-
-          // Show success notification
-          this.notificationService.showToast({
-            type: 'success',
-            title: 'Success',
-            subtitle: 'You have successfully logged in.',
-            caption: `Welcome back!`,
-            duration: 5000,
-          });
-          this.isLoading = false; // End submission
-        },
-        onError: (error: HttpErrorResponse) => {
-          console.error('Login failed:', error.message);
-          if (error.error && error.error.message) {
-            console.error('Error message:', error.error.message);
-          }
-
-          this.isLoading = false; // End submission
-
-          // Show error notification
-          this.notificationService.showToast({
-            type: 'error',
-            title: 'Login Failed',
-            subtitle: 'Unable to log in.',
-            caption: error.error.message || 'An unexpected error occurred.',
-            duration: 5000,
-          });
-        },
+        onSuccess: (response: LoginResponse) =>
+          this.handleLoginSuccess(response),
+        onError: (error: HttpErrorResponse) => this.handleLoginError(error),
       });
     }
+  }
+
+  private handleLoginSuccess(response: LoginResponse): void {
+    this.authService.handleLogin(response.token);
+    this.router.navigateByUrl(this.returnUrl);
+    this.notificationService.showNotification({
+      type: 'success',
+      title: 'Welcome back - ',
+      message: 'You have successfully logged in.',
+      duration: 4000,
+    });
+    this.isLoading = false;
+  }
+
+  private handleLoginError(error: HttpErrorResponse): void {
+    this.isLoading = false;
+    this.notificationService.showNotification({
+      type: 'error',
+      title: 'Login Failed - ',
+      message: error.error.message || 'An unexpected error occurred.',
+      duration: 4000,
+    });
   }
 
   navigateToRegister(): void {

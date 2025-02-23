@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: web-app
-                  image: eliasdb/edb-nx:v1.0.256-prod
+                  image: eliasdb/edb:v1.0.256-prod
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80

@@ -13,7 +13,30 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   [RoleAuthorize("User", "Admin")]
   public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
   {
+    // Get the general catalog
     var applications = await _applicationsService.GetApplicationsAsync();
+    var userId = _applicationsService.GetAuthenticatedUserId(User);
+    // If the user is authenticated, fetch their subscriptions and update the DTO
+    if (userId != null)
+    {
+      var subscribedApplications = await _applicationsService.GetSubscribedApplicationsAsync(
+        userId.Value
+      );
+      var subscribedIds = subscribedApplications.Select(app => app.Id).ToHashSet();
+      foreach (var app in applications)
+      {
+        app.IsSubscribed = subscribedIds.Contains(app.Id);
+      }
+    }
+    else
+    {
+      // For anonymous users, you could either default to false or simply skip
+      foreach (var app in applications)
+      {
+        app.IsSubscribed = false;
+      }
+    }
+
     return Ok(applications);
   }
 

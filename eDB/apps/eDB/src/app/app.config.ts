@@ -4,10 +4,11 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16';
+import UserIcon from '@carbon/icons/es/user/16';
 
-import { AuthInterceptor } from '@eDB/shared-utils';
+import { AuthInterceptor, ErrorInterceptor } from '@eDB/shared-utils';
 
 import {
   provideTanStackQuery,
@@ -27,9 +28,16 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+    ),
+
     provideTanStackQuery(new QueryClient()),
-    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([AuthInterceptor, ErrorInterceptor]),
+    ),
     NotificationService,
     ModalService,
     ExperimentalService,
@@ -39,7 +47,7 @@ export const appConfig: ApplicationConfig = {
       provide: IconService,
       useFactory: () => {
         const iconService = new IconService();
-        iconService.registerAll([AddIcon]);
+        iconService.registerAll([AddIcon, UserIcon]);
         return iconService;
       },
     },

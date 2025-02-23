@@ -27,7 +27,7 @@ jobs:
             - name: Set Version
               id: version
               run: |
-                  VERSION=v1.0.3-beta
+                  VERSION=v1.4-beta
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
@@ -153,19 +153,29 @@ jobs:
                   for app in $AFFECTED_APPS; do
                     echo "Processing app: $app"
 
-                    # Build with special configuration for eDB-admin
-                    if [ "$app" = "eDB-admin" ]; then
-                      pnpm nx run $app:build --configuration=production --base-href=/admin/ --deploy-url=/admin/
-                      # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
-                    else
-                      pnpm nx run $app:build --configuration=production
-                      # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --parallel --verbose
+                    # Check if the app is eDB-webshop (case insensitive) and skip Docker image build/push if so
+                    if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "edb-webshop" ]; then
+                      echo "Skipping Docker build and push for eDB-webshop, as it is part of the main app."
+                      continue
                     fi
 
+                    # If the app is "webshop-api" (case insensitive), skip the nx build step
+                    if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "webshop-api" ]; then
+                      echo "Skipping nx build for webshop-api; building Docker image directly."
+                    else
+                      # Build with special configuration for eDB-admin
+                      if [ "$app" = "eDB-admin" ]; then
+                        pnpm nx run $app:build --configuration=production --base-href=/admin/ --deploy-url=/admin/
+                        # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --base-href=/admin/ --deploy-url=/admin/ 
+                      else
+                        pnpm nx run $app:build --configuration=production
+                        # pnpm nx affected --target=build --configuration=production --base=origin/main --head=HEAD --parallel --verbose
+                      fi
+                    fi
+                    
                     # Build Docker image
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
                     echo "Building Docker image for: $lower_app"
-
                     docker build --platform linux/arm64 -f docker/$app/Dockerfile.prod -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
                     docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
                   done

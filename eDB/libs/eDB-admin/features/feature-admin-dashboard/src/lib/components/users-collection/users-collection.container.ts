@@ -241,7 +241,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
 
   onMenuOptionSelected(action: string, user: UserProfile): void {
     if (action === 'view') {
-      this.router.navigate([`/admin/users/${user.id}`]);
+      this.router.navigate([`/users/${user.id}`]);
     } else if (action === 'delete') {
       this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openDeleteConfirmationModal(user);

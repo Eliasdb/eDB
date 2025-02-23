@@ -3,12 +3,12 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
+using Edb.PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.Interfaces;
+using Edb.PlatformAPI.Utilities;
 using Microsoft.EntityFrameworkCore;
-using PlatformAPI.DTOs.Admin;
-using PlatformAPI.Interfaces;
-using PlatformAPI.Utilities;
 
-namespace PlatformAPI.Services
+namespace Edb.PlatformAPI.Services
 {
   public class AdminService(
     IUserRepository userRepository,

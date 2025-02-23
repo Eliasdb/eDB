@@ -1,13 +1,26 @@
 import { Component, input } from '@angular/core';
-import { TilesModule } from 'carbon-components-angular';
+import { RouterLink } from '@angular/router';
+import { SkeletonModule, TilesModule } from 'carbon-components-angular';
 import { UiButtonComponent } from '../buttons/button/button.component';
 import { UiTagComponent } from '../tag/tag.component';
 
 @Component({
   selector: 'ui-launch-tile',
-  imports: [TilesModule, UiTagComponent, UiButtonComponent],
+  imports: [
+    TilesModule,
+    UiTagComponent,
+    UiButtonComponent,
+    SkeletonModule,
+    RouterLink,
+  ],
   template: `
     <cds-tile class="launch-tile">
+      @if (skeleton()) {
+        <div class="skeleton-placeholder">
+          <cds-skeleton-placeholder></cds-skeleton-placeholder>
+        </div>
+      }
+
       <div class="tile-header">
         <div>
           <svg
@@ -34,13 +47,15 @@ import { UiTagComponent } from '../tag/tag.component';
       </div>
       <div class="tile-footer">
         <div class="tile-tags">
-          @for (tag of tags(); track tag.indexOf) {
+          @for (tag of tags(); track $index) {
             <ui-tag [label]="tag"></ui-tag>
           }
         </div>
 
         <div class="launch-btn-container">
-          <ui-button [fullWidth]="true">Launch</ui-button>
+          <a routerLink="{{ routePath() }}"
+            ><ui-button [fullWidth]="true" size="sm">Launch</ui-button></a
+          >
         </div>
       </div>
     </cds-tile>
@@ -48,7 +63,9 @@ import { UiTagComponent } from '../tag/tag.component';
   styleUrls: ['launch-tile.component.scss'],
 })
 export class UiLaunchTileComponent {
-  readonly title = input.required<string>();
-  readonly description = input.required<string>();
+  readonly title = input<string>('Test');
+  readonly description = input<string>();
   readonly tags = input<string[]>([]);
+  readonly skeleton = input<boolean>(false);
+  readonly routePath = input<string>();
 }

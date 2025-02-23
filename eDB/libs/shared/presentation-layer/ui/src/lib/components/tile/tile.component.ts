@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, EventEmitter, input, model, Output } from '@angular/core';
 import { TilesModule } from 'carbon-components-angular';
 import { UiIconButtonComponent } from '../buttons/icon-button/icon-button.component';
 import { UiTagComponent } from '../tag/tag.component';
@@ -7,14 +7,17 @@ import { UiTagComponent } from '../tag/tag.component';
   selector: 'ui-tile',
   imports: [TilesModule, UiTagComponent, UiIconButtonComponent],
   template: `
-    <cds-tile class="ui-tile">
+    <cds-tile
+      [class.subscribed]="isSubscribed()"
+      class="relative flex flex-col min-w-[20rem] rounded-md"
+    >
       <div class="tile-header">
         <h3 class="tile-title">{{ title() }}</h3>
         <p class="tile-description">{{ description() }}</p>
       </div>
       <div class="tile-footer">
         <div class="tile-tags">
-          @for (tag of tags(); track tag.indexOf) {
+          @for (tag of tags(); track $index) {
             <ui-tag [label]="tag"></ui-tag>
           }
         </div>
@@ -38,6 +41,7 @@ export class UiTileComponent {
   readonly title = input.required<string>();
   readonly description = input.required<string>();
   readonly tags = input<string[]>([]);
+  readonly isSubscribed = model<boolean>(); // new input for subscribed state
 
   @Output() subscribe = new EventEmitter<number>();
 

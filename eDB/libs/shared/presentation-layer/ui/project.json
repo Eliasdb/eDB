@@ -1,7 +1,7 @@
 {
   "name": "ui",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ui/src",
+  "sourceRoot": "libs/shared/presentation-layer/ui/src",
   "prefix": "lib",
   "projectType": "library",
   "tags": [],
@@ -20,7 +20,7 @@
       "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "configDir": "libs/ui/.storybook",
+        "configDir": "libs/shared/presentation-layer/ui/.storybook",
         "browserTarget": "ui:build-storybook",
         "compodoc": false
       },
@@ -35,7 +35,7 @@
       "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/ui",
-        "configDir": "libs/ui/.storybook",
+        "configDir": "libs/shared/presentation-layer/ui/.storybook",
         "browserTarget": "ui:build-storybook",
         "compodoc": false
       },

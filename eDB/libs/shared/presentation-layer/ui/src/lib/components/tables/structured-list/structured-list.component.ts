@@ -7,6 +7,7 @@ import { UiButtonComponent } from '../../buttons/button/button.component';
 import { UiIconComponent } from '../../icon/icon.component';
 import { UiPasswordInputComponent } from '../../inputs/password-input/password-input.component';
 import { UiTextInputComponent } from '../../inputs/text-input/input.component';
+import { UiSkeletonTextComponent } from '../../text/skeleton-text/skeleton-text.component';
 
 @Component({
   selector: 'ui-structured-list',
@@ -19,6 +20,7 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
     UiTextInputComponent,
     UiPasswordInputComponent,
     ButtonModule,
+    UiSkeletonTextComponent,
   ],
   template: `
     <cds-structured-list>
@@ -37,17 +39,23 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
         </cds-list-column>
       </cds-list-header>
 
-      @if (editMode()) {
+      @if (uneditedMode()) {
         @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
-            <cds-list-column class="w-20">
-              <p class="row-0">{{ row[0] }}</p>
+            <cds-list-column class="row-0 ">
+              <section class="row-text">
+                <p>{{ row[0] }}</p>
+              </section>
             </cds-list-column>
 
-            <cds-list-column class="w-60">
+            <cds-list-column class="row-1">
               @if (!isEditing(rowIndex)) {
                 <section class="skeleton-text-wrapper">
-                  <p>{{ row[1] }}</p>
+                  @if (skeleton()) {
+                    <ui-skeleton-text [lines]="1"></ui-skeleton-text>
+                  } @else {
+                    <p>{{ row[1] }}</p>
+                  }
                 </section>
               } @else {
                 <div class="input-button-container">
@@ -89,24 +97,25 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
                       ></ui-text-input>
                     </ng-container>
                   </ng-container>
-                  <cds-button-set>
-                    <div class="button-container">
-                      <ui-button
-                        (buttonClick)="cancelEdit.emit(rowIndex)"
-                        variant="secondary"
-                        size="md"
-                      >
-                        Cancel
-                      </ui-button>
-                      <ui-button
-                        (buttonClick)="updateEdit.emit(rowIndex)"
-                        variant="primary"
-                        size="md"
-                      >
-                        Update
-                      </ui-button>
-                    </div>
-                  </cds-button-set>
+
+                  <div class="button-container">
+                    <ui-button
+                      (buttonClick)="cancelEdit.emit(rowIndex)"
+                      variant="secondary"
+                      size="md"
+                      [fullWidth]="true"
+                    >
+                      Cancel
+                    </ui-button>
+                    <ui-button
+                      (buttonClick)="updateEdit.emit(rowIndex)"
+                      variant="primary"
+                      size="md"
+                      [fullWidth]="true"
+                    >
+                      Update
+                    </ui-button>
+                  </div>
                 </div>
               }
             </cds-list-column>
@@ -147,11 +156,11 @@ import { UiTextInputComponent } from '../../inputs/text-input/input.component';
       } @else {
         @for (row of rows(); let rowIndex = $index; track rowIndex) {
           <cds-list-row>
-            <cds-list-column class="w-20">
+            <cds-list-column>
               <p class="row-0">{{ row[0] }}</p>
             </cds-list-column>
 
-            <cds-list-column class="w-60">
+            <cds-list-column>
               <section class="skeleton-text-wrapper">
                 <p>{{ row[1] }}</p>
               </section>
@@ -170,8 +179,9 @@ export class UiStructuredListComponent {
   readonly editingRowIndex = input<number | null>(null);
   readonly isEditingAny = input(false);
   readonly inputValues = input<any>({});
+  readonly skeleton = input<boolean>(false);
 
-  readonly editMode = input<boolean>(false); // New input to control edit visibility
+  readonly uneditedMode = input<boolean>(false); // New input to control edit visibility
 
   @Output() actionClick = new EventEmitter<number>();
   @Output() updateEdit = new EventEmitter<number>();

@@ -1,3 +1,46 @@
 .home-page {
-  padding-top: 6rem;
+  padding-top: 8rem;
+}
+
+.wrapper {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.toolbar-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.toolbar-container ui-search {
+  flex: 0 0 calc(61.8% - 1rem);
+}
+
+.toolbar-container ui-dropdown {
+  flex: 0 0 calc(38.2% - 1rem);
+}
+
+/* At max width 1312px: Set both to 50-50 */
+@media (max-width: 1312px) {
+  .toolbar-container ui-search,
+  .toolbar-container ui-dropdown {
+    flex: 0 0 calc(50% - 1rem);
+  }
+}
+
+/* At max width 671px: Stack items vertically */
+@media (max-width: 671px) {
+  .toolbar-container {
+    flex-direction: column;
+  }
+  .toolbar-container ui-search,
+  .toolbar-container ui-dropdown {
+    flex: 0 0 auto;
+    width: 100%;
+  }
 }

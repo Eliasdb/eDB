@@ -1,0 +1,66 @@
+:host {
+  min-width: 90%;
+}
+.nav-items {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 0 !important;
+}
+
+.nav-link:hover {
+  color: #bbbbbb;
+}
+
+.active {
+  color: lightgreen;
+}
+
+.active-lightgreen {
+  color: lightgreen;
+}
+
+.logout-btn {
+  color: inherit;
+  height: 1rem;
+  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn:hover {
+  color: grey;
+  cursor: pointer;
+}
+
+.logout-svg {
+  height: 100%;
+  width: 100%;
+  /* to black */
+  filter: invert(1);
+  /* or to blue */
+}
+
+.logout-svg-dark {
+  height: 100%;
+  width: 100%;
+  /* to black */
+  filter: invert(0);
+  /* or to blue */
+}
+
+.logout-svg:hover {
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

@@ -1,8 +1,9 @@
-.ui-tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 20rem;
+cds-tile {
+  transition: background-color 1s ease;
+}
+
+cds-tile.subscribed {
+  background-color: #dcdcdc;
 }
 
 .tile-header {

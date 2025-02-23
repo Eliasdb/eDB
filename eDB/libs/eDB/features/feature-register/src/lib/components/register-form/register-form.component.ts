@@ -4,7 +4,7 @@ import {
   UiTextInputComponent,
 } from '@eDB/shared-ui';
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -73,26 +73,24 @@ import { registerFormFields } from './register-form.config';
   `,
   styleUrls: ['./register-form.component.scss'],
 })
-export class RegisterFormComponent implements OnInit {
+export class RegisterFormComponent {
   private formUtils = inject(FormUtilsService);
   private router = inject(Router);
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
 
-  registerForm!: FormGroup;
+  // The fieldRows are kept for template iteration.
   fieldRows = registerFormFields;
-  isSubmitting = false;
 
-  // Initialize the mutation
-  registerMutation = this.authService.registerMutation();
-
-  ngOnInit(): void {
-    const flatFieldDefinitions = this.fieldRows
+  // Create the FormGroup inline, flattening and filtering the 2D array.
+  registerForm: FormGroup = this.formUtils.createFormGroup(
+    this.fieldRows
       .flat()
-      .filter((field): field is NonNullable<typeof field> => !!field);
+      .filter((field): field is NonNullable<typeof field> => !!field),
+  );
 
-    this.registerForm = this.formUtils.createFormGroup(flatFieldDefinitions);
-  }
+  registerMutation = this.authService.registerMutation();
+  isSubmitting = this.registerMutation.isPending();
 
   isFieldInvalid(controlName: string): boolean {
     return this.formUtils.isFieldInvalid(this.registerForm, controlName);
@@ -114,40 +112,40 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.registerForm.valid) {
-      this.isSubmitting = true;
-
-      const user: User = this.registerForm.getRawValue();
-      const capitalizedFirstName = user.firstName
-        ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)
-        : 'user';
-
-      this.registerMutation.mutate(user, {
-        onSuccess: () => {
-          this.registerForm.reset();
-          this.router.navigate(['auth/login']);
-          this.notificationService.showToast({
-            type: 'success',
-            title: 'Success',
-            subtitle: 'You have been registered!',
-            caption: `Enjoy your stay, ${capitalizedFirstName}.`,
-            duration: 5000,
-            smart: true,
-          });
-          this.isSubmitting = false;
-        },
-        onError: (error) => {
-          this.isSubmitting = false;
-          this.notificationService.showToast({
-            type: 'error',
-            title: 'Error',
-            subtitle: 'Something went wrong.',
-            caption: error.error.message || 'An unexpected error occurred.',
-            duration: 5000,
-            smart: true,
-          });
-        },
-      });
+    if (this.registerForm.invalid) {
+      return;
     }
+    const user: User = this.registerForm.getRawValue();
+    const capitalizedFirstName = user.firstName
+      ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)
+      : 'user';
+
+    this.registerMutation.mutate(user, {
+      onSuccess: () => this.handleSuccess(capitalizedFirstName),
+      onError: (error) => this.handleError(error),
+    });
+  }
+
+  private handleSuccess(capitalizedFirstName: string): void {
+    this.registerForm.reset();
+    this.notificationService.showNotification({
+      type: 'success',
+      title: 'You have been registered!',
+      message: `Enjoy your stay, ${capitalizedFirstName}.`,
+      duration: 5000,
+      smart: true,
+    });
+    this.router.navigate(['auth/login']);
+    this.isSubmitting = false;
+  }
+
+  private handleError(error: any): void {
+    this.notificationService.showNotification({
+      type: 'error',
+      title: 'Something went wrong.',
+      message: error.error.message || 'An unexpected error occurred.',
+      duration: 5000,
+      smart: true,
+    });
   }
 }

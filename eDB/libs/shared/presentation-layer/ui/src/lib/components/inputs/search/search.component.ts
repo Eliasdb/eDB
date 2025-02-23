@@ -19,7 +19,7 @@ import { SearchModule } from 'carbon-components-angular';
   `,
 })
 export class UiSearchComponent {
-  @Input() theme: 'light' | 'dark' = 'dark';
+  @Input() theme: 'light' | 'dark' = 'light';
   @Input() placeholder: string = 'Search';
   @Input() autocomplete: string = 'off';
   @Input() disabled: boolean = false;

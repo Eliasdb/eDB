@@ -34,9 +34,10 @@ jobs:
         runs-on: self-hosted
         needs: derive-pr-tag
         outputs:
-            backend: ${{ steps.set_booleans.outputs.backend }}
-            platform-app: ${{ steps.set_booleans.outputs.platform-app }}
-            admin-app: ${{ steps.set_booleans.outputs.admin-app }}
+            platform_api: ${{ steps.set_booleans.outputs.platfom_api }}
+            webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
+            platform_app: ${{ steps.set_booleans.outputs.platform_app }}
+            admin_app: ${{ steps.set_booleans.outputs.admin_app }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -76,37 +77,44 @@ jobs:
                   echo "Affected Projects: $AFFECTED"
 
                   if echo "$AFFECTED" | grep -x -q "platform-api"; then
-                    echo "backend=true" >> $GITHUB_OUTPUT
+                    echo "platform_api=true" >> $GITHUB_OUTPUT
                   else
-                    echo "backend=false" >> $GITHUB_OUTPUT
+                    echo "platform_api=false" >> $GITHUB_OUTPUT
+                  fi
+
+                  if echo "$AFFECTED" | grep -x -q "webshop-api"; then
+                    echo "webshop_api=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "webshop_api=false" >> $GITHUB_OUTPUT
                   fi
 
                   if echo "$AFFECTED" | grep -x -q "eDB"; then
-                    echo "platform-app=true" >> $GITHUB_OUTPUT
+                    echo "platform_app=true" >> $GITHUB_OUTPUT
                   else
-                    echo "platform-app=false" >> $GITHUB_OUTPUT
+                    echo "platform_app=false" >> $GITHUB_OUTPUT
                   fi
 
                   if echo "$AFFECTED" | grep -x -q "eDB-admin"; then
-                    echo "admin-app=true" >> $GITHUB_OUTPUT
+                    echo "admin_app=true" >> $GITHUB_OUTPUT
                   else
-                    echo "admin-app=false" >> $GITHUB_OUTPUT
+                    echo "admin_app=false" >> $GITHUB_OUTPUT
                   fi
 
                   # Now, extract the values into variables
-                  backend=$(grep '^backend=' $GITHUB_OUTPUT | cut -d'=' -f2)
-                  platform=$(grep '^platform-app=' $GITHUB_OUTPUT | cut -d'=' -f2)
-                  admin=$(grep '^admin-app=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  webshop_api=$(grep '^webshop_api=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  platform_api=$(grep '^platform_api=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  platform_app=$(grep '^platform_app=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  admin_app=$(grep '^admin_app=' $GITHUB_OUTPUT | cut -d'=' -f2)
 
                   # Use printf to format the final output nicely
-                  printf "\nFinal values:\n  backend: %s\n  platform-app: %s\n  admin-app: %s\n\n" "$backend" "$platform" "$admin"
+                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n\n" "$platform_api" "$platform_app" "$admin_app" "$webshop_api"
               shell: bash
 
-    deploy-backend:
+    deploy-platform-api:
         name: Deploy Platform API to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.backend == 'true' }}
+        if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -139,11 +147,48 @@ jobs:
                   kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
+    deploy-webshop-api:
+        name: Deploy Webshop API to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Configure Kubernetes for Staging
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  chmod 600 ~/.kube/config
+                  kubectl cluster-info
+
+            - name: Replace Placeholder with Image Tag in Webshop API Deployment YAML
+              run: |
+                  set -e
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/webshop-api/api-deployment-template.staging.yaml \
+                    > k8s/staging/webshop-api/api-deployment.staging.yaml
+
+            - name: Debug Webshop API Deployment YAML
+              run: |
+                  echo "Updated API Deployment YAML:"
+                  cat k8s/staging/webshop-api/api-deployment.staging.yaml
+
+            - name: Validate Webshop API Deployment YAML
+              run: |
+                  kubectl apply --dry-run=client -f k8s/staging/webshop-api/api-deployment.staging.yaml
+
+            - name: Deploy Webshop API to Kubernetes
+              run: |
+                  kubectl apply -f k8s/staging/webshop-api/api-deployment.staging.yaml
+                  kubectl rollout status deployment/webshop-api-staging  || kubectl rollout undo deployment/webshop-api-staging
+
     deploy-platform:
         name: Deploy Platform App to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.platform-app == 'true' }}
+        if: ${{ needs.nx-affected.outputs.platform_app == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -180,7 +225,7 @@ jobs:
         name: Deploy Admin App to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.admin-app == 'true' }}
+        if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3

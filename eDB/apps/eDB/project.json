@@ -22,11 +22,14 @@
           }
         ],
         "scripts": [],
-        "styles": ["apps/eDB/src/styles.scss"],
+        "styles": [
+          "apps/eDB/src/styles.scss",
+          "@angular/material/prebuilt-themes/purple-green.css"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./node_modules",
-            "libs/shared/presentation-layer/ui/src/lib/styles"
+            "/libs/shared/presentation-layer/ui/src/lib/styles/"
           ]
         },
 

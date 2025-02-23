@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using EDb.Domain.Entities;
-using PlatformAPI.DTOs.Profile;
+using Edb.PlatformAPI.DTOs.Profile;
 
-namespace PlatformAPI.Interfaces;
+namespace Edb.PlatformAPI.Interfaces;
 
 public interface IProfileService
 {

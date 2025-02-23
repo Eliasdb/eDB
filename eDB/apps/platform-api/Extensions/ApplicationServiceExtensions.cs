@@ -5,12 +5,12 @@ using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.Interfaces;
 using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
+using Edb.PlatformAPI.Interfaces;
+using Edb.PlatformAPI.Mapping;
+using Edb.PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using PlatformAPI.Interfaces;
-using PlatformAPI.Mapping;
-using PlatformAPI.Services;
 
-namespace PlatformAPI.Extensions
+namespace Edb.PlatformAPI.Extensions
 {
   public static class ApplicationServiceExtensions
   {
@@ -43,13 +43,16 @@ namespace PlatformAPI.Extensions
         // For staging and production, use the full connection string directly from configuration.
         // This expects that your secret populates the environment variable
         // "ConnectionStrings__DefaultConnection", which maps to config key "ConnectionStrings:DefaultConnection".
-        connectionString = config.GetConnectionString("DefaultConnection");
-
+        connectionString =
+          config.GetConnectionString("DefaultConnection")
+          ?? throw new InvalidOperationException("Default connection string is not configured.");
         // Alternatively, you could use:
         // connectionString = config["ConnectionStrings:DefaultConnection"];
       }
 
-      services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
+      services.AddDbContext<MyDbContext>(options =>
+        options.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
+      );
 
       // Register repositories
       services.AddScoped<IUserRepository, UserRepository>();
@@ -76,6 +79,7 @@ namespace PlatformAPI.Extensions
             policy
               .WithOrigins(
                 "http://localhost:4200",
+                "http://localhost:4300",
                 "https://app.staging.eliasdebock.com",
                 "https://app.eliasdebock.com"
               )

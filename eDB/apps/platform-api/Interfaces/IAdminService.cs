@@ -1,7 +1,7 @@
 using EDb.Domain.Entities;
-using PlatformAPI.DTOs.Admin;
+using Edb.PlatformAPI.DTOs.Admin;
 
-namespace PlatformAPI.Interfaces;
+namespace Edb.PlatformAPI.Interfaces;
 
 public interface IAdminService
 {

@@ -44,11 +44,20 @@
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
+
+  @media (max-width: 850px) {
+    flex-direction: column;
+  }
 }
 
 ui-structured-list {
   flex: 1;
   max-width: 50%;
+
+  @media (max-width: 850px) {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
 }
 
 .back-button-container {

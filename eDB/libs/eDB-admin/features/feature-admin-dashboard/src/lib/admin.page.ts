@@ -4,13 +4,13 @@ import {
 } from './components';
 
 import { Component } from '@angular/core';
-import { UiButtonComponent, UiContentSwitcherComponent } from '@eDB/shared-ui';
+import { UiContentSwitcherComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'platform-admin',
   template: ` <section class="admin-page">
     <section>
-      Temp button: <ui-button><a href="">To web app!</a></ui-button>
+      <h1 class="text-3xl mb-8">Admin</h1>
     </section>
     <ui-content-switcher [options]="['Users', 'Applications']">
       <ng-container section1>
@@ -25,7 +25,6 @@ import { UiButtonComponent, UiContentSwitcherComponent } from '@eDB/shared-ui';
     UiContentSwitcherComponent,
     UsersCollectionContainer,
     ApplicationsCollectionContainer,
-    UiButtonComponent,
   ],
   styleUrls: ['admin.page.scss'],
 })

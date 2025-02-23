@@ -1,4 +1,4 @@
-namespace PlatformAPI.DTOs.Profile;
+namespace Edb.PlatformAPI.DTOs.Profile;
 
 public class ProfileSettingsResponse
 {

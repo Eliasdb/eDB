@@ -1,6 +1,10 @@
 .admin-page {
   height: 100vh;
   padding: 4rem;
-  padding-top: 6rem;
+  padding-top: 8rem;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    padding: 8rem 0.5rem;
+  }
 }

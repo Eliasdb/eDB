@@ -1,7 +1,7 @@
 using EDb.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace PlatformAPI.Utilities
+namespace Edb.PlatformAPI.Utilities
 {
   public class InMemoryDbContextFactory
   {
