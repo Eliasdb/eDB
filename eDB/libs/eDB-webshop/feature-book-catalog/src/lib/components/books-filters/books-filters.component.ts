@@ -62,9 +62,11 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
         <div class="status-filter-container">
           <h4 class="status-title">Status</h4>
 
-          <mat-slide-toggle [(ngModel)]="isChecked" (change)="selectStatus()">{{
-            isChecked ? 'Available' : 'Unavailable'
-          }}</mat-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="isChecked" (change)="selectStatus()"
+            ><span style="color: black;">{{
+              isChecked ? 'Available' : 'Unavailable'
+            }}</span></mat-slide-toggle
+          >
         </div>
 
         <div class="clear-filters-btn-container">

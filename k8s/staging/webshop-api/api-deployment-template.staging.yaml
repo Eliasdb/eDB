@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: webshop-api-staging
+    namespace: default
+    labels:
+        app: webshop-api-staging
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: webshop-api-staging
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: webshop-api-staging
+        spec:
+            containers:
+                - name: webshop-api
+                  image: eliasdb/webshop-api:${IMAGE_TAG}
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 8000
+                        protocol: TCP
+                  env:
+                      - name: APP_ENV
+                        value: 'staging'
+                      - name: APP_DEBUG
+                        value: 'false'
+                      - name: APP_URL
+                        value: 'https://api.staging.eliasdebock.com'
+                      - name: DB_CONNECTION
+                        value: 'pgsql'
+                  envFrom:
+                      - secretRef:
+                            name: webshop-api-secrets
+                  resources:
+                      requests:
+                          memory: '256Mi'
+                          cpu: '500m'
+                      limits:
+                          memory: '1Gi'
+                          cpu: '1'

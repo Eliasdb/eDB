@@ -31,7 +31,7 @@
   margin-bottom: 6px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1224px) {
   .category-title {
     width: 100%;
     text-align: left;
@@ -70,7 +70,7 @@
   flex-direction: column;
   align-items: flex-start;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1224px) {
     gap: 1rem;
     flex-direction: row;
     justify-content: center;
@@ -100,8 +100,8 @@ select {
 .search-icon {
   width: 16px;
   position: absolute;
-  left: 14px;
-  top: 37px;
+  left: 11px;
+  top: 34px;
 }
 
 .status-select {
@@ -146,8 +146,13 @@ label {
   max-width: 17rem;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1224px) {
   .search-input-container {
     max-width: 100%;
+  }
+
+  .status-filter {
+    display: flex;
+    justify-content: space-between;
   }
 }

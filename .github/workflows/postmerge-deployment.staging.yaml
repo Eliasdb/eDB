@@ -34,7 +34,8 @@ jobs:
         runs-on: self-hosted
         needs: derive-pr-tag
         outputs:
-            backend: ${{ steps.set_booleans.outputs.backend }}
+            platform-api: ${{ steps.set_booleans.outputs.platfom-api }}
+            webshop-api: ${{ steps.set_booleans.outputs.webshop-api }}
             platform-app: ${{ steps.set_booleans.outputs.platform-app }}
             admin-app: ${{ steps.set_booleans.outputs.admin-app }}
         steps:
@@ -76,9 +77,15 @@ jobs:
                   echo "Affected Projects: $AFFECTED"
 
                   if echo "$AFFECTED" | grep -x -q "platform-api"; then
-                    echo "backend=true" >> $GITHUB_OUTPUT
+                    echo "platform-api=true" >> $GITHUB_OUTPUT
                   else
-                    echo "backend=false" >> $GITHUB_OUTPUT
+                    echo "platform-api=false" >> $GITHUB_OUTPUT
+                  fi
+
+                  if echo "$AFFECTED" | grep -x -q "webshop-api"; then
+                    echo "webshop-api=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "webshop-api=false" >> $GITHUB_OUTPUT
                   fi
 
                   if echo "$AFFECTED" | grep -x -q "eDB"; then
@@ -94,7 +101,8 @@ jobs:
                   fi
 
                   # Now, extract the values into variables
-                  backend=$(grep '^backend=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  webshop-api=$(grep '^webshop-api=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  platform-api=$(grep '^platform-api=' $GITHUB_OUTPUT | cut -d'=' -f2)
                   platform=$(grep '^platform-app=' $GITHUB_OUTPUT | cut -d'=' -f2)
                   admin=$(grep '^admin-app=' $GITHUB_OUTPUT | cut -d'=' -f2)
 
@@ -102,11 +110,11 @@ jobs:
                   printf "\nFinal values:\n  backend: %s\n  platform-app: %s\n  admin-app: %s\n\n" "$backend" "$platform" "$admin"
               shell: bash
 
-    deploy-backend:
+    deploy-platform-api:
         name: Deploy Platform API to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.backend == 'true' }}
+        if: ${{ needs.nx-affected.outputs.platform-api == 'true' }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -138,6 +146,43 @@ jobs:
               run: |
                   kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
+
+    deploy-webshop-api:
+        name: Deploy Webshop API to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.webshop-api == 'true' }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Configure Kubernetes for Staging
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+                  chmod 600 ~/.kube/config
+                  kubectl cluster-info
+
+            - name: Replace Placeholder with Image Tag in Webshop API Deployment YAML
+              run: |
+                  set -e
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/webshop-api/api-deployment-template.staging.yaml \
+                    > k8s/staging/webshop-api/api-deployment.staging.yaml
+
+            - name: Debug Webshop API Deployment YAML
+              run: |
+                  echo "Updated API Deployment YAML:"
+                  cat k8s/staging/webshop-api/api-deployment.staging.yaml
+
+            - name: Validate Webshop API Deployment YAML
+              run: |
+                  kubectl apply --dry-run=client -f k8s/staging/webshop-api/api-deployment.staging.yaml
+
+            - name: Deploy Webshop API to Kubernetes
+              run: |
+                  kubectl apply -f k8s/staging/webshop-api/api-deployment.staging.yaml
+                  kubectl rollout status deployment/webshop-api-staging  || kubectl rollout undo deployment/webshop-api-staging
 
     deploy-platform:
         name: Deploy Platform App to Staging
