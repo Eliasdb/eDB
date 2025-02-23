@@ -34,9 +34,23 @@ spec:
                         value: 'https://api.staging.eliasdebock.com'
                       - name: DB_CONNECTION
                         value: 'pgsql'
-                  envFrom:
-                      - secretRef:
-                            name: webshop-api-secrets
+                      - name: DB_HOST
+                        value: 'postgres-service-staging'
+                      - name: DB_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_USER
+                      - name: DB_DATABASE
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_DB
+                      - name: DB_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_PASSWORD
                   resources:
                       requests:
                           memory: '256Mi'
