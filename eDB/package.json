@@ -102,6 +102,7 @@
     "jest-preset-angular": "14.4.2",
     "jsdom": "^25.0.1",
     "jwt-decode": "^4.0.0",
+    "laravel-vite-plugin": "^1.2.0",
     "less": "^4.2.0",
     "nx": "20.2.0",
     "postcss": "^8.5.3",
