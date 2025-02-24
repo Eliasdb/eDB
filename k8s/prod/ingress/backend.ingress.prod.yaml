@@ -1,32 +1,15 @@
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: my-ingress
+    name: backend-ingress
     namespace: default
     annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        cert-manager.io/cluster-issuer: letsencrypt-production
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
     ingressClassName: nginx
     rules:
-        - host: app.eliasdebock.com
-          http:
-              paths:
-                  - path: /
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: web-app-prod-service
-                            port:
-                                number: 80
-
-                  - path: /admin/
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: admin-app-prod-service
-                            port:
-                                number: 80
         - host: api.eliasdebock.com
           http:
               paths:
@@ -34,7 +17,7 @@ spec:
                     pathType: ImplementationSpecific
                     backend:
                         service:
-                            name: platform-api-prod-service
+                            name: edb-api-prod-service
                             port:
                                 number: 9101
                   - path: /webshop(/|$)(.*)
@@ -45,9 +28,6 @@ spec:
                             port:
                                 number: 8000
     tls:
-        - hosts:
-              - app.eliasdebock.com
-          secretName: app-tls
         - hosts:
               - api.eliasdebock.com
           secretName: api-tls
