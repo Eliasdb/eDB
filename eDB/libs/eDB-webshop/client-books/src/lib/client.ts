@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { RawApiDataBook, RawApiDataBooks } from '@eDB-webshop/shared-types';
+import { environment } from '@eDB/shared-env';
+
 import { injectQuery } from '@ngneat/query';
 import { map } from 'rxjs';
 import {
@@ -60,7 +62,8 @@ export class BooksService {
           params = params.set('genre', '');
         }
         return this.http
-          .get<RawApiDataBooks>('http://localhost:8000/api/v1/books', {
+
+          .get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
             params,
           })
           .pipe(map((response) => response.data));
@@ -73,7 +76,7 @@ export class BooksService {
       queryKey: ['BOOKS', id],
       queryFn: () => {
         return this.http
-          .get<RawApiDataBook>(`http://localhost:8000/api/v1/books/${id}`)
+          .get<RawApiDataBook>(`${environment.bookAPIUrl}/books/${id}`)
           .pipe(map((response) => response.data));
       },
     });
@@ -85,7 +88,7 @@ export class BooksService {
       queryFn: () => {
         return this.http
           .get<RawApiDataBooks>(
-            `http://localhost:8000/api/v1/books?genre=${genre}`,
+            `${environment.bookAPIUrl}/books?genre=${genre}`,
           )
           .pipe(map((response) => response.data));
       },
