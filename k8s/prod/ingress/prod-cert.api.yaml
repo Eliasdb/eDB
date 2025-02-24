@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: api-prod-tls
+    namespace: default
+spec:
+    secretName: api-prod-tls
+    issuerRef:
+        name: letsencrypt-production
+        kind: ClusterIssuer
+    commonName: api.eliasdebock.com
+    dnsNames:
+        - api.eliasdebock.com
