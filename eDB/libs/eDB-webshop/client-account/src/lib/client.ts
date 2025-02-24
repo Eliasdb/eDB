@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { environment } from '@eDB-webshop/shared-env';
 import {
   FavouriteBook,
   LogOut,
   RawApiDataUser,
   User,
 } from '@eDB-webshop/shared-types';
+import { environment } from '@eDB/shared-env';
 import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
 import { BehaviorSubject, map } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class AccountService {
   private currentTokenSource = new BehaviorSubject<string | null>(null);
   public currentUser$ = this.currentUserSource.asObservable();
   public currentToken$ = this.currentTokenSource.asObservable();
-  private baseURL = environment.apiUrl;
+  private baseURL = environment.bookAPIUrl;
 
   private http = inject(HttpClient);
   private query = injectQuery();
