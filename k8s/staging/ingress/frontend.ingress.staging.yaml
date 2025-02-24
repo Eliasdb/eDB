@@ -6,6 +6,7 @@ metadata:
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         cert-manager.io/cluster-issuer: letsencrypt-production
+        cert-manager.io/certificate-name: app-tls
 spec:
     ingressClassName: nginx
     rules:
@@ -29,4 +30,4 @@ spec:
     tls:
         - hosts:
               - app.staging.eliasdebock.com
-          secretName: staging-tls
+          secretName: app-tls
