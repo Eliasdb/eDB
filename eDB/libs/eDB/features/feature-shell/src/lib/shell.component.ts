@@ -54,7 +54,6 @@ export class ShellComponent implements OnInit {
   router = inject(Router);
   authService = inject(AuthService);
 
-  // Observables for authentication and admin status
   isAuthenticated$ = this.authService.isAuthenticated();
   isAdmin$ = this.authService.isAdmin();
 
