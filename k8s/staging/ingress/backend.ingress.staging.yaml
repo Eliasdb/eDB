@@ -1,35 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: my-ingress-staging
+    name: backend-ingress
     namespace: default
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         cert-manager.io/cluster-issuer: letsencrypt-production
         nginx.ingress.kubernetes.io/rewrite-target: /$2
-
 spec:
     ingressClassName: nginx
     rules:
-        - host: app.staging.eliasdebock.com
-          http:
-              paths:
-                  - path: /admin/
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: admin-app-staging-service
-                            port:
-                                number: 80
-
-                  - path: /
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: edb-nx-staging-service
-                            port:
-                                number: 80
-
         - host: api.staging.eliasdebock.com
           http:
               paths:
@@ -40,7 +20,6 @@ spec:
                             name: edb-api-staging-service
                             port:
                                 number: 9101
-
                   - path: /webshop(/|$)(.*)
                     pathType: ImplementationSpecific
                     backend:
@@ -48,9 +27,7 @@ spec:
                             name: edb-webshop-api-staging-service
                             port:
                                 number: 8000
-
     tls:
         - hosts:
-              - app.staging.eliasdebock.com
               - api.staging.eliasdebock.com
           secretName: staging-tls
