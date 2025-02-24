@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: app-tls
+    name: api-tls
     namespace: default
 spec:
-    secretName: app-tls
+    secretName: api-tls
     issuerRef:
         name: letsencrypt-production
         kind: ClusterIssuer
-    commonName: app.staging.eliasdebock.com
+    commonName: api.staging.eliasdebock.com
     dnsNames:
-        - app.staging.eliasdebock.com
+        - api.staging.eliasdebock.com
