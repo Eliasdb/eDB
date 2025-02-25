@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: api
-                  image: eliasdb/platform-api:pr-89-staging
+                  image: eliasdb/platform-api:pr-172-staging
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 9101
