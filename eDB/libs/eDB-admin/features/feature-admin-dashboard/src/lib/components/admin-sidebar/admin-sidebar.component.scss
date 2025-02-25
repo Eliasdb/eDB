@@ -1,0 +1,86 @@
+aside {
+  display: none;
+}
+@media (min-width: 320px) {
+  aside {
+    display: block;
+    box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-container {
+    background: white;
+    min-height: 100vh;
+    height: 100%;
+    width: 250px;
+    margin-left: -250px;
+    transition: 0.3s ease-in-out all;
+  }
+  .content {
+    position: sticky;
+    top: 0;
+  }
+  .show-sidebar {
+    margin-left: 0;
+  }
+  header {
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    padding-left: 2.5rem;
+  }
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    padding-left: 2.5rem;
+    text-transform: capitalize;
+    transition: 0.3s ease-in-out all;
+  }
+  .nav-link:hover {
+    background: lightgreen;
+    padding-left: 3rem;
+    color: black;
+  }
+  .nav-link:hover .icon {
+    color: lightgreen;
+  }
+  .icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    display: grid;
+    place-items: center;
+    transition: 0.3s ease-in-out all;
+  }
+  .active {
+    color: lightseagreen;
+  }
+  .active .icon {
+    color: lightseagreen;
+  }
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  cursor: pointer;
+}
+
+.icon-img {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-img-books {
+  width: 23px;
+  height: 23px;
+}
+
+svg {
+  color: 'red';
+}

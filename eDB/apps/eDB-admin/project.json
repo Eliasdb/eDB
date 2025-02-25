@@ -22,7 +22,10 @@
             "input": "apps/eDB-admin/public"
           }
         ],
-        "styles": ["apps/eDB-admin/src/styles.scss"],
+        "styles": [
+          "apps/eDB-admin/src/styles.scss",
+          "@angular/material/prebuilt-themes/purple-green.css"
+        ],
         "customWebpackConfig": {
           "path": "apps/eDB-admin/webpack.config.js"
         },

@@ -1,6 +1,7 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, lastValueFrom, map } from 'rxjs';
 
 import {
   injectMutation,
@@ -11,11 +12,13 @@ import {
 import { environment } from '@eDB/shared-env';
 
 import {
+  AdminStats,
   Application,
   CreateApplicationDto,
   PaginatedResponse,
   UserProfile,
 } from './types/admin.types';
+import { Book } from './types/book.types';
 
 @Injectable({
   providedIn: 'root',
@@ -219,4 +222,37 @@ export class AdminService {
     };
     return fieldMapping[sortField.toLowerCase()] || 'id';
   }
+
+  // BOOKS
+
+  selectedBooks$ = new BehaviorSubject<Book[]>([]);
+  selection = new SelectionModel<Book>(true, []);
+  isSheetClosed$ = new BehaviorSubject<boolean>(true);
+
+  deleteBook() {
+    return injectMutation(() => ({
+      mutationFn: async (id: number) => {
+        return firstValueFrom(
+          this.http.delete<Book>(`${environment.bookAPIUrl}/books/${id}`),
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({ queryKey: ['ADMIN_BOOKS'] });
+      },
+    }));
+  }
+
+  queryAdminStats = injectQuery(() => ({
+    queryKey: ['ADMIN_STATS'],
+    queryFn: async () =>
+      await firstValueFrom(
+        this.http.get<AdminStats>(`${environment.bookAPIUrl}/admin-stats`).pipe(
+          map((response) => {
+            return response.data;
+          }),
+        ),
+      ),
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+  }));
 }
