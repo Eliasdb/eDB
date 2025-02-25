@@ -3,6 +3,7 @@ import { AdminPage } from './admin.page';
 
 export const featureAdminDashboardRoutes: Route[] = [
   { path: '', component: AdminPage },
+
   {
     path: 'users/:id',
     loadComponent: () =>

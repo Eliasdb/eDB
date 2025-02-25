@@ -3,9 +3,10 @@ import {
   UsersCollectionContainer,
 } from './components';
 
-import { Component, Type } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, signal, Type, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
 import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
 import { AdminStatsContainer } from './components/admin-stats-container/admin-stats.container';
@@ -42,15 +43,20 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
           </div>
         </nav>
         <mat-drawer-container class="example-container">
-          <mat-drawer #drawer [mode]="mode.value" opened
-            ><admin-sidebar
+          <mat-drawer #drawer [mode]="mode.value"
+            ><admin-sidebar (itemSelected)="switchDrawerContent($event)"
           /></mat-drawer>
           <mat-select #mode value="side" />
           <mat-drawer-content>
             <div class="content">
-              @if (drawerContent) {
-                <ng-container *ngComponentOutlet="drawerContent"></ng-container>
-              }
+              <ng-container [ngSwitch]="currentView()">
+                <platform-admin-users-collection
+                  *ngSwitchCase="'books'"
+                ></platform-admin-users-collection>
+                <platform-admin-applications-collection
+                  *ngSwitchCase="'order-overview'"
+                ></platform-admin-applications-collection>
+              </ng-container>
             </div>
           </mat-drawer-content>
         </mat-drawer-container>
@@ -64,16 +70,25 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
     MatSidenavModule,
     MatSelectModule,
     AdminSidebarComponent,
+    CommonModule,
     AdminStatsContainer,
   ],
   styleUrls: ['admin.page.scss'],
 })
 export class AdminPage {
-  public drawerContent: Type<any> | null = AdminStatsContainer;
+  currentView = signal<'books' | 'order-overview'>('books');
+  @ViewChild('drawer') drawer!: MatDrawer;
 
-  // Later, you can switch it dynamically:
-  // switchDrawerContent(newContent: 'sidebar' | 'settings') {
-  //   this.drawerContent =
-  //     newContent === 'sidebar' ? AdminStatsContainer : AppSettingsComponent;
-  // }
+  // Optionally, if you still need to use a dynamic component outlet:
+  get drawerContent(): Type<any> | null {
+    return this.currentView() === 'books'
+      ? AdminStatsContainer
+      : AdminSidebarComponent;
+  }
+
+  switchDrawerContent(newContent: 'books' | 'order-overview') {
+    console.log(`Switching view to: ${newContent}`);
+    this.currentView.set(newContent);
+    this.drawer.toggle();
+  }
 }

@@ -1,36 +1,21 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import {
   MatBottomSheet,
   MatBottomSheetModule,
 } from '@angular/material/bottom-sheet';
-import { RouterLink } from '@angular/router';
 import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component';
 
 @Component({
   standalone: true,
-  imports: [RouterLink, MatBottomSheetModule],
+  imports: [MatBottomSheetModule],
   selector: 'admin-sidebar',
   template: `
     <div class="content">
       <div class="nav-links">
         <ul>
           <li
-            routerLink="/admin/stats"
             class="{{ isSidebarOpen ? 'nav-link active' : 'nav-link' }}"
-            (click)="closeBottomSheet()"
-          >
-            <span class="icon"
-              ><img
-                src="https://www.svgrepo.com/show/522291/stats.svg"
-                alt="stats-icon"
-                class="icon-img"
-            /></span>
-            Statistics
-          </li>
-
-          <li
-            routerLink="/admin/books"
-            class="{{ isSidebarOpen ? 'nav-link active' : 'nav-link' }}"
+            (click)="handleItemClick('books')"
           >
             <span class="icon"
               ><img
@@ -43,9 +28,8 @@ import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component';
           </li>
 
           <li
-            routerLink="/admin/order-overview"
             class="{{ isSidebarOpen ? 'nav-link active' : 'nav-link' }}"
-            (click)="closeBottomSheet()"
+            (click)="handleItemClick('order-overview')"
           >
             <span class="icon"
               ><img
@@ -54,7 +38,7 @@ import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component';
                 class="icon-img"
               />
             </span>
-            Order overview
+            Order Overview
           </li>
         </ul>
       </div>
@@ -68,5 +52,12 @@ export class AdminSidebarComponent {
 
   closeBottomSheet(): void {
     this._bottomSheet.dismiss(BottomSheetComponent);
+  }
+
+  @Output() itemSelected = new EventEmitter<'books' | 'order-overview'>();
+
+  handleItemClick(itemId: 'books' | 'order-overview'): void {
+    this.closeBottomSheet();
+    this.itemSelected.emit(itemId);
   }
 }
