@@ -100,7 +100,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "eDB-webshop:build",
-        "port": 4200,
+        "port": 4201,
         "staticFilePath": "dist/apps/eDB-webshop/browser",
         "spa": true
       }

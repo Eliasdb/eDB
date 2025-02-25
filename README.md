@@ -64,7 +64,7 @@ I am building a platform housing multiple applications. Users can make an accoun
 ### Client-Server Interaction
 
 Below you see a visual representation of the request-response model. Also mentioned protocols used and general information about headers.
-![Client-Server Interaction Diagram](./diagrams/images/docs/client-server.drawio.png)
+![Client-Server Interaction Diagram](./docs/images/docs/client-server.drawio.png)
 
 ### Critical Rendering Path (CRP)
 
@@ -78,13 +78,13 @@ Illustrated roughly what's going on in the CRP in a framework-agnostic way. The 
 -   Painting (filling pixels)
 -   Compositing (layering elements for final rendering)
 
-![Critical Rendering Path](./diagrams/images/docs/crp.drawio.png)
+![Critical Rendering Path](./docs/images/docs/crp.drawio.png)
 
 ### The Event Loop
 
 The event loop is the mechanism that JavaScript uses to handle asynchronous operations efficiently, ensuring that the single-threaded JavaScript runtime remains non-blocking.
 
-![The Event Loop](./diagrams/images/docs/event-loop.png)
+![The Event Loop](./docs/images/docs/event-loop.png)
 
 ## 3. Nx Setup
 
@@ -135,7 +135,7 @@ The application follows a **Layered Modular Architecture** in Nx, designed for f
 
     -   Browse available applications
 
--   [**My eDB**](https://app.eliasdebock.com/dashboard):
+-   [**My eDB**](https://app.eliasdebock.com):
 
     -   Dashboard to manage and launch subscribed applications
 
@@ -201,17 +201,17 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 **V1: Monolithic Platform App**
 
 The first model of the platform using a familiar monolithic approach.
-![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v5.png)
+![Frontend Setup Diagram](./docs/images/frontend/frontend-architecture_v5.png)
 
 **V2: Layered Modular Platform App and Admin App**
 
 This is a visual representation of the workspace dependency graph concerning the frontend as is right now. This is a more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. To learn more check out their [documentation](https://nx.dev/concepts/decisions). Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture.
-![Frontend Setup Diagram](./diagrams/images/frontend/frontend-architecture_v6.png)
+![Frontend Setup Diagram](./docs/images/frontend/frontend-architecture_v6.png)
 
 > **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
 
-![Nx dependency graph](./diagrams/images/docs/dep-graphv2.png)
-![Nx dependency graph](./diagrams/images/docs/dep-graphv3.png)
+![Nx dependency graph](./docs/images/docs/dep-graphv2.png)
+![Nx dependency graph](./docs/images/docs/dep-graphv3.png)
 
 ### 3.2 Backend
 
@@ -527,11 +527,11 @@ The **Admin API** handles administrative tasks, including user management, appli
 **V1: Monolithic Platform API**
 The first model of the platform using a familiar monolithic approach.
 
-![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v2.png)
+![Backend Setup Diagram](./docs/images/backend/backend-architecture_v2.png)
 
 **V2: Layered Modular Platform API and Admin API**
 This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
-![Backend Setup Diagram](./diagrams/images/backend/backend-architecture_v3.png)
+![Backend Setup Diagram](./docs/images/backend/backend-architecture_v3.png)
 
 ---
 
@@ -635,7 +635,7 @@ This command will:
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 Here is a diagram of the setup:
-![Development Setup Diagram](./diagrams/images/devops/dev/environment-setup.dev_v4.png)
+![Development Setup Diagram](./docs/images/devops/dev/environment-setup.dev_v4.png)
 
 ##### **[NEW] Nx development setup**
 
@@ -659,32 +659,32 @@ These are some of the tools I use when developing locally:
 
 You can find the Swagger API docs at: `http://localhost:5098/swagger/index.html`. Which gives you a nice overview of all endpoints, models and DTOs. You can also try out the endpoints here.
 
-![Swagger](./diagrams/images/docs/swagger2.png)
+![Swagger](./docs/images/docs/swagger2.png)
 
-![Swagger](./diagrams/images/docs/swagger.png)
+![Swagger](./docs/images/docs/swagger.png)
 
 ##### Postman
 
 I use Postman to test my endpoints in isolation. [Installation link](https://www.postman.com/downloads).
 
-![Storybook](./diagrams/images/docs/postman.png)
+![Storybook](./docs/images/docs/postman.png)
 
 ##### XUnit and Moq
 
 I use XUnit and Moq to do unit and integration testing.
-![Storybook](./diagrams/images/docs/postman.png)
+![Storybook](./docs/images/docs/postman.png)
 
 ##### Storybook
 
 You can find the Storybook overview by running: `nx storybook ui`. You will get a nice overview of all components at `http://localhost:4400/`.
 
-![Storybook](./diagrams/images/docs/storybook.png)
+![Storybook](./docs/images/docs/storybook.png)
 
 ##### Vitest
 
 I use Vitest to do unit and integration testing in frontend.
 
-![Storybook](./diagrams/images/docs/postman.png)
+![Storybook](./docs/images/docs/postman.png)
 
 ##### Prettier
 
@@ -700,12 +700,12 @@ I use ESLint to test my endpoints in isolation.
 
 These are the Dockerfiles used in production for my frontend and backend apps. The frontend Docker images just serve the built files provided by the pipeline. The backend still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this. Staging has a similar setup.
 
-![Production Dockerfiles](./diagrams/images/devops/prod/dockerfiles.prod_v2.png)
+![Production Dockerfiles](./docs/images/devops/prod/dockerfiles.prod_v2.png)
 
 #### 4.2.2 Architecture Diagram
 
 This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
-![Production Setup Diagram](./diagrams/images/devops/prod/environment-setup.prod_v2.png)
+![Production Setup Diagram](./docs/images/devops/prod/environment-setup.prod_v2.png)
 
 ## 5. CI/CD
 
@@ -719,7 +719,7 @@ Checkout dev branch and pull latest code. Create a feature-branch locally, make 
 
 When you open the PR, a pre-merge pipeline will attempt to lint, test and build only the affected code. It will also push Docker images to Docker Hub. When these checks pass, you can then safely merge to dev branch to automatically start deployment to staging.
 
-![Development Workflow](./diagrams/images/devops/staging/premerge-checks_v3.png)
+![Development Workflow](./docs/images/devops/staging/premerge-checks_v3.png)
 
 **Deploying to staging: post-merge deployment**
 
@@ -746,10 +746,10 @@ You can then click the button to merge to main branch. This will trigger the fin
 -   https://api.eliasdebock.com
 
 Below is a visual representation of all the pipelines running in the project.
-![Development Workflow](./diagrams/images/devops/cicd.png)
+![Development Workflow](./docs/images/devops/cicd.png)
 
 You can also see this run live on GitHub, under the Actions tab:
-![Staging Deployment Pipeline Github](./diagrams/images/devops/staging/postmerge-deployment-github.png)
+![Staging Deployment Pipeline Github](./docs/images/devops/staging/postmerge-deployment-github.png)
 
 ---
 
@@ -787,32 +787,32 @@ A **Virtual Private Server (VPS)** is a virtualized environment that provides de
 
 Under the 'Servers' tab you should find a button to add a server to your account. Let's go over the easy steps first needed to configure our server. It's pretty straight forward.
 
-![Adding server](./diagrams/images/docs/add-server.png)
+![Adding server](./docs/images/docs/add-server.png)
 
 You will need to set
 
 -   #### Location
 
     Location of server.
-    ![Location](./diagrams/images/docs/location.png)
+    ![Location](./docs/images/docs/location.png)
 
 -   #### Image OS:
 
     This project runs on Ubuntu.
-    ![ImageOS](./diagrams/images/docs/image.png)
+    ![ImageOS](./docs/images/docs/image.png)
 
 -   #### Type:
 
     I'm on shared ARM64 vCPUs.
-    ![Type](./diagrams/images/docs/type.png)
+    ![Type](./docs/images/docs/type.png)
 
 -   #### Networking:
 
-    ![Location](./diagrams/images/docs/networking.png)
+    ![Location](./docs/images/docs/networking.png)
 
 #### Step 2: Generating an SSH key
 
-![SSH](./diagrams/images/docs/ssh.png)
+![SSH](./docs/images/docs/ssh.png)
 
 Run following command on your machine:
 
@@ -833,7 +833,7 @@ To retrieve the public key:
 `cat /path/to/your/custom_key.pub`
 Copy the output to use in your cloud-config or in the setup of the server as seen below here.
 
-![SSH Key](./diagrams/images/docs/ssh-key.png)
+![SSH Key](./docs/images/docs/ssh-key.png)
 
 #### Step 4: Volumes
 
@@ -884,7 +884,7 @@ Jira provides different issue types to categorize work, each serving a unique pu
 
 #### Setting up a sprint
 
-![Frontend Setup Diagram](./diagrams/images/docs/jira_backlog.png)
+![Frontend Setup Diagram](./docs/images/docs/jira_backlog.png)
 
 **1. Prepare your backlog:**  
 Ensure that your backlog is prioritized and contains refined stories, tasks, and spikes linked to their respective epics.

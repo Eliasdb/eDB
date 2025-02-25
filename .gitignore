@@ -12,6 +12,8 @@ node_modules
 .env.*.local
 .env
 
+secret
+
 *-secrets.yaml
 *-config.yaml
 

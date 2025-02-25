@@ -14,7 +14,7 @@ import { AuthService } from '@eDB/client-auth';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
 
-import { Credentials, LoginResponse } from '../../types/auth.model';
+import { Credentials, LoginResponse } from '../../types/login.types';
 import { loginFormFields } from './login-form.config';
 
 @Component({
@@ -89,14 +89,13 @@ export class LoginFormComponent implements OnInit {
   loginForm: FormGroup = this.formUtils.createFormGroup(loginFormFields);
 
   fieldDefinitions = loginFormFields;
-  private returnUrl: string = '/dashboard';
+  private returnUrl: string = '/';
 
   loginMutation = this.authService.loginMutation();
   isLoading = this.loginMutation.isPending();
 
   ngOnInit(): void {
-    this.returnUrl =
-      this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   isFieldInvalid(controlName: string): boolean {
@@ -150,6 +149,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   navigateToRegister(): void {
-    this.router.navigate(['/auth/register']);
+    this.router.navigate(['register']);
   }
 }

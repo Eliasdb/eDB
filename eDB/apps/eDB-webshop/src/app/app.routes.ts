@@ -8,8 +8,4 @@ export const webshopRoutes: Route[] = [
         (m) => m.featureBookCatalogRoutes,
       ),
   },
-  {
-    path: '**',
-    redirectTo: 'not-found',
-  },
 ];

@@ -9,7 +9,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard',
+        path: '',
         loadChildren: () =>
           import(
             '@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */
@@ -31,12 +31,16 @@ export const routes: Route[] = [
       },
       {
         path: 'webshop',
-        loadChildren: () => import('@eDB-webshop').then((m) => m.WebshopModule),
+        loadChildren: () =>
+          import('@eDB-webshop' /* webpackChunkName: "webshop" */).then(
+            (m) => m.WebshopModule,
+          ),
       },
     ],
   },
   {
-    path: 'auth',
+    path: '',
+    canActivate: [LoginGuard],
     children: [
       {
         path: 'login',
@@ -44,7 +48,6 @@ export const routes: Route[] = [
           import('@eDB/feature-login' /* webpackChunkName: "login" */).then(
             (m) => m.featureLoginRoutes,
           ),
-        canActivate: [LoginGuard],
       },
       {
         path: 'register',
@@ -52,7 +55,6 @@ export const routes: Route[] = [
           import(
             '@eDB/feature-register' /* webpackChunkName: "register" */
           ).then((m) => m.featureRegisterRoutes),
-        canActivate: [LoginGuard],
       },
     ],
   },

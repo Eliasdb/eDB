@@ -1,4 +1,3 @@
-// shell-app/src/app/home.component.ts
 import { Component } from '@angular/core';
 import { UiDropdownComponent, UiSearchComponent } from '@eDB/shared-ui';
 import { SubscriptionsCollectionContainer } from './components/subscription-collection/subscription-collection.container';
@@ -10,21 +9,33 @@ import { SubscriptionsCollectionContainer } from './components/subscription-coll
     UiSearchComponent,
     UiDropdownComponent,
   ],
-  template: `<section class="home-page">
-    <section class="wrapper">
-      <section class="title">
-        <h1>My products</h1>
-      </section>
+  template: `
+    <section class="pt-32">
+      <div class="w-[80%] mx-auto flex flex-col gap-8">
+        <!-- Title Section -->
+        <section class="title">
+          <h1 class="text-4xl">My products</h1>
+        </section>
 
-      <section class="toolbar-container">
-        <ui-search></ui-search>
-        <ui-dropdown></ui-dropdown>
-      </section>
-      <section class="subscriptions-container">
-        <platform-subscription-collection></platform-subscription-collection>
-      </section>
+        <!-- Toolbar Container -->
+        <section
+          class="toolbar-container flex flex-col sm:flex-row sm:items-center gap-8 w-full"
+        >
+          <ui-search
+            class="w-full sm:basis-[calc(50%_-_1rem)] xl:basis-[calc(61.8%_-_1rem)]"
+          ></ui-search>
+          <ui-dropdown
+            class="w-full sm:basis-[calc(50%_-_1rem)] xl:basis-[calc(38.2%_-_1rem)]"
+          ></ui-dropdown>
+        </section>
+
+        <!-- Subscriptions Container -->
+        <section class="subscriptions-container">
+          <platform-subscription-collection></platform-subscription-collection>
+        </section>
+      </div>
     </section>
-  </section> `,
-  styleUrl: 'dashboard.page.scss',
+  `,
+  styleUrls: [],
 })
 export class DashboardPage {}

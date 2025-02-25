@@ -10,7 +10,7 @@ import { AuthService } from '@eDB/client-auth';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
 
-import { User } from '../../types/user.model';
+import { User } from '../../types/register.types';
 
 describe('RegisterFormComponent (Standalone)', () => {
   let fixture: any;
@@ -104,6 +104,7 @@ describe('RegisterFormComponent (Standalone)', () => {
       country: 'belgium',
       state: 'oost-vlaanderen',
       company: 'edb.com',
+      id: 0,
     };
 
     // Simulate success from mutate
@@ -144,6 +145,7 @@ describe('RegisterFormComponent (Standalone)', () => {
       country: 'belgium',
       state: 'oost-vlaanderen',
       company: 'edb.com',
+      id: 0,
     };
     const mockError = {
       error: { message: 'Registration failed' },

@@ -11,7 +11,7 @@ import { AuthService } from '@eDB/client-auth';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
 
-import { Credentials, LoginResponse } from '../../types/auth.model';
+import { Credentials, LoginResponse } from '../../types/login.types';
 
 describe('LoginFormComponent (Standalone)', () => {
   let component: LoginFormComponent;
@@ -140,7 +140,7 @@ describe('LoginFormComponent (Standalone)', () => {
     expect(mockAuthService.handleLogin).toHaveBeenCalledWith(
       mockResponse.token,
     );
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/dashboard');
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/');
     expect(mockNotificationService.showToast).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'success',
