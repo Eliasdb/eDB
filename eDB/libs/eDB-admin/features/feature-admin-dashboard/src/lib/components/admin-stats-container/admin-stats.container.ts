@@ -13,7 +13,7 @@ import { AdminStatsCardComponent } from '../admin-stats-card/admin-stats-card.co
   imports: [
     AdminStatsCardComponent,
     CommonModule,
-    BaseChartDirective,
+    // BaseChartDirective,
     MatCardModule,
   ],
   selector: 'admin-stats-container',

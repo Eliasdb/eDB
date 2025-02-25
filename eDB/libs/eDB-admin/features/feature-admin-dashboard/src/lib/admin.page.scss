@@ -1,5 +1,5 @@
 .admin-page {
-  height: 100vh;
+  min-height: 100dvh;
   padding: 4rem;
   padding-top: 8rem;
   overflow-y: auto;
@@ -10,8 +10,7 @@
 }
 
 .example-container {
-  width: 100vw;
-  height: calc(100vh - 16rem);
+  background: inherit !important;
 }
 
 mat-drawer {
