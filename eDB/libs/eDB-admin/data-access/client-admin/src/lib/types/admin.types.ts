@@ -47,3 +47,25 @@ export interface PaginatedResponse<T> {
   nextCursor: number | null; // Null if there are no more pages
   hasMore: boolean;
 }
+
+export interface AdminStats {
+  data: {
+    userCount: number;
+    bookCount: number;
+    loanedBooksCount: number;
+    totalsByGenre: number[];
+    userData: [
+      {
+        user: string;
+        posts: number;
+        comments: number;
+      },
+    ];
+    totalsByCity: [
+      {
+        city: string;
+        count: number;
+      },
+    ];
+  };
+}
