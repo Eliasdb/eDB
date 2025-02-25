@@ -3,7 +3,7 @@ import { computed, inject, Injectable } from '@angular/core';
 import { environment } from '@eDB/shared-env';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { firstValueFrom } from 'rxjs';
-import { SubscribedApplication } from './types/dashboard.model';
+import { SubscribedApplication } from './types/dashboard.types';
 
 @Injectable({
   providedIn: 'root',

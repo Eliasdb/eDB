@@ -8,7 +8,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '@eDB/shared-env';
-import { CatalogItem } from './types/catalog.model';
+import { CatalogItem } from './types/catalog.types';
 
 @Injectable({
   providedIn: 'root',

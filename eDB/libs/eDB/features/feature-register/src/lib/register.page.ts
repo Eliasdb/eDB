@@ -7,42 +7,57 @@ import { RegisterFormComponent } from './components/register-form/register-form.
   selector: 'platform-register-page',
   imports: [UiTitleComponent, RegisterFormComponent],
   template: `
-    <section class="register-form-page">
-      <div class="register-page-content-wrapper">
+    <section class="w-full">
+      <div
+        class="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-3rem)] overflow-x-hidden"
+      >
         <!-- Left Side -->
-        <section class="register-info-container">
-          <div class="left-titles">
-            <ui-title class="welcome-title" text="Welcome to eDB"></ui-title>
+        <section
+          class="flex-1 flex flex-col py-16 px-4 relative bg-[url('https://i.ibb.co/GfZXxRh/lol2.webp')] bg-cover bg-[position:100%_20%] bg-fixed"
+        >
+          <!-- Gradient Overlay -->
+          <div
+            class="absolute inset-0 bg-gradient-to-b from-white to-[rgba(167,228,254,0.69)] z-10"
+          ></div>
+          <div class="relative z-20 max-w-lg">
+            <ui-title
+              text="Welcome to eDB"
+              class="text-2xl font-bold"
+            ></ui-title>
             <ui-title
               text="Create an account to access trials, demos and services."
-              className="create-title"
+              class="mt-4 text-lg"
             ></ui-title>
           </div>
         </section>
 
         <!-- Right Side -->
-        <section class="register-form-container">
-          <div class="right-titles">
+        <section class="flex-1 flex flex-col p-4 lg:py-16 lg:px-4 bg-white">
+          <div class="mb-8">
             <ui-title
               text="Create an account"
-              className="create-title"
+              class="text-2xl font-bold"
             ></ui-title>
-            <p class="already-text">
+            <p class="mt-0 mb-6">
               Already have one?
-              <a (click)="navigateToLogin()">Log in</a>.
+              <a
+                (click)="navigateToLogin()"
+                class="text-[#0070c9] no-underline hover:underline cursor-pointer"
+              >
+                Log in </a
+              >.
             </p>
           </div>
-          <platform-portal-register-form> </platform-portal-register-form>
+          <platform-portal-register-form></platform-portal-register-form>
         </section>
       </div>
     </section>
   `,
-  styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
   private router = inject(Router);
 
   navigateToLogin(): void {
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['login']);
   }
 }

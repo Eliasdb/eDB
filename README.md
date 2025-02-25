@@ -135,7 +135,7 @@ The application follows a **Layered Modular Architecture** in Nx, designed for f
 
     -   Browse available applications
 
--   [**My eDB**](https://app.eliasdebock.com/dashboard):
+-   [**My eDB**](https://app.eliasdebock.com):
 
     -   Dashboard to manage and launch subscribed applications
 

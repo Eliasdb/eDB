@@ -1,18 +1,17 @@
+import { Component, inject } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   UiButtonComponent,
   UiPasswordInputComponent,
   UiTextInputComponent,
 } from '@eDB/shared-ui';
 
-import { Component, inject } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-
 import { AuthService } from '@eDB/client-auth';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
 
-import { User } from '../../types/user.model';
+import { User } from '../../types/register.types';
 import { registerFormFields } from './register-form.config';
 
 @Component({
@@ -23,14 +22,19 @@ import { registerFormFields } from './register-form.config';
     UiPasswordInputComponent,
     UiButtonComponent,
   ],
+  // Tailwind-refactored template
   template: `
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
+      <!-- Form Group: flex column, gap, responsive right padding and bottom padding -->
+      <div class="flex flex-col gap-4 pr-0 lg:pr-16 pb-20">
+        <!-- Iterate over rows -->
         @for (row of fieldRows; track row) {
-          <div class="form-row">
+          <!-- Form Row: default column on mobile, row on md+; with gap -->
+          <div class="flex flex-col md:flex-row gap-4">
             @for (field of row; track field?.controlName) {
               @if (field) {
-                <div class="form-column">
+                <!-- Form Column: flex-1 for equal width -->
+                <div class="flex-1">
                   @if (field.controlType === 'text') {
                     <ui-text-input
                       [formControlName]="field.controlName"
@@ -51,27 +55,29 @@ import { registerFormFields } from './register-form.config';
             }
           </div>
         }
-
-        <div class="form-row">
-          <div class="form-column">
+        <!-- Submit Button Row with margin-top to separate from fields -->
+        <div class="flex flex-col md:flex-row gap-4 mt-12">
+          <div class="flex-1">
             <ui-button
               type="submit"
               [isExpressive]="true"
               [disabled]="registerForm.invalid || isSubmitting"
               [fullWidth]="true"
               [loading]="isSubmitting"
+              class="mt-4"
             >
               {{ isSubmitting ? 'Registering...' : 'Register' }}
             </ui-button>
           </div>
-          <div class="form-column">
-            <!-- Empty column -->
+          <div class="flex-1">
+            <!-- Empty column for layout balance -->
           </div>
         </div>
       </div>
     </form>
   `,
-  styleUrls: ['./register-form.component.scss'],
+  // No external styles needed; all styles are now in Tailwind classes.
+  styleUrls: [],
 })
 export class RegisterFormComponent {
   private formUtils = inject(FormUtilsService);
@@ -79,10 +85,10 @@ export class RegisterFormComponent {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
 
-  // The fieldRows are kept for template iteration.
+  // Field configuration for template iteration.
   fieldRows = registerFormFields;
 
-  // Create the FormGroup inline, flattening and filtering the 2D array.
+  // Create the FormGroup by flattening and filtering out any null fields.
   registerForm: FormGroup = this.formUtils.createFormGroup(
     this.fieldRows
       .flat()
@@ -135,7 +141,7 @@ export class RegisterFormComponent {
       duration: 5000,
       smart: true,
     });
-    this.router.navigate(['auth/login']);
+    this.router.navigate(['login']);
     this.isSubmitting = false;
   }
 

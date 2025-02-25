@@ -33,7 +33,7 @@ export class LoginGuard implements CanActivate {
       map((isAuth) => {
         if (isAuth) {
           // If authenticated, redirect to dashboard
-          return this.router.createUrlTree(['/dashboard']);
+          return this.router.createUrlTree(['/']);
         } else {
           // If not authenticated, allow access to the route
           return true;
