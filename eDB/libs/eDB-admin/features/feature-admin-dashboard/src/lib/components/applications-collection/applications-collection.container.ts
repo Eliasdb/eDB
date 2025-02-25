@@ -1,5 +1,7 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   CustomModalService,
+  UiAccordionComponent,
   UiButtonComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
@@ -10,6 +12,7 @@ import {
   computed,
   effect,
   inject,
+  OnInit,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -20,6 +23,8 @@ import { TableUtilsService } from '@eDB/shared-utils';
 import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 import {
   Application,
   CreateApplicationDto,
@@ -37,16 +42,28 @@ import {
     UiButtonComponent,
     PlaceholderModule,
     UiPlatformOverflowMenuComponent,
+    CommonModule,
+    MatCardModule,
+    UiAccordionComponent,
   ],
   template: `
-    <ui-table
-      title="Applications"
-      description="Manage applications and their subscribers."
-      [model]="tableModel"
-      [showSelectionColumn]="false"
-      [showButton]="true"
-      (addApplication)="openAddApplicationModal()"
-    ></ui-table>
+    @if (isSmallScreen) {
+      <section class="mt-8">
+        <h3>Applications</h3>
+        <p>Manage applications and their subscribers.</p>
+        <ui-button size="sm">Add</ui-button>
+        <ui-accordion [items]="applications()" />
+      </section>
+    } @else {
+      <ui-table
+        title="Applications"
+        description="Manage applications and their subscribers."
+        [model]="tableModel"
+        [showSelectionColumn]="false"
+        [showButton]="true"
+        (addApplication)="openAddApplicationModal()"
+      ></ui-table>
+    }
 
     <ng-template #actionTemplate let-data="data">
       <ui-button
@@ -66,7 +83,10 @@ import {
     </ng-template>
   `,
 })
-export class ApplicationsCollectionContainer {
+export class ApplicationsCollectionContainer implements OnInit {
+  private breakpointObserver = inject(BreakpointObserver);
+  isSmallScreen = false;
+
   @ViewChild('actionTemplate', { static: true })
   actionTemplate!: TemplateRef<any>;
   @ViewChild('deleteTemplate', { static: true })
@@ -85,7 +105,7 @@ export class ApplicationsCollectionContainer {
   editApplicationMutation = this.adminService.editApplicationMutation();
   deleteApplicationMutation = this.adminService.deleteApplicationMutation();
   revokeSubscriptionMutation = this.adminService.revokeSubscriptionMutation();
-  private applications = computed(() => this.applicationsQuery.data() || []);
+  applications = computed(() => this.applicationsQuery.data() || []);
 
   constructor() {
     effect(() => {
@@ -96,6 +116,13 @@ export class ApplicationsCollectionContainer {
         this.clearTable();
       }
     });
+  }
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 768px)'])
+      .subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      });
   }
 
   // TABLE

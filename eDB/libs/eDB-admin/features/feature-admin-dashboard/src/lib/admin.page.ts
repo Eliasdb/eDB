@@ -7,7 +7,10 @@ import { CommonModule } from '@angular/common';
 import { Component, signal, Type, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { UiContentSwitcherComponent } from '@eDB/shared-ui';
+import {
+  UiAccordionComponent,
+  UiContentSwitcherComponent,
+} from '@eDB/shared-ui';
 import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
 import { AdminStatsContainer } from './components/admin-stats-container/admin-stats.container';
 
@@ -17,6 +20,7 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
     <section>
       <h1 class="text-3xl">Admin</h1>
     </section>
+    <ui-accordion />
     <admin-stats-container />
     <ui-content-switcher [options]="['Platform', 'Webshop']">
       <ng-container section1>
@@ -72,6 +76,7 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
     AdminSidebarComponent,
     CommonModule,
     AdminStatsContainer,
+    UiAccordionComponent,
   ],
   styleUrls: ['admin.page.scss'],
 })

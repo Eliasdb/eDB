@@ -1,3 +1,4 @@
+export { UiAccordionComponent } from './lib/components/accordion/accordion.component';
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';
