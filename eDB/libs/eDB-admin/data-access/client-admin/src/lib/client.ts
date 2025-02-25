@@ -1,18 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '@eDB/shared-env';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
+
 import {
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+
+import { environment } from '@eDB/shared-env';
+
 import {
   Application,
   CreateApplicationDto,
-} from './types/application-overview.model';
-import { PaginatedResponse } from './types/paged-result.model';
-import { UserProfile } from './types/user.model';
+  PaginatedResponse,
+  UserProfile,
+} from './types/admin.types';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +25,6 @@ export class AdminService {
   private queryClient = inject(QueryClient);
 
   // USER RELATED
-
   /**
    * Fetches users with given parameters.
    * @param cursor Cursor for pagination (represents the last User's sort field value).

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:web": "nx serve eDB --host 0.0.0.0",
+    "start:web": "nx serve eDB",
     "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
     "start:webshop": "nx serve eDB-webshop",
     "start:webshop-api": "nx serve webshop-api",

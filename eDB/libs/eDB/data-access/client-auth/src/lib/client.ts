@@ -9,8 +9,8 @@ import {
   Credentials,
   LoginResponse,
   RegisterResponse,
-} from './types/auth.model';
-import { User } from './types/user.model';
+  User,
+} from './types/auth.types';
 
 @Injectable({
   providedIn: 'root',

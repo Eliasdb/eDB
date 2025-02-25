@@ -21,7 +21,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (
         switch (error.status) {
           case 401:
             // For unauthorized errors, navigate to the login page.
-            router.navigateByUrl('/auth/login');
+            router.navigateByUrl('/login');
             break;
           case 404:
             // For 404, navigate to a not found page.

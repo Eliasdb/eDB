@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DashboardService } from '@eDB/client-dashboard';
 import { UiLaunchTileComponent } from '@eDB/shared-ui';
-import { SubscribedApplication } from 'libs/eDB/data-access/client-dashboard/src/lib/types/dashboard.model';
+import { SubscribedApplication } from '../../types/dashboard.types';
 
 @Component({
   selector: 'platform-subscription-collection',

@@ -42,7 +42,7 @@ import { ListItem, NotificationService } from 'carbon-components-angular';
       <section
         class="relative z-10 w-full max-w-[80rem] grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
       >
-        <section class="">
+        <section>
           <h3 class="mb-4">Catalog</h3>
           <ui-combobox label="Filter by tags." [items]="items"></ui-combobox>
         </section>
