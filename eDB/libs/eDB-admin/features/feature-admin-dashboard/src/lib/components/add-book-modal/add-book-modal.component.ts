@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Book } from '@eDB-webshop/shared-types';
@@ -11,10 +12,23 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
 
 @Component({
   selector: 'cart-dialog',
-  template: `<h2 mat-dialog-title>
-      Add book
-      <hr style="margin-top: 0.5rem;" />
-    </h2>
+
+  template: `
+    <section class="header">
+      <div class="flex justify-between items-center">
+        <h2 mat-dialog-title>Add book</h2>
+        <button
+          mat-icon-button
+          mat-dialog-close
+          aria-label="Close dialog"
+          class="flex items-center justify-center scale-[0.7] mr-4"
+        >
+          <mat-icon class="align-top">close</mat-icon>
+        </button>
+      </div>
+
+      <hr />
+    </section>
 
     <mat-dialog-content class="mat-typography">
       <form
@@ -89,7 +103,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
           <div class="btn-container">
             <button
               type="submit"
-              class="remove-item-btn"
+              class="remove-item-btn mt-8"
               [mat-dialog-close]="false"
               cdkFocusInitial
             >
@@ -106,11 +120,13 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
           value="available"
         />
       </form>
-    </mat-dialog-content> `,
+    </mat-dialog-content>
+  `,
   standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,
+    MatIconModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

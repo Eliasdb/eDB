@@ -28,7 +28,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
             <label for="title">Title</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control text-black"
               name="title"
               [(ngModel)]="book.title"
               placeholder="Harry Potter"
@@ -38,7 +38,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
             <label for="genre">Genre</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control text-black"
               name="genre"
               [(ngModel)]="book.genre"
               placeholder="e.g. fantasy, action, adventure..."
@@ -49,7 +49,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
             <label for="author">Author</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control text-black"
               name="author"
               [(ngModel)]="book.author"
               placeholder="J.R.R. Tolkien"
@@ -59,7 +59,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
             <label for="publishedDate">Published Date</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control text-black"
               name="publishedDate"
               [(ngModel)]="book.publishedDate"
               placeholder="2024"
@@ -71,7 +71,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
           <label for="photoUrl">Photo Url</label>
           <input
             type="text"
-            class="form-control"
+            class="form-control text-black"
             name="photoUrl"
             [(ngModel)]="book.photoUrl"
             placeholder="https://yoururl.com"
@@ -80,7 +80,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
           <textarea
             rows="5"
             type="text"
-            class="form-control"
+            class="form-control text-black"
             name="description"
             [(ngModel)]="book.description"
             placeholder="description"

@@ -4,7 +4,7 @@ import {
 } from './components';
 
 import { CommonModule } from '@angular/common';
-import { Component, signal, Type, ViewChild } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
@@ -80,13 +80,6 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
 export class AdminPage {
   currentView = signal<'books' | 'order-overview'>('books');
   @ViewChild('drawer') drawer!: MatDrawer;
-
-  // Optionally, if you still need to use a dynamic component outlet:
-  get drawerContent(): Type<any> | null {
-    return this.currentView() === 'books'
-      ? AdminStatsContainer
-      : AdminSidebarComponent;
-  }
 
   switchDrawerContent(newContent: 'books' | 'order-overview') {
     console.log(`Switching view to: ${newContent}`);
