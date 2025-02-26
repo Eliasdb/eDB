@@ -251,3 +251,7 @@ cds-skeleton-text p {
   width: 95%;
   margin: 0 auto;
 }
+
+button[ng-reflect-size] ui-icon fa-icon svg.svg-inline--fa {
+  vertical-align: 1em;
+}

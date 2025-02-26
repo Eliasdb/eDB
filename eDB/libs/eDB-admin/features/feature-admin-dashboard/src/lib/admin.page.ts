@@ -8,6 +8,7 @@ import { Component, signal, Type, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { UiContentSwitcherComponent } from '@eDB/shared-ui';
+import { AdminBooksCollectionContainer } from './components/admin-books/admin-books-collection-container/admin-books-collection.container';
 import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
 import { AdminStatsContainer } from './components/admin-stats-container/admin-stats.container';
 
@@ -50,9 +51,9 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
           <mat-drawer-content>
             <div class="content">
               <ng-container [ngSwitch]="currentView()">
-                <platform-admin-users-collection
+                <admin-books-collection-container
                   *ngSwitchCase="'books'"
-                ></platform-admin-users-collection>
+                ></admin-books-collection-container>
                 <platform-admin-applications-collection
                   *ngSwitchCase="'order-overview'"
                 ></platform-admin-applications-collection>
@@ -72,6 +73,7 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
     AdminSidebarComponent,
     CommonModule,
     AdminStatsContainer,
+    AdminBooksCollectionContainer,
   ],
   styleUrls: ['admin.page.scss'],
 })

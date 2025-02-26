@@ -71,7 +71,7 @@
       "@eDB/shared-ui": ["libs/shared/ui/src/index"],
       "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
       "@eDB-webshop/util-book-params": [
-        "libs/eDB-webshop/shared/utils/util-book-params/src/index.ts"
+        "libs/shared/utils/util-book-params/src/index.ts"
       ],
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
