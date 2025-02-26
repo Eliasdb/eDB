@@ -1,167 +1,160 @@
-// import { CommonModule } from '@angular/common';
-// import { Component, inject } from '@angular/core';
-// import {
-//   MatBottomSheet,
-//   MatBottomSheetModule,
-// } from '@angular/material/bottom-sheet';
-// import { MatButtonModule } from '@angular/material/button';
-// import { MatIconModule } from '@angular/material/icon';
-// import { MatToolbarModule } from '@angular/material/toolbar';
-// import {
-//   BookParamService,
-//   SORT_QUERY_PARAM,
-// } from '@eDB-webshop/util-book-params';
-// import { AdminService } from '@eDB/client-admin';
-// import { filterSuccessResult } from '@ngneat/query';
-// import { combineLatest, map, shareReplay, switchMap, take } from 'rxjs';
-// import { BottomSheetComponent } from '../../bottom-sheet/bottom-sheet.component';
-// import { Book } from '../../../types/book.types';
-// import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection-overview/admin-books-collection-overview.component';
-// @Component({
-//   standalone: true,
-//   imports: [
-//     AdminBooksCollectionOverviewComponent,
-//     MatToolbarModule,
-//     MatIconModule,
-//     MatButtonModule,
-//     MatBottomSheetModule,
-//     CommonModule,
-//   ],
-//   selector: 'admin-books-collection-container',
-//   template: ` <section class="collection-container">
-//     @if (booksResults$ | async; as result) {
-//       @if (result.isSuccess) {
-//         <admin-books-collection-overview
-//           (sortAsc)="sortById($event)"
-//           (sortDesc)="sortById($event)"
-//           [books]="(books$ | async) || []"
-//           (checkedState)="setCheckedState($event)"
-//           (mainCheckedState)="setMainCheckedState($event)"
-//           (itemSelected)="onItemSelected($event)"
-//           (allItemSelected)="onAllItemSelected($event)"
-//           (openSheet)="openBottomSheet()"
-//         />
-//       }
-//     }
-//   </section>`,
-//   styleUrls: ['./admin-books-collection.container.scss'],
-// })
-// export class AdminBooksCollectionContainer {
-//   private _bottomSheet = inject(MatBottomSheet);
-//   private adminService = inject(AdminService);
-//   private bookParamService = inject(BookParamService);
+import { CommonModule } from '@angular/common';
+import { Component, computed, effect, inject } from '@angular/core';
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+} from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {
+  BookParamService,
+  SORT_QUERY_PARAM,
+} from '@eDB-webshop/util-book-params';
+import { AdminService } from '@eDB/client-admin';
+import { take } from 'rxjs';
+import { Book } from '../../../types/book.types';
+import { BottomSheetComponent } from '../../bottom-sheet/bottom-sheet.component';
+import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection-overview/admin-books-collection-overview.component';
+@Component({
+  standalone: true,
+  imports: [
+    AdminBooksCollectionOverviewComponent,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatBottomSheetModule,
+    CommonModule,
+  ],
+  selector: 'admin-books-collection-container',
+  template: ` <section class="text-black py-8">
+    @if (booksQuery(); as result) {
+      @if (result?.data) {
+        <admin-books-collection-overview
+          [books]="books()"
+          (sortAsc)="sortById($event)"
+          (sortDesc)="sortById($event)"
+          (checkedState)="setCheckedState($event)"
+          (mainCheckedState)="setMainCheckedState($event)"
+          (itemSelected)="onItemSelected($event)"
+          (allItemSelected)="onAllItemSelected($event)"
+          (openSheet)="openBottomSheet()"
+        />
+      }
+    }
+  </section>`,
+})
+export class AdminBooksCollectionContainer {
+  private _bottomSheet = inject(MatBottomSheet);
+  private adminService = inject(AdminService);
+  private bookParamService = inject(BookParamService);
 
-//   // protected books = inject(BooksService).getAdminBooks();
-//   protected author$ = this.bookParamService.author$;
-//   protected genre$ = this.bookParamService.genre$;
-//   protected query$ = this.bookParamService.query$;
-//   protected status$ = this.bookParamService.status$;
-//   protected sort$ = this.bookParamService.sort$;
+  protected author = this.bookParamService.authorSignal;
+  protected genre = this.bookParamService.genreSignal;
+  protected query = this.bookParamService.querySignal;
+  protected status = this.bookParamService.statusSignal;
+  protected sort = this.bookParamService.sortSignal;
 
-//   public showList: boolean = false;
-//   public isSheetClosed$ = this.adminService.isSheetClosed$;
-//   selectedBooks$ = this.adminService.selectedBooks$;
-//   isChecked$ = this.adminService.isChecked$;
-//   isMainChecked$ = this.adminService.isMainChecked$;
-//   selection = this.adminService.selection;
+  public showList: boolean = false;
+  public isSheetClosed$ = this.adminService.isSheetClosed$;
+  selectedBooks$ = this.adminService.selectedBooks$;
+  isChecked$ = this.adminService.isChecked$;
+  isMainChecked$ = this.adminService.isMainChecked$;
+  selection = this.adminService.selection;
 
-//   protected booksResults$ = combineLatest([
-//     this.query$,
-//     this.author$,
-//     this.genre$,
-//     this.status$,
-//     this.sort$,
-//     // whenever these change value, it will start a call
-//   ]).pipe(
-//     switchMap(
-//       ([search, author, genre, status, sort]) =>
-//         this.adminService.queryAdminBooks({
-//           search,
-//           author,
-//           genre,
-//           status,
-//           sort,
-//         }).result$,
-//     ),
-//     shareReplay({ bufferSize: 1, refCount: false }),
-//   );
+  private updateEffect = effect(() => {
+    const search = this.query();
+    const author = this.author();
+    const genre = this.genre();
+    const status = this.status();
+    const sort = this.sort();
 
-//   protected totalBooksCount$ = this.booksResults$.pipe(
-//     filterSuccessResult(),
-//     map((res) => res.data.data.count),
-//   );
+    this.adminService.updateQueryAdminBooks({
+      search,
+      author,
+      genre,
+      status,
+      sort,
+    });
+  });
 
-//   protected books$ = this.booksResults$.pipe(
-//     // don't need to subscribe because async pipe does it
-//     filterSuccessResult(),
-//     map((res) => res.data?.data.items),
-//   );
+  protected booksQuery = computed(() => this.adminService.queryAdminBooks);
 
-//   protected sortById(sort: string) {
-//     this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
-//   }
+  protected totalBooksCount = computed(() => {
+    const result = this.booksQuery().data();
+    return result ? result.data.count : 0;
+  });
 
-//   protected setCheckedState(state: boolean) {
-//     this.isChecked$.pipe(take(1)).subscribe(() => {
-//       this.isChecked$.next(state);
-//     });
-//   }
+  protected books = computed(() => {
+    const result = this.booksQuery().data();
+    return result ? result.data.items : [];
+  });
 
-//   protected setMainCheckedState(state: boolean) {
-//     this.isMainChecked$.pipe(take(1)).subscribe(() => {
-//       this.isMainChecked$.next(state);
-//     });
-//   }
+  protected sortById(sort: string) {
+    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
+  }
 
-//   protected onItemSelected(selected: Book) {
-//     if (this.isChecked$.value === true) {
-//       this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
-//         this.selectedBooks$.next([...selectedBooks, selected]);
-//       });
-//     }
+  protected setCheckedState(state: boolean) {
+    this.isChecked$.pipe(take(1)).subscribe(() => {
+      this.isChecked$.next(state);
+    });
+  }
 
-//     if (this.isChecked$.value === false) {
-//       this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
-//         const selectedId: number = selected.id || 0;
-//         const selectedArray: number[] | undefined = [];
-//         selectedArray.push(selectedId);
+  protected setMainCheckedState(state: boolean) {
+    this.isMainChecked$.pipe(take(1)).subscribe(() => {
+      this.isMainChecked$.next(state);
+    });
+  }
 
-//         if (selectedBooks) {
-//           const filteredItems = selectedBooks.filter(
-//             ({ id }: Book) => !selectedArray?.includes(id || 0),
-//           );
-//           this.selectedBooks$.next(filteredItems);
-//         }
-//       });
+  protected onItemSelected(selected: Book) {
+    if (this.isChecked$.value === true) {
+      this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
+        this.selectedBooks$.next([...selectedBooks, selected]);
+      });
+    }
 
-//       // this.isSheetClosed$.next(true);
-//     }
-//   }
+    if (this.isChecked$.value === false) {
+      this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
+        const selectedId: number = selected.id || 0;
+        const selectedArray: number[] | undefined = [];
+        selectedArray.push(selectedId);
 
-//   protected onAllItemSelected(selected: Book[]) {
-//     if (this.isMainChecked$.value === true) {
-//       this.selectedBooks$.pipe(take(1)).subscribe(() => {
-//         this.selectedBooks$.next(selected);
-//       });
-//     }
+        if (selectedBooks) {
+          const filteredItems = selectedBooks.filter(
+            ({ id }: Book) => !selectedArray?.includes(id || 0),
+          );
+          this.selectedBooks$.next(filteredItems);
+        }
+      });
 
-//     if (this.isMainChecked$.value === false) {
-//       this.selectedBooks$.pipe(take(1)).subscribe(() => {
-//         this.selectedBooks$.next([]);
-//       });
-//       this.selection.clear();
-//       this._bottomSheet.dismiss(BottomSheetComponent);
-//       this.isSheetClosed$.next(true);
-//     }
-//   }
+      // this.isSheetClosed$.next(true);
+    }
+  }
 
-//   protected openBottomSheet(): void {
-//     if (this.isSheetClosed$.getValue() === true) {
-//       this._bottomSheet.open(BottomSheetComponent, {
-//         hasBackdrop: false,
-//         restoreFocus: false,
-//       });
-//       this.isSheetClosed$.next(false);
-//     }
-//   }
-// }
+  protected onAllItemSelected(selected: Book[]) {
+    if (this.isMainChecked$.value === true) {
+      this.selectedBooks$.pipe(take(1)).subscribe(() => {
+        this.selectedBooks$.next(selected);
+      });
+    }
+
+    if (this.isMainChecked$.value === false) {
+      this.selectedBooks$.pipe(take(1)).subscribe(() => {
+        this.selectedBooks$.next([]);
+      });
+      this.selection.clear();
+      this._bottomSheet.dismiss(BottomSheetComponent);
+      this.isSheetClosed$.next(true);
+    }
+  }
+
+  protected openBottomSheet(): void {
+    if (this.isSheetClosed$.getValue() === true) {
+      this._bottomSheet.open(BottomSheetComponent, {
+        hasBackdrop: false,
+        restoreFocus: false,
+      });
+      this.isSheetClosed$.next(false);
+    }
+  }
+}

@@ -1,14 +1,22 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, lastValueFrom, map } from 'rxjs';
-
+import {
+  AUTHORS_QUERY_PARAM,
+  BookQueryParams,
+  GENRE_QUERY_PARAM,
+  SEARCH_QUERY_PARAM,
+  SORT_QUERY_PARAM,
+  STATUS_QUERY_PARAM,
+} from '@eDB-webshop/util-book-params';
 import {
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
+import { BehaviorSubject, firstValueFrom, lastValueFrom, map } from 'rxjs';
 
+import { RawApiDataBooks } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
 
 import {
@@ -228,12 +236,40 @@ export class AdminService {
   selectedBooks$ = new BehaviorSubject<Book[]>([]);
   selection = new SelectionModel<Book>(true, []);
   isSheetClosed$ = new BehaviorSubject<boolean>(true);
+  isChecked$ = new BehaviorSubject<boolean>(false);
+  isMainChecked$ = new BehaviorSubject<boolean>(false);
+
+  addBook() {
+    return injectMutation(() => ({
+      mutationFn: async (book: Book) => {
+        return firstValueFrom(
+          this.http.post<Book>(`${environment.bookAPIUrl}/books`, book),
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({ queryKey: ['ADMIN_BOOKS'] });
+      },
+    }));
+  }
+
+  editBook() {
+    return injectMutation(() => ({
+      mutationFn: async (book: Book) => {
+        return firstValueFrom(
+          this.http.put(`${environment.bookAPIUrl}/books/${book.id}`, book),
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({ queryKey: ['ADMIN_BOOKS'] });
+      },
+    }));
+  }
 
   deleteBook() {
     return injectMutation(() => ({
-      mutationFn: async (id: number) => {
+      mutationFn: async (bookId: number) => {
         return firstValueFrom(
-          this.http.delete<Book>(`${environment.bookAPIUrl}/books/${id}`),
+          this.http.delete<Book>(`${environment.bookAPIUrl}/books/${bookId}`),
         );
       },
       onSuccess: () => {
@@ -255,4 +291,56 @@ export class AdminService {
     refetchOnWindowFocus: false,
     refetchOnMount: true,
   }));
+
+  private queryParams = signal<Partial<BookQueryParams>>({});
+
+  // Create your query, which uses the queryParams signal.
+  queryAdminBooks = injectQuery<RawApiDataBooks, Error>(() => {
+    const paramsSignal = this.queryParams();
+    let params = new HttpParams();
+    if (paramsSignal.genre && paramsSignal.genre !== '') {
+      params = params.set('genre', paramsSignal.genre as string);
+    }
+    if (paramsSignal.search && paramsSignal.search !== '') {
+      params = params.set('q', paramsSignal.search as string);
+    }
+    if (paramsSignal.author && paramsSignal.author !== '') {
+      params = params.set('author', paramsSignal.author as string);
+    }
+    if (paramsSignal.sort && paramsSignal.sort !== '') {
+      console.log(paramsSignal);
+      console.log(params);
+
+      params = params.set('sort', paramsSignal.sort as string);
+    }
+    if (paramsSignal.genre === 'all') {
+      params = params.set('genre', '');
+    }
+    return {
+      queryKey: [
+        'ADMIN_BOOKS',
+        paramsSignal[AUTHORS_QUERY_PARAM],
+        paramsSignal[GENRE_QUERY_PARAM],
+        paramsSignal[SEARCH_QUERY_PARAM],
+        paramsSignal[STATUS_QUERY_PARAM],
+        paramsSignal[SORT_QUERY_PARAM],
+      ] as const,
+      queryFn: async () => {
+        return await firstValueFrom(
+          this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
+            params,
+          }),
+        );
+      },
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+    };
+  });
+
+  // Method to update the query parameters.
+  updateQueryAdminBooks(newParams: Partial<BookQueryParams>) {
+    this.queryParams.set(newParams);
+    // Optionally return the query result if needed:
+    return this.queryAdminBooks;
+  }
 }

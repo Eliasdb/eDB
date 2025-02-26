@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
+  input,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { sortArray, sortValues } from '@eDB-webshop/shared-data';
+import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
 
 @Component({
   standalone: true,
@@ -18,7 +19,7 @@ import { sortArray, sortValues } from '@eDB-webshop/shared-data';
       <div class="btn-container">
         <button
           type="button"
-          class="{{ showList === false ? 'grid-btn active' : 'grid-btn' }}"
+          class="{{ showList() === false ? 'grid-btn active' : 'grid-btn' }}"
           (click)="toggleShow(false)"
         >
           <svg
@@ -38,7 +39,7 @@ import { sortArray, sortValues } from '@eDB-webshop/shared-data';
         <button
           (click)="toggleShow(true)"
           type="button"
-          class="{{ showList === true ? 'list-btn active' : 'list-btn' }}"
+          class="{{ showList() === true ? 'list-btn active' : 'list-btn' }}"
         >
           <svg
             stroke="currentColor"
@@ -57,7 +58,7 @@ import { sortArray, sortValues } from '@eDB-webshop/shared-data';
         </button>
       </div>
       <p class="book-count">
-        {{ bookCount }} {{ bookCount === 1 ? 'book' : 'books' }} found
+        {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
       </p>
       <hr />
 
@@ -74,7 +75,7 @@ import { sortArray, sortValues } from '@eDB-webshop/shared-data';
             *ngFor="let sort of sortByOrder"
             [value]="sortByMap[sort].key"
             class="status-option"
-            [selected]="selectedValue === sortByMap[sort].key"
+            [selected]="selectedValue() === sortByMap[sort].key"
           >
             {{ sortByMap[sort].label }}
           </option>
@@ -85,47 +86,16 @@ import { sortArray, sortValues } from '@eDB-webshop/shared-data';
   styleUrls: ['./books-sort-bar.component.scss'],
 })
 export class BooksSortBarComponent {
-  @Input() showList: boolean | undefined;
-  @Input() bookCount?: number;
-  @Input() selectedSort = 'author,asc';
+  sortByMap = SORT_BY_MAP;
+  sortByOrder = SORT_BY_ORDER;
+
+  showList = input<boolean>();
+  bookCount = input<number>();
+  selectedSort = input<string>('author,asc');
+
+  selectedValue = computed(() => this.selectedSort());
+
   sortArray: sortValues[] = sortArray;
-  selectedValue: string = '';
-
-  sortByMap: Record<string, { label: string; key: string }> = {
-    ['title-asc']: {
-      label: 'title (a-z)',
-      key: 'title,asc',
-    },
-    ['title-desc']: {
-      label: 'title (z-a)',
-      key: 'title,desc',
-    },
-    ['author-asc']: {
-      label: 'author (a-z)',
-      key: 'author,asc',
-    },
-    ['auth-desc']: {
-      label: 'author (z-a)',
-      key: 'author,desc',
-    },
-    ['published-desc']: {
-      label: 'year (newest)',
-      key: 'published_date,desc',
-    },
-    ['published-asc']: {
-      label: 'year (oldest)',
-      key: 'published_date,asc',
-    },
-  };
-
-  sortByOrder = [
-    'title-asc',
-    'title-desc',
-    'author-asc',
-    'auth-desc',
-    'published-desc',
-    'published-asc',
-  ];
 
   @Output() clickEvent = new EventEmitter<boolean>();
   @Output() sort = new EventEmitter<string>();
@@ -135,14 +105,8 @@ export class BooksSortBarComponent {
   }
 
   selectSort(event: Event) {
-    this.selectedValue = (event.target as HTMLSelectElement).value;
+    const value = (event.target as HTMLSelectElement).value;
 
-    this.sort.emit(this.selectedValue);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['selectedSort']) {
-      this.selectedValue = this.selectedSort;
-    }
+    this.sort.emit(value);
   }
 }

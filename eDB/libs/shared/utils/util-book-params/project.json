@@ -1,7 +1,7 @@
 {
   "name": "util-book-params",
-  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/eDB-webshop/shared/utils/util-book-params/src",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/utils/util-book-params/src",
   "prefix": "lib",
   "projectType": "library",
   "tags": [],
