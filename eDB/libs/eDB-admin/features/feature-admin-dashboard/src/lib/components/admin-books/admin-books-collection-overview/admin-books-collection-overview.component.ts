@@ -117,7 +117,9 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
-              <mat-icon (click)="openEditBookDialog(row)">edit</mat-icon>
+              <div class="flex justify-center">
+                <mat-icon (click)="openEditBookDialog(row)">edit</mat-icon>
+              </div>
             </td>
           </ng-container>
 
@@ -146,8 +148,6 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
   readonly books = input<Book[]>();
 
   selection = this.adminService.selection;
-  selectedBooks$ = this.adminService.selectedBooks$;
-  dataSource: MatTableDataSource<Book> | undefined;
 
   book?: Book;
 
@@ -200,7 +200,6 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
 
   selectItem(book: Book | undefined) {
     this.itemSelected.emit(book);
-    if (book) book = this.book;
     this.openSheet.emit();
   }
 
@@ -218,7 +217,13 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
   }
 
   openAddBookDialog() {
-    const dialogRef = this.dialog.open(AddBookDialog);
+    const dialogRef = this.dialog.open(AddBookDialog, {
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      panelClass: 'full-screen-dialog',
+      autoFocus: false,
+    });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
@@ -235,6 +240,7 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
         photoUrl: row.photoUrl,
         description: row.description,
       },
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
@@ -254,7 +260,9 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
       this.selection.clear();
       return;
     }
-    if (this.dataSource) this.selection.select(...this.dataSource.data);
+    if (this.dataSource) {
+      this.selection.select(...this.dataSource.data);
+    }
   }
 
   /** The label for the checkbox on the passed row */
@@ -262,10 +270,10 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id
-    }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
   }
+
+  dataSource: MatTableDataSource<Book> | undefined;
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Book>(this.books());
