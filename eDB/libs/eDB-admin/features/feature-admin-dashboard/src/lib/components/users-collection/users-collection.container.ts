@@ -34,9 +34,11 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { PaginatedResponse } from '../../types/paged-result.model';
 import { SortEvent } from '../../types/sort-event.model';
 import { UserProfile } from '../../types/user.model';
+import { UsersCollectionAccordionComponent } from '../users-collection-mobile-accordion/users-collection-mobile-accordion';
 import {
   MODAL_CONFIG,
   USER_ROW_MAPPER_CONFIG,
@@ -50,19 +52,31 @@ import {
     UiTableComponent,
     UiLoadingSpinnerComponent,
     UiPlatformOverflowMenuComponent,
+    UsersCollectionAccordionComponent,
   ],
   template: `
-    @if (model$ | async; as model) {
-      <ui-table
-        title="User Management"
-        description="Manage platform users with pagination and sorting."
-        [model]="model"
-        [sortable]="true"
-        [showToolbar]="true"
-        [searchTerm]="searchTerm"
-        (searchChanged)="onSearchChanged($event)"
-        (sortChanged)="onSortChanged($event)"
-      ></ui-table>
+    @if (isSmallScreen) {
+      <section class="mx-4 mt-8 text-black">
+        <h3>Users</h3>
+        <p>Manage platform users with pagination, search and sorting.</p>
+        <platform-users-accordion
+          [users]="(users$ | async) || []"
+          (viewMoreId)="onViewMoreEvent($event)"
+        ></platform-users-accordion>
+      </section>
+    } @else {
+      @if (model$ | async; as model) {
+        <ui-table
+          title="User Management"
+          description="Manage platform users with pagination, search and sorting."
+          [model]="model"
+          [sortable]="true"
+          [showToolbar]="true"
+          [searchTerm]="searchTerm"
+          (searchChanged)="onSearchChanged($event)"
+          (sortChanged)="onSortChanged($event)"
+        ></ui-table>
+      }
     }
 
     <ng-template #actionsTemplate let-data="data">
@@ -99,6 +113,8 @@ import {
   styleUrls: ['users-collection.container.scss'],
 })
 export class UsersCollectionContainer implements OnInit, OnDestroy {
+  private breakpointObserver = inject(BreakpointObserver);
+  isSmallScreen = false;
   @ViewChild('actionsTemplate', { static: true })
   actionsTemplate!: TemplateRef<any>;
 
@@ -120,6 +136,10 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   private tableUtilsService = inject(TableUtilsService);
   private router = inject(Router);
 
+  onViewMoreEvent(id: number): void {
+    this.router.navigate(['/users', id]);
+  }
+
   private searchParam = toSignal(this.usersParamsService.query$, {
     initialValue: '',
   });
@@ -137,6 +157,12 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
     this.observeSortChanges();
     this.observeSearchChanges();
     this.observeLoader();
+
+    this.breakpointObserver
+      .observe(['(max-width: 768px)'])
+      .subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      });
   }
 
   ngOnDestroy(): void {

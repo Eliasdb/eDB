@@ -1,7 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   CustomModalService,
-  UiAccordionComponent,
   UiButtonComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
@@ -29,6 +28,7 @@ import {
   Application,
   CreateApplicationDto,
 } from '../../types/application-overview.model';
+import { ApplicationsCollectionAccordionComponent } from '../applications-collection-mobile-accordion/applications-collection-mobile-accordion';
 import {
   APPLICATION_TABLE_CONFIG,
   MODAL_CONFIG,
@@ -44,15 +44,24 @@ import {
     UiPlatformOverflowMenuComponent,
     CommonModule,
     MatCardModule,
-    UiAccordionComponent,
+    ApplicationsCollectionAccordionComponent,
   ],
   template: `
     @if (isSmallScreen) {
-      <section class="mt-8">
+      <section class="mx-4 mt-8 text-black">
         <h3>Applications</h3>
         <p>Manage applications and their subscribers.</p>
-        <ui-button size="sm">Add</ui-button>
-        <ui-accordion [items]="applications()" />
+        <ui-button
+          size="sm"
+          class="mb-4"
+          (buttonClick)="openAddApplicationModal()"
+          >Add</ui-button
+        >
+        <platform-applications-accordion
+          (deleteApplication)="onMobileDelete($event)"
+          (editApplication)="onMobileEdit($event)"
+          [items]="applications()"
+        />
       </section>
     } @else {
       <ui-table
@@ -140,6 +149,16 @@ export class ApplicationsCollectionContainer implements OnInit {
 
   clearTable() {
     this.tableModel.data = [];
+  }
+
+  onMobileEdit(application: Application): void {
+    this.router.navigateByUrl(this.router.url, { replaceUrl: true });
+    this.openEditApplicationModal(application);
+  }
+
+  onMobileDelete(application: Application): void {
+    this.router.navigateByUrl(this.router.url, { replaceUrl: true });
+    this.openDeleteConfirmationModal(application);
   }
 
   onMenuOptionSelected(
