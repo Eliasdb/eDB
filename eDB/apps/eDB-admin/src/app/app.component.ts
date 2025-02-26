@@ -5,6 +5,5 @@ import { ShellComponent } from '@eDB/feature-shell';
   selector: 'app-root',
   template: `<app-shell></app-shell>`,
   imports: [ShellComponent],
-  styleUrls: ['app.component.scss'],
 })
 export class AppComponent {}
