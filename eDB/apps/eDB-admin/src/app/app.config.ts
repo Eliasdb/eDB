@@ -3,11 +3,7 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import {
-  ApplicationConfig,
-  importProvidersFrom,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 // import AddIcon from '@carbon/icons/es/add/16';
 
@@ -18,8 +14,6 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
-import { MatTableModule } from '@angular/material/table';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   ExperimentalService,
   ModalService,
@@ -35,8 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
-    provideAnimations(),
-    importProvidersFrom(MatTableModule),
+
     NotificationService,
     ModalService,
     ExperimentalService,
