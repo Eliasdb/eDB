@@ -7,10 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Component, signal, Type, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import {
-  UiAccordionComponent,
-  UiContentSwitcherComponent,
-} from '@eDB/shared-ui';
+import { UiContentSwitcherComponent } from '@eDB/shared-ui';
 import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
 import { AdminStatsContainer } from './components/admin-stats-container/admin-stats.container';
 
@@ -20,7 +17,6 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
     <section>
       <h1 class="text-3xl">Admin</h1>
     </section>
-    <ui-accordion />
     <admin-stats-container />
     <ui-content-switcher [options]="['Platform', 'Webshop']">
       <ng-container section1>
@@ -47,10 +43,10 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
           </div>
         </nav>
         <mat-drawer-container class="example-container">
-          <mat-drawer #drawer [mode]="mode.value"
+          <mat-drawer #drawer [mode]="mode.value" [autoFocus]="false"
             ><admin-sidebar (itemSelected)="switchDrawerContent($event)"
           /></mat-drawer>
-          <mat-select #mode value="side" />
+          <mat-select #mode value="push" />
           <mat-drawer-content>
             <div class="content">
               <ng-container [ngSwitch]="currentView()">
@@ -76,7 +72,6 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
     AdminSidebarComponent,
     CommonModule,
     AdminStatsContainer,
-    UiAccordionComponent,
   ],
   styleUrls: ['admin.page.scss'],
 })

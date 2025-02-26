@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
+import { UiButtonComponent } from '@eDB/shared-ui';
 import { AccordionModule } from 'carbon-components-angular/accordion';
-import { UiButtonComponent } from '../buttons/button/button.component';
 
 export interface SubscribedUserDto {
   userName: string;
@@ -23,7 +23,7 @@ interface Application {
 }
 
 @Component({
-  selector: 'ui-accordion',
+  selector: 'platform-applications-accordion',
   standalone: true,
   imports: [CommonModule, AccordionModule, UiButtonComponent],
   template: `
@@ -44,19 +44,33 @@ interface Application {
             </div>
           </section>
           <section class="flex gap-2">
-            <ui-button variant="tertiary" size="sm">Edit</ui-button>
-            <ui-button variant="danger" size="sm">Delete</ui-button>
+            <ui-button variant="tertiary" size="sm" (buttonClick)="onEdit(item)"
+              >Edit</ui-button
+            >
+            <ui-button variant="danger" size="sm" (buttonClick)="onDelete(item)"
+              >Delete</ui-button
+            >
           </section>
         </cds-accordion-item>
       }
     </cds-accordion>
   `,
 })
-export class UiAccordionComponent {
+export class ApplicationsCollectionAccordionComponent {
   readonly align = input<'start' | 'end'>('start');
   readonly size = input<'sm' | 'md' | 'lg'>('md');
   readonly items = input<Application[]>([]);
 
+  @Output() editApplication = new EventEmitter<Application>();
+  @Output() deleteApplication = new EventEmitter<Application>();
+
+  onEdit(app: Application): void {
+    this.editApplication.emit(app);
+  }
+
+  onDelete(app: Application): void {
+    this.deleteApplication.emit(app);
+  }
   onSelected(event: any): void {
     console.log('Accordion item selected:', event);
   }
