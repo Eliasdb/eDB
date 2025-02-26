@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AdminService } from '@eDB/client-admin';
-import { take } from 'rxjs';
 import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
 
 @Component({
@@ -22,12 +21,12 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
     <mat-toolbar>
       <div class="selected-books">
         <p class="items-selected">
-          {{ this.selectedBooks$.getValue().length }} books selected
+          {{ adminService.selectedBooks().length }} books selected
         </p>
         <span>|</span>
-        <a mat-raised-button (click)="clearSelection()" class="clear-btn"
-          >Clear</a
-        >
+        <a mat-raised-button (click)="clearSelection()" class="clear-btn">
+          Clear
+        </a>
       </div>
 
       <span class="example-spacer"></span>
@@ -50,37 +49,40 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
   styleUrls: ['./bottom-sheet.component.scss'],
 })
 export class BottomSheetComponent {
-  private adminService = inject(AdminService);
+  adminService = inject(AdminService);
   private snackBar = inject(MatSnackBar);
+  private _bottomSheet = inject(MatBottomSheet);
 
-  selectedBooks$ = this.adminService.selectedBooks$;
+  // The service now holds signals for selectedBooks, isSheetClosed, etc.
+  // The selection remains in the service as before.
+
+  selectedBooks = this.adminService.selectedBooks;
   selection = this.adminService.selection;
   deleteBook = this.adminService.deleteBook();
 
-  private _bottomSheet = inject(MatBottomSheet);
-
   clearSelection(): void {
-    this.selectedBooks$.next([]);
+    this.adminService.selectedBooks.set([]);
     this.selection.clear();
-    this.adminService.isSheetClosed$.next(true);
+    this.adminService.isSheetClosed.set(true);
     this._bottomSheet.dismiss(BottomSheetComponent);
   }
 
-  deleteSelection() {
-    this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
-      selectedBooks.forEach((book) => {
-        if (book.id) this.deleteBook.mutate(book.id);
-      });
-      this.selectedBooks$.next([]);
-      this.selection.clear();
-      this.adminService.isSheetClosed$.next(true);
-      this._bottomSheet.dismiss(BottomSheetComponent);
-      this.snackBar.openFromComponent(BookSnackbar, {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-        data: { book: 'Selection', action: 'deleted' },
-      });
+  deleteSelection(): void {
+    const selectedBooks = this.adminService.selectedBooks();
+    selectedBooks.forEach((book) => {
+      if (book.id) {
+        this.deleteBook.mutate(book.id);
+      }
+    });
+    this.adminService.selectedBooks.set([]);
+    this.selection.clear();
+    this.adminService.isSheetClosed.set(true);
+    this._bottomSheet.dismiss(BottomSheetComponent);
+    this.snackBar.openFromComponent(BookSnackbar, {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      data: { book: 'Selection', action: 'deleted' },
     });
   }
 }

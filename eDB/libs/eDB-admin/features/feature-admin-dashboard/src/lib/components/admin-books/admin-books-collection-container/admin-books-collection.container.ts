@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { Overlay } from '@angular/cdk/overlay';
 import { Component, computed, effect, inject } from '@angular/core';
 import {
   MatBottomSheet,
@@ -12,7 +12,6 @@ import {
   SORT_QUERY_PARAM,
 } from '@eDB-webshop/util-book-params';
 import { AdminService } from '@eDB/client-admin';
-import { take } from 'rxjs';
 import { Book } from '../../../types/book.types';
 import { BottomSheetComponent } from '../../bottom-sheet/bottom-sheet.component';
 import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection-overview/admin-books-collection-overview.component';
@@ -24,7 +23,6 @@ import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection
     MatIconModule,
     MatButtonModule,
     MatBottomSheetModule,
-    CommonModule,
   ],
   selector: 'admin-books-collection-container',
   template: ` <section class="text-black py-8">
@@ -46,6 +44,7 @@ import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection
 })
 export class AdminBooksCollectionContainer {
   private _bottomSheet = inject(MatBottomSheet);
+  private overlay = inject(Overlay);
   private adminService = inject(AdminService);
   private bookParamService = inject(BookParamService);
 
@@ -56,10 +55,10 @@ export class AdminBooksCollectionContainer {
   protected sort = this.bookParamService.sortSignal;
 
   public showList: boolean = false;
-  public isSheetClosed$ = this.adminService.isSheetClosed$;
-  selectedBooks$ = this.adminService.selectedBooks$;
-  isChecked$ = this.adminService.isChecked$;
-  isMainChecked$ = this.adminService.isMainChecked$;
+  isSheetClosed = this.adminService.isSheetClosed;
+  selectedBooks = this.adminService.selectedBooks;
+  isChecked = this.adminService.isChecked;
+  isMainChecked = this.adminService.isMainChecked;
   selection = this.adminService.selection;
 
   private updateEffect = effect(() => {
@@ -95,66 +94,55 @@ export class AdminBooksCollectionContainer {
   }
 
   protected setCheckedState(state: boolean) {
-    this.isChecked$.pipe(take(1)).subscribe(() => {
-      this.isChecked$.next(state);
-    });
+    this.isChecked.set(state);
   }
 
   protected setMainCheckedState(state: boolean) {
-    this.isMainChecked$.pipe(take(1)).subscribe(() => {
-      this.isMainChecked$.next(state);
-    });
+    this.isMainChecked.set(state);
   }
 
   protected onItemSelected(selected: Book) {
-    if (this.isChecked$.value === true) {
-      this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
-        this.selectedBooks$.next([...selectedBooks, selected]);
-      });
-    }
-
-    if (this.isChecked$.value === false) {
-      this.selectedBooks$.pipe(take(1)).subscribe((selectedBooks) => {
-        const selectedId: number = selected.id || 0;
-        const selectedArray: number[] | undefined = [];
-        selectedArray.push(selectedId);
-
-        if (selectedBooks) {
-          const filteredItems = selectedBooks.filter(
-            ({ id }: Book) => !selectedArray?.includes(id || 0),
-          );
-          this.selectedBooks$.next(filteredItems);
+    if (this.isChecked()) {
+      // Add the book if it's not already in the list.
+      this.selectedBooks.update((books) => {
+        if (!books.find((b) => b.id === selected.id)) {
+          // Also update the SelectionModel.
+          this.selection.select(selected);
+          return [...books, selected];
         }
+        return books;
       });
-
-      // this.isSheetClosed$.next(true);
+    } else {
+      // Remove the book.
+      this.selectedBooks.update((books) =>
+        books.filter((b) => b.id !== selected.id),
+      );
+      this.selection.deselect(selected);
     }
   }
 
-  protected onAllItemSelected(selected: Book[]) {
-    if (this.isMainChecked$.value === true) {
-      this.selectedBooks$.pipe(take(1)).subscribe(() => {
-        this.selectedBooks$.next(selected);
-      });
-    }
-
-    if (this.isMainChecked$.value === false) {
-      this.selectedBooks$.pipe(take(1)).subscribe(() => {
-        this.selectedBooks$.next([]);
-      });
+  protected onAllItemSelected(allBooks: Book[]) {
+    if (this.isMainChecked()) {
+      // When the “select all” checkbox is active, update selectedBooks and SelectionModel.
+      this.selectedBooks.set([...allBooks]);
+      this.selection.select(...allBooks);
+    } else {
+      // Otherwise, clear the selection.
+      this.selectedBooks.set([]);
       this.selection.clear();
       this._bottomSheet.dismiss(BottomSheetComponent);
-      this.isSheetClosed$.next(true);
+      this.isSheetClosed.set(true);
     }
   }
-
   protected openBottomSheet(): void {
-    if (this.isSheetClosed$.getValue() === true) {
+    if (this.isSheetClosed()) {
+      console.log('Opening bottom sheet');
       this._bottomSheet.open(BottomSheetComponent, {
         hasBackdrop: false,
         restoreFocus: false,
+        scrollStrategy: this.overlay.scrollStrategies.noop(),
       });
-      this.isSheetClosed$.next(false);
+      this.isSheetClosed.set(false);
     }
   }
 }

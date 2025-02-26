@@ -14,7 +14,7 @@ import {
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { BehaviorSubject, firstValueFrom, lastValueFrom, map } from 'rxjs';
+import { firstValueFrom, lastValueFrom, map } from 'rxjs';
 
 import { RawApiDataBooks } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
@@ -233,11 +233,11 @@ export class AdminService {
 
   // BOOKS
 
-  selectedBooks$ = new BehaviorSubject<Book[]>([]);
-  selection = new SelectionModel<Book>(true, []);
-  isSheetClosed$ = new BehaviorSubject<boolean>(true);
-  isChecked$ = new BehaviorSubject<boolean>(false);
-  isMainChecked$ = new BehaviorSubject<boolean>(false);
+  public isSheetClosed = signal<boolean>(true);
+  public selectedBooks = signal<Book[]>([]);
+  public isChecked = signal<boolean>(false);
+  public isMainChecked = signal<boolean>(false);
+  public selection: SelectionModel<Book> = new SelectionModel<Book>(true, []);
 
   addBook() {
     return injectMutation(() => ({
