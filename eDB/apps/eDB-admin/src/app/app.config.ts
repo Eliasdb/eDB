@@ -14,7 +14,7 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   ExperimentalService,
   ModalService,
@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
-    provideAnimations(),
+    provideNoopAnimations(),
     NotificationService,
     ModalService,
     ExperimentalService,
