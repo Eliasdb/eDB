@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Book } from '../../types/book-param.type';
 import { BooksListItemComponent } from '../books-list-item/books-list-item.component';
 
@@ -9,13 +9,15 @@ import { BooksListItemComponent } from '../books-list-item/books-list-item.compo
   selector: 'books-collection-list-overview',
   template: `
     <section class="books-list-overview">
-      <div *ngFor="let book of books" class="col-2">
-        <books-list-item [book]="book" />
-      </div>
+      @for (book of books(); track $index) {
+        <div class="col-2">
+          <books-list-item [book]="book" />
+        </div>
+      }
     </section>
   `,
   styleUrls: ['./books-collection-list-overview.component.scss'],
 })
 export class BooksCollectionListOverviewComponent {
-  @Input() books?: Book[];
+  readonly books = input<Book[]>();
 }

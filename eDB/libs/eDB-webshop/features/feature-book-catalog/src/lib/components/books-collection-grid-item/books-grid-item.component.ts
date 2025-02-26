@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Book } from '../../types/book-param.type';
 
@@ -8,17 +8,19 @@ import { Book } from '../../types/book-param.type';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <section class="book-card" *ngIf="book">
-      <a routerLink="/books/{{ book.id }}">
-        <img src="{{ book.photoUrl }}" alt="{{ book.title }}" />
-      </a>
-      <div class="card-text">
-        <h3>{{ book.title }}</h3>
-      </div>
-    </section>
+    @if (book()) {
+      <section class="book-card">
+        <a routerLink="/books/{{ book()?.id }}">
+          <img src="{{ book()?.photoUrl }}" alt="{{ book()?.title }}" />
+        </a>
+        <div class="card-text">
+          <h3>{{ book()?.title }}</h3>
+        </div>
+      </section>
+    }
   `,
   styleUrls: ['./books-grid-item.component.scss'],
 })
 export class BooksGridItemComponent {
-  @Input() book?: Book;
+  readonly book = input<Book>();
 }

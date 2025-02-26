@@ -5,8 +5,6 @@
 
 .example-table-container {
   position: relative;
-  // min-height: 800px;
-  // max-height: 800px;
   overflow: auto;
 }
 
@@ -70,8 +68,11 @@ button {
   border-radius: 8px;
   padding: 7px 13px;
   border: none;
-  transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s,
-    -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+  transition:
+    box-shadow 0.2s ease 0s,
+    -ms-transform 0.1s ease 0s,
+    -webkit-transform 0.1s ease 0s,
+    transform 0.1s ease 0s;
   background: lightgreen;
 }
 
