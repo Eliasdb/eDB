@@ -49,8 +49,8 @@ import {
   template: `
     @if (isSmallScreen) {
       <section class="mx-4 mt-8 text-black">
-        <h3>Applications</h3>
-        <p>Manage applications and their subscribers.</p>
+        <h3 class="text-2xl">Applications</h3>
+        <p class="mt-2 mb-4">Manage applications and their subscribers.</p>
         <ui-button
           size="sm"
           class="mb-4"

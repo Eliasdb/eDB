@@ -18,11 +18,7 @@ import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component';
             (click)="handleItemClick('books')"
           >
             <span class="icon"
-              ><img
-                src="https://www.svgrepo.com/show/528060/book-minimalistic.svg"
-                alt="stats-icon"
-                class="icon-img"
-              />
+              ><img src="/book-svg.svg" alt="stats-icon" class="icon-img" />
             </span>
             Book Overview
           </li>
