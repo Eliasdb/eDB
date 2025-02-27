@@ -5,10 +5,6 @@
   position: relative;
 }
 
-/* :host {
-  width: 90%;
-} */
-
 .status-select {
   background-color: white;
   border: none;
@@ -48,21 +44,15 @@
 }
 
 .category {
-  display: block;
-  margin: 0.25em 0px;
-  padding: 0.25rem 0px;
   text-transform: capitalize;
-  background: transparent;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  border-image: initial;
-  border-bottom: 1px solid transparent;
   letter-spacing: 0.075rem;
-  color: grey;
+  color: white;
   cursor: pointer;
   font-size: 13px;
-  outline: none;
+  border: 1px solid;
+  background-color: #393939;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 .categories {
@@ -73,7 +63,7 @@
   @media (max-width: 1224px) {
     gap: 1rem;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
   }

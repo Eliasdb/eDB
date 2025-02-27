@@ -11,6 +11,7 @@ class BooksFilter extends ApiFilter
         "title" => ["eq"],
         "author" => ["eq", "ne"],
         "status" => ["eq"],
+        "genre" => ["eq"],
         "publishedDate" => ["eq", "lt", "lte", "gt", "gte"],
         "lastLoanedDate" => ["eq", "lt", "lte", "gt", "gte"],
     ];

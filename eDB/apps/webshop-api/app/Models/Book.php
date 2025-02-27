@@ -23,6 +23,12 @@ class Book extends Model
         "q",
     ];
 
+    public function genre($query, $value)
+{
+    return $query->where('genre', 'ILIKE', "%$value%");
+}
+
+
     public function q($query, $value)
     {
         // return $query->orWhere('name', '=', $value);

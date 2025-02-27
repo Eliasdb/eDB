@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { RawApiDataBooks } from '@eDB-webshop/shared-types';
+import { RawApiDataBook, RawApiDataBooks } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
 
 import { injectQuery } from '@tanstack/angular-query-experimental';
@@ -84,33 +84,32 @@ export class BooksService {
 
   // --- Query Books By Id ---
   // Create a signal to hold the currently selected book id.
-  // public selectedBookId = signal<number | null>(null);
+  public selectedBookId = signal<number | null>(null);
 
-  // // Create a query that depends on the selectedBookId.
-  // // If selectedBookId() is null, the queryFn will throw an error.
-  // public queryBookById = injectQuery<RawApiDataBook, Error>(() => {
-  //   const id = this.selectedBookId();
-  //   if (id === null) {
-  //     throw new Error('No book id set');
-  //   }
-  //   return {
-  //     queryKey: ['BOOKS', id] as const,
-  //     queryFn: async () => {
-  //       return await firstValueFrom(
-  //         this.http.get<RawApiDataBook>(
-  //           `${environment.bookAPIUrl}/books/${id}`,
-  //         ),
-  //       );
-  //     },
-  //     refetchOnMount: true,
-  //   };
-  // });
+  // Create a query that depends on the selectedBookId.
+  // If selectedBookId() is null, the queryFn will throw an error.
+  public queryBookById = injectQuery<RawApiDataBook, Error>(() => {
+    const id = this.selectedBookId();
 
-  // // Update method to set the id signal.
-  // public updateSelectedBookId(id: number) {
-  //   this.selectedBookId.set(id);
-  //   return this.queryBookById;
-  // }
+    return {
+      queryKey: ['BOOKS', id] as const,
+      queryFn: async () => {
+        return await firstValueFrom(
+          this.http.get<RawApiDataBook>(
+            `${environment.bookAPIUrl}/books/${id}`,
+          ),
+        );
+      },
+      enabled: id !== null,
+      refetchOnMount: true,
+    };
+  });
+
+  // Update method to set the id signal.
+  public updateSelectedBookId(id: number) {
+    this.selectedBookId.set(id);
+    return this.queryBookById;
+  }
 
   // --- Query Books By Genre ---
   // Create a signal for the currently selected genre.
