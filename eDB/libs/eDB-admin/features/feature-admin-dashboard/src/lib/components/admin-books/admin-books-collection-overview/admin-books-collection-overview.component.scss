@@ -10,6 +10,7 @@
 
 table {
   width: 100%;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .example-loading-shade {
@@ -58,42 +59,30 @@ table {
   margin-bottom: 2rem;
   align-items: center;
 }
-button {
-  display: inline-block;
-  outline: none;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 7px 13px;
-  border: none;
-  transition:
-    box-shadow 0.2s ease 0s,
-    -ms-transform 0.1s ease 0s,
-    -webkit-transform 0.1s ease 0s,
-    transform 0.1s ease 0s;
-  background: lightgreen;
-}
 
-mat-icon {
-  cursor: pointer;
-}
-
-.arrows {
-  display: none;
-}
-
-section {
-  &:hover {
-    .arrows {
-      display: block !important;
-      position: absolute;
-      top: 16px;
-      left: 25px;
-      mat-icon {
-        scale: 0.5;
-      }
-    }
+@media (max-width: 768px) {
+  .collection-title {
+    margin-left: 1rem;
   }
+}
+mat-icon {
+  scale: 0.5;
+}
+
+mat-paginator {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.edit-btn {
+  display: flex;
+}
+
+th {
+  font-weight: 500;
+}
+
+td,
+th {
+  vertical-align: middle;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
