@@ -18,6 +18,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '@eDB-webshop/shared-types';
 import { AdminService } from '@eDB/client-admin';
+import { UiButtonComponent } from '@eDB/shared-ui';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { AddBookDialog } from '../../add-book-modal/add-book-modal.component';
 import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component';
@@ -37,14 +38,13 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
+    UiButtonComponent,
   ],
   template: `
     <section class="collection-title">
-      <h3>Books</h3>
+      <h3 class="text-2xl">Books</h3>
       <div>
-        <button mat-raised-button (click)="openAddBookDialog()" color="accent">
-          Add book
-        </button>
+        <ui-button size="sm" (click)="openAddBookDialog()"> Add book</ui-button>
       </div>
     </section>
     <div class="example-container mat-elevation-z8">
@@ -113,9 +113,9 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
-              <div>
-                <mat-icon (click)="openEditBookDialog(row)">edit</mat-icon>
-              </div>
+              <button mat-icon-button (click)="openEditBookDialog(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
             </td>
           </ng-container>
 

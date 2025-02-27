@@ -27,6 +27,10 @@ import { AdminStatsContainer } from './components/admin-stats-container/admin-st
         </section>
       </ng-container>
       <ng-container section2>
+        <section class="mx-4 mt-8 text-black">
+          <h2 class="text-2xl">Webshop</h2>
+          <p class="mt-2 mb-4">Manage books and orders for the webshop.</p>
+        </section>
         <nav>
           <div class="nav-center">
             <button

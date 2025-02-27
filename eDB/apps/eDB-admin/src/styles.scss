@@ -25,6 +25,19 @@ body {
   box-sizing: border-box;
 }
 
+:root {
+  --mat-table-background-color: #161616;
+}
+
 p {
   margin: 1rem 0;
+}
+
+table {
+  white-space: nowrap;
+}
+.mat-mdc-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

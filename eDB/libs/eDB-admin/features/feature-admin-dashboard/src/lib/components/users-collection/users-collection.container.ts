@@ -57,8 +57,10 @@ import {
   template: `
     @if (isSmallScreen) {
       <section class="mx-4 mt-8 text-black">
-        <h3>Users</h3>
-        <p>Manage platform users with pagination, search and sorting.</p>
+        <h3 class="text-2xl">Users</h3>
+        <p class="mt-2 mb-4">
+          Manage platform users with pagination, search and sorting.
+        </p>
         <platform-users-accordion
           [users]="(users$ | async) || []"
           (viewMoreId)="onViewMoreEvent($event)"
