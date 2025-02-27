@@ -6,7 +6,6 @@ import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'cart-item',
-  standalone: true,
   template: `
     @if (item) {
       <div class="content-container">

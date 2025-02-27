@@ -1,7 +1,8 @@
 import { Component, computed, effect, inject } from '@angular/core';
+
 import { BooksService } from '@eDB-webshop/client-books';
-import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
 import { BookParamService } from '@eDB-webshop/util-book-params';
+
 import {
   BooksCollectionGridOverviewComponent,
   BooksCollectionListOverviewComponent,
@@ -9,7 +10,8 @@ import {
   BooksSortBarComponent,
 } from './components/index';
 
-import { CommonModule } from '@angular/common';
+import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
+
 import {
   AUTHORS_QUERY_PARAM,
   GENRE_QUERY_PARAM,
@@ -19,23 +21,29 @@ import {
 } from './types/book-param.type';
 
 @Component({
-  standalone: true,
   imports: [
     BooksCollectionGridOverviewComponent,
     BooksCollectionListOverviewComponent,
     BooksFiltersComponent,
     BooksSortBarComponent,
     LoadingStateComponent,
-    CommonModule,
   ],
   selector: 'books-container',
   template: `
-    <section class="page">
-      <section class="page-title w-full">
+    <section
+      class="flex flex-col items-center pt-32 max-w-[90%] xl:max-w-[60%] mx-auto"
+    >
+      <!-- Page Title -->
+      <section class="w-full">
         <h2>Webshop</h2>
       </section>
-      <section class="books-wrapper">
-        <section class="books-container">
+
+      <!-- Books Wrapper -->
+      <section class="w-full">
+        <section
+          class="flex flex-col xl:flex-row mt-8 mb-60 gap-12 justify-between"
+        >
+          <!-- Filters Component -->
           <book-filters
             [value]="query()"
             [bookStatus]="status()"
@@ -44,27 +52,37 @@ import {
             (filterGenre)="filterGenre($event)"
             (filterStatus)="filterStatus($event)"
             (clearFilters)="clearFilters()"
-          />
-          <section class="books">
+          ></book-filters>
+
+          <!-- Books Section -->
+          <section class="flex flex-col items-stretch">
+            <!-- Sort Bar Component -->
             <books-sort-bar
               [showList]="showList"
               [bookCount]="totalBooksCount() || 0"
               [selectedSort]="sort() || 'title,asc'"
               (sort)="onSort($event)"
               (clickEvent)="toggleShowList($event)"
-            />
+            ></books-sort-bar>
 
+            <!-- Books Query Results -->
             @if (booksQuery(); as result) {
               @if (result.isSuccess()) {
-                <section class="collection-container">
+                <section class="w-full box-border">
                   @if (showList) {
-                    <books-collection-list-overview [books]="books() || []" />
+                    <books-collection-list-overview
+                      [books]="books() || []"
+                    ></books-collection-list-overview>
                   } @else {
-                    <books-collection-grid-overview [books]="books() || []" />
+                    <books-collection-grid-overview
+                      [books]="books() || []"
+                    ></books-collection-grid-overview>
                   }
                 </section>
-
-                <!-- <div class="pag-container"><paginator /></div> -->
+                <!-- Example paginator container: 
+                <div class="mt-20">
+                  <paginator class="bg-[#24262b]"></paginator>
+                </div> -->
               }
               @if (result.isLoading()) {
                 <books-loading-state></books-loading-state>
@@ -78,13 +96,11 @@ import {
       </section>
     </section>
   `,
-  styleUrls: ['./book-catalog.page.scss'],
 })
 export class BooksCollectionContainer {
   private booksService = inject(BooksService);
   private bookParamService = inject(BookParamService);
 
-  // protected books = inject(BooksService).getBooks();
   protected author = this.bookParamService.authorSignal;
   protected genre = this.bookParamService.genreSignal;
   protected query = this.bookParamService.querySignal;

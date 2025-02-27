@@ -4,7 +4,6 @@ import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'add-button',
-  standalone: true,
   imports: [MatButtonModule],
   template: `
     <button mat-raised-button color="accent" (click)="addToCartEmit($event)">

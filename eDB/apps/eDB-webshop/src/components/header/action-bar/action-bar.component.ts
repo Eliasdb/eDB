@@ -6,7 +6,6 @@ import { CartService } from '@eDB-webshop/client-cart';
 import { CartDialog } from '@eDB-webshop/ui-webshop';
 
 @Component({
-  standalone: true,
   imports: [MatButtonModule, MatDialogModule, CommonModule],
   selector: 'action-bar',
   template: `

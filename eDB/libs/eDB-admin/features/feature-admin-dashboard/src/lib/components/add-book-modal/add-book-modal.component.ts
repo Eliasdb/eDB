@@ -125,7 +125,6 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
       </form>
     </mat-dialog-content>
   `,
-  standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,

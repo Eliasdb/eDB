@@ -9,7 +9,6 @@ import { AdminService } from '@eDB/client-admin';
 import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
 
 @Component({
-  standalone: true,
   imports: [
     MatIconModule,
     MatToolbarModule,

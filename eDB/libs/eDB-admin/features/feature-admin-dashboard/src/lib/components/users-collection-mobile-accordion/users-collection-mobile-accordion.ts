@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { UiButtonComponent } from '@eDB/shared-ui';
 import { AccordionModule } from 'carbon-components-angular/accordion';
@@ -6,8 +5,7 @@ import { UserProfile } from '../../types/user.model';
 
 @Component({
   selector: 'platform-users-accordion',
-  standalone: true,
-  imports: [CommonModule, AccordionModule, UiButtonComponent],
+  imports: [AccordionModule, UiButtonComponent],
   template: `
     <cds-accordion [align]="align()" [size]="size()">
       @for (user of users(); track $index) {

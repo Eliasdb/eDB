@@ -5,7 +5,6 @@ import { ListItem, NotificationService } from 'carbon-components-angular';
 
 @Component({
   selector: 'platform-catalog',
-  standalone: true,
   imports: [UiTileComponent, UiComboboxComponent],
   template: `
     <section

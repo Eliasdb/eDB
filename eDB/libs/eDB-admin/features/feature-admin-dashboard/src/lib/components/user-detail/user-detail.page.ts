@@ -1,17 +1,19 @@
-import { UiButtonComponent, UiStructuredListComponent } from '@eDB/shared-ui';
-
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { AdminService } from '@eDB/client-admin';
+import { UiButtonComponent, UiStructuredListComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'platform-user-profile',
   imports: [UiStructuredListComponent, UiButtonComponent],
+  // Removed styleUrls; all styling is now applied using Tailwind classes.
   template: `
-    <div class="profile-container">
-      <div class="profile-header">
-        <div class="back-button-container">
+    <div
+      class="flex flex-col items-center justify-center min-h-screen max-w-[1200px] mx-auto py-12"
+    >
+      <!-- Profile Header -->
+      <div class="w-full text-center mb-8">
+        <div class="back-button-container flex">
           <ui-button
             variant="ghost"
             size="md"
@@ -23,41 +25,48 @@ import { AdminService } from '@eDB/client-admin';
         </div>
 
         <div
-          class="circle"
+          class="circle w-[100px] h-[100px] bg-[#ccc] bg-cover bg-center bg-no-repeat rounded-full mx-auto"
           [style.backgroundImage]="'url(https://i.pravatar.cc/150)'"
         ></div>
+
         <div class="user-info">
-          <h2>{{ user()?.fullName }}</h2>
-          <p>{{ user()?.email }}</p>
+          <h2 class="mt-2 text-2xl">{{ user()?.fullName }}</h2>
+          <p class="m-0 text-base text-[#666]">{{ user()?.email }}</p>
         </div>
       </div>
 
-      <div class="structured-lists">
-        <ui-structured-list
-          header="Personal Details"
-          [rows]="personalDetails()"
-          [editingRowIndex]="editingRowIndex"
-          [isEditingAny]="isEditingAny"
-          [inputValues]="inputValues"
-          (actionClick)="onActionClick($event)"
-          (updateEdit)="onUpdateEdit()"
-          (cancelEdit)="onCancelEdit()"
-        ></ui-structured-list>
+      <!-- Structured Lists -->
+      <div
+        class="structured-lists flex flex-col md:flex-row justify-between gap-4 w-full"
+      >
+        <div class="flex-1 md:max-w-[50%] px-4">
+          <ui-structured-list
+            header="Personal Details"
+            [rows]="personalDetails()"
+            [editingRowIndex]="editingRowIndex"
+            [isEditingAny]="isEditingAny"
+            [inputValues]="inputValues"
+            (actionClick)="onActionClick($event)"
+            (updateEdit)="onUpdateEdit()"
+            (cancelEdit)="onCancelEdit()"
+          ></ui-structured-list>
+        </div>
 
-        <ui-structured-list
-          header="Account Details"
-          [rows]="accountDetails()"
-          [editingRowIndex]="editingRowIndex"
-          [isEditingAny]="isEditingAny"
-          [inputValues]="inputValues"
-          (actionClick)="onActionClick($event)"
-          (updateEdit)="onUpdateEdit()"
-          (cancelEdit)="onCancelEdit()"
-        ></ui-structured-list>
+        <div class="flex-1 md:max-w-[50%] px-4">
+          <ui-structured-list
+            header="Account Details"
+            [rows]="accountDetails()"
+            [editingRowIndex]="editingRowIndex"
+            [isEditingAny]="isEditingAny"
+            [inputValues]="inputValues"
+            (actionClick)="onActionClick($event)"
+            (updateEdit)="onUpdateEdit()"
+            (cancelEdit)="onCancelEdit()"
+          ></ui-structured-list>
+        </div>
       </div>
     </div>
   `,
-  styleUrls: ['./user-detail.page.scss'],
 })
 export class UserDetailPage {
   private adminService = inject(AdminService);
@@ -151,6 +160,6 @@ export class UserDetailPage {
   }
 
   goToOverview(): void {
-    this.router.navigate(['/']); // Adjust '/overview' to your actual overview route
+    this.router.navigate(['/']); // Adjust route as needed.
   }
 }

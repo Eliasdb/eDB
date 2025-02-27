@@ -22,7 +22,6 @@ import { registerFormFields } from './register-form.config';
     UiPasswordInputComponent,
     UiButtonComponent,
   ],
-  // Tailwind-refactored template
   template: `
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <!-- Form Group: flex column, gap, responsive right padding and bottom padding -->

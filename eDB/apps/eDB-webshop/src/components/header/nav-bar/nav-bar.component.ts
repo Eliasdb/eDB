@@ -4,7 +4,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'nav-bar',
-  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
     <section class="nav-container">

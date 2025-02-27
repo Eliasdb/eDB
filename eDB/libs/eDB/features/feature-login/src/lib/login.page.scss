@@ -11,21 +11,21 @@
 }
 
 .login-section {
-  flex: 0 0 32%; // 32% width for the login form
+  flex: 0 0 32%;
   margin-left: 7rem;
   margin-top: 6rem;
 }
 
 .intro-image-section {
-  flex: 1; // Remaining width for the image
+  flex: 1;
   display: flex;
-  align-items: flex-end; // Stick image to the bottom
-  justify-content: flex-start; // Align image to the right
+  align-items: flex-end;
+  justify-content: flex-start;
   margin-left: -6rem;
 }
 
 .intro-image-section img {
-  height: 850px; // Set a fixed height for the image
+  height: 850px;
   width: auto;
 }
 
@@ -35,17 +35,17 @@
     min-height: calc(100vh - 3rem);
   }
   .intro-image-section {
-    display: none; // Hide image section on smaller screens
+    display: none;
   }
 
   .page-content {
-    justify-content: center; // Center the login form
+    justify-content: center;
   }
 
   .login-section {
     flex: none;
     width: 100%;
-    margin-left: 0; // Remove left margin
-    margin-top: 5rem; // Keep top margin
+    margin-left: 0;
+    margin-top: 5rem;
   }
 }
