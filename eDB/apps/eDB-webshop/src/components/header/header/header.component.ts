@@ -5,7 +5,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
   imports: [ActionBarComponent, NavBarComponent, CommonModule],
   template: `
     <section [ngClass]="[headerBackgroundColour]" class="header-container">

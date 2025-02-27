@@ -24,7 +24,6 @@ interface Application {
 
 @Component({
   selector: 'platform-applications-accordion',
-  standalone: true,
   imports: [CommonModule, AccordionModule, UiButtonComponent],
   template: `
     <cds-accordion [align]="align()" [size]="size()">

@@ -16,7 +16,6 @@ import { Book } from '../../../types/book.types';
 import { BottomSheetComponent } from '../../bottom-sheet/bottom-sheet.component';
 import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection-overview/admin-books-collection-overview.component';
 @Component({
-  standalone: true,
   imports: [
     AdminBooksCollectionOverviewComponent,
     MatToolbarModule,

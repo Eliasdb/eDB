@@ -3,7 +3,6 @@ import { DropdownModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-dropdown',
-  standalone: true,
   imports: [DropdownModule],
   template: `
     <cds-dropdown

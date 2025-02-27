@@ -60,6 +60,12 @@ h3 {
   align-items: center;
 }
 
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+  }
+}
+
 .btn-container {
   display: flex;
   gap: 1rem;
@@ -67,16 +73,9 @@ h3 {
   margin-top: 1.5rem;
 }
 
-.mat-mdc-raised-button[disabled].mat-mdc-button-disabled,
-.mat-mdc-raised-button.mat-mdc-button-disabled.mat-mdc-button-disabled {
-  box-shadow: var(--mdc-protected-button-container-elevation-shadow);
-  background-color: grey !important;
-}
-
 .book-info {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: 2fr 1fr;
 }
 
 .cards-container {
@@ -99,29 +98,6 @@ h3 {
   height: 17rem;
   display: flex;
   justify-content: flex-end;
-}
-
-.example-ripple-container {
-  cursor: pointer;
-  text-align: center;
-
-  width: inherit;
-  height: inherit;
-  line-height: inherit;
-
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-
-  -webkit-user-drag: none;
-  -webkit-tap-highlight-color: transparent;
-  border-radius: 5px;
-}
-
-.mat-mdc-card-content {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
 }
 
 a {

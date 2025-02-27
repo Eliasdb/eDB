@@ -5,17 +5,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
 import { BooksService } from '@eDB-webshop/client-books';
 import { CartService } from '@eDB-webshop/client-cart';
+import { Book } from '@eDB-webshop/shared-types';
+import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
+import { UiButtonComponent } from '@eDB/shared-ui';
 import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
-import { LoadingStateComponent } from '../../loading-state/loading-state.component';
-import { AddButtonComponent } from '../single-book-add-button/single-book-add-button.component';
 
 @Component({
-  standalone: true,
   selector: 'single-book',
   imports: [
     CommonModule,
@@ -23,12 +22,12 @@ import { AddButtonComponent } from '../single-book-add-button/single-book-add-bu
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    AddButtonComponent,
     MatRippleModule,
     BreadcrumbsComponent,
+    UiButtonComponent,
   ],
   template: `
-    <section class="flex flex-col mt-32">
+    <section class="flex flex-col mt-16 min-h-screen text-white">
       <!-- Loading state -->
       @if (bookResult.isLoading(); as loading) {
         <books-loading-state></books-loading-state>
@@ -36,12 +35,12 @@ import { AddButtonComponent } from '../single-book-add-button/single-book-add-bu
 
       <!-- Success state -->
       @if (bookResult.isSuccess(); as success) {
-        <div class="b-crumbs">
+        <div class="b-crumbs text-black">
           <breadcrumbs [book]="book() || null" />
         </div>
         <mat-card>
           <mat-card-content>
-            <section class="card-container">
+            <section class="card-container min-h-screen">
               <div class="img">
                 <div class="img-container">
                   <img
@@ -82,12 +81,9 @@ import { AddButtonComponent } from '../single-book-add-button/single-book-add-bu
                   <hr />
 
                   <div class="btn-container">
-                    @if (user.isSuccess(); as userSuccess) {
-                      <add-button
-                        [book]="book"
-                        (add)="addToCart()"
-                      ></add-button>
-                    }
+                    <ui-button (buttonClick)="addToCart(book)"
+                      >Add to cart</ui-button
+                    >
                   </div>
                 </div>
               }
@@ -108,7 +104,6 @@ export class SingleBookContainer {
   private activatedRoute = inject(ActivatedRoute);
   private booksService = inject(BooksService);
   private cartService = inject(CartService);
-  private snackBar = inject(MatSnackBar);
 
   // Convert route parameters to a signal.
   readonly routeParams = toSignal(this.activatedRoute.params);
@@ -122,11 +117,6 @@ export class SingleBookContainer {
   // Derived signal: extract book data if the query was successful.
   readonly book = () =>
     this.bookResult.isSuccess() ? this.bookResult.data().data : null;
-
-  // Dummy user signal (replace with your actual user signal).
-  readonly user = {
-    isSuccess: () => true,
-  };
 
   // Effect: update the selected book id when the route parameter changes.
   updateBookIdEffect = effect(() => {
@@ -145,8 +135,8 @@ export class SingleBookContainer {
     }
   });
 
-  addToCart() {
-    const currentBook = this.book();
+  addToCart(book: Book) {
+    const currentBook = book;
     if (currentBook) {
       this.cartService.addToCart(currentBook);
       // Optionally, show a snackbar notification here.
