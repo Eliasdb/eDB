@@ -100,8 +100,7 @@ class BookController extends Controller
 
         }
 
-        $books = Book::skip($offset)->limit($limit)->filter()->get();
-
+        $books = Book::filter()->skip($offset)->limit($limit)->get();
         return new BookCollection($books);
 
     }

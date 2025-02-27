@@ -27,12 +27,13 @@
 .book-img-container img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Keeps the image's natural ratio */
+  object-fit: cover; /* Keeps the image's natural ratio */
   display: block;
 }
 
 /* Text container takes up remaining space */
 .card-text {
+  width: 100%;
   flex: 1;
   padding: 0 0.5rem;
   display: flex;

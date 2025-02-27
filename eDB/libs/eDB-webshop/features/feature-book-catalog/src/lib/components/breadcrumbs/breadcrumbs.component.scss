@@ -1,0 +1,23 @@
+.breadcrumbs-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+}
+
+p {
+  margin: 0 !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+mat-icon {
+  scale: 0.8;
+}
+
+.title {
+  font-weight: bold;
+}
