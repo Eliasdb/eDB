@@ -8,20 +8,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Book } from '@eDB-webshop/shared-types';
 import { AdminService } from '@eDB/client-admin';
+import { UiButtonComponent } from '@eDB/shared-ui';
 import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
 
 @Component({
   selector: 'cart-dialog',
 
   template: `
-    <section class="header">
+    <section class="header bg-black">
       <div class="flex justify-between items-center">
         <h2 mat-dialog-title>Add book</h2>
         <button
           mat-icon-button
           mat-dialog-close
           aria-label="Close dialog"
-          class="flex items-center justify-center scale-[0.7] mr-4"
+          class="flex items-center justify-center scale-[0.7] mr-4 "
         >
           <mat-icon class="align-top">close</mat-icon>
         </button>
@@ -30,7 +31,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
       <hr />
     </section>
 
-    <mat-dialog-content class="mat-typography">
+    <mat-dialog-content class=" bg-black min-h-[calc(100vh-5rem)]">
       <form
         #addBookForm="ngForm"
         (ngSubmit)="onAddBook()"
@@ -101,14 +102,16 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
           >
           </textarea>
           <div class="btn-container">
-            <button
+            <ui-button
               type="submit"
+              variant="primary"
+              [fullWidth]="true"
               class="remove-item-btn mt-8"
               [mat-dialog-close]="false"
               cdkFocusInitial
             >
-              <span> Add book </span>
-            </button>
+              Add book
+            </ui-button>
           </div>
         </div>
 
@@ -131,6 +134,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    UiButtonComponent,
   ],
   styleUrls: ['./add-book-modal.component.scss'],
 })
