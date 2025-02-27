@@ -227,6 +227,10 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
 
   openEditBookDialog(row: Book) {
     const dialogRef = this.dialog.open(EditBookDialog, {
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      panelClass: 'full-screen-dialog',
       data: {
         id: row.id,
         title: row.title,
