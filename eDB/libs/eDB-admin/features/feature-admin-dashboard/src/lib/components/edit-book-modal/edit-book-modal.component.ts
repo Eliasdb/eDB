@@ -30,7 +30,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
       <hr />
     </section>
 
-    <mat-dialog-content class="min-h-[calc(100vh-5rem)]">
+    <mat-dialog-content class="bg-black min-h-[calc(100vh-5rem)]">
       <form
         #addBookForm="ngForm"
         (ngSubmit)="onEditBook()"
