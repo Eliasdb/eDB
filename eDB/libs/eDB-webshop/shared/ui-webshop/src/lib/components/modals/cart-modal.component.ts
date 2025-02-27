@@ -51,7 +51,6 @@ import { CartItemComponent } from '../cart-item/cart-item.component';
         </div>
       </mat-dialog-actions>
     } `,
-  standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,

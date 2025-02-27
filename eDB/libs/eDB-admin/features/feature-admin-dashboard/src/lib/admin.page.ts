@@ -1,16 +1,17 @@
+import { CommonModule } from '@angular/common';
+import { Component, signal, ViewChild } from '@angular/core';
+
+import { MatSelectModule } from '@angular/material/select';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+
+import { UiContentSwitcherComponent } from '@eDB/shared-ui';
 import {
+  AdminBooksCollectionContainer,
+  AdminSidebarComponent,
+  AdminStatsContainer,
   ApplicationsCollectionContainer,
   UsersCollectionContainer,
 } from './components';
-
-import { CommonModule } from '@angular/common';
-import { Component, signal, ViewChild } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import { AdminBooksCollectionContainer } from './components/admin-books/admin-books-collection-container/admin-books-collection.container';
-import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
-import { AdminStatsContainer } from './components/admin-stats-container/admin-stats.container';
 
 @Component({
   selector: 'platform-admin',

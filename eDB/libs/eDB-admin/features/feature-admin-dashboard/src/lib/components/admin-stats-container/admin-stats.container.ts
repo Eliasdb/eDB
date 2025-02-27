@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { AdminService } from '@eDB/client-admin';
@@ -9,13 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AdminStatsCardComponent } from '../admin-stats-card/admin-stats-card.component';
 
 @Component({
-  standalone: true,
-  imports: [
-    AdminStatsCardComponent,
-    CommonModule,
-    // BaseChartDirective,
-    MatCardModule,
-  ],
+  imports: [AdminStatsCardComponent, MatCardModule],
   selector: 'admin-stats-container',
   template: `
     <section class="stats-container">

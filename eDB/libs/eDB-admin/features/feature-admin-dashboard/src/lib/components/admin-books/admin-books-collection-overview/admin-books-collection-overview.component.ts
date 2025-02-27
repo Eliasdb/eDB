@@ -23,13 +23,9 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 import { AddBookDialog } from '../../add-book-modal/add-book-modal.component';
 import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component';
 
-/**
- * @title Table with selection
- */
 @Component({
   selector: 'admin-books-collection-overview',
   styleUrls: ['admin-books-collection-overview.component.scss'],
-  standalone: true,
   imports: [
     MatProgressSpinnerModule,
     MatTableModule,

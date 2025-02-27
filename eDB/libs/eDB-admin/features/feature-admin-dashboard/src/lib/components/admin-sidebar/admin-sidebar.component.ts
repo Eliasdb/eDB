@@ -6,7 +6,6 @@ import {
 import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component';
 
 @Component({
-  standalone: true,
   imports: [MatBottomSheetModule],
   selector: 'admin-sidebar',
   template: `

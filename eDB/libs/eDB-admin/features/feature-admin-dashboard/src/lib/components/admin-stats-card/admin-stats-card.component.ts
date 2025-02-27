@@ -3,7 +3,6 @@ import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'admin-stats-card',
-  standalone: true,
   imports: [MatCardModule],
   template: `
     <mat-card>
