@@ -57,9 +57,12 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
           </svg>
         </button>
       </div>
-      <p class="book-count">
-        {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
-      </p>
+      <section>
+        <p class="book-count min-w-[9rem]">
+          {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
+        </p>
+      </section>
+
       <hr />
 
       <div class="sort-container">
