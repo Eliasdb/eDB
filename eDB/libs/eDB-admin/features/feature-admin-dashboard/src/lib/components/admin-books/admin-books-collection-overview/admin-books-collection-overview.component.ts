@@ -113,7 +113,7 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
-              <div class="flex justify-center">
+              <div>
                 <mat-icon (click)="openEditBookDialog(row)">edit</mat-icon>
               </div>
             </td>
