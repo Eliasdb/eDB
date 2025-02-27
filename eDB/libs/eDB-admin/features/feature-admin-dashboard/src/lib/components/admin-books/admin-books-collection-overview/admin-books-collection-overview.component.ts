@@ -1,5 +1,4 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -8,7 +7,6 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,8 +37,6 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule,
-    CommonModule,
   ],
   template: `
     <section class="collection-title">
@@ -117,7 +113,7 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
-              <div class="flex justify-center">
+              <div>
                 <mat-icon (click)="openEditBookDialog(row)">edit</mat-icon>
               </div>
             </td>

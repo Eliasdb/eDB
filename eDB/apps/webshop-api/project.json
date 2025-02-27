@@ -13,7 +13,7 @@
         "serve": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": ["php artisan serve"],
+                "commands": ["php artisan serve --host=0.0.0.0"],
                 "cwd": "apps/webshop-api"
             }
         }
