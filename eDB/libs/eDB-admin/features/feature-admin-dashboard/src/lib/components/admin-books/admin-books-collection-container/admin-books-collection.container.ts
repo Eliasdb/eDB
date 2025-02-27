@@ -138,6 +138,7 @@ export class AdminBooksCollectionContainer {
     if (this.isSheetClosed()) {
       console.log('Opening bottom sheet');
       this._bottomSheet.open(BottomSheetComponent, {
+        disableClose: true,
         hasBackdrop: false,
         restoreFocus: false,
         scrollStrategy: this.overlay.scrollStrategies.noop(),
