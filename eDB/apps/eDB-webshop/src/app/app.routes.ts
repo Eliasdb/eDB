@@ -1,11 +1,18 @@
 import { Route } from '@angular/router';
+import { AppComponent } from './app.component';
 
 export const webshopRoutes: Route[] = [
   {
     path: '',
-    loadChildren: () =>
-      import('@eDB-webshop/feature-book-catalog').then(
-        (m) => m.featureBookCatalogRoutes,
-      ),
+    component: AppComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('@eDB-webshop/feature-book-catalog').then(
+            (m) => m.featureBookCatalogRoutes,
+          ),
+      },
+    ],
   },
 ];

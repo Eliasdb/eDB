@@ -1,18 +1,16 @@
-:host {
-  min-width: 90%;
-}
-
 .action-bar-items {
   display: flex;
   align-items: center;
-  margin-bottom: 3rem;
   position: relative;
   justify-content: space-between;
 }
 
 .logo {
   width: 3rem;
-  border-radius: 10%;
+}
+
+.logo img {
+  border-radius: 0.25rem;
 }
 
 .launcher-icon {

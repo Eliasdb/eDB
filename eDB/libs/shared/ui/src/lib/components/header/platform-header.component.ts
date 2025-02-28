@@ -15,7 +15,7 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
   selector: 'ui-platform-header',
   imports: [HeaderModule, UiPlatformOverflowMenuComponent, UiButtonComponent],
   template: `
-    <cds-header [brand]="brandTemplate" [name]="name()">
+    <cds-header [brand]="brandTemplate" [name]="name()" [class]="this.class()">
       <!-- Hamburger Menu (for mobile) -->
       @if (hasHamburger()) {
         <cds-hamburger (click)="hamburgerToggle.emit($event)"></cds-hamburger>
@@ -80,6 +80,8 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
 export class UiPlatformHeaderComponent implements OnInit {
   readonly isAdmin = input<boolean | null>();
   readonly name = input<string>('eDB');
+  readonly class = input<string>();
+
   readonly hasHamburger = input<boolean>(false);
   readonly navigationLinks = input<
     {
