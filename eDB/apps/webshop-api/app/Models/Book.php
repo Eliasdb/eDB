@@ -49,11 +49,11 @@ class Book extends Model
      "description",
      "author",
      "published_date",
-     "user_id"
     ];
 
-    public function user()
+    public function orders()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Order::class);
     }
+    
 }

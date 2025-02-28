@@ -17,7 +17,7 @@ import {
   NotificationService,
   PlaceholderModule,
 } from 'carbon-components-angular';
-import { CartComponent } from '../components/test.component';
+import { CartComponent } from '../components/cart/cart.component';
 import { MENU_OPTIONS } from './shell.config';
 @Component({
   selector: 'app-shell',
