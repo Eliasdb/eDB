@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
+import { CartService } from '@eDB-webshop/client-cart';
 import { AuthService } from '@eDB/client-auth';
+
 import {
   UiPlatformHeaderComponent,
+  UiPlatformSubHeaderComponent,
   UiPortalFooterComponent,
 } from '@eDB/shared-ui';
 import { NavigationService } from '@eDB/util-navigation';
@@ -12,8 +17,8 @@ import {
   NotificationService,
   PlaceholderModule,
 } from 'carbon-components-angular';
+import { CartComponent } from '../components/test.component';
 import { MENU_OPTIONS } from './shell.config';
-
 @Component({
   selector: 'app-shell',
   imports: [
@@ -23,10 +28,14 @@ import { MENU_OPTIONS } from './shell.config';
     I18nModule,
     UiPlatformHeaderComponent,
     UiPortalFooterComponent,
+    MatButtonModule,
+    MatDialogModule,
+    UiPlatformSubHeaderComponent,
+    CartComponent,
   ],
   providers: [NotificationService],
   template: `
-    <div class="platform-layout flex flex-col min-h-[100dvh] bg-gray-100">
+    <div class="flex flex-col min-h-[100dvh] bg-gray-100">
       <ui-platform-header
         [navigationLinks]="
           !(isAuthenticated$ | async) || isAdminApp()
@@ -38,6 +47,18 @@ import { MENU_OPTIONS } from './shell.config';
         (menuOptionSelected)="handleMenuOption($event)"
         [isAdmin]="isAdmin$ | async"
       ></ui-platform-header>
+
+      @if (isWebshopRoute()) {
+        <ui-platform-subheader
+          (openDialog)="openDialog()"
+        ></ui-platform-subheader>
+      }
+
+      @if (showCart) {
+        <section class="relative z-[200]">
+          <app-cart [isCartVisible]="showCart"></app-cart>
+        </section>
+      }
 
       <main class="platform-content">
         <router-outlet></router-outlet>
@@ -98,4 +119,26 @@ export class ShellComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['login']);
   }
+
+  // WEBSHOP
+
+  private dialog = inject(MatDialog);
+  protected cartService = inject(CartService);
+
+  showCart = false;
+
+  isWebshopRoute(): boolean {
+    return this.router.url.startsWith('/webshop');
+  }
+
+  openDialog() {
+    // const dialogRef = this.dialog.open(CartDialog);
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
+    this.showCart = !this.showCart;
+    console.log(this.showCart);
+  }
+
+  // this.cartService.getItems().length
 }

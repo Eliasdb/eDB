@@ -27,7 +27,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
   selector: 'book-filters',
   // Removed styleUrls; all styling is now inlined using Tailwind classes.
   template: `
-    <section class="flex flex-col gap-4 relative">
+    <section class="flex flex-col gap-4">
       <!-- Search Input Container -->
       <div class="max-w-full xl:max-w-[17rem]">
         <h4 class="text-[13.5px] mb-[6px]">Title/Author</h4>
