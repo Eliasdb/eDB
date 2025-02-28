@@ -27,7 +27,7 @@ import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
     UiButtonComponent,
   ],
   template: `
-    <section class="flex flex-col mt-16 min-h-screen text-white">
+    <section class="flex flex-col mt-36 min-h-screen text-white">
       <!-- Loading state -->
       @if (bookResult.isLoading(); as loading) {
         <books-loading-state></books-loading-state>

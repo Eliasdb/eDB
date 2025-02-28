@@ -4,6 +4,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16';
 import UserIcon from '@carbon/icons/es/user/16';
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
+    provideAnimations(),
 
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(
