@@ -68,7 +68,6 @@ jobs:
                   pnpm nx show projects --affected --with-target=build --base=$(git rev-parse HEAD^1) --head=HEAD > ../affected.txt || true
                   echo "Affected Projects:"
                   cat ../affected.txt
-
             - name: Extract and set booleans for affected projects
               id: set_booleans
               run: |
@@ -76,38 +75,40 @@ jobs:
                   AFFECTED=$(cat affected.txt)
                   echo "Affected Projects: $AFFECTED"
 
+                  # Determine booleans by assigning to local variables
                   if echo "$AFFECTED" | grep -x -q "platform-api"; then
-                    echo "platform_api=true" >> $GITHUB_OUTPUT
+                    PLATFORM_API="true"
                   else
-                    echo "platform_api=false" >> $GITHUB_OUTPUT
+                    PLATFORM_API="false"
                   fi
 
                   if echo "$AFFECTED" | grep -x -q "webshop-api"; then
-                    echo "webshop_api=true" >> $GITHUB_OUTPUT
+                    WEBSHOP_API="true"
                   else
-                    echo "webshop_api=false" >> $GITHUB_OUTPUT
+                    WEBSHOP_API="false"
                   fi
 
                   if echo "$AFFECTED" | grep -x -q "eDB"; then
-                    echo "platform_app=true" >> $GITHUB_OUTPUT
+                    PLATFORM_APP="true"
                   else
-                    echo "platform_app=false" >> $GITHUB_OUTPUT
+                    PLATFORM_APP="false"
                   fi
 
                   if echo "$AFFECTED" | grep -x -q "eDB-admin"; then
-                    echo "admin_app=true" >> $GITHUB_OUTPUT
+                    ADMIN_APP="true"
                   else
-                    echo "admin_app=false" >> $GITHUB_OUTPUT
+                    ADMIN_APP="false"
                   fi
 
-                  # Now, extract the values into variables
-                  webshop_api=$(grep '^webshop_api=' $GITHUB_OUTPUT | cut -d'=' -f2)
-                  platform_api=$(grep '^platform_api=' $GITHUB_OUTPUT | cut -d'=' -f2)
-                  platform_app=$(grep '^platform_app=' $GITHUB_OUTPUT | cut -d'=' -f2)
-                  admin_app=$(grep '^admin_app=' $GITHUB_OUTPUT | cut -d'=' -f2)
+                  # Now write outputs without reading from $GITHUB_OUTPUT
+                  echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
+                  echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
+                  echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
+                  echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
 
-                  # Use printf to format the final output nicely
-                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n\n" "$platform_api" "$platform_app" "$admin_app" "$webshop_api"
+                  # Print final values for logging
+                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n\n" \
+                          "$PLATFORM_API" "$PLATFORM_APP" "$ADMIN_APP" "$WEBSHOP_API"
               shell: bash
 
     deploy-platform-api:
