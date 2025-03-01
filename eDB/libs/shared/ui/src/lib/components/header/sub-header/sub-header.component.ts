@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output, input } from '@angular/core';
+import { OrderItem } from '@eDB-webshop/shared-types';
 import { HeaderModule } from 'carbon-components-angular';
 
 @Component({
@@ -19,7 +20,7 @@ import { HeaderModule } from 'carbon-components-angular';
             class="launcher-icon"
             (click)="onOpenDialog(isDialogOpen())"
           />
-          <span class="amount">{{ items().length }}</span>
+          <span class="amount">{{ cartItems()?.length }}</span>
         </section>
       </cds-header-global>
     </cds-header>
@@ -44,10 +45,8 @@ import { HeaderModule } from 'carbon-components-angular';
 })
 export class UiPlatformSubHeaderComponent {
   readonly name = input<string>('eDB');
-
   readonly hasHamburger = input<boolean>(false);
-  readonly items = input<[]>([]);
-
+  readonly cartItems = input<OrderItem[]>();
   readonly isDialogOpen = input<boolean>(true);
 
   @Output() hamburgerToggle = new EventEmitter<Event>();

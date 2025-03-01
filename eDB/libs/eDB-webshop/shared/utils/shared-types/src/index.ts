@@ -1,6 +1,4 @@
 export * from './lib/types/book';
 export * from './lib/types/cart';
 export * from './lib/types/customer';
-export * from './lib/types/post';
 export * from './lib/types/rawapi';
-export * from './lib/types/user';

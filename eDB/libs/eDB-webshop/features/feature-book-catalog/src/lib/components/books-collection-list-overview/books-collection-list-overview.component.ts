@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Book } from '../../types/book-param.type';
+import { Book } from '@eDB-webshop/shared-types';
 import { BooksListItemComponent } from '../books-list-item/books-list-item.component';
 
 @Component({

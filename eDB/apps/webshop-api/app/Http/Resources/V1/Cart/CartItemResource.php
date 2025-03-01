@@ -12,8 +12,7 @@ class CartItemResource extends JsonResource
         return [
             'id' => $this->id,
             'bookId' => $this->book_id,
-            'quantity' => $this->quantity,
-            'price' => $this->price,
+            'selectedAmount' => $this->selected_amount,
             'book' => new BookResource($this->whenLoaded('book')),
         ];
     }

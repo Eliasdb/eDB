@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '@eDB-webshop/client-cart';
 import { AuthService } from '@eDB/client-auth';
@@ -50,13 +50,18 @@ import { MENU_OPTIONS } from './shell.config';
 
       @if (isWebshopRoute()) {
         <ui-platform-subheader
-          (openDialog)="openDialog()"
+          (openDialog)="onShowCart()"
+          [cartItems]="cartItems()"
         ></ui-platform-subheader>
       }
 
       @if (showCart) {
         <section class="relative z-[200]">
-          <app-cart [isCartVisible]="showCart"></app-cart>
+          <app-cart
+            (cartItemDeleted)="onDeleteCartItem($event)"
+            [isCartVisible]="showCart"
+            [cartItems]="cartItems()"
+          ></app-cart>
         </section>
       }
 
@@ -122,23 +127,20 @@ export class ShellComponent implements OnInit {
 
   // WEBSHOP
 
-  private dialog = inject(MatDialog);
   protected cartService = inject(CartService);
 
+  cartItems = this.cartService.cartItems;
   showCart = false;
 
   isWebshopRoute(): boolean {
     return this.router.url.startsWith('/webshop');
   }
 
-  openDialog() {
-    // const dialogRef = this.dialog.open(CartDialog);
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
+  onShowCart() {
     this.showCart = !this.showCart;
-    console.log(this.showCart);
   }
 
-  // this.cartService.getItems().length
+  onDeleteCartItem(cartItemId: number) {
+    this.cartService.removeFromCart(cartItemId);
+  }
 }

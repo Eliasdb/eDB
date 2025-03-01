@@ -22,9 +22,6 @@
         "libs/shared/utils/util-navigation/src/index.ts"
       ],
       "@eDB-webshop": ["apps/eDB-webshop/src/app/webshop.module"],
-      "@eDB-webshop/client-account": [
-        "libs/eDB-webshop/data-access/client-account/src/index.ts"
-      ],
       "@eDB-webshop/client-books": [
         "libs/eDB-webshop/data-access/client-books/src/index.ts"
       ],
