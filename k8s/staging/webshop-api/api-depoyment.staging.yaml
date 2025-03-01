@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: webshop-api
-                  image: eliasdb/webshop-api:v8-test
+                  image: eliasdb/webshop-api:pr-190-staging
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 8000
@@ -51,6 +51,11 @@ spec:
                             secretKeyRef:
                                 name: postgres-secret-staging
                                 key: POSTGRES_PASSWORD
+                      - name: JWT_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: jwt-secret-staging
+                                key: JWT_SECRET
                   resources:
                       requests:
                           memory: '256Mi'

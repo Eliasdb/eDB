@@ -17,22 +17,26 @@ class CartController extends Controller
     // Retrieve the user's cart (eager-load items and books)
     public function index(Request $request)
     {
-        // Assume the user is authenticated via JWT (as before)
+        // Retrieve the token from the Authorization header
         $token = $request->bearerToken();
+        Log::info("Received token: " . $token);
+    
         try {
             $payload = JWTAuth::setToken($token)->getPayload();
         } catch (\Exception $e) {
+            Log::error("Token verification failed: " . $e->getMessage());
             return response()->json(['error' => 'Invalid token'], 401);
         }
+        
         $userId = $payload->get('sub');
-
+    
         // Find or create a cart for the user
         $cart = Cart::firstOrCreate(['user_id' => $userId]);
         $cart->load('items.book');
         
         return new CartResource($cart);
     }
-
+    
     // Add an item to the cart
     public function addItem(StoreCartItemRequest $request)
     {
