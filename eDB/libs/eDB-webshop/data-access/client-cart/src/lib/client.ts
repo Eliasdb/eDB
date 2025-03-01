@@ -1,130 +1,87 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
-import { environment } from '@eDB-webshop/shared-env';
-import { Book, FavouriteD } from '@eDB-webshop/shared-types';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import {
+  Book,
+  CartItemCreateRequest,
+  OrderApiResponse,
+} from '@eDB-webshop/shared-types';
+import { environment } from '@eDB/shared-env';
+import {
+  injectMutation,
+  injectQuery,
+  QueryClient,
+} from '@tanstack/angular-query-experimental';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private baseURL = environment.apiUrl;
   private http = inject(HttpClient);
+  private queryClient = inject(QueryClient);
 
-  public selectedCartItems$ = new BehaviorSubject<Book[]>([]);
-  public isChecked$ = new BehaviorSubject<boolean>(false);
-  public selectedIds$ = new BehaviorSubject<any[]>([]);
-  public currentCartSource = new BehaviorSubject<Book[] | null | undefined>([]);
-  public currentFavouritesSource = new BehaviorSubject<
-    FavouriteD[] | null | undefined
-  >([]);
-  public userId$ = new BehaviorSubject<number>(0);
+  public selectedAmount = signal<number>(1);
 
-  getItems() {
-    const items = localStorage.getItem('cart') || '[]';
-    const parsedItems = JSON.parse(items);
-    return items ? parsedItems : [];
-  }
+  private cartResult = injectQuery(() => ({
+    queryKey: ['cart'],
+    queryFn: async () =>
+      await firstValueFrom(
+        this.http.get<OrderApiResponse>(`${environment.bookAPIUrl}/cart`),
+      ),
+    refetchOnWindowFocus: false,
+  }));
 
-  getFavouritedBooks(): FavouriteD[] {
-    const items = localStorage.getItem('favourites') || '[]';
-    const parsedItems = JSON.parse(items);
-    return items ? parsedItems : [];
-  }
+  cart = computed(() => this.cartResult.data?.() || []);
+  cartItems = computed(() => {
+    const response = this.cartResult.data?.();
 
-  addToCart(book: Book) {
-    const storedItems = this.getItems();
-    localStorage.setItem('cart', JSON.stringify([...storedItems, book]));
-    this.currentCartSource.next([...storedItems, book]);
-  }
+    return response?.data?.items || [];
+  });
 
-  addToFavourites(book: Book) {
-    const storedItems = this.getFavouritedBooks();
+  isLoading = computed(() => this.cartResult.isLoading?.());
+  error = computed(() => this.cartResult.error?.()?.message || null);
 
-    if (storedItems.length <= 0) {
-      const w = [
-        {
-          id: book.id,
-          favourited: true,
-        },
-      ];
-
-      localStorage.setItem('favourites', JSON.stringify(w));
-    }
-
-    if (storedItems.length >= 0) {
-      console.log('stored items', storedItems);
-
-      const selectedArray: number[] = [];
-
-      if (book.id) selectedArray.push(book.id);
-
-      console.log('selected array', selectedArray);
-
-      const filteredItems = storedItems.filter(
-        ({ id }: Book) => !selectedArray?.includes(id || 0),
+  // Update mutation to accept the minimal payload
+  readonly addToCartMutation = injectMutation(() => ({
+    mutationFn: async (payload: CartItemCreateRequest) => {
+      const updatedCart = await firstValueFrom(
+        this.http.post<OrderApiResponse>(
+          `${environment.bookAPIUrl}/cart/items`,
+          payload,
+        ),
       );
+      if (!updatedCart) {
+        throw new Error('Failed to update cart');
+      }
+      console.log(updatedCart);
+      return updatedCart;
+    },
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+  }));
 
-      console.log('filtered items', filteredItems);
-
-      const w = [
-        ...filteredItems,
-        {
-          id: book.id,
-          favourited: true,
-        },
-      ];
-
-      localStorage.setItem('favourites', JSON.stringify(w));
-    }
-
-    // if (book.id)
-    //   this.currentFavouritesSource.next([
-    //     ...storedItems,
-    //     { favourited: true, id: book.id },
-    //   ]);
+  // Use the mutation in your method
+  addToCart(payload: CartItemCreateRequest) {
+    // Execute the mutation with the provided payload (just id and selectedAmount)
+    this.addToCartMutation.mutate(payload);
   }
 
-  removeFromFavourites(id: number | undefined) {
-    const storedFavouritesSettings = this.getFavouritedBooks();
-
-    console.log('srt', storedFavouritesSettings);
-
-    console.log('id', id);
-
-    const x = storedFavouritesSettings.find((setting) => setting.id === id);
-    console.log('xx,, x', x);
-
-    if (x) {
-      x['favourited'] = false;
-      // console.log('jkhjh', storedFavouritesSettings);
-      // console.log(x);
-      localStorage.setItem(
-        'favourites',
-        JSON.stringify(storedFavouritesSettings),
+  readonly removeFromCartMutation = injectMutation(() => ({
+    mutationFn: async (cartItemId: number) => {
+      return firstValueFrom(
+        this.http.delete<Book>(
+          `${environment.bookAPIUrl}/cart/items/${cartItemId}`,
+        ),
       );
-    }
-  }
+    },
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+  }));
 
-  confirmOrder(bookIds: number[]) {
-    bookIds.forEach((element) => {
-      this.http
-        .patch<any>(
-          `${
-            this.baseURL
-          }/books/${element}?userId=${this.userId$.getValue()}&status=loaned`,
-          this.userId$.getValue(),
-        )
-        .subscribe(() => console.log('Order confirmed'));
-    });
-  }
-
-  setCurrentCart(cart: Book[] | null) {
-    this.currentCartSource.next(cart);
-  }
-
-  setCurrentUserId(id: number) {
-    this.userId$.next(id);
+  removeFromCart(cartItemId: number) {
+    // Execute the mutation with the provided cart item
+    this.removeFromCartMutation.mutate(cartItemId);
   }
 }

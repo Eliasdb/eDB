@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, input, Output } from '@angular/core';
-import { Book } from '@eDB-webshop/shared-types';
+import { OrderItem } from '@eDB-webshop/shared-types';
 import { UiButtonComponent } from '@eDB/shared-ui';
 
 import { StructuredListModule } from 'carbon-components-angular';
@@ -19,31 +19,33 @@ import { StructuredListModule } from 'carbon-components-angular';
             <cds-list-column>Price</cds-list-column>
             <cds-list-column>Remove</cds-list-column>
           </cds-list-header>
-          @for (book of books; track book.title) {
+          @for (cartItem of cartItems(); track $index) {
             <cds-list-row>
               <cds-list-column>
                 <img
-                  [src]="book.photoUrl"
-                  [alt]="book.title"
+                  [src]="cartItem.book.photoUrl"
+                  [alt]="cartItem.book.title"
                   style="width: 150px; height: auto;"
                 />
               </cds-list-column>
               <cds-list-column>
                 <div>
-                  <strong>{{ book.title }}</strong>
+                  <strong>{{ cartItem.book.title }}</strong>
                 </div>
-                <div>Author: {{ book.author }}</div>
-                <div>Year: {{ book.publishedDate }}</div>
-                <div>Genre: {{ book.genre }}</div>
+                <div>Author: {{ cartItem.book.author }}</div>
+                <div>Year: {{ cartItem.book.publishedDate }}</div>
+                <div>Genre: {{ cartItem.book.genre }}</div>
               </cds-list-column>
               <cds-list-column>
-                {{ book.genre }}
+                {{ cartItem.selectedAmount }}
               </cds-list-column>
               <cds-list-column>
-                {{ book.genre }}
+                {{ cartItem.book.price }}
               </cds-list-column>
               <cds-list-column>
-                <ui-button size="sm">Remove</ui-button>
+                <ui-button size="sm" (buttonClick)="removeItem(cartItem.id)"
+                  >Remove</ui-button
+                >
               </cds-list-column>
             </cds-list-row>
           }
@@ -73,47 +75,17 @@ import { StructuredListModule } from 'carbon-components-angular';
   ],
 })
 export class CartComponent {
+  readonly cartItems = input<OrderItem[]>();
+  readonly isCartVisible = input<boolean>(false);
+
   @Output() showCart = new EventEmitter<Event>();
+  @Output() cartItemDeleted = new EventEmitter<number>();
 
   toggleCart() {
     this.showCart.emit();
   }
 
-  readonly isCartVisible = input<boolean>(false);
-
-  animationDone(event: any) {
-    console.log('Animation done:', event);
-    // Optionally, if you need to remove the element after animation,
-    // you could set a flag here once the exit animation is complete.
+  removeItem(cartItemId: number) {
+    this.cartItemDeleted.emit(cartItemId);
   }
-
-  books: Book[] = [
-    {
-      title: 'Angular for Beginners',
-      author: 'John Doe',
-      publishedDate: '2020',
-      genre: 'Technology',
-      // amount: 1,
-      // price: 29.99,
-      photoUrl: 'https://edit.org/images/cat/book-covers-big-2019101610.jpg',
-    },
-    {
-      title: 'Learning TypeScript',
-      author: 'Jane Smith',
-      publishedDate: '2019',
-      genre: 'Programming',
-      // amount: 2,
-      // price: 39.99,
-      photoUrl: 'https://edit.org/images/cat/book-covers-big-2019101610.jpg',
-    },
-    {
-      title: 'Advanced JavaScript',
-      author: 'Jim Beam',
-      publishedDate: '2021',
-      genre: 'Technology',
-      // amount: 1,
-      // price: 49.99,
-      photoUrl: 'https://edit.org/images/cat/book-covers-big-2019101610.jpg',
-    },
-  ];
 }

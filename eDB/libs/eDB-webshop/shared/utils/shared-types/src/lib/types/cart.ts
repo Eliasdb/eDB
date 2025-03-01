@@ -1,11 +1,26 @@
-export interface CartItem {
+import { Book } from './book';
+
+export interface OrderItem {
   id: number;
-  photoUrl: string;
-  customerId: number;
-  title: string;
-  author: string;
-  status: string;
-  addedDate: Date;
-  publishedDate: Date;
-  lastLoanedDate: Date;
+  bookId: number;
+  selectedAmount: number;
+  price: number; // You might convert the string to a number if necessary.
+  book: Book;
+}
+
+export interface Order {
+  id: number;
+  userId: number;
+  items: OrderItem[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OrderApiResponse {
+  data: Order;
+}
+
+export interface CartItemCreateRequest {
+  id: number; // The book's id
+  selectedAmount: number; // The amount/quantity the user wants to add
 }

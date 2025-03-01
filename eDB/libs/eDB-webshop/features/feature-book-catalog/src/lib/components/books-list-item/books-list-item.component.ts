@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
-import { Book } from '../../types/book-param.type';
+import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'books-list-item',
