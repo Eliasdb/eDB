@@ -5,7 +5,7 @@ set -e
 ./wait-for-postgres.sh postgres-service-staging
 
 # Drop the books table (add this line)
-php artisan db:wipe --table=books --force
+php artisan tinker --execute="DB::statement('DROP TABLE IF EXISTS books')"
 
 # Run migrations
 php artisan migrate --force
