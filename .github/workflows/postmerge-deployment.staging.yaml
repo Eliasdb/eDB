@@ -34,7 +34,7 @@ jobs:
         runs-on: self-hosted
         needs: derive-pr-tag
         outputs:
-            platform_api: ${{ steps.set_booleans.outputs.platfom_api }}
+            platform_api: ${{ steps.set_booleans.outputs.platform_api }}
             webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
             platform_app: ${{ steps.set_booleans.outputs.platform_app }}
             admin_app: ${{ steps.set_booleans.outputs.admin_app }}
