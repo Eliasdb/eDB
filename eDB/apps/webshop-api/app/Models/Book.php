@@ -41,19 +41,26 @@ class Book extends Model
         return $query->orWhere('author', 'like', "%$value%");
     }
 
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer',
+    ];
+
     protected $fillable = [
      "title",
      "photo_url",
      "status",
      "genre",
+     "price",
+     "stock",
      "description",
      "author",
      "published_date",
-     "user_id"
     ];
 
-    public function user()
+    public function orders()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Order::class);
     }
+    
 }

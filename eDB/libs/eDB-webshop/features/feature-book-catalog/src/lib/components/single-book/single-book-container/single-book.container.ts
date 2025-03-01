@@ -9,10 +9,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BooksService } from '@eDB-webshop/client-books';
 import { CartService } from '@eDB-webshop/client-cart';
-import { Book } from '@eDB-webshop/shared-types';
+import { CartItemCreateRequest } from '@eDB-webshop/shared-types';
 import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
 import { UiButtonComponent } from '@eDB/shared-ui';
 import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
+import { QuantitySelectorComponent } from '../quantity-selector/quantity-selector.component';
 
 @Component({
   selector: 'single-book',
@@ -25,6 +26,7 @@ import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
     MatRippleModule,
     BreadcrumbsComponent,
     UiButtonComponent,
+    QuantitySelectorComponent,
   ],
   template: `
     <section class="flex flex-col mt-36 min-h-screen text-white">
@@ -76,12 +78,25 @@ import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
                         {{ book.status }}
                       </p>
                     </div>
+
+                    <div>
+                      <p>
+                        <span class="bold-text">Price:</span>
+                        {{ book.price | currency: 'EUR' : 'symbol' }}
+                      </p>
+                      <p>
+                        <app-quantity-selector
+                          [max]="book.stock"
+                          (quantityChange)="onQuantityChange($event)"
+                        ></app-quantity-selector>
+                      </p>
+                    </div>
                   </div>
 
                   <hr />
 
                   <div class="btn-container">
-                    <ui-button (buttonClick)="addToCart(book)"
+                    <ui-button (buttonClick)="addToCart(book.id)"
                       >Add to cart</ui-button
                     >
                   </div>
@@ -107,7 +122,8 @@ export class SingleBookContainer {
 
   // Convert route parameters to a signal.
   readonly routeParams = toSignal(this.activatedRoute.params);
-  readonly bookId = () => this.routeParams()?.['id'];
+  readonly bookId = (): number => this.routeParams()?.['id'];
+  selectedAmount: number = 9;
 
   // Query signals provided by the BooksService.
   // Note: These are not callable as functions; instead, access their signal properties.
@@ -121,26 +137,25 @@ export class SingleBookContainer {
   // Effect: update the selected book id when the route parameter changes.
   updateBookIdEffect = effect(() => {
     const id = this.bookId();
-
     if (id) {
-      this.booksService.updateSelectedBookId(Number(id));
+      this.booksService.updateSelectedBookId(id);
     }
   });
 
-  // Effect: once the book is loaded, update the selected genre for related books.
-  updateGenreEffect = effect(() => {
-    const currentBook = this.book();
-    if (currentBook) {
-      this.booksService.updateSelectedGenre(currentBook.genre);
-    }
-  });
+  addToCart(bookId: number) {
+    const payload: CartItemCreateRequest = {
+      id: bookId,
+      selectedAmount: this.cartService.selectedAmount(), // get the latest value
+    };
 
-  addToCart(book: Book) {
-    const currentBook = book;
-    if (currentBook) {
-      this.cartService.addToCart(currentBook);
-      // Optionally, show a snackbar notification here.
-      // this.snackBar.open('Book added to cart', 'Close', { duration: 3000 });
-    }
+    this.cartService.addToCart(payload);
+
+    // Optionally, show a snackbar notification here.
+    // this.snackBar.open('Book added to cart', 'Close', { duration: 3000 });
+  }
+
+  onQuantityChange(newAmount: number) {
+    console.log('New selected amount:', newAmount);
+    this.cartService.selectedAmount.set(newAmount);
   }
 }

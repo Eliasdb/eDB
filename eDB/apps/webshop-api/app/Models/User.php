@@ -17,6 +17,17 @@ class User extends Authenticatable
     use Notifiable;
     use FilterQueryString;
 
+
+    // Specify the correct table name
+    protected $table = 'Users';
+
+    // Specify the primary key if it's different from the default 'id'
+    protected $primaryKey = 'Id';
+
+    // If the primary key is non-incrementing or a string, adjust these properties:
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $filters = [
       "sort",
       'name',
@@ -66,20 +77,6 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
-    public function favourites()
-    {
-        return $this->hasMany(Favourite::class);
-    }
-
-    // public function getJWTIdentifier()
-    // {
-    //   return $this->getKey();
-    // }
-
-    // public function getJWTCustomClaims()
-    // {
-    //   return [];
-    // }
 
 
 }

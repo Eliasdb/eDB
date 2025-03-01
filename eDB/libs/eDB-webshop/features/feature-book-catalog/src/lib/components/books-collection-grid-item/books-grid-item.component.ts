@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Book } from '../../types/book-param.type';
+import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'books-grid-item',

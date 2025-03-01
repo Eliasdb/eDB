@@ -3,10 +3,9 @@
 use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BookController;
-use App\Http\Controllers\Api\V1\CommentController;
-use App\Http\Controllers\Api\V1\FavouriteController;
-use App\Http\Controllers\Api\V1\PostController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Api\V1\CartController;
+use App\Http\Controllers\Api\V1\OrderController;
+
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\V1\User\UserResource;
 use App\Models\User;
@@ -52,6 +51,11 @@ Route::group(["prefix" => "v1", "namespace" => "App\Http\Controllers\Api\V1"], f
     Route::get("logout", [AuthController::class, "logout"]);
     Route::get("admin-stats", [AdminController::class, "adminStats"]);
     Route::apiResource("books", BookController::class);
+    Route::apiResource('orders', OrderController::class);
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart/items', [CartController::class, 'addItem']);
+    Route::patch('/cart/items/{itemId}', [CartController::class, 'updateItem']);
+    Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
 
 });
 
@@ -61,12 +65,10 @@ Route::group([
     "namespace" => "App\Http\Controllers\Api\V1",
     "middleware" => ["auth:sanctum"]
 ], function () {
-    Route::apiResource("favourites", FavouriteController::class);
-
     Route::apiResource("users", AuthController::class);
-    Route::apiResource("posts", PostController::class);
-    Route::apiResource("comments", CommentController::class);
-
     // Route::get("profile", [ApiController::class, "profile"]);
     // Route::get("refresh", [ApiController::class, "refreshToken"]);
 });
+
+
+

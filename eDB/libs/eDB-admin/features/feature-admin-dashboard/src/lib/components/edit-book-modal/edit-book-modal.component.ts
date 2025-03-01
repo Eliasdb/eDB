@@ -147,6 +147,9 @@ export class EditBookDialog implements OnInit {
       genre: string;
       author: string;
       date: string;
+      price: number;
+      stock: number;
+      status: string;
       photoUrl: string;
       description: string;
     },
@@ -154,7 +157,15 @@ export class EditBookDialog implements OnInit {
     // Now data is available, so initialize book here
     this.book = {
       id: data.id,
-      status: 'available',
+      title: data.title,
+      genre: data.genre,
+      author: data.author,
+      publishedDate: data.date, // Assuming "date" corresponds to "publishedDate"
+      photoUrl: data.photoUrl,
+      description: data.description,
+      status: data.status,
+      price: data.price,
+      stock: data.stock,
     };
   }
 

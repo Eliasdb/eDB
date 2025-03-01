@@ -33,11 +33,24 @@ namespace Edb.PlatformAPI.Utilities
 
     public static string GenerateJwtToken(User user, IConfiguration configuration)
     {
+      var now = DateTime.UtcNow;
+
+      // Include standard claims for compatibility with Laravel's JWT library.
       var claims = new List<Claim>
       {
-        new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new(ClaimTypes.Email, user.Email),
-        new(ClaimTypes.Role, user.Role.ToString()),
+        // "sub" is the standard subject claim expected by many JWT libraries.
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+        // "jti" provides a unique identifier for the token.
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        // "iat" represents the time at which the token was issued.
+        new Claim(
+          JwtRegisteredClaimNames.Iat,
+          new DateTimeOffset(now).ToUnixTimeSeconds().ToString(),
+          ClaimValueTypes.Integer64
+        ),
+        // You can also keep your custom claims if needed.
+        new Claim(ClaimTypes.Email, user.Email),
+        new Claim(ClaimTypes.Role, user.Role.ToString()),
       };
 
       var jwtKey =
@@ -57,7 +70,8 @@ namespace Edb.PlatformAPI.Utilities
         issuer: jwtIssuer,
         audience: jwtAudience,
         claims: claims,
-        expires: DateTime.UtcNow.AddHours(1),
+        notBefore: now,
+        expires: now.AddHours(1),
         signingCredentials: creds
       );
 

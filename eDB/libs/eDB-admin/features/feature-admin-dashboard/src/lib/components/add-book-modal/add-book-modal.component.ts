@@ -151,6 +151,9 @@ export class AddBookDialog {
     status: 'available',
     publishedDate: '',
     description: '',
+    id: 0,
+    price: 0,
+    stock: 0,
   };
 
   onAddBook() {
