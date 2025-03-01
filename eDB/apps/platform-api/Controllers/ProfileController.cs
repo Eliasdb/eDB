@@ -22,7 +22,7 @@ namespace Edb.PlatformAPI.Controllers
       var response = _profileService.GetUserProfile(user);
       if (response == null)
       {
-        return NotFound(new { error = "NotFound", message = "Profile could not be mapped..." });
+        return NotFound(new { error = "NotFound", message = "Profile could not be mapped." });
       }
 
       return Ok(response);
