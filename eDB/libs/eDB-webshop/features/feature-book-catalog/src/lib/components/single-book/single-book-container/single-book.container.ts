@@ -42,46 +42,47 @@ import { QuantitySelectorComponent } from '../quantity-selector/quantity-selecto
         </div>
         <mat-card>
           <mat-card-content>
-            <section class="card-container min-h-screen">
-              <div class="img">
-                <div class="img-container">
+            <section
+              class="flex flex-col md:flex-row gap-8 p-4 items-center min-h-screen"
+            >
+              <div class="flex items-start justify-start flex-col gap-4">
+                <div class="h-[15rem] w-[10rem]">
                   <img
                     src="https://edit.org/images/cat/book-covers-big-2019101610.jpg"
                     alt="book"
-                    class="single-book-image"
+                    class="w-full h-full rounded-[0.25rem]"
                   />
                 </div>
               </div>
               @if (book(); as book) {
-                <div class="book-info-container">
-                  <h3>{{ book.title }}</h3>
+                <div class="max-w-[31rem]">
+                  <h3 class="font-semibold">{{ book.title }}</h3>
                   <p>{{ book.description }}</p>
 
-                  <div class="book-info">
+                  <div class="grid grid-cols-[2fr_1fr]">
                     <div>
                       <p>
-                        <span class="bold-text">Author:</span>
+                        <span class="font-semibold">Author:</span>
                         {{ book.author }}
                       </p>
                       <p>
-                        <span class="bold-text">Genre:</span>
+                        <span class="font-semibold">Genre:</span>
                         {{ book.genre }}
                       </p>
                     </div>
                     <div>
                       <p>
-                        <span class="bold-text">Year:</span>
+                        <span class="font-semibold">Year:</span>
                         {{ book.publishedDate | date: 'y' }}
                       </p>
                       <p>
-                        <span class="bold-text">Status:</span>
+                        <span class="font-semibold">Status:</span>
                         {{ book.status }}
                       </p>
                     </div>
-
                     <div>
                       <p>
-                        <span class="bold-text">Price:</span>
+                        <span class="font-semibold">Price:</span>
                         {{ book.price | currency: 'EUR' : 'symbol' }}
                       </p>
                       <p>
@@ -95,7 +96,7 @@ import { QuantitySelectorComponent } from '../quantity-selector/quantity-selecto
 
                   <hr />
 
-                  <div class="btn-container">
+                  <div class="flex gap-4 justify-start mt-6">
                     <ui-button (buttonClick)="addToCart(book.id)"
                       >Add to cart</ui-button
                     >
@@ -113,7 +114,6 @@ import { QuantitySelectorComponent } from '../quantity-selector/quantity-selecto
       }
     </section>
   `,
-  styleUrls: ['./single-book.container.scss'],
 })
 export class SingleBookContainer {
   private activatedRoute = inject(ActivatedRoute);
@@ -123,13 +123,10 @@ export class SingleBookContainer {
   // Convert route parameters to a signal.
   readonly routeParams = toSignal(this.activatedRoute.params);
   readonly bookId = (): number => this.routeParams()?.['id'];
-  selectedAmount: number = 9;
+  selectedAmount: number = 0;
 
   // Query signals provided by the BooksService.
-  // Note: These are not callable as functions; instead, access their signal properties.
   readonly bookResult = this.booksService.queryBookById;
-  readonly relatedBooksResult = this.booksService.queryBooksByGenre;
-
   // Derived signal: extract book data if the query was successful.
   readonly book = () =>
     this.bookResult.isSuccess() ? this.bookResult.data().data : null;
@@ -149,8 +146,6 @@ export class SingleBookContainer {
     };
 
     this.cartService.addToCart(payload);
-
-    // Optionally, show a snackbar notification here.
     // this.snackBar.open('Book added to cart', 'Close', { duration: 3000 });
   }
 

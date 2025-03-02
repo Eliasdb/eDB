@@ -14,14 +14,16 @@ import { UiTagComponent } from '../tag/tag.component';
     RouterLink,
   ],
   template: `
-    <cds-tile class="launch-tile">
+    <cds-tile
+      class="launch-tile p-0 border-t-[5px] border-t-[#393939]relative block w-full h-full overflow-hidden"
+    >
       @if (skeleton()) {
-        <div class="skeleton-placeholder">
+        <div class="skeleton-placeholder absolute inset-0 z-10">
           <cds-skeleton-placeholder></cds-skeleton-placeholder>
         </div>
       }
 
-      <div class="tile-header">
+      <div class="tile-header flex justify-start items-start gap-4 p-4">
         <div>
           <svg
             focusable="false"
@@ -42,25 +44,30 @@ import { UiTagComponent } from '../tag/tag.component';
         </div>
         <div>
           <h4 class="tile-title">{{ title() }}</h4>
-          <p class="tile-description">{{ description() }}</p>
+          <p class="tile-description font-light">{{ description() }}</p>
         </div>
       </div>
+
       <div class="tile-footer">
-        <div class="tile-tags">
+        <div class="tile-tags p-4">
           @for (tag of tags(); track $index) {
             <ui-tag [label]="tag"></ui-tag>
           }
         </div>
 
-        <div class="launch-btn-container">
-          <a routerLink="{{ routePath() }}"
-            ><ui-button [fullWidth]="true" size="sm">Launch</ui-button></a
-          >
+        <div class="launch-btn-container w-full">
+          <a routerLink="{{ routePath() }}">
+            <ui-button [fullWidth]="true" size="sm">Launch</ui-button>
+          </a>
         </div>
       </div>
     </cds-tile>
   `,
-  styleUrls: ['launch-tile.component.scss'],
+  styles: `
+    .launch-tile {
+      background-color: white;
+    }
+  `,
 })
 export class UiLaunchTileComponent {
   readonly title = input<string>('Test');

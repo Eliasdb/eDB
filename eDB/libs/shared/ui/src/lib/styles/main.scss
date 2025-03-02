@@ -1,13 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @import '@carbon/styles/css/styles.min.css'; */
 
 @import '@carbon/styles';
 
 :root {
   --cds-ui-01: yellow;
   --cds-button-primary-01: red;
+  /* --cds-layer: white; */
   --cds-heading-03-font-size: 1.25rem;
   --cds-body-compact-01-font-size: 1rem;
   --cds-body-compact-02-font-size: 0.9rem;

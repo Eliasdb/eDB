@@ -36,10 +36,10 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
       }
 
       @if (menuOptions().length > 0) {
-        <cds-header-global>
+        <cds-header-global class="overflow-hidden">
           <!-- Toggle button: text and target URL depend on environment -->
           @if (targetButtonText && targetUrl) {
-            <div class="admin-btn">
+            <div class="admin-btn flex justify-center items-center">
               <a [href]="targetUrl">
                 <ui-button size="sm" [icon]="'faArrowRight'">
                   {{ targetButtonText }}
@@ -63,7 +63,7 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
     <ng-template #brandTemplate>
       <a class="cds--header__name">
         <span class="cds--header__name--prefix">
-          <div class="logo">
+          <div class="logo -ml-2">
             <img
               src="https://i.ibb.co/7QfqfYc/logo.png"
               alt="eDB logo"
@@ -75,7 +75,6 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
       </a>
     </ng-template>
   `,
-  styleUrls: ['platform-header.component.scss'],
 })
 export class UiPlatformHeaderComponent implements OnInit {
   readonly isAdmin = input<boolean | null>();

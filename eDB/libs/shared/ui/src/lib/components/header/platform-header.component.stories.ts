@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { UiPlatformHeaderComponent } from '../platform-header/platform-header.component';
+import { UiPlatformHeaderComponent } from './platform-header.component';
 
 const meta: Meta<UiPlatformHeaderComponent> = {
   title: 'Components/Headers/Platform Header',

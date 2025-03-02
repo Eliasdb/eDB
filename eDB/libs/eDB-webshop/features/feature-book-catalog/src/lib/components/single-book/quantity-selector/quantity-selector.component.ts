@@ -23,9 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
   `,
 })
 export class QuantitySelectorComponent {
-  // Create an input signal with a default value of 1.
   quantity = model<number>(1);
-  max = input<number>(); // This signal may be undefined if not provided.
+  max = input<number>();
 
   @Output() quantityChange = new EventEmitter<number>();
 

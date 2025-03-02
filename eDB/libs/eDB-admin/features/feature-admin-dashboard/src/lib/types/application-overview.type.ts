@@ -25,8 +25,6 @@ export interface CreateApplicationDto {
   routePath: string;
 }
 
-// src/app/models/table.model.ts
-
 import { TableItem } from 'carbon-components-angular';
 
 /**
