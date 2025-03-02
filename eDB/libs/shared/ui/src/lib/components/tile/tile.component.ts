@@ -9,14 +9,14 @@ import { UiTagComponent } from '../tag/tag.component';
   template: `
     <cds-tile
       [class.subscribed]="isSubscribed()"
-      class="relative flex flex-col min-w-[20rem] rounded-md"
+      class="relative flex flex-col min-w-[20rem] rounded-md transition-colors duration-1000 ease-linear"
     >
-      <div class="tile-header">
-        <h3 class="tile-title">{{ title() }}</h3>
-        <p class="tile-description">{{ description() }}</p>
+      <div class="flex flex-col gap-4 p-4">
+        <h3 class="m-0 text-base">{{ title() }}</h3>
+        <p class="m-0 text-[0.9rem] text-[#6f6f6f] pr-8">{{ description() }}</p>
       </div>
-      <div class="tile-footer">
-        <div class="tile-tags">
+      <div class="flex justify-between items-center mt-12">
+        <div class="flex flex-wrap gap-2">
           @for (tag of tags(); track $index) {
             <ui-tag [label]="tag"></ui-tag>
           }
@@ -34,7 +34,6 @@ import { UiTagComponent } from '../tag/tag.component';
       </div>
     </cds-tile>
   `,
-  styleUrls: ['tile.component.scss'],
 })
 export class UiTileComponent {
   readonly id = input<number>(0);

@@ -27,15 +27,18 @@ import { loginFormFields } from './login-form.config';
     UiTitleComponent,
   ],
   template: `
-    <div class="login-form-container">
-      <section class="login-form-title">
+    <div class="max-w-[415px] mx-auto px-4 md:p-0">
+      <section class="border-b border-[#e0e0e0]">
         <ui-title text="Log in to eDB" fontSize="2rem"></ui-title>
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
+        <div
+          class="flex flex-col gap-4 items-stretch border-b border-[#e0e0e0] py-6"
+        >
           @for (field of fieldDefinitions; track field.controlName) {
             @if (field.controlType === 'text') {
               <ui-text-input
+                class="w-full"
                 [formControlName]="field.controlName"
                 [label]="field.label"
                 [invalid]="isFieldInvalid(field.controlName)"
@@ -43,6 +46,7 @@ import { loginFormFields } from './login-form.config';
               ></ui-text-input>
             } @else if (field.controlType === 'password') {
               <ui-password-input
+                class="w-full"
                 [formControlName]="field.controlName"
                 [label]="field.label"
                 [invalid]="isFieldInvalid(field.controlName)"
@@ -53,7 +57,7 @@ import { loginFormFields } from './login-form.config';
           <ui-button
             type="submit"
             icon="faArrowRight"
-            class="login-btn"
+            class="login-btn w-full"
             [isExpressive]="true"
             [fullWidth]="true"
             [disabled]="loginForm.invalid || isLoading"
@@ -63,10 +67,11 @@ import { loginFormFields } from './login-form.config';
           </ui-button>
         </div>
       </form>
-      <section class="no-account">
+      <section class="mb-12">
         <p>Don't have an account?</p>
         <ui-button
           icon="faPlus"
+          class="w-full"
           [fullWidth]="true"
           [isExpressive]="true"
           variant="tertiary"
@@ -77,7 +82,6 @@ import { loginFormFields } from './login-form.config';
       </section>
     </div>
   `,
-  styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);

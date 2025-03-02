@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HeaderModule } from 'carbon-components-angular';
 import { vi } from 'vitest';
-import { UiPlatformOverflowMenuComponent } from '../../navigation/overflow-menu/overflow-menu.component';
+import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/overflow-menu.component';
 import { UiPlatformHeaderComponent } from './platform-header.component';
 
 describe('UiPlatformHeaderComponent', () => {

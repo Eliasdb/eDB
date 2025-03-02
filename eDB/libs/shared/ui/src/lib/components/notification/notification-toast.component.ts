@@ -39,8 +39,6 @@ import { NotificationModule } from 'carbon-components-angular';
       ></cds-actionable-notification>
     }
   `,
-
-  styleUrls: ['./notification-toast.component.scss'],
 })
 export class UiNotificationToastComponent {
   readonly type = input<'toast' | 'notification' | 'actionable-notification'>(

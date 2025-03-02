@@ -68,7 +68,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
       </div>
 
       <!-- Status Filter and Clear Button -->
-      <section class="flex justify-between">
+      <section class="flex justify-between xl:flex-col xl:gap-4">
         <div>
           <h4 class="text-[13.5px] mb-[6px]">Status</h4>
           <mat-slide-toggle [(ngModel)]="isChecked" (change)="selectStatus()">

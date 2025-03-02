@@ -61,7 +61,6 @@ export class CartService {
     },
   }));
 
-  // Use the mutation in your method
   addToCart(payload: CartItemCreateRequest) {
     // Execute the mutation with the provided payload (just id and selectedAmount)
     this.addToCartMutation.mutate(payload);
@@ -81,7 +80,6 @@ export class CartService {
   }));
 
   removeFromCart(cartItemId: number) {
-    // Execute the mutation with the provided cart item
     this.removeFromCartMutation.mutate(cartItemId);
   }
 }

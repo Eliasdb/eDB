@@ -2,25 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { UiButtonComponent } from '@eDB/shared-ui';
 import { AccordionModule } from 'carbon-components-angular/accordion';
-
-export interface SubscribedUserDto {
-  userName: string;
-  userEmail: string;
-  userId: number;
-  subscriptionDate: string;
-}
-
-interface Application {
-  applicationName: string;
-  applicationDescription: string;
-  applicationId: number;
-  applicationRoutePath: string;
-  applicationTags: string[];
-  applicationIconUrl: string;
-  routePath: string;
-  subscribedUsers: SubscribedUserDto[];
-  subscriberCount: number;
-}
+import { Application } from '../../../types/application-overview.type';
 
 @Component({
   selector: 'platform-applications-accordion',

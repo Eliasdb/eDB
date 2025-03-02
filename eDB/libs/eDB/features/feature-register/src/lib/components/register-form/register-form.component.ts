@@ -26,7 +26,6 @@ import { registerFormFields } from './register-form.config';
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <!-- Form Group: flex column, gap, responsive right padding and bottom padding -->
       <div class="flex flex-col gap-4 pr-0 lg:pr-16 pb-20">
-        <!-- Iterate over rows -->
         @for (row of fieldRows; track row) {
           <!-- Form Row: default column on mobile, row on md+; with gap -->
           <div class="flex flex-col md:flex-row gap-4">
@@ -75,7 +74,6 @@ import { registerFormFields } from './register-form.config';
       </div>
     </form>
   `,
-  // No external styles needed; all styles are now in Tailwind classes.
   styleUrls: [],
 })
 export class RegisterFormComponent {

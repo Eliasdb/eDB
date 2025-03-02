@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -129,9 +128,7 @@ import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     MatProgressSpinnerModule,
     UiButtonComponent,
   ],

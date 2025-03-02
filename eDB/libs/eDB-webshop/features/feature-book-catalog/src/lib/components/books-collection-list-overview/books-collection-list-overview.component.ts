@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Book } from '@eDB-webshop/shared-types';
-import { BooksListItemComponent } from '../books-list-item/books-list-item.component';
+import { BooksListItemComponent } from './books-list-item/books-list-item.component';
 
 @Component({
   imports: [BooksListItemComponent],

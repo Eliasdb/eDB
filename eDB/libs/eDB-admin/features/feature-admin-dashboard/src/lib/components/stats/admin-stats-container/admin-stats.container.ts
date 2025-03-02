@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, computed, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { AdminService } from '@eDB/client-admin';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
@@ -16,7 +16,7 @@ import { AdminStatsCardComponent } from '../admin-stats-card/admin-stats-card.co
         @if (queryAdminStats.data(); as data) {
           <admin-stats-card
             [count]="data.bookCount"
-            [subText]="'total books'"
+            [subText]="'books'"
           ></admin-stats-card>
           <admin-stats-card
             [count]="data.loanedBooksCount"
@@ -24,7 +24,7 @@ import { AdminStatsCardComponent } from '../admin-stats-card/admin-stats-card.co
           ></admin-stats-card>
           <admin-stats-card
             [count]="data.userCount"
-            [subText]="'total users'"
+            [subText]="'users'"
           ></admin-stats-card>
         }
       </section>
@@ -51,7 +51,7 @@ import { AdminStatsCardComponent } from '../admin-stats-card/admin-stats-card.co
   `,
   styleUrls: ['./admin-stats.container.scss'],
 })
-export class AdminStatsContainer implements OnInit {
+export class AdminStatsContainer {
   loaded = false;
   private adminService = inject(AdminService);
 
@@ -59,41 +59,6 @@ export class AdminStatsContainer implements OnInit {
   queryAdminStats = this.adminService.queryAdminStats;
 
   // Compute derived signals based on queryAdminStats.data()
-  totalsByGenre = computed(() => {
-    const data = this.queryAdminStats.data();
-    return data ? data.totalsByGenre : [];
-  });
-
-  userPostData = computed(() => {
-    const data = this.queryAdminStats.data();
-    return data && data.userData ? data.userData.map((user) => user.user) : [];
-  });
-
-  userPostPostData = computed(() => {
-    const data = this.queryAdminStats.data();
-    return data && data.userData ? data.userData.map((user) => user.posts) : [];
-  });
-
-  userCommentPostData = computed(() => {
-    const data = this.queryAdminStats.data();
-    return data && data.userData
-      ? data.userData.map((user) => user.comments)
-      : [];
-  });
-
-  cityData = computed(() => {
-    const data = this.queryAdminStats.data();
-    return data && data.totalsByCity
-      ? data.totalsByCity.map((city) => city.city)
-      : [];
-  });
-
-  cityCountData = computed(() => {
-    const data = this.queryAdminStats.data();
-    return data && data.totalsByCity
-      ? data.totalsByCity.map((city) => city.count)
-      : [];
-  });
 
   public doughnutChartLabels: string[] = [
     'Action',
@@ -212,18 +177,4 @@ export class AdminStatsContainer implements OnInit {
   };
   public polarAreaLegend = true;
   public polarAreaChartType: ChartType = 'polarArea';
-
-  ngOnInit(): void {
-    // Use the computed signals to initialize your chart data.
-    const totals = this.totalsByGenre();
-    this.doughnutChartData.datasets[0].data = totals;
-    this.loaded = true;
-
-    this.barChartData.labels = this.userPostData();
-    this.barChartData.datasets[0].data = this.userPostPostData();
-    this.barChartData.datasets[1].data = this.userCommentPostData();
-
-    this.polarAreaChartData.labels = this.cityData();
-    this.polarAreaChartData.datasets[0].data = this.cityCountData();
-  }
 }

@@ -2,8 +2,8 @@
 import {
   RowMapperConfig,
   TableColumnConfig,
-} from '../../types/application-overview.model';
-import { UserProfile } from '../../types/user.model';
+} from '../../../types/application-overview.type';
+import { UserProfile } from '../../../types/user.type';
 
 export const USER_TABLE_COLUMNS: TableColumnConfig[] = [
   { header: 'ID', field: 'id', sortField: 'id', sortable: true },
