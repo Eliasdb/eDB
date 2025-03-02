@@ -12,7 +12,7 @@ import {
   SORT_QUERY_PARAM,
 } from '@eDB-webshop/util-book-params';
 import { AdminService } from '@eDB/client-admin';
-import { Book } from '../../../types/book.types';
+import { Book } from '../../../../types/book.type';
 import { BottomSheetComponent } from '../../bottom-sheet/bottom-sheet.component';
 import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection-overview/admin-books-collection-overview.component';
 @Component({
