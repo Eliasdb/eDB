@@ -31,7 +31,7 @@ import { Subscription } from 'rxjs';
     <!-- Desktop View -->
     <div
       @slideAnimation
-      class="fixed top-32 left-0 w-screen bg-white max-h-[30rem] overflow-y-auto shadow-md z-[9000]"
+      class="fixed top-32 left-0 w-screen bg-[#F5F5F5] max-h-[30rem] overflow-y-auto shadow-md z-[9000] p-4 py-1"
     >
       @if (!isMobile) {
         <section class="cart">
@@ -97,27 +97,48 @@ import { Subscription } from 'rxjs';
       } @else {
         @if (cartItems()?.length) {
           @for (cartItem of cartItems(); track $index) {
-            <div class="relative mb-4 border p-4 rounded-md">
+            <div
+              class="relative border border-solid p-4 bg-[#DBDBDB] rounded-[0.25rem] mt-4"
+            >
               <!-- Floating Action Button positioned in the top right -->
               <div class="absolute top-2 right-2 scale-[0.6]">
                 <button mat-mini-fab (click)="removeItem(cartItem.id)">
                   <mat-icon>close</mat-icon>
                 </button>
               </div>
-              <div class="flex items-center">
+              <div class="flex items-end">
                 <img
                   [src]="cartItem.book.photoUrl"
                   [alt]="cartItem.book.title"
                   class="w-24 h-auto mr-4"
                 />
-                <div>
-                  <h4 class="font-bold text-base">{{ cartItem.book.title }}</h4>
-                  <p class="text-sm">Author: {{ cartItem.book.author }}</p>
-                  <p class="text-sm">Year: {{ cartItem.book.publishedDate }}</p>
-                  <p class="text-sm">Genre: {{ cartItem.book.genre }}</p>
+                <div class="max-w-[9rem]">
+                  <h4 class="font-bold text-base  mb-4">
+                    {{ cartItem.book.title }}
+                  </h4>
+                  <div class="flex flex-col gap-2">
+                    <div>
+                      <p class="text-sm font-semibold m-0 ">Author</p>
+                      <span class="text-sm text-gray-600">{{
+                        cartItem.book.author
+                      }}</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold m-0">Year</p>
+                      <span class="text-sm text-gray-600">{{
+                        cartItem.book.publishedDate
+                      }}</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold m-0">Genre</p>
+                      <span class="text-sm text-gray-600">{{
+                        cartItem.book.genre
+                      }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="flex justify-between items-center mt-2">
+              <div class="flex justify-between items-center">
                 <app-quantity-selector
                   [max]="cartItem.book.stock"
                   (quantityChange)="updateQuantity(cartItem.id, $event)"
