@@ -62,38 +62,36 @@ import { QuantitySelectorComponent } from '../quantity-selector/quantity-selecto
                   <div class="grid grid-cols-[2fr_1fr]">
                     <div>
                       <p>
-                        <span class="font-semibold">Author:</span>
+                        <span class="font-semibold">Author</span><br />
                         {{ book.author }}
                       </p>
                       <p>
-                        <span class="font-semibold">Genre:</span>
+                        <span class="font-semibold">Genre</span><br />
                         {{ book.genre }}
                       </p>
                     </div>
                     <div>
-                      <p>
-                        <span class="font-semibold">Year:</span>
+                      <p class="text-right">
+                        <span class="font-semibold">Year</span><br />
                         {{ book.publishedDate | date: 'y' }}
                       </p>
-                      <p>
-                        <span class="font-semibold">Status:</span>
+                      <p class="text-right">
+                        <span class="font-semibold">Status</span><br />
                         {{ book.status }}
                       </p>
                     </div>
-                    <div>
-                      <p>
-                        <span class="font-semibold">Price:</span>
-                        {{ book.price | currency: 'EUR' : 'symbol' }}
-                      </p>
-                      <p>
-                        <app-quantity-selector
-                          [max]="book.stock"
-                          (quantityChange)="onQuantityChange($event)"
-                        ></app-quantity-selector>
-                      </p>
-                    </div>
                   </div>
+                  <div class="flex items-center justify-between">
+                    <p>
+                      <span class="font-semibold">Price</span><br />
+                      {{ book.price | currency: 'EUR' : 'symbol' }}
+                    </p>
 
+                    <app-quantity-selector
+                      [max]="book.stock"
+                      (quantityChange)="onQuantityChange($event)"
+                    ></app-quantity-selector>
+                  </div>
                   <hr />
 
                   <div class="flex gap-4 justify-start mt-6">

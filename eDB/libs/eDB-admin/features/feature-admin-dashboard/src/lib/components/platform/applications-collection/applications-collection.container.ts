@@ -27,7 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import {
   Application,
   CreateApplicationDto,
-} from '../../types/application-overview.model';
+} from '../../../types/application-overview.type';
 import { ApplicationsCollectionAccordionComponent } from '../applications-collection-mobile-accordion/applications-collection-mobile-accordion';
 import {
   APPLICATION_TABLE_CONFIG,
