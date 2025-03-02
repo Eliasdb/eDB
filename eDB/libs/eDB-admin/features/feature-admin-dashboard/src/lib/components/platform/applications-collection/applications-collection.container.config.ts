@@ -1,6 +1,6 @@
 import { TableHeaderItem, TableItem } from 'carbon-components-angular/table';
-import { Application } from '../../types/application-overview.model';
-import { ExpandedDataConfig } from '../../types/user.model';
+import { Application } from '../../../types/application-overview.type';
+import { ExpandedDataConfig } from '../../../types/user.type';
 
 export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
   headers: [
