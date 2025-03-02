@@ -6,7 +6,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/eDB-webshop/shared/shared-env',
+  cacheDir: '../node_modules/.vite/feature-cart',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   // Uncomment this if you are using workers.
   // worker: {
@@ -20,8 +20,7 @@ export default defineConfig({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory:
-        '../../../../coverage/libs/eDB-webshop/shared/shared-env',
+      reportsDirectory: '../coverage/feature-cart',
       provider: 'v8',
     },
   },

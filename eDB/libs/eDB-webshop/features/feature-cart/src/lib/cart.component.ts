@@ -9,14 +9,24 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { OrderItem } from '@eDB-webshop/shared-types';
+import { QuantitySelectorComponent } from '@eDB-webshop/ui-webshop';
 import { UiButtonComponent } from '@eDB/shared-ui';
 import { StructuredListModule } from 'carbon-components-angular';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
-  imports: [StructuredListModule, UiButtonComponent, CommonModule],
+  imports: [
+    StructuredListModule,
+    UiButtonComponent,
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    QuantitySelectorComponent,
+  ],
   template: `
     <!-- Desktop View -->
     <div
@@ -29,7 +39,7 @@ import { Subscription } from 'rxjs';
             <cds-list-header>
               <cds-list-column>Cover</cds-list-column>
               <cds-list-column>Details</cds-list-column>
-              <cds-list-column>Amount</cds-list-column>
+              <cds-list-column>Quantity</cds-list-column>
               <cds-list-column>Price</cds-list-column>
               <cds-list-column>Remove</cds-list-column>
             </cds-list-header>
@@ -51,10 +61,16 @@ import { Subscription } from 'rxjs';
                   <div>Genre: {{ cartItem.book.genre }}</div>
                 </cds-list-column>
                 <cds-list-column>
-                  {{ cartItem.selectedAmount }}
+                  <app-quantity-selector
+                    [max]="cartItem.book.stock"
+                    (quantityChange)="updateQuantity(cartItem.id, $event)"
+                  ></app-quantity-selector>
                 </cds-list-column>
                 <cds-list-column>
-                  {{ cartItem.book.price }}
+                  {{
+                    cartItem.book.price * cartItem.selectedAmount
+                      | currency: 'EUR' : 'symbol'
+                  }}
                 </cds-list-column>
                 <cds-list-column>
                   <ui-button size="sm" (buttonClick)="removeItem(cartItem.id)">
@@ -79,48 +95,58 @@ import { Subscription } from 'rxjs';
           </section>
         </section>
       } @else {
-        @for (cartItem of cartItems(); track $index) {
-          <div class="mb-4 border p-4 rounded-md">
-            <div class="flex items-center">
-              <img
-                [src]="cartItem.book.photoUrl"
-                [alt]="cartItem.book.title"
-                class="w-24 h-auto mr-4"
-              />
-              <div>
-                <h4 class="font-bold text-base">{{ cartItem.book.title }}</h4>
-                <p class="text-sm">Author: {{ cartItem.book.author }}</p>
-                <p class="text-sm">Year: {{ cartItem.book.publishedDate }}</p>
-                <p class="text-sm">Genre: {{ cartItem.book.genre }}</p>
+        @if (cartItems()?.length) {
+          @for (cartItem of cartItems(); track $index) {
+            <div class="relative mb-4 border p-4 rounded-md">
+              <!-- Floating Action Button positioned in the top right -->
+              <div class="absolute top-2 right-2 scale-[0.6]">
+                <button mat-mini-fab (click)="removeItem(cartItem.id)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <div class="flex items-center">
+                <img
+                  [src]="cartItem.book.photoUrl"
+                  [alt]="cartItem.book.title"
+                  class="w-24 h-auto mr-4"
+                />
+                <div>
+                  <h4 class="font-bold text-base">{{ cartItem.book.title }}</h4>
+                  <p class="text-sm">Author: {{ cartItem.book.author }}</p>
+                  <p class="text-sm">Year: {{ cartItem.book.publishedDate }}</p>
+                  <p class="text-sm">Genre: {{ cartItem.book.genre }}</p>
+                </div>
+              </div>
+              <div class="flex justify-between items-center mt-2">
+                <app-quantity-selector
+                  [max]="cartItem.book.stock"
+                  (quantityChange)="updateQuantity(cartItem.id, $event)"
+                ></app-quantity-selector>
+                <span class="text-sm font-semibold">
+                  {{
+                    cartItem.book.price * cartItem.selectedAmount
+                      | currency: 'EUR' : 'symbol'
+                  }}
+                </span>
               </div>
             </div>
-            <div class="flex justify-between items-center mt-2">
-              <span class="text-sm">Amount: {{ cartItem.selectedAmount }}</span>
-              <span class="text-sm font-semibold"
-                >Price: {{ cartItem.book.price }}</span
-              >
+          }
+          <div class="border-t p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-lg font-semibold">Total</h3>
+              <span class="text-lg font-semibold">
+                {{ totalPrice() | currency: 'EUR' : 'symbol' }}
+              </span>
             </div>
-            <div class="mt-2">
-              <ui-button size="sm" (buttonClick)="removeItem(cartItem.id)">
-                Remove
+            <div class="flex justify-end">
+              <ui-button size="sm" (buttonClick)="toggleCart()">
+                Proceed to checkout
               </ui-button>
             </div>
           </div>
+        } @else {
+          <p class="text-center py-2">Your cart is empty... Fill it! 🛒</p>
         }
-
-        <div class="border-t p-4">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">Total</h3>
-            <span class="text-lg font-semibold">{{
-              totalPrice() | currency: 'EUR' : 'symbol'
-            }}</span>
-          </div>
-          <div class="flex justify-end">
-            <ui-button size="sm" (buttonClick)="toggleCart()">
-              Proceed to checkout
-            </ui-button>
-          </div>
-        </div>
       }
     </div>
     <!-- Mobile View -->
@@ -145,6 +171,10 @@ export class CartComponent implements OnInit, OnDestroy {
 
   @Output() showCart = new EventEmitter<Event>();
   @Output() cartItemDeleted = new EventEmitter<number>();
+  @Output() quantityChanged = new EventEmitter<{
+    id: number;
+    quantity: number;
+  }>();
 
   isMobile: boolean = false;
   private breakpointSub: Subscription = new Subscription();
@@ -171,6 +201,16 @@ export class CartComponent implements OnInit, OnDestroy {
 
   removeItem(cartItemId: number) {
     this.cartItemDeleted.emit(cartItemId);
+  }
+
+  updateQuantity(cartItemId: number, newQuantity: number) {
+    // Update the selectedAmount for the specific cart item.
+    const items = this.cartItems();
+    const item = items?.find((i) => i.id === cartItemId);
+    if (item) {
+      item.selectedAmount = newQuantity;
+    }
+    this.quantityChanged.emit({ id: cartItemId, quantity: newQuantity });
   }
 
   totalPrice(): number {

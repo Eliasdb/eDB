@@ -10,10 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 import { BooksService } from '@eDB-webshop/client-books';
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartItemCreateRequest } from '@eDB-webshop/shared-types';
-import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
+import {
+  BreadcrumbsComponent,
+  LoadingStateComponent,
+  QuantitySelectorComponent,
+} from '@eDB-webshop/ui-webshop';
 import { UiButtonComponent } from '@eDB/shared-ui';
-import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
-import { QuantitySelectorComponent } from '../quantity-selector/quantity-selector.component';
 
 @Component({
   selector: 'single-book',
@@ -113,7 +115,7 @@ import { QuantitySelectorComponent } from '../quantity-selector/quantity-selecto
     </section>
   `,
 })
-export class SingleBookContainer {
+export class SingleBookPage {
   private activatedRoute = inject(ActivatedRoute);
   private booksService = inject(BooksService);
   private cartService = inject(CartService);
