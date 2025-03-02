@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@eDB-webshop/feature-cart": [
-        "libs/eDB-webshop/features/feature-cart/src/index.ts"
+      "@eDB-webshop/feature-checkout": [
+        "libs/eDB-webshop/features/feature-checkout/src/index.ts"
       ],
       "@e-db/generated-platform-api-types": [
         "libs/generated/platform-api-types/src/index"
@@ -30,6 +30,9 @@
       ],
       "@eDB-webshop/feature-book-catalog": [
         "libs/eDB-webshop/features/feature-book-catalog/src/index.ts"
+      ],
+      "@eDB-webshop/feature-cart": [
+        "libs/eDB-webshop/features/feature-cart/src/index.ts"
       ],
       "@eDB-webshop/shared-data": [
         "libs/eDB-webshop/shared/utils/shared-data/src/index.ts"
