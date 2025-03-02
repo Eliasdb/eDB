@@ -7,16 +7,17 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule, MatButtonModule],
   template: `
-    <div class="flex items-center gap-4">
+    <div class="flex items-center lg:gap-2">
       <button
         mat-mini-fab
         aria-label="Decrement quantity"
         (click)="decrement()"
+        class="scale-[0.6]"
       >
         <mat-icon>remove</mat-icon>
       </button>
       <span>{{ quantity() }}</span>
-      <button mat-mini-fab (click)="increment()">
+      <button mat-mini-fab (click)="increment()" class="scale-[0.6]">
         <mat-icon>add</mat-icon>
       </button>
     </div>

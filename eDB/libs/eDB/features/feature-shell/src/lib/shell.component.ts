@@ -1,23 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Router, RouterModule } from '@angular/router';
+
 import { CartService } from '@eDB-webshop/client-cart';
 import { AuthService } from '@eDB/client-auth';
+import { NavigationService } from '@eDB/util-navigation';
 
+import { CartComponent } from '@eDB-webshop/feature-cart';
 import {
   UiPlatformHeaderComponent,
   UiPlatformSubHeaderComponent,
   UiPortalFooterComponent,
 } from '@eDB/shared-ui';
-import { NavigationService } from '@eDB/util-navigation';
+
 import {
   I18nModule,
   NotificationService,
   PlaceholderModule,
 } from 'carbon-components-angular';
-import { CartComponent } from '../components/cart/cart.component';
+
 import { MENU_OPTIONS } from './shell.config';
 @Component({
   selector: 'app-shell',
