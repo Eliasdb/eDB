@@ -40,18 +40,18 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
   providers: [TEXTAREA_VALUE_ACCESSOR],
 })
 export class UiTextAreaComponent implements ControlValueAccessor {
-  readonly label = input<string>(''); // Label for the textarea field
-  readonly placeholder = input<string>(''); // Placeholder text
-  readonly disabled = input<boolean>(false); // Whether the textarea is disabled
-  readonly invalid = input<boolean>(false); // Whether the textarea is in invalid state
-  readonly helperText = input<string>(''); // Helper text displayed below the input
-  readonly invalidText = input<string>(''); // Error text shown when invalid
-  readonly warn = input<boolean>(false); // Whether the textarea has a warning state
-  readonly warnText = input<string>(''); // Warning text displayed
-  readonly skeleton = input<boolean>(false); // Whether to show a skeleton loader
-  readonly size = input<'sm' | 'md' | 'lg'>('md'); // Size of the textarea field
-  readonly theme = input<'light' | 'dark'>('dark'); // Theme of the textarea field
-  readonly readonly = input<boolean>(false); // Whether the textarea is read-only
+  readonly label = input<string>('');
+  readonly placeholder = input<string>('');
+  readonly disabled = input<boolean>(false);
+  readonly invalid = input<boolean>(false);
+  readonly helperText = input<string>('');
+  readonly invalidText = input<string>('');
+  readonly warn = input<boolean>(false);
+  readonly warnText = input<string>('');
+  readonly skeleton = input<boolean>(false);
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly theme = input<'light' | 'dark'>('dark');
+  readonly readonly = input<boolean>(false);
   readonly rows = input<number>(4);
   readonly cols = input<number>(101);
 

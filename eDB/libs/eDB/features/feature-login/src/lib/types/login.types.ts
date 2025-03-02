@@ -1,9 +1,9 @@
 export interface User {
-  id?: number;
+  id: number;
   email: string;
   password?: string; // Only required during registration
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   country?: string; // Optional since it's not required for login
   state?: string;
   phoneNumber?: string;

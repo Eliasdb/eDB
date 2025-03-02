@@ -110,32 +110,4 @@ export class BooksService {
     this.selectedBookId.set(id);
     return this.queryBookById;
   }
-
-  // --- Query Books By Genre ---
-  // Create a signal for the currently selected genre.
-  public selectedGenre = signal<string | undefined>(undefined);
-
-  // Create a query that depends on the selected genre.
-  public queryBooksByGenre = injectQuery<RawApiDataBooks, Error>(() => {
-    const genre = this.selectedGenre();
-    // Build HTTP parameters using the genre (if provided).
-    const params = new HttpParams().set('genre', genre || '');
-    return {
-      queryKey: ['RELATED_BOOKS', genre] as const,
-      queryFn: async () => {
-        return await firstValueFrom(
-          this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
-            params,
-          }),
-        );
-      },
-      refetchOnMount: true,
-    };
-  });
-
-  // Update method to set the genre signal.
-  public updateSelectedGenre(genre?: string) {
-    this.selectedGenre.set(genre);
-    return this.queryBooksByGenre;
-  }
 }

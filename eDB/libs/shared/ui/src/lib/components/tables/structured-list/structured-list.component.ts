@@ -15,11 +15,11 @@ import { UiSkeletonTextComponent } from '../../text/skeleton-text/skeleton-text.
     CommonModule,
     FormsModule,
     StructuredListModule,
+    ButtonModule,
     UiIconComponent,
     UiButtonComponent,
     UiTextInputComponent,
     UiPasswordInputComponent,
-    ButtonModule,
     UiSkeletonTextComponent,
   ],
   template: `
