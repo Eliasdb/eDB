@@ -1,8 +1,8 @@
-using Edb.PlatformAPI.DTOs.Auth;
-using Edb.PlatformAPI.Interfaces;
+using EDb.FeatureAuth.DTOs;
+using EDb.FeatureAuth.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Edb.PlatformAPI.Controllers
+namespace EDb.FeatureAuth.Controllers
 {
   public class AuthController(IAuthService authService) : BaseApiController
   {

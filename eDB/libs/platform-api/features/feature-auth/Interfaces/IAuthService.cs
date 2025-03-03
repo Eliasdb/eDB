@@ -1,7 +1,6 @@
-using Edb.PlatformAPI.DTOs.Admin;
-using Edb.PlatformAPI.DTOs.Auth;
+using EDb.FeatureAuth.DTOs;
 
-namespace Edb.PlatformAPI.Interfaces;
+namespace EDb.FeatureAuth.Interfaces;
 
 public interface IAuthService
 {

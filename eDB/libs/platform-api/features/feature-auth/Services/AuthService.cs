@@ -1,13 +1,12 @@
 using AutoMapper;
+using EDb.AuthUtils;
 using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
-using Edb.PlatformAPI.DTOs.Admin;
-using Edb.PlatformAPI.DTOs.Auth;
-using Edb.PlatformAPI.Interfaces;
-using Edb.PlatformAPI.Utilities;
+using EDb.FeatureAuth.DTOs;
+using EDb.FeatureAuth.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Edb.PlatformAPI.Services
+namespace EDb.FeatureAuth.Services
 {
   public class AuthService(
     IConfiguration configuration,
@@ -28,7 +27,7 @@ namespace Edb.PlatformAPI.Services
         return (false, "Email already exists!", null);
       }
 
-      var (hashedPassword, salt) = AuthUtils.HashPassword(request.Password);
+      var (hashedPassword, salt) = AllAuthUtils.HashPassword(request.Password);
 
       var user = _mapper.Map<User>(request);
       user.PasswordHash = hashedPassword;
@@ -53,13 +52,13 @@ namespace Edb.PlatformAPI.Services
       if (
         user == null
         || string.IsNullOrEmpty(user.Salt)
-        || !AuthUtils.VerifyPassword(request.Password, user.PasswordHash, user.Salt)
+        || !AllAuthUtils.VerifyPassword(request.Password, user.PasswordHash, user.Salt)
       )
       {
         return (false, "Invalid email or password!", null, null);
       }
 
-      var token = AuthUtils.GenerateJwtToken(user, _configuration);
+      var token = AllAuthUtils.GenerateJwtToken(user, _configuration);
 
       var userDto = _mapper.Map<UserDto>(user);
 
