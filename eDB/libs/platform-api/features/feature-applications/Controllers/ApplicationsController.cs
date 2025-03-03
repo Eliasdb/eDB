@@ -1,6 +1,7 @@
 using EDb.FeatureApplications.DTOs;
 using EDb.FeatureApplications.Interfaces;
 using EDb.UtilAttributes.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EDb.FeatureApplications.Controllers;
@@ -10,7 +11,7 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   private readonly IApplicationsService _applicationsService = applicationsService;
 
   [HttpGet]
-  [RoleAuthorize("User", "Admin")]
+  [Authorize(Policy = "UserOrAdminPolicy")]
   public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
   {
     // Get the general catalog
@@ -41,7 +42,7 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   }
 
   [HttpPost("subscribe")]
-  [RoleAuthorize("User", "Admin")]
+  [Authorize(Policy = "UserOrAdminPolicy")]
   public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
   {
     var userId = _applicationsService.GetAuthenticatedUserId(User);
@@ -59,7 +60,7 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   }
 
   [HttpGet("user")]
-  [RoleAuthorize("User", "Admin")]
+  [Authorize(Policy = "UserOrAdminPolicy")]
   public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
   {
     var userId = _applicationsService.GetAuthenticatedUserId(User);

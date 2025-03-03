@@ -1,9 +1,7 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
-using EDb.FeatureApplications.Mapping;
+using EDb.FeatureAuth.Extensions;
 using Edb.PlatformAPI.Extensions;
-using Edb.PlatformAPI.Mapping;
-using Edb.PlatformAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +20,7 @@ if (builder.Environment.IsDevelopment())
 // --- Service Registrations ---
 // Add modular services from extension methods
 builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
-builder.Services.AddIdentityServices(builder.Configuration); // Identity & JWT services
+builder.Services.AddAuthServices(builder.Configuration);
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();
@@ -67,11 +65,29 @@ else
   app.UseHttpsRedirection();
 }
 
+app.UseSession();
+
 app.UseCors("AllowFrontend");
+
 app.UseCustomMiddlewares();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// app.Use(
+//   async (context, next) =>
+//   {
+//     if (
+//       context.Request.Path.StartsWithSegments("/api")
+//       && !context.User.Identity?.IsAuthenticated == true
+//     )
+//     {
+//       context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+//       return;
+//     }
+//     await next();
+//   }
+// );
 
 // Map controllers
 app.MapControllers();

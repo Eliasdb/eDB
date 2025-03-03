@@ -14,7 +14,7 @@ import { AuthService } from '@eDB/client-auth';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
 
-import { Credentials, LoginResponse } from '../../types/login.types';
+import { Credentials } from '../../types/login.types';
 import { loginFormFields } from './login-form.config';
 
 @Component({
@@ -123,15 +123,14 @@ export class LoginFormComponent implements OnInit {
       const credentials: Credentials = this.loginForm.getRawValue();
 
       this.loginMutation.mutate(credentials, {
-        onSuccess: (response: LoginResponse) =>
-          this.handleLoginSuccess(response),
+        onSuccess: () => this.handleLoginSuccess(),
         onError: (error: HttpErrorResponse) => this.handleLoginError(error),
       });
     }
   }
 
-  private handleLoginSuccess(response: LoginResponse): void {
-    this.authService.handleLogin(response.token);
+  private handleLoginSuccess(): void {
+    this.authService.isAuthenticatedSubject.next(true); // ✅ Manually mark user as logged in
     this.router.navigateByUrl(this.returnUrl);
     this.notificationService.showNotification({
       type: 'success',

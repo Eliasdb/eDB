@@ -3,13 +3,17 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideAppInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16';
 import UserIcon from '@carbon/icons/es/user/16';
 
-import { AuthInterceptor, ErrorInterceptor } from '@eDB/shared-utils';
+import { AuthInterceptor } from '@eDB/shared-utils';
 
 import {
   provideTanStackQuery,
@@ -24,6 +28,7 @@ import {
   NotificationService,
   PlaceholderService,
 } from 'carbon-components-angular';
+import { initializeAppFactory } from './app.initialiser';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -36,10 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
 
     provideTanStackQuery(new QueryClient()),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([AuthInterceptor, ErrorInterceptor]),
-    ),
+    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     NotificationService,
     ModalService,
     ExperimentalService,
@@ -53,5 +55,6 @@ export const appConfig: ApplicationConfig = {
         return iconService;
       },
     },
+    provideAppInitializer(initializeAppFactory),
   ],
 };

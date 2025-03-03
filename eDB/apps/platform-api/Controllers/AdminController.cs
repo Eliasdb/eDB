@@ -2,6 +2,7 @@ using Edb.PlatformAPI.DTOs;
 using Edb.PlatformAPI.DTOs.Admin;
 using Edb.PlatformAPI.Interfaces;
 using EDb.UtilAttributes.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Edb.PlatformAPI.Controllers
@@ -11,7 +12,7 @@ namespace Edb.PlatformAPI.Controllers
     private readonly IAdminService _adminService = adminService;
 
     [HttpGet("area")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public IActionResult AdminArea()
     {
       Console.WriteLine("AdminArea endpoint hit");
@@ -19,7 +20,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpGet("users")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<ActionResult<PagedUserResult<UserDto>>> GetUsers(
       [FromQuery] string? cursor = null,
       [FromQuery] string sort = "id,asc",
@@ -32,7 +33,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpGet("users/{userId}")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<ActionResult<UserDto>> GetUserById([FromRoute] int userId)
     {
       var user = await _adminService.GetUserByIdAsync(userId);
@@ -46,7 +47,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpDelete("users/{userId}")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> DeleteUser([FromRoute] int userId)
     {
       var success = await _adminService.DeleteUserAsync(userId);
@@ -60,7 +61,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpGet("applications")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<
       ActionResult<IEnumerable<ApplicationOverviewDto>>
     > GetApplicationsWithSubscribers()
@@ -71,7 +72,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpPost("applications/create")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> AddApplication([FromBody] CreateApplicationDto applicationDto)
     {
       var application = await _adminService.AddApplicationAsync(applicationDto);
@@ -90,7 +91,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpPut("applications/{applicationId}")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> UpdateApplication(
       [FromRoute] int applicationId,
       [FromBody] UpdateApplicationDto applicationDto
@@ -112,7 +113,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpDelete("applications/{applicationId}/subscriptions/{userId}")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> RevokeSubscription(
       [FromRoute] int applicationId,
       [FromRoute] int userId
@@ -129,7 +130,7 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpDelete("applications/{applicationId}")]
-    [RoleAuthorize("Admin")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> DeleteApplication([FromRoute] int applicationId)
     {
       var success = await _adminService.DeleteApplicationAsync(applicationId);

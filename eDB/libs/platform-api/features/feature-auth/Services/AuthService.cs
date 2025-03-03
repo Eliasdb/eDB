@@ -1,9 +1,11 @@
+using System.Net.Http;
 using AutoMapper;
 using EDb.AuthUtils;
 using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
 using EDb.FeatureAuth.DTOs;
 using EDb.FeatureAuth.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace EDb.FeatureAuth.Services
@@ -11,12 +13,14 @@ namespace EDb.FeatureAuth.Services
   public class AuthService(
     IConfiguration configuration,
     IUserRepository userRepository,
-    IMapper mapper
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor
   ) : IAuthService
   {
     private readonly IConfiguration _configuration = configuration;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IMapper _mapper = mapper;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     public async Task<(bool Success, string Message, UserDto? User)> RegisterUserAsync(
       RegisterRequest request
@@ -41,7 +45,7 @@ namespace EDb.FeatureAuth.Services
       return (true, "Registration successful!", userDto);
     }
 
-    public async Task<(bool Success, string Message, string? Token, UserDto? User)> LoginAsync(
+    public async Task<(bool Success, string Message, UserDto? User)> LoginAsync(
       LoginRequest request
     )
     {
@@ -55,14 +59,11 @@ namespace EDb.FeatureAuth.Services
         || !AllAuthUtils.VerifyPassword(request.Password, user.PasswordHash, user.Salt)
       )
       {
-        return (false, "Invalid email or password!", null, null);
+        return (false, "Invalid email or password!", null);
       }
 
-      var token = AllAuthUtils.GenerateJwtToken(user, _configuration);
-
       var userDto = _mapper.Map<UserDto>(user);
-
-      return (true, "Login successful!", token, userDto);
+      return (true, "Login successful!", userDto);
     }
   }
 }

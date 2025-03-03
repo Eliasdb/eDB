@@ -88,7 +88,8 @@ namespace Edb.PlatformAPI.Extensions
                 "https://app.eliasdebock.com"
               )
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
           }
         );
       });
