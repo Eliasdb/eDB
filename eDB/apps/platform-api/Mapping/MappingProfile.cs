@@ -1,8 +1,6 @@
 using AutoMapper;
 using EDb.Domain.Entities;
 using Edb.PlatformAPI.DTOs.Admin;
-using Edb.PlatformAPI.DTOs.Applications;
-using Edb.PlatformAPI.DTOs.Auth;
 using Edb.PlatformAPI.DTOs.Profile;
 
 namespace Edb.PlatformAPI.Mapping;
@@ -12,10 +10,8 @@ public class MappingProfile : Profile
   public MappingProfile()
   {
     // Mapping from User entity to UserDto
-    CreateMap<User, UserDto>()
-      .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
-
-    CreateMap<RegisterRequest, User>();
+    // CreateMap<User, UserDto>()
+    //   .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
 
     // Generic mapping for PagedResult<>
     CreateMap(typeof(PagedUserResult<>), typeof(PagedUserResult<>))

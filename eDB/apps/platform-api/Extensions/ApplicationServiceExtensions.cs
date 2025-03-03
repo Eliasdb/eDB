@@ -5,6 +5,9 @@ using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.Interfaces;
 using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
+using EDb.FeatureAuth.Interfaces;
+using EDb.FeatureAuth.Mapping;
+using EDb.FeatureAuth.Services;
 using Edb.PlatformAPI.Interfaces;
 using Edb.PlatformAPI.Mapping;
 using Edb.PlatformAPI.Services;
@@ -68,6 +71,7 @@ namespace Edb.PlatformAPI.Extensions
       // Add AutoMapper with the specified mapping profile assembly.
       services.AddAutoMapper(typeof(MappingProfile).Assembly);
       services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
+      services.AddAutoMapper(typeof(AuthMappingProfile).Assembly);
 
       // Configure CORS policies.
       services.AddCors(options =>

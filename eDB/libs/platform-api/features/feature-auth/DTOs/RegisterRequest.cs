@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Edb.PlatformAPI.DTOs.Auth;
+namespace EDb.FeatureAuth.DTOs;
 
 public class RegisterRequest
 {
