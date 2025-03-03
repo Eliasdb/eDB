@@ -10,8 +10,8 @@ public class MappingProfile : Profile
   public MappingProfile()
   {
     // Mapping from User entity to UserDto
-    // CreateMap<User, UserDto>()
-    //   .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
+    CreateMap<User, UserDto>()
+      .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
 
     // Generic mapping for PagedResult<>
     CreateMap(typeof(PagedUserResult<>), typeof(PagedUserResult<>))

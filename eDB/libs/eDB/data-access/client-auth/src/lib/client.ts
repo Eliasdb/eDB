@@ -1,7 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, firstValueFrom, map, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+} from 'rxjs';
 
 import { environment } from '@eDB/shared-env';
 import { injectMutation } from '@tanstack/angular-query-experimental';
@@ -16,17 +23,15 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly tokenKey = 'token';
-  isAuthenticatedSubject: BehaviorSubject<boolean>;
-
-  constructor() {
-    // Initialize the BehaviorSubject with the current authentication state
-    const token = this.getToken();
-    this.isAuthenticatedSubject = new BehaviorSubject<boolean>(token !== null);
-  }
+  // Use boolean | null so that null means "unknown"
+  public isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
 
   http = inject(HttpClient);
+  router = inject(Router);
 
+  /**
+   * Register Mutation
+   */
   registerMutation() {
     return injectMutation<RegisterResponse, HttpErrorResponse, User>(() => ({
       mutationFn: async (user: User): Promise<RegisterResponse> => {
@@ -37,21 +42,45 @@ export class AuthService {
           ),
         );
       },
-      // Optionally handle onSuccess
     }));
   }
 
+  /**
+   * Checks if the user session is active.
+   * Returns a Promise that resolves to true if authenticated, or false otherwise.
+   */
+  checkSessionPromise(): Promise<boolean> {
+    return firstValueFrom<boolean>(
+      this.http
+        .get<any>(`${environment.apiAuthUrl}/session`, {
+          withCredentials: true,
+        })
+        .pipe(
+          map(() => {
+            this.isAuthenticatedSubject.next(true);
+            return true;
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.isAuthenticatedSubject.next(false);
+            return of(false);
+          }),
+        ),
+    );
+  }
+  /**
+   * Login Mutation
+   */
   loginMutation() {
     return injectMutation<LoginResponse, HttpErrorResponse, Credentials>(
       () => ({
         mutationFn: async (
           credentials: Credentials,
         ): Promise<LoginResponse> => {
-          // Use `firstValueFrom` to convert Observable to Promise
           return firstValueFrom(
             this.http.post<LoginResponse>(
               `${environment.apiAuthUrl}/login`,
               credentials,
+              { withCredentials: true }, // Ensure credentials are sent with the request
             ),
           );
         },
@@ -60,72 +89,39 @@ export class AuthService {
   }
 
   /**
-   * Handles user login by setting the token in localStorage.
-   * This method can be used in interceptors or other services if needed.
-   */
-  handleLogin(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-    this.isAuthenticatedSubject.next(true);
-  }
-
-  /**
-   * Gets the stored token.
-   */
-  private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  /**
-   * Decodes the JWT to extract user details.
-   */
-  private decodeToken(): any {
-    const token = this.getToken();
-    if (!token) return null;
-
-    try {
-      return jwtDecode(token);
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  }
-
-  /**
-   * Fetches the current user's role from the decoded token.
+   * Get the user's role from the backend instead of decoding a JWT.
    */
   getUserRole(): Observable<string> {
-    const decodedToken = this.decodeToken();
-    if (
-      decodedToken &&
-      decodedToken[
-        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-      ]
-    ) {
-      return of(
-        decodedToken[
-          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-        ],
+    return this.http
+      .get<{ role: string }>(`${environment.apiAuthUrl}/role`)
+      .pipe(
+        map((response) => response.role),
+        (error) => of('User'), // Default to 'User' if request fails
       );
-    }
-    return of('User'); // Default role if no token or role is present
   }
 
   /**
-   * Checks if the user is an admin.
+   * Check if the user is an admin.
    */
   isAdmin(): Observable<boolean> {
     return this.getUserRole().pipe(map((role) => role === 'Admin'));
   }
 
+  /**
+   * Check if the user is authenticated.
+   */
   isAuthenticated(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
   }
-
   /**
-   * Logs out the user by clearing the token.
+   * Logout user and clear session.
    */
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    this.isAuthenticatedSubject.next(false);
+    this.http
+      .post(`${environment.apiAuthUrl}/logout`, {}, { withCredentials: true })
+      .subscribe(() => {
+        this.isAuthenticatedSubject.next(false);
+        this.router.navigate(['/login']); // ✅ Navigates to login without full reload
+      });
   }
 }
