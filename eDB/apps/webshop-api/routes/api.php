@@ -46,16 +46,10 @@ Route::middleware('auth:sanctum')->put('/v1/user', function (UpdateUserRequest $
 
 // PUBLIC ROUTES
 Route::group(["prefix" => "v1", "namespace" => "App\Http\Controllers\Api\V1"], function () {
-    Route::apiResource("register", AuthController::class);
-    Route::post("login", [AuthController::class, "login"]);
-    Route::get("logout", [AuthController::class, "logout"]);
     Route::get("admin-stats", [AdminController::class, "adminStats"]);
     Route::apiResource("books", BookController::class);
     Route::apiResource('orders', OrderController::class);
-    Route::get('/cart', [CartController::class, 'index']);
-    Route::post('/cart/items', [CartController::class, 'addItem']);
-    Route::patch('/cart/items/{itemId}', [CartController::class, 'updateItem']);
-    Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
+
 
 });
 
@@ -63,11 +57,12 @@ Route::group(["prefix" => "v1", "namespace" => "App\Http\Controllers\Api\V1"], f
 Route::group([
     "prefix" => "v1",
     "namespace" => "App\Http\Controllers\Api\V1",
-    "middleware" => ["auth:sanctum"]
+    "middleware" => ["auth:session"]
 ], function () {
-    Route::apiResource("users", AuthController::class);
-    // Route::get("profile", [ApiController::class, "profile"]);
-    // Route::get("refresh", [ApiController::class, "refreshToken"]);
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart/items', [CartController::class, 'addItem']);
+    Route::patch('/cart/items/{itemId}', [CartController::class, 'updateItem']);
+    Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
 });
 
 

@@ -38,6 +38,13 @@ spec:
                             secretKeyRef:
                                 name: jwt-secret-staging
                                 key: JWT_KEY
+                      - name: Session_Domain
+                        valueFrom:
+                            configMapKeyRef:
+                                name: laravel-session-config-staging
+                                key: SESSION_DOMAIN
+                      - name: ConnectionStrings__Redis
+                        value: 'redis-service-staging:6379' # Reference Redis inside the cluster
                   #   readinessProbe:
                   #       httpGet:
                   #           path: /health

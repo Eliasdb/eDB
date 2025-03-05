@@ -1,15 +1,25 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using EDb.FeatureAuth.DTOs;
 using EDb.FeatureAuth.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EDb.FeatureAuth.Controllers
 {
-  public class AuthController(IAuthService authService) : BaseApiController
+  public class AuthController : BaseApiController
   {
-    private readonly IAuthService _authService = authService;
+    private readonly IAuthService _authService;
+    private readonly IConfiguration _config;
+
+    public AuthController(IAuthService authService, IConfiguration config)
+    {
+      _authService = authService;
+      _config = config;
+    }
 
     [HttpPost("register")]
     [AllowAnonymous] // ✅ Allows unauthenticated access
@@ -41,7 +51,7 @@ namespace EDb.FeatureAuth.Controllers
 
       Console.WriteLine($"Login successful for: {userDto!.Email}");
 
-      // ✅ Store session data in Redis
+      // Store session data in Redis
       HttpContext.Session.SetString("UserId", userDto.Id.ToString());
       HttpContext.Session.SetString("UserEmail", userDto.Email);
       HttpContext.Session.SetString("UserRole", userDto.Role);
@@ -52,6 +62,11 @@ namespace EDb.FeatureAuth.Controllers
         new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
         new Claim(ClaimTypes.Email, userDto.Email),
         new Claim(ClaimTypes.Role, userDto.Role),
+        new Claim(JwtRegisteredClaimNames.Sub, userDto.Id.ToString()),
+        // 'email' claim for the user's email address
+        new Claim(JwtRegisteredClaimNames.Email, userDto.Email),
+        // 'jti' claim for a unique token identifier
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
       };
 
       var claimsIdentity = new ClaimsIdentity(claims, "Session");
@@ -59,7 +74,38 @@ namespace EDb.FeatureAuth.Controllers
 
       await HttpContext.SignInAsync(claimsPrincipal); // ✅ Ensures authentication persists
 
-      Console.WriteLine("Session and authentication established!");
+      // Generate the JWT token
+      var jwtKey = _config["Jwt:Key"];
+      var issuer = _config["Jwt:Issuer"];
+      var audience = _config["Jwt:Audience"];
+      if (string.IsNullOrEmpty(jwtKey))
+      {
+        throw new InvalidOperationException("JWT Key is not configured.");
+      }
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+      var token = new JwtSecurityToken(
+        issuer: issuer,
+        audience: audience,
+        claims: claims,
+        expires: DateTime.UtcNow.AddMinutes(30),
+        signingCredentials: creds
+      );
+      var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+      Console.WriteLine("JWT token generated.");
+
+      // Set the JWT token in an HTTP-only cookie
+      HttpContext.Response.Cookies.Append(
+        "jwt",
+        tokenString,
+        new CookieOptions
+        {
+          HttpOnly = true, // Prevent JavaScript access
+          Secure = false, // Require HTTPS in production
+          SameSite = SameSiteMode.Lax, // Adjust as needed
+          Expires = DateTime.UtcNow.AddMinutes(30),
+        }
+      );
 
       return Ok(new { message, user = userDto });
     }
@@ -72,7 +118,6 @@ namespace EDb.FeatureAuth.Controllers
       {
         return Unauthorized(new { message = "Session expired" });
       }
-
       return Ok(new { message = "Session active" });
     }
 
@@ -95,6 +140,9 @@ namespace EDb.FeatureAuth.Controllers
 
       // ✅ Remove authentication cookie
       await HttpContext.SignOutAsync();
+
+      // Delete the JWT cookie
+      HttpContext.Response.Cookies.Delete("jwt");
 
       return Ok(new { message = "Logged out successfully." });
     }

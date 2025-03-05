@@ -17,6 +17,7 @@ node_modules
 .settings/
 *.sublime-workspace
 
+*.env*
 *.css
 *.css.map
 
