@@ -1,5 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace EDb.FeatureAuth.Extensions
@@ -11,94 +13,68 @@ namespace EDb.FeatureAuth.Extensions
       IConfiguration config
     )
     {
-      var redisConnectionString = config.GetConnectionString("Redis");
-      if (string.IsNullOrEmpty(redisConnectionString))
-      {
-        throw new InvalidOperationException("Redis connection string is not configured.");
-      }
-
-      services.AddStackExchangeRedisCache(options =>
-      {
-        options.Configuration = redisConnectionString;
-        options.InstanceName = "Sessionv2_";
-      });
-
+      services.AddHttpContextAccessor();
       services.AddDistributedMemoryCache();
 
-      services.AddSession(options =>
-      {
-        options.IdleTimeout = TimeSpan.FromMinutes(30);
-        options.Cookie.HttpOnly = true;
-        options.Cookie.IsEssential = true;
-        // options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Enforce HTTPS in production
-        options.Cookie.SameSite = SameSiteMode.Lax;
-      });
-
-      services.AddHttpContextAccessor();
-
-      // Configure both Cookie and JWT Bearer authentication
       services
         .AddAuthentication(options =>
         {
-          // Set your default scheme to cookies (or choose based on your needs)
-
-          options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-          options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-          options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+          options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
         })
         .AddCookie(options =>
         {
-          options.LoginPath = "/api/auth/login";
-          options.LogoutPath = "/api/auth/logout";
-          options.AccessDeniedPath = "/auth/access-denied";
-          options.Cookie.Path = "/";
-          options.Cookie.Name = "AuthSession";
-          options.Cookie.HttpOnly = true;
-          // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-          options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-          options.SlidingExpiration = true;
-
-          var sessionDomain = config["SESSION_DOMAIN"];
-          if (!string.IsNullOrEmpty(sessionDomain))
-          {
-            options.Cookie.Domain = sessionDomain; // For cross-app integration (e.g. with Laravel)
-          }
-
-#if DEBUG
-          options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-          options.Cookie.SameSite = SameSiteMode.Lax; // For local development over HTTP
-#else
-          options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
-          options.Cookie.SameSite = SameSiteMode.None; // Needed for cross-origin scenarios
-#endif
-          options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
+          options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // ✅ Always mark cookies as secure
+          options.Cookie.SameSite = SameSiteMode.None; // ✅ Allow cross-site requests
+          options.Cookie.HttpOnly = true; // ✅ Prevent JavaScript access
         });
-      // .AddJwtBearer(options =>
+      // .AddOpenIdConnect(options =>
       // {
-      //   var jwtKey = config["Jwt:Key"];
-      //   if (string.IsNullOrEmpty(jwtKey))
-      //   {
-      //     throw new InvalidOperationException("JWT Key is not configured.");
-      //   }
-      //   var issuer = config["Jwt:Issuer"];
-      //   var audience = config["Jwt:Audience"];
+      //   options.Authority = "http://localhost:8080/realms/EDB";
+      //   options.ClientId = "platform-api";
+      //   options.ClientSecret = "jM7vBdWzjUYs7DvdzvayrHWjnvWSxwKJ";
+      //   options.ResponseType = OpenIdConnectResponseType.Code;
+      //   options.RequireHttpsMetadata = false;
+
+      //   options.Scope.Add("openid");
+      //   options.Scope.Add("profile");
+      //   options.Scope.Add("email");
+
+      //   options.SaveTokens = true;
+      //   options.GetClaimsFromUserInfoEndpoint = true;
+
+      //   options.CallbackPath = "/signin-oidc";
+
       //   options.TokenValidationParameters = new TokenValidationParameters
       //   {
+      //     NameClaimType = "preferred_username",
+      //     RoleClaimType = "roles",
       //     ValidateIssuer = true,
-      //     ValidateAudience = true,
-      //     ValidateLifetime = true,
-      //     ValidateIssuerSigningKey = true,
-      //     ValidIssuer = issuer,
-      //     ValidAudience = audience,
-      //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
       //   };
-      // });
 
-      // Add Authorization Policies
-      services
-        .AddAuthorizationBuilder()
-        .AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"))
-        .AddPolicy("UserOrAdminPolicy", policy => policy.RequireRole("User", "Admin"));
+      // Ensure proper redirection
+      // options.Events = new OpenIdConnectEvents
+      // {
+      //   OnRedirectToIdentityProvider = async context =>
+      //   {
+      //     context.ProtocolMessage.IssuerAddress =
+      //       "http://localhost:8080/realms/EDB/protocol/openid-connect/auth";
+      //     Console.WriteLine("Redirecting to: " + context.ProtocolMessage.IssuerAddress);
+      //     await Task.CompletedTask;
+      //   },
+      //   OnMessageReceived = context =>
+      //   {
+      //     Console.WriteLine("OnMessageReceived");
+      //     return Task.CompletedTask;
+      //   },
+      //   OnAuthenticationFailed = context =>
+      //   {
+      //     Console.WriteLine("Authentication failed: " + context.Exception);
+      //     context.HandleResponse();
+      //     return Task.CompletedTask;
+      //   },
+      // };
+      // });
 
       return services;
     }

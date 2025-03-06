@@ -81,9 +81,15 @@ namespace Edb.PlatformAPI.Extensions
           policy =>
           {
             policy
+              .SetIsOriginAllowed(origin =>
+              {
+                // ✅ Allow requests from both Keycloak and frontend
+                return origin == "http://localhost:4200" || origin == "http://localhost:8080";
+              })
               .WithOrigins(
                 "http://localhost:4200",
                 "http://localhost:4300",
+                "http://localhost:8080",
                 "https://app.staging.eliasdebock.com",
                 "https://app.eliasdebock.com"
               )

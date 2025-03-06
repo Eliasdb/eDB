@@ -4,22 +4,18 @@ using System.Text;
 using EDb.FeatureAuth.DTOs;
 using EDb.FeatureAuth.Interfaces;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace EDb.FeatureAuth.Controllers
 {
-  public class AuthController : BaseApiController
+  public class AuthController(IAuthService authService, ILogger<AuthController> logger)
+    : BaseApiController
   {
-    private readonly IAuthService _authService;
-    private readonly IConfiguration _config;
-
-    public AuthController(IAuthService authService, IConfiguration config)
-    {
-      _authService = authService;
-      _config = config;
-    }
+    private readonly IAuthService _authService = authService;
+    private readonly ILogger<AuthController> _logger = logger;
 
     [HttpPost("register")]
     [AllowAnonymous] // ✅ Allows unauthenticated access
@@ -35,79 +31,69 @@ namespace EDb.FeatureAuth.Controllers
       return Ok(new { message, user = userDto });
     }
 
-    [HttpPost("login")]
-    [AllowAnonymous] // ✅ Allows unauthenticated access
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    [HttpGet("login")]
+    [AllowAnonymous]
+    public IActionResult Login()
     {
-      Console.WriteLine($"Login attempt for: {request.Email}");
+      return Challenge(
+        new AuthenticationProperties { RedirectUri = "/" },
+        OpenIdConnectDefaults.AuthenticationScheme
+      );
+    }
 
-      var (success, message, userDto) = await _authService.LoginAsync(request);
+    public class TokenRequest
+    {
+      public required string Code { get; set; }
+    }
 
-      if (!success)
+    [HttpPost("exchange-token")]
+    [Consumes("application/x-www-form-urlencoded")] // ✅ Tell ASP.NET Core to accept this content type
+    public async Task<IActionResult> ExchangeToken([FromForm] TokenRequest tokenRequest)
+    {
+      _logger.LogInformation("Received token exchange request. Code: {Code}", tokenRequest.Code);
+
+      using var client = new HttpClient();
+      var values = new Dictionary<string, string>
       {
-        Console.WriteLine("Login failed: " + message);
-        return Unauthorized(new { error = "InvalidCredentials", message });
-      }
-
-      Console.WriteLine($"Login successful for: {userDto!.Email}");
-
-      // Store session data in Redis
-      HttpContext.Session.SetString("UserId", userDto.Id.ToString());
-      HttpContext.Session.SetString("UserEmail", userDto.Email);
-      HttpContext.Session.SetString("UserRole", userDto.Role);
-
-      // ✅ Set Authentication Cookie
-      var claims = new List<Claim>
-      {
-        new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
-        new Claim(ClaimTypes.Email, userDto.Email),
-        new Claim(ClaimTypes.Role, userDto.Role),
-        new Claim(JwtRegisteredClaimNames.Sub, userDto.Id.ToString()),
-        // 'email' claim for the user's email address
-        new Claim(JwtRegisteredClaimNames.Email, userDto.Email),
-        // 'jti' claim for a unique token identifier
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        { "client_id", "edb-app" },
+        { "client_secret", "q2TAcbE7PzfUZCebXoumCuZj0afRTfyb" }, // 🔥 Ensure this is safe
+        { "grant_type", "authorization_code" },
+        { "code", tokenRequest.Code },
+        { "redirect_uri", "http://localhost:4200/callback" },
       };
 
-      var claimsIdentity = new ClaimsIdentity(claims, "Session");
-      var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+      var content = new FormUrlEncodedContent(values);
+      string requestUrl = "http://localhost:8080/realms/EDB/protocol/openid-connect/token";
 
-      await HttpContext.SignInAsync(claimsPrincipal); // ✅ Ensures authentication persists
+      _logger.LogInformation(
+        "Sending token exchange request to {Url} with payload: {Payload}",
+        requestUrl,
+        values
+      );
 
-      // Generate the JWT token
-      var jwtKey = _config["Jwt:Key"];
-      var issuer = _config["Jwt:Issuer"];
-      var audience = _config["Jwt:Audience"];
-      if (string.IsNullOrEmpty(jwtKey))
+      try
       {
-        throw new InvalidOperationException("JWT Key is not configured.");
-      }
-      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-      var token = new JwtSecurityToken(
-        issuer: issuer,
-        audience: audience,
-        claims: claims,
-        expires: DateTime.UtcNow.AddMinutes(30),
-        signingCredentials: creds
-      );
-      var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-      Console.WriteLine("JWT token generated.");
+        var response = await client.PostAsync(requestUrl, content);
+        string responseBody = await response.Content.ReadAsStringAsync();
 
-      // Set the JWT token in an HTTP-only cookie
-      HttpContext.Response.Cookies.Append(
-        "jwt",
-        tokenString,
-        new CookieOptions
+        if (!response.IsSuccessStatusCode)
         {
-          HttpOnly = true, // Prevent JavaScript access
-          Secure = false, // Require HTTPS in production
-          SameSite = SameSiteMode.Lax, // Adjust as needed
-          Expires = DateTime.UtcNow.AddMinutes(30),
+          _logger.LogError(
+            "Token exchange failed. Status Code: {StatusCode}, Response: {ResponseBody}",
+            response.StatusCode,
+            responseBody
+          );
+          return BadRequest($"Failed to exchange token: {responseBody}");
         }
-      );
 
-      return Ok(new { message, user = userDto });
+        _logger.LogInformation("Token exchange successful. Response: {ResponseBody}", responseBody);
+        return Ok(responseBody);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError(ex, "Unexpected error during token exchange.");
+        return StatusCode(500, "Internal server error.");
+      }
     }
 
     [HttpGet("session")]
@@ -139,11 +125,8 @@ namespace EDb.FeatureAuth.Controllers
       HttpContext.Session.Clear();
 
       // ✅ Remove authentication cookie
-      await HttpContext.SignOutAsync();
-
-      // Delete the JWT cookie
-      HttpContext.Response.Cookies.Delete("jwt");
-
+      await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+      await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
       return Ok(new { message = "Logged out successfully." });
     }
   }

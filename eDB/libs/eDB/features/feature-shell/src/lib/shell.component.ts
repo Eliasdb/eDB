@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { CartService } from '@eDB-webshop/client-cart';
-import { AuthService } from '@eDB/client-auth';
+import { KeycloakService } from '@eDB/client-auth';
 import { NavigationService } from '@eDB/util-navigation';
 
 import { CartComponent } from '@eDB-webshop/feature-cart';
@@ -42,14 +42,13 @@ import { MENU_OPTIONS } from './shell.config';
     <div class="flex flex-col min-h-[100dvh] bg-gray-100">
       <ui-platform-header
         [navigationLinks]="
-          !(isAuthenticated$ | async) || isAdminApp()
+          !isAuthenticated() || isAdminApp()
             ? []
             : ((navigationService.navigationLinks$ | async) ?? [])
         "
-        [menuOptions]="(isAuthenticated$ | async) ? menuOptions : []"
+        [menuOptions]="isAuthenticated() ? menuOptions : []"
         (linkClick)="navigationService.navigateTo($event)"
         (menuOptionSelected)="handleMenuOption($event)"
-        [isAdmin]="isAdmin$ | async"
       ></ui-platform-header>
 
       @if (isWebshopRoute()) {
@@ -73,22 +72,18 @@ import { MENU_OPTIONS } from './shell.config';
         <router-outlet></router-outlet>
         <cds-placeholder></cds-placeholder>
       </main>
-
-      @if (!(isAuthenticated$ | async)) {
-        <ui-portal-footer></ui-portal-footer>
-      }
     </div>
   `,
 })
 export class ShellComponent implements OnInit {
   // Services
   navigationService = inject(NavigationService);
-  authService = inject(AuthService);
+  keycloakService = inject(KeycloakService);
   router = inject(Router);
 
   // Auth Observables
-  isAuthenticated$ = this.authService.isAuthenticated();
-  isAdmin$ = this.authService.isAdmin();
+  isAuthenticated = this.keycloakService.authState;
+  // isAdmin$ = this.authService.isAdmin();
 
   // Signal to determine if this is an admin app
   isAdminApp = signal<boolean>(false);
@@ -125,7 +120,7 @@ export class ShellComponent implements OnInit {
 
   // Logout logic
   private logout(): void {
-    this.authService.logout();
+    // this.authService.logout();
     this.router.navigate(['login']);
   }
 

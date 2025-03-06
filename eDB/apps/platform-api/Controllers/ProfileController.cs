@@ -10,7 +10,6 @@ namespace Edb.PlatformAPI.Controllers
     private readonly IProfileService _profileService = profileService;
 
     [HttpGet("settings")]
-    [Authorize(Policy = "UserOrAdminPolicy")]
     public async Task<ActionResult<ProfileSettingsResponse>> GetProfileSettings()
     {
       var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);
@@ -29,7 +28,6 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpPut("update")]
-    [Authorize(Policy = "UserOrAdminPolicy")]
     public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
     {
       var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);

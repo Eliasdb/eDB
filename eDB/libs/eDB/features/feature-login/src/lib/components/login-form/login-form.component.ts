@@ -14,7 +14,6 @@ import { AuthService } from '@eDB/client-auth';
 import { FormUtilsService } from '@eDB/shared-utils';
 import { NotificationService } from 'carbon-components-angular';
 
-import { Credentials } from '../../types/login.types';
 import { loginFormFields } from './login-form.config';
 
 @Component({
@@ -28,7 +27,8 @@ import { loginFormFields } from './login-form.config';
   ],
   template: `
     <div class="max-w-[415px] mx-auto px-4 md:p-0">
-      <section class="border-b border-[#e0e0e0]">
+      <button (click)="handleClick()">login</button>
+      <!-- <section class="border-b border-[#e0e0e0]">
         <ui-title text="Log in to eDB" fontSize="2rem"></ui-title>
       </section>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -79,7 +79,7 @@ import { loginFormFields } from './login-form.config';
         >
           Create one
         </ui-button>
-      </section>
+      </section> -->
     </div>
   `,
 })
@@ -117,16 +117,18 @@ export class LoginFormComponent implements OnInit {
       : '';
   }
 
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
-      const credentials: Credentials = this.loginForm.getRawValue();
+  handleClick(): void {
+    // if (this.loginForm.valid) {
+    //   this.isLoading = true;
+    //   const credentials: Credentials = this.loginForm.getRawValue();
 
-      this.loginMutation.mutate(credentials, {
-        onSuccess: () => this.handleLoginSuccess(),
-        onError: (error: HttpErrorResponse) => this.handleLoginError(error),
-      });
-    }
+    //   this.loginMutation.mutate(credentials, {
+    //     onSuccess: () => this.handleLoginSuccess(),
+    //     onError: (error: HttpErrorResponse) => this.handleLoginError(error),
+    //   });
+    // }
+
+    this.authService.login();
   }
 
   private handleLoginSuccess(): void {

@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 
 import { AuthGuard } from './guards/auth.guard';
-import { LoginGuard } from './guards/login.guard';
 
 export const routes: Route[] = [
   {
@@ -38,26 +37,18 @@ export const routes: Route[] = [
       },
     ],
   },
-  {
-    path: '',
-    canActivate: [LoginGuard],
-    children: [
-      {
-        path: 'login',
-        loadChildren: () =>
-          import('@eDB/feature-login' /* webpackChunkName: "login" */).then(
-            (m) => m.featureLoginRoutes,
-          ),
-      },
-      {
-        path: 'register',
-        loadChildren: () =>
-          import(
-            '@eDB/feature-register' /* webpackChunkName: "register" */
-          ).then((m) => m.featureRegisterRoutes),
-      },
-    ],
-  },
+  // {
+  //   path: '',
+  //   children: [
+  //     {
+  //       path: 'register',
+  //       loadChildren: () =>
+  //         import(
+  //           '@eDB/feature-register' /* webpackChunkName: "register" */
+  //         ).then((m) => m.featureRegisterRoutes),
+  //     },
+  //   ],
+  // },
   {
     path: 'not-found',
     loadChildren: () =>
@@ -65,6 +56,7 @@ export const routes: Route[] = [
         (m) => m.feature404Routes,
       ),
   },
+
   {
     path: '**',
     redirectTo: 'not-found',

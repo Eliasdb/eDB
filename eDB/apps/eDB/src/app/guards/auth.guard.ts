@@ -1,44 +1,24 @@
-// src/app/guards/auth.guard.ts
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { AuthService } from '@eDB/client-auth';
-import { map, Observable, take } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { KeycloakService } from '../services/keycloak.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  private router = inject(Router);
+  private keycloakService = inject(KeycloakService);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean | UrlTree> {
-    return this.authService.isAuthenticated().pipe(
-      take(1),
-      map((isAuth) => {
-        console.log('Auth state in guard:', isAuth);
-        // If state is still unknown (null), default to false (logged out)
-        if (isAuth === null) {
-          return this.router.createUrlTree(['/login'], {
-            queryParams: { returnUrl: state.url },
-          });
-        }
-        return isAuth
-          ? true
-          : this.router.createUrlTree(['/login'], {
-              queryParams: { returnUrl: state.url },
-            });
-      }),
-    );
+  async canActivate(): Promise<boolean> {
+    // Optionally wait for the next microtick.
+    await Promise.resolve();
+    const auth = this.keycloakService.isAuthenticated();
+    console.log('AuthGuard (async) check, isAuthenticated:', auth);
+    if (auth) {
+      return true;
+    } else {
+      this.router.navigate(['/realms']);
+      return false;
+    }
   }
 }
