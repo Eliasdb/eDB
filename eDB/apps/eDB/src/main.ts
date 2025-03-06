@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { KeycloakService } from '@eDB/client-auth';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
-import { KeycloakService } from './app/services/keycloak.service';
 
 const keycloakService = new KeycloakService();
 

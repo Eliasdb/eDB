@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { KeycloakService } from '../services/keycloak.service';
+import { KeycloakService } from '@eDB/client-auth';
 
 @Injectable({
   providedIn: 'root',

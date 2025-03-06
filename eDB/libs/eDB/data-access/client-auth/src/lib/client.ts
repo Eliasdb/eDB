@@ -58,9 +58,8 @@ export class KeycloakService {
   }
 
   getToken(): Promise<string> {
-    return this.keycloak.token
-      ? Promise.resolve(this.keycloak.token)
-      : Promise.reject('No token');
+    const token = this.tokenSignal();
+    return token ? Promise.resolve(token) : Promise.reject('No token');
   }
 
   getUserProfile(): Promise<Keycloak.KeycloakProfile> {
