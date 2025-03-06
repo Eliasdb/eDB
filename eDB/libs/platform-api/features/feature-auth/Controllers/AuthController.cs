@@ -41,61 +41,6 @@ namespace EDb.FeatureAuth.Controllers
       );
     }
 
-    public class TokenRequest
-    {
-      public required string Code { get; set; }
-    }
-
-    [HttpPost("exchange-token")]
-    [Consumes("application/x-www-form-urlencoded")] // ✅ Tell ASP.NET Core to accept this content type
-    public async Task<IActionResult> ExchangeToken([FromForm] TokenRequest tokenRequest)
-    {
-      _logger.LogInformation("Received token exchange request. Code: {Code}", tokenRequest.Code);
-
-      using var client = new HttpClient();
-      var values = new Dictionary<string, string>
-      {
-        { "client_id", "edb-app" },
-        { "client_secret", "q2TAcbE7PzfUZCebXoumCuZj0afRTfyb" }, // 🔥 Ensure this is safe
-        { "grant_type", "authorization_code" },
-        { "code", tokenRequest.Code },
-        { "redirect_uri", "http://localhost:4200/callback" },
-      };
-
-      var content = new FormUrlEncodedContent(values);
-      string requestUrl = "http://localhost:8080/realms/EDB/protocol/openid-connect/token";
-
-      _logger.LogInformation(
-        "Sending token exchange request to {Url} with payload: {Payload}",
-        requestUrl,
-        values
-      );
-
-      try
-      {
-        var response = await client.PostAsync(requestUrl, content);
-        string responseBody = await response.Content.ReadAsStringAsync();
-
-        if (!response.IsSuccessStatusCode)
-        {
-          _logger.LogError(
-            "Token exchange failed. Status Code: {StatusCode}, Response: {ResponseBody}",
-            response.StatusCode,
-            responseBody
-          );
-          return BadRequest($"Failed to exchange token: {responseBody}");
-        }
-
-        _logger.LogInformation("Token exchange successful. Response: {ResponseBody}", responseBody);
-        return Ok(responseBody);
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError(ex, "Unexpected error during token exchange.");
-        return StatusCode(500, "Internal server error.");
-      }
-    }
-
     [HttpGet("session")]
     public IActionResult CheckSession()
     {

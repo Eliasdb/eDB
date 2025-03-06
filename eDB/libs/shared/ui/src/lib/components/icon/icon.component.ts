@@ -1,5 +1,5 @@
 import { Component, computed, input, Signal } from '@angular/core';
-import { FontAwesomeModule, IconProp } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 
@@ -28,7 +28,7 @@ export class UiIconComponent {
   readonly fixedWidth = input<boolean>(false);
 
   // Compute the icon based on the `name` input
-  readonly icon: Signal<IconProp> = computed(() => {
+  readonly icon: Signal<any> = computed(() => {
     const iconName = this.name() || 'faQuestionCircle'; // Fallback to a default icon
     const validIcons = this.getValidIcons();
     const icon = validIcons[iconName];

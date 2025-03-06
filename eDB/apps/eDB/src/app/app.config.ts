@@ -15,7 +15,6 @@ import {
 } from '@tanstack/angular-query-experimental';
 
 import { KeycloakService } from '@eDB/client-auth';
-import { AuthInterceptor } from '@eDB/shared-utils';
 import {
   ExperimentalService,
   IconService,
@@ -25,6 +24,7 @@ import {
   PlaceholderService,
 } from 'carbon-components-angular';
 import { routes } from './app.routes';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,6 +37,7 @@ export const appConfig: ApplicationConfig = {
 
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
+    // provideHttpClient(withFetch()),
     NotificationService,
     ModalService,
     KeycloakService, // ✅ Register KeycloakService here
