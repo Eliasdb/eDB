@@ -11,7 +11,6 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   private readonly IApplicationsService _applicationsService = applicationsService;
 
   [HttpGet]
-  [Authorize(Policy = "UserOrAdminPolicy")]
   public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
   {
     // Get the general catalog
@@ -42,7 +41,6 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   }
 
   [HttpPost("subscribe")]
-  [Authorize(Policy = "UserOrAdminPolicy")]
   public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
   {
     var userId = _applicationsService.GetAuthenticatedUserId(User);
@@ -60,7 +58,6 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   }
 
   [HttpGet("user")]
-  [Authorize(Policy = "UserOrAdminPolicy")]
   public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
   {
     var userId = _applicationsService.GetAuthenticatedUserId(User);

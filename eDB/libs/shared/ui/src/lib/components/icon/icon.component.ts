@@ -1,6 +1,5 @@
 import { Component, computed, input, Signal } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconProp } from '@fortawesome/angular-fontawesome/types';
+import { FontAwesomeModule, IconProp } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 

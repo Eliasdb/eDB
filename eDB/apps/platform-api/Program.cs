@@ -19,6 +19,12 @@ if (builder.Environment.IsDevelopment())
 
 // --- Service Registrations ---
 // Add modular services from extension methods
+builder.Services.AddSession(options =>
+{
+  options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+  options.Cookie.HttpOnly = true;
+  options.Cookie.IsEssential = true;
+});
 builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
 builder.Services.AddAuthServices(builder.Configuration);
 
@@ -45,7 +51,7 @@ using (var scope = app.Services.CreateScope())
   {
     var dbContext = services.GetRequiredService<MyDbContext>();
     dbContext.Database.Migrate();
-    DbInitializer.Initialize(dbContext); // Seed database.
+    DbInitializer.Initialize(dbContext); // Seexd database.
   }
   catch (Exception ex)
   {
@@ -65,11 +71,12 @@ else
   app.UseHttpsRedirection();
 }
 
+app.UseCors("AllowFrontend");
 app.UseSession();
 
-app.UseCors("AllowFrontend");
-
 app.UseCustomMiddlewares();
+
+// app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

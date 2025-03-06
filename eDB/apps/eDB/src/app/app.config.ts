@@ -3,23 +3,19 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import {
-  ApplicationConfig,
-  provideAppInitializer,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16';
 import UserIcon from '@carbon/icons/es/user/16';
-
-import { AuthInterceptor } from '@eDB/shared-utils';
 
 import {
   provideTanStackQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
+import { KeycloakService } from '@eDB/client-auth';
+import { AuthInterceptor } from '@eDB/shared-utils';
 import {
   ExperimentalService,
   IconService,
@@ -28,7 +24,6 @@ import {
   NotificationService,
   PlaceholderService,
 } from 'carbon-components-angular';
-import { initializeAppFactory } from './app.initialiser';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -44,6 +39,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     NotificationService,
     ModalService,
+    KeycloakService, // ✅ Register KeycloakService here
     ExperimentalService,
     NotificationDisplayService,
     PlaceholderService,
@@ -55,6 +51,5 @@ export const appConfig: ApplicationConfig = {
         return iconService;
       },
     },
-    provideAppInitializer(initializeAppFactory),
   ],
 };
