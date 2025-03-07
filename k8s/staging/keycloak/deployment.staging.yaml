@@ -17,38 +17,22 @@ spec:
             containers:
                 - name: keycloak
                   image: quay.io/keycloak/keycloak:latest
-                  command:
-                      [
+                  command: [
                           '/opt/keycloak/bin/kc.sh',
                           'start',
-                          '--http-enabled=false',
-                          '--https-port=8443',
-                          '--https-certificate-file=/etc/ssl/keycloak/tls.crt',
-                          '--https-certificate-key-file=/etc/ssl/keycloak/tls.key',
+                          '--http-enabled=true', # Allow HTTP inside cluster
+                          '--http-port=8080', # Use standard HTTP port
+                          '--hostname-strict=false',
+                          '--hostname-strict-https=false',
                       ]
                   ports:
                       - containerPort: 8080
-                      - containerPort: 8443
                   env:
                       - name: KC_BOOTSTRAP_ADMIN_USERNAME
                         value: 'admin'
                       - name: KC_BOOTSTRAP_ADMIN_PASSWORD
                         value: 'admin'
                       - name: KC_HOSTNAME
-                        value: 'keycloak.staging.eliasdebock.com'
-                      - name: KC_HTTP_SSL_ENABLED
-                        value: 'true'
-                      - name: KC_HTTP_SSL_PORT
-                        value: '8443'
-                      - name: KC_HTTP_SSL_CERTIFICATE_FILE
-                        value: '/etc/ssl/keycloak/tls.crt'
-                      - name: KC_HTTP_SSL_CERTIFICATE_KEY_FILE
-                        value: '/etc/ssl/keycloak/tls.key'
-                  volumeMounts:
-                      - name: keycloak-tls
-                        mountPath: /etc/ssl/keycloak
-                        readOnly: true
-            volumes:
-                - name: keycloak-tls
-                  secret:
-                      secretName: keycloak-tls-secret
+                        value: 'app.staging.eliasdebock.com' # Set it to match the main domain
+                      - name: KEYCLOAK_HTTP_RELATIVE_PATH
+                        value: '/keycloak' # Use a subpath
