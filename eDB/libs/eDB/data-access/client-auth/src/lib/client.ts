@@ -7,9 +7,9 @@ import Keycloak from 'keycloak-js';
 })
 export class KeycloakService {
   private keycloak = new Keycloak({
-    url: `${environment.keycloakUrl}`, // Base URL; keycloak-js appends /realms/{realm}/… automatically.
-    realm: 'EDB',
-    clientId: 'edb-app',
+    url: `${environment.KC.url}`, // Base URL; keycloak-js appends /realms/{realm}/… automatically.
+    realm: `${environment.KC.realm}`,
+    clientId: `${environment.KC.clientId}`,
   });
 
   // Signals to track authentication state and token
