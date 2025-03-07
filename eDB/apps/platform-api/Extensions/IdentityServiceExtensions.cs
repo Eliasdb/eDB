@@ -1,6 +1,4 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Edb.PlatformAPI.Extensions;
 
@@ -12,28 +10,26 @@ public static class IdentityServiceExtensions
   )
   {
     services
-      .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+      .AddAuthentication(options =>
+      {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
       .AddJwtBearer(options =>
       {
-        var jwtKey = config["Jwt:Key"];
-        if (string.IsNullOrEmpty(jwtKey))
-        {
-          throw new InvalidOperationException("JWT Key is not configured.");
-        }
+        // Set Keycloak as the authority (replace with your Keycloak URL and realm)
+        options.Authority = "http://localhost:8080/realms/EDB";
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-          ValidateIssuer = true,
-          ValidateAudience = true,
-          ValidateLifetime = true,
-          ValidateIssuerSigningKey = true,
-          ValidIssuer = config["Jwt:Issuer"],
-          ValidAudience = config["Jwt:Audience"],
-          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-        };
+        // Set the expected audience for your API (usually your client id)
+        options.Audience = "edb-app";
+
+        options.RequireHttpsMetadata = false;
+
+        // Optional: additional token validation parameters if needed
+        // options.TokenValidationParameters = new TokenValidationParameters { ... };
       });
 
-    services.AddAuthorization();
+    // services.AddAuthorization();
 
     return services;
   }

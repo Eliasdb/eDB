@@ -1,7 +1,7 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
-using EDb.FeatureAuth.Extensions;
 using Edb.PlatformAPI.Extensions;
+using Edb.PlatformAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,14 +19,8 @@ if (builder.Environment.IsDevelopment())
 
 // --- Service Registrations ---
 // Add modular services from extension methods
-builder.Services.AddSession(options =>
-{
-  options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
-  options.Cookie.HttpOnly = true;
-  options.Cookie.IsEssential = true;
-});
 builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
-builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();
@@ -71,30 +65,16 @@ else
   app.UseHttpsRedirection();
 }
 
-app.UseCors("AllowFrontend");
-app.UseSession();
+// app.UseSession();
 
 app.UseCustomMiddlewares();
 
 // app.UseSession();
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
-app.UseAuthorization();
 
-// app.Use(
-//   async (context, next) =>
-//   {
-//     if (
-//       context.Request.Path.StartsWithSegments("/api")
-//       && !context.User.Identity?.IsAuthenticated == true
-//     )
-//     {
-//       context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-//       return;
-//     }
-//     await next();
-//   }
-// );
+app.UseAuthorization();
 
 // Map controllers
 app.MapControllers();
