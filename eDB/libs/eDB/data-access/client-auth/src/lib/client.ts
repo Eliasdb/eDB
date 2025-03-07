@@ -68,7 +68,7 @@ export class KeycloakService {
   }
 
   logout(): void {
-    this.keycloak.logout({ redirectUri: '/' });
+    this.keycloak.logout();
     // Reset signals on logout.
     this.isAuthenticated.set(false);
     this.tokenSignal.set(null);
