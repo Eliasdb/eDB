@@ -5,12 +5,9 @@ using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.Interfaces;
 using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
-using EDb.FeatureAuth.Interfaces;
-using EDb.FeatureAuth.Mapping;
-using EDb.FeatureAuth.Services;
 using Edb.PlatformAPI.Interfaces;
 using Edb.PlatformAPI.Mapping;
-using Edb.PlatformAPI.Services;
+// using Edb.PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Edb.PlatformAPI.Extensions
@@ -58,19 +55,17 @@ namespace Edb.PlatformAPI.Extensions
       );
 
       // Register repositories
-      services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IApplicationRepository, ApplicationRepository>();
       services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
       // Register services
-      services.AddScoped<IAdminService, AdminService>();
-      services.AddScoped<IProfileService, ProfileService>();
+      // services.AddScoped<IAdminService, AdminService>();
+      // services.AddScoped<IProfileService, ProfileService>();
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
       // Add AutoMapper with the specified mapping profile assembly.
       services.AddAutoMapper(typeof(MappingProfile).Assembly);
       services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
-      services.AddAutoMapper(typeof(AuthMappingProfile).Assembly);
 
       // Configure CORS policies.
       services.AddCors(options =>

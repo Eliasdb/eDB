@@ -29,7 +29,8 @@
     <!-- Authentication -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.0" />
+
 
     <!-- Swagger -->
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
@@ -46,7 +47,6 @@
 
 <ItemGroup>
   <ProjectReference Include="..\..\libs\platform-api\features\feature-applications\EDb.FeatureApplications.csproj" />
-     <ProjectReference Include="..\..\libs\platform-api\features\feature-auth\EDb.FeatureAuth.csproj" />
     <ProjectReference Include="..\..\libs\platform-api\shared\utils\util-attributes\EDb.UtilAttributes.csproj" /> 
   <ProjectReference Include="..\..\libs\platform-api\shared\data-access\EDb.DataAccess.csproj" />
    <ProjectReference Include="..\..\libs\platform-api\shared\domain\EDb.Domain.csproj" />
