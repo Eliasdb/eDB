@@ -40,7 +40,7 @@ namespace Edb.PlatformAPI.Controllers
 
       if (user == null)
       {
-        return NotFound(new { Message = "User not found." });
+        return NotFound(new { Message = "User not found!" });
       }
 
       return Ok(user);
