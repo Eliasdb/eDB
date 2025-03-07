@@ -4,4 +4,5 @@ export const environment = {
   apiAdminUrl: 'https://api.eliasdebock.com/platform/api/admin',
   apiAuthUrl: 'https://api.eliasdebock.com/platform/api/auth',
   bookAPIUrl: 'https://api.staging.eliasdebock.com/webshop/api/v1',
+  keycloakUrl: 'https://keycloak.eliasdebock.com',
 };

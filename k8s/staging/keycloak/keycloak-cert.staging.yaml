@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: keycloak-tls
+    namespace: default
+spec:
+    secretName: keycloak-tls-secret
+    issuerRef:
+        name: letsencrypt-production
+        kind: ClusterIssuer
+    commonName: keycloak.staging.eliasdebock.com
+    dnsNames:
+        - keycloak.staging.eliasdebock.com
+    # Optionally, set duration/renewBefore as needed.
