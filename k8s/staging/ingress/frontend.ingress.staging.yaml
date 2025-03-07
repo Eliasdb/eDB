@@ -4,6 +4,7 @@ metadata:
     name: frontend-ingress
     namespace: default
     annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /$2 # Ensures /keycloak works
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         cert-manager.io/cluster-issuer: letsencrypt-production
         cert-manager.io/certificate-name: app-tls
@@ -27,13 +28,13 @@ spec:
                             name: edb-nx-staging-service
                             port:
                                 number: 80
-                  - path: /keycloak
-                    pathType: Prefix
+                  - path: /keycloak(/|$)(.*)
+                    pathType: ImplementationSpecific
                     backend:
                         service:
                             name: keycloak-staging
                             port:
-                                number: 8443
+                                number: 8080
     tls:
         - hosts:
               - app.staging.eliasdebock.com
