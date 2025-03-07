@@ -1,4 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { environment } from '@eDB/shared-env';
 import Keycloak from 'keycloak-js';
 
 @Injectable({
@@ -6,7 +7,7 @@ import Keycloak from 'keycloak-js';
 })
 export class KeycloakService {
   private keycloak = new Keycloak({
-    url: '/', // Base URL; keycloak-js appends /realms/{realm}/… automatically.
+    url: `${environment.keycloakUrl}`, // Base URL; keycloak-js appends /realms/{realm}/… automatically.
     realm: 'EDB',
     clientId: 'edb-app',
   });
@@ -67,7 +68,7 @@ export class KeycloakService {
   }
 
   logout(): void {
-    this.keycloak.logout({ redirectUri: 'http://localhost:4200' });
+    this.keycloak.logout({ redirectUri: '/' });
     // Reset signals on logout.
     this.isAuthenticated.set(false);
     this.tokenSignal.set(null);

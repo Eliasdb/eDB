@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: keycloak-staging
+    labels:
+        app: keycloak-staging
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: keycloak-staging
+    template:
+        metadata:
+            labels:
+                app: keycloak-staging
+        spec:
+            containers:
+                - name: keycloak
+                  image: quay.io/keycloak/keycloak:latest
+                  command:
+                      [
+                          '/opt/keycloak/bin/kc.sh',
+                          'start',
+                          '--http-enabled=false',
+                          '--https-port=8443',
+                          '--https-certificate-file=/etc/ssl/keycloak/tls.crt',
+                          '--https-certificate-key-file=/etc/ssl/keycloak/tls.key',
+                      ]
+                  ports:
+                      - containerPort: 8080
+                      - containerPort: 8443
+                  env:
+                      - name: KC_BOOTSTRAP_ADMIN_USERNAME
+                        value: 'admin'
+                      - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+                        value: 'admin'
+                      - name: KC_HOSTNAME
+                        value: 'keycloak.staging.eliasdebock.com'
+                      - name: KC_HTTP_SSL_ENABLED
+                        value: 'true'
+                      - name: KC_HTTP_SSL_PORT
+                        value: '8443'
+                      - name: KC_HTTP_SSL_CERTIFICATE_FILE
+                        value: '/etc/ssl/keycloak/tls.crt'
+                      - name: KC_HTTP_SSL_CERTIFICATE_KEY_FILE
+                        value: '/etc/ssl/keycloak/tls.key'
+                  volumeMounts:
+                      - name: keycloak-tls
+                        mountPath: /etc/ssl/keycloak
+                        readOnly: true
+            volumes:
+                - name: keycloak-tls
+                  secret:
+                      secretName: keycloak-tls-secret
