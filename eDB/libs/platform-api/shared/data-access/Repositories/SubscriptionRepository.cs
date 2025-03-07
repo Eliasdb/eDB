@@ -9,18 +9,18 @@ public class SubscriptionRepository(MyDbContext context) : ISubscriptionReposito
 {
   private readonly MyDbContext _context = context;
 
-  public async Task<Subscription?> GetSubscriptionAsync(int applicationId, int userId)
+  public async Task<Subscription?> GetSubscriptionAsync(int applicationId, string keycloakUserId)
   {
     return await _context.Subscriptions.FirstOrDefaultAsync(s =>
-      s.ApplicationId == applicationId && s.UserId == userId
+      s.ApplicationId == applicationId && s.KeycloakUserId == keycloakUserId
     );
   }
 
-  public async Task<List<Subscription>> GetSubscriptionsByUserIdAsync(int userId)
+  public async Task<List<Subscription>> GetSubscriptionsByUserIdAsync(string keycloakUserId)
   {
     return await _context
-      .Subscriptions.Where(s => s.UserId == userId)
-      .Include(s => s.Application) // Include related Application
+      .Subscriptions.Where(s => s.KeycloakUserId == keycloakUserId)
+      .Include(s => s.Application) // Include related Application details.
       .AsNoTracking()
       .ToListAsync();
   }
@@ -33,7 +33,7 @@ public class SubscriptionRepository(MyDbContext context) : ISubscriptionReposito
   public async Task DeleteSubscriptionAsync(Subscription subscription)
   {
     _context.Subscriptions.Remove(subscription);
-    await Task.CompletedTask; // Align with async structure
+    await Task.CompletedTask; // To align with async patterns.
   }
 
   public async Task SaveChangesAsync()

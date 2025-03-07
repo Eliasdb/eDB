@@ -7,7 +7,7 @@ using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
 using Edb.PlatformAPI.Interfaces;
 using Edb.PlatformAPI.Mapping;
-using Edb.PlatformAPI.Services;
+// using Edb.PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Edb.PlatformAPI.Extensions
@@ -55,14 +55,12 @@ namespace Edb.PlatformAPI.Extensions
       );
 
       // Register repositories
-      services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IApplicationRepository, ApplicationRepository>();
       services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
       // Register services
-      services.AddScoped<IAdminService, AdminService>();
-      services.AddScoped<IProfileService, ProfileService>();
-      services.AddScoped<IAuthService, AuthService>();
+      // services.AddScoped<IAdminService, AdminService>();
+      // services.AddScoped<IProfileService, ProfileService>();
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
       // Add AutoMapper with the specified mapping profile assembly.
@@ -77,14 +75,21 @@ namespace Edb.PlatformAPI.Extensions
           policy =>
           {
             policy
+              .SetIsOriginAllowed(origin =>
+              {
+                // ✅ Allow requests from both Keycloak and frontend
+                return origin == "http://localhost:4200" || origin == "http://localhost:8080";
+              })
               .WithOrigins(
                 "http://localhost:4200",
                 "http://localhost:4300",
+                "http://localhost:8080",
                 "https://app.staging.eliasdebock.com",
                 "https://app.eliasdebock.com"
               )
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
           }
         );
       });

@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,8 +71,10 @@ return [
     | correspond to a connection in your database configuration options.
     |
     */
+    // this was the default
+    // 'connection' => env('SESSION_CONNECTION'),
+    'connection' => 'default', // Make sure this matches your Redis connection settings
 
-    'connection' => env('SESSION_CONNECTION'),
 
     /*
     |--------------------------------------------------------------------------
@@ -155,7 +157,9 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    // 'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN', null),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -197,6 +201,8 @@ return [
     */
 
     'same_site' => 'lax',
+    // 'same_site' => 'none',
+
 
     /*
     |--------------------------------------------------------------------------

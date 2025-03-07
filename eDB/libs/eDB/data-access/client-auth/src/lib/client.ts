@@ -1,131 +1,76 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, firstValueFrom, map, Observable, of } from 'rxjs';
-
+import { Injectable, computed, signal } from '@angular/core';
 import { environment } from '@eDB/shared-env';
-import { injectMutation } from '@tanstack/angular-query-experimental';
-import {
-  Credentials,
-  LoginResponse,
-  RegisterResponse,
-  User,
-} from './types/auth.types';
+import Keycloak from 'keycloak-js';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  private readonly tokenKey = 'token';
-  isAuthenticatedSubject: BehaviorSubject<boolean>;
+export class KeycloakService {
+  private keycloak = new Keycloak({
+    url: `${environment.KC.url}`, // Base URL; keycloak-js appends /realms/{realm}/… automatically.
+    realm: `${environment.KC.realm}`,
+    clientId: `${environment.KC.clientId}`,
+  });
 
-  constructor() {
-    // Initialize the BehaviorSubject with the current authentication state
-    const token = this.getToken();
-    this.isAuthenticatedSubject = new BehaviorSubject<boolean>(token !== null);
-  }
+  // Signals to track authentication state and token
+  isAuthenticated = signal<boolean>(false);
+  tokenSignal = signal<string | null>(null);
 
-  http = inject(HttpClient);
+  // A computed signal that returns an object representing the auth state
+  authState = computed(() => ({
+    authenticated: this.isAuthenticated(),
+    token: this.tokenSignal(),
+  }));
 
-  registerMutation() {
-    return injectMutation<RegisterResponse, HttpErrorResponse, User>(() => ({
-      mutationFn: async (user: User): Promise<RegisterResponse> => {
-        return firstValueFrom(
-          this.http.post<RegisterResponse>(
-            `${environment.apiAuthUrl}/register`,
-            user,
-          ),
-        );
-      },
-      // Optionally handle onSuccess
-    }));
-  }
-
-  loginMutation() {
-    return injectMutation<LoginResponse, HttpErrorResponse, Credentials>(
-      () => ({
-        mutationFn: async (
-          credentials: Credentials,
-        ): Promise<LoginResponse> => {
-          // Use `firstValueFrom` to convert Observable to Promise
-          return firstValueFrom(
-            this.http.post<LoginResponse>(
-              `${environment.apiAuthUrl}/login`,
-              credentials,
-            ),
-          );
-        },
-      }),
-    );
-  }
-
-  /**
-   * Handles user login by setting the token in localStorage.
-   * This method can be used in interceptors or other services if needed.
-   */
-  handleLogin(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-    this.isAuthenticatedSubject.next(true);
-  }
-
-  /**
-   * Gets the stored token.
-   */
-  private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  /**
-   * Decodes the JWT to extract user details.
-   */
-  private decodeToken(): any {
-    const token = this.getToken();
-    if (!token) return null;
-
+  async init(): Promise<boolean> {
     try {
-      return jwtDecode(token);
+      const authenticated = await this.keycloak.init({
+        onLoad: 'login-required', // Forces login if not already authenticated.
+        checkLoginIframe: false, // Disable iframe checking for local development.
+        pkceMethod: 'S256', // Use PKCE (recommended for SPAs).
+      });
+
+      // Update signals with the current state.
+      this.isAuthenticated.set(authenticated);
+      console.log(this.isAuthenticated());
+
+      console.log(this.keycloak.token);
+      if (authenticated) {
+        this.tokenSignal.set(this.keycloak.token ?? null);
+      }
+
+      // Automatically refresh the token every 30 seconds before expiration.
+      setInterval(async () => {
+        if (this.keycloak.authenticated) {
+          try {
+            await this.keycloak.updateToken(60); // Refresh if token will expire in 60s.
+            this.tokenSignal.set(this.keycloak.token ?? null);
+          } catch {
+            this.logout();
+          }
+        }
+      }, 30000);
+
+      return true;
     } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
+      console.error('Keycloak initialization failed', error);
+      return false;
     }
   }
 
-  /**
-   * Fetches the current user's role from the decoded token.
-   */
-  getUserRole(): Observable<string> {
-    const decodedToken = this.decodeToken();
-    if (
-      decodedToken &&
-      decodedToken[
-        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-      ]
-    ) {
-      return of(
-        decodedToken[
-          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-        ],
-      );
-    }
-    return of('User'); // Default role if no token or role is present
+  getToken(): Promise<string> {
+    const token = this.tokenSignal();
+    return token ? Promise.resolve(token) : Promise.reject('No token');
   }
 
-  /**
-   * Checks if the user is an admin.
-   */
-  isAdmin(): Observable<boolean> {
-    return this.getUserRole().pipe(map((role) => role === 'Admin'));
+  getUserProfile(): Promise<Keycloak.KeycloakProfile> {
+    return this.keycloak.loadUserProfile();
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.isAuthenticatedSubject.asObservable();
-  }
-
-  /**
-   * Logs out the user by clearing the token.
-   */
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    this.isAuthenticatedSubject.next(false);
+    this.keycloak.logout({ redirectUri: '/' });
+    // Reset signals on logout.
+    this.isAuthenticated.set(false);
+    this.tokenSignal.set(null);
   }
 }

@@ -995,18 +995,19 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 
 -   [x] **Language**: Typescript
 -   [x] **Node Package Manager**: pnpm
--   [x] **Angular**: Components - Services - RxJS - Signals - @Output - Interceptors - Guards
+-   [x] **Angular**: @Component - Services - RxJS - Signals - @Output - Interceptors - Guards - @ViewChild - Reactive Forms
 -   [x] **Testing**: Vitest - Storybook
 -   [x] **Linting + formatting**: Prettier - ESLint
--   [x] **UI**: HTML - SCSS - Carbon Design System - FontAwesome
+-   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
 -   [x] **API Integration**: TanStack Query
 
 **Backend**
 
--   [x] **Language**: C#
--   [x] **Package Manager**: NuGet
--   [x] **ORM**: EF
+-   [x] **Language**: C# - PHP
+-   [x] **Package Manager**: NuGet - Composer
+-   [x] **ORM**: EF - Doctrine
 -   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext - .NET SDK
+-   [x] **Laravel**: Controllers - Models - Requests - Resources - Collections - PHP Artisan CLI
 -   [x] **Formatting**: dotnet format
 -   [x] **API Documentation**: Swagger
 -   [x] **Testing**: xUnit - Moq - Postman

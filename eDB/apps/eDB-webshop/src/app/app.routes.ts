@@ -7,10 +7,17 @@ export const webshopRoutes: Route[] = [
     component: AppComponent,
     children: [
       {
-        path: '',
+        path: 'catalog',
         loadChildren: () =>
           import('@eDB-webshop/feature-book-catalog').then(
             (m) => m.featureBookCatalogRoutes,
+          ),
+      },
+      {
+        path: 'checkout',
+        loadChildren: () =>
+          import('@eDB-webshop/feature-checkout').then(
+            (m) => m.featureCheckoutRoutes,
           ),
       },
     ],
