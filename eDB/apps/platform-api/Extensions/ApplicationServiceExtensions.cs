@@ -65,7 +65,6 @@ namespace Edb.PlatformAPI.Extensions
       // Register services
       services.AddScoped<IAdminService, AdminService>();
       services.AddScoped<IProfileService, ProfileService>();
-      services.AddScoped<IAuthService, AuthService>();
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
       // Add AutoMapper with the specified mapping profile assembly.

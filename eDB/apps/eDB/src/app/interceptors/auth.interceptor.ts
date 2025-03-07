@@ -15,8 +15,6 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     switchMap((token) => {
       if (token) {
         console.log('Token retrieved:', token);
-      } else {
-        console.warn('No token available, sending request without it.');
       }
       const modifiedRequest = token
         ? req.clone({

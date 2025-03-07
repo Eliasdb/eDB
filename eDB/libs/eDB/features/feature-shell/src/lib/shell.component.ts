@@ -13,7 +13,6 @@ import { CartComponent } from '@eDB-webshop/feature-cart';
 import {
   UiPlatformHeaderComponent,
   UiPlatformSubHeaderComponent,
-  UiPortalFooterComponent,
 } from '@eDB/shared-ui';
 
 import {
@@ -31,7 +30,6 @@ import { MENU_OPTIONS } from './shell.config';
     PlaceholderModule,
     I18nModule,
     UiPlatformHeaderComponent,
-    UiPortalFooterComponent,
     MatButtonModule,
     MatDialogModule,
     UiPlatformSubHeaderComponent,
@@ -120,8 +118,8 @@ export class ShellComponent implements OnInit {
 
   // Logout logic
   private logout(): void {
-    // this.authService.logout();
-    this.router.navigate(['login']);
+    this.keycloakService.logout();
+    this.router.navigate(['/']);
   }
 
   // WEBSHOP

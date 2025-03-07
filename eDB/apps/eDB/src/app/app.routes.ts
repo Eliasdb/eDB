@@ -37,18 +37,6 @@ export const routes: Route[] = [
       },
     ],
   },
-  // {
-  //   path: '',
-  //   children: [
-  //     {
-  //       path: 'register',
-  //       loadChildren: () =>
-  //         import(
-  //           '@eDB/feature-register' /* webpackChunkName: "register" */
-  //         ).then((m) => m.featureRegisterRoutes),
-  //     },
-  //   ],
-  // },
   {
     path: 'not-found',
     loadChildren: () =>

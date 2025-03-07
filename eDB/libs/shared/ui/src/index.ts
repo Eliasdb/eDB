@@ -1,7 +1,6 @@
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';
-export { UiPortalFooterComponent } from './lib/components/footers/portal-footer/portal-footer.component';
 export { UiPlatformHeaderComponent } from './lib/components/header/platform-header.component';
 export { UiPlatformSubHeaderComponent } from './lib/components/header/sub-header/sub-header.component';
 export { UiIconComponent } from './lib/components/icon/icon.component';
