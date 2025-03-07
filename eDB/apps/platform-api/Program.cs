@@ -24,6 +24,7 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 // Add controller support
 builder.Services.AddControllers();

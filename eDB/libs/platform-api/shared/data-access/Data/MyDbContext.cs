@@ -5,7 +5,8 @@ namespace EDb.DataAccess.Data;
 
 public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
 {
-  public DbSet<User> Users { get; set; }
+  // If you no longer use local users, you can remove the Users DbSet.
+  // public DbSet<User> Users { get; set; }
   public DbSet<Application> Applications { get; set; }
   public DbSet<Subscription> Subscriptions { get; set; }
 
@@ -13,17 +14,14 @@ public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(opti
   {
     base.OnModelCreating(modelBuilder);
 
-    // Store Role as a string in database
-    modelBuilder.Entity<User>().Property(u => u.Role).HasConversion<string>();
-
-    // Define primary keys explicitly
-    modelBuilder.Entity<User>().HasKey(u => u.Id);
+    // Configure the Users entity if still in use (for other purposes)
+    // modelBuilder.Entity<User>().Property(u => u.Role).HasConversion<string>();
+    // modelBuilder.Entity<User>().HasKey(u => u.Id);
 
     modelBuilder.Entity<Application>().HasKey(a => a.Id);
-
     modelBuilder.Entity<Subscription>().HasKey(s => s.Id);
 
-    // Define relationships
+    // Configure the relationship between Application and Subscription.
     modelBuilder
       .Entity<Subscription>()
       .HasOne(s => s.Application)
@@ -31,16 +29,11 @@ public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(opti
       .HasForeignKey(s => s.ApplicationId)
       .OnDelete(DeleteBehavior.Cascade);
 
-    modelBuilder
-      .Entity<Subscription>()
-      .HasOne(s => s.User)
-      .WithMany(u => u.Subscriptions)
-      .HasForeignKey(s => s.UserId)
-      .OnDelete(DeleteBehavior.Cascade);
+    // Configure KeycloakUserId as required.
+    modelBuilder.Entity<Subscription>().Property(s => s.KeycloakUserId).IsRequired();
 
-    // Define indexes for foreign keys
-    modelBuilder.Entity<Subscription>().HasIndex(s => s.UserId);
-
+    // Define indexes for querying.
+    modelBuilder.Entity<Subscription>().HasIndex(s => s.KeycloakUserId);
     modelBuilder.Entity<Subscription>().HasIndex(s => s.ApplicationId);
   }
 }

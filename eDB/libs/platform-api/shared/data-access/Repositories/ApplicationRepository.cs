@@ -12,8 +12,7 @@ namespace EDb.DataAccess.Repositories
     public async Task<List<Application>> GetApplicationsAsync()
     {
       return await _context
-        .Applications.Include(a => a.Subscriptions)
-        .ThenInclude(s => s.User)
+        .Applications.Include(a => a.Subscriptions) // Removed .ThenInclude(s => s.User)
         .AsNoTracking()
         .ToListAsync();
     }
