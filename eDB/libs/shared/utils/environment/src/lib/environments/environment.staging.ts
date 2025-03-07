@@ -5,7 +5,7 @@ export const environment = {
   apiAuthUrl: 'https://api.staging.eliasdebock.com/platform/api/auth',
   bookAPIUrl: 'https://api.staging.eliasdebock.com/webshop/api/v1',
   KC: {
-    url: 'https://keycloak.staging.eliasdebock.com/',
+    url: 'https://app.staging.eliasdebock.com/keycloak',
     realm: 'EDB STAGING',
     clientId: 'edb-app-staging',
   },

@@ -27,6 +27,13 @@ spec:
                             name: edb-nx-staging-service
                             port:
                                 number: 80
+                  - path: /keycloak
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: keycloak-staging
+                            port:
+                                number: 8443
     tls:
         - hosts:
               - app.staging.eliasdebock.com
