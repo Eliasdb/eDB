@@ -13,7 +13,7 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   {
     // Get the general catalog.
     var applications = await _applicationsService.GetApplicationsAsync();
-    var keycloakUserId = _applicationsService.GetAuthenticatedUserId(User);
+    var keycloakUserId = _applicationsService.GetAuthenticatedUserId();
 
     // If the user is authenticated, update each application DTO with their subscription status.
     if (keycloakUserId != null)
@@ -42,7 +42,7 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   [HttpPost("subscribe")]
   public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
   {
-    var keycloakUserId = _applicationsService.GetAuthenticatedUserId(User);
+    var keycloakUserId = _applicationsService.GetAuthenticatedUserId();
     if (keycloakUserId == null)
     {
       return Unauthorized(new { message = "User is not authenticated." });
@@ -58,7 +58,7 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
   [HttpGet("user")]
   public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
   {
-    var keycloakUserId = _applicationsService.GetAuthenticatedUserId(User);
+    var keycloakUserId = _applicationsService.GetAuthenticatedUserId();
     if (keycloakUserId == null)
     {
       return Unauthorized(new { message = "User is not authenticated!" });

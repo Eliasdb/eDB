@@ -23,7 +23,7 @@ spec:
                           '--http-enabled=true', # Allow HTTP inside cluster
                           '--http-port=8080', # Use standard HTTP port
                           '--hostname-strict=false',
-                          '--hostname-strict-https=false',
+                          '--proxy-headers=xforwarded',
                       ]
                   ports:
                       - containerPort: 8080
@@ -34,5 +34,5 @@ spec:
                         value: 'admin'
                       - name: KC_HOSTNAME
                         value: 'app.staging.eliasdebock.com' # Set it to match the main domain
-                      - name: KEYCLOAK_HTTP_RELATIVE_PATH
+                      - name: KC_HTTP_RELATIVE_PATH
                         value: '/keycloak' # Use a subpath

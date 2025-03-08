@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EDb.DataAccess.Migrations
 {
   /// <inheritdoc />
-  public partial class AddIsSubscribedField : Migration
+  public partial class InitialMigration : Migration
   {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,36 +37,6 @@ namespace EDb.DataAccess.Migrations
       );
 
       migrationBuilder.CreateTable(
-        name: "Users",
-        columns: table => new
-        {
-          Id = table
-            .Column<int>(type: "integer", nullable: false)
-            .Annotation(
-              "Npgsql:ValueGenerationStrategy",
-              NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
-            ),
-          Email = table.Column<string>(type: "text", nullable: false),
-          PasswordHash = table.Column<string>(type: "text", nullable: false),
-          FirstName = table.Column<string>(type: "text", nullable: false),
-          LastName = table.Column<string>(type: "text", nullable: false),
-          Country = table.Column<string>(type: "text", nullable: false),
-          State = table.Column<string>(type: "text", nullable: false),
-          Company = table.Column<string>(type: "text", nullable: false),
-          DisplayName = table.Column<string>(type: "text", nullable: true),
-          PreferredLanguage = table.Column<string>(type: "text", nullable: true),
-          Title = table.Column<string>(type: "text", nullable: true),
-          Address = table.Column<string>(type: "text", nullable: true),
-          Salt = table.Column<string>(type: "text", nullable: true),
-          Role = table.Column<string>(type: "text", nullable: false),
-        },
-        constraints: table =>
-        {
-          table.PrimaryKey("PK_Users", x => x.Id);
-        }
-      );
-
-      migrationBuilder.CreateTable(
         name: "Subscriptions",
         columns: table => new
         {
@@ -76,7 +46,7 @@ namespace EDb.DataAccess.Migrations
               "Npgsql:ValueGenerationStrategy",
               NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
             ),
-          UserId = table.Column<int>(type: "integer", nullable: false),
+          KeycloakUserId = table.Column<string>(type: "text", nullable: false),
           ApplicationId = table.Column<int>(type: "integer", nullable: false),
           SubscriptionDate = table.Column<DateTime>(
             type: "timestamp with time zone",
@@ -93,13 +63,6 @@ namespace EDb.DataAccess.Migrations
             principalColumn: "Id",
             onDelete: ReferentialAction.Cascade
           );
-          table.ForeignKey(
-            name: "FK_Subscriptions_Users_UserId",
-            column: x => x.UserId,
-            principalTable: "Users",
-            principalColumn: "Id",
-            onDelete: ReferentialAction.Cascade
-          );
         }
       );
 
@@ -110,9 +73,9 @@ namespace EDb.DataAccess.Migrations
       );
 
       migrationBuilder.CreateIndex(
-        name: "IX_Subscriptions_UserId",
+        name: "IX_Subscriptions_KeycloakUserId",
         table: "Subscriptions",
-        column: "UserId"
+        column: "KeycloakUserId"
       );
     }
 
@@ -122,8 +85,6 @@ namespace EDb.DataAccess.Migrations
       migrationBuilder.DropTable(name: "Subscriptions");
 
       migrationBuilder.DropTable(name: "Applications");
-
-      migrationBuilder.DropTable(name: "Users");
     }
   }
 }

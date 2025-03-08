@@ -9,15 +9,16 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id'];
+    protected $fillable = ['user_id', 'total_price']; // 🔹 Now includes `total_price`
 
     public function items()
     {
         return $this->hasMany(CartItem::class);
     }
 
-    public function user()
+    public function updateTotal()
     {
-        return $this->belongsTo(User::class);
+        $this->total_price = $this->items->sum(fn($item) => $item->selected_amount * $item->price);
+        $this->save();
     }
 }
