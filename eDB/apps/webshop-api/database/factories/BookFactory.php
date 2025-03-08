@@ -33,6 +33,7 @@ class BookFactory extends Factory
             "author"         => $this->faker->name(),
             "status"         => "available",
             "published_date" => $year,
+            "quantity"       => $this->faker->numberBetween(1, 50),
             "price"          => $this->faker->randomFloat(2, 5, 100),  // price between 5.00 and 100.00
             "stock"       => $this->faker->numberBetween(1, 50),     // quantity between 1 and 50
         ];

@@ -36,20 +36,24 @@ export class KeycloakService {
 
       console.log(this.keycloak.token);
       if (authenticated) {
-        this.tokenSignal.set(this.keycloak.token ?? null);
-      }
+        console.log('User is logged in!');
 
-      // Automatically refresh the token every 30 seconds before expiration.
-      setInterval(async () => {
-        if (this.keycloak.authenticated) {
-          try {
-            await this.keycloak.updateToken(60); // Refresh if token will expire in 60s.
-            this.tokenSignal.set(this.keycloak.token ?? null);
-          } catch {
-            this.logout();
+        // Store access token
+        sessionStorage.setItem('access_token', this.keycloak.token || '');
+
+        // Automatically refresh the token before it expires
+        setInterval(async () => {
+          if (this.keycloak.authenticated) {
+            try {
+              await this.keycloak.updateToken(60); // Refresh 1 min before expiry
+              localStorage.setItem('access_token', this.keycloak.token || '');
+            } catch {
+              console.log('Token refresh failed, logging out...');
+              this.keycloak.logout();
+            }
           }
-        }
-      }, 30000);
+        }, 30000);
+      }
 
       return true;
     } catch (error) {
@@ -72,5 +76,6 @@ export class KeycloakService {
     // Reset signals on logout.
     this.isAuthenticated.set(false);
     this.tokenSignal.set(null);
+    sessionStorage.removeItem('access_token');
   }
 }

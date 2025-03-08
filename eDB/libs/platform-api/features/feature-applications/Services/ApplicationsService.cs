@@ -29,40 +29,42 @@ public class ApplicationsService(
     return _mapper.Map<List<ApplicationDto>>(applications);
   }
 
-  public string? GetAuthenticatedUserId(ClaimsPrincipal userPrincipal)
+  public string? GetAuthenticatedUserId()
   {
-    // Retrieve the KEYCLOAK_IDENTITY cookie
-    var cookieToken = _httpContextAccessor.HttpContext?.Request.Cookies["KEYCLOAK_IDENTITY"];
-    if (!string.IsNullOrEmpty(cookieToken))
+    var authHeader =
+      _httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault();
+
+    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
     {
-      _logger.LogInformation("Found KEYCLOAK_IDENTITY cookie: {CookieToken}", cookieToken);
+      var token = authHeader["Bearer ".Length..]; // Extract token
+      _logger.LogInformation("Extracted Bearer Token: {Token}", token);
+
       try
       {
         var handler = new JwtSecurityTokenHandler();
-        var jwtToken = handler.ReadJwtToken(cookieToken);
+        var jwtToken = handler.ReadJwtToken(token);
 
-        // Log all claims from the cookie
+        // Log all claims from the token
         foreach (var claim in jwtToken.Claims)
         {
-          _logger.LogInformation("Cookie Claim: {Type} = {Value}", claim.Type, claim.Value);
+          _logger.LogInformation("Token Claim: {Type} = {Value}", claim.Type, claim.Value);
         }
 
-        // Extract the "sub" claim from the cookie
+        // Extract the "sub" claim (Keycloak user ID)
         var subClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-        _logger.LogInformation("Extracted 'sub' from cookie: {SubClaim}", subClaim ?? "null");
+        _logger.LogInformation("Extracted 'sub' from token: {SubClaim}", subClaim ?? "null");
+
         return subClaim;
       }
       catch (Exception ex)
       {
-        _logger.LogError(ex, "Error decoding KEYCLOAK_IDENTITY cookie token");
+        _logger.LogError(ex, "Error decoding Bearer token");
         return null;
       }
     }
-    else
-    {
-      _logger.LogWarning("No KEYCLOAK_IDENTITY cookie found.");
-      return null;
-    }
+
+    _logger.LogWarning("No Bearer token found in Authorization header.");
+    return null;
   }
 
   public async Task<string> ToggleSubscriptionAsync(string keycloakUserId, int applicationId)

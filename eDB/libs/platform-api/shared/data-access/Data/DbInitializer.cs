@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Bogus;
 using EDb.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EDb.DataAccess.Data
 {
@@ -10,7 +11,7 @@ namespace EDb.DataAccess.Data
     public static void Initialize(MyDbContext context)
     {
       // Ensure the database is created
-      context.Database.EnsureCreated();
+      context.Database.Migrate(); // Apply migrations instead of manually creating tables
 
       // Seed Applications
       if (!context.Applications.Any())
