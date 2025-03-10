@@ -7,7 +7,7 @@ using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
 using Edb.PlatformAPI.Interfaces;
 using Edb.PlatformAPI.Mapping;
-// using Edb.PlatformAPI.Services;
+using Edb.PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Edb.PlatformAPI.Extensions
@@ -59,7 +59,7 @@ namespace Edb.PlatformAPI.Extensions
       services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
       // Register services
-      // services.AddScoped<IAdminService, AdminService>();
+      services.AddScoped<IAdminService, AdminService>();
       // services.AddScoped<IProfileService, ProfileService>();
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
