@@ -9,6 +9,8 @@ public static class IdentityServiceExtensions
     IConfiguration config
   )
   {
+    var identitySettings = config.GetSection("Identity");
+
     services
       .AddAuthentication(options =>
       {
@@ -17,12 +19,9 @@ public static class IdentityServiceExtensions
       })
       .AddJwtBearer(options =>
       {
-        // Set Keycloak as the authority (replace with your Keycloak URL and realm)
-        options.Authority = "http://localhost:8080/realms/EDB";
-
-        // Set the expected audience for your API (usually your client id)
-        options.Audience = "edb-app";
-
+        // Use the configuration values
+        options.Authority = identitySettings["Authority"];
+        options.Audience = identitySettings["Audience"];
         options.RequireHttpsMetadata = false;
 
         // Optional: additional token validation parameters if needed
