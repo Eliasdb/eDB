@@ -80,6 +80,8 @@ spec:
                         value: 'redis-service-staging' # Reference the Redis service inside the cluster
                       - name: REDIS_PORT
                         value: '6379'
+                      - name: KEYCLOAK_JWKS_URL
+                        value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB%20STAGING/protocol/openid-connect/certs'
                   resources:
                       requests:
                           memory: '256Mi'
