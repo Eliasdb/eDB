@@ -19,11 +19,11 @@ namespace EDb.DataAccess.Data
         context.Applications.AddRange(
           new Application
           {
-            Name = "Appointments",
-            Description = "Manage appointments",
+            Name = "Webshop",
+            Description = "Demo webshop",
             IconUrl = "/icons/appointments.png",
-            RoutePath = "/appointments",
-            Tags = ["Angular", ".NET"],
+            RoutePath = "/webshop/catalog",
+            Tags = ["Angular", "Laravel"],
           },
           new Application
           {
