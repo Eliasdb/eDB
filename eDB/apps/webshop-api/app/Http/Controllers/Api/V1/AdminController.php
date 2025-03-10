@@ -19,7 +19,6 @@ class AdminController extends Controller
         $loaned_books = Book::where('status', '=', 'loaned')->get()->all();
 
         $action_books = Book::where('genre', '=', 'action')->get()->all();
-        // $mystery_books = Book::where('genre', '=', 'mystery')->get()->all();
         // $non_fiction_books = Book::where('genre', '=', 'non fiction')->get()->all();
         // $thriller_books = Book::where('genre', '=', 'thriller')->get()->all();
 
