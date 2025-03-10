@@ -34,7 +34,6 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
     provideAnimations(),
-
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     // provideHttpClient(withFetch()),
