@@ -8,5 +8,5 @@ public interface IApplicationsService
   Task<List<ApplicationDto>> GetApplicationsAsync();
   Task<IEnumerable<ApplicationDto>> GetSubscribedApplicationsAsync(string keycloakUserId);
   Task<string> ToggleSubscriptionAsync(string keycloakUserId, int applicationId);
-  string? GetAuthenticatedUserId(ClaimsPrincipal user);
+  string? GetAuthenticatedUserId();
 }

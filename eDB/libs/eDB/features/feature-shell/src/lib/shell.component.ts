@@ -21,6 +21,7 @@ import {
   PlaceholderModule,
 } from 'carbon-components-angular';
 
+import { environment } from '@eDB/shared-env';
 import { MENU_OPTIONS } from './shell.config';
 @Component({
   selector: 'app-shell',
@@ -111,6 +112,10 @@ export class ShellComponent implements OnInit {
   handleMenuOption(optionId: string): void {
     if (optionId === 'logout') {
       this.logout();
+    }
+
+    if (optionId === 'profile') {
+      window.open(`${environment.KC.account}`, '_blank');
     } else {
       this.navigationService.navigateTo(optionId);
     }
