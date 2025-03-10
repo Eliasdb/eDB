@@ -16,7 +16,7 @@ class StoreCartItemRequest extends FormRequest
     {
         return [
             'id' => ['required', 'exists:books,id'],
-            'selectedAmount' => [
+            'selected_amount' => [
                 'required', 'integer', 'min:1',
                 function ($attribute, $value, $fail) {
                     $book = Book::find($this->id);
@@ -31,7 +31,7 @@ class StoreCartItemRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'book_id' => $this->id,
+            'id' => $this->id,
             'selected_amount' => $this->selectedAmount,
         ]);
     }
