@@ -123,12 +123,6 @@ import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component'
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       </div>
-
-      <mat-paginator
-        [length]="400"
-        [pageSize]="10"
-        aria-label="Select page of GitHub search results"
-      ></mat-paginator>
     </div>
   `,
 })
@@ -140,9 +134,7 @@ export class AdminBooksCollectionOverviewComponent implements OnInit {
   readonly books = input<Book[]>();
 
   selection = this.adminService.selection;
-
   book?: Book;
-
   bool$ = new BehaviorSubject(false);
 
   @Output() openSheet = new EventEmitter();

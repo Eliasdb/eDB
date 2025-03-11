@@ -1,5 +1,13 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { Component, computed, effect, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import {
   MatBottomSheet,
   MatBottomSheetModule,
@@ -15,6 +23,7 @@ import { AdminService } from '@eDB/client-admin';
 import { Book } from '../../../../types/book.type';
 import { BottomSheetComponent } from '../../bottom-sheet/bottom-sheet.component';
 import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection-overview/admin-books-collection-overview.component';
+
 @Component({
   imports: [
     AdminBooksCollectionOverviewComponent,
@@ -24,68 +33,55 @@ import { AdminBooksCollectionOverviewComponent } from '../admin-books-collection
     MatBottomSheetModule,
   ],
   selector: 'admin-books-collection-container',
-  template: ` <section class="text-black py-8">
-    @if (booksQuery(); as result) {
-      @if (result?.data) {
-        <admin-books-collection-overview
-          [books]="books()"
-          (sortAsc)="sortById($event)"
-          (sortDesc)="sortById($event)"
-          (checkedState)="setCheckedState($event)"
-          (mainCheckedState)="setMainCheckedState($event)"
-          (itemSelected)="onItemSelected($event)"
-          (allItemSelected)="onAllItemSelected($event)"
-          (openSheet)="openBottomSheet()"
-        />
+  template: `
+    <section class="text-black py-8">
+      @if (booksQuery(); as result) {
+        @if (result?.data) {
+          <admin-books-collection-overview
+            [books]="books()"
+            (sortAsc)="sortById($event)"
+            (sortDesc)="sortById($event)"
+            (checkedState)="setCheckedState($event)"
+            (mainCheckedState)="setMainCheckedState($event)"
+            (itemSelected)="onItemSelected($event)"
+            (allItemSelected)="onAllItemSelected($event)"
+            (openSheet)="openBottomSheet()"
+          />
+        }
       }
-    }
-  </section>`,
+      <!-- Sentinel element to detect when to load next page -->
+      <div #infiniteScrollSentinel style="height: 1px;"></div>
+    </section>
+  `,
 })
-export class AdminBooksCollectionContainer {
+export class AdminBooksCollectionContainer implements AfterViewInit, OnDestroy {
   private _bottomSheet = inject(MatBottomSheet);
   private overlay = inject(Overlay);
   private adminService = inject(AdminService);
   private bookParamService = inject(BookParamService);
 
-  protected author = this.bookParamService.authorSignal;
-  protected genre = this.bookParamService.genreSignal;
-  protected query = this.bookParamService.querySignal;
-  protected status = this.bookParamService.statusSignal;
-  protected sort = this.bookParamService.sortSignal;
-
   public showList: boolean = false;
   isSheetClosed = this.adminService.isSheetClosed;
-  selectedBooks = this.adminService.selectedBooks;
-  isChecked = this.adminService.isChecked;
   isMainChecked = this.adminService.isMainChecked;
+  isChecked = this.adminService.isChecked;
+  selectedBooks = this.adminService.selectedBooks;
   selection = this.adminService.selection;
 
-  private updateEffect = effect(() => {
-    const search = this.query();
-    const author = this.author();
-    const genre = this.genre();
-    const status = this.status();
-    const sort = this.sort();
-
-    this.adminService.updateQueryAdminBooks({
-      search,
-      author,
-      genre,
-      status,
-      sort,
-    });
-  });
-
+  // Access the infinite query from AdminService.
   protected booksQuery = computed(() => this.adminService.queryAdminBooks);
+
+  // For infinite queries, aggregate pages into a flat list.
+  protected books = computed(() => {
+    const result = this.booksQuery().data();
+    if (result && result.pages) {
+      return result.pages.flatMap((page) => page.data.items);
+    }
+    return [];
+  });
 
   protected totalBooksCount = computed(() => {
     const result = this.booksQuery().data();
-    return result ? result.data.count : 0;
-  });
-
-  protected books = computed(() => {
-    const result = this.booksQuery().data();
-    return result ? result.data.items : [];
+    return result ? result.pages?.[0]?.data.count || 0 : 0;
   });
 
   protected sortById(sort: string) {
@@ -102,17 +98,14 @@ export class AdminBooksCollectionContainer {
 
   protected onItemSelected(selected: Book) {
     if (this.isChecked()) {
-      // Add the book if it's not already in the list.
       this.selectedBooks.update((books) => {
         if (!books.find((b) => b.id === selected.id)) {
-          // Also update the SelectionModel.
           this.selection.select(selected);
           return [...books, selected];
         }
         return books;
       });
     } else {
-      // Remove the book.
       this.selectedBooks.update((books) =>
         books.filter((b) => b.id !== selected.id),
       );
@@ -122,17 +115,16 @@ export class AdminBooksCollectionContainer {
 
   protected onAllItemSelected(allBooks: Book[]) {
     if (this.isMainChecked()) {
-      // When the “select all” checkbox is active, update selectedBooks and SelectionModel.
       this.selectedBooks.set([...allBooks]);
       this.selection.select(...allBooks);
     } else {
-      // Otherwise, clear the selection.
       this.selectedBooks.set([]);
       this.selection.clear();
       this._bottomSheet.dismiss(BottomSheetComponent);
       this.isSheetClosed.set(true);
     }
   }
+
   protected openBottomSheet(): void {
     if (this.isSheetClosed()) {
       console.log('Opening bottom sheet');
@@ -143,6 +135,36 @@ export class AdminBooksCollectionContainer {
         scrollStrategy: this.overlay.scrollStrategies.noop(),
       });
       this.isSheetClosed.set(false);
+    }
+  }
+
+  @ViewChild('infiniteScrollSentinel', { static: false })
+  infiniteScrollSentinel!: ElementRef<HTMLDivElement>;
+
+  private observer?: IntersectionObserver;
+
+  ngAfterViewInit() {
+    // Create an IntersectionObserver that listens for the sentinel to be visible.
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const query = this.booksQuery();
+          if (query.fetchNextPage) {
+            query.fetchNextPage();
+          }
+        }
+      });
+    });
+    // Start observing the sentinel element.
+    if (this.infiniteScrollSentinel) {
+      this.observer.observe(this.infiniteScrollSentinel.nativeElement);
+    }
+  }
+
+  ngOnDestroy() {
+    // Clean up the observer when the component is destroyed.
+    if (this.observer) {
+      this.observer.disconnect();
     }
   }
 }
