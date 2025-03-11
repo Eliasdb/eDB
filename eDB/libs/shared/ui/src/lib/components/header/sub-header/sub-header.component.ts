@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, input } from '@angular/core';
+import { Component, EventEmitter, Output, input, model } from '@angular/core';
 import { OrderItem } from '@eDB-webshop/shared-types';
 import { HeaderModule } from 'carbon-components-angular';
 
@@ -47,13 +47,15 @@ export class UiPlatformSubHeaderComponent {
   readonly name = input<string>('eDB');
   readonly hasHamburger = input<boolean>(false);
   readonly cartItems = input<OrderItem[]>();
-  readonly isDialogOpen = input<boolean>(true);
+  isDialogOpen = model<boolean>(false);
 
   @Output() hamburgerToggle = new EventEmitter<Event>();
   @Output() linkClick = new EventEmitter<string>();
   @Output() openDialog = new EventEmitter<boolean>();
 
   onOpenDialog(isDialogOpen: boolean) {
-    this.openDialog.emit(isDialogOpen);
+    const newState = !isDialogOpen;
+    this.isDialogOpen.set(newState);
+    this.openDialog.emit(newState);
   }
 }
