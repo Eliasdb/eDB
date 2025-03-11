@@ -5,15 +5,10 @@ import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { CartService } from '@eDB-webshop/client-cart';
 import { KeycloakService } from '@eDB/client-auth';
 import { NavigationService } from '@eDB/util-navigation';
 
-import { CartComponent } from '@eDB-webshop/feature-cart';
-import {
-  UiPlatformHeaderComponent,
-  UiPlatformSubHeaderComponent,
-} from '@eDB/shared-ui';
+import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
 
 import {
   I18nModule,
@@ -33,8 +28,6 @@ import { MENU_OPTIONS } from './shell.config';
     UiPlatformHeaderComponent,
     MatButtonModule,
     MatDialogModule,
-    UiPlatformSubHeaderComponent,
-    CartComponent,
   ],
   providers: [NotificationService],
   template: `
@@ -49,23 +42,6 @@ import { MENU_OPTIONS } from './shell.config';
         (linkClick)="navigationService.navigateTo($event)"
         (menuOptionSelected)="handleMenuOption($event)"
       ></ui-platform-header>
-
-      @if (isWebshopRoute()) {
-        <ui-platform-subheader
-          (openDialog)="onShowCart()"
-          [cartItems]="cartItems()"
-        ></ui-platform-subheader>
-      }
-
-      @if (showCart) {
-        <section class="relative z-[200]">
-          <app-cart
-            (cartItemDeleted)="onDeleteCartItem($event)"
-            [isCartVisible]="showCart"
-            [cartItems]="cartItems()"
-          ></app-cart>
-        </section>
-      }
 
       <main class="platform-content">
         <router-outlet></router-outlet>
@@ -125,24 +101,5 @@ export class ShellComponent implements OnInit {
   private logout(): void {
     this.keycloakService.logout();
     this.router.navigate(['/']);
-  }
-
-  // WEBSHOP
-
-  protected cartService = inject(CartService);
-
-  cartItems = this.cartService.cartItems;
-  showCart = false;
-
-  isWebshopRoute(): boolean {
-    return this.router.url.startsWith('/webshop');
-  }
-
-  onShowCart() {
-    this.showCart = !this.showCart;
-  }
-
-  onDeleteCartItem(cartItemId: number) {
-    this.cartService.removeFromCart(cartItemId);
   }
 }
