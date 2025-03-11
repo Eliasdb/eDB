@@ -8,59 +8,45 @@ import {
   injectQuery,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom } from 'rxjs';
-import {
-  BookQueryParams,
-  GENRE_QUERY_PARAM,
-  SEARCH_QUERY_PARAM,
-  SORT_QUERY_PARAM,
-  STATUS_QUERY_PARAM,
-} from './types/book-param.type';
+
+import { BookParamService } from '@eDB-webshop/util-book-params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BooksService {
   private http = inject(HttpClient);
+  private bookParamService = inject(BookParamService);
 
-  private queryParams = signal<Partial<BookQueryParams>>({});
-
-  // Infinite query for offset-based pagination
   booksInfiniteQuery = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
-    const paramsSignal = this.queryParams();
-    const status =
-      paramsSignal.status && paramsSignal.status !== ''
-        ? paramsSignal.status
-        : 'available';
+    const search = this.bookParamService.querySignal();
+    const genre = this.bookParamService.genreSignal();
+    const status = this.bookParamService.statusSignal();
+    const sort = this.bookParamService.sortSignal();
 
     // Build common query params
-    let params = new HttpParams().set('status', status);
-    if (paramsSignal.genre && paramsSignal.genre !== '') {
-      params = params.set('genre', paramsSignal.genre as string);
+    let params = new HttpParams().set('status', status || 'available');
+
+    if (genre) {
+      params = params.set('genre', genre);
     }
-    if (paramsSignal.search && paramsSignal.search !== '') {
-      params = params.set('search', paramsSignal.search as string);
+    if (search) {
+      params = params.set('search', search);
     }
-    if (paramsSignal.sort && paramsSignal.sort !== '') {
-      params = params.set('sort', paramsSignal.sort as string);
+    if (sort) {
+      params = params.set('sort', sort);
     }
 
     // default to 15
     const limit = 15;
-    params = params.set('limit', limit);
+    params = params.set('limit', limit.toString());
 
     return {
-      queryKey: [
-        'BOOKS_INFINITE',
-        paramsSignal[GENRE_QUERY_PARAM],
-        paramsSignal[SEARCH_QUERY_PARAM],
-        paramsSignal[STATUS_QUERY_PARAM],
-        paramsSignal[SORT_QUERY_PARAM],
-      ] as const,
-      // Note: No explicit type on the parameter; let the framework supply it.
+      queryKey: ['BOOKS_INFINITE', genre, search, status, sort] as const,
       queryFn: async (context) => {
         const offset = (context.pageParam as number | null) ?? 0;
         const fullParams = params.set('offset', offset.toString());
-        console.log('Fetching with params:', fullParams.toString());
+
         return await firstValueFrom(
           this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
             params: fullParams,
@@ -72,35 +58,22 @@ export class BooksService {
           const currentOffset = Number(lastPage.data.offset) || 0;
           const pageLimit = Number(lastPage.data.limit) || limit;
           const nextOffset = currentOffset + pageLimit;
-          console.log('Next offset:', nextOffset);
+
           return nextOffset;
         }
         return null;
       },
-
-      initialPageParam: 0, // Start with offset 0
+      initialPageParam: 0,
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchOnMount: true,
+      refetchOnMount: false,
     };
   });
 
-  // Computed total books count from the infinite query.
-  // We assume that the API returns the same total count on each page,
-  // so we use the first page's count.
   public totalBooksCount = computed(() => {
     const data = this.booksInfiniteQuery.data();
     return data && data.pages.length > 0 ? data.pages[0].data.count : 0;
   });
-
-  /**
-   * Updates the internal query parameters signal.
-   * When these parameters are updated, both queryBooks and booksInfiniteQuery will refetch.
-   */
-  updateQueryBooks(newParams: Partial<BookQueryParams>) {
-    this.queryParams.set(newParams);
-    // Optionally, you can return queryBooks if you need to chain further actions.
-  }
 
   // --- Query Books By Id ---
   // Create a signal to hold the currently selected book id.
