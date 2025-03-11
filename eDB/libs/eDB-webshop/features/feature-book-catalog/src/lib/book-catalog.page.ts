@@ -1,4 +1,11 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  ViewChild,
+} from '@angular/core';
 
 import { BooksService } from '@eDB-webshop/client-books';
 import { BookParamService } from '@eDB-webshop/util-book-params';
@@ -12,8 +19,9 @@ import {
 
 import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
 
+import { CommonModule } from '@angular/common';
+import { UiLoadingSpinnerComponent } from '../../../../../shared/ui/src/lib/components/loading/loading-spinner.component';
 import {
-  AUTHORS_QUERY_PARAM,
   GENRE_QUERY_PARAM,
   SEARCH_QUERY_PARAM,
   SORT_QUERY_PARAM,
@@ -27,6 +35,8 @@ import {
     BooksFiltersComponent,
     BooksSortBarComponent,
     LoadingStateComponent,
+    CommonModule,
+    UiLoadingSpinnerComponent,
   ],
   selector: 'books-container',
   template: `
@@ -66,30 +76,44 @@ import {
             ></books-sort-bar>
 
             <!-- Books Query Results -->
-            @if (booksQuery(); as result) {
-              @if (result.isSuccess()) {
+            <section class="books-list">
+              <!-- Books Query Results -->
+              @if (booksInfiniteQuery.isSuccess(); as result) {
                 <section class="w-full box-border">
                   @if (showList) {
                     <books-collection-list-overview
-                      [books]="books() || []"
+                      [books]="flattenedBooks() || []"
                     ></books-collection-list-overview>
                   } @else {
                     <books-collection-grid-overview
-                      [books]="books() || []"
+                      [books]="flattenedBooks() || []"
                     ></books-collection-grid-overview>
                   }
                 </section>
-                <!-- Example paginator container: 
-                <div class="mt-20">
-                  <paginator class="bg-[#24262b]"></paginator>
-                </div> -->
               }
-              @if (result.isLoading()) {
+              @if (booksInfiniteQuery.isLoading()) {
                 <books-loading-state></books-loading-state>
               }
-              @if (result.isError()) {
+              @if (booksInfiniteQuery.isError()) {
                 <p>Error</p>
               }
+            </section>
+
+            <!-- Sentinel element for triggering fetch -->
+            <div #scrollAnchor class="scroll-anchor">
+              <!-- Optionally show a loading spinner/text when fetching next page -->
+              <ng-container *ngIf="booksInfiniteQuery.isFetchingNextPage()">
+                <p>Loading more...</p>
+                <!-- Replace with your spinner component if available -->
+                <ui-loading></ui-loading>
+              </ng-container>
+            </div>
+
+            @if (booksInfiniteQuery.isLoading()) {
+              <books-loading-state></books-loading-state>
+            }
+            @if (booksInfiniteQuery.isError()) {
+              <p>Error</p>
             }
           </section>
         </section>
@@ -101,7 +125,8 @@ export class BooksCollectionContainer {
   private booksService = inject(BooksService);
   private bookParamService = inject(BookParamService);
 
-  protected author = this.bookParamService.authorSignal;
+  @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
+
   protected genre = this.bookParamService.genreSignal;
   protected query = this.bookParamService.querySignal;
   protected status = this.bookParamService.statusSignal;
@@ -109,32 +134,31 @@ export class BooksCollectionContainer {
 
   public showList: boolean = false;
 
+  protected booksInfiniteQuery = this.booksService.booksInfiniteQuery;
+
+  // Flatten pages into a single array of books.
+  protected flattenedBooks = computed(() => {
+    const data = this.booksInfiniteQuery.data();
+    console.log(data);
+    console.log(data?.pages.flatMap((page) => page.data.items));
+
+    return data ? data.pages.flatMap((page) => page.data.items) : [];
+  });
+
+  protected totalBooksCount = this.booksService.totalBooksCount;
+
   private updateEffect = effect(() => {
     const search = this.query();
-    const author = this.author();
     const genre = this.genre();
     const status = this.status();
     const sort = this.sort();
 
     this.booksService.updateQueryBooks({
       search,
-      author,
       genre,
       status,
       sort,
     });
-  });
-
-  protected booksQuery = computed(() => this.booksService.queryBooks);
-
-  protected totalBooksCount = computed(() => {
-    const result = this.booksQuery().data();
-    return result ? result.data.count : 0;
-  });
-
-  protected books = computed(() => {
-    const result = this.booksQuery().data();
-    return result ? result.data.items : [];
   });
 
   toggleShowList(state: boolean): void {
@@ -143,7 +167,6 @@ export class BooksCollectionContainer {
 
   protected onSearch(query: string) {
     this.bookParamService.navigate({
-      [AUTHORS_QUERY_PARAM]: query,
       [SEARCH_QUERY_PARAM]: query,
     });
   }
@@ -162,5 +185,20 @@ export class BooksCollectionContainer {
 
   protected clearFilters() {
     this.bookParamService.clearParams();
+  }
+
+  ngAfterViewInit() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (
+          entry.isIntersecting &&
+          !this.booksInfiniteQuery.isFetchingNextPage()
+        ) {
+          this.booksInfiniteQuery.fetchNextPage();
+        }
+      });
+    });
+    // Start observing the sentinel element.
+    observer.observe(this.scrollAnchor.nativeElement);
   }
 }

@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Book;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\V1\Book\BookResource;
 use App\Http\Resources\V1\Book\BookCollection;
-
-use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -20,89 +17,33 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        $pageSize = $request->page_size ?? 15;
-        $offset = $request->offset ?? 0;
-        $limit = $request->limit ?? 15;
-        // $books = Book::offset($offset)->limit($limit)->filter()->get();
+        // Set default pagination values
+        $pageSize = $request->input('page_size', 15);
+        $offset   = $request->input('offset', 0);
+        $limit    = $request->input('limit', $pageSize);
 
-        if ($request->status == 'loaned') {
-            switch ($request->sort) {
-                case "title,asc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY title ASC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "title,desc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY title DESC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "author,asc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY author ASC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "author,desc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY author DESC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "published_date,asc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY published_date ASC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "published_date,desc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY published_date DESC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                default:
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                            WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                            AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                            ORDER BY title ASC
-                            "
-                    );
-                    return new BookCollection($sql);
-            }
+        // Use the FilterQueryString trait to automatically apply filters.
+        $query = Book::filter();
 
+        // If filtering by "loaned" status, add the condition.
+        if ($request->status === 'loaned') {
+            $query->where('status', 'loaned');
         }
 
-        $books = Book::filter()->skip($offset)->limit($limit)->get();
-        return new BookCollection($books);
+        $total = $query->count();
+        $books = $query->skip($offset)
+                       ->take($limit)
+                       ->get();
 
+        return response()->json([
+            'data' => [
+                'items'   => BookResource::collection($books),
+                'count'   => $total,
+                'hasMore' => (($offset + $limit) < $total),
+                'offset'  => $offset,
+                'limit'   => $limit,
+            ]
+        ]);
     }
 
     /**
@@ -116,7 +57,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request)
+    public function store(StoreBookRequest $request): BookResource
     {
         return new BookResource(Book::create($request->all()));
     }
@@ -124,7 +65,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(Book $book): BookResource
     {
         return new BookResource($book);
     }
@@ -143,7 +84,6 @@ class BookController extends Controller
     public function update(UpdateBookRequest $request, Book $book)
     {
         $book->update($request->all());
-
     }
 
     /**
@@ -152,6 +92,5 @@ class BookController extends Controller
     public function destroy(Request $request, Book $book)
     {
         $book->delete($request->all());
-
     }
 }
