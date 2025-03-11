@@ -36,10 +36,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
-    // provideHttpClient(withFetch()),
     NotificationService,
     ModalService,
-    KeycloakService, // ✅ Register KeycloakService here
+    KeycloakService,
     ExperimentalService,
     NotificationDisplayService,
     PlaceholderService,

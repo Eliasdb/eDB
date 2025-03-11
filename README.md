@@ -198,15 +198,14 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 
 ### 3.1.4 Architecture Diagrams
 
-**V1: Monolithic Platform App**
-
+[**V1: Monolithic Platform App**](./docs/images/frontend/frontend-architecture_v5.png)
 The first model of the platform using a familiar monolithic approach.
-![Frontend Setup Diagram](./docs/images/frontend/frontend-architecture_v5.png)
 
-**V2: Layered Modular Platform App and Admin App**
+[**V2: Layered Modular Platform App and Admin App**](./docs/images/frontend/frontend-architecture_v6.png)
+This is a first attempt at more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture. To learn more check out their [documentation](https://nx.dev/concepts/decisions).
 
-This is a visual representation of the workspace dependency graph concerning the frontend as is right now. This is a more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. To learn more check out their [documentation](https://nx.dev/concepts/decisions). Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture.
-![Frontend Setup Diagram](./docs/images/frontend/frontend-architecture_v6.png)
+**V3: Layered Modular Platform App, Admin App & Webshop App**
+![Layered Modular Platform App, Admin App & Webshop App](./docs/images/frontend/frontend-architecture_v7.png)
 
 > **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
 
@@ -241,11 +240,11 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Response:**
         ```json
         [
-            {
-                "id": 1,
-                "name": "App1",
-                "description": "Description of App1"
-            }
+        	{
+        		"id": 1,
+        		"name": "App1",
+        		"description": "Description of App1"
+        	}
         ]
         ```
 
@@ -256,13 +255,13 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Request Body:**
         ```json
         {
-            "applicationId": 1
+        	"applicationId": 1
         }
         ```
     -   **Response:**
         ```json
         {
-            "message": "Subscribed successfully."
+        	"message": "Subscribed successfully."
         }
         ```
 
@@ -272,11 +271,11 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Response:**
         ```json
         [
-            {
-                "id": 1,
-                "name": "App1",
-                "description": "Description of App1"
-            }
+        	{
+        		"id": 1,
+        		"name": "App1",
+        		"description": "Description of App1"
+        	}
         ]
         ```
 
@@ -289,16 +288,16 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Request Body:**
         ```json
         {
-            "email": "john.doe@example.com",
-            "password": "password123",
-            "firstName": "John",
-            "lastName": "Doe"
+        	"email": "john.doe@example.com",
+        	"password": "password123",
+        	"firstName": "John",
+        	"lastName": "Doe"
         }
         ```
     -   **Response:**
         ```json
         {
-            "message": "Registration successful."
+        	"message": "Registration successful."
         }
         ```
 
@@ -308,15 +307,15 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Request Body:**
         ```json
         {
-            "email": "john.doe@example.com",
-            "password": "password123"
+        	"email": "john.doe@example.com",
+        	"password": "password123"
         }
         ```
     -   **Response:**
         ```json
         {
-            "message": "Login successful.",
-            "token": "jwt_token_here"
+        	"message": "Login successful.",
+        	"token": "jwt_token_here"
         }
         ```
 
@@ -330,9 +329,9 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Response:**
         ```json
         {
-            "email": "john.doe@example.com",
-            "firstName": "John",
-            "lastName": "Doe"
+        	"email": "john.doe@example.com",
+        	"firstName": "John",
+        	"lastName": "Doe"
         }
         ```
 
@@ -343,14 +342,14 @@ The **Platform API** serves as the backbone for all core functionalities, provid
     -   **Request Body:**
         ```json
         {
-            "firstName": "John",
-            "lastName": "Doe"
+        	"firstName": "John",
+        	"lastName": "Doe"
         }
         ```
     -   **Response:**
         ```json
         {
-            "message": "Profile updated successfully."
+        	"message": "Profile updated successfully."
         }
         ```
 
@@ -385,16 +384,16 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Response:**
         ```json
         {
-            "data": [
-                {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "john.doe@example.com"
-                }
-            ],
-            "nextCursor": "next_cursor_value",
-            "hasMore": true
+        	"data": [
+        		{
+        			"id": 1,
+        			"firstName": "John",
+        			"lastName": "Doe",
+        			"email": "john.doe@example.com"
+        		}
+        	],
+        	"nextCursor": "next_cursor_value",
+        	"hasMore": true
         }
         ```
 
@@ -406,10 +405,10 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Response:**
         ```json
         {
-            "id": 1,
-            "firstName": "John",
-            "lastName": "Doe",
-            "email": "john.doe@example.com"
+        	"id": 1,
+        	"firstName": "John",
+        	"lastName": "Doe",
+        	"email": "john.doe@example.com"
         }
         ```
 
@@ -420,7 +419,7 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Response:**
         ```json
         {
-            "Message": "User deleted successfully."
+        	"Message": "User deleted successfully."
         }
         ```
 
@@ -434,19 +433,19 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Response:**
         ```json
         [
-            {
-                "ApplicationId": 1,
-                "ApplicationName": "App1",
-                "SubscriberCount": 10,
-                "SubscribedUsers": [
-                    {
-                        "UserId": 1,
-                        "UserName": "John Doe",
-                        "UserEmail": "john.doe@example.com",
-                        "SubscriptionDate": "2024-12-14T12:34:56Z"
-                    }
-                ]
-            }
+        	{
+        		"ApplicationId": 1,
+        		"ApplicationName": "App1",
+        		"SubscriberCount": 10,
+        		"SubscribedUsers": [
+        			{
+        				"UserId": 1,
+        				"UserName": "John Doe",
+        				"UserEmail": "john.doe@example.com",
+        				"SubscriptionDate": "2024-12-14T12:34:56Z"
+        			}
+        		]
+        	}
         ]
         ```
 
@@ -458,22 +457,22 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Request Body:**
         ```json
         {
-            "name": "App1",
-            "description": "Description of App1",
-            "iconUrl": "https://example.com/icon.png",
-            "routePath": "/app1",
-            "tags": ["tag1", "tag2"]
+        	"name": "App1",
+        	"description": "Description of App1",
+        	"iconUrl": "https://example.com/icon.png",
+        	"routePath": "/app1",
+        	"tags": ["tag1", "tag2"]
         }
         ```
     -   **Response:**
         ```json
         {
-            "id": 1,
-            "name": "App1",
-            "description": "Description of App1",
-            "iconUrl": "https://example.com/icon.png",
-            "routePath": "/app1",
-            "tags": ["tag1", "tag2"]
+        	"id": 1,
+        	"name": "App1",
+        	"description": "Description of App1",
+        	"iconUrl": "https://example.com/icon.png",
+        	"routePath": "/app1",
+        	"tags": ["tag1", "tag2"]
         }
         ```
 
@@ -485,17 +484,17 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Request Body:**
         ```json
         {
-            "name": "Updated App Name",
-            "description": "Updated description",
-            "iconUrl": "https://example.com/updated-icon.png",
-            "routePath": "/updated-app",
-            "tags": ["updatedTag"]
+        	"name": "Updated App Name",
+        	"description": "Updated description",
+        	"iconUrl": "https://example.com/updated-icon.png",
+        	"routePath": "/updated-app",
+        	"tags": ["updatedTag"]
         }
         ```
     -   **Response:**
         ```json
         {
-            "Message": "Application updated successfully."
+        	"Message": "Application updated successfully."
         }
         ```
 
@@ -507,7 +506,7 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Response:**
         ```json
         {
-            "Message": "Subscription revoked successfully."
+        	"Message": "Subscription revoked successfully."
         }
         ```
 
@@ -518,7 +517,7 @@ The **Admin API** handles administrative tasks, including user management, appli
     -   **Response:**
         ```json
         {
-            "Message": "Application deleted successfully."
+        	"Message": "Application deleted successfully."
         }
         ```
 
@@ -984,14 +983,18 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 
 -   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images
 -   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - Deployments - Services - Pods - Secrets - Configmaps - YAML
--   [x] **Servers**: Linux - VPS - Static file web server (NGINX) - API web server (.NET Web API) - Database server (Postgres) - shell scripts (wait-for-postgres to ping database to start up API)
+-   [x] **Servers**: Linux - VPS - Static file web server (NGINX) - API web server (.NET Web API) - Database server (Postgres) - shell scripts (`wait-for-postgres.sh` / `entrypoint.sh`)
 -   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint
 
 **Monorepo**
 
 -   [x] **Nx**: apps - libs - Nx Generators/Scaffolding commands - nx affected - modular layered architecture
 
-**Frontend**
+**Auth**
+
+-   [x] **Authentication**: Keycloak - keycloak-js
+
+**Client**
 
 -   [x] **Language**: Typescript
 -   [x] **Node Package Manager**: pnpm
@@ -1001,16 +1004,17 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
 -   [x] **API Integration**: TanStack Query
 
-**Backend**
+**API**
 
 -   [x] **Language**: C# - PHP
 -   [x] **Package Manager**: NuGet - Composer
+-   [x] **Frameworks**:
+    -   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext - .NET SDK
+    -   [x] **Laravel**: Controllers - Models - Requests - Resources - Collections - PHP Artisan CLI - Middleware
 -   [x] **ORM**: EF - Doctrine
--   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext - .NET SDK
--   [x] **Laravel**: Controllers - Models - Requests - Resources - Collections - PHP Artisan CLI
+-   [x] **Testing**: xUnit - Moq - Postman
 -   [x] **Formatting**: dotnet format
 -   [x] **API Documentation**: Swagger
--   [x] **Testing**: xUnit - Moq - Postman
 -   [x] **Object Mapper**: Automapper
 
 ## 12. Tools I'm working towards using
@@ -1039,7 +1043,6 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 **Frontend**
 
 -   [ ] **State Management**: NgRx, Akita, SignalStore
--   [ ] **Guard**: Restricting access to apps user isn't subscribed to
 -   [ ] **Microfrontends**: Module Federation
 -   [ ] **End-to-End Testing**: Cypress, Playwright
 -   [ ] **Error Handling & Monitoring**: Sentry, PostHog
@@ -1050,6 +1053,5 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [ ] **Architecture**: Event Driven Architecture, Domain Driven Architecture
 -   [ ] **Background Jobs & Messaging**: Hangfire, MassTransit, MediatR, RabbitMQ, Kafka
 -   [ ] **Caching**: Redis
--   [ ] **Auth**: Find solution for auth
 -   [ ] **Rate Limiting & API Gateway**: Ocelot, YARP, Envoy
 -   [ ] **Feature Flags & Config Management**: Unleash, ConfigCat
