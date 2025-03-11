@@ -15,13 +15,6 @@ export const routes: Route[] = [
           ).then((m) => m.featureDashboardRoutes),
       },
       {
-        path: 'profile',
-        loadChildren: () =>
-          import('@eDB/feature-profile' /* webpackChunkName: "profile" */).then(
-            (m) => m.featureProfileRoutes,
-          ),
-      },
-      {
         path: 'catalog',
         loadChildren: () =>
           import('@eDB/feature-catalog' /* webpackChunkName: "catalog" */).then(
