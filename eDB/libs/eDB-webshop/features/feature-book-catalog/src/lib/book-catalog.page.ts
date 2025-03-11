@@ -1,32 +1,28 @@
 import {
   Component,
   computed,
-  effect,
   ElementRef,
   inject,
   ViewChild,
 } from '@angular/core';
 
 import { BooksService } from '@eDB-webshop/client-books';
-import { BookParamService } from '@eDB-webshop/util-book-params';
+import {
+  BookParamService,
+  GENRE_QUERY_PARAM,
+  SEARCH_QUERY_PARAM,
+  SORT_QUERY_PARAM,
+  STATUS_QUERY_PARAM,
+} from '@eDB-webshop/util-book-params';
 
+import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
+import { UiLoadingSpinnerComponent } from '@eDB/shared-ui';
 import {
   BooksCollectionGridOverviewComponent,
   BooksCollectionListOverviewComponent,
   BooksFiltersComponent,
   BooksSortBarComponent,
 } from './components/index';
-
-import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
-
-import { CommonModule } from '@angular/common';
-import { UiLoadingSpinnerComponent } from '../../../../../shared/ui/src/lib/components/loading/loading-spinner.component';
-import {
-  GENRE_QUERY_PARAM,
-  SEARCH_QUERY_PARAM,
-  SORT_QUERY_PARAM,
-  STATUS_QUERY_PARAM,
-} from './types/book-param.type';
 
 @Component({
   imports: [
@@ -35,7 +31,6 @@ import {
     BooksFiltersComponent,
     BooksSortBarComponent,
     LoadingStateComponent,
-    CommonModule,
     UiLoadingSpinnerComponent,
   ],
   selector: 'books-container',
@@ -102,11 +97,13 @@ import {
             <!-- Sentinel element for triggering fetch -->
             <div #scrollAnchor class="scroll-anchor">
               <!-- Optionally show a loading spinner/text when fetching next page -->
-              <ng-container *ngIf="booksInfiniteQuery.isFetchingNextPage()">
-                <p>Loading more...</p>
-                <!-- Replace with your spinner component if available -->
-                <ui-loading></ui-loading>
-              </ng-container>
+              @if (booksInfiniteQuery.isFetchingNextPage()) {
+                <ng-container>
+                  <p>Loading more...</p>
+                  <!-- Replace with your spinner component if available -->
+                  <ui-loading></ui-loading>
+                </ng-container>
+              }
             </div>
 
             @if (booksInfiniteQuery.isLoading()) {
@@ -139,36 +136,21 @@ export class BooksCollectionContainer {
   // Flatten pages into a single array of books.
   protected flattenedBooks = computed(() => {
     const data = this.booksInfiniteQuery.data();
-    console.log(data);
-    console.log(data?.pages.flatMap((page) => page.data.items));
-
     return data ? data.pages.flatMap((page) => page.data.items) : [];
   });
 
   protected totalBooksCount = this.booksService.totalBooksCount;
-
-  private updateEffect = effect(() => {
-    const search = this.query();
-    const genre = this.genre();
-    const status = this.status();
-    const sort = this.sort();
-
-    this.booksService.updateQueryBooks({
-      search,
-      genre,
-      status,
-      sort,
-    });
-  });
 
   toggleShowList(state: boolean): void {
     this.showList = state;
   }
 
   protected onSearch(query: string) {
-    this.bookParamService.navigate({
-      [SEARCH_QUERY_PARAM]: query,
-    });
+    this.bookParamService.navigate({ [SEARCH_QUERY_PARAM]: query });
+  }
+
+  protected onSort(sort: string) {
+    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
   }
 
   protected filterGenre(genre: string) {
@@ -177,10 +159,6 @@ export class BooksCollectionContainer {
 
   protected filterStatus(status: string) {
     this.bookParamService.navigate({ [STATUS_QUERY_PARAM]: status });
-  }
-
-  protected onSort(sort: string) {
-    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
   }
 
   protected clearFilters() {
