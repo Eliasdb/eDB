@@ -6,25 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function adminStats(Request $request)
+    public function adminStats()
     {
         $users = User::get()->all();
         $books = Book::get()->all();
         $loaned_books = Book::where('status', '=', 'loaned')->get()->all();
-
         $action_books = Book::where('genre', '=', 'action')->get()->all();
-        // $non_fiction_books = Book::where('genre', '=', 'non fiction')->get()->all();
-        // $thriller_books = Book::where('genre', '=', 'thriller')->get()->all();
-
-        // $count_array = [count($action_books), count($adventure_books), count($comedy_books), count($crime_books),
-        // count($drama_books), count($fantasy_books), count($history_books),count($horror_books), count($mystery_books),
-
         $genres = ['action', 'adventure', 'comedy', 'crime', 'drama', 'fantasy', 'history', 'horror', 'mystery', 'non fiction', 'thriller' ];
 
         function getTotalsByGenre(array $genres)
@@ -37,7 +29,6 @@ class AdminController extends Controller
 
             return $totals_array;
         }
-
 
         function getUserData()
         {
@@ -78,7 +69,6 @@ class AdminController extends Controller
                 "count" => count(User::where('city', '=', $city->city)->get()->all()),
             ]);
             }
-
             return  $city_array;
         }
 
@@ -92,10 +82,6 @@ class AdminController extends Controller
                 'userData' =>  getUserData(),
                 'totalsByCity' => getUsersPerCity()
             ],
-
         ];
-
-
     }
-
 }

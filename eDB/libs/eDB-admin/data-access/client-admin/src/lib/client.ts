@@ -1,8 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import {
-  AUTHORS_QUERY_PARAM,
   BookQueryParams,
   GENRE_QUERY_PARAM,
   SEARCH_QUERY_PARAM,
@@ -10,6 +9,7 @@ import {
   STATUS_QUERY_PARAM,
 } from '@eDB-webshop/util-book-params';
 import {
+  injectInfiniteQuery,
   injectMutation,
   injectQuery,
   QueryClient,
@@ -19,6 +19,7 @@ import { firstValueFrom, lastValueFrom, map } from 'rxjs';
 import { RawApiDataBooks } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
 
+import { BookParamService } from '@eDB-webshop/util-book-params';
 import {
   AdminStats,
   Application,
@@ -34,15 +35,9 @@ import { Book } from './types/book.types';
 export class AdminService {
   private http = inject(HttpClient);
   private queryClient = inject(QueryClient);
+  private bookParamService = inject(BookParamService);
 
   // USER RELATED
-  /**
-   * Fetches users with given parameters.
-   * @param cursor Cursor for pagination (represents the last User's sort field value).
-   * @param searchParam Search query.
-   * @param sortParam Sort parameters in the format "field,direction".
-   * @returns Promise of PaginatedResponse.
-   */
   async queryAllUsers(
     cursor: number | string | null,
     searchParam?: string,
@@ -62,14 +57,14 @@ export class AdminService {
           ) {
             params = params.set('cursor', JSON.stringify(parsedCursor));
           } else {
-            params = params.set('cursor', cursor); // Raw string fallback
+            params = params.set('cursor', cursor);
           }
         } catch (error) {
           console.error('Failed to parse cursor:', error);
-          params = params.set('cursor', cursor); // Fallback to original cursor
+          params = params.set('cursor', cursor);
         }
       } else {
-        params = params.set('cursor', cursor.toString()); // Convert numbers to string
+        params = params.set('cursor', cursor.toString());
       }
     }
 
@@ -93,7 +88,7 @@ export class AdminService {
   }
 
   queryUserById(userId: number) {
-    const userSignal = signal<UserProfile | null>(null); // Initialize a signal
+    const userSignal = signal<UserProfile | null>(null);
     injectQuery(() => ({
       queryKey: ['user', userId],
       queryFn: async () => {
@@ -109,7 +104,7 @@ export class AdminService {
         return user;
       },
     }));
-    return userSignal; // Return the signal
+    return userSignal;
   }
 
   deleteUserMutation() {
@@ -214,11 +209,6 @@ export class AdminService {
     }));
   }
 
-  /**
-   * Maps frontend sortField to backend sortField.
-   * @param sortField Frontend sort field.
-   * @returns Backend sort field.
-   */
   public mapSortFieldToBackend(sortField: string): keyof UserProfile {
     const fieldMapping: { [key: string]: keyof UserProfile } = {
       firstname: 'firstName',
@@ -247,7 +237,9 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        this.queryClient.invalidateQueries({ queryKey: ['ADMIN_BOOKS'] });
+        this.queryClient.invalidateQueries({
+          queryKey: ['ADMIN_BOOKS_INFINITE'],
+        });
       },
     }));
   }
@@ -260,7 +252,9 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        this.queryClient.invalidateQueries({ queryKey: ['ADMIN_BOOKS'] });
+        this.queryClient.invalidateQueries({
+          queryKey: ['ADMIN_BOOKS_INFINITE'],
+        });
       },
     }));
   }
@@ -273,7 +267,9 @@ export class AdminService {
         );
       },
       onSuccess: () => {
-        this.queryClient.invalidateQueries({ queryKey: ['ADMIN_BOOKS'] });
+        this.queryClient.invalidateQueries({
+          queryKey: ['ADMIN_BOOKS_INFINITE'],
+        });
       },
     }));
   }
@@ -282,65 +278,76 @@ export class AdminService {
     queryKey: ['ADMIN_STATS'],
     queryFn: async () =>
       await firstValueFrom(
-        this.http.get<AdminStats>(`${environment.bookAPIUrl}/admin-stats`).pipe(
-          map((response) => {
-            return response.data;
-          }),
-        ),
+        this.http
+          .get<AdminStats>(`${environment.bookAPIUrl}/admin-stats`)
+          .pipe(map((response) => response.data)),
       ),
     refetchOnWindowFocus: false,
     refetchOnMount: true,
   }));
 
-  private queryParams = signal<Partial<BookQueryParams>>({});
+  // Instead of using a manually updated mutable signal, we now derive query parameters automatically
+  // from the BookParamService signals.
+  private queryParams = computed<Partial<BookQueryParams>>(() => ({
+    search: this.bookParamService.querySignal(),
+    genre: this.bookParamService.genreSignal(),
+    status: this.bookParamService.statusSignal(),
+    sort: this.bookParamService.sortSignal(),
+  }));
 
-  // Create your query, which uses the queryParams signal.
-  queryAdminBooks = injectQuery<RawApiDataBooks, Error>(() => {
+  // The infinite query for admin books. It automatically re-runs whenever the derived queryParams change.
+  queryAdminBooks = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
     const paramsSignal = this.queryParams();
     let params = new HttpParams();
+
     if (paramsSignal.genre && paramsSignal.genre !== '') {
       params = params.set('genre', paramsSignal.genre as string);
     }
     if (paramsSignal.search && paramsSignal.search !== '') {
       params = params.set('q', paramsSignal.search as string);
     }
-    if (paramsSignal.author && paramsSignal.author !== '') {
-      params = params.set('author', paramsSignal.author as string);
-    }
     if (paramsSignal.sort && paramsSignal.sort !== '') {
-      console.log(paramsSignal);
-      console.log(params);
-
       params = params.set('sort', paramsSignal.sort as string);
     }
-    if (paramsSignal.genre === 'all') {
-      params = params.set('genre', '');
+    if (paramsSignal.status && paramsSignal.status !== '') {
+      params = params.set('status', paramsSignal.status as string);
     }
+    // Set a default limit per page
+    const limit = 15;
+    params = params.set('limit', limit.toString());
+
     return {
       queryKey: [
-        'ADMIN_BOOKS',
-        paramsSignal[AUTHORS_QUERY_PARAM],
+        'ADMIN_BOOKS_INFINITE',
         paramsSignal[GENRE_QUERY_PARAM],
         paramsSignal[SEARCH_QUERY_PARAM],
         paramsSignal[STATUS_QUERY_PARAM],
         paramsSignal[SORT_QUERY_PARAM],
       ] as const,
-      queryFn: async () => {
+      queryFn: async (context) => {
+        // Calculate offset from the current page parameter (default is 0)
+        const offset = (context.pageParam as number | null) ?? 0;
+        const fullParams = params.set('offset', offset.toString());
+
         return await firstValueFrom(
           this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
-            params,
+            params: fullParams,
           }),
         );
       },
+      getNextPageParam: (lastPage: RawApiDataBooks) => {
+        if (lastPage.data.hasMore) {
+          const currentOffset = Number(lastPage.data.offset) || 0;
+          const pageLimit = Number(lastPage.data.limit) || limit;
+          const nextOffset = currentOffset + pageLimit;
+          return nextOffset;
+        }
+        return null;
+      },
+      initialPageParam: 0,
+      keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchOnMount: true,
+      refetchOnMount: false,
     };
   });
-
-  // Method to update the query parameters.
-  updateQueryAdminBooks(newParams: Partial<BookQueryParams>) {
-    this.queryParams.set(newParams);
-    // Optionally return the query result if needed:
-    return this.queryAdminBooks;
-  }
 }

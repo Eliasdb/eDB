@@ -19,48 +19,48 @@ class Book extends Model
         "genre",
         "author",
         "like",
+        "search",
         "published_date",
         "q",
     ];
 
-    public function genre($query, $value)
-{
-    return $query->where('genre', 'ILIKE', "%$value%");
-}
-
-
-    public function q($query, $value)
-    {
-        // return $query->orWhere('name', '=', $value);
-        return $query->orWhere('title', 'like', "%$value%");
-    }
-
-    public function author($query, $value)
-    {
-        // return $query->orWhere('name', '=', $value);
-        return $query->orWhere('author', 'like', "%$value%");
-    }
+    protected $fillable = [
+        "title",
+        "photo_url",
+        "status",
+        "genre",
+        "price",
+        "stock",
+        "description",
+        "author",
+        "published_date",
+    ];
 
     protected $casts = [
         'price' => 'float',
         'stock' => 'integer',
     ];
 
-    protected $fillable = [
-     "title",
-     "photo_url",
-     "status",
-     "genre",
-     "price",
-     "stock",
-     "description",
-     "author",
-     "published_date",
-    ];
+    public function genre($query, $value)
+    {
+        return $query->where('genre', 'ILIKE', "%$value%");
+    }
+
+    public function search($query, $value)
+    {
+        return $query->where(function ($q) use ($value) {
+            $q->where('title', 'ilike', "%$value%")
+              ->orWhere('author', 'ilike', "%$value%");
+        });
+    }
+
+    public function author($query, $value)
+    {
+        return $query->where('author', 'like', "%$value%");
+    }
 
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
-    
 }

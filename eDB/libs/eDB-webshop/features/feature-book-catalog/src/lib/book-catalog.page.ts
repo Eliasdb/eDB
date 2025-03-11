@@ -1,24 +1,28 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  ViewChild,
+} from '@angular/core';
 
 import { BooksService } from '@eDB-webshop/client-books';
-import { BookParamService } from '@eDB-webshop/util-book-params';
+import {
+  BookParamService,
+  GENRE_QUERY_PARAM,
+  SEARCH_QUERY_PARAM,
+  SORT_QUERY_PARAM,
+  STATUS_QUERY_PARAM,
+} from '@eDB-webshop/util-book-params';
 
+import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
+import { UiLoadingSpinnerComponent } from '@eDB/shared-ui';
 import {
   BooksCollectionGridOverviewComponent,
   BooksCollectionListOverviewComponent,
   BooksFiltersComponent,
   BooksSortBarComponent,
 } from './components/index';
-
-import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
-
-import {
-  AUTHORS_QUERY_PARAM,
-  GENRE_QUERY_PARAM,
-  SEARCH_QUERY_PARAM,
-  SORT_QUERY_PARAM,
-  STATUS_QUERY_PARAM,
-} from './types/book-param.type';
 
 @Component({
   imports: [
@@ -27,6 +31,7 @@ import {
     BooksFiltersComponent,
     BooksSortBarComponent,
     LoadingStateComponent,
+    UiLoadingSpinnerComponent,
   ],
   selector: 'books-container',
   template: `
@@ -66,30 +71,46 @@ import {
             ></books-sort-bar>
 
             <!-- Books Query Results -->
-            @if (booksQuery(); as result) {
-              @if (result.isSuccess()) {
+            <section class="books-list">
+              <!-- Books Query Results -->
+              @if (booksInfiniteQuery.isSuccess(); as result) {
                 <section class="w-full box-border">
                   @if (showList) {
                     <books-collection-list-overview
-                      [books]="books() || []"
+                      [books]="flattenedBooks() || []"
                     ></books-collection-list-overview>
                   } @else {
                     <books-collection-grid-overview
-                      [books]="books() || []"
+                      [books]="flattenedBooks() || []"
                     ></books-collection-grid-overview>
                   }
                 </section>
-                <!-- Example paginator container: 
-                <div class="mt-20">
-                  <paginator class="bg-[#24262b]"></paginator>
-                </div> -->
               }
-              @if (result.isLoading()) {
+              @if (booksInfiniteQuery.isLoading()) {
                 <books-loading-state></books-loading-state>
               }
-              @if (result.isError()) {
+              @if (booksInfiniteQuery.isError()) {
                 <p>Error</p>
               }
+            </section>
+
+            <!-- Sentinel element for triggering fetch -->
+            <div #scrollAnchor class="scroll-anchor">
+              <!-- Optionally show a loading spinner/text when fetching next page -->
+              @if (booksInfiniteQuery.isFetchingNextPage()) {
+                <ng-container>
+                  <p>Loading more...</p>
+                  <!-- Replace with your spinner component if available -->
+                  <ui-loading></ui-loading>
+                </ng-container>
+              }
+            </div>
+
+            @if (booksInfiniteQuery.isLoading()) {
+              <books-loading-state></books-loading-state>
+            }
+            @if (booksInfiniteQuery.isError()) {
+              <p>Error</p>
             }
           </section>
         </section>
@@ -101,7 +122,8 @@ export class BooksCollectionContainer {
   private booksService = inject(BooksService);
   private bookParamService = inject(BookParamService);
 
-  protected author = this.bookParamService.authorSignal;
+  @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
+
   protected genre = this.bookParamService.genreSignal;
   protected query = this.bookParamService.querySignal;
   protected status = this.bookParamService.statusSignal;
@@ -109,43 +131,26 @@ export class BooksCollectionContainer {
 
   public showList: boolean = false;
 
-  private updateEffect = effect(() => {
-    const search = this.query();
-    const author = this.author();
-    const genre = this.genre();
-    const status = this.status();
-    const sort = this.sort();
+  protected booksInfiniteQuery = this.booksService.booksInfiniteQuery;
 
-    this.booksService.updateQueryBooks({
-      search,
-      author,
-      genre,
-      status,
-      sort,
-    });
+  // Flatten pages into a single array of books.
+  protected flattenedBooks = computed(() => {
+    const data = this.booksInfiniteQuery.data();
+    return data ? data.pages.flatMap((page) => page.data.items) : [];
   });
 
-  protected booksQuery = computed(() => this.booksService.queryBooks);
-
-  protected totalBooksCount = computed(() => {
-    const result = this.booksQuery().data();
-    return result ? result.data.count : 0;
-  });
-
-  protected books = computed(() => {
-    const result = this.booksQuery().data();
-    return result ? result.data.items : [];
-  });
+  protected totalBooksCount = this.booksService.totalBooksCount;
 
   toggleShowList(state: boolean): void {
     this.showList = state;
   }
 
   protected onSearch(query: string) {
-    this.bookParamService.navigate({
-      [AUTHORS_QUERY_PARAM]: query,
-      [SEARCH_QUERY_PARAM]: query,
-    });
+    this.bookParamService.navigate({ [SEARCH_QUERY_PARAM]: query });
+  }
+
+  protected onSort(sort: string) {
+    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
   }
 
   protected filterGenre(genre: string) {
@@ -156,11 +161,22 @@ export class BooksCollectionContainer {
     this.bookParamService.navigate({ [STATUS_QUERY_PARAM]: status });
   }
 
-  protected onSort(sort: string) {
-    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
-  }
-
   protected clearFilters() {
     this.bookParamService.clearParams();
+  }
+
+  ngAfterViewInit() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (
+          entry.isIntersecting &&
+          !this.booksInfiniteQuery.isFetchingNextPage()
+        ) {
+          this.booksInfiniteQuery.fetchNextPage();
+        }
+      });
+    });
+    // Start observing the sentinel element.
+    observer.observe(this.scrollAnchor.nativeElement);
   }
 }

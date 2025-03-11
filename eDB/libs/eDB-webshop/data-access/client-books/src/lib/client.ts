@@ -1,86 +1,79 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { RawApiDataBook, RawApiDataBooks } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
 
-import { injectQuery } from '@tanstack/angular-query-experimental';
-import { firstValueFrom } from 'rxjs';
 import {
-  AUTHORS_QUERY_PARAM,
-  BookQueryParams,
-  GENRE_QUERY_PARAM,
-  SEARCH_QUERY_PARAM,
-  SORT_QUERY_PARAM,
-  STATUS_QUERY_PARAM,
-} from './types/book-param.type';
+  injectInfiniteQuery,
+  injectQuery,
+} from '@tanstack/angular-query-experimental';
+import { firstValueFrom } from 'rxjs';
+
+import { BookParamService } from '@eDB-webshop/util-book-params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BooksService {
   private http = inject(HttpClient);
+  private bookParamService = inject(BookParamService);
 
-  private queryParams = signal<Partial<BookQueryParams>>({});
+  booksInfiniteQuery = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
+    const search = this.bookParamService.querySignal();
+    const genre = this.bookParamService.genreSignal();
+    const status = this.bookParamService.statusSignal();
+    const sort = this.bookParamService.sortSignal();
 
-  /**
-   * The signal-based query for books.
-   * When any value in queryParams changes, the queryKey will update and the queryFn will run.
-   */
-  queryBooks = injectQuery<RawApiDataBooks, Error>(() => {
-    const paramsSignal = this.queryParams();
-    // Use default status 'available' if not provided.
-    const status =
-      paramsSignal.status && paramsSignal.status !== ''
-        ? paramsSignal.status
-        : 'available';
+    // Build common query params
+    let params = new HttpParams().set('status', status || 'available');
 
-    let params = new HttpParams().set('status', status);
-    if (paramsSignal.genre && paramsSignal.genre !== '') {
-      params = params.set('genre', paramsSignal.genre as string);
+    if (genre) {
+      params = params.set('genre', genre);
     }
-    if (paramsSignal.search && paramsSignal.search !== '') {
-      params = params.set('q', paramsSignal.search as string);
+    if (search) {
+      params = params.set('search', search);
     }
-    if (paramsSignal.author && paramsSignal.author !== '') {
-      params = params.set('author', paramsSignal.author as string);
+    if (sort) {
+      params = params.set('sort', sort);
     }
-    if (paramsSignal.sort && paramsSignal.sort !== '') {
-      params = params.set('sort', paramsSignal.sort as string);
-    }
-    if (paramsSignal.genre && paramsSignal.genre === 'all') {
-      params = params.set('genre', '');
-    }
+
+    // default to 15
+    const limit = 15;
+    params = params.set('limit', limit.toString());
 
     return {
-      queryKey: [
-        'BOOKS',
-        paramsSignal[AUTHORS_QUERY_PARAM],
-        paramsSignal[GENRE_QUERY_PARAM],
-        paramsSignal[SEARCH_QUERY_PARAM],
-        paramsSignal[STATUS_QUERY_PARAM],
-        paramsSignal[SORT_QUERY_PARAM],
-      ] as const,
-      queryFn: async () => {
+      queryKey: ['BOOKS_INFINITE', genre, search, status, sort] as const,
+      queryFn: async (context) => {
+        const offset = (context.pageParam as number | null) ?? 0;
+        const fullParams = params.set('offset', offset.toString());
+
         return await firstValueFrom(
           this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
-            params,
+            params: fullParams,
           }),
         );
       },
+      getNextPageParam: (lastPage: RawApiDataBooks) => {
+        if (lastPage.data.hasMore) {
+          const currentOffset = Number(lastPage.data.offset) || 0;
+          const pageLimit = Number(lastPage.data.limit) || limit;
+          const nextOffset = currentOffset + pageLimit;
+
+          return nextOffset;
+        }
+        return null;
+      },
+      initialPageParam: 0,
+      keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchOnMount: true,
+      refetchOnMount: false,
     };
   });
 
-  /**
-   * Updates the internal query parameters signal.
-   * When these parameters are updated, the queryBooks computed query will automatically refetch.
-   */
-  updateQueryBooks(newParams: Partial<BookQueryParams>) {
-    this.queryParams.set(newParams);
-    // Optionally, you can return queryBooks if you need to chain further actions.
-    return this.queryBooks;
-  }
+  public totalBooksCount = computed(() => {
+    const data = this.booksInfiniteQuery.data();
+    return data && data.pages.length > 0 ? data.pages[0].data.count : 0;
+  });
 
   // --- Query Books By Id ---
   // Create a signal to hold the currently selected book id.

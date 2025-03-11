@@ -16,13 +16,9 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->get('jwt_user_id');
-
-
         if (!$user_id) {
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
-
-        Log::info("Fetching cart for user: {$user_id}");
 
         // Find or create a cart for the user
         $cart = Cart::firstOrCreate(['user_id' => $user_id]);
@@ -38,39 +34,38 @@ class CartController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        Log::info("Adding item to cart for user: {$user_id}");
-
         $data = $request->validated();
 
         $book = Book::findOrFail($data['id']);
         if ($data['selected_amount'] > $book->stock) {
             return response()->json(['error' => "Only {$book->stock} items available in stock."], 400);
         }
-        
+
         $data['price'] = $book->price;
         // Map the book id to the expected foreign key column
         $data['book_id'] = $data['id'];
         unset($data['id']);
-        
+
         $cart = Cart::firstOrCreate(['user_id' => $user_id]);
         $cartItem = $cart->items()->where('book_id', $data['book_id'])->first();
-        
+
         if ($cartItem) {
             $newAmount = $cartItem->selected_amount + $data['selected_amount'];
-        
+
             if ($newAmount > $book->stock) {
                 return response()->json(['error' => "Not enough stock. Max allowed: {$book->stock}."], 400);
             }
-        
+
             $cartItem->update(['selected_amount' => $newAmount]);
+
         } else {
             $cart->items()->create($data);
         }
-        
+
         $cart->load('items.book');
-        
+
         return new CartResource($cart);
-        
+
     }
 
     public function removeItem(Request $request, $itemId)

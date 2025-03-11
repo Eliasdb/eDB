@@ -11,9 +11,10 @@ import {
   startWith,
 } from 'rxjs';
 import {
-  AUTHORS_QUERY_PARAM,
   BookQueryParams,
   GENRE_QUERY_PARAM,
+  LIMIT_QUERY_PARAM,
+  OFFSET_QUERY_PARAM,
   SEARCH_QUERY_PARAM,
   SORT_QUERY_PARAM,
   STATUS_QUERY_PARAM,
@@ -31,22 +32,16 @@ export class BookParamService {
     this.queryParams$.pipe(
       filter((params) => params[SEARCH_QUERY_PARAM] !== undefined),
       map((params): string => params[SEARCH_QUERY_PARAM]),
-      startWith(''),
+      startWith(
+        this.activatedRoute.snapshot.queryParams[SEARCH_QUERY_PARAM] ?? '',
+      ),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: false }),
     ),
-    { initialValue: '' },
-  );
-
-  public authorSignal = toSignal(
-    this.queryParams$.pipe(
-      filter((params) => params[AUTHORS_QUERY_PARAM] !== undefined),
-      map((params): string => params[AUTHORS_QUERY_PARAM]),
-      startWith(''),
-      distinctUntilChanged(),
-      shareReplay({ bufferSize: 1, refCount: false }),
-    ),
-    { initialValue: '' },
+    {
+      initialValue:
+        this.activatedRoute.snapshot.queryParams[SEARCH_QUERY_PARAM] ?? '',
+    },
   );
 
   public genreSignal = toSignal(
@@ -54,10 +49,15 @@ export class BookParamService {
       filter((params) => params[GENRE_QUERY_PARAM] !== undefined),
       map((params): Genre => params[GENRE_QUERY_PARAM]),
       debounceTime(200),
-      startWith(''),
+      startWith(
+        this.activatedRoute.snapshot.queryParams[GENRE_QUERY_PARAM] ?? '',
+      ),
       shareReplay({ bufferSize: 1, refCount: false }),
     ),
-    { initialValue: '' },
+    {
+      initialValue:
+        this.activatedRoute.snapshot.queryParams[GENRE_QUERY_PARAM] ?? '',
+    },
   );
 
   public statusSignal = toSignal(
@@ -65,23 +65,69 @@ export class BookParamService {
       filter((params) => params[STATUS_QUERY_PARAM] !== undefined),
       map((params): string => params[STATUS_QUERY_PARAM]),
       debounceTime(200),
-      startWith(''),
+      startWith(
+        this.activatedRoute.snapshot.queryParams[STATUS_QUERY_PARAM] ??
+          'available',
+      ),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: false }),
     ),
-    { initialValue: '' },
+    {
+      initialValue:
+        this.activatedRoute.snapshot.queryParams[STATUS_QUERY_PARAM] ??
+        'available',
+    },
   );
 
   public sortSignal = toSignal(
     this.queryParams$.pipe(
       filter((params) => params[SORT_QUERY_PARAM] !== undefined),
       map((params): string => params[SORT_QUERY_PARAM]),
-      startWith(''),
+      startWith(
+        this.activatedRoute.snapshot.queryParams[SORT_QUERY_PARAM] ?? '',
+      ),
       debounceTime(200),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: false }),
     ),
-    { initialValue: '' },
+    {
+      initialValue:
+        this.activatedRoute.snapshot.queryParams[SORT_QUERY_PARAM] ?? '',
+    },
+  );
+
+  public limitSignal = toSignal(
+    this.queryParams$.pipe(
+      filter((params) => params[LIMIT_QUERY_PARAM] !== undefined),
+      map((params): string => params[LIMIT_QUERY_PARAM]),
+      startWith(
+        this.activatedRoute.snapshot.queryParams[LIMIT_QUERY_PARAM] ?? '',
+      ),
+      debounceTime(200),
+      distinctUntilChanged(),
+      shareReplay({ bufferSize: 1, refCount: false }),
+    ),
+    {
+      initialValue:
+        this.activatedRoute.snapshot.queryParams[LIMIT_QUERY_PARAM] ?? '',
+    },
+  );
+
+  public offsetSignal = toSignal(
+    this.queryParams$.pipe(
+      filter((params) => params[OFFSET_QUERY_PARAM] !== undefined),
+      map((params): string => params[OFFSET_QUERY_PARAM]),
+      startWith(
+        this.activatedRoute.snapshot.queryParams[OFFSET_QUERY_PARAM] ?? '',
+      ),
+      debounceTime(200),
+      distinctUntilChanged(),
+      shareReplay({ bufferSize: 1, refCount: false }),
+    ),
+    {
+      initialValue:
+        this.activatedRoute.snapshot.queryParams[OFFSET_QUERY_PARAM] ?? '',
+    },
   );
 
   public navigate(params: BookQueryParams): void {
@@ -94,11 +140,12 @@ export class BookParamService {
   public clearParams(): void {
     this.router.navigate([], {
       queryParams: {
-        [AUTHORS_QUERY_PARAM]: '',
         [SEARCH_QUERY_PARAM]: '',
         [STATUS_QUERY_PARAM]: 'available',
         [SORT_QUERY_PARAM]: '',
         [GENRE_QUERY_PARAM]: '',
+        [LIMIT_QUERY_PARAM]: 0,
+        [OFFSET_QUERY_PARAM]: 0,
       },
       queryParamsHandling: 'merge',
     });
