@@ -8,7 +8,6 @@ set -e
 php artisan migrate:fresh --seed --force
 
 
-
 # Start PHP-FPM and Nginx
 php-fpm -D
 exec nginx -g 'daemon off;'
