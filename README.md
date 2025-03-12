@@ -28,6 +28,7 @@
             -   [Local k3s Cluster (k3d + Skaffold)](#local-k3s-cluster-k3d--skaffold)
             -   [[NEW] Nx Development Setup](#new-nx-development-setup)
         -   [Tools](#412-tools)
+            -   [PgAdmin 4](#pgadmin-4)
             -   [Swagger](#swagger)
             -   [Postman](#postman)
             -   [xUnit](#xunit)
@@ -65,7 +66,7 @@ I am building a platform housing multiple applications. Users can make an accoun
 ### Client-Server Interaction
 
 Below you see a visual representation of the request-response model. Also mentioned protocols used and general information about headers.
-![Client-Server Interaction Diagram](./docs/images/docs/client-server.drawio.png)
+![Client-Server Interaction Diagram](./docs/docs/client-server.drawio.png)
 
 ### Critical Rendering Path (CRP)
 
@@ -79,13 +80,13 @@ Illustrated roughly what's going on in the CRP in a framework-agnostic way. The 
 -   Painting (filling pixels)
 -   Compositing (layering elements for final rendering)
 
-![Critical Rendering Path](./docs/images/docs/crp.drawio.png)
+![Critical Rendering Path](./docs/docs/crp.drawio.png)
 
 ### The Event Loop
 
 The event loop is the mechanism that JavaScript uses to handle asynchronous operations efficiently, ensuring that the single-threaded JavaScript runtime remains non-blocking.
 
-![The Event Loop](./docs/images/docs/event-loop.png)
+![The Event Loop](./docs/docs/event-loop.png)
 
 ## 3. Nx Setup
 
@@ -199,14 +200,14 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 
 ### 3.1.4 Architecture Diagrams
 
-[**V1: Monolithic Platform App**](./docs/images/frontend/frontend-architecture_v5.png)
+[**V1: Monolithic Platform App**](./docs/frontend/frontend-architecture_v5.png)
 The first model of the platform using a familiar monolithic approach.
 
-[**V2: Layered Modular Platform App and Admin App**](./docs/images/frontend/frontend-architecture_v6.png)
+[**V2: Layered Modular Platform App and Admin App**](./docs/frontend/frontend-architecture_v6.png)
 This is a first attempt at more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture. To learn more check out their [documentation](https://nx.dev/concepts/decisions).
 
 **V3: Layered Modular Platform App, Admin App & Webshop App**
-![Layered Modular Platform App, Admin App & Webshop App](./docs/images/frontend/frontend-architecture_v7.png)
+![Layered Modular Platform App, Admin App & Webshop App](./docs/frontend/frontend-architecture_v7.png)
 
 ### 3.2 Backend
 
@@ -579,17 +580,17 @@ This part handles administrative tasks, including user management, application C
 
 ### 3.2.3 Architecture Diagrams
 
-[**V1: Monolithic Platform API**](./docs/images/backend/backend-architecture_v2.png)
+[**V1: Monolithic Platform API**](./docs/backend/backend-architecture_v2.png)
 The first model of the platform using a familiar monolithic approach.
 
 **V2: Layered Modular Platform API and Admin API**
 This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
-![Backend Setup Diagram](./docs/images/backend/backend-architecture_v3.png)
+![Backend Setup Diagram](./docs/backend/backend-architecture_v3.png)
 
 > **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
 
-![Nx dependency graph](./docs/images/docs/dep-graphv4.png)
-![Nx dependency graph](./docs/images/docs/dep-graphv5.png)
+![Nx dependency graph](./docs/docs/dep-graphv4.png)
+![Nx dependency graph](./docs/docs/dep-graphv5.png)
 
 ---
 
@@ -693,7 +694,7 @@ This command will:
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 Here is a diagram of the setup:
-![Development Setup Diagram](./docs/images/devops/dev/environment-setup.dev_v4.png)
+![Development Setup Diagram](./docs/devops/dev/environment-setup.dev_v4.png)
 
 ##### **[NEW] Nx development setup**
 
@@ -715,36 +716,41 @@ Running these scripts with pnpm (e.g. `pnpm start:web`) will start up either the
 
 These are some of the tools I use when developing locally:
 
+##### PgAdmin 4
+
+Text to be added.
+![Swagger](./docs/docs/swagger2.png)
+
 ##### Swagger
 
 You can find the Swagger API docs at: `http://localhost:5098/swagger/index.html`. Which gives you a nice overview of all endpoints, models and DTOs. You can also try out the endpoints here.
 
-![Swagger](./docs/images/docs/swagger2.png)
+![Swagger](./docs/docs/swagger2.png)
 
-![Swagger](./docs/images/docs/swagger.png)
+![Swagger](./docs/docs/swagger.png)
 
 ##### Postman
 
 I use Postman to test my endpoints in isolation. [Installation link](https://www.postman.com/downloads).
 
-![Storybook](./docs/images/docs/postman.png)
+![Storybook](./docs/docs/postman.png)
 
 ##### XUnit and Moq
 
 I use XUnit and Moq to do unit and integration testing.
-![Storybook](./docs/images/docs/postman.png)
+![Storybook](./docs/docs/postman.png)
 
 ##### Storybook
 
 You can find the Storybook overview by running: `nx storybook ui`. You will get a nice overview of all components at `http://localhost:4400/`.
 
-![Storybook](./docs/images/docs/storybook.png)
+![Storybook](./docs/docs/storybook.png)
 
 ##### Vitest
 
 I use Vitest to do unit and integration testing in frontend.
 
-![Storybook](./docs/images/docs/postman.png)
+![Storybook](./docs/docs/postman.png)
 
 ##### Prettier
 
@@ -761,17 +767,20 @@ I use ESLint to test my endpoints in isolation.
 These are the Dockerfiles used in production for my client and API apps. The client Docker images just serve the built files provided by the pipeline. Staging has a similar setup.
 
 I have **Dockerfiles** for
+
 → NGINX for serving Angular builds files
+
 → .NET SDK for .NET builds and ASP.NET as runtime
+
 → PHP-FPM for http request support + NGINX to serve Laravel build files
 
 > **Note:** The C# API still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this.
 
-![Production Dockerfiles](./docs/images/devops/prod/dockerfiles.prod_v3.png)
+![Production Dockerfiles](./docs/devops/prod/dockerfiles.prod_v3.png)
 
 #### 4.2.2 Architecture Diagram
 
-[**V1: Three deployments: front, back and database**](./docs/images/devops/prod/environment-setup.prod_v1.png)
+[**V1: Three deployments: front, back and database**](./docs/devops/prod/environment-setup.prod_v1.png)
 The very first model of the k3s platform cluster.
 
 **V2: Six deployments**
@@ -786,7 +795,7 @@ I have **deployments** for
 → Postgres
 → Keycloak
 
-![Production Setup Diagram](./docs/images/devops/prod/environment-setup.prod_v4.png)
+![Production Setup Diagram](./docs/devops/prod/environment-setup.prod_v4.png)
 
 ## 5. CI/CD
 
@@ -800,7 +809,7 @@ Checkout dev branch and pull latest code. Create a feature-branch locally, make 
 
 When you open the PR, a pre-merge pipeline will attempt to lint, test and build only the affected code. It will also push Docker images to Docker Hub. When these checks pass, you can then safely merge to dev branch to automatically start deployment to staging.
 
-![Development Workflow](./docs/images/devops/staging/premerge-checks_v3.png)
+![Development Workflow](./docs/devops/staging/premerge-checks_v3.png)
 
 **Deploying to staging: post-merge deployment**
 
@@ -827,10 +836,10 @@ You can then click the button to merge to main branch. This will trigger the fin
 -   https://api.eliasdebock.com
 
 Below is a visual representation of all the pipelines running in the project.
-![Development Workflow](./docs/images/devops/cicd.png)
+![Development Workflow](./docs/devops/cicd.png)
 
 You can also see this run live on GitHub, under the Actions tab:
-![Staging Deployment Pipeline Github](./docs/images/devops/staging/postmerge-deployment-github.png)
+![Staging Deployment Pipeline Github](./docs/devops/staging/postmerge-deployment-github.png)
 
 ---
 
@@ -868,32 +877,32 @@ A **Virtual Private Server (VPS)** is a virtualized environment that provides de
 
 Under the 'Servers' tab you should find a button to add a server to your account. Let's go over the easy steps first needed to configure our server. It's pretty straight forward.
 
-![Adding server](./docs/images/docs/add-server.png)
+![Adding server](./docs/docs/add-server.png)
 
 You will need to set
 
 -   #### Location
 
     Location of server.
-    ![Location](./docs/images/docs/location.png)
+    ![Location](./docs/docs/location.png)
 
 -   #### Image OS:
 
     This project runs on Ubuntu.
-    ![ImageOS](./docs/images/docs/image.png)
+    ![ImageOS](./docs/docs/image.png)
 
 -   #### Type:
 
     I'm on shared ARM64 vCPUs.
-    ![Type](./docs/images/docs/type.png)
+    ![Type](./docs/docs/type.png)
 
 -   #### Networking:
 
-    ![Location](./docs/images/docs/networking.png)
+    ![Location](./docs/docs/networking.png)
 
 #### Step 2: Generating an SSH key
 
-![SSH](./docs/images/docs/ssh.png)
+![SSH](./docs/docs/ssh.png)
 
 Run following command on your machine:
 
@@ -914,7 +923,7 @@ To retrieve the public key:
 `cat /path/to/your/custom_key.pub`
 Copy the output to use in your cloud-config or in the setup of the server as seen below here.
 
-![SSH Key](./docs/images/docs/ssh-key.png)
+![SSH Key](./docs/docs/ssh-key.png)
 
 #### Step 4: Volumes
 
@@ -965,7 +974,7 @@ Jira provides different issue types to categorize work, each serving a unique pu
 
 #### Setting up a sprint
 
-![Frontend Setup Diagram](./docs/images/docs/jira_backlog.png)
+![Frontend Setup Diagram](./docs/docs/jira_backlog.png)
 
 **1. Prepare your backlog:**  
 Ensure that your backlog is prioritized and contains refined stories, tasks, and spikes linked to their respective epics.
@@ -1057,20 +1066,27 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [x] Production environment (k3s cluster on VPS)
 -   [x] CI/CD pipelines for production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS).
 -   [x] Documentation
--   [x] Layered Modular Architecture for Frontend and Backend
+-   [x] Layered Modular Architecture for Client and .NET API
+-   [x] Authentication with self-hosted Keycloak (login - register - profile - sessions - ...)
+-   [x] Added Demo App #1 Webshop
 
 ## 11. TLDR: All Tools Used
 
 **DevOps**
 
--   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images
--   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - Deployments - Services - Pods - Secrets - Configmaps - YAML
--   [x] **Servers**: Linux - VPS - Static file web server (NGINX) - API web server (.NET Web API) - Database server (Postgres) - shell scripts (`wait-for-postgres.sh` / `entrypoint.sh`)
+-   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images - multi-stage
+-   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - Deployments - Services - Pods - Secrets - Configmaps - YAML - Certificates - NGINX Controller
+-   [x] **Servers**: Linux (Ubuntu) - VPS
+-   Static file web server → NGINX
+-   API web server → .NET Web API - Laravel PHP-FPM
+-   Database server → Postgres
+-   Authentication server → Keycloak
+-   shell scripts (`wait-for-postgres.sh` / `entrypoint.sh`)
 -   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint
 
 **Monorepo**
 
--   [x] **Nx**: apps - libs - Nx Generators/Scaffolding commands - nx affected - modular layered architecture
+-   [x] **Nx**: apps - libs - Nx generators/scaffolding commands - `nx affected` - modular layered architecture
 
 **Auth**
 
@@ -1080,7 +1096,7 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 
 -   [x] **Language**: Typescript
 -   [x] **Node Package Manager**: pnpm
--   [x] **Angular**: @Component - Services - RxJS - Signals - @Output - Interceptors - Guards - @ViewChild - Reactive Forms
+-   [x] **Angular**: (Standalone) Components - Services - RxJS - Signals - Interceptors - Guards - Reactive Forms
 -   [x] **Testing**: Vitest - Storybook
 -   [x] **Linting + formatting**: Prettier - ESLint
 -   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
@@ -1092,7 +1108,7 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [x] **Package Manager**: NuGet - Composer
 -   [x] **Frameworks**:
     -   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext - .NET SDK
-    -   [x] **Laravel**: Controllers - Models - Requests - Resources - Collections - PHP Artisan CLI - Middleware
+    -   [x] **Laravel**: Controllers - Models - Requests - Resources - Collections - PHP Artisan CLI - Middleware - Migrations - Seeders - Factories
 -   [x] **ORM**: EF - Doctrine
 -   [x] **Testing**: xUnit - Moq - Postman
 -   [x] **Formatting**: dotnet format
@@ -1108,29 +1124,25 @@ URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overvie
 -   [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch, Logstash, Kibana), Fluentd, Loki
 -   [ ] **Cluster Management**: ArgoCD (GitOps), Helm, Kustomize
 -   [ ] **Hotfixes and Feature Flags**
-
-**Azure**
-
--   [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes instead of K3s
--   [ ] **Azure Container Registry (ACR)** – Store and manage Docker images
--   [ ] **Azure DevOps Pipelines** – Alternative to GitHub Actions
--   [ ] **Azure Resource Manager (ARM) / Terraform / Bicep** – Infrastructure as Code (IaC)
--   [ ] **Azure App Service** – Deploy apps without full Kubernetes
--   [ ] **Azure Functions** – Serverless execution for background jobs
-
-**Monorepo**
-
+-   [ ] **Load balancing**
 -   [ ] **Caching & Performance Optimization**: Nx Cloud, TurboRepo
+-   [ ] **Azure**
+    -   [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes instead of K3s
+    -   [ ] **Azure Container Registry (ACR)** – Store and manage Docker images
+    -   [ ] **Azure DevOps Pipelines** – Alternative to GitHub Actions
+    -   [ ] **Azure Resource Manager (ARM) / Terraform / Bicep** – Infrastructure as Code (IaC)
+    -   [ ] **Azure App Service** – Deploy apps without full Kubernetes
+    -   [ ] **Azure Functions** – Serverless execution for background jobs
 
-**Frontend**
+**Client**
 
--   [ ] **State Management**: NgRx, Akita, SignalStore
 -   [ ] **Microfrontends**: Module Federation
 -   [ ] **End-to-End Testing**: Cypress, Playwright
+-   [ ] **State Management**: NgRx, Akita, SignalStore
 -   [ ] **Error Handling & Monitoring**: Sentry, PostHog
 -   [ ] **Accessibility (a11y) Testing**: Axe DevTools, Lighthouse
 
-**Backend**
+**API**
 
 -   [ ] **Architecture**: Event Driven Architecture, Domain Driven Architecture
 -   [ ] **Background Jobs & Messaging**: Hangfire, MassTransit, MediatR, RabbitMQ, Kafka
