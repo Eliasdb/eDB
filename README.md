@@ -520,8 +520,7 @@ The **Admin API** handles administrative tasks, including user management, appli
 
 **V1: Monolithic Platform API**
 The first model of the platform using a familiar monolithic approach.
-
-![Backend Setup Diagram](./docs/images/backend/backend-architecture_v2.png)
+[V2: Backend Setup Diagram](./docs/images/backend/backend-architecture_v2.png)
 
 **V2: Layered Modular Platform API and Admin API**
 This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
@@ -697,9 +696,9 @@ I use ESLint to test my endpoints in isolation.
 
 #### 4.2.1 Dockerfiles
 
-These are the Dockerfiles used in production for my frontend and backend apps. The frontend Docker images just serve the built files provided by the pipeline. The backend still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this. Staging has a similar setup.
+These are the Dockerfiles used in production for my client and API apps. The client Docker images just serve the built files provided by the pipeline. The C# API still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this. Staging has a similar setup.
 
-![Production Dockerfiles](./docs/images/devops/prod/dockerfiles.prod_v2.png)
+![Production Dockerfiles](./docs/images/devops/prod/dockerfiles.prod_v3.png)
 
 #### 4.2.2 Architecture Diagram
 
