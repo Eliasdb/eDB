@@ -8,25 +8,26 @@
     -   [Critical Rendering Path (CRP)](#critical-rendering-path-crp)
     -   [The Event Loop](#the-event-loop)
 -   [3. Nx Setup](#3-nx-setup)
-    -   [3.1 Client](#31-client)
-        -   [3.1.1 Stack & Architecture](#311-stack--architecture)
-        -   [3.1.2 Application Pages](#312-application-pages)
-            -   [Web App](#web-app)
+    -   [Client](#31-client)
+        -   [Stack & Architecture](#311-stack--architecture)
+        -   [Pages](#312-pages)
+            -   [Keycloak](#3121-keycloak)
+            -   [Platform App](#platform-app)
             -   [Admin App](#admin-app)
-        -   [3.1.3 Layers of Modular Architecture](#313-layers-of-modular-architecture)
-        -   [3.1.4 Architecture Diagrams](#314-architecture-diagrams)
-    -   [3.2 Backend](#22-backend)
-        -   [3.2.1 Stack & Architecture](#321-stack--architecture)
-        -   [3.2.2 APIs](#322-apis)
+        -   [Layers of Modular Architecture](#313-layers-of-modular-architecture)
+        -   [Architecture Diagrams](#314-architecture-diagrams)
+    -   [Backend](#32-backend)
+        -   [Stack & Architecture](#321-stack--architecture)
+        -   [APIs](#322-apis)
             -   [Platform API](#platform-api)
-            -   [Admin API](#admin-api)
-        -   [3.2.3 Architecture Diagrams](#323-architecture-diagrams)
+            -   [Webshop API](#webshop-api)
+        -   [Architecture Diagrams](#323-architecture-diagrams)
 -   [4. Environments](#4-environments)
-    -   [4.1 Development](#41-development)
-        -   [4.1.1 Setup](#411-setup)
+    -   [Development](#41-development)
+        -   [Setup](#411-setup)
             -   [Local k3s Cluster (k3d + Skaffold)](#local-k3s-cluster-k3d--skaffold)
             -   [[NEW] Nx Development Setup](#new-nx-development-setup)
-        -   [4.1.2 Tools](#412-tools)
+        -   [Tools](#412-tools)
             -   [Swagger](#swagger)
             -   [Postman](#postman)
             -   [xUnit](#xunit)
@@ -34,21 +35,21 @@
             -   [Vitest](#vitest)
             -   [Prettier](#prettier)
             -   [ESLint](#eslint)
-    -   [4.2 Staging & Production](#42-staging--production)
-        -   [4.2.1 Dockerfiles](#421-dockerfiles)
-        -   [4.2.2 Architecture Diagram](#422-architecture-diagram)
+    -   [Staging & Production](#42-staging--production)
+        -   [Dockerfiles](#421-dockerfiles)
+        -   [Architecture Diagram](#422-architecture-diagram)
 -   [5. CI/CD](#5-cicd)
 -   [6. Database](#6-database)
 -   [7. VPS](#7-vps)
-    -   [7.1 What is a VPS?](#71-what-is-a-vps)
-    -   [7.2 Setting up a VPS with Hetzner](#72-setting-up-a-vps-with-hetzner)
+    -   [What is a VPS?](#71-what-is-a-vps)
+    -   [Setting up a VPS with Hetzner](#72-setting-up-a-vps-with-hetzner)
 -   [8. Project Management and Documentation](#8-project-management-and-documentation)
-    -   [8.1 Jira](#81-jira)
-    -   [8.2 Tags and releases](#82-tags-and-releases)
-    -   [8.3 Confluence](#83-confluence)
+    -   [Jira](#81-jira)
+    -   [Tags and releases](#82-tags-and-releases)
+    -   [Confluence](#83-confluence)
 -   [9. Handy Commands Cheat Sheet](#9-handy-commands-cheat-sheet)
-    -   [9.1 General Commands](#91-general-commands)
-    -   [9.2 Database Management Commands](#92-database-management-commands)
+    -   [General Commands](#91-general-commands)
+    -   [Database Management Commands](#92-database-management-commands)
 -   [10. Achieved Goals](#10-achieved-goals)
 -   [11. TLDR: All Tools Used](#11-tldr-all-tools-used)
 -   [12. Tools I'm working towards using](#12-tools-im-working-towards-using)
@@ -110,49 +111,49 @@ Initially I used this only for the frontend. Using the `@nx-dotnet/core` package
 #### Stack
 
 -   **Framework**: **Angular 19**
--   **Component Documentation**: **Storybook 8**
 -   **Unit Testing**: **Vitest** for fast and reliable unit testing.
+-   **UI**: Carbon Design System - Angular Material
 -   **Linting**: **ESLint** to enforce consistent code quality and best practices.
 -   **Code Formatting**: **Prettier** for automatic code formatting and style consistency.
+-   **Component Documentation**: **Storybook 8**
 -   **API Integration**: **TanStack Query** for efficient data fetching and state management with the backend REST API.
--   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**.
 
 #### Architecture
 
 The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
 
-### 3.1.2 Application Pages
+### 3.1.2 Pages
 
-#### Web App:
+#### 3.1.2.1 Keycloak
 
--   **User Account**:
+Not part of Nx, but relevant. This replaces my old own login, register and profile overview page. Which I have archive since switching to Keycloak.
 
-    -   [Login page](https://app.eliasdebock.com/login)
-    -   [Registration page](https://app.eliasdebock.com/register)
-    -   [Profile page](https://app.eliasdebock.com/profile) for updates, account deletion, and preference management
+**User Account**
+[Login page](https://app.eliasdebock.com)
+[Register page](https://app.eliasdebock.com)
+[Profile page](https://app.eliasdebock.com/keycloak/realms/EDB%PROD/account)
 
--   [**Catalog**](https://app.eliasdebock.com/catalog):
+#### Platform App
 
-    -   Browse available applications
+[Apps catalog](https://app.eliasdebock.com/catalog)
+→ Browse available applications
+[My eDB](https://app.eliasdebock.com)
+→ Dashboard to manage and launch subscribed applications
+[404](https://app.eliasdebock.com/not-found)
+→ For routes that are not found
 
--   [**My eDB**](https://app.eliasdebock.com):
-
-    -   Dashboard to manage and launch subscribed applications
-
--   [**404**](https://app.eliasdebock.com/not-found):
-
-    -   For routes that are not found
+**#1 Webshop App**
+[Webshop catalog](https://app.eliasdebock.com/webshop/catalog)
+→ Overview of books with search, filtering, scroll-based pagination and sort
+→ Cart
+→ Single book page
+→ Order overview customer
 
 #### Admin App:
 
--   [**User Management**](https://app.eliasdebock.com/admin):
-
-    -   [Admin dashboard](https://app.eliasdebock.com/admin/dashboard) to manage users and their subscriptions.
-    -   Dedicated view page for each user.
-
--   [**Subscription Control**](https://app.eliasdebock.com/admin/dashboard):
-
-    -   Ability to revoke or modify user subscriptions.
+[Admin dashboard](https://app.eliasdebock.com/admin/dashboard)
+→ To manage applications and user subscriptions.
+→ To manage items and orders in webshop.
 
 ### 3.1.3 Layers of Modular Architecture
 
@@ -211,18 +212,25 @@ This is a first attempt at more layered modular approach. I split up my pages an
 
 ### 3.2.1 Stack & Architecture
 
+**Platform API**
+
 -   **Frameworks**: **.NET 8**
 -   **ORM**: **Entity Framework**
 -   **Object Mapper**: **Automapper** is a library for .NET that automatically maps data between objects, eliminating the need for manual property assignments.
--   **Role-Based Access Control (RBAC)**: User, Premium User, Admin with **JWT authentication**
 -   **Testing**: **xUnit** and **Moq** for unit and integration testing
+-   **Architecture**: **REST API**
+
+**Webshop API**
+
+-   **Frameworks**: **Laravel 11**
+-   **ORM**: **Doctrine**
 -   **Architecture**: **REST API**
 
 ### 3.2.2 APIs
 
 #### **Platform API**
 
-The **Platform API** serves as the backbone for all core functionalities, providing endpoints for application management, user subscriptions, and authentication.
+The **Platform API** serves as the backbone for all core functionalities, providing endpoints for application management and user subscriptions.
 
 ##### **Endpoints**
 
@@ -274,149 +282,9 @@ The **Platform API** serves as the backbone for all core functionalities, provid
         ]
         ```
 
-###### **Authentication**
+###### **Admin**
 
--   **Register**
-
-    -   **URL**: `POST /api/auth/register`
-    -   **Description**: Register a new user.
-    -   **Request Body:**
-        ```json
-        {
-        	"email": "john.doe@example.com",
-        	"password": "password123",
-        	"firstName": "John",
-        	"lastName": "Doe"
-        }
-        ```
-    -   **Response:**
-        ```json
-        {
-        	"message": "Registration successful."
-        }
-        ```
-
--   **Login**
-    -   **URL**: `POST /api/auth/login`
-    -   **Description**: Authenticate a user and generate a JWT token.
-    -   **Request Body:**
-        ```json
-        {
-        	"email": "john.doe@example.com",
-        	"password": "password123"
-        }
-        ```
-    -   **Response:**
-        ```json
-        {
-        	"message": "Login successful.",
-        	"token": "jwt_token_here"
-        }
-        ```
-
-###### **Profile**
-
--   **Get Profile Settings**
-
-    -   **URL**: `GET /api/profile/settings`
-    -   **Authorization**: User/Admin
-    -   **Description**: Fetch the profile settings of the authenticated user.
-    -   **Response:**
-        ```json
-        {
-        	"email": "john.doe@example.com",
-        	"firstName": "John",
-        	"lastName": "Doe"
-        }
-        ```
-
--   **Update Profile**
-    -   **URL**: `PUT /api/profile`
-    -   **Authorization**: User/Admin
-    -   **Description**: Update profile settings for the authenticated user.
-    -   **Request Body:**
-        ```json
-        {
-        	"firstName": "John",
-        	"lastName": "Doe"
-        }
-        ```
-    -   **Response:**
-        ```json
-        {
-        	"message": "Profile updated successfully."
-        }
-        ```
-
-#### **Admin API**
-
-The **Admin API** handles administrative tasks, including user management, application CRUD operations, and subscription management.
-
-##### **Endpoints**
-
-###### **Admin Management**
-
--   **Admin Area**
-    -   **URL**: `GET /api/admin/area`
-    -   **Authorization**: Admin
-    -   **Description**: Check access to the admin area.
-    -   **Response:**
-        ```json
-        "Welcome, Admin!"
-        ```
-
-###### **User Management**
-
--   **Get Users with Pagination, Sorting, and Search**
-
-    -   **URL**: `GET /api/admin/users`
-    -   **Authorization**: Admin
-    -   **Query Parameters:**
-        -   `cursor` (optional): Cursor for pagination.
-        -   `sort` (optional): Sorting parameter in the format `field,direction`.
-        -   `search` (optional): Search query.
-    -   **Description**: Fetch a paginated, sorted list of users with optional search.
-    -   **Response:**
-        ```json
-        {
-        	"data": [
-        		{
-        			"id": 1,
-        			"firstName": "John",
-        			"lastName": "Doe",
-        			"email": "john.doe@example.com"
-        		}
-        	],
-        	"nextCursor": "next_cursor_value",
-        	"hasMore": true
-        }
-        ```
-
--   **Get User by ID**
-
-    -   **URL**: `GET /api/admin/users/{userId}`
-    -   **Authorization**: Admin
-    -   **Description**: Fetch details of a user by their ID.
-    -   **Response:**
-        ```json
-        {
-        	"id": 1,
-        	"firstName": "John",
-        	"lastName": "Doe",
-        	"email": "john.doe@example.com"
-        }
-        ```
-
--   **Delete User**
-    -   **URL**: `DELETE /api/admin/users/{userId}`
-    -   **Authorization**: Admin
-    -   **Description**: Delete a user by their ID.
-    -   **Response:**
-        ```json
-        {
-        	"Message": "User deleted successfully."
-        }
-        ```
+This part handles administrative tasks, including user management, application CRUD operations, and subscription management.
 
 ###### **Application Management**
 
@@ -516,11 +384,203 @@ The **Admin API** handles administrative tasks, including user management, appli
         }
         ```
 
+#### **Webshop API**
+
+##### Book API
+
+-   **List books**
+
+    -   **URL**: `GET /api/v1/books`
+    -   **Authorization**: None
+    -   **Description**: Retrieves a paginated list of books with optional filtering.
+    -   **Query Parameters**:
+        -   `page_size` (integer, optional) - Number of books per page (default: 15).
+        -   `offset` (integer, optional) - Offset for pagination (default: 0).
+        -   `limit` (integer, optional) - Maximum number of books to return (default: page size).
+        -   `status` (string, optional) - Filter books by status (`loaned`).
+    -   **Response:**
+        ```json
+        {
+        	"data": {
+        		"items": [
+        			{
+        				"id": 1,
+        				"title": "Book Title",
+        				"author": "Author Name",
+        				"status": "available"
+        			}
+        		],
+        		"count": 100,
+        		"hasMore": true,
+        		"offset": 0,
+        		"limit": 15
+        	}
+        }
+        ```
+
+-   **Add a book**
+
+    -   **URL**: `POST /api/v1/books`
+    -   **Authorization**: None
+    -   **Description**: Creates a new book entry.
+    -   **Request Body:**
+        ```json
+        {
+        	"title": "New Book",
+        	"author": "Author Name",
+        	"status": "available"
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+        	"id": 1,
+        	"title": "New Book",
+        	"author": "Author Name",
+        	"status": "available"
+        }
+        ```
+
+-   **Get a Single Book**
+
+    -   **URL**: `GET /api/v1/books/{bookId}`
+    -   **Authorization**: None
+    -   **Description**: Retrieves details of a specific book.
+    -   **Response:**
+        ```json
+        {
+        	"id": 1,
+        	"title": "Book Title",
+        	"author": "Author Name",
+        	"status": "available"
+        }
+        ```
+
+-   **Update a Book**
+
+    -   **URL**: `PUT /api/v1/books/{bookId}`
+    -   **Authorization**: None
+    -   **Description**: Updates the details of a book.
+    -   **Request Body:**
+        ```json
+        {
+        	"title": "Updated Book Title",
+        	"author": "Updated Author Name",
+        	"status": "loaned"
+        }
+        ```
+    -   **Response:** `204 No Content`
+
+-   **Delete a Book**
+    -   **URL**: `DELETE /api/v1/books/{bookId}`
+    -   **Authorization**: None
+    -   **Description**: Deletes a book from the database.
+    -   **Response:**
+        ```json
+        {
+        	"message": "Book deleted successfully."
+        }
+        ```
+
+---
+
+##### Cart API
+
+-   **Get User Cart**
+
+    -   **URL**: `GET /api/v1/cart`
+    -   **Authorization**: Requires user authentication (`jwt_user_id`)
+    -   **Description**: Retrieves the cart of the authenticated user.
+    -   **Response:**
+        ```json
+        {
+        	"id": 1,
+        	"user_id": 123,
+        	"items": [
+        		{
+        			"id": 1,
+        			"book_id": 10,
+        			"selected_amount": 2,
+        			"price": 19.99,
+        			"book": {
+        				"title": "Book Title",
+        				"author": "Author Name"
+        			}
+        		}
+        	]
+        }
+        ```
+
+-   **Add Item to Cart**
+
+    -   **URL**: `POST /api/v1/cart`
+    -   **Authorization**: Requires user authentication (`jwt_user_id`)
+    -   **Description**: Adds a book to the user's cart.
+    -   **Request Body:**
+        ```json
+        {
+        	"id": 10,
+        	"selected_amount": 2
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+        	"id": 1,
+        	"user_id": 123,
+        	"items": [
+        		{
+        			"id": 1,
+        			"book_id": 10,
+        			"selected_amount": 2,
+        			"price": 19.99
+        		}
+        	]
+        }
+        ```
+
+-   **Remove Item from Cart**
+
+    -   **URL**: `DELETE /api/v1/cart/{itemId}`
+    -   **Authorization**: Requires user authentication (`jwt_user_id`)
+    -   **Description**: Removes an item from the user's cart.
+    -   **Response:**
+        ```json
+        {
+        	"message": "Item removed successfully."
+        }
+        ```
+
+-   **Update Item in Cart**
+    -   **URL**: `PUT /api/v1/cart/{itemId}`
+    -   **Authorization**: Requires user authentication (`jwt_user_id`)
+    -   **Description**: Updates the quantity of an item in the cart.
+    -   **Request Body:**
+        ```json
+        {
+        	"selectedAmount": 3
+        }
+        ```
+    -   **Response:**
+        ```json
+        {
+        	"id": 1,
+        	"user_id": 123,
+        	"items": [
+        		{
+        			"id": 1,
+        			"book_id": 10,
+        			"selected_amount": 3,
+        			"price": 19.99
+        		}
+        	]
+        }
+        ```
+
 ### 3.2.3 Architecture Diagrams
 
-**V1: Monolithic Platform API**
+[**V1: Monolithic Platform API**](./docs/images/backend/backend-architecture_v2.png)
 The first model of the platform using a familiar monolithic approach.
-[V2: Backend Setup Diagram](./docs/images/backend/backend-architecture_v2.png)
 
 **V2: Layered Modular Platform API and Admin API**
 This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
@@ -541,7 +601,7 @@ This is a visual representation of the workspace dependency graph regarding back
 
 ##### **Local k3s Cluster (k3d + Skaffold)**
 
-> **Note:** This is the first setup I ever created for development on my local machine
+> **Note:** This is the first setup I ever created for development on my local machine. Is outdated now.
 
 The project is using **k3d**, which wraps my **k3s** Kubernetes distribution inside **Docker** containers. **k3s** is a lightweight Kubernetes distribution that allows me to orchestrate containers for scalable application deployment. I use **Skaffold** to manage my Kubernetes manifests, build Docker images and deploy them to my local k3d cluster. Skaffold also pulls any configured images, such as **PostgreSQL** and **Adminer**, enabling a complete local development environment.
 
@@ -641,13 +701,15 @@ However I did not like rebuilding images all the time and even though it went sm
 
 ```
   "scripts": {
-    "start:web": "nx serve eDB --host 0.0.0.0",
-    "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
+    "start:web": "nx serve eDB",
+    "start:admin": "nx serve eDB-admin --port 4300",
     "start:platform-api": "nx serve platform-api",
+    "start:webshop": "nx serve eDB-webshop",
+    "start:webshop-api": "nx serve webshop-api",
   },
 ```
 
-Running these scripts with pnpm (e.g. `pnpm start:web`) will start up either the platform app, the admin app or the platform-api. Can be extended with more as the platform grows. You will have to setup a local db which is easily done through your terminal and through the Postgres App.
+Running these scripts with pnpm (e.g. `pnpm start:web`) will start up either the platform app, the admin app, webshop app, Webshop API or the Platform API. Can be extended with more as the platform grows. You will have to setup a local db which is easily done through your terminal and through the Postgres App.
 
 #### 4.1.2 Tools
 
@@ -696,16 +758,34 @@ I use ESLint to test my endpoints in isolation.
 
 #### 4.2.1 Dockerfiles
 
-These are the Dockerfiles used in production for my client and API apps. The client Docker images just serve the built files provided by the pipeline. The C# API still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this. Staging has a similar setup.
+These are the Dockerfiles used in production for my client and API apps. The client Docker images just serve the built files provided by the pipeline. Staging has a similar setup.
+
+I have **Dockerfiles** for
+→ NGINX for serving Angular builds files
+→ .NET SDK for .NET builds and ASP.NET as runtime
+→ PHP-FPM for http request support + NGINX to serve Laravel build files
+
+> **Note:** The C# API still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this.
 
 ![Production Dockerfiles](./docs/images/devops/prod/dockerfiles.prod_v3.png)
 
 #### 4.2.2 Architecture Diagram
 
-[**V1: 3 deployments**](./docs/images/devops/prod/environment-setup.prod_v1.png)
-The very first model of the platform cluster.
+[**V1: Three deployments: front, back and database**](./docs/images/devops/prod/environment-setup.prod_v1.png)
+The very first model of the k3s platform cluster.
 
+**V2: Six deployments**
 This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here (besides Postgres and Keycloak) with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
+
+I have **deployments** for
+→ Platform App
+→ Admin App
+→ Platform API
+→ Webshop API
+
+→ Postgres
+→ Keycloak
+
 ![Production Setup Diagram](./docs/images/devops/prod/environment-setup.prod_v4.png)
 
 ## 5. CI/CD
