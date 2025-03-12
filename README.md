@@ -3,12 +3,12 @@
 ## Documentation
 
 -   [1. Project Goal](#1-project-goal)
--   [2. Project Details](#2-project-details)
+-   [2. In Depth](#2-in-depth)
     -   [Client-Server Interaction](#client-server-interaction)
     -   [Critical Rendering Path (CRP)](#critical-rendering-path-crp)
     -   [The Event Loop](#the-event-loop)
 -   [3. Nx Setup](#3-nx-setup)
-    -   [3.1 Frontend](#31-frontend)
+    -   [3.1 Client](#31-client)
         -   [3.1.1 Stack & Architecture](#311-stack--architecture)
         -   [3.1.2 Application Pages](#312-application-pages)
             -   [Web App](#web-app)
@@ -59,7 +59,7 @@
 
 I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them.
 
-## 2. Project Details
+## 2. In Depth
 
 ### Client-Server Interaction
 
@@ -103,7 +103,7 @@ By leveraging Nx, this monorepo allows for a more structured, scalable, and opti
 
 Initially I used this only for the frontend. Using the `@nx-dotnet/core` package I was able to get my frontend and backend code together in this one codebase.
 
-### 3.1 Frontend
+### 3.1 Client
 
 ### 3.1.1 Stack & Architecture
 
@@ -206,11 +206,6 @@ This is a first attempt at more layered modular approach. I split up my pages an
 
 **V3: Layered Modular Platform App, Admin App & Webshop App**
 ![Layered Modular Platform App, Admin App & Webshop App](./docs/images/frontend/frontend-architecture_v7.png)
-
-> **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
-
-![Nx dependency graph](./docs/images/docs/dep-graphv2.png)
-![Nx dependency graph](./docs/images/docs/dep-graphv3.png)
 
 ### 3.2 Backend
 
@@ -532,6 +527,11 @@ The first model of the platform using a familiar monolithic approach.
 This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
 ![Backend Setup Diagram](./docs/images/backend/backend-architecture_v3.png)
 
+> **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
+
+![Nx dependency graph](./docs/images/docs/dep-graphv4.png)
+![Nx dependency graph](./docs/images/docs/dep-graphv5.png)
+
 ---
 
 ## 4. Environments
@@ -703,8 +703,11 @@ These are the Dockerfiles used in production for my frontend and backend apps. T
 
 #### 4.2.2 Architecture Diagram
 
-This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
-![Production Setup Diagram](./docs/images/devops/prod/environment-setup.prod_v2.png)
+[**V1: 3 deployments**](./docs/images/devops/prod/environment-setup.prod_v1.png)
+The very first model of the platform cluster.
+
+This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here (besides Postgres and Keycloak) with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
+![Production Setup Diagram](./docs/images/devops/prod/environment-setup.prod_v4.png)
 
 ## 5. CI/CD
 
