@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -24,7 +25,18 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            // Log or report exceptions if needed.
+        });
+
+        $this->renderable(function (Throwable $e, $request) {
+            // Check if the request expects a JSON response
+            if ($request->wantsJson()) {
+                // If it's an instance of HttpException, get its status code; otherwise default to 500.
+                $status = $e instanceof HttpException ? $e->getStatusCode() : 500;
+                return response()->json([
+                    'error' => $e->getMessage(),
+                ], $status);
+            }
         });
     }
 }

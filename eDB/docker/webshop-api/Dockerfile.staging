@@ -10,7 +10,7 @@ COPY apps/webshop-api /var/www
 RUN composer install --no-dev --optimize-autoloader
 
 # Production runtime stage: PHP-FPM with Nginx
-FROM php:8.4-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 # Install build dependencies (including PostgreSQL dev files) along with runtime deps,
 # compile the PDO extensions, then remove build-only packages and install runtime libs.

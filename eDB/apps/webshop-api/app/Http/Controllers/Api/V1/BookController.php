@@ -8,32 +8,34 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\V1\Book\BookResource;
-use App\Http\Resources\V1\Book\BookCollection;
+use App\Services\BookService;
 
 class BookController extends Controller
 {
+    public function __construct(
+        protected BookService $bookService
+    ) {
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        // Set default pagination values
-        $pageSize = $request->input('page_size', 15);
-        $offset   = $request->input('offset', 0);
-        $limit    = $request->input('limit', $pageSize);
+        // Collect input for pagination/filtering
+        $pageSize = (int) $request->input('page_size', 15);
+        $offset   = (int) $request->input('offset', 0);
+        $limit    = (int) $request->input('limit', $pageSize);
 
-        // Use the FilterQueryString trait to automatically apply filters.
-        $query = Book::filter();
-
-        // If filtering by "loaned" status, add the condition.
-        if ($request->status === 'loaned') {
-            $query->where('status', 'loaned');
+        // Build a filter array
+        $filters = [];
+        if ($request->has('status')) {
+            $filters['status'] = $request->input('status');
         }
 
-        $total = $query->count();
-        $books = $query->skip($offset)
-                       ->take($limit)
-                       ->get();
+        // Delegate to the service
+        $result = $this->bookService->getBooks($filters, $offset, $limit);
+        $books  = $result['books'];
+        $total  = $result['total'];
 
         return response()->json([
             'data' => [
@@ -46,51 +48,26 @@ class BookController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreBookRequest $request): BookResource
     {
-        return new BookResource(Book::create($request->all()));
+        $book = $this->bookService->createBook($request->validated());
+        return new BookResource($book);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Book $book): BookResource
     {
         return new BookResource($book);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Book $book)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        $book->update($request->all());
+        $this->bookService->updateBook($book, $request->validated());
+        return response()->json(['message' => 'Book updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request, Book $book)
+    public function destroy(Book $book)
     {
-        $book->delete($request->all());
+        $this->bookService->deleteBook($book);
+        return response()->json(['message' => 'Book deleted successfully']);
     }
 }

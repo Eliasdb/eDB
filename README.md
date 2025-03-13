@@ -836,10 +836,10 @@ You can then click the button to merge to main branch. This will trigger the fin
 -   https://api.eliasdebock.com
 
 Below is a visual representation of all the pipelines running in the project.
-![Development Workflow](./docs/devops/cicd.png)
+![Development Workflow](./docs/devops/cicd_v2.png)
 
 You can also see this run live on GitHub, under the Actions tab:
-![Staging Deployment Pipeline Github](./docs/devops/staging/postmerge-deployment-github.png)
+![Staging Deployment Pipeline Github](./docs/devops/staging/postmerge-deployment-github_v2.png)
 
 ---
 
