@@ -4,11 +4,11 @@
 
 #### Stack
 
--   **Framework**: **Angular 19**
--   **Unit Testing**: **Vitest** for fast and reliable unit testing.
+-   **Framework**: Angular 19
+-   **Unit Testing**: Vitest
 -   **UI**: Carbon Design System - Angular Material
--   **Linting**: **ESLint** to enforce consistent code quality and best practices.
--   **Code Formatting**: **Prettier** for automatic code formatting and style consistency.
+-   **Linting**: ESLint
+-   **Code Formatting**: **Prettier**
 -   **Component Documentation**: **Storybook 8**
 -   **API Integration**: **TanStack Query** for efficient data fetching and state management with the backend REST API.
 
@@ -20,34 +20,30 @@ The application follows a **Layered Modular Architecture** in Nx, designed for f
 
 #### Keycloak
 
-Not part of Nx, but relevant. This replaces my old own login, register and profile overview page. Which I have archive since switching to Keycloak.
+This server replaces my old custom made login, register and profile overview page. Which I have archived since switching to Keycloak.
 
-**User Account**
 [Login page](https://app.eliasdebock.com)
 [Register page](https://app.eliasdebock.com)
 [Profile page](https://app.eliasdebock.com/keycloak/realms/EDB%PROD/account)
 
 #### Platform App
 
-[Apps catalog](https://app.eliasdebock.com/catalog)
-→ Browse available applications
-[My eDB](https://app.eliasdebock.com)
-→ Dashboard to manage and launch subscribed applications
-[404](https://app.eliasdebock.com/not-found)
-→ For routes that are not found
+-   [x] [Catalog](https://app.eliasdebock.com/catalog) → Browse available applications
+-   [x] [Dashboard](https://app.eliasdebock.com) → Dashboard to manage and launch subscribed applications
+-   [x] [404](https://app.eliasdebock.com/not-found) → For routes that are not found
 
-**#1 Webshop App**
-[Webshop catalog](https://app.eliasdebock.com/webshop/catalog)
-→ Overview of books with search, filtering, scroll-based pagination and sort
-→ Cart
-→ Single book page
-→ Order overview customer
+[**#1 Webshop App**](https://app.eliasdebock.com/webshop/catalog)
+
+-   [x] Overview of books with search, filtering, scroll-based pagination and sort
+-   [x] Cart
+-   [x] Single book page
+-   [x] Order overview customer
 
 #### Admin App
 
-[Admin dashboard](https://app.eliasdebock.com/admin/dashboard)
-→ To manage applications and user subscriptions.
-→ To manage items and orders in webshop.
+-   [x] [Admin dashboard](https://app.eliasdebock.com/admin/dashboard)
+        → To manage applications and user subscriptions.
+        → To manage items and orders in webshop.
 
 ### Layers of Modular Architecture
 
