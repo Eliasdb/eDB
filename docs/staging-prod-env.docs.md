@@ -6,11 +6,13 @@ These are the Dockerfiles used in production for my client and API apps. The cli
 
 I have **Dockerfiles** for
 
-→ NGINX for serving Angular builds files
-
-→ .NET SDK for .NET builds and ASP.NET as runtime
-
-→ PHP-FPM for http request support + NGINX to serve Laravel build files
+| Service         | Purpose                             |
+| --------------- | ----------------------------------- |
+| NGINX           | Serves Angular build files          |
+| .NET SDK        | Used for building .NET applications |
+| ASP.NET Runtime | Runs .NET applications              |
+| PHP-FPM         | Handles HTTP requests for Laravel   |
+| NGINX           | Serves Laravel build files          |
 
 > **Note:** The C# API still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this.
 
@@ -22,15 +24,14 @@ I have **Dockerfiles** for
 The very first model of the k3s platform cluster.
 
 **V2: Six deployments**
+
+| Category     | Services/Apps                 |
+| ------------ | ----------------------------- |
+| **Client**   | ✅ Platform App - Admin App   |
+| **API**      | ✅ Platform API - Webshop API |
+| **Database** | ✅ PostgreSQL                 |
+| **Auth**     | ✅ Keycloak                   |
+
 This is my current production cluster. When the pipeline runs to deploy it's actually updating these deployments here (besides Postgres and Keycloak) with a brand new Docker image or it rolls back if that does not go as planned. To configure different domains, I had to add an A record to my settings at Cloudflare that point to the public IPv4 address of my VPS.
-
-I have **deployments** for
-→ Platform App
-→ Admin App
-→ Platform API
-→ Webshop API
-
-→ Postgres
-→ Keycloak
 
 ![Production Setup Diagram](./devops/prod/environment-setup.prod_v4.png)

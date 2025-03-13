@@ -105,7 +105,7 @@ I am building a platform housing multiple applications. Users can make an accoun
 -   [x] **Formatting**: dotnet format
 -   [x] **API Documentation**: Swagger
 -   [x] **Object Mapper**: Automapper
--   [x] **Database**: PostgreSQL
+-   [x] **Database**: PostgreSQL - pgAdmin 4
 
 ---
 

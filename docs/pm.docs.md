@@ -38,7 +38,7 @@ Jira provides different issue types to categorize work, each serving a unique pu
 
 #### Setting up a sprint
 
-![Frontend Setup Diagram](./docs/docs/jira_backlog.png)
+![Frontend Setup Diagram](./docs/jira_backlog.png)
 
 **1. Prepare your backlog:**  
 Ensure that your backlog is prioritized and contains refined stories, tasks, and spikes linked to their respective epics.
