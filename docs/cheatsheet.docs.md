@@ -1,6 +1,6 @@
-## 9. Handy Commands Cheat Sheet
+## Handy Commands Cheat Sheet
 
-### 9.1 General Commands
+### General Commands
 
 | Command                                                          | Description                                  |
 | ---------------------------------------------------------------- | -------------------------------------------- |
@@ -19,7 +19,7 @@
 | `skaffold run`                                                   | Deploy the application to the cluster        |
 | `skaffold delete`                                                | Remove all Skaffold-managed resources        |
 
-### 9.2 Database Management Commands
+### Database Management Commands
 
 | Command                                                 | Description                                                           |
 | ------------------------------------------------------- | --------------------------------------------------------------------- |

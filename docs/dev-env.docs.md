@@ -1,6 +1,6 @@
-### 4.1 Development
+### Development
 
-#### 4.1.1 Setup
+#### Setup
 
 ##### **Local k3s Cluster (k3d + Skaffold)**
 
@@ -114,7 +114,7 @@ However I did not like rebuilding images all the time and even though it went sm
 
 Running these scripts with pnpm (e.g. `pnpm start:web`) will start up either the platform app, the admin app, webshop app, Webshop API or the Platform API. Can be extended with more as the platform grows. You will have to setup a local db which is easily done through your terminal and through the Postgres App.
 
-#### 4.1.2 Tools
+#### Tools
 
 These are some of the tools I use when developing locally:
 

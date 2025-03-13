@@ -1,6 +1,6 @@
-### 3.1 Client
+### Client
 
-### 3.1.1 Stack & Architecture
+### Stack & Architecture
 
 #### Stack
 
@@ -16,9 +16,9 @@
 
 The application follows a **Layered Modular Architecture** in Nx, designed for flexibility and maintainability. Each layer has a distinct role, enforcing strict dependency rules to keep the system modular.
 
-### 3.1.2 Pages
+### Pages
 
-#### 3.1.2.1 Keycloak
+#### Keycloak
 
 Not part of Nx, but relevant. This replaces my old own login, register and profile overview page. Which I have archive since switching to Keycloak.
 
@@ -43,13 +43,13 @@ Not part of Nx, but relevant. This replaces my old own login, register and profi
 → Single book page
 → Order overview customer
 
-#### Admin App:
+#### Admin App
 
 [Admin dashboard](https://app.eliasdebock.com/admin/dashboard)
 → To manage applications and user subscriptions.
 → To manage items and orders in webshop.
 
-### 3.1.3 Layers of Modular Architecture
+### Layers of Modular Architecture
 
 ##### 1. Application Layer (Apps) 🏛
 
@@ -91,7 +91,7 @@ This **modular and scalable structure** ensures:
 
 By following **Layered Modular Architecture**, the system remains **scalable, testable, and maintainable** over time. That is the goal at least...
 
-### 3.1.4 Architecture Diagrams
+### Architecture Diagrams
 
 [**V1: Monolithic Platform App**](./frontend/frontend-architecture_v5.png)
 The first model of the platform using a familiar monolithic approach.

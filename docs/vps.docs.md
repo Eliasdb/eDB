@@ -1,6 +1,6 @@
-## 7. VPS
+## VPS
 
-### 7.1 What is a VPS?
+### What is a VPS?
 
 A **Virtual Private Server (VPS)** is a virtualized environment that provides dedicated resources on a shared physical server. It offers a balance between cost, performance, and control, making it a popular choice for hosting applications and services.
 
@@ -14,7 +14,7 @@ A **Virtual Private Server (VPS)** is a virtualized environment that provides de
 
 > **Note:** While the physical hardware is shared, the virtualization layer ensures resource isolation and predictable performance.
 
-#### 7.2 Setting up a VPS with Hetzner
+#### Setting up a VPS with Hetzner
 
 #### Step 0: Setting up your account
 
@@ -26,32 +26,32 @@ A **Virtual Private Server (VPS)** is a virtualized environment that provides de
 
 Under the 'Servers' tab you should find a button to add a server to your account. Let's go over the easy steps first needed to configure our server. It's pretty straight forward.
 
-![Adding server](./docs/docs/add-server.png)
+![Adding server](./docs/add-server.png)
 
 You will need to set
 
 -   #### Location
 
     Location of server.
-    ![Location](./docs/docs/location.png)
+    ![Location](./docs/location.png)
 
 -   #### Image OS:
 
     This project runs on Ubuntu.
-    ![ImageOS](./docs/docs/image.png)
+    ![ImageOS](./docs/image.png)
 
 -   #### Type:
 
     I'm on shared ARM64 vCPUs.
-    ![Type](./docs/docs/type.png)
+    ![Type](./docs/type.png)
 
 -   #### Networking:
 
-    ![Location](./docs/docs/networking.png)
+    ![Location](./docs/networking.png)
 
 #### Step 2: Generating an SSH key
 
-![SSH](./docs/docs/ssh.png)
+![SSH](./docs/ssh.png)
 
 Run following command on your machine:
 
@@ -72,7 +72,7 @@ To retrieve the public key:
 `cat /path/to/your/custom_key.pub`
 Copy the output to use in your cloud-config or in the setup of the server as seen below here.
 
-![SSH Key](./docs/docs/ssh-key.png)
+![SSH Key](./docs/ssh-key.png)
 
 #### Step 4: Volumes
 

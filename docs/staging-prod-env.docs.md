@@ -1,6 +1,6 @@
-### 4.2 Staging & Production
+### Staging & Production
 
-#### 4.2.1 Dockerfiles
+#### Dockerfiles
 
 These are the Dockerfiles used in production for my client and API apps. The client Docker images just serve the built files provided by the pipeline. Staging has a similar setup.
 
@@ -16,7 +16,7 @@ I have **Dockerfiles** for
 
 ![Production Dockerfiles](./devops/prod/dockerfiles.prod_v3.png)
 
-#### 4.2.2 Architecture Diagram
+#### Architecture Diagram
 
 [**V1: Three deployments: front, back and database**](./devops/prod/environment-setup.prod_v1.png)
 The very first model of the k3s platform cluster.

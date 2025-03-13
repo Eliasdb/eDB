@@ -1,4 +1,4 @@
-## 2. In Depth
+## Under the Hood
 
 ### Client-Server Interaction
 
