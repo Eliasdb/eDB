@@ -1,6 +1,6 @@
-## 8. Project Management and Documentation
+## Project Management and Documentation
 
-### 8.1 Jira
+### Jira
 
 Jira is used as a central tool to organize, track, and manage work. It supports various issue types for different kinds of work items, helps structure tasks under epics, and facilitates agile sprint planning and execution.
 
@@ -71,13 +71,13 @@ Once the sprint is populated and goals are defined, click **“Start sprint”**
 -   **Completing the Sprint:**  
     At the end of the sprint, review completed work on the board. Use Jira’s **“Complete sprint”** feature to close the sprint, move unfinished tasks back to the backlog or the next sprint, and plan for future sprints.
 
-### 8.2 Tags and releases
+### Tags and releases
 
 At the end of each sprint, there will be a new version to be settled upon. This will become the new tag made in the pipeline to tag the Docker image and also will be used in the release notes to publish a release on GitHub from.
 
 Here is an [overview](https://github.com/Eliasdb/eDB/releases) of all releases so far.
 
-### 8.3 Confluence
+### Confluence
 
 I intend to migrate this README to Confluence pages. More on this at a later time.
 URL to [Confluence space](https://metanoi4.atlassian.net/wiki/spaces/eDB/overview). Only visible if you are part of the team.

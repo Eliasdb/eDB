@@ -1,6 +1,6 @@
-### 3.2 Backend
+### API
 
-### 3.2.1 Stack & Architecture
+### Stack & Architecture
 
 **Platform API**
 
@@ -16,7 +16,7 @@
 -   **ORM**: **Doctrine**
 -   **Architecture**: **REST API**
 
-### 3.2.2 APIs
+### APIs
 
 #### **Platform API**
 
@@ -367,7 +367,7 @@ This part handles administrative tasks, including user management, application C
         }
         ```
 
-### 3.2.3 Architecture Diagrams
+### Architecture Diagrams
 
 [**V1: Monolithic Platform API**](./backend/backend-architecture_v2.png)
 The first model of the platform using a familiar monolithic approach.

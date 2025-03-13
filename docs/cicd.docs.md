@@ -1,4 +1,4 @@
-## 5. CI/CD
+## CI/CD
 
 To smoothly update my staging and production environments, I have built several pipelines. This is how it goes:
 
@@ -37,7 +37,7 @@ You can then click the button to merge to main branch. This will trigger the fin
 -   https://api.eliasdebock.com
 
 Below is a visual representation of all the pipelines running in the project.
-![Development Workflow](./docs/devops/cicd_v2.png)
+![Development Workflow](./devops/cicd_v2.png)
 
 You can also see this run live on GitHub, under the Actions tab:
 ![Staging Deployment Pipeline Github](./docs/devops/staging/postmerge-deployment-github_v2.png)

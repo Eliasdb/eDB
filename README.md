@@ -1,92 +1,93 @@
 # eDB
 
+---
+
 ## Documentation
 
--   [1. Project Goal](#1-project-goal)
--   [2. In Depth](./docs/in-depth.docs.md)
--   [3. Setup](#3-setup)
+---
+
+### Technical docs
+
+-   **1. Setup**
     -   [Client](./docs/client.docs.md)
     -   [API](./docs/api.docs.md)
--   [4. Environments]
+-   **2. Environments**
     -   [Development](./docs/dev-env.docs.md)
     -   [Staging & Production](./docs/staging-prod.docs.md)
--   [5. CI/CD](#5-cicd)
--   [6. Database](#6-database)
--   [7. VPS](./docs/vps.docs.md)
--   [8. Project Management and Documentation](./docs/pm.docs.md)
--   [9. Handy Commands Cheat Sheet](./docs/cheatsheet.docs.md)
--   [10. Achieved Goals](#10-achieved-goals)
--   [11. TLDR: All Tools Used](#11-tldr-all-tools-used)
--   [12. Tools I'm working towards using](#12-tools-im-working-towards-using)
+-   [**3. CI/CD**](./docs/cicd.docs.md)
+-   [**4. VPS**](./docs/vps.docs.md)
+-   [**5. Project Management and Documentation**](./docs/pm.docs.md)
+-   [**6. Under the Hood**](./docs/in-depth.docs.md)
+-   [**7. Handy Commands Cheat Sheet**](./docs/cheatsheet.docs.md)
 
 ---
 
-## 1. Project Goal
+### TLDR docs
 
-I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them.
+#### Project Goal
 
-## 3. Setup
+I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them. So far I have one webshop in there.
 
-This project uses Nx to efficiently manage multiple applications and shared libraries within a monorepo structure. Nx provides several key advantages:
+#### Tech Stack
 
-### 🚀 **Why Use Nx?**
+| Category             | Technology                 |
+| -------------------- | -------------------------- |
+| **Monorepo**         | Nx                         |
+| **Client**           | Angular                    |
+| **API**              | .NET API, Laravel API      |
+| **Auth Server**      | Keycloak                   |
+| **Database**         | PostgreSQL                 |
+| **Containerization** | Docker                     |
+| **Orchestration**    | K3s                        |
+| **Hosting**          | Self-hosted VPS on Hetzner |
+| **CI/CD**            | GitHub Actions             |
 
-1. **Modular Architecture** – Nx helps divide the project into separate **apps** and **reusable libraries**, promoting maintainability and scalability.
-2. **Efficient CI/CD** – With `nx affected`, only the changed parts of the codebase are rebuilt and tested, making the CI process **faster and more efficient**.
-3. **Code Sharing** – Shared libraries eliminate code duplication by allowing different applications to **reuse UI components, utilities, and services**.
-4. **Better Developer Experience** – Nx provides **powerful CLI tools**, **caching**, and **dependency graph visualization**, making development more streamlined.
-5. **Optimized Builds** – Nx uses smart caching and incremental builds, ensuring that only necessary files are compiled, reducing build times.
-6. **Consistent Tooling** – It enforces best practices by integrating with Angular, React, TypeScript, Jest, ESLint, Storybook, and other tools seamlessly.
+#### Achieved Goals
 
-By leveraging Nx, this monorepo allows for a more structured, scalable, and optimized development workflow, making it easier to maintain and extend over time.
+-   [x] **Containerizing applications** → Dockerfiles
+-   [x] **Development environment** -> K3s cluster using k3d + Skaffold OR Nx + local postgres
+-   [x] **Staging environment** → K3s cluster on VPS
+-   [x] **Production environment** → K3s cluster on VPS
+-   [x] **CI/CD pipelines** → For production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS)
+-   [x] **Documentation**
+-   [x] **Layered Modular Architecture** → Client and .NET API
+-   [x] **Authentication** → Self-hosted Keycloak (login - register - profile - sessions - ...)
+-   [x] **Platform Apps** → Added Demo App #1: Webshop
 
-## Initially I used this only for the frontend. Using the `@nx-dotnet/core` package I was able to get my frontend and backend code together in this one codebase.
-
-## 6. Database
-
-**Database**: PostgreSQL
-
----
-
-## 10. Achieved Goals
-
--   [x] Containerizing applications (Dockerfiles)
--   [x] Development environment (k3s cluster using k3d managed with Skaffold OR Nx)
--   [x] Staging environment (k3s cluster on VPS)
--   [x] Production environment (k3s cluster on VPS)
--   [x] CI/CD pipelines for production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS).
--   [x] Documentation
--   [x] Layered Modular Architecture for Client and .NET API
--   [x] Authentication with self-hosted Keycloak (login - register - profile - sessions - ...)
--   [x] Added Demo App #1 Webshop
-
-## 11. TLDR: All Tools Used
+#### All Tools Used
 
 **DevOps**
 
 -   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images - multi-stage
--   [x] **Kubernetes**: k3d - k3s - kubectl - Ingress - Deployments - Services - Pods - Secrets - Configmaps - YAML - Certificates - NGINX Controller
--   [x] **Servers**: Linux (Ubuntu) - VPS
--   Static file web server → NGINX
--   API web server → .NET Web API - Laravel PHP-FPM
--   Database server → Postgres
--   Authentication server → Keycloak
--   shell scripts (`wait-for-postgres.sh` / `entrypoint.sh`)
--   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint
+-   [x] **Kubernetes**: k3d - k3s - kubectl - Deployments - Services - Pods - Secrets - Configmaps - Certificates - NGINX Controller - Ingress - YAML
+-   [x] **Servers**: - VPS
+    -   [x] **OS** → Linux (Ubuntu)
+    -   [x] **Static file web server** → NGINX
+    -   [x] **API web server** → .NET Web API - Laravel PHP-FPM
+    -   [x] **Database server** → Postgres
+    -   [x] **Authentication server** → Keycloak
+    -   [x] **Github Actions runner** → Self-hosted on VPS
+    -   [x] **Shell scripts** (`wait-for-postgres.sh` / `entrypoint.sh`)
+-   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint - staging/production environment - lint, test, build, deploy
 
 **Monorepo**
 
--   [x] **Nx**: apps - libs - Nx generators/scaffolding commands - `nx affected` - modular layered architecture
+-   [x] **Nx**:
+    -   apps
+    -   libs
+        -   **client**: feature - util - data-access/client - ui
+    -   Nx generators/scaffolding commands - `nx affected` - modular layered architecture
 
 **Auth**
 
--   [x] **Authentication**: Keycloak - keycloak-js
+-   [x] **Authentication**: Keycloak - keycloak-js - JWT - firebase/php-jwt -
 
 **Client**
 
 -   [x] **Language**: Typescript
 -   [x] **Node Package Manager**: pnpm
--   [x] **Angular**: (Standalone) Components - Services - RxJS - Signals - Interceptors - Guards - Reactive Forms
+-   [x] **Frameworks**:
+    -   [x] **Angular**: (Standalone) Components - Services - RxJS - Signals - Interceptors - Guards - Reactive Forms
 -   [x] **Testing**: Vitest - Storybook
 -   [x] **Linting + formatting**: Prettier - ESLint
 -   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
@@ -104,8 +105,11 @@ By leveraging Nx, this monorepo allows for a more structured, scalable, and opti
 -   [x] **Formatting**: dotnet format
 -   [x] **API Documentation**: Swagger
 -   [x] **Object Mapper**: Automapper
+-   [x] **Database**: PostgreSQL
 
-## 12. Tools I'm working towards using
+---
+
+#### Tools I'm working towards using
 
 **DevOps**
 
