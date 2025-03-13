@@ -14,11 +14,11 @@ I have **Dockerfiles** for
 
 > **Note:** The C# API still has a multi-stage Dockerfile building the application and running the server. Even though Nx takes care of building in the pipeline already. I will have to see later what to do about this.
 
-![Production Dockerfiles](./docs/devops/prod/dockerfiles.prod_v3.png)
+![Production Dockerfiles](./devops/prod/dockerfiles.prod_v3.png)
 
 #### 4.2.2 Architecture Diagram
 
-[**V1: Three deployments: front, back and database**](./docs/devops/prod/environment-setup.prod_v1.png)
+[**V1: Three deployments: front, back and database**](./devops/prod/environment-setup.prod_v1.png)
 The very first model of the k3s platform cluster.
 
 **V2: Six deployments**
@@ -33,4 +33,4 @@ I have **deployments** for
 → Postgres
 → Keycloak
 
-![Production Setup Diagram](./docs/devops/prod/environment-setup.prod_v4.png)
+![Production Setup Diagram](./devops/prod/environment-setup.prod_v4.png)

@@ -369,14 +369,14 @@ This part handles administrative tasks, including user management, application C
 
 ### 3.2.3 Architecture Diagrams
 
-[**V1: Monolithic Platform API**](./docs/backend/backend-architecture_v2.png)
+[**V1: Monolithic Platform API**](./backend/backend-architecture_v2.png)
 The first model of the platform using a familiar monolithic approach.
 
 **V2: Layered Modular Platform API and Admin API**
 This is a visual representation of the workspace dependency graph regarding backend as is right now. This is a more layered modular approach. Refactored Controllers and Services into feature-libs, abstracted the Repositories and DbContext also into its own layer... Basically tried to also think more in terms of layers that depend on each other and get some structure going here too. Also took the first step towards separate Platform and Admin API.
-![Backend Setup Diagram](./docs/backend/backend-architecture_v3.png)
+![Backend Setup Diagram](./backend/backend-architecture_v3.png)
 
 > **Tip:** Run `nx graph` to see the full dependency graph. Which looks like this:
 
-![Nx dependency graph](./docs/docs/dep-graphv4.png)
-![Nx dependency graph](./docs/docs/dep-graphv5.png)
+![Nx dependency graph](./docs/dep-graphv4.png)
+![Nx dependency graph](./docs/dep-graphv5.png)

@@ -96,7 +96,7 @@ This command will:
 Once deployed, your frontend will be available at `http://localhost:4200` and your backend at `http://localhost:9101`. You can access these services via a browser or tools like Postman.
 
 Here is a diagram of the setup:
-![Development Setup Diagram](./docs/devops/dev/environment-setup.dev_v4.png)
+![Development Setup Diagram](./devops/dev/environment-setup.dev_v4.png)
 
 ##### **[NEW] Nx development setup**
 
@@ -121,38 +121,38 @@ These are some of the tools I use when developing locally:
 ##### PgAdmin 4
 
 Text to be added.
-![Swagger](./docs/docs/swagger2.png)
+![Swagger](./docs/swagger2.png)
 
 ##### Swagger
 
 You can find the Swagger API docs at: `http://localhost:5098/swagger/index.html`. Which gives you a nice overview of all endpoints, models and DTOs. You can also try out the endpoints here.
 
-![Swagger](./docs/docs/swagger2.png)
+![Swagger](./docs/swagger2.png)
 
-![Swagger](./docs/docs/swagger.png)
+![Swagger](./docs/swagger.png)
 
 ##### Postman
 
 I use Postman to test my endpoints in isolation. [Installation link](https://www.postman.com/downloads).
 
-![Storybook](./docs/docs/postman.png)
+![Storybook](./docs/postman.png)
 
 ##### XUnit and Moq
 
 I use XUnit and Moq to do unit and integration testing.
-![Storybook](./docs/docs/postman.png)
+![Storybook](./docs/postman.png)
 
 ##### Storybook
 
 You can find the Storybook overview by running: `nx storybook ui`. You will get a nice overview of all components at `http://localhost:4400/`.
 
-![Storybook](./docs/docs/storybook.png)
+![Storybook](./docs/storybook.png)
 
 ##### Vitest
 
 I use Vitest to do unit and integration testing in frontend.
 
-![Storybook](./docs/docs/postman.png)
+![Storybook](./docs/postman.png)
 
 ##### Prettier
 
