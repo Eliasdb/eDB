@@ -13,7 +13,7 @@
     -   [API](./docs/api.docs.md)
 -   **2. Environments**
     -   [Development](./docs/dev-env.docs.md)
-    -   [Staging & Production](./docs/staging-prod.docs.md)
+    -   [Staging & Production](./docs/staging-prod-env.docs.md)
 -   [**3. CI/CD**](./docs/cicd.docs.md)
 -   [**4. VPS**](./docs/vps.docs.md)
 -   [**5. Project Management and Documentation**](./docs/pm.docs.md)
@@ -68,7 +68,7 @@ I am building a platform housing multiple applications. Users can make an accoun
     -   [x] **Authentication server** → Keycloak
     -   [x] **Github Actions runner** → Self-hosted on VPS
     -   [x] **Shell scripts** (`wait-for-postgres.sh` / `entrypoint.sh`)
--   [x] **CI/CD**: Github Actions - GitFlow - `nx affected` - yamllint - staging/production environment - lint, test, build, deploy
+-   [x] **CI/CD**: Github Actions - `nx affected` - yamllint - staging/production environment - lint, test, build, deploy
 
 **Monorepo**
 
