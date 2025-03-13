@@ -10,7 +10,7 @@ Checkout dev branch and pull latest code. Create a feature-branch locally, make 
 
 When you open the PR, a pre-merge pipeline will attempt to lint, test and build only the affected code. It will also push Docker images to Docker Hub. When these checks pass, you can then safely merge to dev branch to automatically start deployment to staging.
 
-![Development Workflow](./docs/devops/staging/premerge-checks_v3.png)
+![Development Workflow](./devops/staging/premerge-checks_v3.png)
 
 **Deploying to staging: post-merge deployment**
 
@@ -40,4 +40,4 @@ Below is a visual representation of all the pipelines running in the project.
 ![Development Workflow](./devops/cicd_v2.png)
 
 You can also see this run live on GitHub, under the Actions tab:
-![Staging Deployment Pipeline Github](./docs/devops/staging/postmerge-deployment-github_v2.png)
+![Staging Deployment Pipeline Github](./devops/staging/postmerge-deployment-github_v2.png)
