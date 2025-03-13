@@ -1,8 +1,6 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
-using EDb.FeatureApplications.Mapping;
 using Edb.PlatformAPI.Extensions;
-using Edb.PlatformAPI.Mapping;
 using Edb.PlatformAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,10 +20,11 @@ if (builder.Environment.IsDevelopment())
 // --- Service Registrations ---
 // Add modular services from extension methods
 builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
-builder.Services.AddIdentityServices(builder.Configuration); // Identity & JWT services
+builder.Services.AddIdentityServices(builder.Configuration);
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 // Add controller support
 builder.Services.AddControllers();
@@ -47,7 +46,7 @@ using (var scope = app.Services.CreateScope())
   {
     var dbContext = services.GetRequiredService<MyDbContext>();
     dbContext.Database.Migrate();
-    DbInitializer.Initialize(dbContext); // Seed database.
+    DbInitializer.Initialize(dbContext); // Seexd database.
   }
   catch (Exception ex)
   {
@@ -67,10 +66,15 @@ else
   app.UseHttpsRedirection();
 }
 
-app.UseCors("AllowFrontend");
+// app.UseSession();
+
 app.UseCustomMiddlewares();
 
+// app.UseSession();
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 // Map controllers

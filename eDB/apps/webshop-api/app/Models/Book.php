@@ -19,35 +19,48 @@ class Book extends Model
         "genre",
         "author",
         "like",
+        "search",
         "published_date",
         "q",
     ];
 
-    public function q($query, $value)
+    protected $fillable = [
+        "title",
+        "photo_url",
+        "status",
+        "genre",
+        "price",
+        "stock",
+        "description",
+        "author",
+        "published_date",
+    ];
+
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer',
+    ];
+
+    public function genre($query, $value)
     {
-        // return $query->orWhere('name', '=', $value);
-        return $query->orWhere('title', 'like', "%$value%");
+        return $query->where('genre', 'ILIKE', "%$value%");
+    }
+
+    public function search($query, $value)
+    {
+        return $query->where(function ($q) use ($value) {
+            $q->where('title', 'ilike', "%$value%")
+              ->orWhere('author', 'ilike', "%$value%");
+        });
     }
 
     public function author($query, $value)
     {
-        // return $query->orWhere('name', '=', $value);
-        return $query->orWhere('author', 'like', "%$value%");
+        return $query->where('author', 'like', "%$value%");
     }
 
-    protected $fillable = [
-     "title",
-     "photo_url",
-     "status",
-     "genre",
-     "description",
-     "author",
-     "published_date",
-     "user_id"
-    ];
-
-    public function user()
+    public function orders()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Order::class);
     }
 }

@@ -55,14 +55,12 @@ namespace Edb.PlatformAPI.Extensions
       );
 
       // Register repositories
-      services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IApplicationRepository, ApplicationRepository>();
       services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
       // Register services
       services.AddScoped<IAdminService, AdminService>();
-      services.AddScoped<IProfileService, ProfileService>();
-      services.AddScoped<IAuthService, AuthService>();
+      // services.AddScoped<IProfileService, ProfileService>();
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
       // Add AutoMapper with the specified mapping profile assembly.
@@ -80,11 +78,14 @@ namespace Edb.PlatformAPI.Extensions
               .WithOrigins(
                 "http://localhost:4200",
                 "http://localhost:4300",
+                "http://localhost:8080",
+                "https://keycloak.staging.eliasdebock.com",
                 "https://app.staging.eliasdebock.com",
                 "https://app.eliasdebock.com"
               )
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
           }
         );
       });

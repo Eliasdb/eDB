@@ -1,15 +1,15 @@
-// UserProfileService
-
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '@eDB/shared-env';
+import { firstValueFrom } from 'rxjs';
+
 import {
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { firstValueFrom } from 'rxjs';
-import { UserProfile } from './types/user.model';
+
+import { environment } from '@eDB/shared-env';
+import { UserProfile } from './types/profile.types';
 
 @Injectable({
   providedIn: 'root',

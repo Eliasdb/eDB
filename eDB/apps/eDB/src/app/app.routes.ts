@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 
 import { AuthGuard } from './guards/auth.guard';
-import { LoginGuard } from './guards/login.guard';
 
 export const routes: Route[] = [
   {
@@ -9,18 +8,11 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard',
+        path: '',
         loadChildren: () =>
           import(
             '@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */
           ).then((m) => m.featureDashboardRoutes),
-      },
-      {
-        path: 'profile',
-        loadChildren: () =>
-          import('@eDB/feature-profile' /* webpackChunkName: "profile" */).then(
-            (m) => m.featureProfileRoutes,
-          ),
       },
       {
         path: 'catalog',
@@ -31,28 +23,10 @@ export const routes: Route[] = [
       },
       {
         path: 'webshop',
-        loadChildren: () => import('@eDB-webshop').then((m) => m.WebshopModule),
-      },
-    ],
-  },
-  {
-    path: 'auth',
-    children: [
-      {
-        path: 'login',
         loadChildren: () =>
-          import('@eDB/feature-login' /* webpackChunkName: "login" */).then(
-            (m) => m.featureLoginRoutes,
+          import('@eDB-webshop' /* webpackChunkName: "webshop" */).then(
+            (m) => m.WebshopModule,
           ),
-        canActivate: [LoginGuard],
-      },
-      {
-        path: 'register',
-        loadChildren: () =>
-          import(
-            '@eDB/feature-register' /* webpackChunkName: "register" */
-          ).then((m) => m.featureRegisterRoutes),
-        canActivate: [LoginGuard],
       },
     ],
   },
@@ -63,6 +37,7 @@ export const routes: Route[] = [
         (m) => m.feature404Routes,
       ),
   },
+
   {
     path: '**',
     redirectTo: 'not-found',

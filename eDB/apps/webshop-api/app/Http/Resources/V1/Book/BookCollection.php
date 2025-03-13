@@ -26,14 +26,7 @@ class BookCollection extends ResourceCollection
           
             ");
             $page_total = count($sql);
-
         }
-
-        // return parent::toArray($request);
-        // if ($request->status == 'loaned') {
-
-        // }
-
 
         return [
             'data' => [
@@ -46,25 +39,5 @@ class BookCollection extends ResourceCollection
 
     }
 
-    //  /**
-    // * Get additional data that should be returned with the resource array.
-    // *
-    // * @param  \Illuminate\Http\Request  $request
-    // * @return array
-    // */
-    // public function with($request)
-    // {
-    //     $total = count(Book::all());
 
-
-    //     return [
-    //         'count' => $page_total
-    //         // 'count' => [
-    //         //     'all_total' => $total,
-    //         //     'page_total' => $page_total,
-    //         //     // 'offset' => (int)$request->offset,
-    //         //     // 'limit' => (int)$request->limit,
-    //         // ],
-    //     ];
-    // }
 }

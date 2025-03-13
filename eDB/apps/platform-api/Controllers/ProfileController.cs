@@ -1,6 +1,6 @@
 using Edb.PlatformAPI.DTOs.Profile;
 using Edb.PlatformAPI.Interfaces;
-using EDb.UtilAttributes.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Edb.PlatformAPI.Controllers
@@ -10,7 +10,6 @@ namespace Edb.PlatformAPI.Controllers
     private readonly IProfileService _profileService = profileService;
 
     [HttpGet("settings")]
-    [RoleAuthorize("User", "Admin")]
     public async Task<ActionResult<ProfileSettingsResponse>> GetProfileSettings()
     {
       var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);
@@ -29,7 +28,6 @@ namespace Edb.PlatformAPI.Controllers
     }
 
     [HttpPut("update")]
-    [RoleAuthorize("User", "Admin")]
     public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest request)
     {
       var user = await _profileService.GetAuthenticatedUserAsync(HttpContext.User);

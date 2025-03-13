@@ -1,23 +1,27 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using AutoMapper;
 using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.DTOs;
 using EDb.FeatureApplications.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace EDb.FeatureApplications.Services;
 
 public class ApplicationsService(
   IApplicationRepository applicationRepository,
   ISubscriptionRepository subscriptionRepository,
-  IUserRepository userRepository,
-  IMapper mapper
+  IMapper mapper,
+  ILogger<ApplicationsService> logger,
+  IHttpContextAccessor httpContextAccessor // <-- Add this
 ) : IApplicationsService
 {
   private readonly IApplicationRepository _applicationRepository = applicationRepository;
   private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
-  private readonly IUserRepository _userRepository = userRepository;
   private readonly IMapper _mapper = mapper;
+  private readonly ILogger<ApplicationsService> _logger = logger;
+  private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor; // <-- Store it
 
   public async Task<List<ApplicationDto>> GetApplicationsAsync()
   {
@@ -25,53 +29,85 @@ public class ApplicationsService(
     return _mapper.Map<List<ApplicationDto>>(applications);
   }
 
-  public int? GetAuthenticatedUserId(ClaimsPrincipal userPrincipal)
+  public string? GetAuthenticatedUserId()
   {
-    var userIdClaim = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    return int.TryParse(userIdClaim, out var userId) ? userId : (int?)null;
-  }
+    var authHeader =
+      _httpContextAccessor.HttpContext?.Request.Headers.Authorization.FirstOrDefault();
 
-  public async Task<string> ToggleSubscriptionAsync(int userId, int applicationId)
-  {
-    // Validate user existence
-    var user = await _userRepository.GetByIdAsync(userId);
-    if (user == null)
+    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
     {
-      return "User not found.";
+      var token = authHeader["Bearer ".Length..]; // Extract token
+      _logger.LogInformation("Extracted Bearer Token: {Token}", token);
+
+      try
+      {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        // Log all claims from the token
+        foreach (var claim in jwtToken.Claims)
+        {
+          _logger.LogInformation("Token Claim: {Type} = {Value}", claim.Type, claim.Value);
+        }
+
+        // Extract the "sub" claim (Keycloak user ID)
+        var subClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+        _logger.LogInformation("Extracted 'sub' from token: {SubClaim}", subClaim ?? "null");
+
+        return subClaim;
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError(ex, "Error decoding Bearer token");
+        return null;
+      }
     }
 
-    // Validate application existence
+    _logger.LogWarning("No Bearer token found in Authorization header.");
+    return null;
+  }
+
+  public async Task<string> ToggleSubscriptionAsync(string keycloakUserId, int applicationId)
+  {
+    // Validate application existence.
     var application = await _applicationRepository.GetByIdAsync(applicationId);
     if (application == null)
     {
       return "Application not found.";
     }
 
-    // Check for existing subscription
-    var subscription = await _subscriptionRepository.GetSubscriptionAsync(applicationId, userId);
-
+    // Check for an existing subscription.
+    var subscription = await _subscriptionRepository.GetSubscriptionAsync(
+      applicationId,
+      keycloakUserId
+    );
     if (subscription != null)
     {
-      // Remove subscription if exists
+      // Remove subscription if it exists.
       await _subscriptionRepository.DeleteSubscriptionAsync(subscription);
       await _subscriptionRepository.SaveChangesAsync();
       return "Subscription removed successfully.";
     }
 
-    // Add new subscription
-    var newSubscription = new Subscription { ApplicationId = applicationId, UserId = userId };
+    // Add a new subscription.
+    var newSubscription = new Subscription
+    {
+      ApplicationId = applicationId,
+      KeycloakUserId = keycloakUserId,
+      SubscriptionDate = DateTime.UtcNow,
+    };
 
     await _subscriptionRepository.AddSubscriptionAsync(newSubscription);
     await _subscriptionRepository.SaveChangesAsync();
     return "Subscription added successfully.";
   }
 
-  public async Task<IEnumerable<ApplicationDto>> GetSubscribedApplicationsAsync(int userId)
+  public async Task<IEnumerable<ApplicationDto>> GetSubscribedApplicationsAsync(
+    string keycloakUserId
+  )
   {
-    var subscriptions = await _subscriptionRepository.GetSubscriptionsByUserIdAsync(userId);
+    var subscriptions = await _subscriptionRepository.GetSubscriptionsByUserIdAsync(keycloakUserId);
     var applications = subscriptions.Select(s => s.Application);
-
-    // Map applications to ApplicationDto
     return _mapper.Map<List<ApplicationDto>>(applications);
   }
 }

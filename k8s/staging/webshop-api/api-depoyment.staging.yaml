@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: webshop-api
-                  image: eliasdb/webshop-api:v8-test
+                  image: eliasdb/webshop-api:pr-190-staging
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 8000
@@ -51,6 +51,37 @@ spec:
                             secretKeyRef:
                                 name: postgres-secret-staging
                                 key: POSTGRES_PASSWORD
+                      - name: JWT_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: jwt-secret-staging
+                                key: JWT_SECRET
+                      - name: SESSION_DRIVER
+                        valueFrom:
+                            configMapKeyRef:
+                                name: laravel-session-config-staging
+                                key: SESSION_DRIVER
+                      - name: SESSION_DOMAIN
+                        valueFrom:
+                            configMapKeyRef:
+                                name: laravel-session-config-staging
+                                key: SESSION_DOMAIN
+                      - name: SESSION_SECURE_COOKIE
+                        valueFrom:
+                            configMapKeyRef:
+                                name: laravel-session-config-staging
+                                key: SESSION_SECURE_COOKIE
+                      - name: SESSION_LIFETIME
+                        valueFrom:
+                            configMapKeyRef:
+                                name: laravel-session-config-staging
+                                key: SESSION_LIFETIME
+                      - name: REDIS_HOST
+                        value: 'redis-service-staging' # Reference the Redis service inside the cluster
+                      - name: REDIS_PORT
+                        value: '6379'
+                      - name: KEYCLOAK_JWKS_URL
+                        value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB%20STAGING/protocol/openid-connect/certs'
                   resources:
                       requests:
                           memory: '256Mi'

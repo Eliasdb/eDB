@@ -1,6 +1,4 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Edb.PlatformAPI.Extensions;
 
@@ -11,29 +9,26 @@ public static class IdentityServiceExtensions
     IConfiguration config
   )
   {
+    var identitySettings = config.GetSection("Identity");
+
     services
-      .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+      .AddAuthentication(options =>
+      {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
       .AddJwtBearer(options =>
       {
-        var jwtKey = config["Jwt:Key"];
-        if (string.IsNullOrEmpty(jwtKey))
-        {
-          throw new InvalidOperationException("JWT Key is not configured.");
-        }
+        // Use the configuration values
+        options.Authority = identitySettings["Authority"];
+        options.Audience = identitySettings["Audience"];
+        options.RequireHttpsMetadata = false;
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-          ValidateIssuer = true,
-          ValidateAudience = true,
-          ValidateLifetime = true,
-          ValidateIssuerSigningKey = true,
-          ValidIssuer = config["Jwt:Issuer"],
-          ValidAudience = config["Jwt:Audience"],
-          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-        };
+        // Optional: additional token validation parameters if needed
+        // options.TokenValidationParameters = new TokenValidationParameters { ... };
       });
 
-    services.AddAuthorization();
+    // services.AddAuthorization();
 
     return services;
   }

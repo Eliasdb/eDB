@@ -5,6 +5,7 @@ metadata:
     namespace: default
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/backend-protocol: 'HTTP' # Because Keycloak listens on HTTP internally
         cert-manager.io/cluster-issuer: letsencrypt-production
         cert-manager.io/certificate-name: app-tls
 spec:
@@ -13,13 +14,23 @@ spec:
         - host: app.staging.eliasdebock.com
           http:
               paths:
-                  - path: /admin/
+                  - path: /admin
                     pathType: Prefix
                     backend:
                         service:
                             name: admin-app-staging-service
                             port:
                                 number: 80
+
+                  - path: /keycloak
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: keycloak-staging
+                            port:
+                                number: 8080
+
+                  # Catch-all for everything else => Main Angular app
                   - path: /
                     pathType: Prefix
                     backend:

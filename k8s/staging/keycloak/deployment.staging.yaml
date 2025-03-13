@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: keycloak-staging
+    labels:
+        app: keycloak-staging
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: keycloak-staging
+    template:
+        metadata:
+            labels:
+                app: keycloak-staging
+        spec:
+            containers:
+                - name: keycloak
+                  image: quay.io/keycloak/keycloak:latest
+                  command: [
+                          '/opt/keycloak/bin/kc.sh',
+                          'start',
+                          '--http-enabled=true', # Allow HTTP inside cluster
+                          '--http-port=8080', # Use standard HTTP port
+                          '--hostname-strict=false',
+                          '--proxy-headers=xforwarded',
+                      ]
+                  ports:
+                      - containerPort: 8080
+                  env:
+                      - name: KC_BOOTSTRAP_ADMIN_USERNAME
+                        value: 'admin'
+                      - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+                        value: 'admin'
+                      - name: KC_HOSTNAME
+                        value: 'app.staging.eliasdebock.com' # Set it to match the main domain
+                      - name: KC_HTTP_RELATIVE_PATH
+                        value: '/keycloak' # Use a subpath

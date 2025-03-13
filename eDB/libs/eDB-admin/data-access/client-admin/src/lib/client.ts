@@ -1,18 +1,33 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '@eDB/shared-env';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import {
+  BookQueryParams,
+  GENRE_QUERY_PARAM,
+  SEARCH_QUERY_PARAM,
+  SORT_QUERY_PARAM,
+  STATUS_QUERY_PARAM,
+} from '@eDB-webshop/util-book-params';
+import {
+  injectInfiniteQuery,
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom, map } from 'rxjs';
+
+import { RawApiDataBooks } from '@eDB-webshop/shared-types';
+import { environment } from '@eDB/shared-env';
+
+import { BookParamService } from '@eDB-webshop/util-book-params';
 import {
+  AdminStats,
   Application,
   CreateApplicationDto,
-} from './types/application-overview.model';
-import { PaginatedResponse } from './types/paged-result.model';
-import { UserProfile } from './types/user.model';
+  PaginatedResponse,
+  UserProfile,
+} from './types/admin.types';
+import { Book } from './types/book.types';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +35,9 @@ import { UserProfile } from './types/user.model';
 export class AdminService {
   private http = inject(HttpClient);
   private queryClient = inject(QueryClient);
+  private bookParamService = inject(BookParamService);
 
   // USER RELATED
-
-  /**
-   * Fetches users with given parameters.
-   * @param cursor Cursor for pagination (represents the last User's sort field value).
-   * @param searchParam Search query.
-   * @param sortParam Sort parameters in the format "field,direction".
-   * @returns Promise of PaginatedResponse.
-   */
   async queryAllUsers(
     cursor: number | string | null,
     searchParam?: string,
@@ -49,14 +57,14 @@ export class AdminService {
           ) {
             params = params.set('cursor', JSON.stringify(parsedCursor));
           } else {
-            params = params.set('cursor', cursor); // Raw string fallback
+            params = params.set('cursor', cursor);
           }
         } catch (error) {
           console.error('Failed to parse cursor:', error);
-          params = params.set('cursor', cursor); // Fallback to original cursor
+          params = params.set('cursor', cursor);
         }
       } else {
-        params = params.set('cursor', cursor.toString()); // Convert numbers to string
+        params = params.set('cursor', cursor.toString());
       }
     }
 
@@ -80,7 +88,7 @@ export class AdminService {
   }
 
   queryUserById(userId: number) {
-    const userSignal = signal<UserProfile | null>(null); // Initialize a signal
+    const userSignal = signal<UserProfile | null>(null);
     injectQuery(() => ({
       queryKey: ['user', userId],
       queryFn: async () => {
@@ -96,7 +104,7 @@ export class AdminService {
         return user;
       },
     }));
-    return userSignal; // Return the signal
+    return userSignal;
   }
 
   deleteUserMutation() {
@@ -201,11 +209,6 @@ export class AdminService {
     }));
   }
 
-  /**
-   * Maps frontend sortField to backend sortField.
-   * @param sortField Frontend sort field.
-   * @returns Backend sort field.
-   */
   public mapSortFieldToBackend(sortField: string): keyof UserProfile {
     const fieldMapping: { [key: string]: keyof UserProfile } = {
       firstname: 'firstName',
@@ -217,4 +220,134 @@ export class AdminService {
     };
     return fieldMapping[sortField.toLowerCase()] || 'id';
   }
+
+  // BOOKS
+
+  public isSheetClosed = signal<boolean>(true);
+  public selectedBooks = signal<Book[]>([]);
+  public isChecked = signal<boolean>(false);
+  public isMainChecked = signal<boolean>(false);
+  public selection: SelectionModel<Book> = new SelectionModel<Book>(true, []);
+
+  addBook() {
+    return injectMutation(() => ({
+      mutationFn: async (book: Book) => {
+        return firstValueFrom(
+          this.http.post<Book>(`${environment.bookAPIUrl}/books`, book),
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({
+          queryKey: ['ADMIN_BOOKS_INFINITE'],
+        });
+      },
+    }));
+  }
+
+  editBook() {
+    return injectMutation(() => ({
+      mutationFn: async (book: Book) => {
+        return firstValueFrom(
+          this.http.put(`${environment.bookAPIUrl}/books/${book.id}`, book),
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({
+          queryKey: ['ADMIN_BOOKS_INFINITE'],
+        });
+      },
+    }));
+  }
+
+  deleteBook() {
+    return injectMutation(() => ({
+      mutationFn: async (bookId: number) => {
+        return firstValueFrom(
+          this.http.delete<Book>(`${environment.bookAPIUrl}/books/${bookId}`),
+        );
+      },
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({
+          queryKey: ['ADMIN_BOOKS_INFINITE'],
+        });
+      },
+    }));
+  }
+
+  queryAdminStats = injectQuery(() => ({
+    queryKey: ['ADMIN_STATS'],
+    queryFn: async () =>
+      await firstValueFrom(
+        this.http
+          .get<AdminStats>(`${environment.bookAPIUrl}/admin-stats`)
+          .pipe(map((response) => response.data)),
+      ),
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+  }));
+
+  // Instead of using a manually updated mutable signal, we now derive query parameters automatically
+  // from the BookParamService signals.
+  private queryParams = computed<Partial<BookQueryParams>>(() => ({
+    search: this.bookParamService.querySignal(),
+    genre: this.bookParamService.genreSignal(),
+    status: this.bookParamService.statusSignal(),
+    sort: this.bookParamService.sortSignal(),
+  }));
+
+  // The infinite query for admin books. It automatically re-runs whenever the derived queryParams change.
+  queryAdminBooks = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
+    const paramsSignal = this.queryParams();
+    let params = new HttpParams();
+
+    if (paramsSignal.genre && paramsSignal.genre !== '') {
+      params = params.set('genre', paramsSignal.genre as string);
+    }
+    if (paramsSignal.search && paramsSignal.search !== '') {
+      params = params.set('q', paramsSignal.search as string);
+    }
+    if (paramsSignal.sort && paramsSignal.sort !== '') {
+      params = params.set('sort', paramsSignal.sort as string);
+    }
+    if (paramsSignal.status && paramsSignal.status !== '') {
+      params = params.set('status', paramsSignal.status as string);
+    }
+    // Set a default limit per page
+    const limit = 15;
+    params = params.set('limit', limit.toString());
+
+    return {
+      queryKey: [
+        'ADMIN_BOOKS_INFINITE',
+        paramsSignal[GENRE_QUERY_PARAM],
+        paramsSignal[SEARCH_QUERY_PARAM],
+        paramsSignal[STATUS_QUERY_PARAM],
+        paramsSignal[SORT_QUERY_PARAM],
+      ] as const,
+      queryFn: async (context) => {
+        // Calculate offset from the current page parameter (default is 0)
+        const offset = (context.pageParam as number | null) ?? 0;
+        const fullParams = params.set('offset', offset.toString());
+
+        return await firstValueFrom(
+          this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
+            params: fullParams,
+          }),
+        );
+      },
+      getNextPageParam: (lastPage: RawApiDataBooks) => {
+        if (lastPage.data.hasMore) {
+          const currentOffset = Number(lastPage.data.offset) || 0;
+          const pageLimit = Number(lastPage.data.limit) || limit;
+          const nextOffset = currentOffset + pageLimit;
+          return nextOffset;
+        }
+        return null;
+      },
+      initialPageParam: 0,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    };
+  });
 }

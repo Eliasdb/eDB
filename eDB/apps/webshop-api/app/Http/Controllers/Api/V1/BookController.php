@@ -4,155 +4,70 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Book;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\V1\Book\BookResource;
-use App\Http\Resources\V1\Book\BookCollection;
-
-use Illuminate\Support\Facades\DB;
+use App\Services\BookService;
 
 class BookController extends Controller
 {
+    public function __construct(
+        protected BookService $bookService
+    ) {
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $pageSize = $request->page_size ?? 15;
-        $offset = $request->offset ?? 0;
-        $limit = $request->limit ?? 15;
-        // $books = Book::offset($offset)->limit($limit)->filter()->get();
+        // Collect input for pagination/filtering
+        $pageSize = (int) $request->input('page_size', 15);
+        $offset   = (int) $request->input('offset', 0);
+        $limit    = (int) $request->input('limit', $pageSize);
 
-        if ($request->status == 'loaned') {
-            switch ($request->sort) {
-                case "title,asc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY title ASC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "title,desc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY title DESC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "author,asc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY author ASC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "author,desc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY author DESC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "published_date,asc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY published_date ASC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                case "published_date,desc":
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                        WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                        AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                        ORDER BY published_date DESC
-                        "
-                    );
-                    return new BookCollection($sql);
-                    break;
-                default:
-                    $sql = DB::select(
-                        "SELECT * FROM books 
-                            WHERE (status = 'loaned' AND genre LIKE '%$request->genre%')
-                            AND (title LIKE '%$request->q%' OR author LIKE '%$request->author%')
-                            ORDER BY title ASC
-                            "
-                    );
-                    return new BookCollection($sql);
-            }
-
+        // Build a filter array
+        $filters = [];
+        if ($request->has('status')) {
+            $filters['status'] = $request->input('status');
         }
 
-        $books = Book::skip($offset)->limit($limit)->filter()->get();
+        // Delegate to the service
+        $result = $this->bookService->getBooks($filters, $offset, $limit);
+        $books  = $result['books'];
+        $total  = $result['total'];
 
-        return new BookCollection($books);
-
+        return response()->json([
+            'data' => [
+                'items'   => BookResource::collection($books),
+                'count'   => $total,
+                'hasMore' => (($offset + $limit) < $total),
+                'offset'  => $offset,
+                'limit'   => $limit,
+            ]
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreBookRequest $request): BookResource
     {
-        //
+        $book = $this->bookService->createBook($request->validated());
+        return new BookResource($book);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBookRequest $request)
-    {
-        return new BookResource(Book::create($request->all()));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Book $book)
+    public function show(Book $book): BookResource
     {
         return new BookResource($book);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Book $book)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        $book->update($request->all());
-
+        $this->bookService->updateBook($book, $request->validated());
+        return response()->json(['message' => 'Book updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request, Book $book)
+    public function destroy(Book $book)
     {
-        $book->delete($request->all());
-
+        $this->bookService->deleteBook($book);
+        return response()->json(['message' => 'Book deleted successfully']);
     }
 }

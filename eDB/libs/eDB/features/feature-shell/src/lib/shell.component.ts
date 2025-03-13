@@ -1,137 +1,105 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { AuthService } from '@eDB/client-auth';
-import {
-  UiPlatformHeaderComponent,
-  UiPortalFooterComponent,
-} from '@eDB/shared-ui';
+import { Router, RouterModule } from '@angular/router';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { KeycloakService } from '@eDB/client-auth';
+import { NavigationService } from '@eDB/util-navigation';
+
+import { UiPlatformHeaderComponent } from '@eDB/shared-ui';
+
 import {
   I18nModule,
   NotificationService,
   PlaceholderModule,
 } from 'carbon-components-angular';
-import { filter } from 'rxjs';
 
+import { environment } from '@eDB/shared-env';
+import { MENU_OPTIONS } from './shell.config';
 @Component({
   selector: 'app-shell',
   imports: [
     RouterModule,
+    CommonModule,
     PlaceholderModule,
     I18nModule,
     UiPlatformHeaderComponent,
-    UiPortalFooterComponent,
-    CommonModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
   providers: [NotificationService],
   template: `
-    <div class="platform-layout">
+    <div class="flex flex-col min-h-[100dvh] bg-gray-100">
       <ui-platform-header
         [navigationLinks]="
-          (isAuthenticated$ | async)
-            ? isAdminApp()
-              ? adminNavigationLinks
-              : webNavigationLinks
-            : []
+          !isAuthenticated() || isAdminApp()
+            ? []
+            : ((navigationService.navigationLinks$ | async) ?? [])
         "
-        [menuOptions]="(isAuthenticated$ | async) ? menuOptions : []"
-        (linkClick)="navigateTo($event)"
+        [menuOptions]="isAuthenticated() ? menuOptions : []"
+        (linkClick)="navigationService.navigateTo($event)"
         (menuOptionSelected)="handleMenuOption($event)"
-        [isAdmin]="isAdmin$ | async"
       ></ui-platform-header>
+
       <main class="platform-content">
         <router-outlet></router-outlet>
         <cds-placeholder></cds-placeholder>
       </main>
-      @if (!(isAuthenticated$ | async)) {
-        <ui-portal-footer></ui-portal-footer>
-      }
     </div>
   `,
-  styleUrls: ['shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
+  // Services
+  navigationService = inject(NavigationService);
+  keycloakService = inject(KeycloakService);
   router = inject(Router);
-  authService = inject(AuthService);
 
-  isAuthenticated$ = this.authService.isAuthenticated();
-  isAdmin$ = this.authService.isAdmin();
+  // Auth Observables
+  isAuthenticated = this.keycloakService.authState;
+  // isAdmin$ = this.authService.isAdmin();
 
-  // Use a signal to store whether this instance is running as the admin app.
-  // Initialized to false and updated in ngOnInit.
+  // Signal to determine if this is an admin app
   isAdminApp = signal<boolean>(false);
 
-  // Navigation links for admin and web apps.
-  // For admin, we start with an empty array (to be filled later).
-  adminNavigationLinks: {
-    id: string;
-    label: string;
-    isCurrentPage: boolean;
-  }[] = [];
-  webNavigationLinks: { id: string; label: string; isCurrentPage: boolean }[] =
-    [
-      { id: 'dashboard', label: 'My eDB', isCurrentPage: false },
-      { id: 'catalog', label: 'Catalog', isCurrentPage: false },
-      { id: 'profile', label: 'Profile', isCurrentPage: false },
-    ];
-
-  // Define menu options (shared between environments)
-  menuOptions = [
-    { id: 'dashboard', label: 'My eDB' },
-    { id: 'profile', label: 'Profile' },
-    { id: 'catalog', label: 'Catalog' },
-    { id: 'logout', label: 'Logout' },
-  ];
+  // Menu options
+  menuOptions = MENU_OPTIONS;
 
   ngOnInit(): void {
-    // Detect environment.
+    this.detectAppEnvironment();
+  }
+
+  // Detect whether the app is running as admin or web
+  private detectAppEnvironment(): void {
     const hostname = window.location.hostname;
     const port = window.location.port;
+
     if (hostname === 'localhost') {
-      // Development: admin app on port 4300, web app on port 4200.
+      // For local development
       this.isAdminApp.set(port === '4300');
     } else {
-      // Production/Staging: assume admin app is served under /admin.
+      // For production/staging
       this.isAdminApp.set(window.location.pathname.startsWith('/admin'));
     }
-
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateCurrentPage();
-      });
-
-    this.updateCurrentPage();
   }
 
-  // Update current page status for the web navigation links.
-  updateCurrentPage(): void {
-    const currentRoute = this.router.url;
-    if (!this.isAdminApp()) {
-      this.webNavigationLinks = this.webNavigationLinks.map((link) => ({
-        ...link,
-        isCurrentPage: currentRoute.includes(link.id),
-      }));
-    }
-  }
-
-  // Navigate to a new route.
-  navigateTo(target: string): void {
-    this.router.navigate([target]).then(() => this.updateCurrentPage());
-  }
-
-  // Handle menu option selection.
+  // Handle menu options like logout and navigation
   handleMenuOption(optionId: string): void {
     if (optionId === 'logout') {
       this.logout();
+    }
+
+    if (optionId === 'profile') {
+      window.open(`${environment.KC.account}`, '_blank');
     } else {
-      this.navigateTo(optionId);
+      this.navigationService.navigateTo(optionId);
     }
   }
 
-  // Log out and navigate to the login page.
+  // Logout logic
   private logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.keycloakService.logout();
+    this.router.navigate(['/']);
   }
 }

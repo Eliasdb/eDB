@@ -7,7 +7,7 @@ export const featureAdminDashboardRoutes: Route[] = [
     path: 'users/:id',
     loadComponent: () =>
       import(
-        /* webpackChunkName: "user-detail" */ './components/user-detail/user-detail.page'
+        /* webpackChunkName: "user-detail" */ './components/platform/user-detail/user-detail.page'
       ).then((m) => m.UserDetailPage),
   },
 ];
