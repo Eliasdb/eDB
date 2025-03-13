@@ -93,11 +93,11 @@ By following **Layered Modular Architecture**, the system remains **scalable, te
 
 ### 3.1.4 Architecture Diagrams
 
-[**V1: Monolithic Platform App**](./docs/frontend/frontend-architecture_v5.png)
+[**V1: Monolithic Platform App**](./frontend/frontend-architecture_v5.png)
 The first model of the platform using a familiar monolithic approach.
 
-[**V2: Layered Modular Platform App and Admin App**](./docs/frontend/frontend-architecture_v6.png)
+[**V2: Layered Modular Platform App and Admin App**](./frontend/frontend-architecture_v6.png)
 This is a first attempt at more layered modular approach. I split up my pages and services into reusable and independently testable libraries. This refactor tries to follow best practices for Nx Workspaces. Tried to abstract these libraries into layers in my mental model of this trying to learn more about architecture. To learn more check out their [documentation](https://nx.dev/concepts/decisions).
 
 **V3: Layered Modular Platform App, Admin App & Webshop App**
-![Layered Modular Platform App, Admin App & Webshop App](./docs/frontend/frontend-architecture_v7.png)
+![Layered Modular Platform App, Admin App & Webshop App](./frontend/frontend-architecture_v7.png)
