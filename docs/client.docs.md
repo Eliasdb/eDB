@@ -20,30 +20,38 @@ The application follows a **Layered Modular Architecture** in Nx, designed for f
 
 #### Keycloak
 
-This server replaces my old custom made login, register and profile overview page. Which I have archived since switching to Keycloak.
+This server replaces my old custom-made login, register, and profile overview page.  
+I have archived the previous implementation since switching to Keycloak.
 
-[Login page](https://app.eliasdebock.com)
-[Register page](https://app.eliasdebock.com)
-[Profile page](https://app.eliasdebock.com/keycloak/realms/EDB%PROD/account)
+| Page         | URL                                                                          |
+| ------------ | ---------------------------------------------------------------------------- |
+| **Login**    | [Login page](https://app.eliasdebock.com)                                    |
+| **Register** | [Register page](https://app.eliasdebock.com)                                 |
+| **Profile**  | [Profile page](https://app.eliasdebock.com/keycloak/realms/EDB%PROD/account) |
 
 #### Platform App
 
--   [x] [Catalog](https://app.eliasdebock.com/catalog) → Browse available applications
--   [x] [Dashboard](https://app.eliasdebock.com) → Dashboard to manage and launch subscribed applications
--   [x] [404](https://app.eliasdebock.com/not-found) → For routes that are not found
+| Feature       | URL                                            | Description                               |
+| ------------- | ---------------------------------------------- | ----------------------------------------- |
+| **Catalog**   | [Catalog](https://app.eliasdebock.com/catalog) | Browse available applications             |
+| **Dashboard** | [Dashboard](https://app.eliasdebock.com)       | Manage and launch subscribed applications |
+| **404 Page**  | [404](https://app.eliasdebock.com/not-found)   | For routes that are not found             |
 
-[**#1 Webshop App**](https://app.eliasdebock.com/webshop/catalog)
+#### **#1 Webshop App**
 
--   [x] Overview of books with search, filtering, scroll-based pagination and sort
--   [x] Cart
--   [x] Single book page
--   [x] Order overview customer
+| Feature            | URL                                                          | Description                                             |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------- |
+| **Book Overview**  | [Book Overview](https://app.eliasdebock.com/webshop/catalog) | Search, filtering, scroll-based pagination, and sorting |
+| **Cart**           | /                                                            | Shopping cart functionality                             |
+| **Single Book**    | [Single Book](https://app.eliasdebock.com/webshop/books/1)   | Detailed page for a single book                         |
+| **Order Overview** | [Order Overview](https://app.eliasdebock.com/webshop/orders) | Customer order history                                  |
 
 #### Admin App
 
--   [x] [Admin dashboard](https://app.eliasdebock.com/admin/dashboard)
-        → To manage applications and user subscriptions.
-        → To manage items and orders in webshop.
+| Feature                | URL                                                            | Description                                    |
+| ---------------------- | -------------------------------------------------------------- | ---------------------------------------------- |
+| **Admin Dashboard**    | [Admin dashboard](https://app.eliasdebock.com/admin/dashboard) | Manage applications and user subscriptions     |
+| **Webshop Management** | N/A                                                            | Manage items and orders in webshop via a table |
 
 ### Layers of Modular Architecture
 
