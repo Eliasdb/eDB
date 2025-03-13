@@ -92,6 +92,7 @@ I am building a platform housing multiple applications. Users can make an accoun
 -   [x] **Linting + formatting**: Prettier - ESLint
 -   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
 -   [x] **API Integration**: TanStack Query
+-   [x] **Bundler**: Webpack
 
 **API**
 
