@@ -30,17 +30,18 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 #### Tech Stack
 
-| Category             | Technology                 |
-| -------------------- | -------------------------- |
-| **Monorepo**         | Nx                         |
-| **Client**           | Angular                    |
-| **API**              | .NET API, Laravel API      |
-| **Auth Server**      | Keycloak                   |
-| **Database**         | PostgreSQL                 |
-| **Containerization** | Docker                     |
-| **Orchestration**    | K3s                        |
-| **Hosting**          | Self-hosted VPS on Hetzner |
-| **CI/CD**            | GitHub Actions             |
+| Category             | Technology            |
+| -------------------- | --------------------- |
+| **Monorepo**         | Nx                    |
+| **Client**           | Angular               |
+| **API**              | .NET API, Laravel API |
+| **Auth Server**      | Keycloak              |
+| **Database**         | PostgreSQL            |
+| **Containerization** | Docker                |
+| **Orchestration**    | K3s                   |
+| **Hosting**          | VPS on Hetzner        |
+| **OS**               | Ubuntu                |
+| **CI/CD**            | GitHub Actions        |
 
 #### Achieved Goals
 
