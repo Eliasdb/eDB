@@ -13,7 +13,7 @@ import { SubscribedApplication } from '../../types/dashboard.types';
       } @else {
         <div class="subscriptions-tiles">
           @if (isLoading()) {
-            <!-- Render a fixed number of skeleton tiles while loading -->
+            <!-- Render fixed number of skeleton tiles while loading -->
             @for (i of [1]; track $index) {
               <ui-launch-tile [skeleton]="true"></ui-launch-tile>
             }
