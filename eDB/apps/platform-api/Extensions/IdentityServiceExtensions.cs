@@ -24,7 +24,7 @@ public static class IdentityServiceExtensions
         options.Audience = identitySettings["Audience"];
         options.RequireHttpsMetadata = false;
 
-        // Optional: additional token validation parameters
+        // Optional: additional token validation params
         // options.TokenValidationParameters = new TokenValidationParameters { ... };
       });
 
