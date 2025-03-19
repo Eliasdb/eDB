@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: api
-                  image: eliasdb/platform-api:v1.0.1
+                  image: eliasdb/platform-api:hotfix
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 9101
