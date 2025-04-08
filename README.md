@@ -42,6 +42,8 @@ I am building a platform housing multiple applications. Users can make an accoun
 | **Hosting**          | VPS on Hetzner        |
 | **OS**               | Ubuntu                |
 | **CI/CD**            | GitHub Actions        |
+| **File Storage**     | Cloudflare R2         |
+| **Domains & DNS**    | Cloudflare            |
 
 #### Achieved Goals
 

@@ -1,13 +1,8 @@
 .admin-page {
-  min-height: 100dvh;
-  padding: 4rem;
-  padding-top: 8rem;
+  max-height: 100dvh;
+  padding-top: 3rem;
   overflow-y: auto;
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
-  @media (max-width: 768px) {
-    padding: 8rem 0.5rem;
-  }
 }
 
 .example-container {
