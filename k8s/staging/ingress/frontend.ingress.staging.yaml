@@ -5,9 +5,12 @@ metadata:
     namespace: default
     annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-        nginx.ingress.kubernetes.io/backend-protocol: 'HTTP' # Because Keycloak listens on HTTP internally
+        nginx.ingress.kubernetes.io/backend-protocol: 'HTTP'
+        nginx.ingress.kubernetes.io/use-forwarded-headers: 'true'
         cert-manager.io/cluster-issuer: letsencrypt-production
         cert-manager.io/certificate-name: app-tls
+        nginx.ingress.kubernetes.io/proxy-set-headers: 'ingress-nginx/custom-headers'
+
 spec:
     ingressClassName: nginx
     rules:
