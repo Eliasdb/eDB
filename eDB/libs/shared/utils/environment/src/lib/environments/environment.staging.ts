@@ -7,8 +7,8 @@ export const environment = {
   KC: {
     url: 'https://app.staging.eliasdebock.com/keycloak',
     account:
-      'https://app.staging.eliasdebock.com/keycloak/realms/EDB%20STAGING/account',
-    realm: 'EDB STAGING',
+      'https://app.staging.eliasdebock.com/keycloak/realms/eDB%20-%20Staging%20/account',
+    realm: 'eDB - Staging',
     clientId: 'edb-app-staging',
   },
 };
