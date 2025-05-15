@@ -20,10 +20,13 @@ spec:
                   command: [
                           '/opt/keycloak/bin/kc.sh',
                           'start',
+                          # '--optimized',
                           '--http-enabled=true', # Allow HTTP inside cluster
                           '--http-port=8080', # Use standard HTTP port
-                          '--hostname-strict=false',
+
+                          # "--hostname=https://app.staging.eliasdebock.com/keycloak",
                           '--proxy-headers=xforwarded',
+                          '--http-relative-path=/keycloak',
                       ]
                   ports:
                       - containerPort: 8080
@@ -33,6 +36,27 @@ spec:
                       - name: KC_BOOTSTRAP_ADMIN_PASSWORD
                         value: 'admin'
                       - name: KC_HOSTNAME
-                        value: 'app.staging.eliasdebock.com' # Set it to match the main domain
-                      - name: KC_HTTP_RELATIVE_PATH
-                        value: '/keycloak' # Use a subpath
+                        value: 'https://app.staging.eliasdebock.com/keycloak'
+                      # - name: KC_HTTP_RELATIVE_PATH
+                      #   value: '/keycloak'
+
+                      # --- 🔽 PostgreSQL integration ---
+                      - name: KC_DB
+                        value: postgres
+                      - name: KC_DB_URL
+                        value: jdbc:postgresql://postgres-service-staging:5432/mydatabase
+                      - name: KC_DB_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_USER
+                      - name: KC_DB_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_PASSWORD
+                      - name: POSTGRES_DB
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_DB
