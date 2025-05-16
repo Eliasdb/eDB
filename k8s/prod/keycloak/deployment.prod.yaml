@@ -14,25 +14,54 @@ spec:
             labels:
                 app: keycloak-prod
         spec:
+            # imagePullSecrets:
+            #   - name: dockerhub-creds       # ← uncomment if the repo is private
             containers:
                 - name: keycloak
-                  image: quay.io/keycloak/keycloak:latest
-                  command: [
-                          '/opt/keycloak/bin/kc.sh',
-                          'start',
-                          '--http-enabled=true', # Allow HTTP inside cluster
-                          '--http-port=8080', # Use standard HTTP port
-                          '--hostname-strict=false',
-                          '--proxy-headers=xforwarded',
-                      ]
+                  image: eliasdb/keycloak-edb:26.2.4-v7 # ⬅ same optimised image
+                  imagePullPolicy: IfNotPresent
                   ports:
                       - containerPort: 8080
+
                   env:
+                      # bootstrap admin
                       - name: KC_BOOTSTRAP_ADMIN_USERNAME
                         value: 'admin'
                       - name: KC_BOOTSTRAP_ADMIN_PASSWORD
                         value: 'admin'
+
+                      # public URL where users reach Keycloak
                       - name: KC_HOSTNAME
-                        value: 'app.eliasdebock.com' # Set it to match the main domain
-                      - name: KC_HTTP_RELATIVE_PATH
-                        value: '/keycloak'
+                        value: 'https://app.eliasdebock.com/keycloak'
+
+                      # make your theme the default login UI
+                      - name: KC_SPI_THEME_LOGIN_DEFAULT
+                        value: 'edb-theme'
+                      # you can uncomment these if you want the theme everywhere
+                      # - name: KC_SPI_THEME_ACCOUNT_DEFAULT
+                      #   value: "edb-theme"
+                      # - name: KC_SPI_THEME_ADMIN_DEFAULT
+                      #   value: "edb-theme"
+                      # - name: KC_SPI_THEME_EMAIL_DEFAULT
+                      #   value: "edb-theme"
+
+                      # ---------- Postgres (production) ----------
+                      - name: KC_DB
+                        value: 'postgres'
+                      - name: KC_DB_URL
+                        value: 'jdbc:postgresql://postgres-service-prod:5432/mydatabase'
+                      - name: KC_DB_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-prod
+                                key: POSTGRES_USER
+                      - name: KC_DB_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-prod
+                                key: POSTGRES_PASSWORD
+                      - name: POSTGRES_DB
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-prod
+                                key: POSTGRES_DB

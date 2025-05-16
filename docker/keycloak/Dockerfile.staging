@@ -1,0 +1,33 @@
+# docker/keycloak/Dockerfile.staging
+# ---------------------------------
+# Build context is the repository root (run `docker build -f docker/keycloak/Dockerfile.staging -t ghcr.io/you/keycloak-edb:26.2.4 .`)
+# ├── keycloak/
+# │   └── themes/
+# │       └── edb-theme/         <- this is your custom theme
+# └── docker/
+#     └── keycloak/
+#         └── Dockerfile.staging
+
+# ---- builder stage -------------------------------------------------
+# docker/keycloak/Dockerfile.staging  ← NO leading spaces
+ARG KC_VERSION=26.2.4
+
+# ---------- builder -------------------------------------------------
+FROM quay.io/keycloak/keycloak:${KC_VERSION} AS builder
+USER root
+COPY --chown=1000:0 keycloak/themes/edb-theme /opt/keycloak/themes/edb-theme
+
+# Build an optimized distribution for Postgres and /keycloak path
+RUN /opt/keycloak/bin/kc.sh build \
+        --db=postgres \
+        --http-relative-path=/keycloak
+
+# ---------- runtime -------------------------------------------------
+FROM quay.io/keycloak/keycloak:${KC_VERSION}
+USER root
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
+RUN echo 'keycloak:x:1000:0:Keycloak:/opt/keycloak:/sbin/nologin' >> /etc/passwd
+USER 1000
+
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start", "--optimized", "--http-enabled=true", "--http-port=8080", "--proxy-headers=xforwarded"]
