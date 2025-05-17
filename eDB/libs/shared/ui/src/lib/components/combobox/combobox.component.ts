@@ -25,7 +25,6 @@ import { ComboBoxModule, ListItem } from 'carbon-components-angular';
       (selected)="selected.emit($event)"
       (submit)="submit.emit($event)"
       (clear)="clear.emit($event)"
-      class="rounded-md"
     >
       <cds-dropdown-list></cds-dropdown-list>
     </cds-combo-box>
@@ -56,7 +55,7 @@ export class UiComboboxComponent {
   ]);
 
   // Allowed themes: "light" or "dark". Default is "dark".
-  readonly theme = input<'light' | 'dark'>('dark');
+  readonly theme = input<'light' | 'dark'>('light');
 
   // Allowed selectionFeedback: "top", "fixed", or "top-after-reopen". Default is "top".
   readonly selectionFeedback = input<'top' | 'fixed' | 'top-after-reopen'>(

@@ -50,7 +50,7 @@ export class UiPlatformOverflowMenuComponent {
 
   readonly icon = input<string>('');
   readonly iconSize = input<string>('1rem');
-  readonly iconColor = input<string>('black');
+  readonly iconColor = input<string>('white');
 
   @Output() menuOptionSelected = new EventEmitter<string>(); // Emits the id of the selected menu option
 
