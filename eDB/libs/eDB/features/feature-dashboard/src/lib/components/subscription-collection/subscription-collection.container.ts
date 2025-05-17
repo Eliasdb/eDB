@@ -7,7 +7,7 @@ import { SubscribedApplication } from '../../types/dashboard.types';
   selector: 'platform-subscription-collection',
   imports: [UiLaunchTileComponent],
   template: `
-    <div class="subscriptions-container">
+    <div class="subscriptions-container pt-6">
       @if (error()) {
         <p>Error loading subscriptions: {{ error() }}</p>
       } @else {
