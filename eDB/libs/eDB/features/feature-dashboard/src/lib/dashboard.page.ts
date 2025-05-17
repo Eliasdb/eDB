@@ -10,11 +10,11 @@ import { SubscriptionsCollectionContainer } from './components/subscription-coll
     UiDropdownComponent,
   ],
   template: `
-    <section class="pt-32">
-      <div class="w-[80%] mx-auto flex flex-col gap-8">
+    <section class="pt-[7rem]">
+      <div class="px-6 flex flex-col gap-8">
         <!-- Title Section -->
         <section class="title">
-          <h1 class="text-4xl text-[#1f2937]">My products</h1>
+          <h1 class=" text-3xl text-[#1f2937]">My apps</h1>
         </section>
 
         <!-- Toolbar Container -->
