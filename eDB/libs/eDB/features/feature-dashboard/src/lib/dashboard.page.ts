@@ -14,7 +14,7 @@ import { SubscriptionsCollectionContainer } from './components/subscription-coll
       <div class="w-[80%] mx-auto flex flex-col gap-8">
         <!-- Title Section -->
         <section class="title">
-          <h1 class="text-4xl">My products</h1>
+          <h1 class="text-4xl text-[#1f2937]">My products</h1>
         </section>
 
         <!-- Toolbar Container -->

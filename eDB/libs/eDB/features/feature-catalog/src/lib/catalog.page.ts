@@ -8,58 +8,25 @@ import { ListItem, NotificationService } from 'carbon-components-angular';
   imports: [UiTileComponent, UiComboboxComponent],
   template: `
     <section
-      class="relative bg-white flex flex-col items-center min-h-screen pt-32 px-4 overflow-hidden"
+      class="relative bg-white flex flex-col items-center min-h-screen pt-20  overflow-hidden"
     >
-      <!-- Background Shapes for a futuristic look with breathing animation -->
-      <!-- Neon rotated polygon -->
-      <div
-        class="absolute top-[-12rem] left-[-12rem] w-96 h-96 opacity-30 animate-pulse"
-        style="background: linear-gradient(135deg, #0f62fe, #6f2da8); clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%); transform: rotate(20deg);"
-      ></div>
-      <!-- Large neon circle -->
-      <div
-        class="absolute bottom-[-16rem] right-[-16rem] w-[36rem] h-[36rem] rounded-full opacity-20 animate-pulse"
-        style="background: radial-gradient(circle, #0f62fe, #00d7c3, transparent);"
-      ></div>
-      <!-- Futuristic rotated rectangle -->
-      <div
-        class="absolute top-20 right-[-10rem] w-80 h-48 opacity-40 animate-pulse "
-        style="background: linear-gradient(90deg, #da1e28, #0f62fe); transform: rotate(-15deg);"
-      ></div>
-      <!-- Neon diamond shape -->
-      <div
-        class="absolute bottom-24 left-[-8rem] w-64 h-64 opacity-40 animate-bounce"
-        style="background: linear-gradient(135deg, #00d7c3, #0f62fe); transform: rotate(45deg);"
-      ></div>
-      <!-- Vertical neon stripe -->
-      <div
-        class="absolute top-0 right-0 h-full w-6 opacity-30 animate-bounce"
-        style="background: linear-gradient(180deg, #f1c21b, transparent);"
-      ></div>
-
       <!-- Header & ComboBox -->
       <section
-        class="relative z-10 w-full max-w-[80rem] grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
+        class="relative z-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-6  bg-[#1f2937]"
       >
         <section>
-          <h3 class="mb-4">Catalog</h3>
+          <h3 class="my-4 mt-8">Catalog</h3>
           <ui-combobox label="Filter by tags." [items]="items"></ui-combobox>
         </section>
-        <div></div>
       </section>
 
       <!-- Catalog tiles -->
-      <section class="relative z-10 w-full max-w-[80rem] mt-8 mb-16 ">
+      <section class="relative z-10 w-full mt-8 mb-16 px-6">
         @if (!isLoading()) {
           @if (catalog() && catalog().length > 0) {
-            <div class=" grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 ">
+            <div class=" grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <!-- Reserve first cell with an invisible tile for layout -->
-              <ui-tile
-                title="hidden"
-                description="hidden tile"
-                class="hidden lg:block lg:invisible
-"
-              ></ui-tile>
+
               @for (item of catalog(); track item.name) {
                 <ui-tile
                   [title]="item.name"

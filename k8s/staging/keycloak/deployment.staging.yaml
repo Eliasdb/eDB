@@ -19,8 +19,7 @@ spec:
             #   - name: dockerhub-creds
             containers:
                 - name: keycloak
-                  # ⬅️  NEW: your custom image hosted on Docker Hub
-                  image: eliasdb/keycloak-edb:26.2.4-v7
+                  image: eliasdb/keycloak-edb:26.2.4-v9
                   imagePullPolicy: IfNotPresent
 
                   ports:

@@ -39,22 +39,24 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
         <cds-header-global class="overflow-hidden">
           <!-- Toggle button: text and target URL depend on environment -->
           @if (targetButtonText && targetUrl) {
-            <div class="admin-btn flex justify-center items-center">
+            <div class="admin-btn flex justify-center items-center mr-4">
               <a [href]="targetUrl">
-                <ui-button size="sm" [icon]="'faArrowRight'">
+                <ui-button size="sm" variant="ghost" icon="faArrowRight">
                   {{ targetButtonText }}
                 </ui-button>
               </a>
             </div>
           }
-          <ui-platform-overflow-menu
-            placement="bottom"
-            icon="faUser"
-            [menuOptions]="menuOptions()"
-            [flip]="true"
-            [offset]="{ x: 0, y: 0 }"
-            (menuOptionSelected)="menuOptionSelected.emit($event)"
-          ></ui-platform-overflow-menu>
+          <div class="flex items-center">
+            <ui-platform-overflow-menu
+              placement="bottom"
+              icon="faUser"
+              [menuOptions]="menuOptions()"
+              [flip]="true"
+              [offset]="{ x: 0, y: 14 }"
+              (menuOptionSelected)="menuOptionSelected.emit($event)"
+            ></ui-platform-overflow-menu>
+          </div>
         </cds-header-global>
       }
     </cds-header>
@@ -63,13 +65,24 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
     <ng-template #brandTemplate>
       <a class="cds--header__name">
         <span class="cds--header__name--prefix">
-          <div class="logo -ml-2">
-            <img
-              src="https://i.ibb.co/7QfqfYc/logo.png"
-              alt="eDB logo"
-              width="70"
-              height="35"
-            />
+          <div class="logo flex gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-omega"
+            >
+              <path
+                d="M3 20h4.5a.5.5 0 0 0 .5-.5v-.282a.52.52 0 0 0-.247-.437 8 8 0 1 1 8.494-.001.52.52 0 0 0-.247.438v.282a.5.5 0 0 0 .5.5H21"
+              ></path>
+            </svg>
+            <span>eDB</span>
           </div>
         </span>
       </a>
@@ -79,7 +92,7 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
 export class UiPlatformHeaderComponent implements OnInit {
   readonly isAdmin = input<boolean | null>();
   readonly name = input<string>('eDB');
-  readonly class = input<string>();
+  readonly class = input<string>('container max-w-6xl');
 
   readonly hasHamburger = input<boolean>(false);
   readonly navigationLinks = input<

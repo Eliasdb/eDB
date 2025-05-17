@@ -18,6 +18,9 @@ html {
 	--input-focus: rgb(16, 15, 15);
 	--header-bg: #fefefe;
 	--shadow-color: rgba(0, 0, 0, 0.05);
+	--btn-hover: #293648;
+	--a-hover: #293648;
+	--btn-bg: var(--accent-complimentary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,20 +36,27 @@ html {
 
 		--accent: rgba(225, 205, 247, 0.1);
 		--accent-2: rgba(0, 0, 0, 0.9);
-		--accent-3: #f1f6fd;
+		--accent-3: #0a0a0a;
 
 		--accent-complimentary: rgb(0 0 0 / 10%);
 		--accent-complimentary-2: rgba(255, 255, 255, 0.9);
 		--about-bg: rgb(0, 0, 0);
-		--form-border: var(--accent);
-		--input-focus: rgb(65, 65, 65);
+		--form-border: rgba(220, 193, 254, 0.4);
+		--input-focus: #596f8c;
 		--header-bg: #0e1014;
 		--shadow-color: rgba(255, 255, 255, 0.1);
+		--btn-hover: rgb(255 255 255 / 100%);
+		--a-hover: rgb(255 255 255);
+		--btn-bg: rgba(255, 255, 255, 0.9);
 	}
 }
 
 .login-pf {
 	background: none;
+}
+
+.pf-c-button.pf-m-control:hover {
+	--pf-c-button--m-control--BackgroundColor: inherit;
 }
 
 .login-pf body {
@@ -83,6 +93,11 @@ textarea.pf-c-form-control {
 
 .pf-c-alert__title {
 	font-size: var(--pf-global--FontSize--xs);
+	color: inherit;
+}
+
+.form-group.login-pf-settings {
+	display: none;
 }
 
 p.instruction {
@@ -98,15 +113,20 @@ p.instruction {
 }
 
 .pf-c-button.pf-m-primary {
-	background-color: var(--accent-complimentary);
+	background-color: var(--btn-bg);
 	color: var(--accent-3);
 	border-radius: 0.5rem;
-	padding: 1rem 0;
+	padding: 0.9rem 0;
 	/* font-size: 1rem; */
+	letter-spacing: -0.04em;
 	font-size: 1rem;
 	line-height: 1.25rem;
 	font-weight: 500;
 	border: 1px solid rgba(220, 193, 254, 0.4);
+}
+
+.pf-c-button.pf-m-primary:hover {
+	background-color: var(--btn-hover);
 }
 
 .form-group label {
@@ -170,7 +190,7 @@ button#kc-current-locale-link::after {
 }
 
 .login-pf a:hover {
-	color: #0099d3;
+	color: var(--a-hover);
 }
 
 #kc-logo {
@@ -298,7 +318,8 @@ div.kc-logo-text span {
 /* TOTP */
 
 .required {
-	color: var(--pf-global--danger-color--200);
+	--pf-global--danger-color--200: #ffbebe;
+	font-size: 0.75rem;
 }
 
 ol#kc-totp-settings {
@@ -467,8 +488,17 @@ ul#kc-totp-supported-apps {
 		padding-right: 80px;
 	}
 
+	.login-pf-page {
+		display: flex;
+		align-items: center;
+		min-height: 100vh;
+	}
+
 	.login-pf-page .card-pf {
 		padding: 0;
+		border-radius: 0.5rem;
+		max-width: 500px;
+		margin: 0 auto;
 	}
 
 	#kc-locale {
@@ -483,6 +513,9 @@ ul#kc-totp-supported-apps {
 }
 
 @media (max-width: 767px) {
+	h1#kc-page-title {
+		font-size: 2rem;
+	}
 	#kc-header {
 		/* padding: 1rem 1.5rem; */
 		padding: 0;
@@ -538,6 +571,9 @@ ul#kc-totp-supported-apps {
 	.col-md-10 {
 		padding-left: 1.5rem;
 	}
+	.form-group label {
+		font-size: 14px;
+	}
 }
 
 @media (min-height: 646px) {
@@ -559,7 +595,7 @@ ul#kc-totp-supported-apps {
 }
 
 #kc-form-buttons {
-	margin-top: 20px;
+	margin-top: 3rem;
 }
 
 #kc-header-wrapper::before {
@@ -646,10 +682,10 @@ ul#kc-totp-supported-apps {
 }
 
 .card-pf {
-	margin: 0 auto;
+	/* margin: 0 auto; */
 	box-shadow: var(--pf-global--BoxShadow--md);
 	padding: 0 20px;
-	max-width: 500px;
+
 	background-color: var(--accent-2);
 	border-radius: 0.5rem;
 	padding: 0rem;
@@ -789,6 +825,7 @@ textarea.pf-c-form-control {
 	border-bottom-width: 1px;
 	box-sizing: border-box;
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+	height: 2.5rem;
 }
 
 input.pf-c-form-control:focus,
@@ -798,7 +835,7 @@ input[type='password']:focus,
 textarea.pf-c-form-control:focus {
 	outline: none;
 	border: none;
-	border: 1px solid #9a9da1;
+	border: 1px solid var(--input-focus);
 	color: var(--muted-foreground);
 }
 
@@ -838,7 +875,15 @@ textarea[disabled] {
 	border-bottom-width: 1px !important;
 }
 
+.pf-c-button.pf-m-control:focus {
+	--pf-c-button--m-control--BackgroundColor: inherit;
+}
+
 .fa.fa-eye {
+	color: var(--foreground);
+}
+
+.fa.fa-eye-slash {
 	color: var(--foreground);
 }
 
@@ -849,15 +894,6 @@ textarea[disabled] {
 @media (min-width: 767px) {
 	.login-pf-header {
 		padding: 0 2rem;
-	}
-
-	.login-pf-page {
-		padding-top: 0px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 100vh;
 	}
 }
 
@@ -871,4 +907,15 @@ a {
 }
 a:focus {
 	outline: none;
+}
+
+a:focus,
+a:hover {
+	color: #556974;
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.pf-c-form-control[aria-invalid='true'] {
+	--pf-c-form-control--invalid--BorderBottomWidth: 1px;
 }
