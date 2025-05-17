@@ -21,7 +21,7 @@
   --cds-button-primary: #f1f6fd;
   --cds-text-on-color: var(--accent-complimentary);
   --cds-icon-primary: white;
-  --cds-layer-hover-01: rgba(141, 141, 141, 0.12);
+  --cds-layer-hover-01: var(--accent);
   --cds-focus: transparent;
   --shadow-color: rgba(255, 255, 255, 0.1);
 }
@@ -79,6 +79,8 @@ a.cds--header__name {
 
 .cds--btn--ghost {
   color: white;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .cds--btn--primary:hover,
@@ -99,24 +101,41 @@ a.cds--header__name {
   border-radius: 0.375rem !important;
 }
 
-.cds--btn--ghost:hover,
+/* .cds--btn--ghost:hover,
 .cds--btn--ghost:active {
   color: rgba(255, 255, 255, 0.829);
+} */
+
+/* .cds--overflow-menu.cds--overflow-menu--open:hover,
+.cds--overflow-menu.cds--overflow-menu--open:active {
+  background-color: rgba(209, 7, 7, 0.12);
+} */
+
+.cds--overflow-menu:hover {
+  background-color: rgba(141, 141, 141, 0.12);
 }
 
-.cds--overflow-menu.cds--overflow-menu--open:hover,
-.cds--overflow-menu.cds--overflow-menu--open:active {
-  background-color: rgba(141, 141, 141, 0.12);
+.cds--search-input,
+.cds--dropdown {
+  border: 1px solid rgb(229 231 235 / 1);
+  --cds-text-primary: var(--accent-complimentary);
+}
+
+.cds--overflow-menu-options__btn:hover {
+  --cds-text-primary: var(--accent-complimentary);
 }
 
 a.cds--header__menu-item {
   --cds-text-secondary: white;
-  padding: 1rem 1rem 0px 1rem;
+  padding: 2.5rem 1rem 0px 1rem;
 }
 
+.cds--overflow-menu-options {
+  background: white;
+}
 .cds--overflow-menu-options__btn {
   font-size: 15px;
-  --cds-text-secondary: rgba(255, 255, 255, 0.828);
+  --cds-text-secondary: rgba(0, 0, 0, 0.828);
 }
 
 .cds--side-nav__icon {
@@ -291,7 +310,7 @@ cds-skeleton-text p {
 }
 
 .cds--overflow-menu {
-  block-size: var(--cds-layout-size-height-local);
+  block-size: 5rem;
 }
 
 @keyframes overlayFadeIn {

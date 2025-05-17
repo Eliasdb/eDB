@@ -47,13 +47,13 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
               </a>
             </div>
           }
-          <div class="flex items-center">
+          <div class="flex items-center pr-6">
             <ui-platform-overflow-menu
               placement="bottom"
               icon="faUser"
               [menuOptions]="menuOptions()"
               [flip]="true"
-              [offset]="{ x: 0, y: 14 }"
+              [offset]="{ x: 24, y: 0 }"
               (menuOptionSelected)="menuOptionSelected.emit($event)"
             ></ui-platform-overflow-menu>
           </div>
