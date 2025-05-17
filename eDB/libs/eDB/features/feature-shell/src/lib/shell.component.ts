@@ -31,7 +31,7 @@ import { MENU_OPTIONS } from './shell.config';
   ],
   providers: [NotificationService],
   template: `
-    <div class="flex flex-col min-h-[100dvh] bg-gray-100">
+    <div class="flex flex-col min-h-[100dvh] bg-white">
       <ui-platform-header
         [navigationLinks]="
           !isAuthenticated() || isAdminApp()

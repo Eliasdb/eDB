@@ -22,7 +22,7 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
       [isExpressive]="isExpressive()"
       [type]="type()"
     >
-      <span class="button-text">
+      <span class="button-text text-sm">
         <ng-content></ng-content>
       </span>
 
