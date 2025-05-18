@@ -1,0 +1,188 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: black !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  caret-color: lightgreen !important;
+}
+
+.mdc-label {
+  color: black !important;
+  font-size: 12px !important;
+}
+
+.mat-bottom-sheet-container {
+  background: #24262b !important;
+}
+
+.mat-mdc-card {
+  background: white !important;
+}
+
+.mdc-tab__text-label {
+  color: #24262b !important;
+}
+
+.mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color: lightgreen !important;
+}
+
+.mat-mdc-tab-group {
+  --mdc-tab-indicator-active-indicator-color: #7b1fa2;
+  --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
+  --mat-tab-header-pagination-icon-color: #fff;
+  --mat-tab-header-inactive-label-text-color: rgba(255, 255, 255, 0.6);
+  --mat-tab-header-active-label-text-color: black;
+  --mat-tab-header-active-ripple-color: red !important;
+  --mat-tab-header-inactive-ripple-color: lightgreen !important;
+  --mat-tab-header-inactive-focus-label-text-color: rgba(255, 255, 255, 0.6);
+  --mat-tab-header-inactive-hover-label-text-color: rgba(255, 255, 255, 0.6);
+  --mat-tab-header-active-focus-label-text-color: #7b1fa2;
+  --mat-tab-header-active-hover-label-text-color: #7b1fa2;
+  --mat-tab-header-active-focus-indicator-color: #7b1fa2;
+  --mat-tab-header-active-hover-indicator-color: #7b1fa2;
+}
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+  background-color: lightgreen !important;
+}
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
+  color: black !important;
+}
+
+.mat-step-icon-selected,
+.mat-step-icon-state-edit {
+  background-color: lightgreen !important;
+  color: black !important;
+}
+
+html {
+  --mat-switch-label-text-color: black !important;
+  --mdc-filled-text-field-caret-color: lightgreen !important;
+  --mdc-filled-text-field-focus-active-indicator-color: lightgreen !important;
+  --mdc-filled-text-field-focus-label-text-color: rgba(123, 31, 162, 0.87);
+  --mdc-filled-text-field-container-color: #4a4a4a;
+  --mdc-filled-text-field-disabled-container-color: #464646;
+  --mdc-filled-text-field-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-filled-text-field-hover-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-filled-text-field-disabled-label-text-color: rgba(255, 255, 255, 0.38);
+  --mdc-filled-text-field-input-text-color: rgba(255, 255, 255, 0.87);
+  --mdc-filled-text-field-disabled-input-text-color: rgba(255, 255, 255, 0.38);
+  --mdc-filled-text-field-input-text-placeholder-color: rgba(
+    255,
+    255,
+    255,
+    0.6
+  );
+  --mdc-filled-text-field-error-hover-label-text-color: #f44336;
+  --mdc-filled-text-field-error-focus-label-text-color: #f44336;
+  --mdc-filled-text-field-error-label-text-color: #f44336;
+  --mdc-filled-text-field-error-caret-color: #f44336;
+  --mdc-filled-text-field-active-indicator-color: rgba(255, 255, 255, 0.42);
+  --mdc-filled-text-field-disabled-active-indicator-color: rgba(
+    255,
+    255,
+    255,
+    0.06
+  );
+  --mdc-filled-text-field-hover-active-indicator-color: rgba(
+    255,
+    255,
+    255,
+    0.87
+  );
+  --mdc-filled-text-field-error-active-indicator-color: #f44336;
+  --mdc-filled-text-field-error-focus-active-indicator-color: #f44336;
+  --mdc-filled-text-field-error-hover-active-indicator-color: #f44336;
+  --mdc-outlined-text-field-caret-color: lightgreen !important;
+  --mdc-outlined-text-field-focus-outline-color: lightgreen !important;
+  --mdc-outlined-text-field-focus-label-text-color: rgba(123, 31, 162, 0.87);
+  --mdc-outlined-text-field-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-outlined-text-field-hover-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-outlined-text-field-disabled-label-text-color: rgba(
+    255,
+    255,
+    255,
+    0.38
+  );
+  --mdc-outlined-text-field-input-text-color: rgba(255, 255, 255, 0.87);
+  --mdc-outlined-text-field-disabled-input-text-color: rgba(
+    255,
+    255,
+    255,
+    0.38
+  );
+  --mdc-outlined-text-field-input-text-placeholder-color: rgba(
+    255,
+    255,
+    255,
+    0.6
+  );
+  --mdc-outlined-text-field-error-caret-color: #f44336;
+  --mdc-outlined-text-field-error-focus-label-text-color: #f44336;
+  --mdc-outlined-text-field-error-label-text-color: #f44336;
+  --mdc-outlined-text-field-error-hover-label-text-color: #f44336;
+  --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.38);
+  --mdc-outlined-text-field-disabled-outline-color: rgba(255, 255, 255, 0.06);
+  --mdc-outlined-text-field-hover-outline-color: rgba(255, 255, 255, 0.87);
+  --mdc-outlined-text-field-error-focus-outline-color: #f44336;
+  --mdc-outlined-text-field-error-hover-outline-color: #f44336;
+  --mdc-outlined-text-field-error-outline-color: #f44336;
+  --mat-form-field-focus-select-arrow-color: rgba(123, 31, 162, 0.87);
+  --mat-form-field-disabled-input-text-placeholder-color: rgba(
+    255,
+    255,
+    255,
+    0.38
+  );
+  --mat-form-field-state-layer-color: rgba(255, 255, 255, 0.87);
+  --mat-form-field-error-text-color: #f44336;
+  --mat-form-field-select-option-text-color: rgba(0, 0, 0, 0.87);
+  --mat-form-field-select-disabled-option-text-color: rgba(0, 0, 0, 0.38);
+  --mat-form-field-leading-icon-color: unset;
+  --mat-form-field-disabled-leading-icon-color: unset;
+  --mat-form-field-trailing-icon-color: unset;
+  --mat-form-field-disabled-trailing-icon-color: unset;
+  --mat-form-field-error-focus-trailing-icon-color: unset;
+  --mat-form-field-error-hover-trailing-icon-color: unset;
+  --mat-form-field-error-trailing-icon-color: unset;
+  --mat-form-field-enabled-select-arrow-color: rgba(255, 255, 255, 0.54);
+  --mat-form-field-disabled-select-arrow-color: rgba(255, 255, 255, 0.38);
+  --mat-form-field-hover-state-layer-opacity: 0.08;
+  --mat-form-field-focus-state-layer-opacity: 0.24;
+}
+
+.mat-stepper-vertical {
+  border-radius: 0px 0px 3px 3px !important;
+}
+
+.mat-stepper-vertical,
+.mat-stepper-horizontal {
+  background-color: #24262b !important;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+label.mdc-label {
+  color: black;
+}/*# sourceMappingURL=styles.css.map */
