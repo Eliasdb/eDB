@@ -39,8 +39,6 @@ export class UiPlatformOverflowMenuComponent {
     {
       id: string;
       label: string;
-      external?: boolean;
-      url?: string;
     }[]
   >([]);
 
@@ -76,17 +74,8 @@ export class UiPlatformOverflowMenuComponent {
     this.isMenuOpen = false;
   }
 
-  handleOptionSelect(option: {
-    id: string;
-    external?: boolean;
-    url?: string;
-  }): void {
+  handleOptionSelect(option: { id: string }): void {
     this.isMenuOpen = false;
-
-    if (option.external && option.url) {
-      window.location.href = option.url; // opens in same tab
-      return;
-    }
 
     this.onOptionClick(option.id);
   }

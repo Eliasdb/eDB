@@ -10,4 +10,11 @@ export const environment = {
     realm: 'EDB PROD',
     clientId: 'edb-app-prod',
   },
+  // environment.staging.ts
+  moduleFederationRemotes: [
+    {
+      name: 'eDBAccountUi',
+      entry: 'https://app.eliasdebock.com/account/mf-manifest.json',
+    },
+  ],
 };
