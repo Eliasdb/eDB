@@ -18,7 +18,7 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
       description=""
     >
       @for (option of menuOptions(); track option.id) {
-        <cds-overflow-menu-option (click)="onOptionClick(option.id)">
+        <cds-overflow-menu-option (selected)="handleOptionSelect(option)">
           {{ option.label }}
         </cds-overflow-menu-option>
       }
@@ -39,8 +39,11 @@ export class UiPlatformOverflowMenuComponent {
     {
       id: string;
       label: string;
+      external?: boolean;
+      url?: string;
     }[]
   >([]);
+
   readonly placement = input<'bottom' | 'top'>('bottom');
   readonly flip = input<boolean>(true);
   readonly offset = input<{
@@ -71,5 +74,20 @@ export class UiPlatformOverflowMenuComponent {
 
   onMenuSelect(event: any): void {
     this.isMenuOpen = false;
+  }
+
+  handleOptionSelect(option: {
+    id: string;
+    external?: boolean;
+    url?: string;
+  }): void {
+    this.isMenuOpen = false;
+
+    if (option.external && option.url) {
+      window.location.href = option.url; // opens in same tab
+      return;
+    }
+
+    this.onOptionClick(option.id);
   }
 }
