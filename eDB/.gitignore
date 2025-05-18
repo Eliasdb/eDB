@@ -19,6 +19,8 @@ node_modules
 
 *.env*
 *.css
+!styles.css
+
 *.css.map
 
 # IDE - VSCode
