@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-builders/custom-webpack:browser",
+      "executor": "@nx/angular:webpack-browser",
       "options": {
         "outputPath": "dist/apps/eDB",
         "main": "apps/eDB/src/main.ts",
@@ -29,9 +29,8 @@
         "stylePreprocessorOptions": {
           "includePaths": ["./node_modules", "/libs/shared/ui/src/lib/styles/"]
         },
-
         "customWebpackConfig": {
-          "path": "apps/eDB/webpack.config.js"
+          "path": "apps/eDB/webpack.config.ts"
         },
         "namedChunks": false
       },
@@ -53,10 +52,12 @@
           "fileReplacements": [
             {
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-
               "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB/webpack.prod.config.ts"
+          }
         },
         "staging": {
           "optimization": true,
@@ -83,10 +84,11 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-builders/custom-webpack:dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
       "options": {
         "port": 4200,
-        "proxyConfig": "apps/eDB/proxy.conf.json"
+        "proxyConfig": "apps/eDB/proxy.conf.json",
+        "publicHost": "http://localhost:4200"
       },
       "configurations": {
         "production": {

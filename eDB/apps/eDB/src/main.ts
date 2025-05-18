@@ -1,21 +1,13 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { KeycloakService } from '@eDB/client-auth';
-import { AppComponent } from './app/app.component';
-import { appConfig } from './app/app.config';
+/******************************************************************
+ *  main.ts
+ ******************************************************************/
+import { environment } from '@eDB/shared-env'; // adjust path to your env
+import { init } from '@module-federation/enhanced/runtime';
 
-const keycloakService = new KeycloakService();
-
-keycloakService.init().then((authenticated) => {
-  if (authenticated) {
-    console.log('✅ Keycloak authentication successful');
-    bootstrapApplication(AppComponent, {
-      ...appConfig,
-      providers: [
-        ...appConfig.providers,
-        { provide: KeycloakService, useValue: keycloakService },
-      ],
-    }).catch((err) => console.error(err));
-  } else {
-    console.error('❌ Keycloak authentication failed');
-  }
+// Register MF runtime
+init({
+  name: 'eDB',
+  remotes: environment.moduleFederationRemotes,
 });
+
+import('./bootstrap').catch((err) => console.error(err));
