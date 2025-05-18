@@ -53,6 +53,10 @@
             {
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
               "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
+            },
+            {
+              "replace": "apps/eDB/src/app/mfe-envs/environment.ts",
+              "with": "apps/eDB/src/app/mfe-envs/environment.prod.ts"
             }
           ],
           "customWebpackConfig": {
@@ -66,6 +70,10 @@
             {
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
               "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
+            },
+            {
+              "replace": "apps/eDB/src/app/mfe-envs/environment.ts",
+              "with": "apps/eDB/src/app/mfe-envs/environment.staging.ts"
             }
           ]
         },
