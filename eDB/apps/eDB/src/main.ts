@@ -1,9 +1,9 @@
 /******************************************************************
  *  main.ts
  ******************************************************************/
-import { init } from '@module-federation/enhanced/runtime';
 
-// Register MF runtime
+import { init } from '@module-federation/enhanced/runtime';
+import { environment } from '../src/app/mfe-envs/environment';
 
 async function start() {
   try {
@@ -12,7 +12,7 @@ async function start() {
       remotes: [
         {
           name: 'eDBAccountUi',
-          entry: 'http://localhost:4301/mf-manifest.json',
+          entry: environment.remotes.eDBAccountUi,
         },
       ],
     });
@@ -24,5 +24,3 @@ async function start() {
 }
 
 start();
-
-import('./bootstrap').catch((err) => console.error(err));
