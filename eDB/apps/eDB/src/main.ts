@@ -1,13 +1,28 @@
 /******************************************************************
  *  main.ts
  ******************************************************************/
-import { environment } from '@eDB/shared-env'; // adjust path to your env
 import { init } from '@module-federation/enhanced/runtime';
 
 // Register MF runtime
-init({
-  name: 'eDB',
-  remotes: environment.moduleFederationRemotes,
-});
+
+async function start() {
+  try {
+    init({
+      name: 'eDB',
+      remotes: [
+        {
+          name: 'eDBAccountUi',
+          entry: 'http://localhost:4301/mf-manifest.json',
+        },
+      ],
+    });
+
+    await import('./bootstrap');
+  } catch (err) {
+    console.error('❌ MF init failed:', err);
+  }
+}
+
+start();
 
 import('./bootstrap').catch((err) => console.error(err));
