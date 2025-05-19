@@ -5,6 +5,10 @@
   "prefix": "app",
   "sourceRoot": "apps/eDB/src",
   "tags": [],
+  "allowedCommonJsDependencies": [
+    "flatpickr",
+    "flatpickr/dist/plugins/rangePlugin"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
