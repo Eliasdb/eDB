@@ -19,10 +19,10 @@ spec:
         spec:
             containers:
                 - name: edb-account-ui
-                  image: eliasdb/edb-account-ui:${IMAGE_TAG}
+                  image: eliasdb/edbaccountui:${IMAGE_TAG}
                   imagePullPolicy: Always
                   ports:
-                      - containerPort: 4201
+                      - containerPort: 80
                         protocol: TCP
                   env:
                       - name: NODE_ENV
@@ -30,7 +30,7 @@ spec:
                   readinessProbe:
                       httpGet:
                           path: /
-                          port: 4201
+                          port: 80
                       initialDelaySeconds: 5
                       periodSeconds: 10
                       timeoutSeconds: 5
@@ -38,7 +38,7 @@ spec:
                   livenessProbe:
                       httpGet:
                           path: /
-                          port: 4201
+                          port: 80
                       initialDelaySeconds: 15
                       periodSeconds: 20
                       timeoutSeconds: 5
