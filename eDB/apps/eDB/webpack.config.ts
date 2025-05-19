@@ -50,10 +50,15 @@ export default async function (config, context) {
 
   // ✅ Required for module type loading via <script type="module">
   merged.plugins.forEach((plugin) => {
-    if (plugin.constructor.name === 'HtmlWebpackPlugin') {
-      plugin.options.scriptLoading = 'module';
+    const name = plugin.constructor.name;
+    if (name === 'HtmlWebpackPlugin' || name === 'IndexHtmlWebpackPlugin') {
+      // Angular's builder puts the template config here:
+      const userOpts = (plugin as any).userOptions;
+      if (userOpts) {
+        userOpts.scriptLoading = 'module'; // for entry scripts
+        userOpts.chunksLoading = 'module'; // for styles.js & all others
+      }
     }
   });
-
   return merged;
 }
