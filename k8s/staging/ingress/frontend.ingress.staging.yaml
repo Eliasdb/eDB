@@ -37,9 +37,9 @@ spec:
                     pathType: Prefix
                     backend:
                         service:
-                        name: edb-account-ui-staging-service
-                        port:
-                            number: 80
+                            name: account-ui-staging-service
+                            port:
+                                number: 80
 
                   # Catch-all for everything else => Main Angular app
                   - path: /
