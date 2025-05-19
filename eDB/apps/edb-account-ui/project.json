@@ -13,7 +13,7 @@
         "compiler": "babel",
         "outputPath": "dist/apps/edb-account-ui",
         "index": "apps/edb-account-ui/src/index.html",
-        "baseHref": "/",
+        "baseHref": "/account/",
         "main": "apps/edb-account-ui/src/main.ts",
         "tsConfig": "apps/edb-account-ui/tsconfig.app.json",
         "assets": [
