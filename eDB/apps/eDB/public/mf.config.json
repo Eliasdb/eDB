@@ -1,9 +1,0 @@
-{
-  "remotes": [
-    {
-      "name": "eDBAccountUi",
-      "entry": "http://localhost:4301/mf-manifest.json"
-    }
-  ],
-  "apiBaseUrl": "https://staging.example.com/api"
-}
