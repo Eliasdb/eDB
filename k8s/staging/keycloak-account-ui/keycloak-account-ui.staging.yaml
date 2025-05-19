@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: edb-account-ui
-                  image: eliasdb/edb-account-ui:${IMAGE_TAG}
+                  image: eliasdb/edbaccountui:pr-231-staging
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
