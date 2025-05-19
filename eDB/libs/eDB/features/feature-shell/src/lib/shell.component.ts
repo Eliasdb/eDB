@@ -88,10 +88,8 @@ export class ShellComponent implements OnInit {
   handleMenuOption(optionId: string): void {
     if (optionId === 'logout') {
       this.logout();
-    }
-
-    if (optionId === 'profile') {
-      window.open(`${environment.KC.account}`, '_blank');
+    } else if (optionId === 'profile') {
+      window.location.assign(environment.KC.account); // Same tab, clean redirect
     } else {
       this.navigationService.navigateTo(optionId);
     }

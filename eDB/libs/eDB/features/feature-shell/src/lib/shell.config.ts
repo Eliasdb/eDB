@@ -1,6 +1,9 @@
 export const MENU_OPTIONS = [
   { id: '', label: 'My eDB' },
   { id: 'catalog', label: 'Catalog' },
-  { id: 'profile', label: 'Profile' },
+  {
+    id: 'account',
+    label: 'Account',
+  },
   { id: 'logout', label: 'Logout' },
 ];
