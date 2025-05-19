@@ -1,5 +1,4 @@
 import { withModuleFederation } from '@nx/module-federation/angular';
-import { join } from 'path';
 import mf from './module-federation.config';
 
 export default async function (config, context) {
@@ -21,22 +20,22 @@ export default async function (config, context) {
     },
   };
 
-  if (context?.configuration !== 'production') {
-    // ✅ Strip import.meta with Babel for emitted `.js`
-    merged.module.rules.push({
-      test: /\.m?js$/,
-      include: [join(__dirname, '../../')],
-      use: {
-        loader: 'babel-loader',
-        options: {
-          babelrc: false,
-          configFile: false,
-          presets: [],
-          plugins: ['@babel/plugin-syntax-import-meta'], // no transform plugin needed
-        },
-      },
-    });
-  }
+  // if (context?.configuration !== 'production') {
+  //   // ✅ Strip import.meta with Babel for emitted `.js`
+  //   merged.module.rules.push({
+  //     test: /\.m?js$/,
+  //     include: [join(__dirname, '../../')],
+  //     use: {
+  //       loader: 'babel-loader',
+  //       options: {
+  //         babelrc: false,
+  //         configFile: false,
+  //         presets: [],
+  //         plugins: ['@babel/plugin-syntax-import-meta'], // no transform plugin needed
+  //       },
+  //     },
+  //   });
+  // }
 
   // ✅ Output tweaks for development vs production
   if (context?.configuration === 'production') {
