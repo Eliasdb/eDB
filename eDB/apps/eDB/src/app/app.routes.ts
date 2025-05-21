@@ -32,7 +32,7 @@ export const routes: Route[] = [
       {
         path: 'account',
         component: WrapperComponent,
-        canActivate: [AuthGuard], // optional
+        canActivate: [AuthGuard],
       },
     ],
   },
