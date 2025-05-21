@@ -163,6 +163,7 @@
     "storybook": "^8.4.7",
     "style-loader": "^3.3.4",
     "tailwindcss": "3.4.3",
+    "tailwindcss-animate": "^1.0.7",
     "tapable": "^2.2.2",
     "to-string-loader": "^1.2.0",
     "ts-jest": "^29.2.5",

@@ -36,7 +36,7 @@ export function NavProjects({
   }[];
   onSelectProject: (project: any) => void;
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpen, setOpenMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -48,6 +48,11 @@ export function NavProjects({
               onClick={(e) => {
                 e.preventDefault();
                 onSelectProject(item);
+                if (isMobile) {
+                  setOpenMobile(false); // ✅ Close mobile sidebar
+                } else {
+                  setOpen(false); // ✅ Close desktop sidebar
+                }
               }}
             >
               <item.icon />
