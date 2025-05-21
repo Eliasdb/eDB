@@ -83,7 +83,7 @@ export default function App() {
           <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
             {renderContent()}
             <div className="mt-6 p-4 bg-muted rounded border">
-              <h3 className="font-semibold mb-2">Token (Debug View)</h3>
+              <h3 className="font-semibold mb-2">Token (Debug View??)</h3>
               <code className="text-xs break-all whitespace-pre-wrap">
                 {token ?? 'No token found'}
               </code>
