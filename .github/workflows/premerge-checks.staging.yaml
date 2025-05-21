@@ -164,7 +164,7 @@ jobs:
 
                     if [ "$app" = "eDB-user-account" ]; then
                       echo "Skipping Docker build for $app"
-                      exit 0
+                      continue
                     fi
 
                     echo "Building Docker image for: $lower_app"
