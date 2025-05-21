@@ -130,13 +130,6 @@ jobs:
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
                   echo "Affected Apps: $AFFECTED_APPS"
 
-                  # Build eDB-user-account first if affected
-                  if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
-                    echo "Building React app eDB-user-account with Vite"
-                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts
-                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts
-                  fi
-
                   # Loop through each affected app
                   for app in $AFFECTED_APPS; do
                     echo "🔧 Processing app: $app"
@@ -153,7 +146,7 @@ jobs:
                     if [ "$lower_app" = "webshop-api" ]; then
                       echo "⚠️ Skipping nx build for $app"
                     elif [ "$app" = "eDB-user-account" ]; then
-                      echo "⚠️ Skipping nx build for $app (handled by Vite earlier)"
+                      echo "⚠️ Skipping nx build for $app (handled by Vite in eDB build dependency)"
                     else
                       echo "🏗️ Building $app with Nx"
                       if [ "$app" = "eDB-admin" ]; then
