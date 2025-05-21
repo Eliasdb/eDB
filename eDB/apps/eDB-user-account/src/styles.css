@@ -141,11 +141,3 @@ main {
     @apply bg-background text-foreground;
   }
 }
-
-[role='dialog'] {
-  background-color: white;
-  color: black;
-}
-:root {
-  --sidebar-width: 18rem;
-}
