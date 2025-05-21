@@ -139,19 +139,23 @@ jobs:
 
                   # Loop through each affected app
                   for app in $AFFECTED_APPS; do
-                    echo "Processing app: $app"
+                    echo "🔧 Processing app: $app"
+
+                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
                     # Skip Docker build for eDB-webshop (part of main app)
-                    if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "edb-webshop" ]; then
-                      echo "Skipping Docker build and push for eDB-webshop"
+                    if [ "$lower_app" = "edb-webshop" ]; then
+                      echo "⚠️ Skipping Docker build and push for $app"
                       continue
                     fi
 
-                    # Skip build step for webshop-api
-                    if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "webshop-api" ]; then
-                      echo "Skipping nx build for webshop-api"
+                    # Skip nx build for webshop-api (but keep Docker step)
+                    if [ "$lower_app" = "webshop-api" ]; then
+                      echo "⚠️ Skipping nx build for $app"
+                    elif [ "$app" = "eDB-user-account" ]; then
+                      echo "⚠️ Skipping nx build for $app (handled by Vite earlier)"
                     else
-                      # Build Angular app with correct configuration
+                      echo "🏗️ Building $app with Nx"
                       if [ "$app" = "eDB-admin" ]; then
                         pnpm nx run $app:build --configuration=staging --base-href=/admin/ --deploy-url=/admin/
                       else
@@ -159,15 +163,25 @@ jobs:
                       fi
                     fi
 
-                    # Docker build and push
-                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+                    # 🔍 DEBUG: List output directory contents before Docker build
+                    if [ "$app" = "eDB" ]; then
+                      echo "📂 Listing dist/apps/eDB/assets/eDB-user-account:"
+                      ls -lh dist/apps/eDB/assets/eDB-user-account || echo "⚠️ Folder missing"
+                    fi
 
+                    # Skip Docker build for eDB-user-account (served by Angular)
                     if [ "$app" = "eDB-user-account" ]; then
-                      echo "Skipping Docker build for $app"
+                      echo "⚠️ Skipping Docker build for $app"
                       continue
                     fi
 
-                    echo "Building Docker image for: $lower_app"
+                    echo "🐳 Building Docker image for: $lower_app"
                     docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
+
+                    echo "🚀 Pushing Docker image: eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
                     docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
+
+                    # 🔍 DEBUG: Show built Docker context (optional)
+                    echo "📦 Contents of Docker build context:"
+                    find dist/apps/$app | head -n 20
                   done
