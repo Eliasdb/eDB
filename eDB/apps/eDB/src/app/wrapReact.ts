@@ -1,36 +1,43 @@
-// libs/react-wrapper/src/lib/wrap-react.ts
 import {
-  AfterViewInit,
+  AfterContentInit,
   Component,
   ElementRef,
-  OnDestroy,
-  Type,
+  inject,
   ViewChild,
 } from '@angular/core';
-import React from 'react';
-import * as ReactDOM from 'react-dom/client';
+import { ActivatedRoute } from '@angular/router';
+import { KeycloakService } from '@eDB/client-auth';
 
-const cache = new WeakMap<any, Type<any>>();
+@Component({
+  template: '<div #vc></div>',
+})
+export class WrapperComponent implements AfterContentInit {
+  @ViewChild('vc', { read: ElementRef, static: true }) vc!: ElementRef;
 
-export function wrapReact(ReactComponent: any): Type<any> {
-  if (cache.has(ReactComponent)) return cache.get(ReactComponent)!;
+  constructor(private route: ActivatedRoute) {}
 
-  @Component({
-    standalone: true,
-    template: '<div #root></div>',
-  })
-  class ReactBridge implements AfterViewInit, OnDestroy {
-    @ViewChild('root', { static: true }) root!: ElementRef<HTMLDivElement>;
-    private reactRoot!: ReactDOM.Root;
-    ngAfterViewInit() {
-      this.reactRoot = ReactDOM.createRoot(this.root.nativeElement);
-      this.reactRoot.render(React.createElement(ReactComponent));
+  private keycloakService = inject(KeycloakService);
+
+  async ngAfterContentInit(): Promise<void> {
+    // Only inject the script if the custom element is not yet defined
+    if (!customElements.get('home-react')) {
+      await this.loadScript('/assets/eDB-user-account/eDB-user-account.js');
     }
-    ngOnDestroy() {
-      this.reactRoot?.unmount();
-    }
+
+    const token = this.keycloakService.authState().token; // ✅ safely get token
+    const el = document.createElement('home-react');
+    if (token) el.setAttribute('data-token', token);
+
+    this.vc.nativeElement.appendChild(el);
   }
 
-  cache.set(ReactComponent, ReactBridge);
-  return ReactBridge;
+  private loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.body.appendChild(script);
+    });
+  }
 }

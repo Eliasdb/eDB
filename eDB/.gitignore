@@ -54,3 +54,4 @@ obj
 
 storybook-static
 vite.config.*.timestamp*
+vitest.config.*.timestamp*

@@ -1,16 +1,9 @@
 import { Route } from '@angular/router';
 
-import { loadRemote } from '@module-federation/enhanced/runtime';
 import { AuthGuard } from './guards/auth.guard';
-import { wrapReact } from './wrapReact';
+import { WrapperComponent } from './wrapReact';
 
 export const routes: Route[] = [
-  // {
-  //   path: 'eDBAccountUi',
-  //   loadChildren: () =>
-  //     import('eDBAccountUi/Routes').then((m) => m!.remoteRoutes),
-  // },
-
   {
     path: '',
     canActivate: [AuthGuard],
@@ -38,12 +31,8 @@ export const routes: Route[] = [
       },
       {
         path: 'account',
-        canActivate: [AuthGuard],
-        loadComponent: () =>
-          loadRemote<{ default: any }>('eDBAccountUi/Module').then((r) => {
-            if (!r) throw new Error('remote not found');
-            return wrapReact(r.default); // 👈 single line
-          }),
+        component: WrapperComponent,
+        canActivate: [AuthGuard], // optional
       },
     ],
   },

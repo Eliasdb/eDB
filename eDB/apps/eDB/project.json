@@ -5,12 +5,13 @@
   "prefix": "app",
   "sourceRoot": "apps/eDB/src",
   "tags": [],
-  "allowedCommonJsDependencies": [
-    "flatpickr",
-    "flatpickr/dist/plugins/rangePlugin"
-  ],
+
   "targets": {
     "build": {
+      "allowedCommonJsDependencies": [
+        "flatpickr",
+        "flatpickr/dist/plugins/rangePlugin"
+      ],
       "executor": "@nx/angular:webpack-browser",
       "options": {
         "outputPath": "dist/apps/eDB",
@@ -23,6 +24,11 @@
           {
             "glob": "**/*",
             "input": "apps/eDB/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "dist/apps/eDB-user-account/assets",
+            "output": "assets/eDB-user-account"
           }
         ],
         "scripts": [],
@@ -33,10 +39,8 @@
         "stylePreprocessorOptions": {
           "includePaths": ["./node_modules", "/libs/shared/ui/src/lib/styles/"]
         },
-        "customWebpackConfig": {
-          "path": "apps/eDB/webpack.config.ts"
-        },
-        "namedChunks": false
+
+        "namedChunks": true
       },
       "configurations": {
         "production": {
@@ -64,7 +68,7 @@
             }
           ],
           "customWebpackConfig": {
-            "path": "apps/eDB/webpack.prod.config.ts"
+            "path": "apps/eDB/webpack.config.js"
           }
         },
         "staging": {
@@ -96,7 +100,11 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:module-federation-dev-server",
+      "allowedCommonJsDependencies": [
+        "flatpickr",
+        "flatpickr/dist/plugins/rangePlugin"
+      ],
+      "executor": "@nx/angular:dev-server",
       "options": {
         "port": 4200,
         "proxyConfig": "apps/eDB/proxy.conf.json",

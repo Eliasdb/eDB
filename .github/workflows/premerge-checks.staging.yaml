@@ -130,21 +130,28 @@ jobs:
                   AFFECTED_APPS=$(pnpm nx show projects --affected --type=app --base=origin/dev --head=HEAD --plain)
                   echo "Affected Apps: $AFFECTED_APPS"
 
+                  # Build eDB-user-account first if affected
+                  if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
+                    echo "Building React app eDB-user-account with Vite"
+                    pnpm vite build --config apps/eDB-user-account/vite.config.ts
+                    pnpm vite build --config apps/eDB-user-account/vite.styles.config.ts
+                  fi
+
                   # Loop through each affected app
                   for app in $AFFECTED_APPS; do
                     echo "Processing app: $app"
 
-                    # Check if the app is eDB-webshop (case insensitive) and skip Docker image build/push if so
+                    # Skip Docker build for eDB-webshop (part of main app)
                     if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "edb-webshop" ]; then
-                      echo "Skipping Docker build and push for eDB-webshop, as it is part of the main app."
+                      echo "Skipping Docker build and push for eDB-webshop"
                       continue
                     fi
 
-                    # If the app is "webshop-api" (case insensitive), skip the nx build step
+                    # Skip build step for webshop-api
                     if [ "$(echo "$app" | tr '[:upper:]' '[:lower:]')" = "webshop-api" ]; then
-                      echo "Skipping nx build for webshop-api; building Docker image directly."
+                      echo "Skipping nx build for webshop-api"
                     else
-                      # Build with special configuration for eDB-admin
+                      # Build Angular app with correct configuration
                       if [ "$app" = "eDB-admin" ]; then
                         pnpm nx run $app:build --configuration=staging --base-href=/admin/ --deploy-url=/admin/
                       else
@@ -152,8 +159,14 @@ jobs:
                       fi
                     fi
 
-                    # Build Docker image for all apps, including webshop-api
+                    # Docker build and push
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+
+                    if [ "$app" = "eDB-user-account" ]; then
+                      echo "Skipping Docker build for $app"
+                      exit 0
+                    fi
+
                     echo "Building Docker image for: $lower_app"
                     docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
                     docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}

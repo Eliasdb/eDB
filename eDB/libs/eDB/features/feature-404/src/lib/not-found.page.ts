@@ -8,7 +8,7 @@ import { IconModule } from 'carbon-components-angular';
   imports: [UiButtonComponent, IconModule],
   template: `
     <div
-      class="min-h-screen flex flex-col justify-center items-center bg-white px-4"
+      class="min-h-screen flex flex-col justify-center items-center bg-white px-4 border-r"
     >
       <h1 class="text-5xl font-normal">404</h1>
       <img
