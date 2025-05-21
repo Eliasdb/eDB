@@ -7,20 +7,48 @@
   "// targets": "to see all targets run: nx show project eDB-user-account --web",
   "targets": {
     "build": {
-      "executor": "@nx/vite:build",
+      "executor": "nx:run-commands",
       "options": {
-        "outputPath": "dist/apps/eDB-user-account",
-        "configFile": "apps/eDB-user-account/vite.config.ts"
+        "commands": [
+          {
+            "command": "pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts"
+          },
+          {
+            "command": "pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts"
+          }
+        ],
+        "parallel": false
       },
       "configurations": {
         "production": {
-          "mode": "production"
+          "commands": [
+            {
+              "command": "pnpm vite build --mode production --config apps/eDB-user-account/vite.config.ts"
+            },
+            {
+              "command": "pnpm vite build --mode production --config apps/eDB-user-account/vite.styles.config.ts"
+            }
+          ]
         },
         "staging": {
-          "mode": "staging"
+          "commands": [
+            {
+              "command": "pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts"
+            },
+            {
+              "command": "pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts"
+            }
+          ]
         },
         "development": {
-          "mode": "development"
+          "commands": [
+            {
+              "command": "pnpm vite build --mode development --config apps/eDB-user-account/vite.config.ts"
+            },
+            {
+              "command": "pnpm vite build --mode development --config apps/eDB-user-account/vite.styles.config.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
