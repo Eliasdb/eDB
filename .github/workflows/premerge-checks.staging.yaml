@@ -161,6 +161,12 @@ jobs:
 
                     # Docker build and push
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+
+                    if [ "$app" = "eDB-user-account" ]; then
+                      echo "Skipping Docker build for $app"
+                      exit 0
+                    fi
+
                     echo "Building Docker image for: $lower_app"
                     docker build --platform linux/arm64 -f docker/$app/Dockerfile.staging -t eliasdb/$lower_app:${{ needs.version.outputs.image_tag }} .
                     docker push eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}
