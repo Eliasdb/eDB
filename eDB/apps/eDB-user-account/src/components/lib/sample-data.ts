@@ -63,7 +63,7 @@ export const sampleData = {
     },
   ],
   projects: [
-    { name: 'Design Engineering', url: '#', icon: Frame },
+    { name: 'Personal Info', url: '#', icon: Frame },
     { name: 'Sales & Marketing', url: '#', icon: PieChart },
     { name: 'Travel', url: '#', icon: Map },
   ],

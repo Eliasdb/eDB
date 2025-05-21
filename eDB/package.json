@@ -48,6 +48,7 @@
     "@radix-ui/react-slot": "^1.2.2",
     "@radix-ui/react-tooltip": "^1.2.6",
     "@tanstack/angular-query-experimental": "^5.62.2",
+    "@tanstack/react-query": "^5.76.1",
     "agent-base": "^7.1.3",
     "carbon-components-angular": "^5.56.5",
     "chart.js": "^4.4.8",

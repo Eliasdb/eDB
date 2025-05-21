@@ -2,9 +2,11 @@ import {
   AfterContentInit,
   Component,
   ElementRef,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { KeycloakService } from '@eDB/client-auth';
 
 @Component({
   template: '<div #vc></div>',
@@ -14,13 +16,18 @@ export class WrapperComponent implements AfterContentInit {
 
   constructor(private route: ActivatedRoute) {}
 
+  private keycloakService = inject(KeycloakService);
+
   async ngAfterContentInit(): Promise<void> {
     // Only inject the script if the custom element is not yet defined
     if (!customElements.get('home-react')) {
       await this.loadScript('/assets/eDB-user-account/eDB-user-account.js');
     }
 
+    const token = this.keycloakService.authState().token; // ✅ safely get token
     const el = document.createElement('home-react');
+    if (token) el.setAttribute('data-token', token);
+
     this.vc.nativeElement.appendChild(el);
   }
 
