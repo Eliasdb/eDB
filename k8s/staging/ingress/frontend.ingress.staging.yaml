@@ -33,13 +33,13 @@ spec:
                             port:
                                 number: 8080
 
-                  - path: /account
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: account-ui-staging-service
-                            port:
-                                number: 80
+                  #   - path: /account
+                  #     pathType: Prefix
+                  #     backend:
+                  #         service:
+                  #             name: account-ui-staging-service
+                  #             port:
+                  #                 number: 80
 
                   # Catch-all for everything else => Main Angular app
                   - path: /
