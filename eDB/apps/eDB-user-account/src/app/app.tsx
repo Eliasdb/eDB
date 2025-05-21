@@ -37,14 +37,18 @@ export default function App() {
     setToken(resolvedToken);
 
     if (resolvedToken) {
-      fetch(
-        'http://localhost:8080/realms/eDB/protocol/openid-connect/userinfo',
-        {
-          headers: {
-            Authorization: `Bearer ${resolvedToken}`,
-          },
+      const authBaseUrl =
+        import.meta.env.VITE_AUTH_BASE_URL ?? 'http://localhost:8080';
+      const realm = encodeURIComponent(
+        import.meta.env.VITE_REALM_NAME ?? 'eDB',
+      );
+      const userInfoUrl = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/userinfo`;
+
+      fetch(userInfoUrl, {
+        headers: {
+          Authorization: `Bearer ${resolvedToken}`,
         },
-      )
+      })
         .then((res) => res.json())
         .then((data) => {
           setUserInfo({
@@ -55,7 +59,7 @@ export default function App() {
           });
         })
         .catch((err) => {
-          console.error('Failed to fetch user infooo:', err);
+          console.error('Failed to fetch user info:', err);
         });
     }
   }, []);
@@ -76,14 +80,14 @@ export default function App() {
       <SidebarProvider>
         <AppSidebar onSelectProject={setSelectedProject} />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 mt-[5rem]">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-6 mt-[5rem]">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
+          <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto">
             {renderContent()}
             <div className="mt-6 p-4 bg-muted rounded border">
-              <h3 className="font-semibold mb-2">Token (Debug View??)</h3>
+              <h3 className="font-semibold mb-2">Token (Debug View)</h3>
               <code className="text-xs break-all whitespace-pre-wrap">
                 {token ?? 'No token found'}
               </code>

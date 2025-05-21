@@ -133,8 +133,8 @@ jobs:
                   # Build eDB-user-account first if affected
                   if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
                     echo "Building React app eDB-user-account with Vite"
-                    pnpm vite build --config apps/eDB-user-account/vite.config.ts
-                    pnpm vite build --config apps/eDB-user-account/vite.styles.config.ts
+                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts
+                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts
                   fi
 
                   # Loop through each affected app

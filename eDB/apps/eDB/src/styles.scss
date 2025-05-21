@@ -50,5 +50,7 @@ cds-header.webshop-header header.cds--header {
   background-color: white;
   color: black;
   margin-top: 5rem;
-  width: 18rem;
+  border-radius: 0.35rem;
+  border-top-left-radius: 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }

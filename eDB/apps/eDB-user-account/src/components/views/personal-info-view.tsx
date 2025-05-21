@@ -47,7 +47,7 @@ export function PersonalInfoView({ userInfo }: Props) {
   }
 
   return (
-    <section className="rounded-xl bg-muted/50 p-6 md:min-h-min">
+    <section className="rounded-xl bg-muted/50 md:min-h-min">
       <h2 className="text-xl font-semibold">Personal Info</h2>
       <p className="text-sm text-muted-foreground mb-4">
         Manage your basic information

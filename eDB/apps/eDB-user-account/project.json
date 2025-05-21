@@ -5,5 +5,43 @@
   "projectType": "application",
   "tags": [],
   "// targets": "to see all targets run: nx show project eDB-user-account --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "options": {
+        "outputPath": "dist/apps/eDB-user-account",
+        "configFile": "apps/eDB-user-account/vite.config.ts"
+      },
+      "configurations": {
+        "production": {
+          "mode": "production"
+        },
+        "staging": {
+          "mode": "staging"
+        },
+        "development": {
+          "mode": "development"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "options": {
+        "configFile": "apps/eDB-user-account/vite.config.ts"
+      },
+      "configurations": {
+        "production": {
+          "mode": "production"
+        },
+        "staging": {
+          "mode": "staging"
+        },
+        "development": {
+          "mode": "development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
 }

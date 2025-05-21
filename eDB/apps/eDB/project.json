@@ -6,6 +6,8 @@
   "sourceRoot": "apps/eDB/src",
   "tags": [],
 
+  "implicitDependencies": ["eDB-user-account"],
+
   "targets": {
     "build": {
       "allowedCommonJsDependencies": [
