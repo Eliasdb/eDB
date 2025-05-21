@@ -15,7 +15,7 @@ import { UiTagComponent } from '../tag/tag.component';
   ],
   template: `
     <cds-tile
-      class="launch-tile p-0 border-t-[5px] border-t-[#1f2937] border border-width-2 relative block w-full h-full overflow-hidden"
+      class="launch-tile p-0  border-t-[#1f2937] border border-width-2 border-t-[5px] relative block w-full h-full overflow-hidden"
     >
       @if (skeleton()) {
         <div class="skeleton-placeholder absolute inset-0 z-10">

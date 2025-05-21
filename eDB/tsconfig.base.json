@@ -79,7 +79,8 @@
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
       ],
-      "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"]
+      "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
+      "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["tmp"]

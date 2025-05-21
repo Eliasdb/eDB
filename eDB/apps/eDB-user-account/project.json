@@ -1,0 +1,9 @@
+{
+  "name": "eDB-user-account",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/eDB-user-account/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project eDB-user-account --web",
+  "targets": {}
+}
