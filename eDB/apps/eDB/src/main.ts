@@ -1,26 +1,21 @@
-/******************************************************************
- *  main.ts
- ******************************************************************/
+import { bootstrapApplication } from '@angular/platform-browser';
+import { KeycloakService } from '@eDB/client-auth';
+import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
 
-import { init } from '@module-federation/enhanced/runtime';
-import { environment } from '../src/app/mfe-envs/environment';
+const keycloakService = new KeycloakService();
 
-async function start() {
-  try {
-    init({
-      name: 'eDB',
-      remotes: [
-        {
-          name: 'eDBAccountUi',
-          entry: environment.remotes.eDBAccountUi,
-        },
+keycloakService.init().then((authenticated) => {
+  if (authenticated) {
+    console.log('✅ Keycloak authentication successful');
+    bootstrapApplication(AppComponent, {
+      ...appConfig,
+      providers: [
+        ...appConfig.providers,
+        { provide: KeycloakService, useValue: keycloakService },
       ],
-    });
-
-    await import('./bootstrap');
-  } catch (err) {
-    console.error('❌ MF init failed:', err);
+    }).catch((err) => console.error(err));
+  } else {
+    console.error('❌ Keycloak authentication failed');
   }
-}
-
-start();
+});

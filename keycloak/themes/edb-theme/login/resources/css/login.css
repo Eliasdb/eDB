@@ -71,7 +71,7 @@ html {
 		Segoe UI Symbol, Noto Color Emoji;
 	margin: 0;
 	padding: 0;
-	letter-spacing: -0.04em;
+	letter-spacing: 0;
 	line-height: 1.625;
 	font-size: 1.125rem;
 	-webkit-font-smoothing: antialiased;
@@ -118,7 +118,7 @@ p.instruction {
 	border-radius: 0.5rem;
 	padding: 0.9rem 0;
 	/* font-size: 1rem; */
-	letter-spacing: -0.04em;
+	letter-spacing: 0em;
 	font-size: 1rem;
 	line-height: 1.25rem;
 	font-weight: 500;
