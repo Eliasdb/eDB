@@ -55,7 +55,7 @@ export default function App() {
           });
         })
         .catch((err) => {
-          console.error('Failed to fetch user info:', err);
+          console.error('Failed to fetch user infooo:', err);
         });
     }
   }, []);

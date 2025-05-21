@@ -24,7 +24,7 @@ export class WrapperComponent implements AfterContentInit {
       await this.loadScript('/assets/eDB-user-account/eDB-user-account.js');
     }
 
-    const token = this.keycloakService.authState().token; // ✅ safely get token
+    const token = this.keycloakService.authState().token;
     const el = document.createElement('home-react');
     if (token) el.setAttribute('data-token', token);
 
