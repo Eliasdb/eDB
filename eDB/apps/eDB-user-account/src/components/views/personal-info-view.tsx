@@ -1,17 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { getToken, updateUserInfo, type UserInfo } from '../lib/user-service';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
 type Props = {
-  userInfo?: {
-    email: string;
-    given_name: string;
-    family_name: string;
-    preferred_username: string;
-  } | null;
+  userInfo?: UserInfo | null;
 };
 
 export function PersonalInfoView({ userInfo }: Props) {
@@ -22,14 +18,23 @@ export function PersonalInfoView({ userInfo }: Props) {
     lastName: '',
   });
 
+  const [initialFormData, setInitialFormData] = React.useState({
+    username: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+  });
+
   React.useEffect(() => {
     if (userInfo) {
-      setFormData({
+      const filled = {
         username: userInfo.preferred_username || '',
         email: userInfo.email || '',
         firstName: userInfo.given_name || '',
         lastName: userInfo.family_name || '',
-      });
+      };
+      setFormData(filled);
+      setInitialFormData(filled);
     }
   }, [userInfo]);
 
@@ -42,32 +47,41 @@ export function PersonalInfoView({ userInfo }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const token = sessionStorage.getItem('access_token');
-    // const res = await fetch('http://localhost:5098/api/profile/update', {
-    const res = await fetch(
-      'https://api.staging.eliasdebock.com/platform/api/profile/update',
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      },
-    );
+    const token = await getToken();
+    if (!token) {
+      alert('No access token found.');
+      return;
+    }
 
-    const result = await res.json();
-    if (res.ok) {
+    if (JSON.stringify(formData) === JSON.stringify(initialFormData)) {
+      alert('No changes detected.');
+      return;
+    }
+
+    try {
+      const result = await updateUserInfo(
+        {
+          username: formData.username,
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        },
+        token,
+      );
       alert(result.message);
-    } else {
-      alert(result.message || 'Update failed');
+      setInitialFormData(formData); // update baseline after successful save
+    } catch (err: any) {
+      alert(err.message || 'Update failed');
     }
   }
+
+  const isUnchanged =
+    JSON.stringify(formData) === JSON.stringify(initialFormData);
 
   return (
     <section className="rounded-xl bg-muted/50 md:min-h-min">
       <h2 className="text-xl font-semibold">Personal Info</h2>
-      <p className="text-sm text-muted-foreground mb-4">
+      <p className="text-sm text-muted-foreground mb-8">
         Manage your basic information
       </p>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,7 +127,9 @@ export function PersonalInfoView({ userInfo }: Props) {
             />
           </div>
         </div>
-        <Button type="submit">Save Changes</Button>
+        <Button type="submit" disabled={isUnchanged}>
+          Save Changes
+        </Button>
       </form>
     </section>
   );

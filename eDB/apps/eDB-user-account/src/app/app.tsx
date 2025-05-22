@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+
+// UI
 import { AppSidebar } from '../components/app-sidebar';
 import { sampleData } from '../components/lib/sample-data';
 import { Separator } from '../components/ui/separator';
@@ -9,69 +11,42 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '../components/ui/sidebar';
-
 import { AccountSettingsView } from '../components/views/account-settings-view';
 import { PersonalInfoView } from '../components/views/personal-info-view';
 import { PlaceholderView } from '../components/views/placeholder-view';
 
-export default function App() {
-  const [selectedProject, setSelectedProject] = React.useState<
-    (typeof sampleData.projects)[number] | null
-  >(sampleData.projects[0]);
+// Data-access
+import {
+  fetchUserInfo,
+  getToken,
+  type UserInfo,
+} from '../components/lib/user-service';
 
+export default function App() {
+  const [selectedProject, setSelectedProject] = React.useState(
+    sampleData.projects[0],
+  );
   const [token, setToken] = React.useState<string | null>(null);
-  const [userInfo, setUserInfo] = React.useState<null | {
-    email: string;
-    given_name: string;
-    family_name: string;
-    preferred_username: string;
-  }>(null);
+  const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
 
   React.useEffect(() => {
-    const tokenFromAttr = document
-      .querySelector('home-react')
-      ?.getAttribute('data-token');
-    const tokenFromStorage = sessionStorage.getItem('access_token');
-    const resolvedToken = tokenFromAttr || tokenFromStorage;
+    getToken().then((resolvedToken) => {
+      if (!resolvedToken) return;
+      setToken(resolvedToken);
 
-    setToken(resolvedToken);
-
-    if (resolvedToken) {
-      const authBaseUrl =
-        import.meta.env.VITE_AUTH_BASE_URL ?? 'http://localhost:8080';
-      const realm = encodeURIComponent(
-        import.meta.env.VITE_REALM_NAME ?? 'eDB',
-      );
-      // const userInfoUrl = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/userinfo`;
-      // const userInfoUrl = 'http://localhost:5098/api/profile/userinfo';
-      const userInfoUrl =
-        'https://api.staging.eliasdebock.com/platform/api/profile/userinfo';
-
-      fetch(userInfoUrl, {
-        headers: {
-          Authorization: `Bearer ${resolvedToken}`,
-        },
-      })
-        .then((res) => res.json())
+      fetchUserInfo(resolvedToken)
         .then((data) => {
-          setUserInfo({
-            email: data.email,
-            given_name: data.given_name,
-            family_name: data.family_name,
-            preferred_username: data.preferred_username,
-          });
+          if (data) setUserInfo(data);
         })
-        .catch((err) => {
-          console.error('Failed to fetch user info:', err);
-        });
-    }
+        .catch((err) => console.error('Failed to fetch user info:', err));
+    });
   }, []);
 
   function renderContent() {
     switch (selectedProject?.name) {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
-      case 'Account Settings':
+      case 'Account Security':
         return <AccountSettingsView />;
       default:
         return <PlaceholderView title={selectedProject?.name ?? 'Home'} />;
@@ -89,12 +64,6 @@ export default function App() {
           </header>
           <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto">
             {renderContent()}
-            <div className="mt-6 p-4 bg-muted rounded border">
-              <h3 className="font-semibold mb-2">Token (Debug View)</h3>
-              <code className="text-xs break-all whitespace-pre-wrap">
-                {token ?? 'No token found'}
-              </code>
-            </div>
           </div>
         </SidebarInset>
       </SidebarProvider>
