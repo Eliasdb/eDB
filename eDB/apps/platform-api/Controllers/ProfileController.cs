@@ -64,8 +64,8 @@ namespace Edb.PlatformAPI.Controllers
       );
 
       var response = await httpClient.GetAsync(
-        // "https://app.staging.eliasdebock.com/keycloak/realms/EDB%20STAGING/protocol/openid-connect/userinfo"
-        "http://localhost:8080/realms/eDB/protocol/openid-connect/userinfo"
+        "https://app.staging.eliasdebock.com/keycloak/realms/EDB%20STAGING/protocol/openid-connect/userinfo"
+      // "http://localhost:8080/realms/eDB/protocol/openid-connect/userinfo"
       );
 
       if (!response.IsSuccessStatusCode)
