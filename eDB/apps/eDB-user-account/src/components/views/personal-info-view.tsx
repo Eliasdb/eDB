@@ -40,10 +40,24 @@ export function PersonalInfoView({ userInfo }: Props) {
     }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // TODO: validation / API call
+    const token = sessionStorage.getItem('access_token');
+    const res = await fetch('http://localhost:5098/api/profile/update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      alert(result.message);
+    } else {
+      alert(result.message || 'Update failed');
+    }
   }
 
   return (

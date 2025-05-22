@@ -43,9 +43,9 @@ export default function App() {
         import.meta.env.VITE_REALM_NAME ?? 'eDB',
       );
       // const userInfoUrl = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/userinfo`;
-      // const userInfoUrl = 'http://localhost:5098/api/profile/userinfo';
-      const userInfoUrl =
-        'https://api.staging.eliasdebock.com/platform/api/profile/userinfo';
+      const userInfoUrl = 'http://localhost:5098/api/profile/userinfo';
+      // const userInfoUrl =
+      //   'https://api.staging.eliasdebock.com/platform/api/profile/userinfo';
 
       fetch(userInfoUrl, {
         headers: {

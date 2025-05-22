@@ -1,5 +1,6 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
+using Edb.PlatformAPI.Config;
 using Edb.PlatformAPI.Extensions;
 using Edb.PlatformAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ if (builder.Environment.IsDevelopment())
 // Add modular services from extension methods
 builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.Configure<KeycloakSettings>(builder.Configuration.GetSection("Keycloak"));
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();
