@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Edb.PlatformAPI.Extensions;
 
@@ -19,13 +20,19 @@ public static class IdentityServiceExtensions
       })
       .AddJwtBearer(options =>
       {
-        // Use the configuration values
         options.Authority = identitySettings["Authority"];
         options.Audience = identitySettings["Audience"];
         options.RequireHttpsMetadata = false;
 
-        // Optional: additional token validation params
-        // options.TokenValidationParameters = new TokenValidationParameters { ... };
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+          ValidateAudience = true,
+          ValidAudience = identitySettings["Audience"],
+
+          // Optional: Accept only tokens issued by Keycloak
+          ValidateIssuer = true,
+          ValidIssuer = identitySettings["Authority"],
+        };
       });
 
     // services.AddAuthorization();
