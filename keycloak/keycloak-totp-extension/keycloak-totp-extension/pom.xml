@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.yourcompany</groupId>
+  <artifactId>kc-totp-ext</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+<properties>
+  <keycloak.version>26.1.2</keycloak.version>   <!-- all deps share this -->
+  <maven.compiler.release>17</maven.compiler.release>
+</properties>
+
+<dependencies>
+  <!-- compile-time only; Keycloak ships these at runtime -->
+  <dependency>
+    <groupId>org.keycloak</groupId>
+    <artifactId>keycloak-core</artifactId>
+    <version>${keycloak.version}</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.keycloak</groupId>
+    <artifactId>keycloak-services</artifactId>   <!-- TimeBasedOTPUtil -->
+    <version>${keycloak.version}</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.keycloak</groupId>
+    <artifactId>keycloak-common</artifactId>     <!-- Base32 -->
+    <version>${keycloak.version}</version>
+    <scope>provided</scope>
+  </dependency>
+
+    <dependency>
+    <groupId>org.keycloak</groupId>
+    <artifactId>keycloak-server-spi-private</artifactId>
+    <version>26.1.3</version>
+    <scope>provided</scope>
+  </dependency>
+
+
+  <!-- Jakarta REST annotations -->
+  <dependency>
+    <groupId>jakarta.ws.rs</groupId>
+    <artifactId>jakarta.ws.rs-api</artifactId>
+    <version>3.1.0</version>
+    <scope>provided</scope>
+  </dependency>
+</dependencies>
+
+</project>

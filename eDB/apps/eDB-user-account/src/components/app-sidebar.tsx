@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { sampleData } from './lib/sample-data';
 
+import { NavMain } from './nav-main';
 import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
@@ -35,6 +36,7 @@ export function AppSidebar({
           projects={sampleData.projects}
           onSelectProject={onSelectProject}
         />
+        <NavMain items={sampleData.navMain} />
       </SidebarContent>
       <SidebarFooter>{userInfo && <NavUser user={userInfo} />}</SidebarFooter>
       <SidebarRail />

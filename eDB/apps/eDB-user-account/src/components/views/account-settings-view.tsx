@@ -19,9 +19,24 @@ export function AccountSettingsView() {
   const [newPassword, setNewPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [signOutOthers, setSignOutOthers] = React.useState(false);
+  const [totp, setTotp] = React.useState<{
+    secret: string;
+    uri: string;
+    qrImage: string;
+  } | null>(null);
+
+  React.useEffect(() => {
+    fetch('/realms/eDB/totp-setup', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`, // adjust if using a hook/service
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setTotp(data))
+      .catch((err) => console.error('TOTP fetch error:', err));
+  }, []);
 
   function handleSave() {
-    // TODO: Call your password update API here
     if (newPassword !== confirmPassword) {
       alert('Passwords do not match');
       return;
@@ -31,7 +46,6 @@ export function AccountSettingsView() {
       `Password updated!\nSign out others: ${signOutOthers ? 'Yes' : 'No'}`,
     );
 
-    // Reset fields
     setNewPassword('');
     setConfirmPassword('');
     setSignOutOthers(false);
@@ -114,6 +128,28 @@ export function AccountSettingsView() {
           </SheetContent>
         </Sheet>
       </div>
+
+      <Separator />
+
+      {totp && (
+        <div className="mt-6 p-4 rounded-xl border bg-white/90 shadow-sm">
+          <h4 className="text-sm font-medium mb-2">
+            Mobile Authenticator Setup
+          </h4>
+          <p className="text-sm text-muted-foreground mb-4">
+            Scan this QR code with Google Authenticator, FreeOTP, or Microsoft
+            Authenticator.
+          </p>
+          <img
+            src={totp.qrImage}
+            alt="Authenticator QR Code"
+            className="w-48 h-48 mx-auto"
+          />
+          <p className="text-center text-xs text-muted-foreground mt-4">
+            Or manually enter the secret: <code>{totp.secret}</code>
+          </p>
+        </div>
+      )}
     </section>
   );
 }
