@@ -6,7 +6,7 @@ namespace Edb.PlatformAPI.Interfaces;
 
 public interface IProfileService
 {
-  Task<User?> GetAuthenticatedUserAsync(ClaimsPrincipal userPrincipal);
-  ProfileSettingsResponse? GetUserProfile(User user);
-  Task UpdateUserProfileAsync(User user, ProfileUpdateRequest request);
+  // Task<User?> GetAuthenticatedUserAsync(ClaimsPrincipal userPrincipal);
+  // ProfileSettingsResponse? GetUserProfile(User user);
+  // Task UpdateUserProfileAsync(User user, ProfileUpdateRequest request);
 }
