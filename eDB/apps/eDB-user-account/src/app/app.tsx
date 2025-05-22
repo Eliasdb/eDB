@@ -42,7 +42,8 @@ export default function App() {
       const realm = encodeURIComponent(
         import.meta.env.VITE_REALM_NAME ?? 'eDB',
       );
-      const userInfoUrl = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/userinfo`;
+      // const userInfoUrl = `${authBaseUrl}/realms/${realm}/protocol/openid-connect/userinfo`;
+      const userInfoUrl = 'http://localhost:5098/api/profile/userinfo';
 
       fetch(userInfoUrl, {
         headers: {
