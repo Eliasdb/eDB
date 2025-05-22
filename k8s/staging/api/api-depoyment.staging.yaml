@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,40 +27,53 @@ spec:
                   env:
                       - name: ASPNETCORE_ENVIRONMENT
                         value: 'Staging'
+
                       - name: ConnectionStrings__DefaultConnection
                         valueFrom:
                             secretKeyRef:
                                 name: postgres-secret-staging
                                 key: CONNECTION_STRING
+
                       - name: Jwt__Key
                         valueFrom:
                             secretKeyRef:
                                 name: jwt-secret-staging
                                 key: JWT_KEY
+
                       - name: Session_Domain
                         valueFrom:
                             configMapKeyRef:
                                 name: laravel-session-config-staging
                                 key: SESSION_DOMAIN
-                      - name: ConnectionStrings__Redis
-                        value: 'redis-service-staging:6379' # Reference Redis inside the cluster
 
-                  #   readinessProbe:
-                  #       httpGet:
-                  #           path: /health
-                  #           port: 9101
-                  #       initialDelaySeconds: 5
-                  #       periodSeconds: 10
-                  #       timeoutSeconds: 5
-                  #       failureThreshold: 3
-                  #   livenessProbe:
-                  #       httpGet:
-                  #           path: /health
-                  #           port: 9101
-                  #       initialDelaySeconds: 15
-                  #       periodSeconds: 20
-                  #       timeoutSeconds: 5
-                  #       failureThreshold: 3
+                      - name: ConnectionStrings__Redis
+                        value: 'redis-service-staging:6379'
+
+                      # 🔐 Keycloak environment variables
+                      - name: Keycloak__ClientId
+                        valueFrom:
+                            secretKeyRef:
+                                name: keycloak-secret-staging
+                                key: CLIENT_ID
+
+                      - name: Keycloak__ClientSecret
+                        valueFrom:
+                            secretKeyRef:
+                                name: keycloak-secret-staging
+                                key: CLIENT_SECRET
+
+                      - name: Keycloak__BaseUrl
+                        valueFrom:
+                            secretKeyRef:
+                                name: keycloak-secret-staging
+                                key: BASE_URL
+
+                      - name: Keycloak__Realm
+                        valueFrom:
+                            secretKeyRef:
+                                name: keycloak-secret-staging
+                                key: REALM
+
                   resources:
                       requests:
                           memory: '256Mi'
