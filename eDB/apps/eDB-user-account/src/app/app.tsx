@@ -1,10 +1,14 @@
+// App.tsx
 'use client';
 
 import * as React from 'react';
-
-// UI
 import { AppSidebar } from '../components/app-sidebar';
 import { sampleData } from '../components/lib/sample-data';
+import {
+  fetchUserInfo,
+  getToken,
+  type UserInfo,
+} from '../components/lib/user-service';
 import { Separator } from '../components/ui/separator';
 import {
   SidebarInset,
@@ -14,13 +18,6 @@ import {
 import { AccountSettingsView } from '../components/views/account-settings-view';
 import { PersonalInfoView } from '../components/views/personal-info-view';
 import { PlaceholderView } from '../components/views/placeholder-view';
-
-// Data-access
-import {
-  fetchUserInfo,
-  getToken,
-  type UserInfo,
-} from '../components/lib/user-service';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = React.useState(
@@ -56,7 +53,17 @@ export default function App() {
   return (
     <main className="flex h-screen bg-background text-black">
       <SidebarProvider>
-        <AppSidebar onSelectProject={setSelectedProject} />
+        <AppSidebar
+          onSelectProject={setSelectedProject}
+          userInfo={
+            userInfo && {
+              name: userInfo.preferred_username,
+              email: userInfo.email,
+              avatar:
+                'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg', // You can adjust this or use a real avatar
+            }
+          }
+        />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-6 mt-[5rem]">
             <SidebarTrigger className="-ml-1" />

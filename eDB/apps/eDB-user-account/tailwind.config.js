@@ -25,6 +25,9 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
       },
+      screens: {
+        sm767: '767px',
+      },
     },
   },
   plugins: [animate],
