@@ -43,14 +43,18 @@ export function PersonalInfoView({ userInfo }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const token = sessionStorage.getItem('access_token');
-    const res = await fetch('http://localhost:5098/api/profile/update', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+    // const res = await fetch('http://localhost:5098/api/profile/update', {
+    const res = await fetch(
+      'https://api.staging.eliasdebock.com/platform/api/profile/update',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       },
-      body: JSON.stringify(formData),
-    });
+    );
 
     const result = await res.json();
     if (res.ok) {
