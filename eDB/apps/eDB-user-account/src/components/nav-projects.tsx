@@ -51,7 +51,7 @@ export function NavProjects({
                 if (isMobile) {
                   setOpenMobile(false); // ✅ Close mobile sidebar
                 } else {
-                  setOpen(false); // ✅ Close desktop sidebar
+                  // setOpen(false); // ✅ Close desktop sidebar
                 }
               }}
             >
