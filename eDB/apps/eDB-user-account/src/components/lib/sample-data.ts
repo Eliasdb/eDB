@@ -5,8 +5,8 @@ import {
   Frame,
   GalleryVerticalEnd,
   Map,
-  PieChart,
   Settings2,
+  ShieldCheck,
   SquareTerminal,
 } from 'lucide-react';
 
@@ -18,7 +18,7 @@ export const sampleData = {
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'eDB',
       logo: GalleryVerticalEnd,
       plan: 'Enterprise',
     },
@@ -64,7 +64,7 @@ export const sampleData = {
   ],
   projects: [
     { name: 'Personal Info', url: '#', icon: Frame },
-    { name: 'Sales & Marketing', url: '#', icon: PieChart },
-    { name: 'Travel', url: '#', icon: Map },
+    { name: 'Account Security', url: '#', icon: ShieldCheck },
+    { name: 'Applications', url: '#', icon: Map },
   ],
 };
