@@ -57,3 +57,61 @@ export async function updateUserInfo(
 
   return res.json();
 }
+
+export async function changePassword(
+  newPassword: string,
+  signOutOthers: boolean,
+  token: string,
+): Promise<{ message: string }> {
+  const res = await fetch(`${BASE_URL}/change-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ password: newPassword, signOutOthers }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || 'Password change failed');
+  }
+  return res.json();
+}
+
+export async function fetchPasswordMeta(token: string) {
+  const res = await fetch(`${BASE_URL}/password-meta`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('Failed loading password metadata');
+  const { createdDate } = (await res.json()) as { createdDate?: number };
+  return createdDate ?? null;
+}
+
+export type SessionInfo = {
+  id: string;
+  ipAddress: string;
+  lastAccess: number;
+  start: number;
+  clients: Record<string, string>;
+};
+
+export async function fetchUserSessions(token: string): Promise<SessionInfo[]> {
+  const res = await fetch(`${BASE_URL}/sessions`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('Failed to fetch sessions');
+  return res.json();
+}
+
+export async function revokeSession(sessionId: string, token: string) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || 'Failed to revoke session');
+  }
+}

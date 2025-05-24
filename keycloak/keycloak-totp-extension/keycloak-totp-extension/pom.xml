@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.yourcompany</groupId>
+  <artifactId>kc-totp-ext</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <!-- Shared versions -->
+  <properties>
+    <keycloak.version>26.1.3</keycloak.version>
+    <maven.compiler.release>17</maven.compiler.release>
+  </properties>
+
+  <!-- Import the Keycloak BOM so every org.keycloak artefact
+       resolves to 26.1.3 and stays in sync -->
+
+
+  <dependencies>
+
+    <!-- Keycloak APIs you compile against (provided at runtime by KC) -->
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-services</artifactId>
+      <scope>provided</scope>
+            <version>26.1.3</version>
+
+    </dependency>
+
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-server-spi</artifactId>
+      <scope>provided</scope>
+            <version>26.1.3</version>
+
+    </dependency>
+
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-server-spi-private</artifactId>
+            <version>26.1.3</version>
+
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Jakarta REST annotations -->
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- ZXing for QR-code generation (bundled into your JAR) -->
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>3.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+      <version>3.5.2</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

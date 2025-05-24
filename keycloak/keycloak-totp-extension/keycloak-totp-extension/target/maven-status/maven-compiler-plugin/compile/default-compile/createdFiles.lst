@@ -1,0 +1,9 @@
+com/yourcompany/totp/TotpSetupEndpoint.class
+com/yourcompany/totp/TotpSetupResourceFactory$1.class
+com/yourcompany/totp/TotpSetupResourceFactory.class
+com/yourcompany/totp/QrUtils.class
+com/yourcompany/totp/TotpSetupEndpoint$Begin.class
+com/yourcompany/totp/TotpSetupResource.class
+com/yourcompany/totp/TotpSetupEndpoint$LinkedDevice.class
+com/yourcompany/totp/TotpUtils.class
+com/yourcompany/totp/TotpSetupEndpoint$Submit.class
