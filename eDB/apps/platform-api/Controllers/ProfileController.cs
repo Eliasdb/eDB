@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using Edb.PlatformAPI.Config;
@@ -110,6 +111,252 @@ public class ProfileController(IOptions<KeycloakSettings> kcOptions) : BaseApiCo
 
     return Ok(new { message = "User info updated successfully" });
   }
+
+  [HttpGet("otp-devices")]
+  [Authorize]
+  public async Task<IActionResult> GetOtpDevices()
+  {
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/credentials";
+    var res = await client.GetAsync(url);
+
+    if (!res.IsSuccessStatusCode)
+      return StatusCode((int)res.StatusCode, "Keycloak admin call failed.");
+
+    var allCreds = JsonSerializer.Deserialize<List<JsonElement>>(
+      await res.Content.ReadAsStringAsync()
+    )!;
+    var otpOnly = allCreds.Where(c => c.GetProperty("type").GetString() == "otp");
+
+    return Ok(otpOnly);
+  }
+
+  [HttpDelete("otp-devices/{credId}")]
+  [Authorize]
+  public async Task<IActionResult> DeleteOtpDevice(string credId)
+  {
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/credentials/{credId}";
+    var res = await client.DeleteAsync(url);
+
+    return res.IsSuccessStatusCode
+      ? NoContent()
+      : StatusCode((int)res.StatusCode, "Delete failed in Keycloak.");
+  }
+
+  /* ────────────────────────────────────────────────────────────── */
+  /*  POST /api/profile/change-password                             */
+  /* ────────────────────────────────────────────────────────────── */
+  [HttpPost("change-password")]
+  [Authorize]
+  public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest dto)
+  {
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+    client.DefaultRequestHeaders.Accept.Add(
+      new MediaTypeWithQualityHeaderValue("application/json")
+    );
+
+    /* 1. reset-password */
+    var body = new
+    {
+      type = "password",
+      value = dto.Password,
+      temporary = false,
+    };
+    var res = await client.PutAsync(
+      $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/reset-password",
+      new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
+    );
+
+    if (!res.IsSuccessStatusCode)
+      return StatusCode((int)res.StatusCode, "Password update failed in Keycloak.");
+
+    /* 2. optionally terminate other sessions */
+    if (dto.SignOutOthers)
+    {
+      await client.PostAsync($"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/logout", null);
+    }
+
+    return Ok(new { message = "Password updated successfully" });
+  }
+
+  [HttpGet("password-meta")]
+  [Authorize]
+  public async Task<IActionResult> GetPasswordMeta()
+  {
+    // 1) find the user’s ID from the JWT
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    // 2) get an admin token to call Keycloak’s Admin API
+    var adminToken = await GetAdminAccessToken();
+
+    // 3) fetch all credentials for the user
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/credentials";
+    var res = await client.GetAsync(url);
+    if (!res.IsSuccessStatusCode)
+      return StatusCode((int)res.StatusCode, "Keycloak call failed.");
+
+    // 4) parse the JSON, find the “password” credential
+    var json = await res.Content.ReadAsStringAsync();
+    var allCreds = JsonSerializer.Deserialize<List<JsonElement>>(json)!;
+    var pwd = allCreds.FirstOrDefault(c => c.GetProperty("type").GetString() == "password");
+
+    // 5) return only its createdDate
+    return Ok(new { createdDate = pwd.GetProperty("createdDate").GetInt64() });
+  }
+
+  [HttpGet("sessions")]
+  [Authorize]
+  public async Task<IActionResult> GetUserSessions()
+  {
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/sessions";
+    var res = await client.GetAsync(url);
+
+    if (!res.IsSuccessStatusCode)
+      return StatusCode((int)res.StatusCode, "Keycloak session fetch failed.");
+
+    var sessions = JsonDocument.Parse(await res.Content.ReadAsStringAsync());
+
+    // You can extract & shape the data however you'd like before returning it
+    return Ok(sessions);
+  }
+
+  [HttpDelete("sessions/{sessionId}")]
+  [Authorize]
+  public async Task<IActionResult> RevokeSession(string sessionId)
+  {
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/sessions/{sessionId}";
+    var res = await client.DeleteAsync(url);
+
+    return res.IsSuccessStatusCode
+      ? NoContent()
+      : StatusCode((int)res.StatusCode, "Failed to revoke session");
+  }
+
+  [HttpGet("applications")]
+  [Authorize]
+  public async Task<IActionResult> GetApplications()
+  {
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}/sessions";
+    var sessionRes = await client.GetAsync(url);
+    if (!sessionRes.IsSuccessStatusCode)
+      return StatusCode((int)sessionRes.StatusCode, "Keycloak session fetch failed.");
+
+    var sessionsJson = await sessionRes.Content.ReadAsStringAsync();
+    var sessions = JsonSerializer.Deserialize<List<JsonElement>>(sessionsJson)!;
+
+    var knownClients = new Dictionary<string, (string name, string url)>
+    {
+      { "edb-app", ("eDB App", "http://localhost:4200") },
+      { "account-console", ("Account Console", $"{_kc.BaseUrl}/realms/{_kc.Realm}/account/") },
+    };
+
+    var found = new Dictionary<string, object>();
+
+    foreach (var session in sessions)
+    {
+      if (!session.TryGetProperty("clients", out var clients))
+        continue;
+
+      foreach (var clientProp in clients.EnumerateObject())
+      {
+        var clientId = clientProp.Name;
+        var clientAlias = clientProp.Value.GetString() ?? clientId;
+
+        var (friendlyName, baseUrl) = knownClients.TryGetValue(clientAlias, out var known)
+          ? known
+          : (clientAlias, "");
+
+        found[clientId] = new
+        {
+          name = friendlyName,
+          clientId = clientId,
+          url = baseUrl,
+          type = "Internal", // Adjust if needed
+          status = "In use",
+        };
+      }
+    }
+
+    return Ok(found.Values);
+  }
+
+  // Example mapping (hardcoded; you could load from config/db if needed)
+
 
   private async Task<string> GetAdminAccessToken()
   {

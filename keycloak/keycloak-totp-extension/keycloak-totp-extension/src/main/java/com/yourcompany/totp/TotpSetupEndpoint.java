@@ -1,10 +1,14 @@
 package com.yourcompany.totp;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.keycloak.TokenVerifier;
 import org.keycloak.common.VerificationException;
-import org.keycloak.credential.CredentialModel;
 import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.OTPPolicy;
 import org.keycloak.models.UserModel;
+import org.keycloak.models.credential.OTPCredentialModel;
 import org.keycloak.representations.AccessToken;
 
 import jakarta.ws.rs.Consumes;
@@ -17,105 +21,114 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/totp-setup")   // final endpoint: /realms/{realm}/totp-setup
+/**
+ *  Exposed as:
+ *    /realms/{realm}/totp-setup
+ */
+@Path("/totp-setup")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TotpSetupEndpoint {
 
-  private final KeycloakSession session;
-  public TotpSetupEndpoint(KeycloakSession s) { this.session = s; }
-public record Begin(String secret, String uri, String qrImage) {}
+    /* ────────── DTOs ────────── */
+    public record Begin(String secret, String uri, String qrImage) {}
+    public record Submit(String code, String label) {}
+    public record LinkedDevice(String label, long created) {}
 
-  // ---------- STEP 1: GET -> return secret + otpauth + (QR if you want) ----------
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-public Response begin(@Context HttpHeaders headers) {
-    String auth = headers.getHeaderString(HttpHeaders.AUTHORIZATION);
-    if (auth == null || !auth.startsWith("Bearer ")) {
+    /* ────────── state ───────── */
+    private final KeycloakSession session;
+
+    public TotpSetupEndpoint(KeycloakSession session) {
+        this.session = session;
+    }
+
+    /* ────────── helpers ───────── */
+    private static String enc(String s) {
+        return URLEncoder.encode(s, StandardCharsets.UTF_8).replace("+", "%20");
+    }
+
+    private static Response unauthorized() {
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
-    String jwt = auth.substring("Bearer ".length());
+    /** Resolve a bearer token → UserModel (or {@code null}). */
+    private UserModel resolveUser(HttpHeaders headers) {
+        String auth = headers.getHeaderString(HttpHeaders.AUTHORIZATION);
+        if (auth == null || !auth.startsWith("Bearer ")) return null;
 
-    AccessToken token;
-    try {
-        token = TokenVerifier.create(jwt, AccessToken.class).getToken();
-    } catch (VerificationException e) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        try {
+            AccessToken tok = TokenVerifier.create(auth.substring(7), AccessToken.class).getToken();
+            return session.users().getUserById(session.getContext().getRealm(), tok.getSubject());
+        } catch (VerificationException e) {
+            return null;
+        }
     }
 
-    UserModel user = session.users().getUserById(
-        session.getContext().getRealm(),
-        token.getSubject()
-    );
-    if (user == null) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+    /* ────────── 1 · GET  → generate secret + QR ────────── */
+    @GET
+    public Response begin(@Context HttpHeaders headers) {
+        UserModel user = resolveUser(headers);
+        if (user == null) return unauthorized();
+
+        String secret = user.getFirstAttribute("tmp_totp_secret");
+        if (secret == null) {
+            secret = TotpUtils.randomSecret();
+            user.setSingleAttribute("tmp_totp_secret", secret);
+        }
+
+        String realmName = session.getContext().getRealm().getName();
+        OTPPolicy policy = session.getContext().getRealm().getOTPPolicy();
+
+        // Build URI exactly like Keycloak’s stock page — raw label, no extra encoding
+        String uri = "otpauth://totp/" + realmName + ":" + user.getUsername() +
+                "?secret=" + secret +
+                "&issuer=" + realmName +
+                "&algorithm=" + policy.getAlgorithm().replaceFirst("^Hmac", "") +
+                "&digits=" + policy.getDigits() +
+                "&period=" + policy.getPeriod();
+
+                System.out.println("GET secret = " + secret);
+
+        return Response.ok(new Begin(secret, uri, QrUtils.toBase64Png(uri))).build();
     }
 
-    String secret = user.getFirstAttribute("tmp_totp_secret");
-    if (secret == null) {
-        secret = TotpUtils.randomSecret();
-        user.setSingleAttribute("tmp_totp_secret", secret);
+    /* ────────── 2 · POST → verify code & persist ───────── */
+    @POST
+    public Response finish(@Context HttpHeaders headers, Submit req) {
+        UserModel user = resolveUser(headers);
+        if (user == null) return unauthorized();
+
+        String secret = user.getFirstAttribute("tmp_totp_secret");
+        if (secret == null || !TotpUtils.verify(secret, req.code()))
+            return Response.status(400).entity("{\"error\":\"bad_code\"}").build();
+
+        // OTPPolicy policy = session.getContext().getRealm().getOTPPolicy();
+
+     OTPCredentialModel otp = OTPCredentialModel.createFromPolicy(
+            session.getContext().getRealm(), secret,
+            req.label() == null ? "device" : req.label());
+
+        otp.setUserLabel(req.label() == null ? "device" : req.label());
+System.out.println("POST secret = " + secret);
+        user.credentialManager().createStoredCredential(otp);
+        user.removeRequiredAction(UserModel.RequiredAction.CONFIGURE_TOTP);
+        user.removeAttribute("tmp_totp_secret");
+        return Response.noContent().build();
     }
 
-    String realm = session.getContext().getRealm().getName();
-    String uri = "otpauth://totp/" + realm + ":" + user.getUsername()
-               + "?secret=" + secret + "&issuer=" + realm;
+    /* ────────── 3 · GET /devices → list authenticators ─── */
+    @GET @Path("/devices")
+    public Response list(@Context HttpHeaders headers) {
+        UserModel user = resolveUser(headers);
+        if (user == null) return unauthorized();
 
-String qrImage = QrUtils.toBase64Png(uri); // ✅ correct method name
+        var devices = user.credentialManager()
+                          .getStoredCredentialsByTypeStream(OTPCredentialModel.TYPE)
+                          .map(c -> new LinkedDevice(
+                                  c.getUserLabel() == null ? "(unnamed)" : c.getUserLabel(),
+                                  c.getCreatedDate() == null ? 0L         : c.getCreatedDate()))
+                          .toList();
 
-    return Response.ok(new Begin(secret, uri, qrImage)).build();
-}
-
-
-  // ---------- STEP 2: POST code -> store credential ----------
-  public static class Submit { public String code; public String label; }
-
-@POST
-public Response finish(@Context HttpHeaders headers, Submit s) {
-    // 1 — Extract and verify bearer token
-    String auth = headers.getHeaderString(HttpHeaders.AUTHORIZATION);
-    if (auth == null || !auth.startsWith("Bearer ")) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return Response.ok(devices).build();
     }
-
-    String jwt = auth.substring("Bearer ".length());
-
-    AccessToken token;
-    try {
-        token = TokenVerifier.create(jwt, AccessToken.class).getToken();
-    } catch (VerificationException ex) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
-    }
-
-    // 2 — Resolve user by ID
-    UserModel user = session.users()
-        .getUserById(session.getContext().getRealm(), token.getSubject());
-
-    if (user == null) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
-    }
-
-    // 3 — Validate submitted TOTP code against stored temporary secret
-    String secret = user.getFirstAttribute("tmp_totp_secret");
-    if (secret == null || !TotpUtils.verify(secret, s.code)) {
-        return Response.status(400).entity("{\"error\":\"bad_code\"}").build();
-    }
-
-    // 4 — Store as credential
-    CredentialModel cm = new CredentialModel();
-    cm.setType("otp");
-    cm.setSecretData("{\"secret\":\"" + secret + "\"}");
-    cm.setCredentialData("{\"period\":30,\"digits\":6,\"algorithm\":\"HmacSHA1\"}");
-    cm.setUserLabel(s.label == null ? "device" : s.label);
-
-    user.credentialManager().createStoredCredential(cm);
-
-    // 5 — Cleanup
-    user.removeAttribute("tmp_totp_secret");
-
-    return Response.noContent().build(); // 204
-}
-
-
 }
