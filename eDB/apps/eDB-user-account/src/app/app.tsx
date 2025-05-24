@@ -16,6 +16,7 @@ import {
   SidebarTrigger,
 } from '../components/ui/sidebar';
 import { AccountSettingsView } from '../components/views/account-settings-view';
+import { ApplicationsView } from '../components/views/application-view';
 import { PersonalInfoView } from '../components/views/personal-info-view';
 import { PlaceholderView } from '../components/views/placeholder-view';
 
@@ -45,6 +46,9 @@ export default function App() {
         return <PersonalInfoView userInfo={userInfo} />;
       case 'Account Security':
         return <AccountSettingsView />;
+      case 'Applications':
+        return <ApplicationsView />;
+
       default:
         return <PlaceholderView title={selectedProject?.name ?? 'Home'} />;
     }
