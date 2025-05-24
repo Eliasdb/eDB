@@ -1,72 +1,68 @@
 'use client';
 
-import { ChevronRight, type LucideIcon } from 'lucide-react';
+import { type LucideIcon } from 'lucide-react';
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from './ui/collapsible';
+import { Collapsible } from './ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  useSidebar,
 } from './ui/sidebar';
+
+type NavItem = {
+  title?: string;
+  url?: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  items?: {
+    title: string;
+    url: string;
+  }[];
+};
 
 export function NavMain({
   items,
+  onSelectProject,
 }: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
+  items: NavItem[];
+  onSelectProject: (item: NavItem) => void;
 }) {
+  const { isMobile, setOpenMobile } = useSidebar();
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Personal info</SidebarGroupLabel>
+      <SidebarGroupLabel>Navigation</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+        {items
+          .filter((item) => item.title && item.url) // skip incomplete entries
+          .map((item) => (
+            <Collapsible
+              key={item.title}
+              asChild
+              defaultOpen={item.isActive}
+              className="group/collapsible"
+            >
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="bg-white"
+                  tooltip={item.title}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectProject(item);
+                    if (isMobile) {
+                      setOpenMobile(false);
+                    }
+                  }}
+                >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
+              </SidebarMenuItem>
+            </Collapsible>
+          ))}
       </SidebarMenu>
     </SidebarGroup>
   );

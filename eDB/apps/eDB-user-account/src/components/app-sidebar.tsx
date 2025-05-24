@@ -1,9 +1,7 @@
-// AppSidebar.tsx
 import * as React from 'react';
 import { sampleData } from './lib/sample-data';
 
 import { NavMain } from './nav-main';
-import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 import {
@@ -32,11 +30,7 @@ export function AppSidebar({
         <TeamSwitcher teams={sampleData.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects
-          projects={sampleData.projects}
-          onSelectProject={onSelectProject}
-        />
-        <NavMain items={sampleData.navMain} />
+        <NavMain items={sampleData.navMain} onSelectProject={onSelectProject} />
       </SidebarContent>
       <SidebarFooter>{userInfo && <NavUser user={userInfo} />}</SidebarFooter>
       <SidebarRail />

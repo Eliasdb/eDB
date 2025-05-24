@@ -1,17 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getToken } from '../lib/user-service';
+import {
+  fetchApplications,
+  getToken,
+  type Application,
+} from '../lib/user-service';
 import { Card } from '../ui/card';
 import { Separator } from '../ui/separator';
-
-type Application = {
-  clientId: string;
-  name: string;
-  url: string;
-  type: 'Internal' | 'External';
-  status: 'In use' | 'Idle';
-};
 
 export function ApplicationsView() {
   const [apps, setApps] = useState<Application[]>([]);
@@ -23,17 +19,7 @@ export function ApplicationsView() {
       if (!token) return;
 
       try {
-        const res = await fetch(
-          'http://localhost:5098/api/profile/applications',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        if (!res.ok) throw new Error('Failed to load apps');
-        const data = await res.json();
+        const data = await fetchApplications(token);
         setApps(data);
       } catch (err: any) {
         setError(err.message || 'Something went wrong');

@@ -140,27 +140,25 @@ export function AccountSettingsView() {
       <h2 className="text-xl font-semibold mb-8">Account Security</h2>
 
       <div className="space-y-1">
-        <h3 className="text-sm font-medium text-muted-foreground">
-          Signing in
-        </h3>
-        <p className="text-sm">Configure ways to sign in.</p>
+        <h3 className="text-base font-medium">Signing in</h3>
+        <p className="text-base">Configure ways to sign in.</p>
       </div>
 
       <Separator />
 
       <div className="space-y-2">
-        <h4 className="text-sm font-medium">Basic authentication</h4>
-        <p className="text-sm text-muted-foreground">Password</p>
-        <p className="text-sm">Sign in by entering your password.</p>
+        <h4 className="text-base font-medium">Basic authentication</h4>
+        <p className="text-base">Password</p>
+        <p className="text-base">Sign in by entering your password.</p>
       </div>
 
       <Separator />
 
       <div className="flex items-center justify-between">
         <div>
-          <h5 className="text-sm font-medium">My password</h5>
+          <h5 className="text-base font-medium">My password</h5>
           {/* in render — replace hard-coded text */}
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm ">
             {pwdCreated
               ? `Created ${pwdCreated.toLocaleDateString(undefined, {
                   month: 'short',
@@ -241,11 +239,11 @@ export function AccountSettingsView() {
 
       {/* ─────────────────────── OTP DEVICES SECTION ─────────────────────── */}
       <div className="space-y-4">
-        <h4 className="text-sm font-medium">Mobile Authenticators</h4>
+        <h4 className="text-base font-medium">Mobile Authenticators</h4>
 
         {devices.length === 0 ? (
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               No devices linked yet.
             </p>
             <a
@@ -293,7 +291,7 @@ export function AccountSettingsView() {
 
       {sessions.length > 0 && (
         <>
-          <h4 className="text-sm font-medium">Signed-in Devices</h4>{' '}
+          <h4 className="text-base font-medium">Signed-in Devices</h4>{' '}
           <div className="mt-6 p-4 rounded-xl border bg-white/90 shadow-sm space-y-4">
             <ul className="space-y-3">
               {sessions.map((s) => (

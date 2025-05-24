@@ -1,14 +1,5 @@
 // lib/sample-data.ts
-import {
-  BookOpen,
-  Bot,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  Settings2,
-  ShieldCheck,
-  SquareTerminal,
-} from 'lucide-react';
+import { Frame, GalleryVerticalEnd, Map, ShieldCheck } from 'lucide-react';
 
 export const sampleData = {
   user: {
@@ -25,41 +16,41 @@ export const sampleData = {
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Personal Info',
       url: '#',
-      icon: SquareTerminal,
+      icon: Frame,
     },
     {
-      title: 'Models',
+      title: 'Account Security',
       url: '#',
-      icon: Bot,
-      items: [
-        { title: 'Genesis', url: '#' },
-        { title: 'Explorer', url: '#' },
-        { title: 'Quantum', url: '#' },
-      ],
+      icon: ShieldCheck,
+      // items: [
+      //   { title: 'Genesis', url: '#' },
+      //   { title: 'Explorer', url: '#' },
+      //   { title: 'Quantum', url: '#' },
+      // ],
     },
     {
-      title: 'Documentation',
+      title: 'Applications',
       url: '#',
-      icon: BookOpen,
-      items: [
-        { title: 'Introduction', url: '#' },
-        { title: 'Get Started', url: '#' },
-        { title: 'Tutorials', url: '#' },
-        { title: 'Changelog', url: '#' },
-      ],
+      icon: Map,
+      // items: [
+      //   { title: 'Introduction', url: '#' },
+      //   { title: 'Get Started', url: '#' },
+      //   { title: 'Tutorials', url: '#' },
+      //   { title: 'Changelog', url: '#' },
+      // ],
     },
     {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        { title: 'General', url: '#' },
-        { title: 'Team', url: '#' },
-        { title: 'Billing', url: '#' },
-        { title: 'Limits', url: '#' },
-      ],
+      // title: 'Settings',
+      // url: '#',
+      // icon: Settings2,
+      // items: [
+      //   { title: 'General', url: '#' },
+      //   { title: 'Team', url: '#' },
+      //   { title: 'Billing', url: '#' },
+      //   { title: 'Limits', url: '#' },
+      // ],
     },
   ],
   projects: [
