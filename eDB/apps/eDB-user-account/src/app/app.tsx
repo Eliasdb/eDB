@@ -9,6 +9,14 @@ import {
   getToken,
   type UserInfo,
 } from '../components/lib/user-service';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '../components/ui/breadcrumb';
 import { Separator } from '../components/ui/separator';
 import {
   SidebarInset,
@@ -20,10 +28,17 @@ import { ApplicationsView } from '../components/views/application-view';
 import { PersonalInfoView } from '../components/views/personal-info-view';
 import { PlaceholderView } from '../components/views/placeholder-view';
 
+const breadcrumbLabels: Record<string, string> = {
+  'Personal Info': 'Personal Info',
+  'Account Security': 'Account Security',
+  Applications: 'Applications',
+};
+
 export default function App() {
-  const [selectedProject, setSelectedProject] = React.useState(
-    sampleData.projects[0],
+  const [selectedNavItem, setSelectedNavItem] = React.useState(
+    sampleData.navMain[0],
   );
+
   const [token, setToken] = React.useState<string | null>(null);
   const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
 
@@ -41,16 +56,15 @@ export default function App() {
   }, []);
 
   function renderContent() {
-    switch (selectedProject?.name) {
+    switch (selectedNavItem?.title) {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
       case 'Account Security':
         return <AccountSettingsView />;
       case 'Applications':
         return <ApplicationsView />;
-
       default:
-        return <PlaceholderView title={selectedProject?.name ?? 'Home'} />;
+        return <PlaceholderView title={selectedNavItem?.title ?? 'Home'} />;
     }
   }
 
@@ -58,7 +72,7 @@ export default function App() {
     <main className="flex h-screen bg-background text-black">
       <SidebarProvider>
         <AppSidebar
-          onSelectProject={setSelectedProject}
+          onSelectProject={setSelectedNavItem}
           userInfo={
             userInfo && {
               name: userInfo.preferred_username,
@@ -69,11 +83,27 @@ export default function App() {
           }
         />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-6 mt-[5rem]">
+          <header className="flex h-16 fixed shrink-0 items-center gap-2 border-b px-6 mt-[5rem] w-full bg-white">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink>Account</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>
+                    <span className="font-medium">
+                      {breadcrumbLabels[selectedNavItem?.title ?? ''] ??
+                        'Overview'}
+                    </span>
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto">
+          <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto pt-[10rem] ">
             {renderContent()}
           </div>
         </SidebarInset>

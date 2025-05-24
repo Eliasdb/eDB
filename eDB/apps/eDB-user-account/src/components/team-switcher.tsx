@@ -1,8 +1,8 @@
 'use client';
 
-import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
+import { Star } from 'lucide-react';
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -40,7 +40,7 @@ export function TeamSwitcher({
             <span className="truncate font-semibold">{activeTeam.name}</span>
             <span className="truncate text-xs">{activeTeam.plan}</span>
           </div>
-          <ChevronsUpDown className="ml-auto" />
+          <Star className="ml-auto" />
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

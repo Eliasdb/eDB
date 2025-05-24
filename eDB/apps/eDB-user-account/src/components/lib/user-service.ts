@@ -115,3 +115,24 @@ export async function revokeSession(sessionId: string, token: string) {
     throw new Error(err.message || 'Failed to revoke session');
   }
 }
+
+export type Application = {
+  clientId: string;
+  name: string;
+  url: string;
+  type: 'Internal' | 'External';
+  status: 'In use' | 'Idle';
+};
+
+export async function fetchApplications(token: string): Promise<Application[]> {
+  const res = await fetch(`${BASE_URL}/applications`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || 'Failed to load applications');
+  }
+
+  return res.json();
+}
