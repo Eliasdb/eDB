@@ -11,9 +11,18 @@ using Microsoft.Extensions.Options;
 
 namespace Edb.PlatformAPI.Controllers;
 
-public class ProfileController(IOptions<KeycloakSettings> kcOptions) : BaseApiController
+public class ProfileController : BaseApiController
 {
-  private readonly KeycloakSettings _kc = kcOptions.Value;
+  private readonly KeycloakSettings _kc;
+  private readonly ILogger<ProfileController> _logger;
+
+  public ProfileController(IOptions<KeycloakSettings> kcOptions, ILogger<ProfileController> logger)
+    : base( /* if BaseApiController needs parameters, pass them here */
+    )
+  {
+    _kc = kcOptions.Value;
+    _logger = logger;
+  }
 
   [HttpGet("userinfo")]
   [Authorize]
@@ -355,8 +364,248 @@ public class ProfileController(IOptions<KeycloakSettings> kcOptions) : BaseApiCo
     return Ok(found.Values);
   }
 
+  [HttpGet("custom-attributes")]
+  [Authorize]
+  public async Task<IActionResult> GetCustomAttributes()
+  {
+    // 1) Resolve userId
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (userId is null)
+      return Unauthorized("Missing subject claim.");
+
+    // 2) Fetch user representation
+    var adminToken = await GetAdminAccessToken();
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+    client.DefaultRequestHeaders.Accept.Add(
+      new MediaTypeWithQualityHeaderValue("application/json")
+    );
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}";
+    _logger.LogInformation("GetCustomAttributes: GET {Url}", url);
+    var res = await client.GetAsync(url);
+    if (!res.IsSuccessStatusCode)
+      return StatusCode((int)res.StatusCode, "Keycloak call failed.");
+
+    // 3) Log raw JSON
+    var json = await res.Content.ReadAsStringAsync();
+    _logger.LogInformation("GetCustomAttributes: raw JSON = {Json}", json);
+
+    // 4) Explicitly parse attributes
+    using var doc = JsonDocument.Parse(json);
+    var user = doc.RootElement;
+
+    var result = new Dictionary<string, string>();
+    if (
+      user.TryGetProperty("attributes", out var attrObj)
+      && attrObj.ValueKind == JsonValueKind.Object
+    )
+    {
+      foreach (var prop in attrObj.EnumerateObject())
+      {
+        string? value = null;
+        if (prop.Value.ValueKind == JsonValueKind.Array && prop.Value.GetArrayLength() > 0)
+          value = prop.Value[0].GetString();
+        else if (prop.Value.ValueKind == JsonValueKind.String)
+          value = prop.Value.GetString();
+
+        if (value != null)
+          result[prop.Name] = value;
+      }
+    }
+
+    // 5) Log what you actually parsed
+    _logger.LogInformation("GetCustomAttributes: Parsed attributes = {@Result}", result);
+
+    return Ok(result);
+  }
+
+  public class CustomAttributesDto
+  {
+    public Dictionary<string, string>? Attributes { get; set; }
+  }
+
+  [HttpPut("custom-attributes")]
+  [Authorize]
+  public async Task<IActionResult> UpdateCustomAttributes([FromBody] CustomAttributesDto dto)
+  {
+    _logger.LogDebug(
+      "UpdateCustomAttributes: Entered with DTO.Attributes = {@Attributes}",
+      dto?.Attributes
+    );
+
+    // 1. Resolve user ID
+    var userId = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (userId is null)
+    {
+      _logger.LogInformation("UpdateCustomAttributes: Missing subject claim on user principal");
+      return Unauthorized("Missing subject claim.");
+    }
+    _logger.LogDebug("UpdateCustomAttributes: Resolved userId = {userId}", userId);
+
+    // 2. Validate incoming payload
+    if (dto?.Attributes is null || dto.Attributes.Count == 0)
+    {
+      _logger.LogInformation("UpdateCustomAttributes: No attributes provided to update");
+      return BadRequest("No attributes to update.");
+    }
+    _logger.LogDebug("UpdateCustomAttributes: {Count} attributes to update", dto.Attributes.Count);
+
+    // 3. Fetch existing user from Keycloak
+    var adminToken = await GetAdminAccessToken();
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+    client.DefaultRequestHeaders.Accept.Add(
+      new MediaTypeWithQualityHeaderValue("application/json")
+    );
+
+    var getUrl = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}";
+    _logger.LogDebug("UpdateCustomAttributes: Sending GET to {Url}", getUrl);
+    var getRes = await client.GetAsync(getUrl);
+    _logger.LogDebug(
+      "UpdateCustomAttributes: GET response status = {StatusCode}",
+      getRes.StatusCode
+    );
+    if (!getRes.IsSuccessStatusCode)
+    {
+      var error = await getRes.Content.ReadAsStringAsync();
+      _logger.LogError(
+        "UpdateCustomAttributes: Failed to fetch existing user data: {Error}",
+        error
+      );
+      return StatusCode(
+        (int)getRes.StatusCode,
+        "Failed to fetch existing user data from Keycloak."
+      );
+    }
+
+    // 4. Prepare updated payload
+    var existingJson = await getRes.Content.ReadAsStringAsync();
+    using var doc = JsonDocument.Parse(existingJson);
+    var root = doc.RootElement;
+
+    string? TryGetString(JsonElement obj, string prop) =>
+      obj.TryGetProperty(prop, out var val) && val.ValueKind == JsonValueKind.String
+        ? val.GetString()
+        : null;
+
+    bool TryGetBool(JsonElement obj, string prop, bool fallback = true) =>
+      obj.TryGetProperty(prop, out var val)
+      && (val.ValueKind == JsonValueKind.True || val.ValueKind == JsonValueKind.False)
+        ? val.GetBoolean()
+        : fallback;
+
+    var updatedUser = new Dictionary<string, object?>
+    {
+      ["id"] = userId, // <— add this
+
+      ["username"] = TryGetString(root, "username"), // <— add this
+
+      ["firstName"] = TryGetString(root, "firstName"),
+      ["lastName"] = TryGetString(root, "lastName"),
+      ["email"] = TryGetString(root, "email"),
+      ["enabled"] = TryGetBool(root, "enabled"),
+      ["attributes"] = dto.Attributes.ToDictionary(kvp => kvp.Key, kvp => new[] { kvp.Value }),
+    };
+    _logger.LogInformation(
+      "UpdateCustomAttributes: Built updated payload: {@UpdatedUser}",
+      updatedUser
+    );
+    var payloadJson = JsonSerializer.Serialize(updatedUser);
+    _logger.LogInformation("UpdateCustomAttributes: PUT payload = {Payload}", payloadJson);
+
+    // 5. Send update to Keycloak
+    var putUrl = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}";
+    var content = new StringContent(
+      JsonSerializer.Serialize(updatedUser),
+      Encoding.UTF8,
+      "application/json"
+    );
+    _logger.LogDebug("UpdateCustomAttributes: Sending PUT to {Url}", putUrl);
+    var putRes = await client.PutAsync(putUrl, content);
+    _logger.LogDebug(
+      "UpdateCustomAttributes: PUT response status = {StatusCode}",
+      putRes.StatusCode
+    );
+
+    if (!putRes.IsSuccessStatusCode)
+    {
+      var error = await putRes.Content.ReadAsStringAsync();
+      _logger.LogError("UpdateCustomAttributes: Failed to update attributes: {Error}", error);
+      return StatusCode(
+        (int)putRes.StatusCode,
+        $"Failed to update attributes in Keycloak: {error}"
+      );
+    }
+
+    _logger.LogInformation(
+      "UpdateCustomAttributes: Successfully updated custom attributes for user {UserId}",
+      userId
+    );
+    return Ok(new { message = "Custom attributes updated successfully." });
+  }
+
   // Example mapping (hardcoded; you could load from config/db if needed)
 
+  [HttpPut("user-profile-config")]
+  // [Authorize(Roles = "admin")] // Optional: restrict to admins
+  public async Task<IActionResult> UpdateUserProfileConfig()
+  {
+    var adminToken = await GetAdminAccessToken();
+
+    using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+      "Bearer",
+      adminToken
+    );
+    client.DefaultRequestHeaders.Accept.Add(
+      new MediaTypeWithQualityHeaderValue("application/json")
+    );
+
+    var payload = new
+    {
+      attributes = new[]
+      {
+        new
+        {
+          name = "jobTitle",
+          displayName = "Job Title",
+          permissions = new { view = new[] { "user", "admin" }, edit = new[] { "user", "admin" } },
+          annotations = new { inputType = "text" },
+          displayAnnotations = new { form = new[] { "account", "admin" } },
+        },
+        new
+        {
+          name = "preferredLanguage",
+          displayName = "Preferred Language",
+          permissions = new { view = new[] { "user", "admin" }, edit = new[] { "user", "admin" } },
+          annotations = new { inputType = "text" },
+          displayAnnotations = new { form = new[] { "account", "admin" } },
+        },
+      },
+    };
+
+    var url = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/user-profile";
+    var json = JsonSerializer.Serialize(payload);
+    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+    var res = await client.PutAsync(url, content);
+    var responseBody = await res.Content.ReadAsStringAsync();
+
+    if (!res.IsSuccessStatusCode)
+    {
+      _logger.LogError("Failed to update user-profile config: {Response}", responseBody);
+      return StatusCode((int)res.StatusCode, responseBody);
+    }
+
+    return Ok(new { message = "User profile config updated successfully." });
+  }
 
   private async Task<string> GetAdminAccessToken()
   {

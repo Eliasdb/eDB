@@ -60,7 +60,7 @@ export default function App() {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
       case 'Account Security':
-        return <AccountSettingsView />;
+        return <AccountSettingsView token={token} />;
       case 'Applications':
         return <ApplicationsView />;
       default:
@@ -103,7 +103,7 @@ export default function App() {
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto pt-[10rem] ">
+          <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto py-[10rem] ">
             {renderContent()}
           </div>
         </SidebarInset>
