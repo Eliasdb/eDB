@@ -35,7 +35,7 @@ type OtpCred = {
   createdDate?: number;
 };
 
-export function AccountSettingsView() {
+export function AccountSettingsView({ token }: { token: string | null }) {
   /* password form -------------------------------------------------------- */
   const [newPassword, setNewPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
@@ -59,7 +59,6 @@ export function AccountSettingsView() {
 
   /* existing OTP devices ------------------------------------------------- */
   const [devices, setDevices] = React.useState<OtpCred[]>([]);
-  const token = React.useMemo(() => localStorage.getItem('access_token'), []);
 
   const [sessions, setSessions] = React.useState<SessionInfo[]>([]);
 
@@ -99,7 +98,6 @@ export function AccountSettingsView() {
   }
 
   async function handleTotpSubmit() {
-    const token = localStorage.getItem('access_token');
     if (!token) return alert('No access token');
 
     try {
