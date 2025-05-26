@@ -1,23 +1,12 @@
+// apps/eDB/module-federation.config.ts
 import { ModuleFederationConfig } from '@nx/module-federation';
+import { environment } from './src/environments/environment';
 
 const config: ModuleFederationConfig = {
   name: 'eDB',
-  /**
-   * To use a remote that does not exist in your current Nx Workspace
-   * You can use the tuple-syntax to define your remote
-   *
-   * remotes: [['my-external-remote', 'https://nx-angular-remote.netlify.app']]
-   *
-   * You _may_ need to add a `remotes.d.ts` file to your `src/` folder declaring the external remote for tsc, with the
-   * following content:
-   *
-   * declare module 'my-external-remote';
-   *
-   */
-  remotes: ['eDB-admin'],
+  remotes: [
+    ['eDB-admin', `${environment.mfManifestBaseUrl}/remoteEntry.mjs`], // this is used only for dev
+  ],
 };
 
-/**
- * Nx requires a default export of the config to allow correct resolution of the module federation graph.
- **/
 export default config;
