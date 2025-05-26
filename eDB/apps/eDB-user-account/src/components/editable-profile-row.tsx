@@ -44,7 +44,7 @@ export function EditableProfileRow({
           placeholder="First name"
           value={value}
           onChange={onChange}
-          className="w-full text-sm h-10 md:max-w-xs"
+          className="w-full text-base h-10 md:max-w-xs"
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -56,7 +56,7 @@ export function EditableProfileRow({
           placeholder="Last name"
           value={secondaryValue}
           onChange={onChange}
-          className="w-full text-sm h-10 md:max-w-xs"
+          className="w-full text-base h-10 md:max-w-xs"
         />
       </div>
     </div>
@@ -68,7 +68,7 @@ export function EditableProfileRow({
       placeholder={`Enter ${label.toLowerCase()}`}
       value={value}
       onChange={onChange}
-      className="w-full text-sm h-10 md:max-w-xs"
+      className="w-full text-base h-10 md:max-w-xs"
     />
   );
 
@@ -76,19 +76,19 @@ export function EditableProfileRow({
     <div
       className={`
         border-t pt-4
-        grid gap-y-2
+        grid 
         grid-cols-1
         md:grid-cols-[1fr_2fr_1fr]
         ${isEditing ? 'md:items-start' : 'md:items-center'}
       `}
     >
       <div className="flex justify-between items-center md:justify-start md:col-start-1 md:col-end-2">
-        <span className="font-medium">{label}</span>
+        <span className="font-normal">{label}</span>
         <div className="md:hidden w-[72px] flex justify-end">
           <Button
             size="sm"
             variant="ghost"
-            className={`text-sm transition-opacity duration-150 ${
+            className={`text-sm font-normal transition-opacity duration-150 ${
               isEditing ? 'opacity-0 pointer-events-none' : 'opacity-100'
             }`}
             onClick={onEdit}
@@ -101,7 +101,7 @@ export function EditableProfileRow({
       <div className="md:col-start-2 md:col-end-3 flex flex-col gap-2">
         {isEditing ? (
           <>
-            <span className="text-sm font-base text-muted-foreground">
+            <span className="text-sm font-normal text-muted-foreground">
               Update your {label.toLowerCase()}
             </span>
             {inputSection}
@@ -127,13 +127,13 @@ export function EditableProfileRow({
         )}
       </div>
 
-      <div className="md:col-start-3 md:col-end-4 text-right flex flex-col items-end gap-2">
+      <div className="md:col-start-3 md:col-end-4 text-right flex flex-col items-end gap-2 ">
         <div className="hidden md:block relative">
           {!isEditing && (
             <Button
               size="sm"
               variant="ghost"
-              className="text-sm absolute top-1/2 right-0 -translate-y-1/2"
+              className="text-sm font-normal absolute top-1/2 right-0 -translate-y-1/2"
               onClick={onEdit}
             >
               Edit <Pencil className="w-4 h-4 ml-1" />

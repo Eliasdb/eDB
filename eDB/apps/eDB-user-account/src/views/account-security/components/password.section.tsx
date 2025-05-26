@@ -60,11 +60,7 @@ export function PasswordSettingsSection({
 
       <div className="space-y-2">
         <h4 className="text-base font-medium">Basic authentication</h4>
-        <p className="text-base">Password</p>
-        <p className="text-base">Sign in by entering your password.</p>
       </div>
-
-      <Separator />
 
       <div className="flex items-center justify-between">
         <div>

@@ -92,7 +92,7 @@ export function AccountSecurityView({ token }: { token: string | null }) {
 
   return (
     <section className="rounded-xl bg-muted/50 space-y-6">
-      <h2 className="text-xl font-semibold mb-8">Account Security</h2>
+      <h2 className="text-xl mb-8">Account Security</h2>
 
       <div className="space-y-1">
         <h3 className="text-base font-medium">Signing in</h3>
@@ -107,12 +107,14 @@ export function AccountSecurityView({ token }: { token: string | null }) {
         }}
       />
 
-      <OtpDevicesSection devices={devices} onDelete={handleDelete} />
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-16">
+        <OtpDevicesSection devices={devices} onDelete={handleDelete} />
 
-      <SessionDevicesSection
-        sessions={sessions}
-        onRevoke={handleRevokeSession}
-      />
+        <SessionDevicesSection
+          sessions={sessions}
+          onRevoke={handleRevokeSession}
+        />
+      </section>
 
       {/* {totp && (
         <div className="mt-6 p-4 rounded-xl border bg-white/90 shadow-sm space-y-4">

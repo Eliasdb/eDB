@@ -33,8 +33,8 @@ export function ApplicationsView() {
 
   return (
     <section className="space-y-6">
-      <h2 className="text-xl font-semibold">Applications</h2>
-      <p className="text-sm text-muted-foreground">
+      <h2 className="text-xl font-normal mb-8">Applications</h2>
+      <p className="text-base text-muted-foreground">
         View applications your account has access to.
       </p>
 

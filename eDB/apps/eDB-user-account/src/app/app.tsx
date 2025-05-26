@@ -1,3 +1,5 @@
+'use client';
+
 // Hooks
 import { useEffect, useState } from 'react';
 
@@ -30,31 +32,48 @@ import {
 import { breadcrumbLabels, sampleData } from '../data/sample-data';
 
 // DAL
-import { fetchUserInfo, getToken } from '../services/user-service';
+import { fetchCustomAttributes, getToken } from '../services/user-service';
+
+// Query Hook
+import { useUserInfoQuery } from '../hooks/useUserInfoQuery';
 
 // Types
 import { UserInfo } from '../types/types';
 
+// External libs
+
 export default function App() {
   const [selectedNavItem, setSelectedNavItem] = useState(sampleData.navMain[0]);
-
   const [token, setToken] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
-    getToken().then((resolvedToken) => {
-      if (!resolvedToken) return;
-      setToken(resolvedToken);
-
-      fetchUserInfo(resolvedToken)
-        .then((data) => {
-          if (data) setUserInfo(data);
-        })
-        .catch((err) => console.error('Failed to fetch user info:', err));
-    });
+    getToken().then(setToken);
   }, []);
 
+  const { data, isLoading, isError } = useUserInfoQuery(token);
+
+  useEffect(() => {
+    if (!data) return;
+    fetchCustomAttributes(token!)
+      .then((custom) => {
+        const merged = {
+          ...data,
+          attributes: custom.attributes ?? {},
+        };
+        console.log('✅ merged userInfo:', merged);
+        setUserInfo(merged);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch custom attributes:', err);
+      });
+  }, [data, token]);
+
   function renderContent() {
+    if (isLoading) return <div className="p-6">Loading...</div>;
+    if (isError || !userInfo)
+      return <div className="p-6 text-red-500">Failed to load user info.</div>;
+
     switch (selectedNavItem?.title) {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
@@ -77,7 +96,7 @@ export default function App() {
               name: userInfo.preferred_username,
               email: userInfo.email,
               avatar:
-                'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg', // You can adjust this or use a real avatar
+                'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg',
             }
           }
         />
