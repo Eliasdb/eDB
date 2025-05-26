@@ -1,5 +1,5 @@
 // Components
-import { Contact } from 'lucide-react';
+import { Building2, Contact } from 'lucide-react';
 import { EditableProfileRow } from '../../components/editable-profile-row';
 
 // Services
@@ -167,8 +167,8 @@ export function PersonalInfoView({ userInfo }: Props) {
       <section>
         <div className="flex items-center justify-between pb-2 ">
           <h2 className="text-lg font-normal flex items-center gap-2">
-            <Contact className="w-5 h-5" />
-            Company Information
+            <Building2 className="w-5 h-5" />
+            Company
           </h2>
         </div>
         <section className="text-sm bg-white space-y-6">
