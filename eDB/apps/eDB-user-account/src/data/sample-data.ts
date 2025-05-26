@@ -59,3 +59,9 @@ export const sampleData = {
     { name: 'Applications', url: '#', icon: Map },
   ],
 };
+
+export const breadcrumbLabels: Record<string, string> = {
+  'Personal Info': 'Personal Info',
+  'Account Security': 'Account Security',
+  Applications: 'Applications',
+};

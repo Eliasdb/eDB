@@ -12,7 +12,10 @@ export default defineConfig({
 
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/components/defineWebComponent.tsx'),
+      entry: path.resolve(
+        __dirname,
+        'src/components/webcomponent-entry/defineWebComponent.tsx',
+      ),
       name: 'eDBUserAccount',
       fileName: () => 'eDB-user-account.js',
       formats: ['umd'],

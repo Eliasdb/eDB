@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import App from '../app/app';
+import App from '../../app/app';
 
 export function defineReactWebComponent() {
   class ReactWebComponent extends HTMLElement {

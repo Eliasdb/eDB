@@ -1,14 +1,8 @@
-// App.tsx
-'use client';
+// Hooks
+import { useEffect, useState } from 'react';
 
-import * as React from 'react';
+// Components
 import { AppSidebar } from '../components/app-sidebar';
-import { sampleData } from '../components/lib/sample-data';
-import {
-  fetchUserInfo,
-  getToken,
-  type UserInfo,
-} from '../components/lib/user-service';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,26 +17,31 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '../components/ui/sidebar';
-import { AccountSettingsView } from '../components/views/account-settings-view';
-import { ApplicationsView } from '../components/views/application-view';
-import { PersonalInfoView } from '../components/views/personal-info-view';
-import { PlaceholderView } from '../components/views/placeholder-view';
 
-const breadcrumbLabels: Record<string, string> = {
-  'Personal Info': 'Personal Info',
-  'Account Security': 'Account Security',
-  Applications: 'Applications',
-};
+// Views
+import {
+  AccountSecurityView,
+  ApplicationsView,
+  PersonalInfoView,
+  PlaceholderView,
+} from '../views';
+
+// Data
+import { breadcrumbLabels, sampleData } from '../data/sample-data';
+
+// DAL
+import { fetchUserInfo, getToken } from '../services/user-service';
+
+// Types
+import { UserInfo } from '../types/types';
 
 export default function App() {
-  const [selectedNavItem, setSelectedNavItem] = React.useState(
-    sampleData.navMain[0],
-  );
+  const [selectedNavItem, setSelectedNavItem] = useState(sampleData.navMain[0]);
 
-  const [token, setToken] = React.useState<string | null>(null);
-  const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getToken().then((resolvedToken) => {
       if (!resolvedToken) return;
       setToken(resolvedToken);
@@ -60,7 +59,7 @@ export default function App() {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
       case 'Account Security':
-        return <AccountSettingsView token={token} />;
+        return <AccountSecurityView token={token} />;
       case 'Applications':
         return <ApplicationsView />;
       default:
