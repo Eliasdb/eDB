@@ -64,7 +64,7 @@ export function PasswordSettingsSection({
 
       <div className="flex items-center justify-between">
         <div>
-          <h5 className="text-base font-medium">My password</h5>
+          <h5 className="text-base font-medium">••••••••••••</h5>
           <p className="text-sm">
             {pwdCreated ? (
               <>
