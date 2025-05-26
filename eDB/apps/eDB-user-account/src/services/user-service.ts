@@ -111,3 +111,39 @@ export async function fetchApplications(token: string): Promise<Application[]> {
 
   return res.json();
 }
+
+export async function updateCustomAttributes(
+  data: { attributes: Record<string, string> },
+  token: string,
+): Promise<{ message: string }> {
+  const res = await fetch(`${BASE_URL}/custom-attributes`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || 'Failed to update custom attributes');
+  }
+
+  return res.json();
+}
+
+export async function fetchCustomAttributes(token: string): Promise<{
+  attributes: Record<string, string>;
+}> {
+  const res = await fetch(`${BASE_URL}/custom-attributes`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || 'Failed to fetch custom attributes');
+  }
+
+  return res.json(); // should return { attributes: { jobTitle: ..., company: ..., ... } }
+}

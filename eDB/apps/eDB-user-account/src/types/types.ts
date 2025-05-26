@@ -10,6 +10,12 @@ export type UserInfo = {
   given_name: string;
   family_name: string;
   preferred_username: string;
+  attributes?: {
+    jobTitle?: string;
+    company?: string;
+    industry?: string;
+    [key: string]: string | undefined;
+  };
 };
 
 export type UpdateProfilePayload = {

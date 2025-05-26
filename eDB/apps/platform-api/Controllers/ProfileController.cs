@@ -466,19 +466,10 @@ public class ProfileController : BaseApiController
     );
 
     var getUrl = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}";
-    _logger.LogDebug("UpdateCustomAttributes: Sending GET to {Url}", getUrl);
     var getRes = await client.GetAsync(getUrl);
-    _logger.LogDebug(
-      "UpdateCustomAttributes: GET response status = {StatusCode}",
-      getRes.StatusCode
-    );
     if (!getRes.IsSuccessStatusCode)
     {
       var error = await getRes.Content.ReadAsStringAsync();
-      _logger.LogError(
-        "UpdateCustomAttributes: Failed to fetch existing user data: {Error}",
-        error
-      );
       return StatusCode(
         (int)getRes.StatusCode,
         "Failed to fetch existing user data from Keycloak."
@@ -513,12 +504,8 @@ public class ProfileController : BaseApiController
       ["enabled"] = TryGetBool(root, "enabled"),
       ["attributes"] = dto.Attributes.ToDictionary(kvp => kvp.Key, kvp => new[] { kvp.Value }),
     };
-    _logger.LogInformation(
-      "UpdateCustomAttributes: Built updated payload: {@UpdatedUser}",
-      updatedUser
-    );
+
     var payloadJson = JsonSerializer.Serialize(updatedUser);
-    _logger.LogInformation("UpdateCustomAttributes: PUT payload = {Payload}", payloadJson);
 
     // 5. Send update to Keycloak
     var putUrl = $"{_kc.BaseUrl}/admin/realms/{_kc.Realm}/users/{userId}";
@@ -537,7 +524,6 @@ public class ProfileController : BaseApiController
     if (!putRes.IsSuccessStatusCode)
     {
       var error = await putRes.Content.ReadAsStringAsync();
-      _logger.LogError("UpdateCustomAttributes: Failed to update attributes: {Error}", error);
       return StatusCode(
         (int)putRes.StatusCode,
         $"Failed to update attributes in Keycloak: {error}"
