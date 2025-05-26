@@ -1,14 +1,10 @@
-// App.tsx
 'use client';
 
-import * as React from 'react';
+// Hooks
+import { useEffect, useState } from 'react';
+
+// Components
 import { AppSidebar } from '../components/app-sidebar';
-import { sampleData } from '../components/lib/sample-data';
-import {
-  fetchUserInfo,
-  getToken,
-  type UserInfo,
-} from '../components/lib/user-service';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,44 +19,66 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '../components/ui/sidebar';
-import { AccountSettingsView } from '../components/views/account-settings-view';
-import { ApplicationsView } from '../components/views/application-view';
-import { PersonalInfoView } from '../components/views/personal-info-view';
-import { PlaceholderView } from '../components/views/placeholder-view';
 
-const breadcrumbLabels: Record<string, string> = {
-  'Personal Info': 'Personal Info',
-  'Account Security': 'Account Security',
-  Applications: 'Applications',
-};
+// Views
+import {
+  AccountSecurityView,
+  ApplicationsView,
+  PersonalInfoView,
+  PlaceholderView,
+} from '../views';
+
+// Data
+import { breadcrumbLabels, sampleData } from '../data/sample-data';
+
+// DAL
+import { fetchCustomAttributes, getToken } from '../services/user-service';
+
+// Query Hook
+import { useUserInfoQuery } from '../hooks/useUserInfoQuery';
+
+// Types
+import { UserInfo } from '../types/types';
+
+// External libs
 
 export default function App() {
-  const [selectedNavItem, setSelectedNavItem] = React.useState(
-    sampleData.navMain[0],
-  );
+  const [selectedNavItem, setSelectedNavItem] = useState(sampleData.navMain[0]);
+  const [token, setToken] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
-  const [token, setToken] = React.useState<string | null>(null);
-  const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
-
-  React.useEffect(() => {
-    getToken().then((resolvedToken) => {
-      if (!resolvedToken) return;
-      setToken(resolvedToken);
-
-      fetchUserInfo(resolvedToken)
-        .then((data) => {
-          if (data) setUserInfo(data);
-        })
-        .catch((err) => console.error('Failed to fetch user info:', err));
-    });
+  useEffect(() => {
+    getToken().then(setToken);
   }, []);
 
+  const { data, isLoading, isError } = useUserInfoQuery(token);
+
+  useEffect(() => {
+    if (!data) return;
+    fetchCustomAttributes(token!)
+      .then((custom) => {
+        const merged = {
+          ...data,
+          attributes: custom.attributes ?? {},
+        };
+        console.log('✅ merged userInfo:', merged);
+        setUserInfo(merged);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch custom attributes:', err);
+      });
+  }, [data, token]);
+
   function renderContent() {
+    if (isLoading) return <div className="p-6">Loading...</div>;
+    if (isError || !userInfo)
+      return <div className="p-6 text-red-500">Failed to load user info.</div>;
+
     switch (selectedNavItem?.title) {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
       case 'Account Security':
-        return <AccountSettingsView token={token} />;
+        return <AccountSecurityView token={token} />;
       case 'Applications':
         return <ApplicationsView />;
       default:
@@ -78,7 +96,7 @@ export default function App() {
               name: userInfo.preferred_username,
               email: userInfo.email,
               avatar:
-                'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg', // You can adjust this or use a real avatar
+                'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg',
             }
           }
         />

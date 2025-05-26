@@ -1,18 +1,9 @@
-// components/lib/user-service.ts
-
-export type UserInfo = {
-  email: string;
-  given_name: string;
-  family_name: string;
-  preferred_username: string;
-};
-
-export type UpdateProfilePayload = {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-};
+import {
+  Application,
+  SessionInfo,
+  UpdateProfilePayload,
+  UserInfo,
+} from '../types/types';
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:5098/api/profile';
@@ -88,14 +79,6 @@ export async function fetchPasswordMeta(token: string) {
   return createdDate ?? null;
 }
 
-export type SessionInfo = {
-  id: string;
-  ipAddress: string;
-  lastAccess: number;
-  start: number;
-  clients: Record<string, string>;
-};
-
 export async function fetchUserSessions(token: string): Promise<SessionInfo[]> {
   const res = await fetch(`${BASE_URL}/sessions`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -116,14 +99,6 @@ export async function revokeSession(sessionId: string, token: string) {
   }
 }
 
-export type Application = {
-  clientId: string;
-  name: string;
-  url: string;
-  type: 'Internal' | 'External';
-  status: 'In use' | 'Idle';
-};
-
 export async function fetchApplications(token: string): Promise<Application[]> {
   const res = await fetch(`${BASE_URL}/applications`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -135,4 +110,40 @@ export async function fetchApplications(token: string): Promise<Application[]> {
   }
 
   return res.json();
+}
+
+export async function updateCustomAttributes(
+  data: { attributes: Record<string, string> },
+  token: string,
+): Promise<{ message: string }> {
+  const res = await fetch(`${BASE_URL}/custom-attributes`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || 'Failed to update custom attributes');
+  }
+
+  return res.json();
+}
+
+export async function fetchCustomAttributes(token: string): Promise<{
+  attributes: Record<string, string>;
+}> {
+  const res = await fetch(`${BASE_URL}/custom-attributes`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || 'Failed to fetch custom attributes');
+  }
+
+  return res.json(); // should return { attributes: { jobTitle: ..., company: ..., ... } }
 }

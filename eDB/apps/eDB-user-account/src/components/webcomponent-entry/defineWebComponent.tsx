@@ -1,5 +1,7 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import ReactDOM from 'react-dom/client';
-import App from '../app/app';
+import App from '../../app/app';
+import { queryClient } from '../../utils/react-query';
 
 export function defineReactWebComponent() {
   class ReactWebComponent extends HTMLElement {
@@ -21,7 +23,11 @@ export function defineReactWebComponent() {
       shadowRoot.appendChild(container);
 
       this.root = ReactDOM.createRoot(container);
-      this.root.render(<App />);
+      this.root.render(
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>,
+      );
     }
 
     disconnectedCallback() {
