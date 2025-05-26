@@ -65,6 +65,9 @@ importers:
       '@ngneat/query':
         specifier: ^3.1.1
         version: 3.1.1(@angular/core@19.0.3(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-core@5.76.0)
+      '@nx/angular':
+        specifier: 20.2.0
+        version: 20.2.0(lv4feskgxgwericx2dpv3rzkca)
       '@radix-ui/react-avatar':
         specifier: ^1.1.9
         version: 1.1.10(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -207,9 +210,6 @@ importers:
       '@nx-dotnet/core':
         specifier: ^2.5.0
         version: 2.5.0(@nx/js@20.8.2(@babel/traverse@7.27.1)(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.6.3))(@swc/core@1.5.29(@swc/helpers@0.5.17))(nx@20.8.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.6.3))(@swc/core@1.5.29(@swc/helpers@0.5.17))))(@openapitools/openapi-generator-cli@2.20.2(encoding@0.1.13))(eslint@9.27.0(jiti@2.4.2))(nx@20.8.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.6.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))(prettier@3.5.3)
-      '@nx/angular':
-        specifier: 20.2.0
-        version: 20.2.0(lv4feskgxgwericx2dpv3rzkca)
       '@nx/cypress':
         specifier: 20.2.0
         version: 20.2.0(@babel/traverse@7.27.1)(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.6.3))(@swc/core@1.5.29(@swc/helpers@0.5.17))(@types/node@22.15.21)(@zkochan/js-yaml@0.0.7)(cypress@13.17.0)(eslint@9.27.0(jiti@2.4.2))(nx@20.8.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.6.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))(typescript@5.6.3)

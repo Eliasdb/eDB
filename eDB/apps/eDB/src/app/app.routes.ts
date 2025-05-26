@@ -5,6 +5,10 @@ import { WrapperComponent } from './wrapReact';
 
 export const routes: Route[] = [
   {
+    path: 'admin',
+    loadChildren: () => import('eDB_admin/Routes').then((m) => m!.remoteRoutes),
+  },
+  {
     path: '',
     canActivate: [AuthGuard],
     children: [

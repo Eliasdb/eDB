@@ -1,5 +1,5 @@
 // Components
-import { Building2, Contact } from 'lucide-react';
+import { Building2, Contact, Pencil } from 'lucide-react';
 import { EditableProfileRow } from '../../components/editable-profile-row';
 
 // Services
@@ -11,6 +11,7 @@ import {
 } from '../../services/user-service';
 
 // Types
+import { Button } from '../../components/ui/button';
 import { UserInfo } from '../../types/types';
 type Props = { userInfo?: UserInfo | null };
 
@@ -201,6 +202,58 @@ export function PersonalInfoView({ userInfo }: Props) {
             );
           })}
         </section>
+      </section>
+
+      <section className="pt-12 mt-12 border-t">
+        <div className="flex items-center justify-between pb-2">
+          <h2 className="text-lg font-normal flex items-center gap-2 text-destructive">
+            <Pencil className="w-5 h-5" />
+            Danger Zone
+          </h2>
+        </div>
+        <div className="text-sm bg-white">
+          <div
+            className="
+        border-t pt-4
+        grid
+        grid-cols-1
+        md:grid-cols-[1fr_2fr_1fr]
+        md:items-center
+      "
+          >
+            <div className="flex justify-between items-center md:justify-start md:col-start-1 md:col-end-2">
+              <span className="font-normal text-destructive">
+                Delete Account
+              </span>
+            </div>
+
+            <div className="md:col-start-2 md:col-end-3 flex flex-col gap-2">
+              <span className="text-sm text-muted-foreground">
+                Permanently remove your account and all associated data.
+              </span>
+            </div>
+
+            <div className="md:col-start-3 md:col-end-4 text-right">
+              <Button
+                size="sm"
+                variant="destructive"
+                className="w-full md:w-auto"
+                onClick={() => {
+                  if (
+                    confirm(
+                      'Are you sure you want to delete your account? This action cannot be undone.',
+                    )
+                  ) {
+                    // TODO: hook into delete account logic
+                    alert('Account deletion is not yet implemented.');
+                  }
+                }}
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
       </section>
     </section>
   );
