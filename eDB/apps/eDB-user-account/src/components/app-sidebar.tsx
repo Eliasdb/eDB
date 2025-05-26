@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { sampleData } from './lib/sample-data';
+import { sampleData } from '../data/sample-data';
 
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';

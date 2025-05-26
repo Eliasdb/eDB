@@ -1,18 +1,9 @@
-// components/lib/user-service.ts
-
-export type UserInfo = {
-  email: string;
-  given_name: string;
-  family_name: string;
-  preferred_username: string;
-};
-
-export type UpdateProfilePayload = {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-};
+import {
+  Application,
+  SessionInfo,
+  UpdateProfilePayload,
+  UserInfo,
+} from '../types/types';
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:5098/api/profile';
@@ -88,14 +79,6 @@ export async function fetchPasswordMeta(token: string) {
   return createdDate ?? null;
 }
 
-export type SessionInfo = {
-  id: string;
-  ipAddress: string;
-  lastAccess: number;
-  start: number;
-  clients: Record<string, string>;
-};
-
 export async function fetchUserSessions(token: string): Promise<SessionInfo[]> {
   const res = await fetch(`${BASE_URL}/sessions`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -115,14 +98,6 @@ export async function revokeSession(sessionId: string, token: string) {
     throw new Error(err.message || 'Failed to revoke session');
   }
 }
-
-export type Application = {
-  clientId: string;
-  name: string;
-  url: string;
-  type: 'Internal' | 'External';
-  status: 'In use' | 'Idle';
-};
 
 export async function fetchApplications(token: string): Promise<Application[]> {
   const res = await fetch(`${BASE_URL}/applications`, {

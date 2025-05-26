@@ -1,4 +1,7 @@
 // lib/totp-service.ts
+
+const API = 'http://localhost:5098/api/profile';
+
 export async function fetchTotpSetup(token: string) {
   const res = await fetch('/realms/eDB/totp-setup', {
     headers: {
@@ -27,9 +30,6 @@ export async function confirmTotpSetup(
     throw new Error(error.error || 'TOTP verification failed');
   }
 }
-
-/* lib/totp-service.ts ---------------------------------------------- */
-const API = 'http://localhost:5098/api/profile';
 
 export async function fetchOtpDevices(token: string) {
   const res = await fetch(`${API}/otp-devices`, {

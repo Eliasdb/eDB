@@ -1,13 +1,15 @@
-'use client';
-
+// Hooks
 import { useEffect, useState } from 'react';
-import {
-  fetchApplications,
-  getToken,
-  type Application,
-} from '../lib/user-service';
-import { Card } from '../ui/card';
-import { Separator } from '../ui/separator';
+
+// Components
+import { Card } from '../../components/ui/card';
+import { Separator } from '../../components/ui/separator';
+
+// Services
+import { fetchApplications, getToken } from '../../services/user-service';
+
+// Types
+import { Application } from '../../types/types';
 
 export function ApplicationsView() {
   const [apps, setApps] = useState<Application[]>([]);
