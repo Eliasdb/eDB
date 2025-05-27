@@ -64,7 +64,10 @@
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
               "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB-admin/webpack.prod.config.ts"
+          }
         },
         "development": {
           "optimization": false,

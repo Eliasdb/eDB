@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-admin-home',
   imports: [RouterLink],
   template: `
-    <h1 style="margin-top: 16rem;">Welcome to the Admin Home Page!!!!!</h1>
+    <h1 style="margin-top: 16rem;">Welcome to the Admin Home Page!!!!!!!</h1>
     <a routerLink="/dashboard">To dashboard</a>
   `,
 })
