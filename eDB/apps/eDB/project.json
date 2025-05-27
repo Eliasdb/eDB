@@ -85,7 +85,10 @@
               "replace": "apps/eDB/src/environments/environment.ts",
               "with": "apps/eDB/src/environments/environment.staging.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB/webpack.staging.config.ts"
+          }
         },
         "development": {
           "optimization": false,
