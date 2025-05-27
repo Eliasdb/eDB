@@ -1,3 +1,5 @@
+console.log('🛠️  Using PRODUCTION webpack config for eDB-admin');
+
 import { withModuleFederation } from '@nx/module-federation/angular';
 import config from './module-federation.config';
 
