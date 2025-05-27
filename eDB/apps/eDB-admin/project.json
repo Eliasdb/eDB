@@ -66,7 +66,7 @@
             }
           ],
           "customWebpackConfig": {
-            "path": "apps/eDB-admin/webpack.prod.config.ts"
+            "path": "apps/eDB-admin/webpack.staging.config.ts"
           }
         },
         "development": {
