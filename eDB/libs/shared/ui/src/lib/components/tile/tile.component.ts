@@ -11,13 +11,13 @@ import { UiTagComponent } from '../tag/tag.component';
       [class.subscribed]="isSubscribed()"
       class="relative flex flex-col min-w-[20rem]  transition-colors duration-1000 ease-linear border border-width-2 rounded-[0.375rem]"
     >
-      <div class="flex flex-col gap-4 p-4">
+      <div class="flex flex-col gap-4 ">
         <h3 class="m-0 text-base text-[#1f2937] font-semibold">
           {{ title() }}
         </h3>
         <p class="m-0 text-[0.9rem] text-[#6f6f6f] pr-8">{{ description() }}</p>
       </div>
-      <div class="flex justify-between items-center px-4">
+      <div class="flex justify-between items-center">
         <div class="flex flex-wrap">
           @for (tag of tags(); track $index) {
             <ui-tag [label]="tag"></ui-tag>

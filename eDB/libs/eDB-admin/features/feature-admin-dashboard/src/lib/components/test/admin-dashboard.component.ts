@@ -65,7 +65,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
 
       <!-- Main Content -->
       <mat-drawer-content>
-        <div class="p-4  bg-[#161616] text-white h-[calc(100dvh-5rem)]">
+        <div class="p-4 bg-white text-black   min-h-[calc(100dvh-5rem)]">
           <div class="w-full">
             <button
               mat-icon-button
@@ -78,32 +78,42 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           </div>
 
           <ng-container *ngIf="currentView() === 'platform'">
-            <h2 class="mb-4 text-2xl font-bold">Dashboard</h2>
+            <h2 class="mb-4 text-2xl font-medium">Dashboard</h2>
 
             <!-- Metric Tiles -->
             <div class="flex flex-col md:flex-row gap-4 mb-4">
-              <cds-tile class="flex-1 bg-[#262626] p-4">
+              <cds-tile
+                class="flex-1  border border-width-2 rounded-[0.375rem] "
+              >
                 <h5 class="mb-1 font-light opacity-80">Total Revenue</h5>
-                <h3 class="text-xl font-semibold">{{ totalRevenue }}</h3>
+                <h3 class="text-xl font-medium">{{ totalRevenue }}</h3>
               </cds-tile>
-              <cds-tile class="flex-1 bg-[#262626] p-4">
+              <cds-tile
+                class="flex-1   border border-width-2 rounded-[0.375rem]"
+              >
                 <h5 class="mb-1 font-light opacity-80">Customers</h5>
-                <h3 class="text-xl font-semibold">{{ customers }}</h3>
+                <h3 class="text-xl font-medium">{{ customers }}</h3>
               </cds-tile>
-              <cds-tile class="flex-1 bg-[#262626] p-4">
+              <cds-tile
+                class="flex-1   border border-width-2 rounded-[0.375rem]"
+              >
                 <h5 class="mb-1 font-light opacity-80">Avg Order Value</h5>
-                <h3 class="text-xl font-semibold">{{ avgOrderValue }}</h3>
+                <h3 class="text-xl font-medium">{{ avgOrderValue }}</h3>
               </cds-tile>
-              <cds-tile class="flex-1 bg-[#262626] p-4">
+              <cds-tile
+                class="flex-1   border border-width-2 rounded-[0.375rem]"
+              >
                 <h5 class="mb-1 font-light opacity-80">Sessions</h5>
-                <h3 class="text-xl font-semibold">{{ sessions }}</h3>
+                <h3 class="text-xl font-medium">{{ sessions }}</h3>
               </cds-tile>
             </div>
 
             <!-- Charts Row -->
             <div class="flex flex-col md:flex-row gap-4 mb-4">
-              <cds-tile class="flex-1 bg-[#262626] p-4 flex flex-col">
-                <h4 class="mb-2 text-lg font-bold">Revenue</h4>
+              <cds-tile
+                class="flex-1 border border-width-2 rounded-[0.375rem] p-4 flex flex-col"
+              >
+                <h4 class="mb-2 text-lg font-medium">Revenue</h4>
                 <div class="flex-1 min-h-[300px]">
                   <canvas
                     baseChart
@@ -113,8 +123,10 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                   ></canvas>
                 </div>
               </cds-tile>
-              <cds-tile class="flex-1 bg-[#262626] p-4 flex flex-col">
-                <h4 class="mb-2 text-lg font-bold">Sales by Category</h4>
+              <cds-tile
+                class="flex-1 border border-width-2 rounded-[0.375rem] p-4 flex flex-col"
+              >
+                <h4 class="mb-2 text-lg font-medium">Sales by Category</h4>
                 <div class="flex-1 min-h-[300px]">
                   <canvas
                     baseChart
@@ -129,7 +141,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
             <!-- Bottom Row -->
             <div class="flex flex-col md:flex-row gap-4">
               <cds-tile class="flex-1 bg-[#262626] p-4">
-                <h4 class="mb-2 text-lg font-bold">Platform Applications</h4>
+                <h4 class="mb-2 text-lg font-medium">Platform Applications</h4>
                 <ui-table
                   [model]="tableModel"
                   [showToolbar]="false"
@@ -142,7 +154,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                 ></ui-table>
               </cds-tile>
               <cds-tile class="flex-1 bg-[#262626] p-4">
-                <h4 class="mb-2 text-lg font-bold">Top Products</h4>
+                <h4 class="mb-2 text-lg font-medium">Top Products</h4>
                 <ul class="list-none p-0 m-0">
                   <li
                     class="flex justify-between py-1 border-b border-gray-700"
