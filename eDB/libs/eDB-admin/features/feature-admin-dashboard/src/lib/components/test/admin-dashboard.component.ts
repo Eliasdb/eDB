@@ -25,6 +25,7 @@ import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Application } from '../../types/application-overview.type';
 import { APPLICATION_TABLE_CONFIG } from '../platform/applications-collection/applications-collection.container.config';
+import { UsersCollectionContainer } from '../platform/users-collection/users-collection.container';
 import { AdminSidebarComponent } from './admin-sidebar.component';
 
 @Component({
@@ -41,6 +42,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     MatIconModule,
     MatButtonModule,
     CommonModule,
+    UsersCollectionContainer,
   ],
   template: `
     <!-- Floating button to open the sidebar when closed -->
@@ -186,6 +188,10 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                   </li>
                 </ul>
               </cds-tile>
+            </div>
+
+            <div>
+              <platform-admin-users-collection></platform-admin-users-collection>
             </div>
           </ng-container>
 
