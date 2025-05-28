@@ -13,7 +13,7 @@
   --cds-body-compact-01-font-size: 1rem;
   --cds-body-compact-02-font-size: 0.9rem;
   --accent: #f1f6fd;
-
+  --cds-layer-accent-01: var(--accent);
   --accent-complimentary: #1f2937;
   --cds-border-interactive: white;
   --cds-text-primary: rgba(0, 0, 0, 0.9);
@@ -176,8 +176,8 @@ a.cds--header__menu-item {
   }
 }
 
-.cds--data-table thead th.cds--table-column-checkbox {
-  padding-inline: 1rem 2rem;
+.cds--data-table-header {
+  padding-inline: 0;
 }
 
 /* // .cds--btn {

@@ -11,93 +11,90 @@ using Microsoft.EntityFrameworkCore;
 namespace Edb.PlatformAPI.Services
 {
   public class AdminService(
-    // IUserRepository userRepository,
+    KeycloakDbContext keycloakContext,
     IApplicationRepository applicationRepository,
     ISubscriptionRepository subscriptionRepository,
     IMapper mapper
   ) : IAdminService
   {
     // private readonly IUserRepository _userRepository = userRepository;
+    private readonly KeycloakDbContext _keycloakContext = keycloakContext;
+
     private readonly IApplicationRepository _applicationRepository = applicationRepository;
     private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
     private readonly IMapper _mapper = mapper;
 
-    // public async Task<PagedUserResult<UserDto>> GetUsersAsync(
-    //   string? search,
-    //   string? cursor,
-    //   string sort,
-    //   int pageSize = 15
-    // )
-    // {
-    //   // Allowed sort fields and mapping
-    //   var allowedSortFields = new List<string>
-    //   {
-    //     "Id",
-    //     "FirstName",
-    //     "LastName",
-    //     "Email",
-    //     "Role",
-    //     "State",
-    //   };
-    //   var fieldMapping = new Dictionary<string, string>
-    //   {
-    //     { "firstName", "FirstName" },
-    //     { "lastName", "LastName" },
-    //     { "email", "Email" },
-    //     { "role", "Role" },
-    //     { "state", "State" },
-    //     { "id", "Id" },
-    //   };
+    public async Task<PagedUserResult<UserDto>> GetUsersAsync(
+      string? search,
+      string? cursor,
+      string sort,
+      int pageSize = 15
+    )
+    {
+      var allowedSortFields = new List<string>
+      {
+        "id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+      };
+      var fieldMapping = new Dictionary<string, string>
+      {
+        { "id", "id" },
+        { "username", "username" },
+        { "email", "email" },
+        { "firstName", "first_name" },
+        { "lastName", "last_name" },
+      };
 
-    //   // Parse sorting parameters
-    //   var (sortField, sortDirection) = QueryUtils.ParseSortParameter(sort, fieldMapping);
+      var (sortField, sortDirection) = QueryUtils.ParseSortParameter(sort, fieldMapping);
 
-    //   // Fetch base query
-    //   var query = _userRepository.GetUsers();
+      var query = _keycloakContext.Users.AsQueryable();
 
-    //   // Apply filters and sorting
-    //   if (!string.IsNullOrWhiteSpace(search))
-    //   {
-    //     var pattern = $"%{search}%";
-    //     query = query.Where(u =>
-    //       (u.FirstName != null && EF.Functions.Like(u.FirstName, pattern))
-    //       || (u.LastName != null && EF.Functions.Like(u.LastName, pattern))
-    //       || (u.Email != null && EF.Functions.Like(u.Email, pattern))
-    //     );
-    //   }
+      if (!string.IsNullOrWhiteSpace(search))
+      {
+        var pattern = $"%{search}%";
+        query = query.Where(u =>
+          EF.Functions.ILike(u.username ?? "", pattern)
+          || EF.Functions.ILike(u.email ?? "", pattern)
+          || EF.Functions.ILike(u.first_name ?? "", pattern)
+          || EF.Functions.ILike(u.last_name ?? "", pattern)
+        );
+      }
 
-    //   query = QueryUtils.ApplySorting(query, sortField, sortDirection, allowedSortFields);
+      query = QueryUtils.ApplySorting(query, sortField, sortDirection, allowedSortFields);
 
-    //   // Apply cursor-based pagination
-    //   if (cursor != null)
-    //   {
-    //     if (sortDirection == "asc")
-    //     {
-    //       query = query.Where($"{sortField} > @0", cursor);
-    //     }
-    //     else
-    //     {
-    //       query = query.Where($"{sortField} < @0", cursor);
-    //     }
-    //   }
+      if (cursor != null)
+      {
+        if (sortDirection == "asc")
+          query = query.Where($"{sortField} > @0", cursor);
+        else
+          query = query.Where($"{sortField} < @0", cursor);
+      }
 
-    //   // Fetch the next set of users
-    //   var users = await query
-    //     .Take(pageSize)
-    //     .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-    //     .ToListAsync();
+      var users = await query
+        .Take(pageSize)
+        .Select(u => new UserDto
+        {
+          Id = u.id,
+          Username = u.username,
+          Email = u.email,
+          FirstName = u.first_name,
+          LastName = u.last_name,
+          EmailVerified = u.email_verified,
+        })
+        .ToListAsync();
 
-    //   // Determine pagination details
-    //   var (hasMore, nextCursor) = QueryUtils.DetermineNextCursor(users, sortField, sortDirection);
+      var (hasMore, nextCursor) = QueryUtils.DetermineNextCursor(users, sortField, sortDirection);
 
-    //   // Construct the paged result
-    //   return new PagedUserResult<UserDto>
-    //   {
-    //     Data = users,
-    //     NextCursor = nextCursor,
-    //     HasMore = hasMore,
-    //   };
-    // }
+      return new PagedUserResult<UserDto>
+      {
+        Data = users,
+        NextCursor = nextCursor,
+        HasMore = hasMore,
+      };
+    }
 
     // public async Task<UserDto?> GetUserByIdAsync(int userId)
     // {
