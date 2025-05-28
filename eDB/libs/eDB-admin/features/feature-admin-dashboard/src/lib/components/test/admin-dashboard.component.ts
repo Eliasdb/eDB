@@ -45,120 +45,147 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
   template: `
     <!-- Floating button to open the sidebar when closed -->
 
-    <mat-drawer-container class="h-[calc(100dvh-3rem)] relative">
+    <mat-drawer-container class="h-[calc(100dvh-5rem)] relative">
       <!-- Sidebar with dark theme styling and dynamic mode -->
       <mat-drawer
         #drawer
         [mode]="sidenavMode"
         [(opened)]="isDrawerOpen"
-        class="bg-gray-900 text-white"
+        class="drawer bg-gray-900 text-white"
+        [class.closed]="!isDrawerOpen"
       >
         <admin-sidebar
+          [isOpen]="drawer.opened"
+          (toggleSidebar)="drawer.toggle()"
           (itemSelected)="switchDrawerContent($event)"
-        ></admin-sidebar>
+        >
+          ></admin-sidebar
+        >
       </mat-drawer>
 
       <!-- Main Content -->
       <mat-drawer-content>
-        <div class="p-4 md:px-8 bg-[#161616] text-white h-[calc(100dvh-3rem)]">
-          <button
-            mat-icon-button
-            *ngIf="!isDrawerOpen"
-            (click)="drawer.open()"
-            aria-label="Open sidebar"
-            class="fixed left-2 bottom-4 z-50 bg-gray-700 text-white rounded-full shadow p-2"
-          >
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
-          <h2 class="mb-4 text-2xl font-bold">Dashboard</h2>
-
-          <!-- Metric Tiles -->
-          <div class="flex flex-col md:flex-row gap-4 mb-4">
-            <cds-tile class="flex-1 bg-[#262626] p-4">
-              <h5 class="mb-1 font-light opacity-80">Total Revenue</h5>
-              <h3 class="text-xl font-semibold">{{ totalRevenue }}</h3>
-            </cds-tile>
-            <cds-tile class="flex-1 bg-[#262626] p-4">
-              <h5 class="mb-1 font-light opacity-80">Customers</h5>
-              <h3 class="text-xl font-semibold">{{ customers }}</h3>
-            </cds-tile>
-            <cds-tile class="flex-1 bg-[#262626] p-4">
-              <h5 class="mb-1 font-light opacity-80">Avg Order Value</h5>
-              <h3 class="text-xl font-semibold">{{ avgOrderValue }}</h3>
-            </cds-tile>
-            <cds-tile class="flex-1 bg-[#262626] p-4">
-              <h5 class="mb-1 font-light opacity-80">Sessions</h5>
-              <h3 class="text-xl font-semibold">{{ sessions }}</h3>
-            </cds-tile>
+        <div class="p-4  bg-[#161616] text-white h-[calc(100dvh-5rem)]">
+          <div class="w-full">
+            <button
+              mat-icon-button
+              (click)="drawer.open()"
+              aria-label="Open sidebar"
+              class="z-50 bg-gray-700 text-white rounded-full shadow"
+            >
+              <mat-icon>chevron_right</mat-icon>
+            </button>
           </div>
 
-          <!-- Charts Row -->
-          <div class="flex flex-col md:flex-row gap-4 mb-4">
-            <cds-tile class="flex-1 bg-[#262626] p-4 flex flex-col">
-              <h4 class="mb-2 text-lg font-bold">Revenue</h4>
-              <div class="flex-1 min-h-[300px]">
-                <canvas
-                  baseChart
-                  [data]="revenueChartData"
-                  [options]="revenueChartOptions"
-                  chartType="line"
-                ></canvas>
-              </div>
-            </cds-tile>
-            <cds-tile class="flex-1 bg-[#262626] p-4 flex flex-col">
-              <h4 class="mb-2 text-lg font-bold">Sales by Category</h4>
-              <div class="flex-1 min-h-[300px]">
-                <canvas
-                  baseChart
-                  [data]="salesCategoryChartData"
-                  [options]="salesCategoryChartOptions"
-                  chartType="pie"
-                ></canvas>
-              </div>
-            </cds-tile>
-          </div>
+          <ng-container *ngIf="currentView() === 'platform'">
+            <h2 class="mb-4 text-2xl font-bold">Dashboard</h2>
 
-          <!-- Bottom Row -->
-          <div class="flex flex-col md:flex-row gap-4">
-            <cds-tile class="flex-1 bg-[#262626] p-4">
-              <h4 class="mb-2 text-lg font-bold">Platform Applications</h4>
-              <ui-table
-                [model]="tableModel"
-                [showToolbar]="false"
-                [showButton]="false"
-                [showPagination]="false"
-                [sortable]="true"
-                [showSelectionColumn]="false"
-                (rowClicked)="onRowClicked($event)"
-                (sortChanged)="onSortChanged($event)"
-              ></ui-table>
+            <!-- Metric Tiles -->
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+              <cds-tile class="flex-1 bg-[#262626] p-4">
+                <h5 class="mb-1 font-light opacity-80">Total Revenue</h5>
+                <h3 class="text-xl font-semibold">{{ totalRevenue }}</h3>
+              </cds-tile>
+              <cds-tile class="flex-1 bg-[#262626] p-4">
+                <h5 class="mb-1 font-light opacity-80">Customers</h5>
+                <h3 class="text-xl font-semibold">{{ customers }}</h3>
+              </cds-tile>
+              <cds-tile class="flex-1 bg-[#262626] p-4">
+                <h5 class="mb-1 font-light opacity-80">Avg Order Value</h5>
+                <h3 class="text-xl font-semibold">{{ avgOrderValue }}</h3>
+              </cds-tile>
+              <cds-tile class="flex-1 bg-[#262626] p-4">
+                <h5 class="mb-1 font-light opacity-80">Sessions</h5>
+                <h3 class="text-xl font-semibold">{{ sessions }}</h3>
+              </cds-tile>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+              <cds-tile class="flex-1 bg-[#262626] p-4 flex flex-col">
+                <h4 class="mb-2 text-lg font-bold">Revenue</h4>
+                <div class="flex-1 min-h-[300px]">
+                  <canvas
+                    baseChart
+                    [data]="revenueChartData"
+                    [options]="revenueChartOptions"
+                    chartType="line"
+                  ></canvas>
+                </div>
+              </cds-tile>
+              <cds-tile class="flex-1 bg-[#262626] p-4 flex flex-col">
+                <h4 class="mb-2 text-lg font-bold">Sales by Category</h4>
+                <div class="flex-1 min-h-[300px]">
+                  <canvas
+                    baseChart
+                    [data]="salesCategoryChartData"
+                    [options]="salesCategoryChartOptions"
+                    chartType="pie"
+                  ></canvas>
+                </div>
+              </cds-tile>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="flex flex-col md:flex-row gap-4">
+              <cds-tile class="flex-1 bg-[#262626] p-4">
+                <h4 class="mb-2 text-lg font-bold">Platform Applications</h4>
+                <ui-table
+                  [model]="tableModel"
+                  [showToolbar]="false"
+                  [showButton]="false"
+                  [showPagination]="false"
+                  [sortable]="true"
+                  [showSelectionColumn]="false"
+                  (rowClicked)="onRowClicked($event)"
+                  (sortChanged)="onSortChanged($event)"
+                ></ui-table>
+              </cds-tile>
+              <cds-tile class="flex-1 bg-[#262626] p-4">
+                <h4 class="mb-2 text-lg font-bold">Top Products</h4>
+                <ul class="list-none p-0 m-0">
+                  <li
+                    class="flex justify-between py-1 border-b border-gray-700"
+                  >
+                    <span>Smartphone</span>
+                    <span>1,320</span>
+                  </li>
+                  <li
+                    class="flex justify-between py-1 border-b border-gray-700"
+                  >
+                    <span>Laptop</span>
+                    <span>883</span>
+                  </li>
+                  <li
+                    class="flex justify-between py-1 border-b border-gray-700"
+                  >
+                    <span>Headphones</span>
+                    <span>520</span>
+                  </li>
+                  <li
+                    class="flex justify-between py-1 border-b border-gray-700"
+                  >
+                    <span>Speakers</span>
+                    <span>315</span>
+                  </li>
+                  <li class="flex justify-between py-1">
+                    <span>Watch</span>
+                    <span>290</span>
+                  </li>
+                </ul>
+              </cds-tile>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="currentView() === 'webshop'">
+            <h2 class="mb-4 text-2xl font-bold">Webshop Dashboard</h2>
+            <cds-tile class="bg-[#262626] p-4 mb-4">
+              <p>
+                This is the Webshop view. You can add stats, charts, or other
+                widgets here.
+              </p>
             </cds-tile>
-            <cds-tile class="flex-1 bg-[#262626] p-4">
-              <h4 class="mb-2 text-lg font-bold">Top Products</h4>
-              <ul class="list-none p-0 m-0">
-                <li class="flex justify-between py-1 border-b border-gray-700">
-                  <span>Smartphone</span>
-                  <span>1,320</span>
-                </li>
-                <li class="flex justify-between py-1 border-b border-gray-700">
-                  <span>Laptop</span>
-                  <span>883</span>
-                </li>
-                <li class="flex justify-between py-1 border-b border-gray-700">
-                  <span>Headphones</span>
-                  <span>520</span>
-                </li>
-                <li class="flex justify-between py-1 border-b border-gray-700">
-                  <span>Speakers</span>
-                  <span>315</span>
-                </li>
-                <li class="flex justify-between py-1">
-                  <span>Watch</span>
-                  <span>290</span>
-                </li>
-              </ul>
-            </cds-tile>
-          </div>
+          </ng-container>
         </div>
       </mat-drawer-content>
     </mat-drawer-container>
@@ -184,7 +211,7 @@ export class AdminDashboardComponent implements OnInit {
     console.log(`Switching view to: ${newContent}`);
     this.currentView.set(newContent);
     // Close the drawer when switching content if open
-    if (this.isDrawerOpen) {
+    if (this.sidenavMode === 'over' && this.drawer.opened) {
       this.drawer.close();
     }
   }
