@@ -16,8 +16,8 @@
 
   --accent-complimentary: #1f2937;
   --cds-border-interactive: white;
-  --cds-text-primary: rgba(255, 255, 255, 0.9);
-  --cds-text-secondary: rgb(207, 203, 203);
+  --cds-text-primary: rgba(0, 0, 0, 0.9);
+  --cds-text-secondary: rgb(0, 0, 0);
   --cds-button-primary: #f1f6fd;
   --cds-text-on-color: var(--accent-complimentary);
   --cds-icon-primary: white;
@@ -44,6 +44,10 @@
 
 .cds--list-box__menu-item__option:hover {
   --cds-text-primary: var(--accent-complimentary);
+}
+
+a.cds--header__name {
+  --cds-text-primary: white;
 }
 
 .cds--checkbox-label[data-contained-checkbox-state='true']::before {
@@ -355,7 +359,7 @@ cds-skeleton-text p {
 .cds--tile {
   /* --cds-layer: var(--accent); */
   --cds-layer: transparent;
-  padding: 0rem;
+  padding: 1rem;
   border-radius: 0.375rem !important;
 }
 
