@@ -4,14 +4,6 @@ import { Component, signal, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 
-import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import {
-  AdminBooksCollectionContainer,
-  AdminSidebarComponent,
-  AdminStatsContainer,
-  ApplicationsCollectionContainer,
-  UsersCollectionContainer,
-} from './components';
 import { AdminDashboardComponent } from './components/test/admin-dashboard.component';
 
 @Component({
@@ -69,15 +61,10 @@ import { AdminDashboardComponent } from './components/test/admin-dashboard.compo
     </ui-content-switcher> -->
   </section>`,
   imports: [
-    UiContentSwitcherComponent,
-    UsersCollectionContainer,
-    ApplicationsCollectionContainer,
     MatSidenavModule,
     MatSelectModule,
-    AdminSidebarComponent,
     CommonModule,
-    AdminStatsContainer,
-    AdminBooksCollectionContainer,
+
     AdminDashboardComponent,
   ],
   styleUrls: ['admin.page.scss'],

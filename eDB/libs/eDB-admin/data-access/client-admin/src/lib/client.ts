@@ -1,22 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
-  BookQueryParams,
-  GENRE_QUERY_PARAM,
-  SEARCH_QUERY_PARAM,
-  SORT_QUERY_PARAM,
-  STATUS_QUERY_PARAM,
-} from '@eDB-webshop/util-book-params';
-import {
-  injectInfiniteQuery,
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { firstValueFrom, lastValueFrom, map } from 'rxjs';
 
-import { RawApiDataBooks } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
 
 import { BookParamService } from '@eDB-webshop/util-book-params';
@@ -288,66 +279,66 @@ export class AdminService {
 
   // Instead of using a manually updated mutable signal, we now derive query parameters automatically
   // from the BookParamService signals.
-  private queryParams = computed<Partial<BookQueryParams>>(() => ({
-    search: this.bookParamService.querySignal(),
-    genre: this.bookParamService.genreSignal(),
-    status: this.bookParamService.statusSignal(),
-    sort: this.bookParamService.sortSignal(),
-  }));
+  // private queryParams = computed<Partial<BookQueryParams>>(() => ({
+  //   search: this.bookParamService.querySignal(),
+  //   genre: this.bookParamService.genreSignal(),
+  //   status: this.bookParamService.statusSignal(),
+  //   sort: this.bookParamService.sortSignal(),
+  // }));
 
-  // The infinite query for admin books. It automatically re-runs whenever the derived queryParams change.
-  queryAdminBooks = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
-    const paramsSignal = this.queryParams();
-    let params = new HttpParams();
+  // // The infinite query for admin books. It automatically re-runs whenever the derived queryParams change.
+  // queryAdminBooks = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
+  //   const paramsSignal = this.queryParams();
+  //   let params = new HttpParams();
 
-    if (paramsSignal.genre && paramsSignal.genre !== '') {
-      params = params.set('genre', paramsSignal.genre as string);
-    }
-    if (paramsSignal.search && paramsSignal.search !== '') {
-      params = params.set('q', paramsSignal.search as string);
-    }
-    if (paramsSignal.sort && paramsSignal.sort !== '') {
-      params = params.set('sort', paramsSignal.sort as string);
-    }
-    if (paramsSignal.status && paramsSignal.status !== '') {
-      params = params.set('status', paramsSignal.status as string);
-    }
-    // Set a default limit per page
-    const limit = 15;
-    params = params.set('limit', limit.toString());
+  //   if (paramsSignal.genre && paramsSignal.genre !== '') {
+  //     params = params.set('genre', paramsSignal.genre as string);
+  //   }
+  //   if (paramsSignal.search && paramsSignal.search !== '') {
+  //     params = params.set('q', paramsSignal.search as string);
+  //   }
+  //   if (paramsSignal.sort && paramsSignal.sort !== '') {
+  //     params = params.set('sort', paramsSignal.sort as string);
+  //   }
+  //   if (paramsSignal.status && paramsSignal.status !== '') {
+  //     params = params.set('status', paramsSignal.status as string);
+  //   }
+  //   // Set a default limit per page
+  //   const limit = 15;
+  //   params = params.set('limit', limit.toString());
 
-    return {
-      queryKey: [
-        'ADMIN_BOOKS_INFINITE',
-        paramsSignal[GENRE_QUERY_PARAM],
-        paramsSignal[SEARCH_QUERY_PARAM],
-        paramsSignal[STATUS_QUERY_PARAM],
-        paramsSignal[SORT_QUERY_PARAM],
-      ] as const,
-      queryFn: async (context) => {
-        // Calculate offset from the current page parameter (default is 0)
-        const offset = (context.pageParam as number | null) ?? 0;
-        const fullParams = params.set('offset', offset.toString());
+  //   return {
+  //     queryKey: [
+  //       'ADMIN_BOOKS_INFINITE',
+  //       paramsSignal[GENRE_QUERY_PARAM],
+  //       paramsSignal[SEARCH_QUERY_PARAM],
+  //       paramsSignal[STATUS_QUERY_PARAM],
+  //       paramsSignal[SORT_QUERY_PARAM],
+  //     ] as const,
+  //     queryFn: async (context) => {
+  //       // Calculate offset from the current page parameter (default is 0)
+  //       const offset = (context.pageParam as number | null) ?? 0;
+  //       const fullParams = params.set('offset', offset.toString());
 
-        return await firstValueFrom(
-          this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
-            params: fullParams,
-          }),
-        );
-      },
-      getNextPageParam: (lastPage: RawApiDataBooks) => {
-        if (lastPage.data.hasMore) {
-          const currentOffset = Number(lastPage.data.offset) || 0;
-          const pageLimit = Number(lastPage.data.limit) || limit;
-          const nextOffset = currentOffset + pageLimit;
-          return nextOffset;
-        }
-        return null;
-      },
-      initialPageParam: 0,
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-    };
-  });
+  //       return await firstValueFrom(
+  //         this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
+  //           params: fullParams,
+  //         }),
+  //       );
+  //     },
+  //     getNextPageParam: (lastPage: RawApiDataBooks) => {
+  //       if (lastPage.data.hasMore) {
+  //         const currentOffset = Number(lastPage.data.offset) || 0;
+  //         const pageLimit = Number(lastPage.data.limit) || limit;
+  //         const nextOffset = currentOffset + pageLimit;
+  //         return nextOffset;
+  //       }
+  //       return null;
+  //     },
+  //     initialPageParam: 0,
+  //     keepPreviousData: true,
+  //     refetchOnWindowFocus: false,
+  //     refetchOnMount: false,
+  //   };
+  // });
 }
