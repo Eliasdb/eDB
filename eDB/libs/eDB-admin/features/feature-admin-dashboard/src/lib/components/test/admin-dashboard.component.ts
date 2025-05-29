@@ -58,16 +58,31 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           <div
             class="h-16 flex items-center justify-between border-b border-solid border-[#e5e7eb]"
           >
-            <div class="flex items-center gap-2 text-sm text-gray-500">
-              <button
-                mat-icon-button
+            <div class="flex items-center gap-2 text-sm  ml-6">
+              <svg
                 (click)="drawer.open()"
-                aria-label="Open sidebar"
-                class="z-5 rounded-full shadow ml-4"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-panel-left cursor-pointer scale-[0.7] mr-1"
+                aria-hidden="true"
               >
-                <mat-icon>chevron_right</mat-icon>
-              </button>
-              <span>Admin</span>
+                <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                <path d="M9 3v18"></path>
+              </svg>
+              <div
+                data-orientation="vertical"
+                role="none"
+                class="shrink-0 bg-border w-[1px] mr-2 h-4"
+              ></div>
+
+              <span class="text-gray-500">Admin</span>
               <span class="text-gray-400">/</span>
               <span class="text-gray-700 font-medium">Platform</span>
             </div>

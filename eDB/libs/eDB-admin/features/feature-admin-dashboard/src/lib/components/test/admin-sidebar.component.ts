@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="lucide lucide-gallery-vertical-end size-4 mr-2"
+            class="lucide lucide-gallery-vertical-end size-4 mr-2 "
             aria-hidden="true"
           >
             <path d="M7 2h10"></path>
@@ -50,7 +50,7 @@ import { MatIconModule } from '@angular/material/icon';
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="lucide lucide-star ml-auto scale-75"
+          class="lucide lucide-star ml-auto scale-75 mt-1"
           aria-hidden="true"
         >
           <path
