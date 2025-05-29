@@ -54,9 +54,14 @@ namespace Edb.PlatformAPI.Extensions
         options.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
       );
 
+      services.AddDbContext<KeycloakDbContext>(options =>
+        options.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
+      );
+
       // Register repositories
       services.AddScoped<IApplicationRepository, ApplicationRepository>();
       services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+      // services.AddScoped<IUserRepository, UserRepository>();
 
       // Register services
       services.AddScoped<IAdminService, AdminService>();

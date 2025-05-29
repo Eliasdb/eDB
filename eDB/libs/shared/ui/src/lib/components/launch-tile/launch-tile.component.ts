@@ -66,6 +66,7 @@ import { UiTagComponent } from '../tag/tag.component';
   styles: `
     .launch-tile {
       background-color: white;
+      padding: 0 !important;
     }
   `,
 })

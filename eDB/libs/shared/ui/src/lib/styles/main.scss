@@ -6,21 +6,23 @@
 
 :root {
   --cds-ui-01: yellow;
-  --cds-layer-01: #232e3d;
+  --cds-layer-01: #ffffff;
   --cds-button-primary-01: red;
   /* --cds-layer: white; */
   --cds-heading-03-font-size: 1.25rem;
   --cds-body-compact-01-font-size: 1rem;
   --cds-body-compact-02-font-size: 0.9rem;
   --accent: #f1f6fd;
-
+  --cds-layer-accent-01: var(--accent);
+  --cds-field-hover-01: var(--accent);
+  --cds-layer-selected-hover-01: #d5e6fb;
   --accent-complimentary: #1f2937;
   --cds-border-interactive: white;
   --cds-text-primary: rgba(0, 0, 0, 0.9);
   --cds-text-secondary: rgb(0, 0, 0);
   --cds-button-primary: #f1f6fd;
   --cds-text-on-color: var(--accent-complimentary);
-  --cds-icon-primary: white;
+  --cds-icon-primary: black;
   --cds-layer-hover-01: var(--accent);
   --cds-focus: transparent;
   --shadow-color: rgba(255, 255, 255, 0.1);
@@ -120,6 +122,8 @@ a.cds--header__name {
 }
 
 .cds--search-input,
+.cds--text-input,
+.cds--text-area,
 .cds--dropdown {
   border: 1px solid rgb(229 231 235 / 1);
   --cds-text-primary: var(--accent-complimentary);
@@ -168,16 +172,17 @@ a.cds--header__menu-item {
 //   }
 // } */
 
-.cds--data-table {
+/* .cds--data-table {
   table-layout: fixed;
 
   @media (max-width: 768px) {
     table-layout: initial;
   }
-}
+} */
 
-.cds--data-table thead th.cds--table-column-checkbox {
-  padding-inline: 1rem 2rem;
+.cds--data-table-header {
+  padding-inline: 0;
+  padding-block: 0rem 1.5rem;
 }
 
 /* // .cds--btn {
@@ -212,21 +217,13 @@ td[title='ID'] {
   color: #333;
 }
 
-.cds--modal-footer {
-  & > * {
-    /* Apply styles to all direct child elements of .row-2 */
-    flex: 1 1 50%; /* Each input will take 50% of the width */
-    max-width: 50%; /* Ensure they don’t grow beyond 50% */
-  }
-}
-
 .cds--structured-list {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form {
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -248,16 +245,6 @@ td[title='ID'] {
     /* Apply styles to all direct child elements of .row-2 */
     flex: 1 1 50%; /* Each input will take 50% of the width */
     max-width: 50%; /* Ensure they don’t grow beyond 50% */
-  }
-}
-
-cds-modal-footer footer {
-  display: flex; /* Enable flexbox layout */
-  justify-content: center; /* Optional: Center the buttons if needed */
-
-  & > ui-button {
-    flex: 1 1 50%; /* Make each button take 50% of the width */
-    max-width: 50%; /* Ensure they don’t exceed 50% */
   }
 }
 
@@ -354,6 +341,10 @@ cds-skeleton-text p {
 .cds--header {
   z-index: 201;
   /* max-width: 72rem; */
+}
+
+.cds--modal-footer .cds--btn {
+  block-size: 3rem;
 }
 
 .cds--tile {
