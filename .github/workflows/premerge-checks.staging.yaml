@@ -179,7 +179,7 @@ jobs:
         needs:
             - detect-admin
         if: needs.detect-admin.outputs.admin_changed == 'true'
-        uses: ./.github/workflows/admin-ci.yml
+        uses: ./.github/workflows/eDB-admin/admin-ci.yml
         with:
             sha: ${{ github.sha }}
         secrets:
