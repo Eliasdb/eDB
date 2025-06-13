@@ -21,7 +21,7 @@ jobs:
 
     # ─────────────────────────────────────────────
     detect-admin:
-        name: Detect if eDB-admin is affected
+        name: Detect if Admin App is affected
         runs-on: self-hosted
         needs: version
         outputs:
@@ -110,7 +110,7 @@ jobs:
 
     # ─────────────────────────────────────────────
     build:
-        name: Build & Push Docker Images (skip admin)
+        name: Build & Push Docker Images
         runs-on: self-hosted
         needs:
             - version
@@ -148,11 +148,11 @@ jobs:
                   echo "Affected apps (non-admin): $AFFECTED"
 
                   # Profile page 
-                  if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
-                    echo "Building React app eDB-user-account with Vite"
-                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts
-                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts
-                  fi
+                  # if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
+                  #   echo "Building React app eDB-user-account with Vite"
+                  #   pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts
+                  #   pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts
+                  # fi
 
                   for app in $AFFECTED; do
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
@@ -189,10 +189,12 @@ jobs:
         name: Call Admin CI
         needs:
             - detect-admin
+            - version
+
         if: needs.detect-admin.outputs.admin_changed == 'true'
-        uses: ./.github/workflows/admin-ci.yml
+        uses: ./.github/workflows/admin-ci.staging.yml
         with:
-            sha: ${{ github.sha }}
+            image_tag: ${{ needs.version.outputs.image_tag }}
         secrets:
             DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
             DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
