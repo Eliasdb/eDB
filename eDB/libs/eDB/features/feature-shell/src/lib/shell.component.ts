@@ -18,8 +18,10 @@ import {
 
 import { environment } from '@eDB/shared-env';
 import { MENU_OPTIONS } from './shell.config';
+
 @Component({
   selector: 'app-shell',
+  standalone: true,
   imports: [
     RouterModule,
     CommonModule,
@@ -51,51 +53,34 @@ import { MENU_OPTIONS } from './shell.config';
   `,
 })
 export class ShellComponent implements OnInit {
-  // Services
   navigationService = inject(NavigationService);
   keycloakService = inject(KeycloakService);
   router = inject(Router);
 
-  // Auth Observables
   isAuthenticated = this.keycloakService.authState;
-  // isAdmin$ = this.authService.isAdmin();
-
-  // Signal to determine if this is an admin app
   isAdminApp = signal<boolean>(false);
 
-  // Menu options
   menuOptions = MENU_OPTIONS;
 
   ngOnInit(): void {
     this.detectAppEnvironment();
   }
 
-  // Detect whether the app is running as admin or web
   private detectAppEnvironment(): void {
-    const hostname = window.location.hostname;
-    const port = window.location.port;
-
-    if (hostname === 'localhost') {
-      // For local development
-      this.isAdminApp.set(port === '4300');
-    } else {
-      // For production/staging
-      this.isAdminApp.set(window.location.pathname.startsWith('/admin'));
-    }
+    const isAdmin = window.location.pathname.startsWith('/admin');
+    this.isAdminApp.set(isAdmin);
   }
 
-  // Handle menu options like logout and navigation
   handleMenuOption(optionId: string): void {
     if (optionId === 'logout') {
       this.logout();
     } else if (optionId === 'profile') {
-      window.location.assign(environment.KC.account); // Same tab, clean redirect
+      window.location.assign(environment.KC.account);
     } else {
       this.navigationService.navigateTo(optionId);
     }
   }
 
-  // Logout logic
   private logout(): void {
     this.keycloakService.logout();
     this.router.navigate(['/']);

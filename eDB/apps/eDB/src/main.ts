@@ -1,19 +1,29 @@
+// src/main.ts (or wherever you bootstrap)
+import { registerRemotes } from '@module-federation/enhanced/runtime';
 import { environment } from './environments/environment';
 
+const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;
+
 if (!environment.production) {
-  // ➜ dev only
-  import('@module-federation/enhanced/runtime').then(({ init }) => {
-    init({
-      name: 'eDB',
-      remotes: [
-        {
-          name: 'eDB-admin',
-          entry: `${environment.mfManifestBaseUrl}/mf-manifest.json`,
-        },
-      ],
+  // DEV: ping the local manifest, only register if it’s up
+  fetch(manifestUrl, { method: 'HEAD' })
+    .then((res) => {
+      if (res.ok) {
+        registerRemotes([{ name: 'admin', entry: manifestUrl }]);
+      } else {
+        console.warn(
+          'Admin manifest not found (dev), skipping remote registration',
+        );
+      }
+    })
+    .catch(() => {
+      console.warn(
+        'Failed to reach admin manifest (dev), skipping remote registration',
+      );
     });
-  });
+} else {
+  // STAGING & PROD: assume manifest is always there
+  registerRemotes([{ name: 'admin', entry: manifestUrl }]);
 }
 
-// in both dev & prod, we still bootstrap the Angular app:
 import('./bootstrap');

@@ -60,20 +60,20 @@ import { MatIconModule } from '@angular/material/icon';
       </section>
 
       <h3 class="text-xs mb-2">Admin Sidebar</h3>
-      <ul class="flex-1 space-y-2">
+      <ul class="flex-1 space-y-1">
         <li
           class="flex items-center py-1 cursor-pointer"
           (click)="onSelect('platform')"
         >
           <mat-icon>dashboard</mat-icon>
-          <span>Platform</span>
+          <span class="text-sm">Platform</span>
         </li>
         <li
           class="flex items-center py-1 cursor-pointer"
           (click)="onSelect('webshop')"
         >
           <mat-icon>storefront</mat-icon>
-          <span>Webshop</span>
+          <span class="text-sm">Webshop</span>
         </li>
       </ul>
     </nav>

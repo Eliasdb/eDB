@@ -24,10 +24,11 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     MatSidenavModule,
     TilesModule,
     AdminSidebarComponent,
-    BaseChartDirective,
     MatIconModule,
     MatButtonModule,
     CommonModule,
+    BaseChartDirective,
+
     UsersCollectionContainer,
     ApplicationsCollectionContainer,
   ],

@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 import { AuthGuard } from './guards/auth.guard';
 import { WrapperComponent } from './wrapReact';
@@ -6,7 +7,10 @@ import { WrapperComponent } from './wrapReact';
 export const routes: Route[] = [
   {
     path: 'admin',
-    loadChildren: () => import('eDB_admin/Routes').then((m) => m!.remoteRoutes),
+    loadChildren: () =>
+      loadRemote('admin/Routes') // ← no second argument, no TS error
+        .then((m: any) => m.remoteRoutes ?? [])
+        .catch(() => []), // graceful empty fallback
   },
   {
     path: '',
