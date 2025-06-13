@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { ShellComponent } from '@eDB/feature-shell';
+import { UiShellHostComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'app-root',
-  imports: [ShellComponent],
-  template: ` <app-shell></app-shell> `,
+  standalone: true,
+  imports: [UiShellHostComponent],
+  template: `<ui-shell-host />`,
 })
 export class AppComponent {}
