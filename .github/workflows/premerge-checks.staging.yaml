@@ -143,6 +143,13 @@ jobs:
 
                   echo "Affected apps (non-admin): $AFFECTED"
 
+                  # Profile page 
+                  if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
+                    echo "Building React app eDB-user-account with Vite"
+                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts
+                    pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts
+                  fi
+
                   for app in $AFFECTED; do
                     lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
@@ -179,7 +186,7 @@ jobs:
         needs:
             - detect-admin
         if: needs.detect-admin.outputs.admin_changed == 'true'
-        uses: ./.github/workflows/eDB-admin/admin-ci.yml
+        uses: ./.github/workflows/admin-ci.yml
         with:
             sha: ${{ github.sha }}
         secrets:
