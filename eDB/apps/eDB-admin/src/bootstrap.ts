@@ -28,7 +28,7 @@ Chart.register(
   PolarAreaController, // for polar area chart controller
   Title,
   Tooltip,
-  Legend, // optional plugins, but commonly needed
+  Legend, // optional plugins, but commonly needed?
 );
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
