@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-export const routes: Route[] = [
+export const remoteRoutes: Route[] = [
   {
     path: '',
     loadChildren: () =>

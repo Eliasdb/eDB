@@ -39,6 +39,7 @@
     "@keycloak/keycloak-account-ui": "^26.2.4",
     "@keycloak/keycloak-ui-shared": "^26.2.4",
     "@ngneat/query": "^3.1.1",
+    "@nx/angular": "20.2.0",
     "@radix-ui/react-avatar": "^1.1.9",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-collapsible": "^1.1.10",
@@ -69,11 +70,10 @@
     "rxjs": "~7.8.1",
     "tailwind-merge": "^3.3.0",
     "tw-animate-css": "^1.3.0",
-    "zone.js": "0.15.0",
-    "@nx/angular": "20.2.0"
+    "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@analogjs/vite-plugin-angular": "~1.10.3",
+    "@analogjs/vite-plugin-angular": "~1.9.3",
     "@analogjs/vitest-angular": "~1.10.3",
     "@angular-builders/custom-webpack": "^19.0.0",
     "@angular-devkit/architect": "0.1900.0",

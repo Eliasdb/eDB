@@ -80,9 +80,7 @@
         "libs/shared/utils/utils-user-params/src/index"
       ],
       "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
-      "eDB_admin/Routes": [
-        "apps/eDB-admin/src/app/remote-entry/entry.routes.ts"
-      ],
+      "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
       "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
     }
   },

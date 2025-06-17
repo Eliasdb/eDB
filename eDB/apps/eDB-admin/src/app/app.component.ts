@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UiShellHostComponent } from '@eDB/shared-ui'; // ← or wherever you put your host component
+import { UiShellHostComponent } from '@eDB/shared-ui';
 
 @Component({
   selector: 'app-admin-root',
