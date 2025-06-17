@@ -29,7 +29,7 @@ spec:
                         value: staging
                   readinessProbe:
                       httpGet:
-                          path: /
+                          path: /admin
                           port: 80
                       initialDelaySeconds: 5
                       periodSeconds: 10
@@ -37,7 +37,7 @@ spec:
                       failureThreshold: 3
                   livenessProbe:
                       httpGet:
-                          path: /
+                          path: /admin
                           port: 80
                       initialDelaySeconds: 15
                       periodSeconds: 20
