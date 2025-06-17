@@ -5,12 +5,13 @@ namespace Edb.PlatformAPI.Interfaces;
 
 public interface IAdminService
 {
-  // Task<PagedUserResult<UserDto>> GetUsersAsync(
-  //   string? search,
-  //   string? cursor,
-  //   string sort,
-  //   int pageSize = 15
-  // );
+  Task<PagedUserResult<UserDto>> GetUsersAsync(
+    string? search,
+    string? cursor,
+    string sort,
+    int pageSize = 15
+  );
+
   // Task<UserDto?> GetUserByIdAsync(int userId);
   Task<List<ApplicationOverviewDto>> GetApplicationsWithSubscribersAsync();
   Task<Application> AddApplicationAsync(CreateApplicationDto applicationDto);

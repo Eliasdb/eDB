@@ -38,6 +38,7 @@ jobs:
             webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
             platform_app: ${{ steps.set_booleans.outputs.platform_app }}
             admin_app: ${{ steps.set_booleans.outputs.admin_app }}
+            # account_ui: ${{ steps.set_booleans.outputs.account_ui }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -100,15 +101,24 @@ jobs:
                     ADMIN_APP="false"
                   fi
 
+                  # if echo "$AFFECTED" | grep -x -q "eDBAccountUi"; then
+                  #   ACCOUNT_UI="true"
+                  # else
+                  #   ACCOUNT_UI="false"
+                  # fi
+
                   # Now write outputs without reading from $GITHUB_OUTPUT
                   echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
                   echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
                   echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
                   echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
+                  # echo "account_ui=${ACCOUNT_UI}" >> $GITHUB_OUTPUT
+
 
                   # Print final values for logging
-                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n\n" \
-                          "$PLATFORM_API" "$PLATFORM_APP" "$ADMIN_APP" "$WEBSHOP_API"
+                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n  👤 Account UI:   %s\n\n" \
+                  "$PLATFORM_API" "$PLATFORM_APP" "$ADMIN_APP" "$WEBSHOP_API" "$ACCOUNT_UI"
+
               shell: bash
 
     deploy-platform-api:

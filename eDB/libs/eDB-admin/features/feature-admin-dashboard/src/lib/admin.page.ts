@@ -4,22 +4,13 @@ import { Component, signal, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 
-import { UiContentSwitcherComponent } from '@eDB/shared-ui';
-import {
-  AdminBooksCollectionContainer,
-  AdminSidebarComponent,
-  AdminStatsContainer,
-  ApplicationsCollectionContainer,
-  UsersCollectionContainer,
-} from './components';
+import { AdminDashboardComponent } from './components/test/admin-dashboard.component';
 
 @Component({
   selector: 'platform-admin',
   template: ` <section class="admin-page">
-    <section>
-      <h1 class="text-3xl">Admin</h1>
-    </section>
-    <admin-stats-container />
+    <admin-dashboard />
+    <!-- <admin-stats-container />
     <ui-content-switcher [options]="['Platform', 'Webshop']">
       <ng-container section1>
         <section class="flex flex-col gap-4">
@@ -67,18 +58,14 @@ import {
           </mat-drawer-content>
         </mat-drawer-container>
       </ng-container>
-    </ui-content-switcher>
+    </ui-content-switcher> -->
   </section>`,
   imports: [
-    UiContentSwitcherComponent,
-    UsersCollectionContainer,
-    ApplicationsCollectionContainer,
     MatSidenavModule,
     MatSelectModule,
-    AdminSidebarComponent,
     CommonModule,
-    AdminStatsContainer,
-    AdminBooksCollectionContainer,
+
+    AdminDashboardComponent,
   ],
   styleUrls: ['admin.page.scss'],
 })

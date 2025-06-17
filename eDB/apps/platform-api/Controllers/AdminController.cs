@@ -19,18 +19,18 @@ namespace Edb.PlatformAPI.Controllers
       return Ok("Welcome, Admin!");
     }
 
-    // [HttpGet("users")]
-    // // [Authorize(Policy = "AdminPolicy")]
-    // public async Task<ActionResult<PagedUserResult<UserDto>>> GetUsers(
-    //   [FromQuery] string? cursor = null,
-    //   [FromQuery] string sort = "id,asc",
-    //   [FromQuery] string? search = null
-    // )
-    // {
-    //   var result = await _adminService.GetUsersAsync(search, cursor, sort);
+    [HttpGet("users")]
+    // [Authorize(Policy = "AdminPolicy")]
+    public async Task<ActionResult<PagedUserResult<UserDto>>> GetUsers(
+      [FromQuery] string? cursor = null,
+      [FromQuery] string sort = "id,asc",
+      [FromQuery] string? search = null
+    )
+    {
+      var result = await _adminService.GetUsersAsync(search, cursor, sort);
 
-    //   return Ok(result);
-    // }
+      return Ok(result);
+    }
 
     // [HttpGet("users/{userId}")]
     // // [Authorize(Policy = "AdminPolicy")]

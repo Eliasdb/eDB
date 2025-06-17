@@ -5,9 +5,14 @@
   "prefix": "app",
   "sourceRoot": "apps/eDB/src",
   "tags": [],
+  "implicitDependencies": ["eDB-user-account"],
   "targets": {
     "build": {
-      "executor": "@angular-builders/custom-webpack:browser",
+      "allowedCommonJsDependencies": [
+        "flatpickr",
+        "flatpickr/dist/plugins/rangePlugin"
+      ],
+      "executor": "@nx/angular:webpack-browser",
       "options": {
         "outputPath": "dist/apps/eDB",
         "main": "apps/eDB/src/main.ts",
@@ -19,6 +24,11 @@
           {
             "glob": "**/*",
             "input": "apps/eDB/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "dist/apps/eDB-user-account/assets",
+            "output": "assets/eDB-user-account"
           }
         ],
         "scripts": [],
@@ -29,11 +39,10 @@
         "stylePreprocessorOptions": {
           "includePaths": ["./node_modules", "/libs/shared/ui/src/lib/styles/"]
         },
-
+        "namedChunks": true,
         "customWebpackConfig": {
-          "path": "apps/eDB/webpack.config.js"
-        },
-        "namedChunks": false
+          "path": "apps/eDB/webpack.config.ts"
+        }
       },
       "configurations": {
         "production": {
@@ -53,10 +62,16 @@
           "fileReplacements": [
             {
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-
               "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
+            },
+            {
+              "replace": "apps/eDB/src/environments/environment.ts",
+              "with": "apps/eDB/src/environments/environment.prod.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB/webpack.prod.config.ts"
+          }
         },
         "staging": {
           "optimization": true,
@@ -65,8 +80,15 @@
             {
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
               "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
+            },
+            {
+              "replace": "apps/eDB/src/environments/environment.ts",
+              "with": "apps/eDB/src/environments/environment.staging.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB/webpack.staging.config.ts"
+          }
         },
         "development": {
           "optimization": false,
@@ -83,10 +105,14 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-builders/custom-webpack:dev-server",
+      "allowedCommonJsDependencies": [
+        "flatpickr",
+        "flatpickr/dist/plugins/rangePlugin"
+      ],
+      "executor": "@nx/angular:module-federation-dev-server",
       "options": {
-        "port": 4200,
-        "proxyConfig": "apps/eDB/proxy.conf.json"
+        "proxyConfig": "apps/eDB/proxy.conf.json",
+        "publicHost": "http://localhost:4200"
       },
       "configurations": {
         "production": {

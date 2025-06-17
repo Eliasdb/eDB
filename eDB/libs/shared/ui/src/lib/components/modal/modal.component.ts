@@ -80,24 +80,19 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
       }
 
       <cds-modal-footer>
-        <ui-button
-          variant="secondary"
-          (buttonClick)="onCancel()"
-          [fullWidth]="true"
-          size="sm"
-          [isExpressive]="true"
-        >
-          Cancel
-        </ui-button>
-        <ui-button
-          variant="primary"
-          [disabled]="hasForm() && form.invalid"
-          (buttonClick)="onSave()"
-          [fullWidth]="true"
-          size="sm"
-        >
-          Confirm
-        </ui-button>
+        <div class="flex gap-2 pb-4 h-2 mr-8">
+          <ui-button variant="tertiary" (buttonClick)="onCancel()" size="sm">
+            Cancel
+          </ui-button>
+          <ui-button
+            variant="primary"
+            [disabled]="hasForm() && form.invalid"
+            (buttonClick)="onSave()"
+            size="md"
+          >
+            Confirm
+          </ui-button>
+        </div>
       </cds-modal-footer>
     </cds-modal>
   `,

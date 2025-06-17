@@ -1,6 +1,12 @@
 import { Route } from '@angular/router';
+import { loadRemote } from '@module-federation/enhanced/runtime';
 
 import { AuthGuard } from './guards/auth.guard';
+import { WrapperComponent } from './wrapReact';
+
+interface AdminRemoteModule {
+  remoteRoutes: Route[];
+}
 
 export const routes: Route[] = [
   {
@@ -15,6 +21,13 @@ export const routes: Route[] = [
           ).then((m) => m.featureDashboardRoutes),
       },
       {
+        path: 'admin',
+        loadChildren: () =>
+          loadRemote('eDB-admin/Routes')
+            .then((m) => (m as AdminRemoteModule).remoteRoutes ?? [])
+            .catch(() => []),
+      },
+      {
         path: 'catalog',
         loadChildren: () =>
           import('@eDB/feature-catalog' /* webpackChunkName: "catalog" */).then(
@@ -27,6 +40,11 @@ export const routes: Route[] = [
           import('@eDB-webshop' /* webpackChunkName: "webshop" */).then(
             (m) => m.WebshopModule,
           ),
+      },
+      {
+        path: 'account',
+        component: WrapperComponent,
+        canActivate: [AuthGuard],
       },
     ],
   },

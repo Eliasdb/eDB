@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: admin-app
-                  image: eliasdb/edb-admin:pr-89-staging
+                  image: eliasdb/edb-admin:pr-266-staging
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
@@ -29,7 +29,7 @@ spec:
                         value: staging
                   readinessProbe:
                       httpGet:
-                          path: /admin/
+                          path: /admin
                           port: 80
                       initialDelaySeconds: 5
                       periodSeconds: 10
@@ -37,7 +37,7 @@ spec:
                       failureThreshold: 3
                   livenessProbe:
                       httpGet:
-                          path: /admin/
+                          path: /admin
                           port: 80
                       initialDelaySeconds: 15
                       periodSeconds: 20

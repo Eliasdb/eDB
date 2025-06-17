@@ -14,25 +14,55 @@ spec:
             labels:
                 app: keycloak-staging
         spec:
+            # add an imagePullSecrets block here if the Docker Hub repo is private
+            # imagePullSecrets:
+            #   - name: dockerhub-creds
             containers:
                 - name: keycloak
-                  image: quay.io/keycloak/keycloak:latest
-                  command: [
-                          '/opt/keycloak/bin/kc.sh',
-                          'start',
-                          '--http-enabled=true', # Allow HTTP inside cluster
-                          '--http-port=8080', # Use standard HTTP port
-                          '--hostname-strict=false',
-                          '--proxy-headers=xforwarded',
-                      ]
+                  image: eliasdb/keycloak-edb:26.2.4-v10
+                  imagePullPolicy: IfNotPresent
+
                   ports:
                       - containerPort: 8080
+
                   env:
+                      # bootstrap user (unchanged)
                       - name: KC_BOOTSTRAP_ADMIN_USERNAME
                         value: 'admin'
                       - name: KC_BOOTSTRAP_ADMIN_PASSWORD
                         value: 'admin'
+
+                      # tell Keycloak its external URL
                       - name: KC_HOSTNAME
-                        value: 'app.staging.eliasdebock.com' # Set it to match the main domain
-                      - name: KC_HTTP_RELATIVE_PATH
-                        value: '/keycloak' # Use a subpath
+                        value: 'https://app.staging.eliasdebock.com/keycloak'
+
+                      # 🔽  Make your custom theme the default everywhere
+                      - name: KC_SPI_THEME_LOGIN_DEFAULT
+                        value: 'edb-theme'
+                      # - name: KC_SPI_THEME_ACCOUNT_DEFAULT
+                      #   value: "edb-theme"
+                      # - name: KC_SPI_THEME_ADMIN_DEFAULT
+                      #   value: "edb-theme"
+                      # - name: KC_SPI_THEME_EMAIL_DEFAULT
+                      #   value: "edb-theme"
+
+                      # --- PostgreSQL connection (unchanged) ---
+                      - name: KC_DB
+                        value: 'postgres'
+                      - name: KC_DB_URL
+                        value: 'jdbc:postgresql://postgres-service-staging:5432/mydatabase'
+                      - name: KC_DB_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_USER
+                      - name: KC_DB_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_PASSWORD
+                      - name: POSTGRES_DB
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_DB

@@ -15,7 +15,7 @@ import { UiTagComponent } from '../tag/tag.component';
   ],
   template: `
     <cds-tile
-      class="launch-tile p-0 border-t-[5px] border-t-[#393939]relative block w-full h-full overflow-hidden"
+      class="launch-tile p-0  border-t-[#1f2937] border border-width-2 border-t-[5px] relative block w-full h-full overflow-hidden"
     >
       @if (skeleton()) {
         <div class="skeleton-placeholder absolute inset-0 z-10">
@@ -28,7 +28,7 @@ import { UiTagComponent } from '../tag/tag.component';
           <svg
             focusable="false"
             preserveAspectRatio="xMidYMid meet"
-            fill="currentColor"
+            fill="#1f2937"
             width="32"
             height="32"
             viewBox="0 0 32 32"
@@ -43,8 +43,8 @@ import { UiTagComponent } from '../tag/tag.component';
           </svg>
         </div>
         <div>
-          <h4 class="tile-title">{{ title() }}</h4>
-          <p class="tile-description font-light">{{ description() }}</p>
+          <h4 class="text-[#1f2937]">{{ title() }}</h4>
+          <p class="text-[#1f2937] font-light">{{ description() }}</p>
         </div>
       </div>
 
@@ -66,6 +66,7 @@ import { UiTagComponent } from '../tag/tag.component';
   styles: `
     .launch-tile {
       background-color: white;
+      padding: 0 !important;
     }
   `,
 })

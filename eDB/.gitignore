@@ -18,7 +18,10 @@ node_modules
 *.sublime-workspace
 
 *.env*
+!.env.staging
 *.css
+!styles.css
+
 *.css.map
 
 # IDE - VSCode
@@ -52,3 +55,4 @@ obj
 
 storybook-static
 vite.config.*.timestamp*
+vitest.config.*.timestamp*

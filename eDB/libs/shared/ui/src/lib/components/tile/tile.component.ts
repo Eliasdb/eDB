@@ -9,28 +9,32 @@ import { UiTagComponent } from '../tag/tag.component';
   template: `
     <cds-tile
       [class.subscribed]="isSubscribed()"
-      class="relative flex flex-col min-w-[20rem] rounded-md transition-colors duration-1000 ease-linear"
+      class="relative flex flex-col min-w-[20rem]  transition-colors duration-1000 ease-linear border border-width-2 rounded-[0.375rem]"
     >
-      <div class="flex flex-col gap-4 p-4">
-        <h3 class="m-0 text-base">{{ title() }}</h3>
+      <div class="flex flex-col gap-4 ">
+        <h3 class="m-0 text-base text-[#1f2937] font-semibold">
+          {{ title() }}
+        </h3>
         <p class="m-0 text-[0.9rem] text-[#6f6f6f] pr-8">{{ description() }}</p>
       </div>
-      <div class="flex justify-between items-center mt-12">
-        <div class="flex flex-wrap gap-2">
+      <div class="flex justify-between items-center">
+        <div class="flex flex-wrap">
           @for (tag of tags(); track $index) {
             <ui-tag [label]="tag"></ui-tag>
           }
         </div>
 
-        <ui-icon-button
-          buttonId="subscribe-btn"
-          size="md"
-          icon="faDownload"
-          iconSize="16px"
-          iconColor="#ffffff"
-          description="Subscribe"
-          (click)="emitSubscribe()"
-        ></ui-icon-button>
+        <div class="mb-3">
+          <ui-icon-button
+            buttonId="subscribe-btn"
+            size="md"
+            icon="faDownload"
+            iconSize="16px"
+            iconColor="#1f2937"
+            description="Subscribe"
+            (click)="emitSubscribe()"
+          ></ui-icon-button>
+        </div>
       </div>
     </cds-tile>
   `,

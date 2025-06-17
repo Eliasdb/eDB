@@ -78,7 +78,10 @@
       ],
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
-      ]
+      ],
+      "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
+      "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
+      "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["tmp"]

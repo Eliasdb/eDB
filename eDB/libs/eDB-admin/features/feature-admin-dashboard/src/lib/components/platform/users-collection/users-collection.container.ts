@@ -86,6 +86,7 @@ import {
         <ui-platform-overflow-menu
           [menuOptions]="menuOptions"
           icon="faEllipsisV"
+          iconColor="black"
           (menuOptionSelected)="onMenuOptionSelected($event, data)"
         ></ui-platform-overflow-menu>
       </div>

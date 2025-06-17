@@ -11,4 +11,10 @@
     "changeOrigin": true,
     "logLevel": "debug"
   }
+  // "/account": {
+  //   "target": "http://localhost:4301",
+  //   "secure": false,
+  //   "changeOrigin": true,
+  //   "logLevel": "debug"
+  // }
 }

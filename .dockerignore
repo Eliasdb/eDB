@@ -1,4 +1,23 @@
-node_modules
+
+
+# Ignore node_modules everywhere
 **/node_modules
+
+# Ignore Angular and Nx caches
+**/.angular
+**/.nx
+**/dist
+**/.turbo
+**/.output
+**/.next
+**/.vercel
+**/.cache
+
+# IDE and misc
+**/.vscode
+**/.idea
+**/.DS_Store
+**/Thumbs.db
+
+# Git
 .git
-.DS_Store

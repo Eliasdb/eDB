@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-builders/custom-webpack:browser",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/eDB-admin",
@@ -27,7 +27,7 @@
           "@angular/material/prebuilt-themes/purple-green.css"
         ],
         "customWebpackConfig": {
-          "path": "apps/eDB-admin/webpack.config.js"
+          "path": "apps/eDB-admin/webpack.config.ts"
         },
         "scripts": []
       },
@@ -49,10 +49,12 @@
           "fileReplacements": [
             {
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-
               "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB-admin/webpack.prod.config.ts"
+          }
         },
         "staging": {
           "optimization": true,
@@ -62,7 +64,10 @@
               "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
               "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/eDB-admin/webpack.prod.config.ts"
+          }
         },
         "development": {
           "optimization": false,
@@ -79,7 +84,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "eDB-admin:build:production"
@@ -88,7 +93,11 @@
           "buildTarget": "eDB-admin:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4300,
+        "publicHost": "http://localhost:4300"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -101,11 +110,19 @@
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
       "options": {
         "buildTarget": "eDB-admin:build",
         "port": 4300,
-        "staticFilePath": "dist/apps/eDB-admin/browser",
-        "spa": true
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "eDB-admin:build:development"
+        },
+        "production": {
+          "buildTarget": "eDB-admin:build:production"
+        }
       }
     }
   }
