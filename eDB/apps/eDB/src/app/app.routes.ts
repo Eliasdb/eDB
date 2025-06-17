@@ -4,14 +4,11 @@ import { loadRemote } from '@module-federation/enhanced/runtime';
 import { AuthGuard } from './guards/auth.guard';
 import { WrapperComponent } from './wrapReact';
 
+interface AdminRemoteModule {
+  remoteRoutes: Route[];
+}
+
 export const routes: Route[] = [
-  {
-    path: 'admin',
-    loadChildren: () =>
-      loadRemote('admin/Routes') // ← no second argument, no TS error
-        .then((m: any) => m.remoteRoutes ?? [])
-        .catch(() => []), // graceful empty fallback
-  },
   {
     path: '',
     canActivate: [AuthGuard],
@@ -22,6 +19,13 @@ export const routes: Route[] = [
           import(
             '@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */
           ).then((m) => m.featureDashboardRoutes),
+      },
+      {
+        path: 'admin',
+        loadChildren: () =>
+          loadRemote('eDB-admin/Routes')
+            .then((m) => (m as AdminRemoteModule).remoteRoutes ?? [])
+            .catch(() => []),
       },
       {
         path: 'catalog',

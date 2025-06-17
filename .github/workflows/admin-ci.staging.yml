@@ -55,7 +55,7 @@ jobs:
               working-directory: ./eDB
             - name: Test eDB-admin
               working-directory: ./eDB
-              run: pnpm nx test eDB-admin --ci --passWithNoTests
+              run: pnpm nx test eDB-admin --passWithNoTests
 
     # ─────────────────────────────────────────────
     build:

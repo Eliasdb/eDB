@@ -16,12 +16,12 @@ import {
   NotificationService,
   PlaceholderService,
 } from 'carbon-components-angular';
-import { routes } from './app.routes';
+import { remoteRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(remoteRoutes),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch()),
     provideAnimations(),
