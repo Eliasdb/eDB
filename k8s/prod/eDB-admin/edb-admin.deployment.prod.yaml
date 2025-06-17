@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: admin-app
-                  image: eliasdb/edb-admin:v1.0.0-prod
+                  image: eliasdb/edb-admin:v1.6-beta
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 80
@@ -30,7 +30,7 @@ spec:
                         value: production
                   readinessProbe:
                       httpGet:
-                          path: /admin/
+                          path: /admin
                           port: 80
                       initialDelaySeconds: 5
                       periodSeconds: 10
@@ -38,7 +38,7 @@ spec:
                       failureThreshold: 3
                   livenessProbe:
                       httpGet:
-                          path: /admin/
+                          path: /admin
                           port: 80
                       initialDelaySeconds: 15
                       periodSeconds: 20
