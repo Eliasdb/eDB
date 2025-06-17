@@ -1,19 +1,11 @@
+// apps/eDB/module-federation.config.ts
 import { ModuleFederationConfig } from '@nx/module-federation';
 
 const config: ModuleFederationConfig = {
   name: 'eDB',
-  shared: (name, sharedConfig) => {
-    if (name === 'chart.js' || name === 'ng2-charts') {
-      return {
-        singleton: true,
-        strictVersion: false,
-        eager: false,
-
-        requiredVersion: sharedConfig?.requiredVersion ?? 'auto',
-      };
-    }
-    return sharedConfig;
-  },
+  // remotes: [
+  //   ['eDB_admin', `${environment.mfManifestBaseUrl}/remoteEntry.mjs`], // this is used only for dev
+  // ],
 };
 
 export default config;
