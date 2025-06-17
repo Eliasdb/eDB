@@ -1,4 +1,4 @@
-name: Production Release
+name: Pre-Merge Checks (Production)
 
 on:
     pull_request:
@@ -185,7 +185,7 @@ jobs:
 
                     echo "🐳 Docker build & push for $app"
                     docker build --platform linux/arm64 \
-                      -f "docker/$app/Dockerfile.production" \
+                      -f "docker/$app/Dockerfile.prod" \
                       -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" .
                     docker push "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
                   done
