@@ -93,6 +93,6 @@ jobs:
                   TAG=${{ inputs.image_tag }}
                   echo "📦 Building & pushing admin image:$TAG"
                   docker build --platform linux/arm64 \
-                    -f docker/eDB-admin/Dockerfile.production \
+                    -f docker/eDB-admin/Dockerfile.prod \
                     -t eliasdb/edb-admin:$TAG .
                   docker push eliasdb/edb-admin:$TAG
