@@ -5,17 +5,6 @@ const config: ModuleFederationConfig = {
   exposes: {
     './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
   },
-  shared: (name, sharedConfig) => {
-    if (name === 'chart.js' || name === 'ng2-charts') {
-      return {
-        singleton: true,
-        eager: false,
-        strictVersion: false,
-        requiredVersion: sharedConfig?.requiredVersion ?? 'auto',
-      };
-    }
-    return sharedConfig;
-  },
 };
 
 /**

@@ -1,11 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { CatalogService } from '@eDB/client-catalog';
 import { UiComboboxComponent, UiTileComponent } from '@eDB/shared-ui';
-import { ListItem, NotificationService } from 'carbon-components-angular';
+import {
+  ListItem,
+  NotificationModule,
+  NotificationService,
+} from 'carbon-components-angular';
 
 @Component({
   selector: 'platform-catalog',
-  imports: [UiTileComponent, UiComboboxComponent],
+  imports: [
+    UiTileComponent,
+    UiComboboxComponent,
+    NotificationModule, // ← bring in NotificationService provider & components
+  ],
+  providers: [
+    NotificationService, // ← ensure service is created in this component's injector
+  ],
   template: `
     <section
       class="relative bg-white flex flex-col items-center min-h-screen pt-20  overflow-hidden"
