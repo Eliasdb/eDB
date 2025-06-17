@@ -16,7 +16,7 @@ jobs:
             - name: Set Version
               id: version
               run: |
-                  VERSION=v1.5-beta
+                  VERSION=v1.6-beta
                   echo "image_tag=${VERSION}" >> $GITHUB_ENV
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
