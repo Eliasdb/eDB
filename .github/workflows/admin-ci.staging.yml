@@ -80,8 +80,8 @@ jobs:
               run: |
                   pnpm nx build eDB-admin \
                     --configuration=staging \
-                    --base-href=/admin/ \
-                    --deploy-url=/admin/
+                    --base-href=/admin \
+                    --deploy-url=/admin
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
               with:
