@@ -215,3 +215,4 @@ jobs:
             - run: kubectl apply --dry-run=client -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
             - run: |
                   kubectl apply -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
+                  kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging
