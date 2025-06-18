@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: edb-admin-api-staging-service
+    labels:
+        app: admin-api-staging
+spec:
+    type: ClusterIP
+    selector:
+        app: admin-api-staging
+    ports:
+        - protocol: TCP
+          port: 9102
+          targetPort: 9102

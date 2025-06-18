@@ -64,7 +64,6 @@ namespace Edb.PlatformAPI.Extensions
       // services.AddScoped<IUserRepository, UserRepository>();
 
       // Register services
-      services.AddScoped<IAdminService, AdminService>();
       // services.AddScoped<IProfileService, IProfileService>();
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
