@@ -6,7 +6,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Clean DI registration
 builder.Services.AddAdminServices(builder.Configuration);
 
 var app = builder.Build();
