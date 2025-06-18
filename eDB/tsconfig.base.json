@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@e-db/generated-admin-api-types": [
+        "libs/generated/admin-api-types/src/index.ts"
+      ],
       "@e-db/generated-platform-api-types": [
         "libs/generated/platform-api-types/src/index"
       ],
@@ -79,8 +82,8 @@
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
       ],
-      "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
       "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
+      "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
       "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
     }
   },
