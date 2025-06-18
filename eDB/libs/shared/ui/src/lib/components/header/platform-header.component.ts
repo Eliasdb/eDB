@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -8,10 +8,16 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { HeaderModule } from 'carbon-components-angular';
 import { filter, Subscription } from 'rxjs';
 import { UiButtonComponent } from '../buttons/button/button.component';
+import { UiIconComponent } from '../icon/icon.component';
 import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/overflow-menu.component';
 
 @Component({
@@ -22,6 +28,9 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
     UiPlatformOverflowMenuComponent,
     UiButtonComponent,
     RouterLink,
+    CommonModule,
+    RouterLinkActive,
+    UiIconComponent,
   ],
   template: `
     <cds-header [brand]="brandTemplate" [name]="name()" [class]="this.class()">
@@ -31,14 +40,19 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
 
       @if (navigationLinks().length > 0) {
         <cds-header-navigation>
-          @for (link of navigationLinks(); track link.id) {
-            <cds-header-item
-              (click)="linkClick.emit(link.id)"
-              [isCurrentPage]="link.isCurrentPage"
-            >
-              {{ link.label }}
-            </cds-header-item>
-          }
+          <nav class="flex items-center gap-1 sm:gap-2">
+            @for (link of navigationLinks(); track link.id) {
+              <a
+                [routerLink]="link.id"
+                routerLinkActive="text-white after:absolute after:left-1 after:right-1 after:-bottom-0.5 after:h-0.5 after:bg-[var(--accent)]"
+                [routerLinkActiveOptions]="{ exact: link.id === '' }"
+                class="group relative inline-flex items-center gap-2 px-2 py-1 text-sm text-gray-400 hover:text-white transition"
+              >
+                <ui-icon *ngIf="link.icon" [name]="link.icon" size="sm" />
+                <span class="font-medium">{{ link.label }}</span>
+              </a>
+            }
+          </nav>
         </cds-header-navigation>
       }
 
@@ -51,16 +65,15 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
               </ui-button>
             </a>
           </div>
-          <div class="flex items-center pr-6">
-            <ui-platform-overflow-menu
-              placement="bottom"
-              icon="faUser"
-              [menuOptions]="menuOptions()"
-              [flip]="true"
-              [offset]="{ x: 24, y: 0 }"
-              (menuOptionSelected)="menuOptionSelected.emit($event)"
-            ></ui-platform-overflow-menu>
-          </div>
+
+          <ui-platform-overflow-menu
+            placement="bottom"
+            icon="faGrip"
+            [menuOptions]="menuOptions()"
+            [flip]="true"
+            [offset]="{ x: 0, y: 0 }"
+            (menuOptionSelected)="menuOptionSelected.emit($event)"
+          ></ui-platform-overflow-menu>
         </cds-header-global>
       }
     </cds-header>
@@ -99,7 +112,12 @@ export class UiPlatformHeaderComponent implements OnInit, OnDestroy {
 
   readonly hasHamburger = input<boolean>(false);
   readonly navigationLinks = input<
-    { id: string; label: string; isCurrentPage: boolean }[]
+    {
+      id: string;
+      label: string;
+      isCurrentPage: boolean;
+      icon?: string; // FontAwesome icon
+    }[]
   >([]);
   readonly menuOptions = input<{ id: string; label: string }[]>([]);
 
@@ -135,5 +153,18 @@ export class UiPlatformHeaderComponent implements OnInit, OnDestroy {
 
     this.targetButtonText = isAdmin ? 'To Web App' : 'To Admin App';
     this.targetUrl = isAdmin ? '/' : '/admin';
+  }
+
+  isActive(linkId: string): boolean {
+    const currentPath = this.router.url.replace(/^\/+/, '');
+    return currentPath === linkId;
+  }
+  getNavButtonClasses(linkId: string): string {
+    const base =
+      'relative flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md transition-colors';
+    const active =
+      'text-blue-600 after:absolute after:inset-x-2 after:-bottom-0.5 after:h-0.5 after:bg-blue-600 after:content-[""]';
+    const inactive = 'text-gray-700 hover:bg-gray-100';
+    return `${base} ${this.isActive(linkId) ? active : inactive}`;
   }
 }
