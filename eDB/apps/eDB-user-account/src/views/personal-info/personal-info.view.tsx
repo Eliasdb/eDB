@@ -204,21 +204,21 @@ export function PersonalInfoView({ userInfo }: Props) {
         </section>
       </section>
 
-      <section className="pt-12 mt-12 border-t">
-        <div className="flex items-center justify-between pb-2">
+      <section className="pt-16 mt-16 border-t">
+        <div className="flex items-center justify-between pb-4">
           <h2 className="text-lg font-normal flex items-center gap-2 text-destructive">
             <Pencil className="w-5 h-5" />
             Danger Zone
           </h2>
         </div>
+
         <div className="text-sm bg-white">
           <div
             className="
-        border-t pt-4
-        grid
-        grid-cols-1
-        md:grid-cols-[1fr_2fr_1fr]
-        md:items-center
+        border-t pt-6 pb-6 space-y-6
+        md:pt-4 md:pb-0 md:px-0
+        md:grid md:grid-cols-[1fr_2fr_1fr]
+        md:items-center md:space-y-0
       "
           >
             <div className="flex justify-between items-center md:justify-start md:col-start-1 md:col-end-2">
@@ -227,7 +227,7 @@ export function PersonalInfoView({ userInfo }: Props) {
               </span>
             </div>
 
-            <div className="md:col-start-2 md:col-end-3 flex flex-col gap-2">
+            <div className="md:col-start-2 md:col-end-3">
               <span className="text-sm text-muted-foreground">
                 Permanently remove your account and all associated data.
               </span>
@@ -244,7 +244,6 @@ export function PersonalInfoView({ userInfo }: Props) {
                       'Are you sure you want to delete your account? This action cannot be undone.',
                     )
                   ) {
-                    // TODO: hook into delete account logic
                     alert('Account deletion is not yet implemented.');
                   }
                 }}

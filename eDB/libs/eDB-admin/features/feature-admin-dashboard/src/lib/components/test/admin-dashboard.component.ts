@@ -207,7 +207,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
 })
 export class AdminDashboardComponent {
   // Sidebar state using two-way binding
-  isDrawerOpen: boolean = true;
+  isDrawerOpen: boolean = false;
   @ViewChild('drawer') drawer!: MatDrawer;
 
   // Signal to track the current view (platform or webshop)

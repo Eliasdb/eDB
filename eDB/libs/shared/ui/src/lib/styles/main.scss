@@ -85,8 +85,13 @@ a.cds--header__name {
 
 .cds--btn--ghost {
   color: white;
-  padding-left: 0;
-  padding-right: 0;
+  /* padding-left: 0;
+  padding-right: 0; */
+}
+
+.cds--btn--ghost:hover,
+.cds--btn--ghost:active {
+  color: var(--cds-link-primary-hover, rgb(247, 238, 238));
 }
 
 .cds--btn--primary:hover,
@@ -385,6 +390,16 @@ cds-skeleton-text p {
   margin: 0 auto;
 }
 
-button[ng-reflect-size] ui-icon fa-icon svg.svg-inline--fa {
-  vertical-align: 1em;
+.svg-inline--fa.fa-arrow-right {
+  vertical-align: 0em !important;
+}
+
+.cds--overflow-menu.cds--overflow-menu--open,
+.cds--overflow-menu.cds--overflow-menu--open .cds--overflow-menu__trigger,
+.cds--overflow-menu.cds--overflow-menu--open:hover {
+  background-color: #ffffff1a;
+}
+
+cds--overflow-menu cds--btn--icon-only cds--btn cds--btn--ghost {
+  inline-size: 6.5rem;
 }
