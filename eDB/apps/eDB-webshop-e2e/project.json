@@ -1,9 +1,0 @@
-{
-  "name": "eDB-webshop-e2e",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "sourceRoot": "apps/eDB-webshop-e2e/src",
-  "implicitDependencies": ["eDB-webshop"],
-  "// targets": "to see all targets run: nx show project eDB-webshop-e2e --web",
-  "targets": {}
-}
