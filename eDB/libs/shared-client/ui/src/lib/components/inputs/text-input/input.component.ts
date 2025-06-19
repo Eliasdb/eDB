@@ -1,12 +1,17 @@
 import { Component, forwardRef, input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
 @Component({
-  selector: 'ui-password-input',
-  imports: [InputModule],
+  selector: 'ui-text-input',
+  standalone: true,
+  imports: [InputModule, FormsModule],
   template: `
-    <cds-password-label
+    <cds-text-label
       [helperText]="helperText()"
       [invalid]="invalid()"
       [invalidText]="invalidText()"
@@ -17,31 +22,30 @@ import { InputModule } from 'carbon-components-angular';
     >
       {{ label() }}
       <input
-        cdsPassword
-        type="password"
-        [size]="size()"
+        cdsText
+        [attr.size]="size()"
         [invalid]="invalid()"
         [warn]="warn()"
         [disabled]="disabled()"
         [theme]="theme()"
         [placeholder]="placeholder()"
-        [autocomplete]="autocomplete()"
         [readonly]="readonly()"
+        [autocomplete]="autocomplete()"
         [value]="value"
         (input)="onInput($event)"
         (blur)="onTouched()"
       />
-    </cds-password-label>
+    </cds-text-label>
   `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => UiPasswordInputComponent),
+      useExisting: forwardRef(() => UiTextInputComponent),
       multi: true,
     },
   ],
 })
-export class UiPasswordInputComponent implements ControlValueAccessor {
+export class UiTextInputComponent implements ControlValueAccessor {
   readonly label = input<string>('');
   readonly placeholder = input<string>('');
   readonly disabled = input<boolean>(false);
@@ -51,15 +55,20 @@ export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly warn = input<boolean>(false);
   readonly warnText = input<string>('');
   readonly skeleton = input<boolean>(false);
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly size = input<'sm' | 'md' | 'lg'>('lg');
   readonly theme = input<'light' | 'dark'>('dark');
   readonly readonly = input<boolean>(false);
   readonly autocomplete = input<string>('');
 
-  value: string = '';
+  value = ''; // type is inferred
 
-  private onChange: (value: string) => void = () => {};
-  public onTouched: () => void = () => {};
+  private onChange: (value: string) => void = () => {
+    // intentionally left blank
+  };
+
+  public onTouched: () => void = () => {
+    // intentionally left blank
+  };
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;

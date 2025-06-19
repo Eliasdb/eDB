@@ -1,8 +1,12 @@
 import { Component, EventEmitter, Output, input } from '@angular/core';
 import { DropdownModule } from 'carbon-components-angular';
 
+// ✅ Type alias for dropdown items
+type DropdownItem = { content: string; selected: boolean };
+
 @Component({
   selector: 'ui-dropdown',
+  standalone: true,
   imports: [DropdownModule],
   template: `
     <cds-dropdown
@@ -22,14 +26,13 @@ import { DropdownModule } from 'carbon-components-angular';
       [readonly]="readonly()"
       [fluid]="fluid()"
       (selected)="handleSelected($event)"
-      (onClose)="handleOnClose($event)"
+      (onClose)="handleClose($event)"
     >
       <cds-dropdown-list [items]="items()"></cds-dropdown-list>
     </cds-dropdown>
   `,
 })
 export class UiDropdownComponent {
-  // Inputs using the new "input" helper
   readonly label = input<string>('');
   readonly hideLabel = input<boolean>(false);
   readonly skeleton = input<boolean>(false);
@@ -45,25 +48,21 @@ export class UiDropdownComponent {
   readonly readonly = input<boolean>(false);
   readonly fluid = input<boolean>(false);
 
-  // The list of dropdown items. Each item must have a "content" and "selected" property.
-  readonly items = input<Array<{ content: string; selected: boolean }>>([
+  readonly items = input<DropdownItem[]>([
     { content: 'Option 1', selected: false },
     { content: 'Option 2', selected: false },
     { content: 'Option 3', selected: false },
   ]);
 
-  // Outputs
-  @Output() selectedEvent = new EventEmitter<any>();
-  @Output() onCloseEvent = new EventEmitter<any>();
+  // ✅ Output names follow Angular conventions
+  @Output() selectionChange = new EventEmitter<DropdownItem>();
+  @Output() dropdownClosed = new EventEmitter<void>();
 
-  // Event handlers that emit output events
-  handleSelected(event: any) {
-    console.log('Selected event:', event);
-    this.selectedEvent.emit(event);
+  handleSelected(event: unknown): void {
+    this.selectionChange.emit(event as DropdownItem);
   }
 
-  handleOnClose(event: any) {
-    console.log('Dropdown closed:', event);
-    this.onCloseEvent.emit(event);
+  handleClose(_: unknown): void {
+    this.dropdownClosed.emit();
   }
 }

@@ -126,7 +126,10 @@ import { UiSkeletonTextComponent } from '../../text/skeleton-text/skeleton-text.
                 [ngClass]="{
                   'disabled-action': isEditingAny() && !isEditing(rowIndex),
                 }"
+                tabindex="0"
                 (click)="onActionClick(rowIndex)"
+                (keydown.enter)="onActionClick(rowIndex)"
+                (keydown.space)="onActionClick(rowIndex)"
               >
                 @if (!isEditing(rowIndex)) {
                   <ng-container [ngSwitch]="header()">

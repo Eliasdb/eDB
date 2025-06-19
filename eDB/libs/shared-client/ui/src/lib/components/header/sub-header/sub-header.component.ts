@@ -18,8 +18,13 @@ import { HeaderModule } from 'carbon-components-angular';
             src="https://i.imghippo.com/files/SBfh8354yOw.png"
             alt="icon"
             class="launcher-icon"
+            tabindex="0"
+            role="button"
             (click)="onOpenDialog(isDialogOpen())"
+            (keydown.enter)="onOpenDialog(isDialogOpen())"
+            (keydown.space)="onOpenDialog(isDialogOpen())"
           />
+
           <span class="amount">{{ cartItems()?.length }}</span>
         </section>
       </cds-header-global>

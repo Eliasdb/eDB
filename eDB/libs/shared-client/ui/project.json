@@ -1,15 +1,13 @@
 {
   "name": "ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/presentation-layer/ui/src",
-  "prefix": "lib",
+  "sourceRoot": "libs/shared-client/ui/src",
   "projectType": "library",
-  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
       "options": {
-        "vitestConfig": "libs/ui/vitest.config.ts",
+        "vitestConfig": "libs/shared-client/ui/vitest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -20,14 +18,9 @@
       "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "configDir": "libs/shared/presentation-layer/ui/.storybook",
+        "configDir": "libs/shared-client/ui/.storybook",
         "browserTarget": "ui:build-storybook",
         "compodoc": false
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
-        }
       }
     },
     "build-storybook": {
@@ -35,20 +28,15 @@
       "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/ui",
-        "configDir": "libs/shared/presentation-layer/ui/.storybook",
+        "configDir": "libs/shared-client/ui/.storybook",
         "browserTarget": "ui:build-storybook",
         "compodoc": false
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
-        }
       }
     },
     "test-storybook": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "test-storybook -c libs/ui/.storybook --url=http://localhost:4400"
+        "command": "test-storybook -c libs/shared-client/ui/.storybook --url=http://localhost:4400"
       }
     },
     "static-storybook": {
@@ -58,11 +46,6 @@
         "buildTarget": "ui:build-storybook",
         "staticFilePath": "dist/storybook/ui",
         "spa": true
-      },
-      "configurations": {
-        "ci": {
-          "buildTarget": "ui:build-storybook:ci"
-        }
       }
     }
   }
