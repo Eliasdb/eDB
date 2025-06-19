@@ -25,7 +25,7 @@ import { ComboBoxModule, ListItem } from 'carbon-components-angular';
       type="multi"
       (selected)="handleSelected($event)"
       (submit)="handleSubmit($event)"
-      (clear)="handleClear($event)"
+      (clear)="handleClear()"
     >
       <cds-dropdown-list></cds-dropdown-list>
     </cds-combo-box>
@@ -66,7 +66,7 @@ export class UiComboboxComponent {
   }
 
   // ✅ Clear handler - emit void
-  handleClear(_: any): void {
+  handleClear(): void {
     this.comboBoxClear.emit();
   }
 }

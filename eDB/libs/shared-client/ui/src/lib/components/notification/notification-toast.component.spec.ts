@@ -70,11 +70,11 @@ describe('UiNotificationToastComponent', () => {
     );
 
     expect(title).not.toBeNull();
-    expect(title!.textContent).toContain('Default Title');
+    expect(title?.textContent).toContain('Default Title');
 
     expect(subtitle).not.toBeNull();
     // Don’t look for an extra <span> — text is often placed directly in .cds--inline-notification__subtitle
-    expect(subtitle!.textContent).toContain('Default Subtitle');
+    expect(subtitle?.textContent).toContain('Default Subtitle');
 
     expect(closeButton).toBeTruthy();
   });
@@ -100,11 +100,11 @@ describe('UiNotificationToastComponent', () => {
     );
 
     expect(title).not.toBeNull();
-    expect(title!.textContent).toContain('Default Title');
+    expect(title?.textContent).toContain('Default Title');
 
     expect(subtitle).not.toBeNull();
     // Remove the .span lookup — it’s usually just text inside the .__subtitle element
-    expect(subtitle!.textContent).toContain('Default Subtitle');
+    expect(subtitle?.textContent).toContain('Default Subtitle');
 
     expect(closeButton).toBeTruthy();
   });

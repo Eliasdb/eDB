@@ -110,8 +110,8 @@ export const WithIcon: Story = {
 };
 
 export const LoadingState: Story = {
-  render: (args) => ({
-    template: `<ui-button [loading]="true" [size]="size" [isExpressive]="isExpressive">Loading Button</ui-button>`,
+  render: () => ({
+    template: `<ui-button [loading]="true" [size]="'md'" [isExpressive]="true">Loading Button</ui-button>`,
   }),
 };
 

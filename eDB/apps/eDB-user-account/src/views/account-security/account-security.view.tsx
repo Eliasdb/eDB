@@ -4,14 +4,10 @@ import { useEffect, useState } from 'react';
 // Components
 import { OtpDevicesSection } from './components/otp-devices.section';
 import { PasswordSettingsSection } from './components/password.section';
+import { SessionDevicesSection } from './components/session-devices.section';
 
 // Services
-import {
-  confirmTotpSetup,
-  deleteOtpDevice,
-  fetchOtpDevices,
-  fetchTotpSetup,
-} from '../../services/totp-service';
+import { deleteOtpDevice, fetchOtpDevices } from '../../services/totp-service';
 import {
   fetchPasswordMeta,
   fetchUserSessions,
@@ -20,61 +16,36 @@ import {
 
 // Types
 import { OtpCred, SessionInfo } from '../../types/types';
-import { SessionDevicesSection } from './components/session-devices.section';
 
 export function AccountSecurityView({ token }: { token: string | null }) {
   /* password form -------------------------------------------------------- */
   const [pwdCreated, setPwdCreated] = useState<Date | null>(null);
 
-  /* TOTP enrolment ------------------------------------------------------- */
-  const [totp, setTotp] = useState<{
-    secret: string;
-    uri: string;
-    qrImage: string;
-  } | null>(null);
-  const [totpCode, setTotpCode] = useState('');
-  const [deviceLabel, setDeviceLabel] = useState('');
-  const [setupSuccess, setSetupSuccess] = useState(false);
-
   /* existing OTP devices ------------------------------------------------- */
   const [devices, setDevices] = useState<OtpCred[]>([]);
   const [sessions, setSessions] = useState<SessionInfo[]>([]);
 
-  /* initial fetch */
+  /* initial fetch -------------------------------------------------------- */
   useEffect(() => {
     if (!token) return;
 
     Promise.all([
       fetchOtpDevices(token).then(setDevices),
       fetchPasswordMeta(token).then((ts) => ts && setPwdCreated(new Date(ts))),
-      fetchTotpSetup(token).then(setTotp).catch(console.error),
       fetchUserSessions(token).then(setSessions).catch(console.error),
     ]).catch(console.error);
   }, [token]);
 
   /* handlers ------------------------------------------------------------- */
-
-  async function handleTotpSubmit() {
-    if (!token) return alert('No access token');
-
-    try {
-      await confirmTotpSetup(token, totpCode, deviceLabel || 'My device');
-      setSetupSuccess(true);
-      setTotpCode('');
-      setDeviceLabel('');
-    } catch (err: any) {
-      alert(err.message);
-    }
-  }
-
   async function handleDelete(id: string) {
     if (!token) return;
 
     try {
       await deleteOtpDevice(token, id);
       setDevices((prev) => prev.filter((d) => d.id !== id));
-    } catch (err: any) {
-      alert('Delete failed: ' + err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      alert('Delete failed: ' + message);
     }
   }
 
@@ -85,8 +56,9 @@ export function AccountSecurityView({ token }: { token: string | null }) {
       await revokeSession(id, token);
       alert('Session signed out');
       setSessions((prev) => prev.filter((s) => s.id !== id));
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      alert(message);
     }
   }
 
@@ -109,14 +81,16 @@ export function AccountSecurityView({ token }: { token: string | null }) {
 
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-16">
         <OtpDevicesSection devices={devices} onDelete={handleDelete} />
-
         <SessionDevicesSection
           sessions={sessions}
           onRevoke={handleRevokeSession}
         />
       </section>
 
-      {/* {totp && (
+      {/* 
+      Uncomment if TOTP setup UI is needed later
+      
+      {totp && (
         <div className="mt-6 p-4 rounded-xl border bg-white/90 shadow-sm space-y-4">
           <h4 className="text-sm font-medium">Mobile Authenticator Setup</h4>
           <p className="text-sm text-muted-foreground">
@@ -159,7 +133,8 @@ export function AccountSecurityView({ token }: { token: string | null }) {
             )}
           </div>
         </div>
-      )} */}
+      )}
+      */}
     </section>
   );
 }

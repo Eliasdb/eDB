@@ -34,13 +34,13 @@ import { UiButtonComponent } from '@eDB/shared-ui';
     <section class="flex flex-col mt-36 min-h-screen text-white">
       <!-- Loading state -->
       @if (bookResult.isLoading(); as loading) {
-        <books-loading-state></books-loading-state>
+        <ui-webshop-books-loading-state></ui-webshop-books-loading-state>
       }
 
       <!-- Success state -->
       @if (bookResult.isSuccess(); as success) {
         <div class="b-crumbs text-black">
-          <breadcrumbs [book]="book() || null" />
+          <ui-webshop-bread-crumbs [book]="book() || null" />
         </div>
         <mat-card>
           <mat-card-content>
@@ -89,10 +89,10 @@ import { UiButtonComponent } from '@eDB/shared-ui';
                       {{ book.price | currency: 'EUR' : 'symbol' }}
                     </p>
 
-                    <app-quantity-selector
+                    <ui-webshop-quantity-selector
                       [max]="book.stock"
                       (quantityChange)="onQuantityChange($event)"
-                    ></app-quantity-selector>
+                    ></ui-webshop-quantity-selector>
                   </div>
                   <hr />
 

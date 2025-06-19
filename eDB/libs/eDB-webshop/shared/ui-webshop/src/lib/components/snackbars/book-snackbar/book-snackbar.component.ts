@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'admin-book-snackbar',
+  selector: 'ui-webshop-admin-book-snackbar',
   imports: [MatIconModule],
   template: ` <div class="snack-bar">
     <div class="book-icon" matSnackBarLabel><mat-icon>book</mat-icon></div>
@@ -13,7 +13,7 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
   </div>`,
   styleUrl: './book-snackbar.component.scss',
 })
-export class BookSnackbar {
+export class BookSnackbarComponent {
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) public data: { book: string; action: string },
   ) {}
