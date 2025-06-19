@@ -4,6 +4,7 @@ import { UiIconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'ui-icon-button',
+  standalone: true,
   imports: [UiIconComponent, ButtonModule],
   template: `
     <cds-icon-button
@@ -13,11 +14,11 @@ import { UiIconComponent } from '../../icon/icon.component';
       [attr.disabled]="disabled() ? true : null"
       [class.tooltip-disabled]="showTooltipWhenDisabled() && disabled()"
       [description]="description()"
-      (click)="onClick($event)"
-      (mouseenter)="onMouseEnter($event)"
-      (mouseleave)="onMouseLeave($event)"
-      (focus)="onFocus($event)"
-      (blur)="onBlur($event)"
+      (click)="handleClick($event)"
+      (mouseenter)="handleMouseEnter($event)"
+      (mouseleave)="handleMouseLeave($event)"
+      (focus)="handleFocus($event)"
+      (blur)="handleBlur($event)"
     >
       <ui-icon
         class="cds--btn__icon"
@@ -36,9 +37,7 @@ export class UiIconButtonComponent {
   readonly size = input<'sm' | 'md' | 'lg'>('sm');
   readonly align = input<'left' | 'right' | 'center'>('center');
   readonly buttonNgClass = input<string>('');
-  readonly buttonAttributes = input<{
-    [key: string]: any;
-  }>({});
+  readonly buttonAttributes = input<Record<string, unknown>>({});
   readonly disabled = input<boolean>(false);
   readonly showTooltipWhenDisabled = input<boolean>(false);
   readonly description = input<string>('Icon button');
@@ -46,29 +45,30 @@ export class UiIconButtonComponent {
   readonly iconSize = input<string>('16px');
   readonly iconColor = input<string>('');
 
-  @Output() click = new EventEmitter<Event>();
-  @Output() mouseEnter = new EventEmitter<Event>();
-  @Output() mouseLeave = new EventEmitter<Event>();
-  @Output() focus = new EventEmitter<Event>();
-  @Output() blur = new EventEmitter<Event>();
+  // Rename these to avoid native DOM event conflicts
+  @Output() iconButtonClick = new EventEmitter<Event>();
+  @Output() iconButtonMouseEnter = new EventEmitter<Event>();
+  @Output() iconButtonMouseLeave = new EventEmitter<Event>();
+  @Output() iconButtonFocus = new EventEmitter<Event>();
+  @Output() iconButtonBlur = new EventEmitter<Event>();
 
-  onClick(event: Event) {
-    this.click.emit(event);
+  handleClick(event: Event): void {
+    this.iconButtonClick.emit(event);
   }
 
-  onMouseEnter(event: Event) {
-    this.mouseEnter.emit(event);
+  handleMouseEnter(event: Event): void {
+    this.iconButtonMouseEnter.emit(event);
   }
 
-  onMouseLeave(event: Event) {
-    this.mouseLeave.emit(event);
+  handleMouseLeave(event: Event): void {
+    this.iconButtonMouseLeave.emit(event);
   }
 
-  onFocus(event: Event) {
-    this.focus.emit(event);
+  handleFocus(event: Event): void {
+    this.iconButtonFocus.emit(event);
   }
 
-  onBlur(event: Event) {
-    this.blur.emit(event);
+  handleBlur(event: Event): void {
+    this.iconButtonBlur.emit(event);
   }
 }

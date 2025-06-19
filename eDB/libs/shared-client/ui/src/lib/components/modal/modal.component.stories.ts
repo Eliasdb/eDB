@@ -45,7 +45,7 @@ type Story = StoryObj<UiModalComponent>;
 
 // Wrapper component to pass the `TemplateRef`
 @Component({
-  selector: 'story-custom-template-wrapper',
+  selector: 'ui-story-custom-template-wrapper',
   template: `
     <ng-template #customTemplate let-data>
       <p>{{ data.message }}</p>

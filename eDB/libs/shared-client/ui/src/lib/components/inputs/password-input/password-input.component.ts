@@ -1,18 +1,12 @@
-import { Component, forwardRef, input, Provider } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputModule } from 'carbon-components-angular';
 
-export const TEXTAREA_VALUE_ACCESSOR: Provider = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => UiTextAreaComponent),
-  multi: true,
-};
-
 @Component({
-  selector: 'ui-textarea',
+  selector: 'ui-password-input',
   imports: [InputModule],
   template: `
-    <cds-textarea-label
+    <cds-password-label
       [helperText]="helperText()"
       [invalid]="invalid()"
       [invalidText]="invalidText()"
@@ -22,24 +16,32 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
       [warnText]="warnText()"
     >
       {{ label() }}
-      <textarea
-        cdsTextArea
-        [placeholder]="placeholder()"
-        [value]="value"
+      <input
+        cdsPassword
+        type="password"
+        [size]="size()"
+        [invalid]="invalid()"
+        [warn]="warn()"
         [disabled]="disabled()"
         [theme]="theme()"
-        [rows]="rows()"
-        [cols]="cols()"
+        [placeholder]="placeholder()"
+        [autocomplete]="autocomplete()"
         [readonly]="readonly()"
-        aria-label="textarea"
+        [value]="value"
         (input)="onInput($event)"
         (blur)="onTouched()"
-      ></textarea>
-    </cds-textarea-label>
+      />
+    </cds-password-label>
   `,
-  providers: [TEXTAREA_VALUE_ACCESSOR],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UiPasswordInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class UiTextAreaComponent implements ControlValueAccessor {
+export class UiPasswordInputComponent implements ControlValueAccessor {
   readonly label = input<string>('');
   readonly placeholder = input<string>('');
   readonly disabled = input<boolean>(false);
@@ -52,12 +54,23 @@ export class UiTextAreaComponent implements ControlValueAccessor {
   readonly size = input<'sm' | 'md' | 'lg'>('md');
   readonly theme = input<'light' | 'dark'>('dark');
   readonly readonly = input<boolean>(false);
-  readonly rows = input<number>(4);
-  readonly cols = input<number>(101);
+  readonly autocomplete = input<string>('');
 
-  value: string = ''; // Value of the textarea field
-  private onChange: (value: string) => void = () => {};
-  protected onTouched: () => void = () => {};
+  value = '';
+
+  private onChange: (value: string) => void = () => {
+    /** no-op */
+  };
+
+  public onTouched: () => void = () => {
+    /** no-op */
+  };
+
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.value = input.value;
+    this.onChange(this.value);
+  }
 
   writeValue(value: string): void {
     this.value = value || '';
@@ -69,11 +82,5 @@ export class UiTextAreaComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  onInput(event: Event): void {
-    const target = event.target as HTMLTextAreaElement;
-    this.value = target.value;
-    this.onChange(this.value);
   }
 }
