@@ -2,7 +2,7 @@
   "name": "feature-404",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/feature-404/src",
-  "prefix": "lib",
+  "prefix": "platform",
   "projectType": "library",
   "tags": [],
   "targets": {

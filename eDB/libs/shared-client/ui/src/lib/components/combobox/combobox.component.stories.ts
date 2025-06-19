@@ -2,12 +2,6 @@ import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { ComboBoxModule } from 'carbon-components-angular';
 import { UiComboboxComponent } from './combobox.component';
 
-// Define a type for your list items (adjust as needed)
-interface ListItem {
-  content: string;
-  selected: boolean;
-}
-
 const meta: Meta<UiComboboxComponent> = {
   title: 'Components/Combo Box',
   component: UiComboboxComponent,

@@ -7,23 +7,25 @@ import {
   NotificationService,
 } from 'carbon-components-angular';
 
+interface CatalogItem {
+  id: number;
+  name: string;
+  description: string;
+  tags: string[];
+  isSubscribed: boolean;
+}
+
 @Component({
-  selector: 'platform-catalog',
-  imports: [
-    UiTileComponent,
-    UiComboboxComponent,
-    NotificationModule, // ← bring in NotificationService provider & components
-  ],
-  providers: [
-    NotificationService, // ← ensure service is created in this component's injector
-  ],
+  selector: 'lib-catalog', // ✅ fixed prefix
+  standalone: true,
+  imports: [UiTileComponent, UiComboboxComponent, NotificationModule],
+  providers: [NotificationService],
   template: `
     <section
-      class="relative bg-white flex flex-col items-center min-h-screen pt-20  overflow-hidden"
+      class="relative bg-white flex flex-col items-center min-h-screen pt-20 overflow-hidden"
     >
-      <!-- Header & ComboBox -->
       <section
-        class="relative z-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-6  bg-[#1f2937] "
+        class="relative z-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-6 bg-[#1f2937]"
       >
         <section>
           <h1 class="my-4 mt-8 text-3xl text-white">Catalog</h1>
@@ -31,13 +33,10 @@ import {
         </section>
       </section>
 
-      <!-- Catalog tiles -->
       <section class="relative z-10 w-full mt-8 mb-16 px-6">
         @if (!isLoading()) {
           @if (catalog() && catalog().length > 0) {
-            <div class=" grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              <!-- Reserve first cell with an invisible tile for layout -->
-
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               @for (item of catalog(); track item.name) {
                 <ui-tile
                   [title]="item.name"
@@ -45,7 +44,7 @@ import {
                   [tags]="item.tags"
                   [id]="item.id"
                   [isSubscribed]="item.isSubscribed"
-                  (subscribe)="onSubscribe($event)"
+                  (subscribe)="onSubscribe(item.id)"
                 ></ui-tile>
               }
             </div>
@@ -60,27 +59,15 @@ import {
   `,
   styles: [],
 })
-export class CatalogPage {
+export class CatalogPageComponent {
   private catalogService = inject(CatalogService);
   private notificationService = inject(NotificationService);
 
   protected items: ListItem[] = [
-    {
-      content: '.NET',
-      selected: false,
-    },
-    {
-      content: 'Angular',
-      selected: false,
-    },
-    {
-      content: 'React',
-      selected: false,
-    },
-    {
-      content: 'Postgres',
-      selected: false,
-    },
+    { content: '.NET', selected: false },
+    { content: 'Angular', selected: false },
+    { content: 'React', selected: false },
+    { content: 'Postgres', selected: false },
   ];
 
   protected catalog = this.catalogService.catalog;
@@ -90,15 +77,15 @@ export class CatalogPage {
   private toggleSubscribeMutation =
     this.catalogService.subscribeToApplicationMutation();
 
-  trackByName(index: number, item: any): any {
-    return item.name;
+  trackByName(index: number, item: CatalogItem): number {
+    return item.id;
   }
 
   onSubscribe(appId: number) {
     this.toggleSubscribeMutation.mutate(appId, {
       onSuccess: () => {
-        this.handleSubscriptionToggle(appId),
-          console.log('Subscribed to app with ID:', appId);
+        this.handleSubscriptionToggle();
+        console.log('Subscribed to app with ID:', appId);
       },
       onError: (error) => {
         console.error('Failed to subscribe', error);
@@ -106,11 +93,11 @@ export class CatalogPage {
     });
   }
 
-  private handleSubscriptionToggle(appId: number): void {
+  private handleSubscriptionToggle(): void {
     this.notificationService.showNotification({
       type: 'success',
       title: 'Subscription',
-      message: 'Succesful',
+      message: 'Successful',
       duration: 4000,
     });
   }

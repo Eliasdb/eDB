@@ -54,8 +54,9 @@ export default function App() {
   const { data, isLoading, isError } = useUserInfoQuery(token);
 
   useEffect(() => {
-    if (!data) return;
-    fetchCustomAttributes(token!)
+    if (!data || !token) return;
+
+    fetchCustomAttributes(token)
       .then((custom) => {
         const merged = {
           ...data,

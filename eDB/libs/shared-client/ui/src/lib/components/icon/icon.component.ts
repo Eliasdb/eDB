@@ -28,14 +28,17 @@ export class UiIconComponent {
   readonly fixedWidth = input<boolean>(false);
 
   // Compute the icon based on the `name` input
-  readonly icon: Signal<any> = computed(() => {
-    const iconName = this.name() || 'faQuestionCircle'; // Fallback to a default icon
+  readonly icon: Signal<IconDefinition> = computed(() => {
+    const iconName = this.name() || 'faQuestionCircle';
     const validIcons = this.getValidIcons();
+    const fallback = solidIcons.faQuestionCircle;
     const icon = validIcons[iconName];
+
     if (!icon) {
-      console.error(`Icon "${iconName}" not found.`);
+      console.error(`Icon "${iconName}" not found. Using fallback.`);
     }
-    return icon || null;
+
+    return icon || fallback;
   });
 
   // Helper method to get valid icons

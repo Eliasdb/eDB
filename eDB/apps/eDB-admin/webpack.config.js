@@ -1,4 +1,4 @@
-module.exports = (config, context) => {
+module.exports = (config) => {
   return {
     ...config,
 

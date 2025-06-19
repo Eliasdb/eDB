@@ -1,9 +1,9 @@
+using Edb.PlatformAPI.Controllers;
+using Edb.PlatformAPI.DTOs.Admin; // Ensure UserDto is accessible from here
+using Edb.PlatformAPI.DTOs.Auth;
+using Edb.PlatformAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using PlatformAPI.Controllers;
-using PlatformAPI.DTOs.Admin; // Ensure UserDto is accessible from here
-using PlatformAPI.DTOs.Auth;
-using PlatformAPI.Interfaces;
 using Xunit;
 
 namespace PlatformAPITests.Controllers
