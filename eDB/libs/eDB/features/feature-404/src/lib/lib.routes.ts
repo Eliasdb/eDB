@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { NotFoundPage } from './not-found.page';
+import { NotFoundComponent } from './not-found.page';
 
 export const feature404Routes: Route[] = [
-  { path: '', component: NotFoundPage },
+  { path: '', component: NotFoundComponent },
 ];
