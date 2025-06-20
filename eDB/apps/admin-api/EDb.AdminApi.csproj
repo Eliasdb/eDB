@@ -39,9 +39,9 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.1" />
   </ItemGroup>
  <ItemGroup>
-<ProjectReference Include="..\..\libs\platform-api\shared\utils\util-attributes\EDb.UtilAttributes.csproj" />
-<ProjectReference Include="..\..\libs\platform-api\shared\data-access\EDb.DataAccess.csproj" />
-<ProjectReference Include="..\..\libs\platform-api\shared\domain\EDb.Domain.csproj" />
+<ProjectReference Include="..\..\libs\shared-api\utils\util-attributes\EDb.UtilAttributes.csproj" />
+<ProjectReference Include="..\..\libs\shared-api\data-access\EDb.DataAccess.csproj" />
+<ProjectReference Include="..\..\libs\shared-api\domain\EDb.Domain.csproj" />
 </ItemGroup>
 
 </Project>

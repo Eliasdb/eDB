@@ -2,12 +2,10 @@ using DotNetEnv;
 using EDb.DataAccess.Data;
 using EDb.DataAccess.Repositories;
 using EDb.Domain.Interfaces;
+using Edb.FeatureAccount.Mapping;
 using EDb.FeatureApplications.Interfaces;
 using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
-using Edb.PlatformAPI.Interfaces;
-using Edb.PlatformAPI.Mapping;
-using Edb.PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Edb.PlatformAPI.Extensions
@@ -68,7 +66,7 @@ namespace Edb.PlatformAPI.Extensions
       services.AddScoped<IApplicationsService, ApplicationsService>();
 
       // Add AutoMapper with the specified mapping profile assembly.
-      services.AddAutoMapper(typeof(MappingProfile).Assembly);
+      services.AddAutoMapper(typeof(AccountMappingProfile).Assembly);
       services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
 
       // Configure CORS policies.
