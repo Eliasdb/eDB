@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { CheckoutPage } from './checkout.page';
+import { CheckoutPageComponent } from './checkout.page';
 
 export const featureCheckoutRoutes: Route[] = [
-  { path: '', component: CheckoutPage },
+  { path: '', component: CheckoutPageComponent },
 ];
