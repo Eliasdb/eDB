@@ -37,7 +37,7 @@
           "@angular/material/prebuilt-themes/purple-green.css"
         ],
         "stylePreprocessorOptions": {
-          "includePaths": ["./node_modules", "/libs/shared/ui/src/lib/styles/"]
+          "includePaths": ["./node_modules", "libs/shared/ui/src/lib/styles/"]
         },
         "namedChunks": true,
         "customWebpackConfig": {

@@ -5,7 +5,7 @@ import { Book } from '@eDB-webshop/shared-types';
 import { UiIconComponent } from '@eDB/shared-ui';
 
 @Component({
-  selector: 'breadcrumbs',
+  selector: 'ui-webshop-bread-crumbs',
   imports: [MatIconModule, RouterLink, UiIconComponent],
   template: ` <section class="ml-4 flex items-center gap-2">
     <p class="title">

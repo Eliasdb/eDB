@@ -1,6 +1,6 @@
 // apps/eDB/webpack.config.js
 
-module.exports = (config, context) => {
+module.exports = (config) => {
   return {
     ...config,
 
