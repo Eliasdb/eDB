@@ -27,7 +27,7 @@ export async function bootstrapWithKeycloak(
         PlaceholderModule,
         // …any other Carbon NgModules you need
       ),
-      I18n, // ✅ THIS is the safe fix
+      { provide: I18n, useExisting: I18n },
 
       // and *also* manually re-provide the I18n token itself:
 
