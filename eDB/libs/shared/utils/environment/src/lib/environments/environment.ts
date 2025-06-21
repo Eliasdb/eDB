@@ -2,8 +2,7 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:5098/api',
-  apiAdminUrl: 'http://localhost:5206/api/admin',
-  apiAuthUrl: 'http://localhost:5098/api/auth',
+  apiAdminUrl: 'http://localhost:5206/api',
   bookAPIUrl: 'http://localhost:8000/api/v1',
   KC: {
     url: '/',

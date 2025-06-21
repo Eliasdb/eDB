@@ -72,6 +72,10 @@ export class KeycloakService {
   }
 
   logout(): void {
+    if (!this.keycloak) {
+      console.warn('Keycloak not initialized. Cannot log out.');
+      return;
+    }
     this.keycloak.logout();
     // Reset signals on logout.
     this.isAuthenticated.set(false);
