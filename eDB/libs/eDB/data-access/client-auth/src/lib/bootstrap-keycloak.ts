@@ -1,22 +1,16 @@
 // libs/client-auth/src/lib/bootstrap-keycloak.ts
 import { ApplicationConfig, importProvidersFrom, Type } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
+import { I18n, I18nModule, PlaceholderModule } from 'carbon-components-angular';
 import { KeycloakService } from './client';
 
-/**
- * Call this from *each* app’s main.ts.
- * It creates ONE KeycloakService, waits until it is ready,
- * then bootstraps the Angular application with that instance.
- */
 export async function bootstrapWithKeycloak(
   rootComponent: Type<unknown>,
   appConfig: ApplicationConfig,
 ) {
   const keycloakSvc = new KeycloakService();
-
   const ok = await keycloakSvc.init({
-    redirectUri: window.location.href, // <-- keeps page after *login*
+    redirectUri: window.location.href,
   });
 
   if (!ok) {
@@ -25,19 +19,22 @@ export async function bootstrapWithKeycloak(
   }
 
   await bootstrapApplication(rootComponent, {
-    ...appConfig,
+    // we don’t spread appConfig here because we want full control
     providers: [
-      // import any NgModules you need (e.g. Carbon modules):
+      // bring in the NgModule‐level providers:
       importProvidersFrom(
         I18nModule,
         PlaceholderModule,
-        // …if you had other standalone modules, bring them in here
+        // …any other Carbon NgModules you need
       ),
 
-      // then spread your host’s original providers:
+      // and *also* manually re-provide the I18n token itself:
+      I18n,
+
+      // now all your original appConfig providers:
       ...(appConfig.providers ?? []),
 
-      // and finally your KeycloakService instance:
+      // finally your KeycloakService instance:
       { provide: KeycloakService, useValue: keycloakSvc },
     ],
   });
