@@ -2,9 +2,6 @@ import { Injectable, computed, signal } from '@angular/core';
 import { environment } from '@eDB/shared-env';
 import Keycloak from 'keycloak-js';
 
-@Injectable({
-  providedIn: 'root',
-})
 @Injectable({ providedIn: 'root' })
 export class KeycloakService {
   private keycloak!: Keycloak;
@@ -17,7 +14,9 @@ export class KeycloakService {
     token: this.tokenSignal(),
   }));
 
-  async init(): Promise<boolean> {
+  async init(
+    extraOptions: Keycloak.KeycloakInitOptions = {}, // <-- just add this line
+  ): Promise<boolean> {
     this.keycloak = new Keycloak({
       url: `${environment.KC.url}`,
       realm: `${environment.KC.realm}`,
@@ -29,6 +28,7 @@ export class KeycloakService {
         onLoad: 'login-required',
         checkLoginIframe: false,
         pkceMethod: 'S256',
+        ...extraOptions, // <-- forward anything passed in
       });
 
       this.isAuthenticated.set(authenticated);
@@ -68,10 +68,13 @@ export class KeycloakService {
 
   logout(): void {
     if (!this.keycloak) {
-      console.warn('Keycloak not initialized');
+      console.warn('Keycloak not initialized?');
       return;
     }
-    this.keycloak.logout();
+    const target = window.location.href.split('#')[0]; // full page, minus any hash
+    console.log('[logout] redirect →', target);
+
+    this.keycloak.logout({ redirectUri: target });
     this.isAuthenticated.set(false);
     this.tokenSignal.set(null);
     sessionStorage.removeItem('access_token');
