@@ -18,7 +18,7 @@ export async function bootstrapWithKeycloak(
     return;
   }
 
-  await bootstrapApplication(rootComponent, {
+  bootstrapApplication(rootComponent, {
     // we don’t spread appConfig here because we want full control
     providers: [
       // bring in the NgModule‐level providers:
