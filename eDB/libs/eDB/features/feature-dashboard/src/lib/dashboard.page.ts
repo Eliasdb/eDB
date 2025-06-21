@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UiDropdownComponent, UiSearchComponent } from '@eDB/shared-ui';
+import { I18nModule } from 'carbon-components-angular';
 import { SubscriptionsCollectionContainer } from './components/subscription-collection/subscription-collection.container';
 
 @Component({
@@ -8,6 +9,7 @@ import { SubscriptionsCollectionContainer } from './components/subscription-coll
     SubscriptionsCollectionContainer,
     UiSearchComponent,
     UiDropdownComponent,
+    I18nModule, // ✅ add this!
   ],
   template: `
     <section class="pt-[7rem]">
