@@ -2,40 +2,50 @@
 import { ModuleFederationConfig } from '@nx/module-federation';
 
 const map: Record<string, any> = {
+  /* --- Angular core (already added) ------------------------------ */
   '@angular/core': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto',
+    requiredVersion: '19.0.3',
   },
   '@angular/common': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto',
+    requiredVersion: '19.0.3',
+  },
+  '@angular/common/http': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
   },
   '@angular/router': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+
+  /* --- Carbon for Angular & friends ------------------------------ */
+  'carbon-components-angular': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '5.57.8',
+  },
+  '@carbon/icons-angular': {
     singleton: true,
     strictVersion: true,
     requiredVersion: 'auto',
   },
 
+  /* --- your workspace libs -------------------------------------- */
   '@eDB/client-auth': { singleton: true, strictVersion: false },
-
-  '@eDB/shared-ui': { singleton: true, strictVersion: false },
-  '@eDB/util-navigation': { singleton: true, strictVersion: false },
+  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  // '@eDB/util-navigation': { singleton: true, strictVersion: false },
 };
 
 const config: ModuleFederationConfig = {
   name: 'eDB',
-  // remotes: [
-  //   [
-  //     'eDB-admin',
-  //     'https://app.staging.eliasdebock.com/admin/remoteEntry.mjs',
-  //   ] as [string, string],
-  // ],
   exposes: {},
-
-  // 👇 real SharedFunction – fully typed
-  shared: (libraryName) => map[libraryName] ?? false,
+  // shared: (lib) => map[lib] ?? false,
 };
 
 export default config;
