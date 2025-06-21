@@ -6,29 +6,45 @@ import { ModuleFederationConfig } from '@nx/module-federation';
  *  so Nx/webpack can actually give you the same singletons.
  *  ────────────────────────────────────────────────────────────── */
 const map: Record<string, any> = {
-  // Angular runtime
+  /* --- Angular core (already added) ------------------------------ */
   '@angular/core': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto',
+    requiredVersion: '19.0.3',
   },
   '@angular/common': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto',
+    requiredVersion: '19.0.3',
+  },
+  '@angular/common/http': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
   },
   '@angular/router': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto',
+    requiredVersion: '19.0.3',
   },
 
-  // Your Keycloak wrapper  ➜ **must** be a singleton
-  '@eDB/client-auth': { singleton: true, strictVersion: false },
+  /* --- Carbon for Angular & friends ------------------------------ */
+  'carbon-components-angular': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto',
+  },
+  '@carbon/icons-angular': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto',
+  },
+  // if you use secondary entry-points add them too, e.g.
 
-  // Other libs you want ONE copy of
-  '@eDB/shared-ui': { singleton: true, strictVersion: false },
-  '@eDB/util-navigation': { singleton: true, strictVersion: false },
+  /* --- your workspace libs -------------------------------------- */
+  '@eDB/client-auth': { singleton: true, strictVersion: false },
+  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  // '@eDB/util-navigation': { singleton: true, strictVersion: false },
 };
 
 const config: ModuleFederationConfig = {
@@ -41,7 +57,7 @@ const config: ModuleFederationConfig = {
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
-  shared: (libraryName) => map[libraryName] ?? false,
+  // shared: (libraryName) => map[libraryName] ?? false,
 };
 
 export default config;
