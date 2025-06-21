@@ -40,6 +40,9 @@ spec:
                                 name: jwt-secret-staging
                                 key: JWT_KEY
 
+                      - name: ASPNETCORE_URLS
+                        value: 'http://+:9102'
+
                   resources:
                       requests:
                           memory: '256Mi'
