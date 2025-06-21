@@ -38,8 +38,7 @@ const map: Record<string, any> = {
 
   '@tanstack/angular-query-experimental': {
     singleton: true,
-    strictVersion: true,
-    requiredVersion: '5.62.2',
+    strictVersion: false,
   },
 
   /* --- your workspace libs -------------------------------------- */
