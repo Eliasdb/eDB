@@ -45,7 +45,7 @@ const map: Record<string, any> = {
 const config: ModuleFederationConfig = {
   name: 'eDB',
   exposes: {},
-  // shared: (lib) => map[lib] ?? false,
+  shared: (lib) => map[lib] ?? false,
 };
 
 export default config;

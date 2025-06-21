@@ -32,7 +32,7 @@ const map: Record<string, any> = {
   'carbon-components-angular': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto',
+    requiredVersion: '5.57.8',
   },
   '@carbon/icons-angular': {
     singleton: true,
@@ -57,7 +57,7 @@ const config: ModuleFederationConfig = {
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
-  // shared: (libraryName) => map[libraryName] ?? false,
+  shared: (libraryName) => map[libraryName] ?? false,
 };
 
 export default config;
