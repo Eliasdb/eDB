@@ -24,12 +24,11 @@ export class UiShellHostComponent {
 
   menuOptions = MENU_OPTIONS;
 
-  handleMenuOption(optionId: string) {
-    if (optionId === 'logout') {
-      // Navigate *first* to avoid guarding issues on /logout
-      this.navService.navigateTo('/').then(() => this.keycloak.logout());
+  handleMenuOption(opt: string) {
+    if (opt === 'logout') {
+      this.keycloak.logout();
     } else {
-      this.navService.navigateTo(optionId);
+      this.navService.navigateTo(opt);
     }
   }
 }
