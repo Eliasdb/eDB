@@ -42,7 +42,8 @@ const map: Record<string, any> = {
 
   '@tanstack/angular-query-experimental': {
     singleton: true,
-    strictVersion: false,
+    strictVersion: true, // fail fast if they drift
+    requiredVersion: '5.62.2', // pick **one** patch
   },
   // if you use secondary entry-points add them too, e.g.
 
