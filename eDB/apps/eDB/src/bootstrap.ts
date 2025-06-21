@@ -1,21 +1,6 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { KeycloakService } from '@eDB/client-auth';
+// bootstrap.ts  (host app)
+import { bootstrapWithKeycloak } from '@eDB/client-auth'; // <-- helper you added
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 
-const keycloakService = new KeycloakService();
-
-keycloakService.init().then((authenticated) => {
-  if (authenticated) {
-    console.log('✅ Keycloak authentication successful');
-    bootstrapApplication(AppComponent, {
-      ...appConfig,
-      providers: [
-        ...appConfig.providers,
-        { provide: KeycloakService, useValue: keycloakService },
-      ],
-    }).catch((err) => console.error(err));
-  } else {
-    console.error('❌ Keycloak authentication failed');
-  }
-});
+bootstrapWithKeycloak(AppComponent, appConfig); // <-- that’s the “magical” line

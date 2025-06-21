@@ -14,7 +14,6 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
-import { KeycloakService } from '@eDB/client-auth';
 import {
   ExperimentalService,
   IconService,
@@ -38,7 +37,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     NotificationService,
     ModalService,
-    KeycloakService,
     ExperimentalService,
     NotificationDisplayService,
     PlaceholderService,
