@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, input } from '@angular/core';
-import { DropdownModule } from 'carbon-components-angular';
+import { DropdownModule, I18nModule } from 'carbon-components-angular';
 
 // ✅ Type alias for dropdown items
 type DropdownItem = { content: string; selected: boolean };
@@ -7,7 +7,7 @@ type DropdownItem = { content: string; selected: boolean };
 @Component({
   selector: 'ui-dropdown',
   standalone: true,
-  imports: [DropdownModule],
+  imports: [DropdownModule, I18nModule],
   template: `
     <cds-dropdown
       [label]="label()"
