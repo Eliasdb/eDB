@@ -1,7 +1,7 @@
 // libs/client-auth/src/lib/bootstrap-keycloak.ts
 import { ApplicationConfig, importProvidersFrom, Type } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
+import { I18n, I18nModule, PlaceholderModule } from 'carbon-components-angular';
 import { KeycloakService } from './client';
 
 export async function bootstrapWithKeycloak(
@@ -18,7 +18,7 @@ export async function bootstrapWithKeycloak(
     return;
   }
 
-  await bootstrapApplication(rootComponent, {
+  bootstrapApplication(rootComponent, {
     // we don’t spread appConfig here because we want full control
     providers: [
       // bring in the NgModule‐level providers:
@@ -27,6 +27,7 @@ export async function bootstrapWithKeycloak(
         PlaceholderModule,
         // …any other Carbon NgModules you need
       ),
+      { provide: I18n, useExisting: I18n },
 
       // and *also* manually re-provide the I18n token itself:
 
