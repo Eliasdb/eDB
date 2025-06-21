@@ -38,6 +38,7 @@ public class KeycloakRepository : IKeycloakRepository
     client.DefaultRequestHeaders.Accept.Add(
       new MediaTypeWithQualityHeaderValue("application/json")
     );
+    _logger.LogWarning("BaseUrl: {BaseUrl}, Realm: {Realm}", _kc.BaseUrl, _kc.Realm);
 
     var url = $"{_kc.BaseUrl}/realms/{_kc.Realm}/protocol/openid-connect/userinfo";
     var res = await client.GetAsync(url);
