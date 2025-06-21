@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
 import { AuthGuard } from './guards/auth.guard';
+import { LogoutHandlerComponent } from './logout-handler.component';
 import { WrapperComponent } from './wrapReact';
 
 interface AdminRemoteModule {
@@ -45,6 +46,10 @@ export const routes: Route[] = [
         path: 'account',
         component: WrapperComponent,
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'logout',
+        component: LogoutHandlerComponent,
       },
     ],
   },
