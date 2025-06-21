@@ -25,11 +25,11 @@ const map: Record<string, any> = {
   },
 
   /* --- Carbon for Angular & friends ------------------------------ */
-  'carbon-components-angular': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: '5.57.8',
-  },
+  // 'carbon-components-angular': {
+  //   singleton: true,
+  //   strictVersion: true,
+  //   requiredVersion: '5.57.8',
+  // },
   '@carbon/icons-angular': {
     singleton: true,
     strictVersion: true,
