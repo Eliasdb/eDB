@@ -36,6 +36,12 @@ const map: Record<string, any> = {
     requiredVersion: 'auto',
   },
 
+  '@tanstack/angular-query-experimental': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '5.62.2',
+  },
+
   /* --- your workspace libs -------------------------------------- */
   '@eDB/client-auth': { singleton: true, strictVersion: false },
   // '@eDB/shared-ui': { singleton: true, strictVersion: false },
