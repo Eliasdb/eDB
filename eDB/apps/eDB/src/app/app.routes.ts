@@ -16,11 +16,10 @@ export const routes: Route[] = [
     // canActivate: [AuthGuard],   // keep guards here if you need them
     children: [
       /* redirect plain slash to /dashboard */
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
 
       /* real dashboard segment */
       {
-        path: 'dashboard',
+        path: '',
         loadChildren: () =>
           import('@eDB/feature-dashboard').then(
             (m) => m.featureDashboardRoutes,

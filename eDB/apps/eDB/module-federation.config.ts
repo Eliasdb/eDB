@@ -54,8 +54,19 @@ const map: Record<string, any> = {
   },
 
   /* --- your workspace libs -------------------------------------- */
-  '@eDB/client-auth': { singleton: true, strictVersion: false },
-  '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  // '@eDB/client-auth': { singleton: true, strictVersion: false },
+  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  '@eDB/shared-ui': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto', // let webpack read the semver ↑
+  },
+  '@eDB/client-auth': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto',
+  },
+
   // 'chart.js': {
   //   // 👇 **new:** tell webpack to treat Chart.js as a *synchronous* share
   //   // because we import it at bootstrap time (no async boundary before it)
