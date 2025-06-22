@@ -1,7 +1,17 @@
+// apps/eDB-admin/src/app/remote-entry/entry.routes.ts
 import { Route } from '@angular/router';
-import { remoteRoutes as featureAdminRoutes } from '../app.routes';
 
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables);
+export const adminRemoteRoutes: Route[] = [
+  {
+    path: '',
+    pathMatch: 'full',
+    loadChildren: () =>
+      import('@eDB/feature-admin-dashboard').then(
+        (m) => m.featureAdminDashboardRoutes,
+      ),
+  },
+  { path: '**', redirectTo: 'not-found' },
+];
 
-export const remoteRoutes: Route[] = featureAdminRoutes;
+/* 🔑  default export */
+export default adminRemoteRoutes;

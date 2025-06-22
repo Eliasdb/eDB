@@ -56,6 +56,14 @@ const map: Record<string, any> = {
   /* --- your workspace libs -------------------------------------- */
   '@eDB/client-auth': { singleton: true, strictVersion: false },
   '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  // 'chart.js': {
+  //   // 👇 **new:** tell webpack to treat Chart.js as a *synchronous* share
+  //   // because we import it at bootstrap time (no async boundary before it)
+  //   singleton: true,
+  //   strictVersion: true,
+  //   requiredVersion: '4.4.8',
+  //   eager: true,
+  // },
   // '@eDB/util-navigation': { singleton: true, strictVersion: false },
 };
 
