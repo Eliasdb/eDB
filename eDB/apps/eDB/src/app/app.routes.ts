@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
+import { ApplicationRef } from '@angular/core';
 import { AuthGuard } from './guards/auth.guard';
 import { LogoutHandlerComponent } from './logout-handler.component';
 import { WrapperComponent } from './wrapReact';
@@ -25,10 +26,23 @@ export const routes: Route[] = [
       {
         path: 'admin',
         loadChildren: () =>
-          loadRemote('eDB-admin/Routes')
-            .then((m) => (m as AdminRemoteModule).remoteRoutes)
-            .catch(() => []),
+          loadRemote<{ initRemote: () => Promise<ApplicationRef> }>(
+            'eDB-admin/initRemote',
+          )
+            .then((m) => m?.initRemote?.())
+            .then(() =>
+              loadRemote<{ remoteRoutes: Route[] }>('eDB-admin/Routes').then(
+                (m) => {
+                  return m?.remoteRoutes ?? []; // ✅ never undefined
+                },
+              ),
+            )
+            .catch((err) => {
+              console.warn('⚠️ Failed to load admin remote or routes:', err);
+              return []; // ✅ always returns Route[]
+            }),
       },
+
       {
         path: 'catalog',
         loadChildren: () =>
