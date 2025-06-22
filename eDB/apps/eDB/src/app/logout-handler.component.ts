@@ -1,7 +1,7 @@
 // apps/eDB/src/app/logout-handler.component.ts
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { KeycloakService } from '@eDB/client-auth';
+import { KeycloakService } from '@edb/client-auth';
 
 @Component({
   selector: 'app-logout-handler',

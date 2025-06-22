@@ -71,8 +71,8 @@
     "tailwind-merge": "^3.3.0",
     "tw-animate-css": "^1.3.0",
     "zone.js": "0.15.0",
-    "@eDB/shared-ui": "workspace:*",
-    "@eDB/client-auth": "workspace:*"
+    "@edb/shared-ui": "workspace:*",
+    "@edb/client-auth": "workspace:*"
   },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "~1.9.3",

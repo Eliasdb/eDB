@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { KeycloakService } from '@eDB/client-auth';
+import { KeycloakService } from '@edb/client-auth';
 
 @Component({
   template: '<div #vc></div>',

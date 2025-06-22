@@ -61,7 +61,7 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: 'auto', // let webpack read the semver ↑
   },
-  '@eDB/client-auth': {
+  '@edb/client-auth': {
     singleton: true,
     strictVersion: true,
     requiredVersion: 'auto',
