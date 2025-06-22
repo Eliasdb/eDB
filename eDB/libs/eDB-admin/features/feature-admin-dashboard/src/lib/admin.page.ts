@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, ViewChild } from '@angular/core';
+import { Component, OnDestroy, signal, ViewChild } from '@angular/core';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
@@ -69,7 +69,7 @@ import { AdminDashboardComponent } from './components/test/admin-dashboard.compo
   ],
   styleUrls: ['admin.page.scss'],
 })
-export class AdminPage {
+export class AdminPage implements OnDestroy {
   currentView = signal<'books' | 'order-overview'>('books');
   @ViewChild('drawer') drawer!: MatDrawer;
 
@@ -77,5 +77,9 @@ export class AdminPage {
     console.log(`Switching view to: ${newContent}`);
     this.currentView.set(newContent);
     this.drawer.toggle();
+  }
+
+  ngOnDestroy() {
+    console.log('[ADMIN] destroyed');
   }
 }
