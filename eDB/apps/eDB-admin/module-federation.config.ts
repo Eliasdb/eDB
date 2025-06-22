@@ -59,9 +59,19 @@ const map: Record<string, any> = {
   // if you use secondary entry-points add them too, e.g.
 
   /* --- your workspace libs -------------------------------------- */
-  '@eDB/client-auth': { singleton: true, strictVersion: false },
-  '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  // '@eDB/client-auth': { singleton: true, strictVersion: false },
+  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
   // '@eDB/util-navigation': { singleton: true, strictVersion: false },
+  '@eDB/shared-ui': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto', // let webpack read the semver ↑
+  },
+  '@eDB/client-auth': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: 'auto',
+  },
 
   /* --- third‑party libraries ------------------------------------ */
   // 'chart.js': {
