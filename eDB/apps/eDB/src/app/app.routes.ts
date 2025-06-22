@@ -29,15 +29,17 @@ export const routes: Route[] = [
           loadRemote<{ initRemote: () => Promise<ApplicationRef> }>(
             'eDB-admin/initRemote',
           )
-            .then((m) => m?.initRemote())
+            .then((m) => m?.initRemote?.())
             .then(() =>
               loadRemote<{ remoteRoutes: Route[] }>('eDB-admin/Routes').then(
-                (m) => m?.remoteRoutes,
+                (m) => {
+                  return m?.remoteRoutes ?? []; // ✅ never undefined
+                },
               ),
             )
             .catch((err) => {
               console.warn('⚠️ Failed to load admin remote or routes:', err);
-              return [];
+              return []; // ✅ always returns Route[]
             }),
       },
 
