@@ -59,8 +59,7 @@ const config: ModuleFederationConfig = {
 
   /** everything this remote exposes */
   exposes: {
-    './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
-    './initRemote': 'apps/eDB-admin/src/main.ts',
+    './Routes': 'apps/eDB-admin/src/app/remote-entry/remote-entry.module.ts',
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
