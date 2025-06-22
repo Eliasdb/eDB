@@ -28,6 +28,17 @@ const map: Record<string, any> = {
     requiredVersion: '19.0.3',
   },
 
+  '@angular/platform-browser': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+  '@angular/platform-browser/animations': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+
   /* --- Carbon for Angular & friends ------------------------------ */
   'carbon-components-angular': {
     singleton: true,
@@ -64,7 +75,7 @@ const config: ModuleFederationConfig = {
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
-  shared: (libraryName) => map[libraryName] ?? false,
+  // shared: (libraryName) => map[libraryName] ?? false,
 };
 
 export default config;

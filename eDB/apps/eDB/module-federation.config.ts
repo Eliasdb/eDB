@@ -42,6 +42,17 @@ const map: Record<string, any> = {
     requiredVersion: '5.62.2', // pick **one** patch
   },
 
+  '@angular/platform-browser': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+  '@angular/platform-browser/animations': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+
   /* --- your workspace libs -------------------------------------- */
   '@eDB/client-auth': { singleton: true, strictVersion: false },
   '@eDB/shared-ui': { singleton: true, strictVersion: false },
