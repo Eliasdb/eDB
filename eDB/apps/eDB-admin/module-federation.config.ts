@@ -62,6 +62,16 @@ const map: Record<string, any> = {
   '@eDB/client-auth': { singleton: true, strictVersion: false },
   '@eDB/shared-ui': { singleton: true, strictVersion: false },
   // '@eDB/util-navigation': { singleton: true, strictVersion: false },
+
+  /* --- third‑party libraries ------------------------------------ */
+  // 'chart.js': {
+  //   // 👇 **new:** tell webpack to treat Chart.js as a *synchronous* share
+  //   // because we import it at bootstrap time (no async boundary before it)
+  //   singleton: true,
+  //   strictVersion: true,
+  //   requiredVersion: '4.4.8',
+  //   eager: true,
+  // },
 };
 
 const config: ModuleFederationConfig = {
@@ -70,12 +80,11 @@ const config: ModuleFederationConfig = {
 
   /** everything this remote exposes */
   exposes: {
-    './RemoteAdminModule':
-      'apps/eDB-admin/src/app/remote-entry/remote-entry.module.ts',
+    './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
-  // shared: (libraryName) => map[libraryName] ?? false,
+  shared: (libraryName) => map[libraryName] ?? false,
 };
 
 export default config;

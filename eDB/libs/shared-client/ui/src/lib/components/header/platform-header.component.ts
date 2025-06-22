@@ -43,7 +43,7 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
           <nav class="flex items-center gap-1 sm:gap-2">
             @for (link of navigationLinks(); track link.id) {
               <a
-                [routerLink]="link.id"
+                [routerLink]="link.id === '' ? '/' : '/' + link.id"
                 routerLinkActive="text-white after:absolute after:left-1 after:right-1 after:-bottom-0.5 after:h-0.5 after:bg-[var(--accent)]"
                 [routerLinkActiveOptions]="{ exact: link.id === '' }"
                 class="group relative inline-flex items-center gap-2 px-2 py-1 text-sm text-gray-400 hover:text-white transition"
