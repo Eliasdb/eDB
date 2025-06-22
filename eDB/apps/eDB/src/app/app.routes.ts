@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
-import { Type } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { AuthGuard } from './guards/auth.guard';
 import { LogoutHandlerComponent } from './logout-handler.component';
 import { WrapperComponent } from './wrapReact';
@@ -26,12 +26,13 @@ export const routes: Route[] = [
       {
         path: 'admin',
         loadChildren: () =>
-          loadRemote<{ default: Type<any> }>('eDB-admin/Routes').then((m) => {
+          loadRemote<{ default: Type<NgModule> }>(
+            'eDB-admin/RemoteAdminModule',
+          ).then((m) => {
             if (!m || !m.default) {
-              throw new Error(
-                '❌ Failed to load remote module: eDB-admin/Routes',
-              );
+              throw new Error('❌ Failed to load RemoteAdminModule');
             }
+
             return m.default;
           }),
       },
