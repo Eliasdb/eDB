@@ -59,7 +59,7 @@ const config: ModuleFederationConfig = {
 
   /** everything this remote exposes */
   exposes: {
-    './Routes': './src/app/remote-routes.module.ts',
+    './Routes': './src/app/remote-entry/remote-entry.module.ts',
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
