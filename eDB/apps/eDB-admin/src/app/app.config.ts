@@ -1,5 +1,9 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 // import AddIcon from '@carbon/icons/es/add/16';
 
@@ -10,7 +14,10 @@ import {
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
+  DropdownModule,
   ExperimentalService,
+  I18nModule,
+  ModalModule,
   ModalService,
   NotificationDisplayService,
   NotificationService,
@@ -30,6 +37,11 @@ export const appConfig: ApplicationConfig = {
     ExperimentalService,
     NotificationDisplayService,
     PlaceholderService,
+    importProvidersFrom(
+      I18nModule.forRoot({ translations: en }), // 👈 registers I18n service
+      ModalModule,
+      DropdownModule, // 👈 registers Dropdown providers
+    ),
     // {
     //   provide: IconService,
     //   useFactory: () => {
