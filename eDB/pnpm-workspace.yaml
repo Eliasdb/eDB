@@ -1,0 +1,6 @@
+# pnpm-workspace.yaml
+packages:
+  - apps/** # all app folders
+  - libs/** # all libraries
+  - libs/eDB/data-access/**
+  - libs/shared-client/**

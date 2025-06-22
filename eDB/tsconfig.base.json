@@ -55,7 +55,7 @@
       "@eDB/client-admin": [
         "libs/eDB-admin/data-access/client-admin/src/index"
       ],
-      "@eDB/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
+      "@edb/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
       "@eDB/client-catalog": ["libs/eDB/data-access/client-catalog/src/index"],
       "@eDB/client-dashboard": [
         "libs/eDB/data-access/client-dashboard/src/index"
