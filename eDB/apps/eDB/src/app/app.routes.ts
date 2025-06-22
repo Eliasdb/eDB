@@ -26,13 +26,13 @@ export const routes: Route[] = [
       {
         path: 'admin',
         loadChildren: () =>
-          loadRemote<{ default: Type<any> }>('eDB-admin/Routes').then((m) => {
-            if (!m || !m.default) {
-              throw new Error(
-                '❌ Failed to load remote module: eDB-admin/Routes',
-              );
+          loadRemote<{ RemoteAdminModule: Type<any> }>(
+            'eDB-admin/RemoteAdminModule',
+          ).then((m) => {
+            if (!m || !m.RemoteAdminModule) {
+              throw new Error('❌ Failed to load RemoteAdminModule');
             }
-            return m.default;
+            return m.RemoteAdminModule;
           }),
       },
 
