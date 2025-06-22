@@ -51,6 +51,8 @@ const map: Record<string, any> = {
 const config: ModuleFederationConfig = {
   name: 'eDB',
   exposes: {},
+  remotes: ['eDB-admin'], // ✅ This line tells Webpack that it's a dynamic remote
+
   shared: (lib) => map[lib] ?? false,
 };
 
