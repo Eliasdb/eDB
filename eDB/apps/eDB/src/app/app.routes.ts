@@ -21,11 +21,12 @@ export const routes: Route[] = [
             '@eDB/feature-dashboard' /* webpackChunkName: "dashboard" */
           ).then((m) => m.featureDashboardRoutes),
       },
+
       {
         path: 'admin',
         loadChildren: () =>
           loadRemote('eDB-admin/Routes')
-            .then((m) => (m as AdminRemoteModule).remoteRoutes ?? [])
+            .then((m) => (m as AdminRemoteModule).remoteRoutes)
             .catch(() => []),
       },
       {
