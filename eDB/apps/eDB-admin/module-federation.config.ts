@@ -29,11 +29,11 @@ const map: Record<string, any> = {
   },
 
   /* --- Carbon for Angular & friends ------------------------------ */
-  // 'carbon-components-angular': {
-  //   singleton: true,
-  //   strictVersion: true,
-  //   requiredVersion: '5.57.8',
-  // },
+  'carbon-components-angular': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '5.57.8',
+  },
   '@carbon/icons-angular': {
     singleton: true,
     strictVersion: true,
@@ -49,7 +49,7 @@ const map: Record<string, any> = {
 
   /* --- your workspace libs -------------------------------------- */
   '@eDB/client-auth': { singleton: true, strictVersion: false },
-  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
+  '@eDB/shared-ui': { singleton: true, strictVersion: false },
   // '@eDB/util-navigation': { singleton: true, strictVersion: false },
 };
 
@@ -60,6 +60,7 @@ const config: ModuleFederationConfig = {
   /** everything this remote exposes */
   exposes: {
     './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
+    './initRemote': 'apps/eDB-admin/src/main.ts',
   },
 
   /** 👉 must be a SharedFunction in Nx 20 */
