@@ -45,11 +45,6 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '5.58.0',
   },
-  '@carbon/icons-angular': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
 
   '@tanstack/angular-query-experimental': {
     singleton: true,
@@ -59,9 +54,6 @@ const map: Record<string, any> = {
   // if you use secondary entry-points add them too, e.g.
 
   /* --- your workspace libs -------------------------------------- */
-  // '@eDB/client-auth': { singleton: true, strictVersion: false },
-  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
-  // '@eDB/util-navigation': { singleton: true, strictVersion: false },
   '@eDB/shared-ui': {
     singleton: true,
     strictVersion: true,

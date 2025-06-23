@@ -5,34 +5,6 @@ import { environment } from './environments/environment';
 const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;
 
 // apps/eDB/src/main.ts or similar entrypoint
-import {
-  ArcElement,
-  BarController,
-  BarElement,
-  CategoryScale,
-  Chart,
-  Legend,
-  LinearScale,
-  LineController,
-  LineElement,
-  PieController,
-  Tooltip,
-} from 'chart.js';
-
-Chart.register(
-  LinearScale,
-  CategoryScale,
-  LineController,
-  LineElement,
-  BarElement,
-  BarController,
-  ArcElement,
-  PieController,
-  Tooltip,
-  Legend,
-);
-
-console.log('✅ Chart.js registered once in host:', Chart);
 
 if (!environment.production) {
   // DEV: ping the local manifest, only register if it’s up

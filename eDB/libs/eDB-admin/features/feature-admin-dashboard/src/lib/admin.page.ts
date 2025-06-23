@@ -6,6 +6,35 @@ import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 
 import { AdminDashboardComponent } from './components/test/admin-dashboard.component';
 
+import {
+  ArcElement,
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  Legend,
+  LinearScale,
+  LineController,
+  LineElement,
+  PieController,
+  Tooltip,
+} from 'chart.js';
+
+Chart.register(
+  LinearScale,
+  CategoryScale,
+  LineController,
+  LineElement,
+  BarElement,
+  BarController,
+  ArcElement,
+  PieController,
+  Tooltip,
+  Legend,
+);
+
+console.log('✅ Chart.js registered once in host:', Chart);
+
 @Component({
   selector: 'platform-admin',
   template: ` <section class="admin-page">
