@@ -43,7 +43,7 @@ const map: Record<string, any> = {
   'carbon-components-angular': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '5.57.8',
+    requiredVersion: '5.58.0',
   },
   '@carbon/icons-angular': {
     singleton: true,
