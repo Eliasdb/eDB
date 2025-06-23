@@ -1,6 +1,26 @@
 import { Component, EventEmitter, Output, input, model } from '@angular/core';
-import { OrderItem } from '@eDB-webshop/shared-types';
 import { HeaderModule } from 'carbon-components-angular';
+
+interface OrderItem {
+  id: number;
+  bookId: number;
+  selectedAmount: number;
+  price: number; // You might convert the string to a number if necessary.
+  book: Book;
+}
+
+export interface Book {
+  id: number;
+  photoUrl: string;
+  genre: string;
+  description: string;
+  title: string;
+  price: number;
+  stock: number;
+  author: string;
+  status: string;
+  publishedDate: string;
+}
 
 @Component({
   selector: 'ui-platform-subheader',
