@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UiShellHostComponent } from '@eDB/shared-ui';
+import { UiShellHostComponent } from '@eDB/feature-shell';
 
 @Component({
   selector: 'app-root',

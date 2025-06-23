@@ -55,7 +55,6 @@
       "@eDB/client-admin": [
         "libs/eDB-admin/data-access/client-admin/src/index"
       ],
-      "@eDB/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
       "@eDB/client-catalog": ["libs/eDB/data-access/client-catalog/src/index"],
       "@eDB/client-dashboard": [
         "libs/eDB/data-access/client-dashboard/src/index"
@@ -72,7 +71,7 @@
       "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index"],
       "@eDB/feature-profile": ["libs/eDB/features/feature-profile/src/index"],
       "@eDB/feature-register": ["libs/eDB/features/feature-register/src/index"],
-      "@eDB/feature-shell": ["libs/eDB/features/feature-shell/src/index"],
+      "@eDB/feature-shell": ["libs/eDB/features/feature-shell/src/index.ts"],
       "@eDB/shared-env": ["libs/shared/utils/environment/src/index"],
       "@eDB/shared-ui": ["libs/shared-client/ui/src/index.ts"],
       "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
@@ -82,6 +81,7 @@
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
       ],
+      "@edb/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
       "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
       "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
       "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
