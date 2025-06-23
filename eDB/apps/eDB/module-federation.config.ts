@@ -30,11 +30,6 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '5.58.0',
   },
-  '@carbon/icons-angular': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
 
   '@tanstack/angular-query-experimental': {
     singleton: true,
@@ -54,8 +49,6 @@ const map: Record<string, any> = {
   },
 
   /* --- your workspace libs -------------------------------------- */
-  // '@eDB/client-auth': { singleton: true, strictVersion: false },
-  // '@eDB/shared-ui': { singleton: true, strictVersion: false },
   '@eDB/shared-ui': {
     singleton: true,
     strictVersion: true,
@@ -75,7 +68,6 @@ const map: Record<string, any> = {
   //   requiredVersion: '4.4.8',
   //   eager: true,
   // },
-  // '@eDB/util-navigation': { singleton: true, strictVersion: false },
 };
 
 const config: ModuleFederationConfig = {
