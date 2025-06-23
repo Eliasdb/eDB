@@ -59,7 +59,7 @@ const map: Record<string, any> = {
   '@eDB/shared-ui': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: 'auto', // let webpack read the semver ↑
+    requiredVersion: '0.0.1', // let webpack read the semver ↑
   },
   '@edb/client-auth': {
     singleton: true,
