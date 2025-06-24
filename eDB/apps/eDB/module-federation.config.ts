@@ -59,15 +59,6 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: 'auto',
   },
-
-  // 'chart.js': {
-  //   // 👇 **new:** tell webpack to treat Chart.js as a *synchronous* share
-  //   // because we import it at bootstrap time (no async boundary before it)
-  //   singleton: true,
-  //   strictVersion: true,
-  //   requiredVersion: '4.4.8',
-  //   eager: true,
-  // },
 };
 
 const config: ModuleFederationConfig = {
