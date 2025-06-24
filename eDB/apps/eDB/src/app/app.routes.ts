@@ -5,15 +5,10 @@ import { AuthGuard } from './guards/auth.guard';
 import { LogoutHandlerComponent } from './logout-handler.component';
 import { WrapperComponent } from './wrapReact';
 
-interface AdminRemoteModule {
-  remoteRoutes: Route[];
-}
-
-// shell → apps/eDB/src/app/app.routes.ts
 export const routes: Route[] = [
   {
     path: '',
-    // canActivate: [AuthGuard],   // keep guards here if you need them
+    canActivate: [AuthGuard], // keep guards here if you need them
     children: [
       /* redirect plain slash to /dashboard */
 
