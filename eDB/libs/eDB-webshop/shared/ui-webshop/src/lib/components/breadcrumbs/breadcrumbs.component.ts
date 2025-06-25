@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { Book } from '@eDB-webshop/shared-types';
-import { UiIconComponent } from '@eDB/shared-ui';
+import { UiIconComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'ui-webshop-bread-crumbs',

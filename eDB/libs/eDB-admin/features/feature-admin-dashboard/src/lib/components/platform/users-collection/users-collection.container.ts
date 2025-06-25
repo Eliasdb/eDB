@@ -3,7 +3,7 @@ import {
   UiLoadingSpinnerComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
-} from '@eDB/shared-ui';
+} from '@edb/shared-ui';
 
 import { CommonModule } from '@angular/common';
 import {

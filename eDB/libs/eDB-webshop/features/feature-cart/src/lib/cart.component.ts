@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { OrderItem } from '@eDB-webshop/shared-types';
 import { QuantitySelectorComponent } from '@eDB-webshop/ui-webshop';
-import { UiButtonComponent } from '@eDB/shared-ui';
+import { UiButtonComponent } from '@edb/shared-ui';
 import { StructuredListModule } from 'carbon-components-angular';
 import { Subscription } from 'rxjs';
 

@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartComponent } from '@eDB-webshop/feature-cart';
-import { UiPlatformSubHeaderComponent } from '@eDB/shared-ui';
+import { UiPlatformSubHeaderComponent } from '@edb/shared-ui';
 import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
 
 @Component({
