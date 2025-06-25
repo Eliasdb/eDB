@@ -1,5 +1,4 @@
-name: Pre-Merge Checks (Production)
-
+name: (PROD) - Pre-Merge Checks
 on:
     pull_request:
         branches:
