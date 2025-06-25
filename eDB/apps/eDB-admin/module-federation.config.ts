@@ -54,26 +54,11 @@ const map: Record<string, any> = {
   // if you use secondary entry-points add them too, e.g.
 
   /* --- your workspace libs -------------------------------------- */
-  '@eDB/shared-ui': {
+  '@edb/shared-ui': {
     singleton: true,
     strictVersion: true,
     requiredVersion: '0.0.1', // let webpack read the semver ↑
   },
-  '@eDB/client-auth': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
-  },
-
-  /* --- third‑party libraries ------------------------------------ */
-  // 'chart.js': {
-  //   // 👇 **new:** tell webpack to treat Chart.js as a *synchronous* share
-  //   // because we import it at bootstrap time (no async boundary before it)
-  //   singleton: true,
-  //   strictVersion: true,
-  //   requiredVersion: '4.4.8',
-  //   eager: true,
-  // },
 };
 
 const config: ModuleFederationConfig = {
