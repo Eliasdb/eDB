@@ -32,7 +32,6 @@
     "@angular/router": "19.0.3",
     "@carbon/icons": "^11.53.0",
     "@carbon/styles": "^1.71.0",
-    "@edb/client-auth": "workspace:*",
     "@edb/shared-ui": "workspace:*",
     "@fortawesome/angular-fontawesome": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
@@ -126,7 +125,7 @@
     "@testing-library/angular": "^17.3.5",
     "@testing-library/react": "15.0.6",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.4",
+    "@types/node": "^22.15.32",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
     "@typescript-eslint/utils": "^8.17.0",
@@ -187,5 +186,10 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "3.4.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@tanstack/angular-query-experimental": "5.62.2"
+    }
   }
 }
