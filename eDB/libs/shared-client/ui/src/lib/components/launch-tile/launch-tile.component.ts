@@ -63,12 +63,7 @@ import { UiTagComponent } from '../tag/tag.component';
       </div>
     </cds-tile>
   `,
-  styles: `
-    .launch-tile {
-      background-color: white;
-      padding: 0 !important;
-    }
-  `,
+  styleUrl: './launch-tile.scss',
 })
 export class UiLaunchTileComponent {
   readonly title = input<string>('Test');
