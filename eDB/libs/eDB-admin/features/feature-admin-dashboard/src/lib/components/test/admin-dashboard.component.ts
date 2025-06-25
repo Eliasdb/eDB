@@ -206,33 +206,26 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
   standalone: true,
 })
 export class AdminDashboardComponent {
-  // Sidebar state using two-way binding
-  isDrawerOpen: boolean = true;
+  isDrawerOpen = false; // ✅ removed type
   @ViewChild('drawer') drawer!: MatDrawer;
 
-  // Signal to track the current view (platform or webshop)
   currentView = signal<'platform' | 'webshop'>('platform');
-
-  // Sidebar mode, which will be dynamically set to 'over' on mobile devices and 'side' on larger screens.
   sidenavMode: 'over' | 'side' = 'side';
 
   switchDrawerContent(newContent: 'platform' | 'webshop') {
     console.log(`Switching view to: ${newContent}`);
     this.currentView.set(newContent);
-    // Close the drawer when switching content if open
     if (this.sidenavMode === 'over' && this.drawer.opened) {
       this.drawer.close();
     }
   }
 
-  // Metric tiles values
-  totalRevenue: string = '$56,945';
-  customers: number = 1092;
-  avgOrderValue: string = '$202';
-  sessions: number = 9285;
+  totalRevenue = '$56,945';
+  customers = 1092; // ✅ removed type
+  avgOrderValue = '$202';
+  sessions = 9285; // ✅ removed type
 
-  // REVENUE (Line Chart)
-  public revenueChartData: ChartConfiguration<'line'>['data'] = {
+  revenueChartData: ChartConfiguration<'line'>['data'] = {
     labels: [
       'Jan',
       'Feb',
@@ -262,18 +255,13 @@ export class AdminDashboardComponent {
     ],
   };
 
-  public revenueChartOptions: ChartConfiguration<'line'>['options'] = {
+  revenueChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
+    scales: { y: { beginAtZero: true } },
   };
 
-  // SALES BY CATEGORY (Pie Chart)
-  public salesCategoryChartData: ChartData<'pie', number[], string> = {
+  salesCategoryChartData: ChartData<'pie', number[], string> = {
     labels: ['Apparel', 'Electronics', 'Other'],
     datasets: [
       {
@@ -283,7 +271,7 @@ export class AdminDashboardComponent {
     ],
   };
 
-  public salesCategoryChartOptions: ChartConfiguration<'pie'>['options'] = {
+  salesCategoryChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
   };

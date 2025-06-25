@@ -1,7 +1,5 @@
-import { bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapWithKeycloak } from '@edb/client-auth';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err),
-);
+bootstrapWithKeycloak(AppComponent, appConfig);

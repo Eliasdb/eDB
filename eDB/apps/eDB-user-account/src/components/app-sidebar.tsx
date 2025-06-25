@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { sampleData } from '../data/sample-data';
 
+import { NavItem } from '../types/types';
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
@@ -17,7 +18,7 @@ export function AppSidebar({
   userInfo,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
-  onSelectProject: (project: any) => void;
+  onSelectProject: (project: NavItem) => void;
   userInfo?: {
     name: string;
     email: string;

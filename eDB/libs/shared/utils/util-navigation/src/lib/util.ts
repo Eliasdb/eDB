@@ -54,7 +54,10 @@ export class NavigationService {
   }
 
   // Optional: expose a navigate method
-  navigateTo(target: string): void {
-    this.router.navigate([target]).then(() => this.updateCurrentPage());
+  navigateTo(target: string): Promise<boolean> {
+    return this.router.navigate([target]).then((result) => {
+      this.updateCurrentPage();
+      return result;
+    });
   }
 }

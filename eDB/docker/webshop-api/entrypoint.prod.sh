@@ -5,7 +5,7 @@ set -e
 ./wait-for-postgres.sh postgres-service-prod
 
 # Run migrations
-php artisan migrate --force
+php artisan migrate
 
 
 

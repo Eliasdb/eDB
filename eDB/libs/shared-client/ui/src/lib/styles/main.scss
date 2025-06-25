@@ -1,0 +1,405 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@carbon/styles';
+
+:root {
+  --cds-ui-01: yellow;
+  --cds-layer-01: #ffffff;
+  --cds-button-primary-01: red;
+  /* --cds-layer: white; */
+  --cds-heading-03-font-size: 1.25rem;
+  --cds-body-compact-01-font-size: 1rem;
+  --cds-body-compact-02-font-size: 0.9rem;
+  --accent: #f1f6fd;
+  --cds-layer-accent-01: var(--accent);
+  --cds-field-hover-01: var(--accent);
+  --cds-layer-selected-hover-01: #d5e6fb;
+  --accent-complimentary: #1f2937;
+  --cds-border-interactive: white;
+  --cds-text-primary: rgba(0, 0, 0, 0.9);
+  --cds-text-secondary: rgb(0, 0, 0);
+  --cds-button-primary: #f1f6fd;
+  --cds-text-on-color: var(--accent-complimentary);
+  --cds-icon-primary: black;
+  --cds-layer-hover-01: var(--accent);
+  --cds-focus: transparent;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+.cds--list-box__menu {
+  --cds-layer: white;
+  --cds-text-secondary: var(--accent-complimentary);
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.cds--list-box__menu-item:hover,
+.cds--list-box__menu-item:active {
+  background-color: var(--accent);
+}
+
+.cds--checkbox-label::before {
+  border: 1px solid var(--accent-complimentary, #161616);
+}
+
+.cds--list-box__menu-item__option:hover {
+  --cds-text-primary: var(--accent-complimentary);
+}
+
+a.cds--header__name {
+  --cds-text-primary: white;
+}
+
+.cds--checkbox-label[data-contained-checkbox-state='true']::before {
+  --cds-icon-primary: var(--accent-complimentary);
+}
+
+.cds--list-box__menu-item--active .cds--list-box__menu-item__option,
+.cds--list-box__menu-item--highlighted .cds--list-box__menu-item__option {
+  --cds-text-primary: var(--accent-complimentary);
+  border-block-start-color: #c6c6c6;
+}
+
+.cds--list-box__menu-item {
+  border-radius: 0rem !important;
+}
+
+.cds--list-box--light.cds--list-box--expanded {
+  border-radius: 0.375rem !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.cds--header {
+  --cds-background: var(--accent-complimentary);
+  block-size: 5rem;
+  border: none;
+  box-shadow: 0 1px 1px 0 var(--shadow-color);
+}
+
+a.cds--header__name {
+  padding: 0 2rem 0 1.5rem;
+}
+
+.cds--btn--ghost {
+  color: white;
+  /* padding-left: 0;
+  padding-right: 0; */
+}
+
+.cds--btn--ghost:hover,
+.cds--btn--ghost:active {
+  color: var(--cds-link-primary-hover, rgb(247, 238, 238));
+}
+
+.cds--btn--primary:hover,
+.cds--btn--primary:active {
+  --cds-button-primary-hover: rgba(255, 255, 255, 0.829);
+  --cds-button-primary-active: rgba(255, 255, 255, 0.829);
+}
+
+.cds--btn,
+.cds--list-box,
+.cds--list-box__field {
+  border-radius: 0.375rem !important;
+}
+
+.cds--tag--blue {
+  --cds-tag-background-blue: var(--accent);
+  --cds-tag-color-blue: var(--accent-complimentary);
+  border-radius: 0.375rem !important;
+}
+
+/* .cds--btn--ghost:hover,
+.cds--btn--ghost:active {
+  color: rgba(255, 255, 255, 0.829);
+} */
+
+/* .cds--overflow-menu.cds--overflow-menu--open:hover,
+.cds--overflow-menu.cds--overflow-menu--open:active {
+  background-color: rgba(209, 7, 7, 0.12);
+} */
+
+.cds--overflow-menu:hover {
+  background-color: rgba(141, 141, 141, 0.12);
+}
+
+.cds--search-input,
+.cds--text-input,
+.cds--text-area,
+.cds--dropdown {
+  border: 1px solid rgb(229 231 235 / 1);
+  --cds-text-primary: var(--accent-complimentary);
+}
+
+.cds--overflow-menu-options__btn:hover {
+  --cds-text-primary: var(--accent-complimentary);
+}
+
+a.cds--header__menu-item {
+  --cds-text-secondary: white;
+  padding: 2.5rem 1rem 0px 1rem;
+  /* block-size: 2rem; */
+}
+
+a.cds--header__menu-item:hover {
+  color: white;
+}
+
+.cds--overflow-menu-options {
+  background: white;
+}
+.cds--overflow-menu-options__btn {
+  font-size: 15px;
+  --cds-text-secondary: rgba(0, 0, 0, 0.828);
+}
+
+.cds--side-nav__icon {
+  display: none;
+}
+
+.cds--side-nav__items {
+  padding: 0 !important;
+}
+
+.cds--side-nav__header-divider::after {
+  display: none;
+}
+
+@media (max-width: 65.98rem) {
+  .cds--side-nav__header-navigation {
+    position: initial;
+    display: initial;
+  }
+}
+
+/* // @media (max-width: 700px) {
+//   .cds--structured-list-tbody {
+//     display: initial;
+//   }
+// } */
+
+/* .cds--data-table {
+  table-layout: fixed;
+
+  @media (max-width: 768px) {
+    table-layout: initial;
+  }
+} */
+
+.cds--data-table-header {
+  padding-inline: 0;
+  padding-block: 0rem 1.5rem;
+}
+
+/* // .cds--btn {
+//   --temp-1lh: (var(--cds-body-compact-01-line-height, 2.28572) * 1em);
+// } */
+
+/* // .cds--data-table tbody tr:nth-child(3) {
+//   background-color: rebeccapurple;
+// } */
+
+td[title='User Name'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+td[title='Subscription Date'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+td[title='Actions'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+td[title='ID'] {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+.cds--structured-list {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+  display: flex;
+  padding: 0 1rem 6rem 0;
+  flex-direction: column;
+  gap: 1rem;
+  ui-textarea {
+    width: 100%; /* Make the textarea span the full width of its parent */
+  }
+}
+
+.confirmation-text {
+  padding: 1rem;
+}
+
+.row-2 {
+  display: flex;
+  gap: 1rem; /* Add some space between the inputs */
+  width: 100%;
+
+  & > * {
+    /* Apply styles to all direct child elements of .row-2 */
+    flex: 1 1 50%; /* Each input will take 50% of the width */
+    max-width: 50%; /* Ensure they don’t grow beyond 50% */
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: slideIn 0.5s forwards;
+}
+
+.toast-exit {
+  animation: slideOut 0.5s forwards;
+}
+
+.cds--structured-list-td {
+  padding: 0.5rem 0.5rem 3rem;
+}
+
+.cds--skeleton__placeholder {
+  block-size: 100%;
+  inline-size: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.cds--skeleton__text {
+  margin-block-end: 0;
+}
+
+/* // .cds--popover-container {
+//   display: flex;
+// } */
+
+cds-skeleton-text p {
+  margin: 0;
+}
+
+.cds--overflow-menu {
+  block-size: 5rem;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    transform: translateY(0rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(3rem);
+    opacity: 1;
+  }
+}
+
+.cds--inline-notification {
+  max-inline-size: none;
+}
+
+.notification-overlay {
+  width: 100%;
+  animation: overlayFadeIn 200ms ease-in-out forwards;
+  position: absolute;
+}
+
+/* // .notification-overlay::-webkit-scrollbar {
+//   display: none;
+// } */
+
+.cds--inline-notification__title {
+  line-height: 21px;
+}
+
+.cds--inline-notification__subtitle span {
+  font-size: 0.9rem;
+}
+
+.cds--header {
+  z-index: 201;
+  /* max-width: 72rem; */
+}
+
+.cds--modal-footer .cds--btn {
+  block-size: 3rem;
+}
+
+.cds--tile {
+  /* --cds-layer: var(--accent); */
+  --cds-layer: transparent;
+  padding: 1rem;
+  border-radius: 0.375rem !important;
+}
+
+.cds--list-box,
+.cds--tag,
+.cds--btn,
+.cds--tile,
+.cds--list-box__menu,
+.cds--list-box__menu-item,
+.cds--list-box__field,
+.cds--form-item,
+.cds--search-input,
+.cds--select-input,
+.cds--text-input,
+.cds--structured-list,
+.cds--list-box__menu-item--highlighted {
+  border-radius: 0.375rem;
+}
+
+.cds--structured-list-tbody,
+.cds--structured-list-row {
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.cds--inline-notification {
+  border-radius: 0.5rem;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.svg-inline--fa.fa-arrow-right {
+  vertical-align: 0em !important;
+}
+
+.cds--overflow-menu.cds--overflow-menu--open,
+.cds--overflow-menu.cds--overflow-menu--open .cds--overflow-menu__trigger,
+.cds--overflow-menu.cds--overflow-menu--open:hover {
+  background-color: #ffffff1a;
+}
+
+cds--overflow-menu cds--btn--icon-only cds--btn cds--btn--ghost {
+  inline-size: 6.5rem;
+}

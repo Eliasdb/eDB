@@ -6,6 +6,9 @@ on:
             - dev
 
 jobs:
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🔖 Derive PR Tag
+    # ─────────────────────────────────────────────────────────────────────────────
     derive-pr-tag:
         name: Derive Tag from Most Recent PR
         runs-on: self-hosted
@@ -16,11 +19,9 @@ jobs:
               uses: actions/checkout@v3
               with:
                   fetch-depth: 1
-
             - name: Derive Docker Image Tag
               id: derive_tag
               run: |
-                  # Attempt to parse the merged PR number from the git log
                   PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
                   if [ -z "$PR_NUMBER" ]; then
                       echo "Error: Could not derive PR number"
@@ -29,6 +30,9 @@ jobs:
                   VERSION="pr-${PR_NUMBER}-staging"
                   echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🔍 Determine Nx Affected Projects
+    # ─────────────────────────────────────────────────────────────────────────────
     nx-affected:
         name: Determine Nx Affected Projects
         runs-on: self-hosted
@@ -38,18 +42,18 @@ jobs:
             webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
             platform_app: ${{ steps.set_booleans.outputs.platform_app }}
             admin_app: ${{ steps.set_booleans.outputs.admin_app }}
-            # account_ui: ${{ steps.set_booleans.outputs.account_ui }}
+            admin_api: ${{ steps.set_booleans.outputs.admin_api }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
               with:
-                  # Ensure we have enough commit history to compare
                   fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
                   node-version: '20'
+
             - name: Install .NET SDK
               uses: actions/setup-dotnet@v3
               with:
@@ -65,209 +69,150 @@ jobs:
             - name: Print Affected
               working-directory: ./eDB
               run: |
-                  # Compare HEAD~1 to HEAD (this may need to be adjusted in some repos)
-                  pnpm nx show projects --affected --with-target=build --base=$(git rev-parse HEAD^1) --head=HEAD > ../affected.txt || true
-                  echo "Affected Projects:"
+                  pnpm nx show projects --affected \
+                    --with-target=build \
+                    --base=$(git rev-parse HEAD^1) \
+                    --head=HEAD > ../affected.txt || true
+                    echo "Affected Projects:"
                   cat ../affected.txt
+
             - name: Extract and set booleans for affected projects
               id: set_booleans
               run: |
-                  # Read the plain text list (each affected project on a new line)
                   AFFECTED=$(cat affected.txt)
                   echo "Affected Projects: $AFFECTED"
 
-                  # Determine booleans by assigning to local variables
-                  if echo "$AFFECTED" | grep -x -q "platform-api"; then
-                    PLATFORM_API="true"
-                  else
-                    PLATFORM_API="false"
-                  fi
+                  PLATFORM_API=$(echo "$AFFECTED" | grep -xq "platform-api" && echo "true" || echo "false")
+                  WEBSHOP_API=$(echo "$AFFECTED" | grep -xq "webshop-api" && echo "true" || echo "false")
+                  PLATFORM_APP=$(echo "$AFFECTED" | grep -xq "eDB" && echo "true" || echo "false")
+                  ADMIN_APP=$(echo "$AFFECTED" | grep -xq "eDB-admin" && echo "true" || echo "false")
+                  ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
 
-                  if echo "$AFFECTED" | grep -x -q "webshop-api"; then
-                    WEBSHOP_API="true"
-                  else
-                    WEBSHOP_API="false"
-                  fi
-
-                  if echo "$AFFECTED" | grep -x -q "eDB"; then
-                    PLATFORM_APP="true"
-                  else
-                    PLATFORM_APP="false"
-                  fi
-
-                  if echo "$AFFECTED" | grep -x -q "eDB-admin"; then
-                    ADMIN_APP="true"
-                  else
-                    ADMIN_APP="false"
-                  fi
-
-                  # if echo "$AFFECTED" | grep -x -q "eDBAccountUi"; then
-                  #   ACCOUNT_UI="true"
-                  # else
-                  #   ACCOUNT_UI="false"
-                  # fi
-
-                  # Now write outputs without reading from $GITHUB_OUTPUT
                   echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
                   echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
                   echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
                   echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
-                  # echo "account_ui=${ACCOUNT_UI}" >> $GITHUB_OUTPUT
+                  echo "admin_api=${ADMIN_API}" >> $GITHUB_OUTPUT
 
-
-                  # Print final values for logging
-                  printf "\nFinal values:\n  🚀 Platform API:  %s\n  📱 Platform App:  %s\n  👑 Admin App:  %s\n  🛒 Webshop API:  %s\n  👤 Account UI:   %s\n\n" \
-                  "$PLATFORM_API" "$PLATFORM_APP" "$ADMIN_APP" "$WEBSHOP_API" "$ACCOUNT_UI"
+                  printf "\n📦 What Will Be Deployed:\n\
+                    🔌 APIs:\n\
+                      🚀 Platform API:  %s\n\
+                      🧠 Admin API:     %s\n\
+                      🛒 Webshop API:   %s\n\
+                    🧩 Apps:\n\
+                      📱 Platform App:  %s\n\
+                      👑 Admin App:     %s\n\n" \
+                    "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$PLATFORM_APP" "$ADMIN_APP"
 
               shell: bash
 
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🚀 Deploy Platform API to Staging
+    # ─────────────────────────────────────────────────────────────────────────────
     deploy-platform-api:
         name: Deploy Platform API to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-
-            - name: Configure Kubernetes for Staging
-              run: |
+            - uses: actions/checkout@v3
+            - run: |
                   mkdir -p ~/.kube
                   echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-                  chmod 600 ~/.kube/config
-                  kubectl cluster-info
-
-            - name: Replace Placeholder with Image Tag in API Deployment YAML
-              run: |
-                  set -e
+            - run: |
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
                     k8s/staging/api/api-deployment-template.staging.yaml \
                     > k8s/staging/api/api-deployment.staging.yaml
-
-            - name: Debug API Deployment YAML
-              run: |
-                  echo "Updated API Deployment YAML:"
-                  cat k8s/staging/api/api-deployment.staging.yaml
-
-            - name: Validate API Deployment YAML
-              run: |
-                  kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.staging.yaml
-
-            - name: Deploy API to Kubernetes
-              run: |
+            - run: kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.staging.yaml
+            - run: |
                   kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
                   kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🛒 Deploy Webshop API to Staging
+    # ─────────────────────────────────────────────────────────────────────────────
     deploy-webshop-api:
         name: Deploy Webshop API to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-
-            - name: Configure Kubernetes for Staging
-              run: |
+            - uses: actions/checkout@v3
+            - run: |
                   mkdir -p ~/.kube
                   echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-                  chmod 600 ~/.kube/config
-                  kubectl cluster-info
-
-            - name: Replace Placeholder with Image Tag in Webshop API Deployment YAML
-              run: |
-                  set -e
+            - run: |
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
                     k8s/staging/webshop-api/api-deployment-template.staging.yaml \
                     > k8s/staging/webshop-api/api-deployment.staging.yaml
-
-            - name: Debug Webshop API Deployment YAML
-              run: |
-                  echo "Updated API Deployment YAML:"
-                  cat k8s/staging/webshop-api/api-deployment.staging.yaml
-
-            - name: Validate Webshop API Deployment YAML
-              run: |
-                  kubectl apply --dry-run=client -f k8s/staging/webshop-api/api-deployment.staging.yaml
-
-            - name: Deploy Webshop API to Kubernetes
-              run: |
+            - run: kubectl apply --dry-run=client -f k8s/staging/webshop-api/api-deployment.staging.yaml
+            - run: |
                   kubectl apply -f k8s/staging/webshop-api/api-deployment.staging.yaml
-                  kubectl rollout status deployment/webshop-api-staging  || kubectl rollout undo deployment/webshop-api-staging
+                  kubectl rollout status deployment/webshop-api-staging || kubectl rollout undo deployment/webshop-api-staging
 
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🌐 Deploy Platform App to Staging
+    # ─────────────────────────────────────────────────────────────────────────────
     deploy-platform:
         name: Deploy Platform App to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.platform_app == 'true' }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-
-            - name: Configure Kubernetes for Staging
-              run: |
+            - uses: actions/checkout@v3
+            - run: |
                   mkdir -p ~/.kube
                   echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-                  chmod 600 ~/.kube/config
-                  kubectl cluster-info
-
-            - name: Replace Placeholder with Image Tag in Frontend Deployment YAML
-              run: |
-                  set -e
+            - run: |
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
                     k8s/staging/eDB/frontend-deployment-template.staging.yaml \
                     > k8s/staging/eDB/frontend-deployment.staging.yaml
-
-            - name: Debug Frontend Deployment YAML
-              run: |
-                  echo "Updated Frontend Deployment YAML:"
-                  cat k8s/staging/eDB/frontend-deployment.staging.yaml
-
-            - name: Validate Frontend Deployment YAML
-              run: |
-                  kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.staging.yaml
-
-            - name: Deploy Frontend to Kubernetes
-              run: |
+            - run: kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.staging.yaml
+            - run: |
                   kubectl apply -f k8s/staging/eDB/frontend-deployment.staging.yaml
                   kubectl rollout status deployment/web-app-staging || kubectl rollout undo deployment/web-app-staging
 
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 👑 Deploy Admin App to Staging
+    # ─────────────────────────────────────────────────────────────────────────────
     deploy-admin-app:
         name: Deploy Admin App to Staging
         runs-on: self-hosted
         needs: [nx-affected, derive-pr-tag]
         if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-
-            - name: Configure Kubernetes for Staging
-              run: |
+            - uses: actions/checkout@v3
+            - run: |
                   mkdir -p ~/.kube
                   echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-                  chmod 600 ~/.kube/config
-                  kubectl cluster-info
-
-            - name: Replace Placeholder with Image Tag in Admin Deployment YAML
-              run: |
-                  set -e
+            - run: |
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
                     k8s/staging/eDB-admin/edb-admin.deployment-template.staging.yaml \
                     > k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-
-            - name: Debug Admin Deployment YAML
-              run: |
-                  echo "Updated Admin Deployment YAML:"
-                  cat k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-
-            - name: Validate Admin Deployment YAML
-              run: |
-                  kubectl apply --dry-run=client -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-
-            - name: Deploy Admin to Kubernetes
-              run: |
-                  # Apply both the deployment and service
+            - run: kubectl apply --dry-run=client -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
+            - run: |
                   kubectl apply -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
                   kubectl apply -f k8s/staging/eDB-admin/edb-admin.service.staging.yaml
-                  # Wait for rollout
                   kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🧠 Deploy Admin API to Staging
+    # ─────────────────────────────────────────────────────────────────────────────
+    deploy-admin-api:
+        name: Deploy Admin API to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.admin_api == 'true' }}
+        steps:
+            - uses: actions/checkout@v3
+            - run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+            - run: |
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/admin-api/admin-api.deployment.template.staging.yaml \
+                    > k8s/staging/admin-api/admin-api.deployment.staging.yaml
+            - run: kubectl apply --dry-run=client -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
+            - run: |
+                  kubectl apply -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
+                  kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging

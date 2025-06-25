@@ -1,3 +1,5 @@
+import { LucideIcon } from 'lucide-react';
+
 export type OtpCred = {
   id: string;
   userLabel?: string;
@@ -39,4 +41,15 @@ export type Application = {
   url: string;
   type: 'Internal' | 'External';
   status: 'In use' | 'Idle';
+};
+
+export type NavItem = {
+  title?: string;
+  url?: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  items?: {
+    title: string;
+    url: string;
+  }[];
 };

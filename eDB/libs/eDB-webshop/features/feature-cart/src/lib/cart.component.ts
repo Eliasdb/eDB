@@ -61,10 +61,10 @@ import { Subscription } from 'rxjs';
                   <div>Genre: {{ cartItem.book.genre }}</div>
                 </cds-list-column>
                 <cds-list-column>
-                  <app-quantity-selector
+                  <ui-webshop-quantity-selector
                     [max]="cartItem.book.stock"
                     (quantityChange)="updateQuantity(cartItem.id, $event)"
-                  ></app-quantity-selector>
+                  ></ui-webshop-quantity-selector>
                 </cds-list-column>
                 <cds-list-column>
                   {{
@@ -139,10 +139,10 @@ import { Subscription } from 'rxjs';
                 </div>
               </div>
               <div class="flex justify-between items-center">
-                <app-quantity-selector
+                <ui-webshop-quantity-selector
                   [max]="cartItem.book.stock"
                   (quantityChange)="updateQuantity(cartItem.id, $event)"
-                ></app-quantity-selector>
+                ></ui-webshop-quantity-selector>
                 <span class="text-sm font-semibold">
                   {{
                     cartItem.book.price * cartItem.selectedAmount

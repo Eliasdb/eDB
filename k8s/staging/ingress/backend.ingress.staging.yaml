@@ -28,6 +28,13 @@ spec:
                             name: edb-webshop-api-staging-service
                             port:
                                 number: 8000
+                  - path: /admin(/|$)(.*)
+                    pathType: ImplementationSpecific
+                    backend:
+                        service:
+                            name: edb-admin-api-staging-service
+                            port:
+                                number: 9102
     tls:
         - hosts:
               - api.staging.eliasdebock.com

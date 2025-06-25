@@ -1,8 +1,10 @@
 import { Route } from '@angular/router';
 
-export const remoteRoutes: Route[] = [
+export const adminRemoteRoutes: Route[] = [
   {
     path: '',
+    pathMatch: 'full', // ★ add this
+
     loadChildren: () =>
       import('@eDB/feature-admin-dashboard').then(
         (m) => m.featureAdminDashboardRoutes,
@@ -13,3 +15,4 @@ export const remoteRoutes: Route[] = [
     redirectTo: 'not-found',
   },
 ];
+export default adminRemoteRoutes;

@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
+  selector: 'lib-register', // ✔️ kebab-case + lib prefix
   imports: [
     CommonModule,
     FormsModule,
@@ -19,14 +20,11 @@ import { RouterLink } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
   ],
-  selector: 'register',
   template: `
     <section class="register-page">
       <div class="stepper-container">
         <form>
-          <div class="title">
-            <p>Sign up</p>
-          </div>
+          <div class="title"><p>Sign up</p></div>
 
           <mat-vertical-stepper
             #linearVerticalStepper="matVerticalStepper"
@@ -37,10 +35,11 @@ import { RouterLink } from '@angular/router';
               <ng-template matStepLabel>Personal details</ng-template>
               <div class="form-container">
                 <div class="form-row">
-                  <label>First name</label>
+                  <label for="firstName">First name</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="firstName"
                         matInput
                         formControlName="firstNameFormCtrl"
                         required
@@ -50,10 +49,11 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>Last name</label>
+                  <label for="lastName">Last name</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="lastName"
                         matInput
                         formControlName="lastNameFormCtrl"
                         required
@@ -63,10 +63,11 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>Email</label>
+                  <label for="email">Email</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="email"
                         matInput
                         formControlName="emailFormCtrl"
                         required
@@ -76,10 +77,11 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>Username</label>
+                  <label for="username">Username</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="username"
                         matInput
                         formControlName="userNameFormCtrl"
                         required
@@ -89,10 +91,11 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>Phone</label>
+                  <label for="phone">Phone</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="phone"
                         matInput
                         formControlName="phoneNumberFormCtrl"
                         required
@@ -102,10 +105,11 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>Password</label>
+                  <label for="password">Password</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="password"
                         matInput
                         formControlName="passwordFormCtrl"
                         required
@@ -124,10 +128,11 @@ import { RouterLink } from '@angular/router';
               <ng-template matStepLabel>Address</ng-template>
               <div class="form-container">
                 <div class="form-row">
-                  <label>Address</label>
+                  <label for="address">Address</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="address"
                         matInput
                         formControlName="addressFormCtrl"
                         required
@@ -137,10 +142,11 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>Postal code</label>
+                  <label for="postal">Postal code</label>
                   <div>
                     <mat-form-field>
                       <input
+                        id="postal"
                         matInput
                         formControlName="postalCodeCtrl"
                         required
@@ -150,14 +156,20 @@ import { RouterLink } from '@angular/router';
                 </div>
 
                 <div class="form-row">
-                  <label>City</label>
+                  <label for="city">City</label>
                   <div>
                     <mat-form-field>
-                      <input matInput formControlName="cityCtrl" required />
+                      <input
+                        id="city"
+                        matInput
+                        formControlName="cityCtrl"
+                        required
+                      />
                     </mat-form-field>
                   </div>
                 </div>
               </div>
+
               <div>
                 <button mat-button matStepperPrevious type="button">
                   Back
@@ -182,6 +194,7 @@ import { RouterLink } from '@angular/router';
             </mat-step>
           </mat-vertical-stepper>
         </form>
+
         <div class="bottom-text">
           <p>
             Already have an account? Click
@@ -193,4 +206,4 @@ import { RouterLink } from '@angular/router';
   `,
   styleUrls: ['./checkout.page.scss'],
 })
-export class CheckoutPage {}
+export class CheckoutPageComponent {} // ✔️ Name ends in Component

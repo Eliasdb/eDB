@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\shared\domain\EDb.Domain.csproj" />
-    <ProjectReference Include="..\..\shared\utils\util-attributes\EDb.UtilAttributes.csproj" /> 
+    <ProjectReference Include="..\..\..\shared-api\domain\EDb.Domain.csproj" />
+    <ProjectReference Include="..\..\..\shared-api\utils\util-attributes\EDb.UtilAttributes.csproj" /> 
   </ItemGroup>
   
   <ItemGroup>

@@ -1,6 +1,6 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
-using Edb.PlatformAPI.Config;
+using Edb.FeatureAccount.Config;
 using Edb.PlatformAPI.Extensions;
 using Edb.PlatformAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +19,15 @@ if (builder.Environment.IsDevelopment())
 }
 
 // --- Service Registrations ---
-// Add modular services from extension methods
-builder.Services.AddApplicationServices(builder.Configuration); // Custom application services
+builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+
+// 🔑 bind the "Keycloak" section for IOptions<KeycloakSettings>
 builder.Services.Configure<KeycloakSettings>(builder.Configuration.GetSection("Keycloak"));
+
+// (optional) keep your console log – it's handy for debugging
+// var cfg = builder.Configuration.GetSection("Keycloak").Get<KeycloakSettings>();
+// Console.WriteLine($"[Keycloak] BaseUrl: {cfg?.BaseUrl}, Realm: {cfg?.Realm}");
 
 // Add Swagger services
 builder.Services.AddSwaggerGen();

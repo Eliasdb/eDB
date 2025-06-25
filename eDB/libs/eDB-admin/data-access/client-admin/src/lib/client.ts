@@ -10,7 +10,6 @@ import { firstValueFrom, lastValueFrom, map } from 'rxjs';
 
 import { environment } from '@eDB/shared-env';
 
-import { BookParamService } from '@eDB-webshop/util-book-params';
 import {
   AdminStats,
   Application,
@@ -26,7 +25,6 @@ import { Book } from './types/book.types';
 export class AdminService {
   private http = inject(HttpClient);
   private queryClient = inject(QueryClient);
-  private bookParamService = inject(BookParamService);
 
   // USER RELATED
   async queryAllUsers(

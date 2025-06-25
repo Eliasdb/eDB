@@ -1,4 +1,4 @@
-name: Pre-Merge Checks (Staging)
+name: (STAGING) Pre-Merge Checks
 
 on:
     pull_request:

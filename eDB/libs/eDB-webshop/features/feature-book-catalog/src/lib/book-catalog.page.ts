@@ -87,7 +87,7 @@ import {
                 </section>
               }
               @if (booksInfiniteQuery.isLoading()) {
-                <books-loading-state></books-loading-state>
+                <ui-webshop-books-loading-state></ui-webshop-books-loading-state>
               }
               @if (booksInfiniteQuery.isError()) {
                 <p>Error</p>
@@ -107,7 +107,7 @@ import {
             </div>
 
             @if (booksInfiniteQuery.isLoading()) {
-              <books-loading-state></books-loading-state>
+              <ui-webshop-books-loading-state></ui-webshop-books-loading-state>
             }
             @if (booksInfiniteQuery.isError()) {
               <p>Error</p>

@@ -6,7 +6,7 @@ import {
 } from '../types/types';
 
 const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5098/api/profile';
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5098/api/account';
 
 export async function getToken(): Promise<string | null> {
   return (

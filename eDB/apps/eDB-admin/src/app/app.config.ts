@@ -8,7 +8,6 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   ExperimentalService,
   ModalService,
@@ -16,20 +15,21 @@ import {
   NotificationService,
   PlaceholderService,
 } from 'carbon-components-angular';
-import { remoteRoutes } from './app.routes';
+import { adminRemoteRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(remoteRoutes),
+    provideRouter(adminRemoteRoutes),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch()),
-    provideAnimations(),
+    // provideAnimations(),
     NotificationService,
     ModalService,
     ExperimentalService,
     NotificationDisplayService,
     PlaceholderService,
+
     // {
     //   provide: IconService,
     //   useFactory: () => {

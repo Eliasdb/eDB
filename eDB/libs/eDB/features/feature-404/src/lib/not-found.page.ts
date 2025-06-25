@@ -32,7 +32,7 @@ import { IconModule } from 'carbon-components-angular';
   `,
   styles: [],
 })
-export class NotFoundPage {
+export class NotFoundComponent {
   private router = inject(Router);
 
   navigateToDashboard(): void {
