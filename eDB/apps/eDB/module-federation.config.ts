@@ -49,15 +49,10 @@ const map: Record<string, any> = {
   },
 
   /* --- your workspace libs -------------------------------------- */
-  '@eDB/shared-ui': {
+  '@edb/shared-ui': {
     singleton: true,
     strictVersion: true,
     requiredVersion: '0.0.1', // let webpack read the semver ↑
-  },
-  '@edb/client-auth': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: 'auto',
   },
 };
 
