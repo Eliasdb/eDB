@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# Install netcat (for health check script)
+RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy published output
+COPY dist/apps/admin-api/net8.0/linux-arm64 ./
+
+# Copy DB wait script
+COPY apps/admin-api/wait-for-postgres.sh ./wait-for-postgres.sh
+RUN chmod +x ./wait-for-postgres.sh
+
+# Set environment to Production
+ENV DOTNET_ENVIRONMENT=Production
+
+# Expose production port
+EXPOSE 9102
+
+# Entry point waits for DB then runs the app
+ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service-prod", "dotnet", "EDb.AdminApi.dll"]
