@@ -5,7 +5,7 @@ set -e
 ./wait-for-postgres.sh postgres-service-staging
 
 # Run migrations
-php artisan migrate --force
+php artisan migrate 
 
 # Start PHP-FPM and Nginx
 php-fpm -D
