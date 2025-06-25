@@ -1,5 +1,5 @@
 # .github/workflows/admin-ci.production.yml
-name: Admin CI (Production)
+name: (PROD) Admin CI
 
 on:
     workflow_call:
