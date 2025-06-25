@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Book } from '@eDB-webshop/shared-types';
 import { AdminService } from '@eDB/client-admin';
-import { UiButtonComponent } from '@eDB/shared-ui';
+import { UiButtonComponent } from '@edb/shared-ui';
 import { BookSnackbar } from '../book-snackbar/book-snackbar.component';
 
 @Component({

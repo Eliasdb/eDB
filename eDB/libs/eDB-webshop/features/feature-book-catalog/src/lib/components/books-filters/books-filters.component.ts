@@ -12,7 +12,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Genre, mappedGenres } from '@eDB-webshop/shared-data';
-import { UiButtonComponent } from '@eDB/shared-ui';
+import { UiButtonComponent } from '@edb/shared-ui';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 
 @Component({

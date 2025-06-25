@@ -15,7 +15,7 @@ import {
   LoadingStateComponent,
   QuantitySelectorComponent,
 } from '@eDB-webshop/ui-webshop';
-import { UiButtonComponent } from '@eDB/shared-ui';
+import { UiButtonComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'single-book',

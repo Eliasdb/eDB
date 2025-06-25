@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '@eDB/client-admin';
-import { UiButtonComponent, UiStructuredListComponent } from '@eDB/shared-ui';
+import { UiButtonComponent, UiStructuredListComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'platform-user-profile',

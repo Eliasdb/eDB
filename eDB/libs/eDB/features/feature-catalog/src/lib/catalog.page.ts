@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CatalogService } from '@eDB/client-catalog';
-import { UiComboboxComponent, UiTileComponent } from '@eDB/shared-ui';
+import { UiComboboxComponent, UiTileComponent } from '@edb/shared-ui';
 import {
   ListItem,
   NotificationModule,
