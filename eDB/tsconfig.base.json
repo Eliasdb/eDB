@@ -73,7 +73,7 @@
       "@eDB/feature-register": ["libs/eDB/features/feature-register/src/index"],
       "@eDB/feature-shell": ["libs/eDB/features/feature-shell/src/index.ts"],
       "@eDB/shared-env": ["libs/shared/utils/environment/src/index"],
-      "@eDB/shared-ui": ["libs/shared-client/ui/src/index.ts"],
+      "@edb/shared-ui": ["libs/shared-client/ui/src/index.ts"],
       "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
       "@eDB/util-navigation": [
         "libs/shared/utils/util-navigation/src/index.ts"

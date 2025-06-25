@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { KeycloakService } from '@edb/client-auth';
-import { UiShellComponent } from '@eDB/shared-ui';
+import { UiShellComponent } from '@edb/shared-ui';
 import { NavigationService } from '@eDB/util-navigation';
 import { MENU_OPTIONS } from './shell.config';
 

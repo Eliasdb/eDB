@@ -1,5 +1,5 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
-import { UiButtonComponent } from '@eDB/shared-ui';
+import { UiButtonComponent } from '@edb/shared-ui';
 import { AccordionModule } from 'carbon-components-angular/accordion';
 import { UserProfile } from '../../../types/user.type';
 

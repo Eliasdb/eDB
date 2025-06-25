@@ -16,7 +16,7 @@ import {
 } from '@eDB-webshop/util-book-params';
 
 import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
-import { UiLoadingSpinnerComponent } from '@eDB/shared-ui';
+import { UiLoadingSpinnerComponent } from '@edb/shared-ui';
 import {
   BooksCollectionGridOverviewComponent,
   BooksCollectionListOverviewComponent,
