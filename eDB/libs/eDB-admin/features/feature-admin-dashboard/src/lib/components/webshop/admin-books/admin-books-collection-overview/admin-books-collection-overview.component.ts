@@ -18,7 +18,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '@eDB-webshop/shared-types';
 import { AdminService } from '@eDB/client-admin';
-import { UiButtonComponent } from '@eDB/shared-ui';
+import { UiButtonComponent } from '@edb/shared-ui';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { AddBookDialog } from '../../add-book-modal/add-book-modal.component';
 import { EditBookDialog } from '../../edit-book-modal/edit-book-modal.component';

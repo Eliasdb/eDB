@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UiDropdownComponent, UiSearchComponent } from '@eDB/shared-ui';
+import { UiDropdownComponent, UiSearchComponent } from '@edb/shared-ui';
 import { I18nModule } from 'carbon-components-angular';
 import { SubscriptionsCollectionContainer } from './components/subscription-collection/subscription-collection.container';
 

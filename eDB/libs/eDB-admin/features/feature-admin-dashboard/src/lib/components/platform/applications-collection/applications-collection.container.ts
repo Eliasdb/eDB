@@ -4,7 +4,7 @@ import {
   UiButtonComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
-} from '@eDB/shared-ui';
+} from '@edb/shared-ui';
 
 import {
   Component,
