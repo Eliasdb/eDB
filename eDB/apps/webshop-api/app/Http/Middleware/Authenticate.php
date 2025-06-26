@@ -35,7 +35,7 @@ class Authenticate
             // 🔹 Decode JWT using Keycloak public keys
             $decoded = JWT::decode($token, $keys);
 
-            // 🔹 Extract Keycloak user ID from 'sub' claim
+            // 🔹 Extract Keycloak user ID from 'sub' claim.
             $userId = $decoded->sub ?? null;
             if (!$userId) {
                 return response()->json(['error' => 'Invalid token payload'], 401);
