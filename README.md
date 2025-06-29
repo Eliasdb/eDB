@@ -2,23 +2,16 @@
 
 ---
 
-## Documentation
+## 🌐 Access & Environments
 
----
+Here's an overview of the key resources of this platform:
 
-### Technical docs
-
--   **1. Setup**
-    -   [Client](./docs/client.docs.md)
-    -   [API](./docs/api.docs.md)
--   **2. Environments**
-    -   [Development](./docs/dev-env.docs.md)
-    -   [Staging & Production](./docs/staging-prod-env.docs.md)
--   [**3. CI/CD**](./docs/cicd.docs.md)
--   [**4. VPS**](./docs/vps.docs.md)
--   [**5. Project Management and Documentation**](./docs/pm.docs.md)
--   [**6. Under the Hood**](./docs/in-depth.docs.md)
--   [**7. Handy Commands Cheat Sheet**](./docs/cheatsheet.docs.md)
+| Purpose                    | URL                                                                                    |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/intro](https://eliasdebock.com/nl/docs/eDB/intro) |
+| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)             |
+| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                             |
+| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)     |
 
 ---
 
@@ -28,41 +21,70 @@
 
 I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them. So far I have one webshop in there.
 
-#### Tech Stack
+#### 🧰 Tech Stack
 
-| Category             | Technology            |
-| -------------------- | --------------------- |
-| **Monorepo**         | Nx                    |
-| **Client**           | Angular               |
-| **API**              | .NET API, Laravel API |
-| **Auth Server**      | Keycloak              |
-| **Database**         | PostgreSQL            |
-| **Containerization** | Docker                |
-| **Orchestration**    | K3s                   |
-| **Hosting**          | VPS on Hetzner        |
-| **OS**               | Ubuntu                |
-| **CI/CD**            | GitHub Actions        |
-| **File Storage**     | Cloudflare R2         |
-| **Domains & DNS**    | Cloudflare            |
+| Category             | Technology                                          |
+| -------------------- | --------------------------------------------------- |
+| **Monorepo**         | Nx                                                  |
+| **Client**           | Angular - React                                     |
+| **API**              | .NET API - Laravel API                              |
+| **Auth Server**      | Keycloak                                            |
+| **Database**         | PostgreSQL                                          |
+| **Containerization** | Docker                                              |
+| **Orchestration**    | K3s                                                 |
+| **Hosting**          | VPS on Hetzner                                      |
+| **OS**               | Ubuntu                                              |
+| **CI/CD**            | GitHub Actions                                      |
+| **File Storage**     | Cloudflare R2                                       |
+| **Domains & DNS**    | Cloudflare                                          |
+| **Monitoring**       | Prometheus + Grafana + Loki                         |
+| **Testing**          | Vitest (frontend) · xUnit + Moq (.NET backend)      |
+| **Build Tooling**    | Vite (frontend) · Webpack (Angular-specific setups) |
 
-#### Achieved Goals
+---
+
+### 🏁 Achieved Goals
+
+#### 🐳 Infrastructure & Deployment
 
 -   [x] **Containerizing applications** → Dockerfiles
--   [x] **Development environment** -> K3s cluster using k3d + Skaffold OR Nx + local postgres
+-   [x] **Development environment** → K3s cluster using k3d + Skaffold or Nx + local Postgres
 -   [x] **Staging environment** → K3s cluster on VPS
 -   [x] **Production environment** → K3s cluster on VPS
--   [x] **CI/CD pipelines** → For production and staging, with pre-merge checks and post-merge deployment (self-hosted ARM Github Actions runner on VPS)
--   [x] **Documentation**
--   [x] **Layered Modular Architecture** → Client and .NET API
--   [x] **Authentication** → Self-hosted Keycloak (login - register - profile - sessions - ...)
--   [x] **Platform Apps** → Added Demo App #1: Webshop
+-   [x] **CI/CD pipelines** → Pre-merge checks + post-merge deploy via self-hosted ARM GitHub Actions runner
 
-#### All Tools Used
+#### 🖥️ Client
+
+-   [x] **Microfrontends** → Implemented using dynamic Module Federation and Web Components
+-   [x] **Layered Modular Architecture** → apps and libs
+
+#### 🔐 Identity & Access
+
+-   [x] **Authentication** → Self-hosted Keycloak (login, register, profile, sessions, ...)
+
+#### 📚 Documentation
+
+-   [x] **Documentation** → Technical docs hosted and maintained
+
+#### 📊 Monitoring & Observability
+
+-   [x] **Dashboards for centralized logging and platform metrics** → Implemented with Grafana, Prometheus, Loki, and Promtail
+
+#### 🧩 Platform Apps
+
+-   [x] **Demo App #1** → Webshop (deployed as a full platform application)
+
+---
+
+### All Tools Used
 
 **DevOps**
 
 -   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images - multi-stage
--   [x] **Kubernetes**: k3d - k3s - kubectl - Deployments - Services - Pods - Secrets - Configmaps - Certificates - NGINX Controller - Ingress - YAML
+-   [x] **Kubernetes**: k3d - k3s - kubectl - Deployments - Services - Pods - Secrets - Configmaps - Certificates - NGINX Controller - Ingress - YAML - Namespaces
+
+    -   [x] **Package Manager**: Helm
+
 -   [x] **Servers**: - VPS
     -   [x] **OS** → Linux (Ubuntu)
     -   [x] **Static file web server** → NGINX
@@ -72,6 +94,9 @@ I am building a platform housing multiple applications. Users can make an accoun
     -   [x] **Github Actions runner** → Self-hosted on VPS
     -   [x] **Shell scripts** (`wait-for-postgres.sh` / `entrypoint.sh`)
 -   [x] **CI/CD**: Github Actions - `nx affected` - yamllint - staging/production environment - lint, test, build, deploy
+
+-   [x] **Monitoring & analytics**: Grafana, Prometheus
+-   [x] **Logging**: Loki, Promtrail
 
 **Monorepo**
 
@@ -91,11 +116,13 @@ I am building a platform housing multiple applications. Users can make an accoun
 -   [x] **Node Package Manager**: pnpm
 -   [x] **Frameworks**:
     -   [x] **Angular**: (Standalone) Components - Services - RxJS - Signals - Interceptors - Guards - Reactive Forms
+    -   [x] **React**: as Micro UI - built as UMD bundle in Vite integrated with Webcomponents
 -   [x] **Testing**: Vitest - Storybook
 -   [x] **Linting + formatting**: Prettier - ESLint
 -   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
 -   [x] **API Integration**: TanStack Query
--   [x] **Bundler**: Webpack
+-   [x] **Bundler**: Webpack - Vite
+-   [x] **Microfrontends**: Dynamic Module Federation - Web Components
 
 **API**
 
@@ -121,9 +148,8 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 **DevOps**
 
--   [ ] **Monitoring & analytics**: Grafana, Prometheus
 -   [ ] **Secrets Management**: HashiCorp Vault, SealedSecrets, External Secrets Operator
--   [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch, Logstash, Kibana), Fluentd, Loki
+-   [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch, Logstash, Kibana)
 -   [ ] **Cluster Management**: ArgoCD (GitOps), Helm, Kustomize
 -   [ ] **Hotfixes and Feature Flags**
 -   [ ] **Load balancing**
@@ -138,7 +164,6 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 **Client**
 
--   [ ] **Microfrontends**: Module Federation
 -   [ ] **End-to-End Testing**: Cypress, Playwright
 -   [ ] **State Management**: NgRx, Akita, SignalStore
 -   [ ] **Error Handling & Monitoring**: Sentry, PostHog
