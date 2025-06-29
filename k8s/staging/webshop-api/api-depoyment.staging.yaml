@@ -20,7 +20,7 @@ spec:
         spec:
             containers:
                 - name: webshop-api
-                  image: eliasdb/webshop-api:pr-190-staging
+                  image: eliasdb/webshop-api:pr-335-staging
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 8000
@@ -30,6 +30,8 @@ spec:
                         value: 'staging'
                       - name: APP_DEBUG
                         value: 'false'
+                      - name: LOG_CHANNEL
+                        value: 'stderr'
                       - name: APP_URL
                         value: 'https://api.staging.eliasdebock.com'
                       - name: DB_CONNECTION
