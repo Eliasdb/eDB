@@ -30,6 +30,8 @@ spec:
                         value: 'staging'
                       - name: APP_DEBUG
                         value: 'false'
+                      - name: LOG_CHANNEL
+                        value: 'stderr'
                       - name: APP_URL
                         value: 'https://api.staging.eliasdebock.com'
                       - name: DB_CONNECTION
