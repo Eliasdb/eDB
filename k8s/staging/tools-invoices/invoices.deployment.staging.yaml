@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: tools-invoices-staging # changed name to staging
+    labels:
+        app: tools-invoices
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: tools-invoices
+    template:
+        metadata:
+            labels:
+                app: tools-invoices
+        spec:
+            containers:
+                - name: tools-invoices
+                  image: eliasdb/tools-invoices:${IMAGE_TAG} # Use variable IMAGE_TAG here
+                  ports:
+                      - containerPort: 8000
