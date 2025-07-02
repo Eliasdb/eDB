@@ -41,6 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
     UiTextInputComponent,
     ReactiveFormsModule,
     ContactSidebarComponent,
+    ReactiveFormsModule, // <-- reactive forms
 
     /* tiny menu button */
     MatButtonModule,
