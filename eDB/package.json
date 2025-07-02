@@ -104,6 +104,7 @@
     "@nx/web": "20.8.2",
     "@nx/webpack": "^20.2.0",
     "@nx/workspace": "20.2.0",
+    "@nxlv/python": "20",
     "@openapitools/openapi-generator-cli": "^2.13.4",
     "@playwright/test": "^1.49.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",

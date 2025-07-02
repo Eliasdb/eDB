@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule, TableModule } from 'carbon-components-angular';
@@ -9,24 +10,32 @@ export interface SortEvent {
   sortDirection: 'asc' | 'desc';
 }
 
-interface TableRowClickEvent {
-  row: TableItem[];
-}
-
 @Component({
   selector: 'ui-table',
   standalone: true,
-  imports: [TableModule, PaginationModule, FormsModule, UiButtonComponent],
+  imports: [
+    TableModule,
+    PaginationModule,
+    FormsModule,
+    UiButtonComponent,
+    CommonModule,
+  ],
   template: `
     <cds-table-container>
-      <cds-table-header class="table-header-container">
+      <!-- optional header -->
+      <cds-table-header *ngIf="showHeader()" class="table-header-container">
         <div>
           <h4 cdsTableHeaderTitle style="margin:0;">{{ title() }}</h4>
           <p cdsTableHeaderDescription style="margin:0;">{{ description() }}</p>
         </div>
+
         @if (showButton()) {
           <div>
-            <ui-button size="sm" icon="faPlus" (click)="onPrimaryActionClick()">
+            <ui-button
+              size="sm"
+              icon="faPlus"
+              (buttonClick)="onPrimaryActionClick()"
+            >
               {{ primaryActionLabel() }}
             </ui-button>
           </div>
@@ -40,11 +49,12 @@ interface TableRowClickEvent {
               Delete
             </ui-button>
           </cds-table-toolbar-actions>
+
           <cds-table-toolbar-content>
             <cds-table-toolbar-search
               ngDefaultControl
               [(ngModel)]="searchTerm"
-              placeholder="Search..."
+              [placeholder]="searchPlaceholder()"
               (ngModelChange)="searchChanged.emit($event.trim())"
             ></cds-table-toolbar-search>
           </cds-table-toolbar-content>
@@ -57,6 +67,7 @@ interface TableRowClickEvent {
         [showSelectionColumn]="showSelectionColumn()"
         [stickyHeader]="stickyHeader()"
         [isDataGrid]="isDataGrid()"
+        [size]="tableSize()"
         (rowClick)="onRowClick($event)"
         (sort)="emitSortEvent($event)"
         [skeleton]="skeleton()"
@@ -74,33 +85,46 @@ interface TableRowClickEvent {
   styleUrls: ['table.component.scss'],
 })
 export class UiTableComponent {
-  readonly title = input('Table Title');
-  readonly description = input('Table description goes here.');
+  /* ---------- configurable inputs ---------- */
+  readonly title = input<string>('Table Title');
+  readonly description = input<string>('Table description goes here.');
   readonly model = input<TableModel>(new TableModel());
-  readonly sortable = input(true);
-  readonly showSelectionColumn = input(true);
-  readonly stickyHeader = input(false);
-  readonly isDataGrid = input(false);
-  readonly showPagination = input(false);
-  readonly skeleton = input(false);
-  readonly striped = input(false);
-  readonly showToolbar = input(false);
-  readonly showButton = input(false);
-  readonly primaryActionLabel = input('Add item');
+  readonly sortable = input<boolean>(true);
+  readonly showSelectionColumn = input<boolean>(true);
+  readonly stickyHeader = input<boolean>(false);
+  readonly isDataGrid = input<boolean>(false);
+  readonly showPagination = input<boolean>(false);
+  readonly skeleton = input<boolean>(false);
+  readonly striped = input<boolean>(false);
+  readonly showToolbar = input<boolean>(false);
+  readonly showButton = input<boolean>(false);
 
+  /** NEW – hide or show the Carbon table header */
+  readonly showHeader = input<boolean>(true);
+
+  /** NEW – tweak search placeholder copy */
+  readonly searchPlaceholder = input<string>('Search…');
+
+  /** NEW – 'sm' for dense rows, 'md' or 'lg' for default */
+  readonly tableSize = input<'sm' | 'md' | 'lg'>('md');
+
+  /** label for the primary CTA when `showButton` is true */
+  readonly primaryActionLabel = input<string>('Add item');
+
+  /* ---------- outputs ---------- */
   @Output() rowClicked = new EventEmitter<TableItem[]>();
   @Output() pageChanged = new EventEmitter<number>();
   @Output() sortChanged = new EventEmitter<SortEvent>();
   @Output() searchChanged = new EventEmitter<string>();
   @Output() primaryActionClick = new EventEmitter<void>();
 
-  searchTerm = model<string>();
+  /* ---------- internal state ---------- */
+  searchTerm = model<string>('');
 
+  /* ---------- table events ---------- */
   onRowClick(index: number): void {
     const row = this.model().data[index];
-    if (row) {
-      this.rowClicked.emit(row);
-    }
+    if (row) this.rowClicked.emit(row);
   }
 
   onPrimaryActionClick(): void {
@@ -117,14 +141,12 @@ export class UiTableComponent {
 
   emitSortEvent(index: number): void {
     const headerItem = this.model().header[index];
-    if (!headerItem) {
-      console.warn(`No header found for index: ${index}`);
-      return;
-    }
+    if (!headerItem) return;
 
     const sortFieldRaw =
       headerItem.metadata?.sortField?.toLowerCase() ||
       headerItem.data.toString().toLowerCase().replace(/\s+/g, '');
+
     const currentDirection = headerItem.ascending ? 'asc' : 'desc';
     const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
 
