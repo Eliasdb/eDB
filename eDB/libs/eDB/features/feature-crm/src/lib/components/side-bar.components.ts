@@ -48,7 +48,7 @@ import { ContactEditFormComponent } from './contact-edit-form.component';
 
     <!-- Panel -->
     <aside
-      class="bg-white shadow-xl border-l flex flex-col h-full w-[360px] sm:w-[400px]"
+      class="bg-white shadow-xl border-l flex flex-col h-full w-[360px] sm:w-[400px] pt-20 text-black"
       [class.fixed]="!embedded"
       [class.top-0]="!embedded"
       [class.right-0]="!embedded"
@@ -63,7 +63,9 @@ import { ContactEditFormComponent } from './contact-edit-form.component';
     >
       <!-- ░░ Header ░░ -->
       <header class="p-6 border-b relative">
-        <h2 class="text-2xl font-semibold">{{ contact()?.name || '—' }}</h2>
+        <h2 class="text-2xl font-semibold text-black">
+          {{ contact()?.name || '—' }}
+        </h2>
         <p class="text-sm text-gray-500">
           {{ contact()?.email || 'no-email@example.com' }}
         </p>
@@ -121,7 +123,7 @@ import { ContactEditFormComponent } from './contact-edit-form.component';
         <ng-container *ngIf="!editMode(); else editArea">
           <!-- title row -->
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-medium">Activity</h3>
+            <h3 class="text-lg font-medium text-black">Activity</h3>
             <ui-icon-button
               icon="faPlus"
               kind="ghost"

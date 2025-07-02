@@ -55,9 +55,9 @@ import { Subject, takeUntil } from 'rxjs';
         </mat-drawer>
 
         <!-- ▣ MAIN CONTENT ---------------------------------------------- -->
-        <mat-drawer-content class=" bg-white">
+        <mat-drawer-content class=" bg-white pt-20">
           <header
-            class="h-16 flex items-center gap-2 px-6 border-b border-gray-200 text-sm"
+            class="h-16 flex items-center gap-2 px-6 border-b border-gray-200 text-sm text-black"
           >
             <svg
               (click)="leftNav.open()"

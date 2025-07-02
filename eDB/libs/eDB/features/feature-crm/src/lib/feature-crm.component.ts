@@ -7,7 +7,6 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
-  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -16,7 +15,6 @@ import {
   CustomModalService,
   SidebarToggleService,
   UiTableComponent,
-  UiTabsComponent,
   UiTextInputComponent,
 } from '@edb/shared-ui';
 import {
@@ -34,45 +32,30 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [
     CommonModule,
-
-    /* page-level ui */
     UiTableComponent,
-    UiTabsComponent,
     UiTextInputComponent,
     ReactiveFormsModule,
     ContactSidebarComponent,
-    ReactiveFormsModule, // <-- reactive forms
-
-    /* tiny menu button */
+    ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
   ],
   template: `
-    <section class="pt-20">
+    <section class="pt-20 p-6">
       <!-- menu button – visible on small screens / whenever you need -->
-      <button
-        mat-icon-button
-        (click)="toggleShellSidebar()"
-        class="mb-4 md:hidden"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-
-      <ui-tabs [tabs]="tabs()"></ui-tabs>
 
       <!-- main table -->
-      <ng-template #contactsContent>
-        <ui-table
-          title="Contacts"
-          description="All your business contacts"
-          [model]="model()"
-          [showToolbar]="true"
-          [showButton]="true"
-          primaryActionLabel="Add Contact"
-          (primaryActionClick)="openAddContactModal()"
-          (rowClicked)="handleRowClick($event)"
-        ></ui-table>
-      </ng-template>
+
+      <ui-table
+        title="Contacts"
+        description="All your business contacts"
+        [model]="model()"
+        [showToolbar]="true"
+        [showButton]="true"
+        primaryActionLabel="Add Contact"
+        (primaryActionClick)="openAddContactModal()"
+        (rowClicked)="handleRowClick($event)"
+      ></ui-table>
 
       <!-- sidebar (self-controlled) -->
       <crm-contact-sidebar
@@ -131,11 +114,6 @@ export class CRMContainer implements OnInit {
     company: ['', Validators.required],
     status: ['', Validators.required],
   });
-
-  /* ---------- tabs ------------------------------------------------- */
-  readonly tabs = computed(() => [
-    { label: 'Contacts', content: this.contactsContent },
-  ]);
 
   /* ---------- lifecycle ------------------------------------------- */
   ngOnInit() {
