@@ -60,7 +60,15 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
         <cds-header-global class="overflow-hidden">
           <div class="admin-btn flex justify-center items-center mr-4">
             <a [routerLink]="targetUrl">
-              <ui-button size="sm" variant="ghost" icon="faArrowRight">
+              <ui-button
+                size="sm"
+                variant="ghost"
+                icon="faArrowRight"
+                class="[&>button]:text-white    [&>button:hover]:text-[#F7EEEE]    
+    [&>button:active]:text-[#F7EEEE]   
+    [&>button]:[--cds-button-primary-hover:rgba(255,255,255,0.829)]
+    [&>button]:[--cds-button-primary-active:rgba(255,255,255,0.829)]"
+              >
                 {{ targetButtonText }}
               </ui-button>
             </a>

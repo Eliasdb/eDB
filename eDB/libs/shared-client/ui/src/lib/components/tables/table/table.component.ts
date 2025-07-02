@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule, TableModule } from 'carbon-components-angular';
-import { TableModel } from 'carbon-components-angular/table';
+import { TableItem, TableModel } from 'carbon-components-angular/table';
 import { UiButtonComponent } from '../../buttons/button/button.component';
 
 export interface SortEvent {
@@ -9,8 +9,13 @@ export interface SortEvent {
   sortDirection: 'asc' | 'desc';
 }
 
+interface TableRowClickEvent {
+  row: TableItem[];
+}
+
 @Component({
   selector: 'ui-table',
+  standalone: true,
   imports: [TableModule, PaginationModule, FormsModule, UiButtonComponent],
   template: `
     <cds-table-container>
@@ -21,8 +26,8 @@ export interface SortEvent {
         </div>
         @if (showButton()) {
           <div>
-            <ui-button size="sm" icon="faPlus" (click)="onAddApplication()">
-              Add application
+            <ui-button size="sm" icon="faPlus" (click)="onPrimaryActionClick()">
+              {{ primaryActionLabel() }}
             </ui-button>
           </div>
         }
@@ -81,22 +86,25 @@ export class UiTableComponent {
   readonly striped = input(false);
   readonly showToolbar = input(false);
   readonly showButton = input(false);
+  readonly primaryActionLabel = input('Add item');
 
-  @Output() rowClicked = new EventEmitter<number>();
+  @Output() rowClicked = new EventEmitter<TableItem[]>();
   @Output() pageChanged = new EventEmitter<number>();
   @Output() sortChanged = new EventEmitter<SortEvent>();
   @Output() searchChanged = new EventEmitter<string>();
-  @Output() addApplication = new EventEmitter<void>();
+  @Output() primaryActionClick = new EventEmitter<void>();
 
-  // Input for searchTerm
   searchTerm = model<string>();
 
   onRowClick(index: number): void {
-    this.rowClicked.emit(index);
+    const row = this.model().data[index];
+    if (row) {
+      this.rowClicked.emit(row);
+    }
   }
 
-  onAddApplication(): void {
-    this.addApplication.emit();
+  onPrimaryActionClick(): void {
+    this.primaryActionClick.emit();
   }
 
   onPageChange(page: number): void {
@@ -105,7 +113,6 @@ export class UiTableComponent {
 
   onDelete(): void {
     console.log('Delete action triggered');
-    // Emit an event or handle deletion logic here
   }
 
   emitSortEvent(index: number): void {

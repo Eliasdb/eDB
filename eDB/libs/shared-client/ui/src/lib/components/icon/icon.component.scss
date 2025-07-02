@@ -1,4 +1,11 @@
-.dynamic-icon {
-  display: inline-block;
-  vertical-align: middle;
+/* icon.component.scss */
+:host {
+  display: inline-flex; /* icon itself—flex for sizing */
+  align-items: center; /* centers svg vertically */
+}
+
+:host ::ng-deep svg {
+  display: inline-block; /* ↩︎ back to inline context  */
+  height: 1em;
+  width: 1em;
 }

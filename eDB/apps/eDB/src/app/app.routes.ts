@@ -45,6 +45,12 @@ export const routes: Route[] = [
         component: WrapperComponent,
         canActivate: [AuthGuard],
       },
+
+      {
+        path: 'crm',
+        loadChildren: () =>
+          import('@edb/feature-crm').then((m) => m.featureCRMRoutes),
+      },
       { path: 'logout', component: LogoutHandlerComponent },
     ],
   },

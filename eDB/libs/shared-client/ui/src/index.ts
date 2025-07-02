@@ -1,6 +1,13 @@
+export { SidebarToggleService } from './lib/services/sidebar-toggle.service';
+
+export { UiNavSidebarComponent } from './lib/components/sidebar-main/nav-sidebar.component';
+
+export { UiSidebarLayoutComponent } from './lib/components/sidebar-layout/sidebar-layout.component';
+
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';
+export { UiDatePickerComponent } from './lib/components/date-picker/date-picker.component';
 export { UiPlatformHeaderComponent } from './lib/components/header/platform-header.component';
 export { UiPlatformSubHeaderComponent } from './lib/components/header/sub-header/sub-header.component';
 export { UiIconComponent } from './lib/components/icon/icon.component';
@@ -20,6 +27,7 @@ export { UiNotificationToastComponent } from './lib/components/notification/noti
 export { UiShellComponent } from './lib/components/shell/shell.component';
 export { UiStructuredListComponent } from './lib/components/tables/structured-list/structured-list.component';
 export { UiTableComponent } from './lib/components/tables/table/table.component';
+export { UiTabsComponent } from './lib/components/tabs/tabs.component';
 export { UiTagComponent } from './lib/components/tag/tag.component';
 export { UiSkeletonTextComponent } from './lib/components/text/skeleton-text/skeleton-text.component';
 export { UiTitleComponent } from './lib/components/text/title/title.component';

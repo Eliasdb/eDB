@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, inject } from '@angular/core';
+import { Injectable, TemplateRef, inject } from '@angular/core';
 import { ModalService } from 'carbon-components-angular';
 import { UiModalComponent } from '../components/modal/modal.component';
 
@@ -11,30 +11,22 @@ export class CustomModalService {
   openModal(options: {
     header?: string;
     content?: string;
-    hasForm?: boolean;
-    formData?: any;
-    onSave?: (formData?: any) => void;
+    template?: TemplateRef<any>;
+    context?: any;
+    onSave?: () => void;
     onClose?: () => void;
   }) {
-    const modalRef: ComponentRef<UiModalComponent> =
-      this.modalService.create<UiModalComponent>({
-        component: UiModalComponent,
-      });
+    const modalRef = this.modalService.create<UiModalComponent>({
+      component: UiModalComponent,
+    });
 
+    if (options.header) modalRef.instance.header.set(options.header);
     if (options.content) modalRef.instance.content.set(options.content);
+    if (options.template) modalRef.instance.template.set(options.template);
+    if (options.context) modalRef.instance.context.set(options.context);
 
-    if (options.header) {
-      modalRef.instance.header.set(options.header);
-    }
-
-    if (options.hasForm || options.formData) {
-      modalRef.instance.hasForm.set(true);
-      modalRef.instance.form.patchValue(options.formData);
-    }
-
-    // Subscribe to signals
-    modalRef.instance.save.subscribe((formData: any) => {
-      options.onSave?.(formData);
+    modalRef.instance.save.subscribe(() => {
+      options.onSave?.();
       modalRef.destroy();
     });
 

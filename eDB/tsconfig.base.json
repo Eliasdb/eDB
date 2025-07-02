@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@edb/feature-crm": ["libs/eDB/features/feature-crm/src/index.ts"],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -73,7 +74,6 @@
       "@eDB/feature-register": ["libs/eDB/features/feature-register/src/index"],
       "@eDB/feature-shell": ["libs/eDB/features/feature-shell/src/index.ts"],
       "@eDB/shared-env": ["libs/shared/utils/environment/src/index"],
-      "@edb/shared-ui": ["libs/shared-client/ui/src/index.ts"],
       "@eDB/shared-utils": ["libs/shared/utils/utils/src/index"],
       "@eDB/util-navigation": [
         "libs/shared/utils/util-navigation/src/index.ts"
@@ -82,6 +82,7 @@
         "libs/shared/utils/utils-user-params/src/index"
       ],
       "@edb/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
+      "@edb/shared-ui": ["libs/shared-client/ui/src/index.ts"],
       "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
       "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
       "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
