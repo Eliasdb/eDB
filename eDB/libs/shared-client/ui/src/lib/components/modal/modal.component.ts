@@ -1,29 +1,21 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
   inject,
-  input,
   model,
   Output,
   TemplateRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalModule } from 'carbon-components-angular';
 import { UiButtonComponent } from '../buttons/button/button.component';
-import { UiTextAreaComponent } from '../inputs/text-area/text-area.component';
-import { UiTextInputComponent } from '../inputs/text-input/input.component';
 
 @Component({
   selector: 'ui-modal',
   standalone: true,
-  imports: [
-    ModalModule,
-    ReactiveFormsModule,
-    UiButtonComponent,
-    UiTextInputComponent,
-    UiTextAreaComponent,
-  ],
+  imports: [ModalModule, ReactiveFormsModule, UiButtonComponent, CommonModule],
   template: `
     <cds-modal [open]="true" [size]="'md'" (close)="onCancel()">
       <cds-modal-header (closeSelect)="onCancel()">
@@ -36,50 +28,10 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
           <ng-container
             *ngTemplateOutlet="template(); context: context()"
           ></ng-container>
-        } @else {
-          @if (hasForm()) {
-            <form [formGroup]="form" class="form space-y-4 pb-24 sm:pb-0">
-              <ui-text-input
-                label="Application Name"
-                placeholder="Enter application name"
-                formControlName="name"
-                theme="light"
-              ></ui-text-input>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ui-text-input
-                  label="Route path"
-                  placeholder="Enter route path"
-                  formControlName="routePath"
-                  theme="light"
-                ></ui-text-input>
-                <ui-text-input
-                  label="Icon URL"
-                  placeholder="Enter icon URL"
-                  formControlName="iconUrl"
-                  theme="light"
-                ></ui-text-input>
-              </div>
-
-              <ui-text-input
-                label="Tags (comma-separated)"
-                placeholder="Enter tags"
-                formControlName="tags"
-                theme="light"
-              ></ui-text-input>
-
-              <ui-textarea
-                label="Description"
-                placeholder="Enter application description"
-                formControlName="description"
-                theme="light"
-              ></ui-textarea>
-            </form>
-          } @else {
-            <div class="confirmation-text py-4">
-              <p>{{ content() }}</p>
-            </div>
-          }
+        } @else if (content()) {
+          <div class="confirmation-text py-4">
+            <p>{{ content() }}</p>
+          </div>
         }
       </div>
 
@@ -90,7 +42,6 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
           </ui-button>
           <ui-button
             variant="primary"
-            [disabled]="hasForm() && form.invalid"
             (buttonClick)="onSave()"
             [isExpressive]="true"
             size="sm"
@@ -105,27 +56,16 @@ import { UiTextInputComponent } from '../inputs/text-input/input.component';
 export class UiModalComponent {
   header = model<string>();
   content = model<string>();
-  hasForm = model<boolean>(false);
-  readonly template = input<TemplateRef<any> | undefined>();
-  readonly context = input<any>();
-  readonly cancelRoute = input<string | undefined>();
 
-  form: FormGroup;
+  // ✅ FIX: switch from input() to model() to allow .set()
+  readonly template = model<TemplateRef<any> | null>(null);
+  readonly context = model<any>(null);
+  readonly cancelRoute = model<string | undefined>(undefined);
 
   @Output() save = new EventEmitter<any>();
   @Output() close = new EventEmitter<void>();
 
   private router = inject(Router);
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      name: [''],
-      routePath: [''],
-      iconUrl: [''],
-      tags: [''],
-      description: [''],
-    });
-  }
 
   onCancel(): void {
     const cancelRoute = this.cancelRoute();
@@ -136,19 +76,7 @@ export class UiModalComponent {
   }
 
   onSave(): void {
-    if (this.hasForm()) {
-      const formValue = this.form.value;
-      formValue.tags = formValue.tags
-        .split(',')
-        .map((tag: string) => tag.trim());
-      this.save.emit(formValue);
-    } else {
-      this.save.emit();
-      const cancelRoute = this.cancelRoute();
-      if (cancelRoute) {
-        this.router.navigate([cancelRoute]);
-      }
-    }
+    this.save.emit();
     this.onCancel();
   }
 }
