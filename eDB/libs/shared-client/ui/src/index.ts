@@ -1,3 +1,5 @@
+export { UiSlideInSidebarComponent } from './lib/components/sidebar-secondary/sidebar-secondary.component';
+
 export { SidebarToggleService } from './lib/services/sidebar-toggle.service';
 
 export { UiNavSidebarComponent } from './lib/components/sidebar-main/nav-sidebar.component';
