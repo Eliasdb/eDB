@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule, TableModule } from 'carbon-components-angular';
@@ -12,7 +13,13 @@ export interface SortEvent {
 @Component({
   selector: 'ui-table',
   standalone: true,
-  imports: [TableModule, PaginationModule, FormsModule, UiButtonComponent],
+  imports: [
+    TableModule,
+    PaginationModule,
+    FormsModule,
+    UiButtonComponent,
+    CommonModule,
+  ],
   template: `
     <cds-table-container>
       <!-- optional header -->

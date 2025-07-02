@@ -105,7 +105,7 @@ export class CrmSidebarComponent {
     {
       id: 'reports',
       label: 'Reports',
-      route: '/crm/reports',
+      route: '/crm/btw',
       icon: 'bar_chart',
     },
     {

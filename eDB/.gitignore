@@ -25,6 +25,7 @@ node_modules
 !styles.css
 
 *.css.map
+service-account.json
 
 # IDE - VSCode
 .vscode/*

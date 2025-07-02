@@ -106,8 +106,13 @@ export class CrmContactsShellComponent implements OnInit, OnDestroy {
 
   /* nav menu */
   readonly crmMenu: NavItem[] = [
-    { id: 'contacts', label: 'Contacts', route: 'contacts', icon: 'people' },
-    { id: 'reports', label: 'Reports', route: 'reports', icon: 'bar_chart' },
+    {
+      id: 'contacts',
+      label: 'Companies & Contacts',
+      route: 'contacts',
+      icon: 'people',
+    },
+    { id: 'reports', label: 'BTW-aangifte', route: 'btw', icon: 'bar_chart' },
     { id: 'settings', label: 'Settings', route: 'settings', icon: 'settings' },
   ];
 }
