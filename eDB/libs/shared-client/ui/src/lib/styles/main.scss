@@ -20,8 +20,8 @@
   --cds-border-interactive: white;
   --cds-text-primary: rgba(0, 0, 0, 0.9);
   --cds-text-secondary: rgb(0, 0, 0);
-  --cds-button-primary: #f1f6fd;
-  --cds-text-on-color: var(--accent-complimentary);
+  --cds-button-primary: var(--accent-complimentary);
+  --cds-text-on-color: var(--accent);
   --cds-icon-primary: black;
   --cds-layer-hover-01: var(--accent);
   --cds-focus: transparent;
@@ -50,6 +50,10 @@
 
 a.cds--header__name {
   --cds-text-primary: white;
+}
+
+.flatpickr-calendar {
+  z-index: 7000 !important; /* higher than your sidebar’s 6600 */
 }
 
 .cds--checkbox-label[data-contained-checkbox-state='true']::before {
@@ -83,23 +87,6 @@ a.cds--header__name {
   padding: 0 2rem 0 1.5rem;
 }
 
-.cds--btn--ghost {
-  color: white;
-  /* padding-left: 0;
-  padding-right: 0; */
-}
-
-.cds--btn--ghost:hover,
-.cds--btn--ghost:active {
-  color: var(--cds-link-primary-hover, rgb(247, 238, 238));
-}
-
-.cds--btn--primary:hover,
-.cds--btn--primary:active {
-  --cds-button-primary-hover: rgba(255, 255, 255, 0.829);
-  --cds-button-primary-active: rgba(255, 255, 255, 0.829);
-}
-
 .cds--btn,
 .cds--list-box,
 .cds--list-box__field {
@@ -111,11 +98,6 @@ a.cds--header__name {
   --cds-tag-color-blue: var(--accent-complimentary);
   border-radius: 0.375rem !important;
 }
-
-/* .cds--btn--ghost:hover,
-.cds--btn--ghost:active {
-  color: rgba(255, 255, 255, 0.829);
-} */
 
 /* .cds--overflow-menu.cds--overflow-menu--open:hover,
 .cds--overflow-menu.cds--overflow-menu--open:active {
@@ -402,4 +384,26 @@ cds-skeleton-text p {
 
 cds--overflow-menu cds--btn--icon-only cds--btn cds--btn--ghost {
   inline-size: 6.5rem;
+}
+
+.cds--btn--ghost {
+  color: var(--accent-complimentary);
+}
+
+.cds--btn--ghost:hover,
+.cds--btn--ghost:active {
+  color: var(--accent-complimentary) / 10;
+  background-color: var(--accent);
+}
+
+.cds--btn--primary:hover {
+  background-color: #374151;
+}
+
+.cds--date-picker.cds--date-picker--single .cds--date-picker__input {
+  inline-size: 20rem;
+}
+
+.flatpickr-calendar.open {
+  inline-size: 20rem;
 }
