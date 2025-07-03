@@ -35,6 +35,15 @@ spec:
                             name: edb-admin-api-staging-service
                             port:
                                 number: 9102
+
+                  - path: /invoices(/|$)(.*)
+                    pathType: ImplementationSpecific
+                    backend:
+                        service:
+                            name: tools-invoices-staging
+                            port:
+                                number: 8000
+
     tls:
         - hosts:
               - api.staging.eliasdebock.com
