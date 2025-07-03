@@ -99,6 +99,7 @@
     "@nx/playwright": "20.8.2",
     "@nx/react": "20.8.2",
     "@nx/storybook": "20.8.2",
+    "@nx/vite": "20",
     "@nx/web": "20.8.2",
     "@nx/webpack": "^20.8.2",
     "@nx/workspace": "20.8.2",
