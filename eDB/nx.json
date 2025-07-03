@@ -127,7 +127,12 @@
     {
       "plugin": "@nx/vite/plugin",
       "options": {
-        "targetName": "test"
+        "targetName": "test",
+        "projectFilePatterns": [
+          "vite.config.ts",
+          "vite.config.js",
+          "!apps/webshop-api/vite.config.ts"
+        ]
       }
     },
     {

@@ -74,7 +74,6 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
-    "@analogjs/vite-plugin-angular": "~1.9.3",
     "@analogjs/vitest-angular": "~1.10.3",
     "@angular-builders/custom-webpack": "^19.0.0",
     "@angular-devkit/architect": "0.1900.0",
@@ -100,7 +99,6 @@
     "@nx/playwright": "20.2.0",
     "@nx/react": "20.8.2",
     "@nx/storybook": "20.2.0",
-    "@nx/vite": "^20.8.2",
     "@nx/web": "20.8.2",
     "@nx/webpack": "^20.2.0",
     "@nx/workspace": "20.2.0",
