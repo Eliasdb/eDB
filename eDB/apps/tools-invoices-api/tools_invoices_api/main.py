@@ -18,6 +18,6 @@ async def startup_event():
     global invoices_cache
     invoices_cache = fetch_all_invoice_data()
 
-@app.get("/invoices")
+@app.get("/")
 def get_invoices():
     return invoices_cache
