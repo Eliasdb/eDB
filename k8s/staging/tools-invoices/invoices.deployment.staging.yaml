@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: tools-invoices-staging # changed name to staging
+    name: tools-invoices-staging
     labels:
         app: tools-invoices
 spec:
@@ -15,7 +15,18 @@ spec:
                 app: tools-invoices
         spec:
             containers:
-                - name: tools-invoices
-                  image: eliasdb/tools-invoices:${IMAGE_TAG} # Use variable IMAGE_TAG here
+                - name: tools-invoices-api
+                  image: eliasdb/tools-invoices-api:pr-343-staging
                   ports:
                       - containerPort: 8000
+                  env:
+                      - name: ENVIRONMENT
+                        value: 'staging'
+                  volumeMounts:
+                      - name: sa-secret
+                        mountPath: /app/service-account.json
+                        subPath: service-account.json
+            volumes:
+                - name: sa-secret
+                  secret:
+                      secretName: tools-invoices-service-account
