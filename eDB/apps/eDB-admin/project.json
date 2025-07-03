@@ -99,6 +99,13 @@
         "publicHost": "http://localhost:4300"
       }
     },
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "vitestConfig": "apps/eDB-admin/vitest.config.ts",
+        "passWithNoTests": true
+      }
+    },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
