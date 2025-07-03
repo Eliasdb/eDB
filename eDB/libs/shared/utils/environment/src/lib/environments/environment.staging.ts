@@ -3,6 +3,8 @@ export const environment = {
   apiBaseUrl: 'https://api.staging.eliasdebock.com/platform/api',
   apiAdminUrl: 'https://api.staging.eliasdebock.com/admin/api',
   bookAPIUrl: 'https://api.staging.eliasdebock.com/webshop/api/v1',
+  invoicesAPIUrl: 'https://api.staging.eliasdebock.com',
+
   KC: {
     url: 'https://app.staging.eliasdebock.com/keycloak',
     account:

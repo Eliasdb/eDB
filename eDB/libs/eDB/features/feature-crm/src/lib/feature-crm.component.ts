@@ -62,18 +62,6 @@ import { ContactStatus } from './types/contact.types';
         Companies&nbsp;&amp;&nbsp;Contacts
       </h1>
 
-      <h2>test</h2>
-      <form [formGroup]="addContactFormGroup" class="space-y-4">
-        <ui-text-input label="Name" formControlName="name" theme="light" />
-        <ui-text-input label="Email" formControlName="email" theme="light" />
-        <ui-text-input label="Phone" formControlName="phone" theme="light" />
-        <ui-text-input
-          label="Company"
-          formControlName="company"
-          theme="light"
-        />
-        <ui-text-input label="Status" formControlName="status" theme="light" />
-      </form>
       <!-- ░░ Companies ░░ -->
       <header
         class="mb-6 flex flex-col gap-4

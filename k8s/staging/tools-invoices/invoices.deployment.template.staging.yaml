@@ -22,3 +22,11 @@ spec:
                   env:
                       - name: ENVIRONMENT
                         value: 'staging'
+                  volumeMounts:
+                      - name: sa-secret
+                        mountPath: /app/service-account.json
+                        subPath: service-account.json
+            volumes:
+                - name: sa-secret
+                  secret:
+                      secretName: tools-invoices-service-account
