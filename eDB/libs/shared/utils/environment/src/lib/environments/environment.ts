@@ -4,6 +4,8 @@ export const environment = {
   apiBaseUrl: 'http://localhost:5098/api',
   apiAdminUrl: 'http://localhost:5206/api',
   bookAPIUrl: 'http://localhost:8000/api/v1',
+  invoicesAPIUrl: 'http://localhost:8000',
+
   KC: {
     url: '/',
     account: 'http://localhost:8080/realms/eDB/account',

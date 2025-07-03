@@ -29,6 +29,8 @@ ChartJS.register(
   Legend,
 );
 
+import { environment } from '@eDB/shared-env';
+
 /**
  * Redesigned invoice dashboard (v2)
  * --------------------------------------------------------------
@@ -164,7 +166,7 @@ export class InvoiceDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.http
-      .get<any[]>('http://localhost:8000/invoices')
+      .get<any[]>(`${environment.invoicesAPIUrl}/invoices`)
       .subscribe((invoices) => {
         this.invoices.set(invoices);
         this.setupTable(invoices);
