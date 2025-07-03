@@ -125,14 +125,9 @@
       }
     },
     {
-      "plugin": "@nx/vite/plugin",
+      "plugin": "@nx/vite",
       "options": {
-        "targetName": "test",
-        "projectFilePatterns": [
-          "vite.config.ts",
-          "vite.config.js",
-          "!apps/webshop-api/vite.config.ts"
-        ]
+        "targetName": "test"
       }
     },
     {
