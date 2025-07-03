@@ -48,6 +48,12 @@ const map: Record<string, any> = {
     requiredVersion: '19.0.3',
   },
 
+  '@angular/forms': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+
   /* --- your workspace libs -------------------------------------- */
   '@edb/shared-ui': {
     singleton: true,
