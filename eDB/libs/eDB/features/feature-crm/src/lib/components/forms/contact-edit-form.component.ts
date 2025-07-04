@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Contact, ContactStatus } from '../types/contact.types';
+import { Contact, ContactStatus } from '../../types/contact.types';
 
 @Component({
   selector: 'crm-contact-edit-form',

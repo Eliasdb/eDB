@@ -18,12 +18,17 @@ import {
   UiSlideInSidebarComponent,
 } from '@edb/shared-ui';
 
-import { ActivityItem, Contact, ContactStatus } from '../types/contact.types';
+import {
+  ActivityItem,
+  Contact,
+  ContactStatus,
+} from '../../types/contact.types';
+
 import {
   AddActivityFormComponent,
   NewActivity,
-} from './add-activity-form.component';
-import { ContactEditFormComponent } from './contact-edit-form.component';
+} from '../forms/add-activity-form.component';
+import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
 
 @Component({
   selector: 'crm-contact-sidebar',

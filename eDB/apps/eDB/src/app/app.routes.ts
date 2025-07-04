@@ -51,6 +51,11 @@ export const routes: Route[] = [
         loadChildren: () =>
           import('@edb/feature-crm').then((m) => m.featureCRMRoutes),
       },
+      {
+        path: 'erp',
+        loadChildren: () =>
+          import('@edb/feature-erp').then((m) => m.featureERPRoutes),
+      },
       { path: 'logout', component: LogoutHandlerComponent },
     ],
   },

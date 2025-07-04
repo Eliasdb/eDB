@@ -73,12 +73,13 @@ export interface NavItem {
           <li
             *ngFor="let itm of _items(); trackBy: trackId"
             (click)="select(itm)"
+            class="outline-none"
           >
             <a
               [routerLink]="itm.route"
               routerLinkActive="bg-gray-800"
               class="flex items-center gap-3 rounded-md px-3 py-2
-                   hover:bg-gray-800/70 transition text-white"
+                   hover:bg-gray-800/70 transition text-white outline-none"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <mat-icon *ngIf="itm.icon">{{ itm.icon }}</mat-icon>
