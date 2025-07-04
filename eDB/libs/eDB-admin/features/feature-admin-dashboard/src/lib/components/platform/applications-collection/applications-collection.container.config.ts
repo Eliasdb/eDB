@@ -10,8 +10,8 @@ export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
     new TableHeaderItem({ data: 'Actions', sortable: false }),
   ],
   rowMapper: (application: Application, context?: { [key: string]: any }) => [
-    new TableItem({ data: application.applicationName }),
-    new TableItem({ data: application.applicationDescription }),
+    new TableItem({ data: application.name }),
+    new TableItem({ data: application.description }),
     new TableItem({ data: application.subscriberCount }),
     new TableItem({
       data: { application },
@@ -39,7 +39,7 @@ export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
           }),
         }),
         new TableItem({
-          data: { userId: user.userId, applicationId: app.applicationId },
+          data: { userId: user.userId, applicationId: app.id },
           template: actionTemplate, // Use expanded action template
         }),
       ]),
@@ -64,11 +64,11 @@ export const MODAL_CONFIG = {
     header: 'Edit Application',
     hasForm: true,
     formData: {
-      name: application.applicationName,
-      description: application.applicationDescription,
-      iconUrl: application.applicationIconUrl,
-      routePath: application.applicationRoutePath,
-      tags: application.applicationTags?.join(', '),
+      name: application.name,
+      description: application.description,
+      iconUrl: application.iconUrl,
+      routePath: application.routePath,
+      tags: application.tags?.join(', '),
     },
   }),
 };
