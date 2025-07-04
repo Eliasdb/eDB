@@ -11,7 +11,7 @@ import { UiPlatformSubHeaderComponent } from '@edb/shared-ui';
 import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
 
 @Component({
-  selector: 'app-webshop-root',
+  selector: 'edb-webshop-root',
   standalone: true,
   imports: [
     CommonModule,
@@ -46,7 +46,7 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
     </div>
   `,
 })
-export class AppComponent {
+export class WebshopAppComponent {
   protected router = inject(Router);
   protected cartService = inject(CartService);
 
