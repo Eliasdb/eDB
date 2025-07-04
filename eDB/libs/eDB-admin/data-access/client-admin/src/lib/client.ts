@@ -172,7 +172,7 @@ export class AdminService {
       mutationFn: async (application: Application) => {
         return firstValueFrom(
           this.http.put(
-            `${environment.apiAdminUrl}/applications/${application.applicationId}`,
+            `${environment.apiAdminUrl}/applications/${application.id}`,
             application,
           ),
         );

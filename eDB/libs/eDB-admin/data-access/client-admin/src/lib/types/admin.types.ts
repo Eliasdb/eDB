@@ -6,13 +6,12 @@ export interface SubscribedUserDto {
 }
 
 export interface Application {
-  applicationName: string;
-  applicationDescription: string;
-  applicationId: number;
-  applicationRoutePath: string;
-  applicationTags: string[];
-  applicationIconUrl: string;
+  name: string;
+  description: string;
+  id: number;
   routePath: string;
+  tags: string[];
+  iconUrl: string;
   subscribedUsers: SubscribedUserDto[];
   subscriberCount: number;
 }
