@@ -1,13 +1,13 @@
 import { Route } from '@angular/router';
-import { AppComponent } from './app.component';
+import { WebshopAppComponent } from './webshop.home.component';
 
-export const webshopRoutes: Route[] = [
+export const featureWebshopRoutes: Route[] = [
   {
     path: '',
-    component: AppComponent,
+    component: WebshopAppComponent,
     children: [
       {
-        path: 'catalog',
+        path: '',
         loadChildren: () =>
           import('@eDB-webshop/feature-book-catalog').then(
             (m) => m.featureBookCatalogRoutes,
