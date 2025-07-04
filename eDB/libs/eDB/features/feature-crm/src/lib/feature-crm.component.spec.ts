@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CRMContainer } from './feature-crm.component';
+import { CRMContainer } from './feature-crm.container';
 
 describe('FeatureCrmComponent', () => {
   let component: CRMContainer;

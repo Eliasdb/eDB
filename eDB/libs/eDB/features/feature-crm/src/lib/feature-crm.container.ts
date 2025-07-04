@@ -24,14 +24,14 @@ import {
   TableItem,
   TableModel,
 } from 'carbon-components-angular';
-import {
-  CompanyCard /* ←— correct path */,
-  CrmCompanySidebarComponent,
-} from './components/crm-company-sidebar.component';
-import { ContactSidebarComponent } from './components/side-bar.components';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import {
+  CompanyCard,
+  CrmCompanySidebarComponent,
+} from './components/sidebar/crm-company-sidebar.component';
+import { ContactSidebarComponent } from './components/sidebar/side-bar.components';
 import { ContactStatus } from './types/contact.types';
 
 @Component({
