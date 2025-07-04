@@ -250,11 +250,11 @@ export class ApplicationsCollectionContainer implements OnInit {
 
   openEditApplicationModal(application: Application) {
     this.applicationForm.setValue({
-      name: application.applicationName,
-      description: application.applicationDescription,
-      iconUrl: application.applicationIconUrl,
-      routePath: application.applicationRoutePath,
-      tags: application.applicationTags?.join(', ') || '',
+      name: application.name,
+      description: application.description,
+      iconUrl: application.iconUrl,
+      routePath: application.routePath,
+      tags: application.tags?.join(', ') || '',
     });
 
     this.modalUtils.openModal({
@@ -265,12 +265,11 @@ export class ApplicationsCollectionContainer implements OnInit {
         const formValue = this.applicationForm.value;
         this.handleEditApplication({
           ...application,
-          applicationName: formValue.name!,
-          applicationDescription: formValue.description!,
-          applicationIconUrl: formValue.iconUrl!,
-          applicationRoutePath: formValue.routePath!,
-          applicationTags:
-            formValue.tags?.split(',').map((tag) => tag.trim()) || [],
+          name: formValue.name!,
+          description: formValue.description!,
+          iconUrl: formValue.iconUrl!,
+          routePath: formValue.routePath!,
+          tags: formValue.tags?.split(',').map((tag) => tag.trim()) || [],
         });
       },
     });
@@ -278,8 +277,8 @@ export class ApplicationsCollectionContainer implements OnInit {
 
   openDeleteConfirmationModal(application: Application) {
     this.modalUtils.openModal({
-      ...MODAL_CONFIG.deleteApplication(application.applicationName),
-      onSave: () => this.handleDeleteApplication(application.applicationId),
+      ...MODAL_CONFIG.deleteApplication(application.name),
+      onSave: () => this.handleDeleteApplication(application.id),
     });
   }
 
