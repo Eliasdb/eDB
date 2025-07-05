@@ -14,6 +14,7 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
   imports: [ButtonModule, UiLoadingSpinnerComponent, UiIconComponent],
   template: `
     <button
+      class="inline-flex items-center gap-2"
       [class.full-width]="fullWidth()"
       [cdsButton]="variant()"
       [disabled]="disabled() || loading()"
@@ -22,14 +23,17 @@ import { UiLoadingSpinnerComponent } from '../../loading/loading-spinner.compone
       [isExpressive]="isExpressive()"
       [type]="type()"
     >
-      <span class="button-text text-sm">
+      <span class="text-sm whitespace-nowrap">
         <ng-content></ng-content>
       </span>
 
       @if (icon() && !loading()) {
-        <ui-icon class="cds--btn__icon" [name]="icon()"></ui-icon>
+        <ui-icon class="cds--btn__icon flex-shrink-0" [name]="icon()"></ui-icon>
       } @else if (loading()) {
-        <ui-loading class="cds--btn__icon" [isActive]="true"></ui-loading>
+        <ui-loading
+          class="cds--btn__icon flex-shrink-0"
+          [isActive]="true"
+        ></ui-loading>
       }
     </button>
   `,

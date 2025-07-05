@@ -1,4 +1,4 @@
-name: Staging Deployment
+name: (Staging) Deployment
 
 on:
     push:
@@ -43,6 +43,8 @@ jobs:
             platform_app: ${{ steps.set_booleans.outputs.platform_app }}
             admin_app: ${{ steps.set_booleans.outputs.admin_app }}
             admin_api: ${{ steps.set_booleans.outputs.admin_api }}
+            invoices_api: ${{ steps.set_booleans.outputs.invoices_api }} # Added here
+
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -87,22 +89,25 @@ jobs:
                   PLATFORM_APP=$(echo "$AFFECTED" | grep -xq "eDB" && echo "true" || echo "false")
                   ADMIN_APP=$(echo "$AFFECTED" | grep -xq "eDB-admin" && echo "true" || echo "false")
                   ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
+                  INVOICES_API=$(echo "$AFFECTED" | grep -xq "tools-invoices-api" && echo "true" || echo "false")  # added here
 
                   echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
                   echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
                   echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
                   echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
                   echo "admin_api=${ADMIN_API}" >> $GITHUB_OUTPUT
+                  echo "invoices_api=${INVOICES_API}" >> $GITHUB_OUTPUT     # added here
 
                   printf "\n📦 What Will Be Deployed:\n\
                     🔌 APIs:\n\
-                      🚀 Platform API:  %s\n\
-                      🧠 Admin API:     %s\n\
-                      🛒 Webshop API:   %s\n\
+                      🚀 Platform API:   %s\n\
+                      🧠 Admin API:      %s\n\
+                      🛒 Webshop API:    %s\n\
+                      🧾 Invoice API:    %s\n\
                     🧩 Apps:\n\
-                      📱 Platform App:  %s\n\
-                      👑 Admin App:     %s\n\n" \
-                    "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$PLATFORM_APP" "$ADMIN_APP"
+                      📱 Platform App:   %s\n\
+                      👑 Admin App:      %s\n\n" \
+                    "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$INVOICES_API" "$PLATFORM_APP" "$ADMIN_APP"
 
               shell: bash
 
@@ -216,3 +221,32 @@ jobs:
             - run: |
                   kubectl apply -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
                   kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🧾 Deploy Tools Invoices API to Staging
+    # ─────────────────────────────────────────────────────────────────────────────
+    deploy-tools-invoices:
+        name: Deploy Tools Invoices API to Staging
+        runs-on: self-hosted
+        needs: [nx-affected, derive-pr-tag]
+        if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
+        steps:
+            - uses: actions/checkout@v3
+
+            - run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+
+            - run: |
+                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+                    k8s/staging/tools-invoices/invoices.deployment.template.staging.yaml \
+                    > k8s/staging/tools-invoices/invoices.deployment.staging.yaml
+
+            - run: kubectl apply --dry-run=client -f k8s/staging/tools-invoices/invoices.deployment.staging.yaml
+
+            - run: |
+                  kubectl apply -f k8s/staging/tools-invoices/invoices.deployment.staging.yaml
+                  kubectl rollout status deployment/tools-invoices-staging || kubectl rollout undo deployment/tools-invoices-staging
+
+            - run: |
+                  kubectl apply -f k8s/staging/tools-invoices/invoices.service.staging.yaml

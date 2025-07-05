@@ -5,7 +5,11 @@ module.exports = [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist'],
+    ignores: [
+      '**/dist',
+      '**/vite.config.*.timestamp*',
+      '**/vitest.config.*.timestamp*',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -32,6 +36,15 @@ module.exports = [
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     // Override or add rules here
     rules: {},
+  },
+  {
+    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],
+  },
+  {
+    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],
+  },
+  {
+    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],
   },
   {
     ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],

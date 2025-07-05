@@ -28,6 +28,12 @@ const map: Record<string, any> = {
     requiredVersion: '19.0.3',
   },
 
+  '@angular/forms': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3',
+  },
+
   '@angular/platform-browser': {
     singleton: true,
     strictVersion: true,

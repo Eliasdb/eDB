@@ -1,5 +1,5 @@
 # .github/workflows/admin-ci.yml
-name: Admin CI
+name: (Staging) Admin App CI
 
 on:
     workflow_call:
@@ -16,7 +16,7 @@ on:
 jobs:
     # ─────────────────────────────────────────────
     lint:
-        name: Lint Admin Project
+        name: Lint
         runs-on: self-hosted
         steps:
             - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
 
     # ─────────────────────────────────────────────
     test:
-        name: Test Admin Project
+        name: Test
         runs-on: self-hosted
         needs: lint
         steps:
@@ -59,7 +59,7 @@ jobs:
 
     # ─────────────────────────────────────────────
     build:
-        name: Build & Push Admin App Docker Image
+        name: Build & Push Docker Image
         runs-on: self-hosted
         needs: test
         steps:

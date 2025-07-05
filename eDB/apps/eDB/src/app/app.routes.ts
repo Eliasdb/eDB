@@ -38,12 +38,24 @@ export const routes: Route[] = [
       },
       {
         path: 'webshop',
-        loadChildren: () => import('@eDB-webshop').then((m) => m.WebshopModule),
+        loadChildren: () =>
+          import('@edb/feature-webshop').then((m) => m.featureWebshopRoutes),
       },
       {
         path: 'account',
         component: WrapperComponent,
         canActivate: [AuthGuard],
+      },
+
+      {
+        path: 'crm',
+        loadChildren: () =>
+          import('@edb/feature-crm').then((m) => m.featureCRMRoutes),
+      },
+      {
+        path: 'erp',
+        loadChildren: () =>
+          import('@edb/feature-erp').then((m) => m.featureERPRoutes),
       },
       { path: 'logout', component: LogoutHandlerComponent },
     ],

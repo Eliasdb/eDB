@@ -4,6 +4,7 @@ import {
   UiButtonComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
+  UiTextInputComponent,
 } from '@edb/shared-ui';
 
 import {
@@ -23,6 +24,7 @@ import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
 import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {
   Application,
@@ -37,6 +39,7 @@ import {
 
 @Component({
   selector: 'platform-admin-applications-collection',
+  standalone: true,
   imports: [
     UiTableComponent,
     UiButtonComponent,
@@ -45,6 +48,8 @@ import {
     CommonModule,
     MatCardModule,
     ApplicationsCollectionAccordionComponent,
+    UiTextInputComponent,
+    ReactiveFormsModule,
   ],
   template: `
     @if (isSmallScreen) {
@@ -55,8 +60,9 @@ import {
           size="sm"
           class="mb-4"
           (buttonClick)="openAddApplicationModal()"
-          >Add</ui-button
         >
+          Add
+        </ui-button>
         <platform-applications-accordion
           (deleteApplication)="onMobileDelete($event)"
           (editApplication)="onMobileEdit($event)"
@@ -70,7 +76,8 @@ import {
         [model]="tableModel"
         [showSelectionColumn]="false"
         [showButton]="true"
-        (addApplication)="openAddApplicationModal()"
+        [primaryActionLabel]="'Add'"
+        (primaryActionClick)="openAddApplicationModal()"
       ></ui-table>
     }
 
@@ -80,15 +87,47 @@ import {
         icon="faBan"
         variant="ghost"
         (click)="onRevokeAccess(data.userId, data.applicationId)"
-        >Revoke access</ui-button
       >
+        Revoke access
+      </ui-button>
     </ng-template>
+
     <ng-template #deleteTemplate let-data="data">
       <ui-platform-overflow-menu
         icon="faEllipsisV"
         [menuOptions]="menuOptions"
         (menuOptionSelected)="onMenuOptionSelected($event, data)"
       ></ui-platform-overflow-menu>
+    </ng-template>
+
+    <ng-template #applicationFormTemplate let-form="form">
+      <form [formGroup]="applicationForm" class="space-y-4">
+        <ui-text-input
+          label="Application Name"
+          formControlName="name"
+          theme="light"
+        />
+        <ui-text-input
+          label="Description"
+          formControlName="description"
+          theme="light"
+        />
+        <ui-text-input
+          label="Icon URL"
+          formControlName="iconUrl"
+          theme="light"
+        />
+        <ui-text-input
+          label="Route Path"
+          formControlName="routePath"
+          theme="light"
+        />
+        <ui-text-input
+          label="Tags (comma-separated)"
+          formControlName="tags"
+          theme="light"
+        />
+      </form>
     </ng-template>
   `,
 })
@@ -100,6 +139,8 @@ export class ApplicationsCollectionContainer implements OnInit {
   actionTemplate!: TemplateRef<any>;
   @ViewChild('deleteTemplate', { static: true })
   deleteTemplate!: TemplateRef<any>;
+  @ViewChild('applicationFormTemplate', { static: true })
+  applicationFormTemplate!: TemplateRef<any>;
 
   menuOptions = OVERFLOW_MENU_CONFIG;
   tableModel = new TableModel();
@@ -108,6 +149,15 @@ export class ApplicationsCollectionContainer implements OnInit {
   tableUtils = inject(TableUtilsService);
   modalUtils = inject(CustomModalService);
   router = inject(Router);
+  fb = inject(FormBuilder);
+
+  applicationForm = this.fb.group({
+    name: ['', Validators.required],
+    description: [''],
+    iconUrl: [''],
+    routePath: [''],
+    tags: [''],
+  });
 
   private applicationsQuery = this.adminService.queryApplications();
   addApplicationMutation = this.adminService.addApplicationMutation();
@@ -126,6 +176,7 @@ export class ApplicationsCollectionContainer implements OnInit {
       }
     });
   }
+
   ngOnInit(): void {
     this.breakpointObserver
       .observe(['(max-width: 768px)'])
@@ -134,7 +185,6 @@ export class ApplicationsCollectionContainer implements OnInit {
       });
   }
 
-  // TABLE
   initializeTable(applications: Application[]) {
     this.tableModel.header = APPLICATION_TABLE_CONFIG.headers;
     this.tableModel.data = this.tableUtils.createExpandedData(
@@ -178,27 +228,57 @@ export class ApplicationsCollectionContainer implements OnInit {
     this.openRevokeAccessConfirmationModal(userId, applicationId);
   }
 
-  // MODALS
   openAddApplicationModal() {
+    this.applicationForm.reset();
+
     this.modalUtils.openModal({
-      ...MODAL_CONFIG.addApplication,
-      onSave: (formData) => this.handleAddApplication(formData),
+      header: MODAL_CONFIG.addApplication.header,
+      template: this.applicationFormTemplate,
+      context: { form: this.applicationForm },
+      onSave: () => {
+        const formValue = this.applicationForm.value;
+        this.handleAddApplication({
+          name: formValue.name!,
+          description: formValue.description!,
+          iconUrl: formValue.iconUrl!,
+          routePath: formValue.routePath!,
+          tags: formValue.tags?.split(',').map((tag) => tag.trim()) || [],
+        });
+      },
     });
   }
 
   openEditApplicationModal(application: Application) {
-    console.log(application);
+    this.applicationForm.setValue({
+      name: application.name,
+      description: application.description,
+      iconUrl: application.iconUrl,
+      routePath: application.routePath,
+      tags: application.tags?.join(', ') || '',
+    });
+
     this.modalUtils.openModal({
-      ...MODAL_CONFIG.editApplication(application),
-      onSave: (formData) =>
-        this.handleEditApplication({ ...application, ...formData }),
+      header: MODAL_CONFIG.editApplication(application).header,
+      template: this.applicationFormTemplate,
+      context: { form: this.applicationForm },
+      onSave: () => {
+        const formValue = this.applicationForm.value;
+        this.handleEditApplication({
+          ...application,
+          name: formValue.name!,
+          description: formValue.description!,
+          iconUrl: formValue.iconUrl!,
+          routePath: formValue.routePath!,
+          tags: formValue.tags?.split(',').map((tag) => tag.trim()) || [],
+        });
+      },
     });
   }
 
   openDeleteConfirmationModal(application: Application) {
     this.modalUtils.openModal({
-      ...MODAL_CONFIG.deleteApplication(application.applicationName),
-      onSave: () => this.handleDeleteApplication(application.applicationId),
+      ...MODAL_CONFIG.deleteApplication(application.name),
+      onSave: () => this.handleDeleteApplication(application.id),
     });
   }
 
@@ -209,9 +289,8 @@ export class ApplicationsCollectionContainer implements OnInit {
     });
   }
 
-  // MUTATIONS
-  handleAddApplication(newApplication: CreateApplicationDto) {
-    this.addApplicationMutation.mutate(newApplication, {
+  handleAddApplication(formData: CreateApplicationDto) {
+    this.addApplicationMutation.mutate(formData, {
       onSuccess: () => console.log('Application added successfully'),
       onError: (err) => console.error('Failed to add application', err),
     });

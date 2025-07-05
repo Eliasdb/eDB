@@ -14,7 +14,14 @@
         </#list>
     </#if>
     <title>${msg("loginTitle",(realm.displayName!''))}</title>
-    <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
+ <link rel="icon" type="image/x-icon" href="${url.resourcesPath}/img/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="${url.resourcesPath}/img/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="${url.resourcesPath}/img/favicon-16x16.png" />
+<link rel="apple-touch-icon" href="${url.resourcesPath}/img/apple-touch-icon.png" />
+<link rel="manifest" href="${url.resourcesPath}/site.webmanifest" />
+<link rel="icon" type="image/png" sizes="192x192" href="${url.resourcesPath}/img/android-chrome-192x192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="${url.resourcesPath}/img/android-chrome-512x512.png" />
+
     <#if properties.stylesCommon?has_content>
         <#list properties.stylesCommon?split(' ') as style>
             <link href="${url.resourcesCommonPath}/${style}" rel="stylesheet" />

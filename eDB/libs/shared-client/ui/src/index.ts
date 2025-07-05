@@ -1,6 +1,7 @@
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';
+export { UiDatePickerComponent } from './lib/components/date-picker/date-picker.component';
 export { UiPlatformHeaderComponent } from './lib/components/header/platform-header.component';
 export { UiPlatformSubHeaderComponent } from './lib/components/header/sub-header/sub-header.component';
 export { UiIconComponent } from './lib/components/icon/icon.component';
@@ -18,10 +19,18 @@ export { UiPlatformOverflowMenuComponent } from './lib/components/navigation/ove
 export { UiSidenavComponent } from './lib/components/navigation/side-nav/side-nav.component';
 export { UiNotificationToastComponent } from './lib/components/notification/notification-toast.component';
 export { UiShellComponent } from './lib/components/shell/shell.component';
+export { UiNavSidebarComponent } from './lib/components/sidebar-main/nav-sidebar.component';
+export { UiSlideInSidebarComponent } from './lib/components/sidebar-secondary/sidebar-secondary.component';
 export { UiStructuredListComponent } from './lib/components/tables/structured-list/structured-list.component';
 export { UiTableComponent } from './lib/components/tables/table/table.component';
+export { UiTabsComponent } from './lib/components/tabs/tabs.component';
 export { UiTagComponent } from './lib/components/tag/tag.component';
 export { UiSkeletonTextComponent } from './lib/components/text/skeleton-text/skeleton-text.component';
 export { UiTitleComponent } from './lib/components/text/title/title.component';
 export { UiTileComponent } from './lib/components/tile/tile.component';
+
+export { UiSidebarLayoutComponent } from './lib/layouts/sidebar-layout/sidebar-layout.component';
+export { UiSidebarLayoutSmarterComponent } from './lib/layouts/sidebar.layout';
+
 export { CustomModalService } from './lib/services/custom-modal.service';
+export { SidebarToggleService } from './lib/services/sidebar-toggle.service';

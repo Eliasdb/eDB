@@ -18,7 +18,7 @@ spec:
             #   - name: dockerhub-creds
             containers:
                 - name: keycloak
-                  image: eliasdb/keycloak-edb:26.2.4-v10
+                  image: eliasdb/keycloak-edb:26.2.4-v11
                   imagePullPolicy: Always
 
                   ports:

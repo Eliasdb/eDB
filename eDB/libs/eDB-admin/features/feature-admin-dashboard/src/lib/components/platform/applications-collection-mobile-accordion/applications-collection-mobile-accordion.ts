@@ -11,13 +11,13 @@ import { Application } from '../../../types/application-overview.type';
     <cds-accordion [align]="align()" [size]="size()">
       @for (item of items(); track $index) {
         <cds-accordion-item
-          title="{{ item.applicationName }}"
+          title="{{ item.name }}"
           (selected)="onSelected($event)"
         >
           <section class="flex justify-between">
             <div>
               <p class="font-bold">Description</p>
-              <p>{{ item.applicationDescription }}</p>
+              <p>{{ item.description }}</p>
             </div>
             <div>
               <p class="font-bold">Subscribers</p>
