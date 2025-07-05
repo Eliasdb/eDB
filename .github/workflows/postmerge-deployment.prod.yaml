@@ -1,4 +1,4 @@
-name: Production Deployment
+name: (Production) Deployment
 
 on:
     push:
@@ -48,10 +48,10 @@ jobs:
                   yamllint k8s/prod/eDB-admin/
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # 🧠 Determine Nx Affected Projects
+    # 🧠 Detect Affected
     # ─────────────────────────────────────────────────────────────────────────────
     nx-affected:
-        name: Determine Nx Affected Projects
+        name: Detect Affected
         runs-on: self-hosted
         needs: [version, lint-yaml]
         outputs:
@@ -60,6 +60,7 @@ jobs:
             platform_app: ${{ steps.set_booleans.outputs.platform_app }}
             admin_app: ${{ steps.set_booleans.outputs.admin_app }}
             admin_api: ${{ steps.set_booleans.outputs.admin_api }}
+            invoices_api: ${{ steps.set_booleans.outputs.invoices_api }} # ✅ added for production
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
@@ -89,9 +90,7 @@ jobs:
                   pnpm nx show projects --affected \
                     --with-target=build \
                     --base=$(git rev-parse HEAD^1) \
-                    --head=HEAD \
-                    > ../affected.txt || true
-
+                    --head=HEAD > ../affected.txt || true
                   echo "Affected Projects:"
                   cat ../affected.txt
 
@@ -106,22 +105,25 @@ jobs:
                   PLATFORM_APP=$(echo "$AFFECTED" | grep -xq "eDB" && echo "true" || echo "false")
                   ADMIN_APP=$(echo "$AFFECTED" | grep -xq "eDB-admin" && echo "true" || echo "false")
                   ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
+                  INVOICES_API=$(echo "$AFFECTED" | grep -xq "tools-invoices-api" && echo "true" || echo "false") # ✅ added
 
                   echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
                   echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
                   echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
                   echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
                   echo "admin_api=${ADMIN_API}" >> $GITHUB_OUTPUT
+                  echo "invoices_api=${INVOICES_API}" >> $GITHUB_OUTPUT       # ✅ added
 
                   printf "\n📦 What Will Be Deployed:\n\
                     🔌 APIs:\n\
                       🚀 Platform API:  %s\n\
                       🧠 Admin API:     %s\n\
                       🛒 Webshop API:   %s\n\
+                      🧾 Invoice API:   %s\n\
                     🧩 Apps:\n\
                       📱 Platform App:  %s\n\
                       👑 Admin App:     %s\n\n" \
-                    "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$PLATFORM_APP" "$ADMIN_APP"
+                    "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$INVOICES_API" "$PLATFORM_APP" "$ADMIN_APP"
               shell: bash
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -250,3 +252,30 @@ jobs:
                   kubectl apply -f k8s/prod/admin-api/admin-api.deployment.prod.yaml
                   kubectl apply -f k8s/prod/admin-api/admin-api.service.prod.yaml
                   kubectl rollout status deployment/admin-api-prod || kubectl rollout undo deployment/admin-api-prod
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 🧾 Deploy Tools Invoices API to Production
+    # ─────────────────────────────────────────────────────────────────────────────
+    deploy-tools-invoices-api:
+        name: Deploy Tools Invoices API to Production
+        runs-on: self-hosted
+        needs: [nx-affected, version, lint-yaml]
+        if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Configure Kubernetes
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+
+            - name: Deploy YAML
+              run: |
+                  sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
+                    k8s/prod/tools-invoices-api/invoices.deployment.template.prod.yaml \
+                    > k8s/prod/tools-invoices-api/invoices.deployment.prod.yaml
+
+                  kubectl apply --dry-run=client -f k8s/prod/tools-invoices-api/invoices.deployment.prod.yaml
+                  kubectl apply -f k8s/prod/tools-invoices-api/invoices.deployment.prod.yaml
+                  kubectl apply -f k8s/prod/tools-invoices-api/invoices.service.prod.yaml
+                  kubectl rollout status deployment/tools-invoices-prod || kubectl rollout undo deployment/tools-invoices-prod
