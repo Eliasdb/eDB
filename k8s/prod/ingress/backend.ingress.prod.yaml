@@ -41,7 +41,7 @@ spec:
                     pathType: ImplementationSpecific
                     backend:
                         service:
-                            name: tools-invoices-staging
+                            name: tools-invoices-prod
                             port:
                                 number: 8000
     tls:
