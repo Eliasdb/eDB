@@ -27,7 +27,7 @@ export const routes: Route[] = [
         loadChildren: () =>
           loadRemote<{ default: Route[] }>('eDB-admin/Routes').then(
             (m) => m!.default,
-          ), // ⟵ return the array itself
+          ),
       },
 
       /* rest of your routes */

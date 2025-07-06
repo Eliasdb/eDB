@@ -8,14 +8,8 @@ export const environment = {
   KC: {
     url: 'https://app.staging.eliasdebock.com/keycloak',
     account:
-      'https://app.staging.eliasdebock.com/keycloak/realms/EDB%20STAGING/account',
-    realm: 'EDB STAGING',
+      'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/account',
+    realm: 'EDB-STAGING',
     clientId: 'edb-app-staging',
   },
-  moduleFederationRemotes: [
-    {
-      name: 'eDBAccountUi',
-      entry: 'https://app.staging.eliasdebock.com/account/mf-manifest.json',
-    },
-  ],
 };

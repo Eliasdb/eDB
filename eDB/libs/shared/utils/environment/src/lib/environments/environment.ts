@@ -12,10 +12,4 @@ export const environment = {
     realm: 'eDB',
     clientId: 'edb-app',
   },
-  moduleFederationRemotes: [
-    {
-      name: 'eDBAccountUi',
-      entry: 'http://localhost:4301/mf-manifest.json',
-    },
-  ],
 };
