@@ -59,10 +59,14 @@ jobs:
                     --base=origin/dev \
                     --head=HEAD)
 
-                  echo "Affected: $AFFECTED"
+                  echo "Affected projects:"
+                  echo "$AFFECTED"
 
-                  echo "admin_changed=$(echo \"$AFFECTED\" | grep -q '^eDB-admin$' \
-                    && echo true || echo false)" >> $GITHUB_OUTPUT
+                  ADMIN_CHANGED=$(echo "$AFFECTED" | grep -qw 'eDB-admin' && echo true || echo false)
+                  echo "admin_changed=$ADMIN_CHANGED" >> $GITHUB_OUTPUT
+
+                  echo "Debug:"
+                  echo "admin_changed=$ADMIN_CHANGED"
 
     # ─────────────────────────────────────────────
     lint:
