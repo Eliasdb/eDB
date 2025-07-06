@@ -7,15 +7,8 @@ export const environment = {
 
   KC: {
     url: 'https://app.eliasdebock.com/keycloak',
-    account: 'https://app.eliasdebock.com/keycloak/realms/EDB%20PROD/account',
-    realm: 'EDB PROD',
+    account: 'https://app.eliasdebock.com/keycloak/realms/EDB-PROD/account',
+    realm: 'EDB-PROD',
     clientId: 'edb-app-prod',
   },
-  // environment.staging.ts
-  moduleFederationRemotes: [
-    {
-      name: 'eDBAccountUi',
-      entry: 'https://app.eliasdebock.com/account/mf-manifest.json',
-    },
-  ],
 };
