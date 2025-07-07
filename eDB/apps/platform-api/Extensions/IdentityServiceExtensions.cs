@@ -29,7 +29,6 @@ public static class IdentityServiceExtensions
           ValidateAudience = true,
           ValidAudience = identitySettings["Audience"],
 
-          // Optional: Accept only tokens issued by Keycloak
           ValidateIssuer = true,
           ValidIssuer = identitySettings["Authority"],
         };
