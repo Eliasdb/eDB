@@ -41,9 +41,8 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
         </section>
       }
 
-      <main class="platform-content">
+      <main class="platform-content ">
         <router-outlet></router-outlet>
-        <cds-placeholder></cds-placeholder>
       </main>
     </div>
   `,

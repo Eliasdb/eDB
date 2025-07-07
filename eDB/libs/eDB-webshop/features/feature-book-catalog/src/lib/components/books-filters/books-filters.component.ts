@@ -31,7 +31,7 @@ import { UiButtonComponent } from '@edb/shared-ui';
     <section class="flex flex-col gap-6 text-sm">
       <!-- ── Search ─────────────────────────────────────────── -->
       <div>
-        <label class="block mb-1 font-medium">Title / Author</label>
+        <label class="block mb-1 font-medium text-black">Title / Author</label>
         <div
           class="relative flex items-center rounded border border-gray-300
                  focus-within:border-accent-complimentary focus-within:ring-1

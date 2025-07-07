@@ -36,7 +36,7 @@ import {
   selector: 'books-container',
   template: `
     <section
-      class="flex flex-col items-center mt-40 max-w-[90%] xl:max-w-[60%] mx-auto"
+      class="flex flex-col items-center mt-[14rem] max-w-[90%] xl:max-w-[60%] mx-auto"
     >
       <!-- Page Title -->
       <section class="w-full">
