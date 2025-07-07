@@ -126,8 +126,8 @@ jobs:
                   echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
             - run: |
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/api/api-deployment-template.staging.yaml \
-                    > k8s/staging/api/api-deployment.staging.yaml
+                    k8s/staging/api/api.deployment.template.staging.yaml \
+                    > k8s/staging/api/api.deployment.staging.yaml
             - run: kubectl apply --dry-run=client -f k8s/staging/api/api-deployment.staging.yaml
             - run: |
                   kubectl apply -f k8s/staging/api/api-deployment.staging.yaml
@@ -148,8 +148,8 @@ jobs:
                   echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
             - run: |
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/webshop-api/api-deployment-template.staging.yaml \
-                    > k8s/staging/webshop-api/api-deployment.staging.yaml
+                    k8s/staging/webshop-api/api.deployment.template.staging.yaml \
+                    > k8s/staging/webshop-api/api.deployment.staging.yaml
             - run: kubectl apply --dry-run=client -f k8s/staging/webshop-api/api-deployment.staging.yaml
             - run: |
                   kubectl apply -f k8s/staging/webshop-api/api-deployment.staging.yaml
