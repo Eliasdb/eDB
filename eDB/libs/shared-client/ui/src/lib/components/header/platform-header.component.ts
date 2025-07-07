@@ -64,10 +64,20 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
                 size="sm"
                 variant="ghost"
                 icon="faArrowRight"
-                class="[&>button]:text-white    [&>button:hover]:text-[#F7EEEE]    
-    [&>button:active]:text-[#F7EEEE]   
-    [&>button]:[--cds-button-primary-hover:rgba(255,255,255,0.829)]
-    [&>button]:[--cds-button-primary-active:rgba(255,255,255,0.829)]"
+                class="
+    [&>button]:text-blue-400
+    [&>button]:bg-[#2c3748]
+    [&>button:hover]:bg-[#374151]
+    [&>button]:rounded-lg
+    [&>button]:transition-colors
+    [&>button]:px-4
+    [&>button]:py-1.5
+    [&>button]:text-sm
+    [&>button]:font-medium
+    [&>button:hover]:text-white
+    [&>button]:[--cds-button-primary-hover:transparent]
+    [&>button]:[--cds-button-primary-active:transparent]
+  "
               >
                 {{ targetButtonText }}
               </ui-button>
@@ -79,7 +89,7 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
             icon="faGrip"
             [menuOptions]="menuOptions()"
             [flip]="true"
-            [offset]="{ x: 0, y: 0 }"
+            [offset]="{ x: 20, y: 0 }"
             (menuOptionSelected)="menuOptionSelected.emit($event)"
           ></ui-platform-overflow-menu>
         </cds-header-global>
@@ -89,25 +99,27 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
     <ng-template #brandTemplate>
       <a class="cds--header__name">
         <span class="cds--header__name--prefix">
-          <div class="logo flex gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-omega"
-            >
-              <path
-                d="M3 20h4.5a.5.5 0 0 0 .5-.5v-.282a.52.52 0 0 0-.247-.437 8 8 0 1 1 8.494-.001.52.52 0 0 0-.247.438v.282a.5.5 0 0 0 .5.5H21"
-              ></path>
-            </svg>
-            <span>eDB</span>
-          </div>
+          <a routerLink="/" class="text-inherit">
+            <div class="logo flex gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-omega"
+              >
+                <path
+                  d="M3 20h4.5a.5.5 0 0 0 .5-.5v-.282a.52.52 0 0 0-.247-.437 8 8 0 1 1 8.494-.001.52.52 0 0 0-.247.438v.282a.5.5 0 0 0 .5.5H21"
+                ></path>
+              </svg>
+              <span>eDB</span>
+            </div>
+          </a>
         </span>
       </a>
     </ng-template>
