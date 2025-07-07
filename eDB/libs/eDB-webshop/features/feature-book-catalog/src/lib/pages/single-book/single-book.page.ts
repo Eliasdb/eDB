@@ -1,3 +1,6 @@
+/* ------------------------------------------------------------------
+   Single-book view
+-------------------------------------------------------------------*/
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -19,138 +22,174 @@ import { UiButtonComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'single-book',
+  standalone: true,
+  /* --------------------------------------------------------------
+     IMPORTS
+  -------------------------------------------------------------- */
   imports: [
     CommonModule,
     LoadingStateComponent,
-    MatButtonModule,
+
+    /* Material */
     MatCardModule,
     MatIconModule,
     MatRippleModule,
+    MatButtonModule,
+
+    /* Local UI */
     BreadcrumbsComponent,
     UiButtonComponent,
     QuantitySelectorComponent,
   ],
+  /* --------------------------------------------------------------
+     TEMPLATE
+  -------------------------------------------------------------- */
   template: `
-    <section class="flex flex-col mt-36 min-h-screen text-white">
-      <!-- Loading state -->
-      @if (bookResult.isLoading(); as loading) {
-        <ui-webshop-books-loading-state></ui-webshop-books-loading-state>
-      }
+    <!-- ❶ LIGHT BACKGROUND -->
+    <section
+      class="min-h-screen py-28 px-4"
+      style="background: var(--surface-primary)"
+    >
+      <!-- Loading / Error states -->
+      <ui-webshop-books-loading-state *ngIf="bookResult.isLoading()" />
+      <p *ngIf="bookResult.isError()" class="text-center text-red-600">
+        Error loading book details
+      </p>
 
-      <!-- Success state -->
-      @if (bookResult.isSuccess(); as success) {
-        <div class="b-crumbs text-black">
-          <ui-webshop-bread-crumbs [book]="book() || null" />
-        </div>
-        <mat-card>
-          <mat-card-content>
-            <section
-              class="flex flex-col md:flex-row gap-8 p-4 items-center min-h-screen"
-            >
-              <div class="flex items-start justify-start flex-col gap-4">
-                <div class="h-[15rem] w-[10rem]">
-                  <img
-                    src="https://edit.org/images/cat/book-covers-big-2019101610.jpg"
-                    alt="book"
-                    class="w-full h-full rounded-[0.25rem]"
-                  />
+      <!-- Success -->
+      <ng-container *ngIf="book() as book">
+        <!-- ❷ BREADCRUMBS (raised z-index so always clickable) -->
+        <nav class="max-w-6xl mx-auto mb-6 relative z-[51] pointer-events-auto">
+          <ui-webshop-bread-crumbs [book]="book" />
+        </nav>
+
+        <!-- ❸ CARD -->
+        <mat-card
+          class="max-w-6xl mx-auto rounded-2xl shadow-xl overflow-hidden relative z-10"
+          style="
+            background: var(--surface-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 24px var(--shadow-color);
+          "
+        >
+          <div class="grid grid-cols-1 md:grid-cols-[minmax(10rem,1fr)_2fr]">
+            <!-- Cover -->
+            <div class="bg-slate-100 flex justify-center items-start p-8">
+              <img
+                [src]="book.photoUrl || fallbackCover"
+                [alt]="book.title"
+                class="w-full max-w-xs rounded-lg object-cover"
+              />
+            </div>
+
+            <!-- Details -->
+            <div class="p-8 flex flex-col gap-6">
+              <!-- Title & description -->
+              <header>
+                <h1 class="text-3xl font-bold mb-2">{{ book.title }}</h1>
+                <p class="text-gray-600">{{ book.description }}</p>
+              </header>
+
+              <!-- Meta grid -->
+              <div class="grid grid-cols-2 gap-y-4 text-sm">
+                <div>
+                  <span class="label">Author</span>
+                  <p>{{ book.author }}</p>
+                </div>
+                <div>
+                  <span class="label">Year</span>
+                  <p>{{ book.publishedDate | date: 'y' }}</p>
+                </div>
+                <div>
+                  <span class="label">Genre</span>
+                  <p>{{ book.genre }}</p>
+                </div>
+                <div>
+                  <span class="label">Status</span>
+                  <p>{{ book.status }}</p>
                 </div>
               </div>
-              @if (book(); as book) {
-                <div class="max-w-[31rem]">
-                  <h3 class="font-semibold">{{ book.title }}</h3>
-                  <p>{{ book.description }}</p>
 
-                  <div class="grid grid-cols-[2fr_1fr]">
-                    <div>
-                      <p>
-                        <span class="font-semibold">Author</span><br />
-                        {{ book.author }}
-                      </p>
-                      <p>
-                        <span class="font-semibold">Genre</span><br />
-                        {{ book.genre }}
-                      </p>
-                    </div>
-                    <div>
-                      <p class="text-right">
-                        <span class="font-semibold">Year</span><br />
-                        {{ book.publishedDate | date: 'y' }}
-                      </p>
-                      <p class="text-right">
-                        <span class="font-semibold">Status</span><br />
-                        {{ book.status }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <p>
-                      <span class="font-semibold">Price</span><br />
-                      {{ book.price | currency: 'EUR' : 'symbol' }}
-                    </p>
-
-                    <ui-webshop-quantity-selector
-                      [max]="book.stock"
-                      (quantityChange)="onQuantityChange($event)"
-                    ></ui-webshop-quantity-selector>
-                  </div>
-                  <hr />
-
-                  <div class="flex gap-4 justify-start mt-6">
-                    <ui-button (buttonClick)="addToCart(book.id)"
-                      >Add to cart</ui-button
-                    >
-                  </div>
+              <!-- ❹ ACTION BAR -->
+              <div
+                class="mt-auto pt-4 border-t flex flex-wrap items-center gap-4"
+              >
+                <div class="text-2xl font-semibold">
+                  {{ book.price | currency: 'EUR' : 'symbol' }}
                 </div>
-              }
-            </section>
-          </mat-card-content>
-        </mat-card>
-      }
 
-      <!-- Error state -->
-      @if (bookResult.isError(); as error) {
-        <p>Error loading book details</p>
-      }
+                <ui-webshop-quantity-selector
+                  class="ml-auto"
+                  [max]="book.stock"
+                  (quantityChange)="onQuantityChange($event)"
+                />
+
+                <ui-button
+                  class="min-w-[9rem]"
+                  (buttonClick)="addToCart(book.id)"
+                  style="
+                    --_bg: var(--button-primary-bg);
+                    --_fg: var(--button-primary-fg);
+                    --_bg-h: var(--button-primary-bg--hover);
+                    --_bg-a: var(--button-primary-bg--active);
+                  "
+                >
+                  Add to cart
+                </ui-button>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </ng-container>
     </section>
   `,
+  /* --------------------------------------------------------------
+     STYLES
+  -------------------------------------------------------------- */
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+      .label {
+        @apply block font-semibold uppercase tracking-wide;
+        color: var(--text-secondary);
+      }
+    `,
+  ],
 })
 export class SingleBookPage {
+  /* ---------- injected services ---------- */
   private activatedRoute = inject(ActivatedRoute);
   private booksService = inject(BooksService);
   private cartService = inject(CartService);
 
-  // Convert route parameters to a signal.
+  /* ---------- signals ---------- */
   readonly routeParams = toSignal(this.activatedRoute.params);
-  readonly bookId = (): number => this.routeParams()?.['id'];
-  selectedAmount: number = 0;
-
-  // Query signals provided by the BooksService.
+  readonly bookId = () => this.routeParams()?.['id'];
   readonly bookResult = this.booksService.queryBookById;
-  // Derived signal: extract book data if the query was successful.
   readonly book = () =>
     this.bookResult.isSuccess() ? this.bookResult.data().data : null;
 
-  // Effect: update the selected book id when the route parameter changes.
+  readonly fallbackCover = 'https://placehold.co/400x600?text=No+Cover';
+
+  /* ---------- effects ---------- */
   updateBookIdEffect = effect(() => {
     const id = this.bookId();
-    if (id) {
-      this.booksService.updateSelectedBookId(id);
-    }
+    if (id) this.booksService.updateSelectedBookId(id);
   });
+
+  /* ---------- handlers ---------- */
+  onQuantityChange(newAmount: number) {
+    this.cartService.selectedAmount.set(newAmount);
+  }
 
   addToCart(bookId: number) {
     const payload: CartItemCreateRequest = {
       id: bookId,
-      selectedAmount: this.cartService.selectedAmount(), // get the latest value
+      selectedAmount: this.cartService.selectedAmount(),
     };
-
     this.cartService.addToCart(payload);
-    // this.snackBar.open('Book added to cart', 'Close', { duration: 3000 });
-  }
-
-  onQuantityChange(newAmount: number) {
-    console.log('New selected amount:', newAmount);
-    this.cartService.selectedAmount.set(newAmount);
   }
 }

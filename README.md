@@ -126,7 +126,7 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 **API**
 
--   [x] **Language**: C# - PHP
+-   [x] **Language**: C# - PHP - Python
 -   [x] **Package Manager**: NuGet - Composer
 -   [x] **Frameworks**:
     -   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext - .NET SDK

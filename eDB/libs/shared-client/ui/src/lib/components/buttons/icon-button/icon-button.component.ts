@@ -51,9 +51,11 @@ export class UiIconButtonComponent {
   @Output() iconButtonMouseLeave = new EventEmitter<Event>();
   @Output() iconButtonFocus = new EventEmitter<Event>();
   @Output() iconButtonBlur = new EventEmitter<Event>();
+  @Output() click = new EventEmitter<Event>(); // 👈 this line
 
   handleClick(event: Event): void {
-    this.iconButtonClick.emit(event);
+    this.iconButtonClick.emit(event); // existing
+    this.click.emit(event); // 👈 add this
   }
 
   handleMouseEnter(event: Event): void {
