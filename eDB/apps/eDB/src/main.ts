@@ -1,10 +1,7 @@
-// src/main.ts (or wherever you bootstrap)
 import { registerRemotes } from '@module-federation/enhanced/runtime';
 import { environment } from './environments/environment';
 
 const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;
-
-// apps/eDB/src/main.ts or similar entrypoint
 
 if (!environment.production) {
   // DEV: ping the local manifest, only register if it’s up
