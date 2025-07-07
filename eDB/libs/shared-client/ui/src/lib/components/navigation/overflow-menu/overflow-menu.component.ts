@@ -37,12 +37,15 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
     </cds-overflow-menu>
 
     <ng-template #customTriggerTemplate>
-      <ui-icon
-        [name]="icon()"
-        [size]="iconSize()"
-        [color]="iconColor()"
-        [fixedWidth]="true"
-      ></ui-icon>
+      <!-- wrapper adds the padding -->
+      <div class="p-[9px] flex items-center justify-center">
+        <ui-icon
+          [name]="icon()"
+          [size]="iconSize()"
+          [color]="iconColor()"
+          [fixedWidth]="true"
+        ></ui-icon>
+      </div>
     </ng-template>
   `,
 })
@@ -51,7 +54,7 @@ export class UiPlatformOverflowMenuComponent implements AfterViewInit {
   readonly menuOptions = input<{ id: string; label: string }[]>([]);
   readonly placement = input<'bottom' | 'top'>('bottom');
   readonly flip = input<boolean>(true);
-  readonly offset = input<{ x: number; y: number }>({ x: 0, y: 0 });
+  readonly offset = input<{ x: number; y: number }>({ x: 20, y: 0 });
   readonly icon = input<string>('');
   readonly iconSize = input<string>('1rem');
   readonly iconColor = input<string>('white');
