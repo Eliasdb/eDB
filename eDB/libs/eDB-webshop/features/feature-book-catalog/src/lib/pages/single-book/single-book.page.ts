@@ -47,7 +47,7 @@ import { UiButtonComponent } from '@edb/shared-ui';
   template: `
     <!-- ❶ LIGHT BACKGROUND -->
     <section
-      class="min-h-screen py-28 px-4"
+      class="min-h-screen py-28 pt-[12rem] px-4"
       style="background: var(--surface-primary)"
     >
       <!-- Loading / Error states -->
@@ -59,7 +59,7 @@ import { UiButtonComponent } from '@edb/shared-ui';
       <!-- Success -->
       <ng-container *ngIf="book() as book">
         <!-- ❷ BREADCRUMBS (raised z-index so always clickable) -->
-        <nav class="max-w-6xl mx-auto mb-6 relative z-[51] pointer-events-auto">
+        <nav class="max-w-6xl mx-auto mb-6 relative z-[49] pointer-events-auto">
           <ui-webshop-bread-crumbs [book]="book" />
         </nav>
 
