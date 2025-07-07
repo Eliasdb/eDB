@@ -27,10 +27,10 @@ import { UiTagComponent } from '../tag/tag.component';
         <div class="mb-3">
           <ui-icon-button
             buttonId="subscribe-btn"
-            size="md"
+            size="sm"
             icon="faDownload"
             iconSize="16px"
-            iconColor="#1f2937"
+            iconColor="var(--accent)"
             description="Subscribe"
             (click)="emitSubscribe()"
           ></ui-icon-button>
@@ -40,7 +40,7 @@ import { UiTagComponent } from '../tag/tag.component';
   `,
 })
 export class UiTileComponent {
-  readonly id = input<number>(0);
+  readonly id = input<number>();
   readonly title = input.required<string>();
   readonly description = input.required<string>();
   readonly tags = input<string[]>([]);
@@ -49,6 +49,6 @@ export class UiTileComponent {
   @Output() subscribe = new EventEmitter<number>();
 
   emitSubscribe() {
-    this.subscribe.emit(this.id());
+    this.subscribe.emit();
   }
 }

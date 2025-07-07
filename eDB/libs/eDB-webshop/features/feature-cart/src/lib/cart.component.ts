@@ -9,237 +9,248 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { OrderItem } from '@eDB-webshop/shared-types';
 import { QuantitySelectorComponent } from '@eDB-webshop/ui-webshop';
 import { UiButtonComponent } from '@edb/shared-ui';
-import { StructuredListModule } from 'carbon-components-angular';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
-  imports: [
-    StructuredListModule,
-    UiButtonComponent,
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    QuantitySelectorComponent,
-  ],
-  template: `
-    <!-- Desktop View -->
-    <div
-      @slideAnimation
-      class="fixed top-32 left-0 w-screen bg-[#F5F5F5] max-h-[30rem] overflow-y-auto shadow-md z-[9000] p-4 py-1"
-    >
-      @if (!isMobile) {
-        <section class="cart">
-          <cds-structured-list>
-            <cds-list-header>
-              <cds-list-column>Cover</cds-list-column>
-              <cds-list-column>Details</cds-list-column>
-              <cds-list-column>Quantity</cds-list-column>
-              <cds-list-column>Price</cds-list-column>
-              <cds-list-column>Remove</cds-list-column>
-            </cds-list-header>
-            @for (cartItem of cartItems(); track $index) {
-              <cds-list-row>
-                <cds-list-column class="p-4">
-                  <img
-                    [src]="cartItem.book.photoUrl"
-                    [alt]="cartItem.book.title"
-                    class="w-[100px] h-auto"
-                  />
-                </cds-list-column>
-                <cds-list-column>
-                  <div>
-                    <strong>{{ cartItem.book.title }}</strong>
-                  </div>
-                  <div>Author: {{ cartItem.book.author }}</div>
-                  <div>Year: {{ cartItem.book.publishedDate }}</div>
-                  <div>Genre: {{ cartItem.book.genre }}</div>
-                </cds-list-column>
-                <cds-list-column>
-                  <ui-webshop-quantity-selector
-                    [max]="cartItem.book.stock"
-                    (quantityChange)="updateQuantity(cartItem.id, $event)"
-                  ></ui-webshop-quantity-selector>
-                </cds-list-column>
-                <cds-list-column>
-                  {{
-                    cartItem.book.price * cartItem.selectedAmount
-                      | currency: 'EUR' : 'symbol'
-                  }}
-                </cds-list-column>
-                <cds-list-column>
-                  <ui-button size="sm" (buttonClick)="removeItem(cartItem.id)">
-                    Remove
-                  </ui-button>
-                </cds-list-column>
-              </cds-list-row>
-            }
-          </cds-structured-list>
-          <section class="flex justify-end mr-8">
-            <section
-              class="flex flex-col gap-4 border-2 border-solid border-gray-300 p-4 rounded-[0.25rem] my-8"
-            >
-              <section class="flex flex-col">
-                <h3>Total</h3>
-                <span>{{ totalPrice() | currency: 'EUR' : 'symbol' }}</span>
-              </section>
-              <ui-button size="sm" (buttonClick)="toggleCart()">
-                Proceed to checkout
-              </ui-button>
-            </section>
-          </section>
-        </section>
-      } @else {
-        @if (cartItems()?.length) {
-          @for (cartItem of cartItems(); track $index) {
-            <div
-              class="relative border border-solid p-4 bg-[#DBDBDB] rounded-[0.25rem] mt-4"
-            >
-              <!-- Floating Action Button positioned in the top right -->
-              <div class="absolute top-2 right-2 scale-[0.6]">
-                <button mat-mini-fab (click)="removeItem(cartItem.id)">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-              <div class="flex items-end">
-                <img
-                  [src]="cartItem.book.photoUrl"
-                  [alt]="cartItem.book.title"
-                  class="w-24 h-auto mr-4"
-                />
-                <div class="max-w-[9rem]">
-                  <h4 class="font-bold text-base  mb-4">
-                    {{ cartItem.book.title }}
-                  </h4>
-                  <div class="flex flex-col gap-2">
-                    <div>
-                      <p class="text-sm font-semibold m-0 ">Author</p>
-                      <span class="text-sm text-gray-600">{{
-                        cartItem.book.author
-                      }}</span>
-                    </div>
-                    <div>
-                      <p class="text-sm font-semibold m-0">Year</p>
-                      <span class="text-sm text-gray-600">{{
-                        cartItem.book.publishedDate
-                      }}</span>
-                    </div>
-                    <div>
-                      <p class="text-sm font-semibold m-0">Genre</p>
-                      <span class="text-sm text-gray-600">{{
-                        cartItem.book.genre
-                      }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex justify-between items-center">
-                <ui-webshop-quantity-selector
-                  [max]="cartItem.book.stock"
-                  (quantityChange)="updateQuantity(cartItem.id, $event)"
-                ></ui-webshop-quantity-selector>
-                <span class="text-sm font-semibold">
-                  {{
-                    cartItem.book.price * cartItem.selectedAmount
-                      | currency: 'EUR' : 'symbol'
-                  }}
-                </span>
-              </div>
-            </div>
-          }
-          <div class="border-t p-4">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-lg font-semibold">Total</h3>
-              <span class="text-lg font-semibold">
-                {{ totalPrice() | currency: 'EUR' : 'symbol' }}
-              </span>
-            </div>
-            <div class="flex justify-end">
-              <ui-button size="sm" (buttonClick)="toggleCart()">
-                Proceed to checkout
-              </ui-button>
-            </div>
-          </div>
-        } @else {
-          <p class="text-center py-2">Your cart is empty... Fill it! 🛒</p>
-        }
-      }
-    </div>
-    <!-- Mobile View -->
-  `,
-  styleUrls: ['cart.component.scss'],
+  standalone: true,
+  imports: [CommonModule, UiButtonComponent, QuantitySelectorComponent],
   animations: [
-    trigger('slideAnimation', [
+    trigger('fadeLift', [
       transition(':enter', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('300ms ease-out', style({ transform: 'translateY(0)' })),
+        style({ opacity: 0, transform: 'translateY(-0.75rem)' }),
+        animate(
+          '200ms ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' }),
+        ),
       ]),
       transition(':leave', [
-        style({ transform: 'translateY(0)' }),
-        animate('500ms ease-in', style({ transform: 'translateY(-100%)' })),
+        animate(
+          '200ms ease-in',
+          style({ opacity: 0, transform: 'translateY(-0.75rem)' }),
+        ),
       ]),
     ]),
   ],
+  template: `
+    @if (isCartVisible()) {
+      <!-- Back-drop -->
+      <div
+        class="fixed inset-0 z-[8999] bg-black/30 backdrop-blur-sm"
+        (click)="toggleCart()"
+      ></div>
+
+      <!-- Center container -->
+      <div
+        class="fixed inset-0 z-[9000] flex items-center justify-center px-4"
+        (click)="toggleCart()"
+      >
+        <!-- Panel -->
+        <aside
+          @fadeLift
+          (click)="$event.stopPropagation()"
+          class="w-full max-w-5xl rounded-lg bg-[var(--accent)]
+                 text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5"
+        >
+          @if (cartItems()?.length) {
+            <!-- Desktop table -->
+            <div class="hidden md:block max-h-[70vh] overflow-y-auto">
+              <table class="min-w-full divide-y divide-gray-200 text-sm">
+                <thead class="sticky top-0 bg-[var(--accent)]">
+                  <tr class="text-left font-semibold">
+                    <th class="px-2 py-1">Cover</th>
+                    <th class="px-2 py-1">Details</th>
+                    <th class="px-2 py-1 text-center whitespace-nowrap">Qty</th>
+                    <th class="px-2 py-1 text-right">Price</th>
+                    <th class="px-2 py-1"></th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+                  @for (item of cartItems(); track item.id) {
+                    <tr class="hover:bg-black/5 align-middle">
+                      <!-- Cover -->
+                      <td class="px-2 py-1 align-middle">
+                        <img
+                          [src]="item.book.photoUrl"
+                          [alt]="item.book.title"
+                          class="h-24 w-auto rounded-md object-cover shadow-sm"
+                        />
+                      </td>
+
+                      <!-- Details -->
+                      <td class="px-2 py-1 max-w-sm leading-snug align-middle">
+                        <p class="font-semibold">{{ item.book.title }}</p>
+                        <p class="text-xs opacity-70">
+                          {{ item.book.author }} • {{ item.book.publishedDate }}
+                        </p>
+                        <p class="text-xs opacity-60">
+                          Genre: {{ item.book.genre }}
+                        </p>
+                      </td>
+
+                      <!-- Quantity -->
+                      <td class="px-2 py-1 text-center align-middle">
+                        <ui-webshop-quantity-selector
+                          [max]="item.book.stock"
+                          (quantityChange)="updateQuantity(item.id, $event)"
+                        ></ui-webshop-quantity-selector>
+                      </td>
+
+                      <!-- Price -->
+                      <td
+                        class="px-2 py-1 text-right whitespace-nowrap align-middle"
+                      >
+                        {{
+                          item.book.price * item.selectedAmount
+                            | currency: 'EUR' : 'symbol'
+                        }}
+                      </td>
+
+                      <!-- Remove -->
+                      <td class="px-2 py-1 text-right align-middle">
+                        <ui-button
+                          size="sm"
+                          variant="ghost"
+                          (buttonClick)="removeItem(item.id)"
+                        >
+                          ✕
+                        </ui-button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile cards (unchanged) -->
+            <div class="md:hidden max-h-[70vh] space-y-3 overflow-y-auto p-4">
+              <!-- Replace <tbody> block: -->
+              @for (item of cartItems(); track item.id) {
+                <div class="flex items-center gap-6 py-3 px-4 hover:bg-black/5">
+                  <!-- Cover -->
+                  <img
+                    [src]="item.book.photoUrl"
+                    [alt]="item.book.title"
+                    class="h-24 w-auto rounded-md object-cover shadow-sm flex-shrink-0"
+                  />
+
+                  <!-- Details grows -->
+                  <div class="flex-1">
+                    <p class="font-semibold leading-tight">
+                      {{ item.book.title }}
+                    </p>
+                    <p class="text-xs opacity-70 leading-tight">
+                      {{ item.book.author }} • {{ item.book.publishedDate }}
+                    </p>
+                    <p class="text-xs opacity-60 leading-tight">
+                      Genre: {{ item.book.genre }}
+                    </p>
+                  </div>
+
+                  <!-- Qty -->
+                  <div class="w-28 text-center">
+                    <ui-webshop-quantity-selector
+                      [max]="item.book.stock"
+                      (quantityChange)="updateQuantity(item.id, $event)"
+                    ></ui-webshop-quantity-selector>
+                  </div>
+
+                  <!-- Price -->
+                  <div class="w-24 text-right font-medium whitespace-nowrap">
+                    {{
+                      item.book.price * item.selectedAmount
+                        | currency: 'EUR' : 'symbol'
+                    }}
+                  </div>
+
+                  <!-- Remove -->
+                  <ui-button
+                    size="sm"
+                    variant="ghost"
+                    (buttonClick)="removeItem(item.id)"
+                    class="ml-2"
+                    >✕</ui-button
+                  >
+                </div>
+              }
+            </div>
+
+            <!-- Summary -->
+            <div
+              class="flex flex-col items-end gap-4 border-t border-gray-200
+                     bg-[var(--accent)] px-6 py-3
+                     md:flex-row md:items-center md:justify-end"
+            >
+              <div class="text-lg font-semibold">
+                Total: {{ totalPrice() | currency: 'EUR' : 'symbol' }}
+              </div>
+              <ui-button size="sm" (buttonClick)="proceedToCheckout()">
+                Proceed to checkout
+              </ui-button>
+            </div>
+          } @else {
+            <p class="p-8 text-center text-sm opacity-70">
+              Your cart is empty… fill it 🛒
+            </p>
+          }
+        </aside>
+      </div>
+    }
+  `,
 })
 export class CartComponent implements OnInit, OnDestroy {
+  /* Inputs / Outputs */
   readonly cartItems = input<OrderItem[]>();
   readonly isCartVisible = input<boolean>(false);
 
-  @Output() showCart = new EventEmitter<Event>();
+  @Output() showCart = new EventEmitter<void>();
   @Output() cartItemDeleted = new EventEmitter<number>();
   @Output() quantityChanged = new EventEmitter<{
     id: number;
     quantity: number;
   }>();
+  @Output() checkoutClicked = new EventEmitter<void>();
 
-  isMobile: boolean = false;
-  private breakpointSub: Subscription = new Subscription();
+  /* Internal */
+  private sub = new Subscription();
+  isMobile = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private bo: BreakpointObserver) {}
 
   ngOnInit() {
-    this.breakpointSub = this.breakpointObserver
-      .observe(['(max-width: 768px)'])
-      .subscribe((result) => {
-        this.isMobile = result.matches;
-      });
+    this.sub = this.bo
+      .observe('(max-width: 768px)')
+      .subscribe((r) => (this.isMobile = r.matches));
   }
-
   ngOnDestroy() {
-    if (this.breakpointSub) {
-      this.breakpointSub.unsubscribe();
-    }
+    this.sub.unsubscribe();
   }
 
+  /* Handlers */
   toggleCart() {
     this.showCart.emit();
   }
-
-  removeItem(cartItemId: number) {
-    this.cartItemDeleted.emit(cartItemId);
+  removeItem(id: number) {
+    this.cartItemDeleted.emit(id);
+  }
+  updateQuantity(id: number, qty: number) {
+    this.quantityChanged.emit({ id, quantity: qty });
+  }
+  proceedToCheckout() {
+    this.checkoutClicked.emit();
   }
 
-  updateQuantity(cartItemId: number, newQuantity: number) {
-    // Update the selectedAmount for the specific cart item.
-    const items = this.cartItems();
-    const item = items?.find((i) => i.id === cartItemId);
-    if (item) {
-      item.selectedAmount = newQuantity;
-    }
-    this.quantityChanged.emit({ id: cartItemId, quantity: newQuantity });
-  }
-
+  /* Helper */
   totalPrice(): number {
     return (
       this.cartItems()?.reduce(
-        (acc, item) => acc + item.book.price * item.selectedAmount,
+        (sum, it) => sum + it.book.price * it.selectedAmount,
         0,
-      ) || 0
+      ) ?? 0
     );
   }
 }

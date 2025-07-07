@@ -22,7 +22,7 @@ namespace EDb.DataAccess.Data
             Name = "Webshop",
             Description = "Demo webshop",
             IconUrl = "/icons/appointments.png",
-            RoutePath = "/webshop/catalog",
+            RoutePath = "/webshop",
             Tags = ["Angular", "Laravel"],
           },
           new Application

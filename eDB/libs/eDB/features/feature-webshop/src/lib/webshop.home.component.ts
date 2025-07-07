@@ -31,10 +31,12 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
       ></ui-platform-subheader>
 
       @if (showCart) {
-        <section class="relative z-[200]">
+        <section class="relative">
           <app-cart
-            (cartItemDeleted)="onDeleteCartItem($event)"
             [cartItems]="cartItems()"
+            [isCartVisible]="showCart"
+            (showCart)="showCart = false"
+            (cartItemDeleted)="onDeleteCartItem($event)"
           ></app-cart>
         </section>
       }
