@@ -22,7 +22,7 @@ class Authenticate
 
         try {
             // 🔹 Fetch Keycloak JWKS (public keys)
-            $jwksUri = config('keycloak.jwks_url'); // Make sure this exists
+            $jwksUri = config('keycloak.jwks_url');
             $jwks = json_decode(file_get_contents($jwksUri), true);
 
             if (!$jwks || !isset($jwks['keys'])) {
