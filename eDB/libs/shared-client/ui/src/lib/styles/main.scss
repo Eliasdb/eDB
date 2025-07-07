@@ -26,6 +26,39 @@
   --cds-layer-hover-01: var(--accent);
   --cds-focus: transparent;
   --shadow-color: rgba(255, 255, 255, 0.1);
+
+  /* —— derived —— */
+  --surface-primary: var(--accent); /* page & section backgrounds   */
+  --surface-card: #ffffff; /* cards / sheets               */
+  --surface-hover: color-mix(
+    in srgb,
+    var(--accent) 90%,
+    #fff
+  ); /* subtle hover fill            */
+  --surface-selected: #d5e6fb; /* list row hover/selected      */
+
+  --text-primary: color-mix(
+    in srgb,
+    var(--accent-complimentary) 95%,
+    #000
+  ); /* 0.9 opacity black */
+  --text-secondary: color-mix(in srgb, var(--accent-complimentary) 75%, #000);
+  --text-inverted: var(--accent); /* on dark buttons              */
+
+  --border-subtle: #e2e8f0; /* card / field outlines        */
+
+  --button-primary-bg: var(--accent-complimentary);
+  --button-primary-fg: var(--accent);
+  --button-primary-bg--hover: color-mix(
+    in srgb,
+    var(--accent-complimentary) 85%,
+    #000
+  );
+  --button-primary-bg--active: color-mix(
+    in srgb,
+    var(--accent-complimentary) 70%,
+    #000
+  );
 }
 
 .cds--list-box__menu {
@@ -294,6 +327,13 @@ cds-skeleton-text p {
 
 .cds--overflow-menu {
   block-size: 5rem;
+  inline-size: 5rem;
+}
+
+.cds--overflow-menu-options[data-floating-menu-direction='bottom']:not(
+    .cds--breadcrumb-menu-options
+  )::after {
+  inline-size: 5rem;
 }
 
 @keyframes overlayFadeIn {
@@ -372,10 +412,6 @@ cds-skeleton-text p {
   margin: 0 auto;
 }
 
-.svg-inline--fa.fa-arrow-right {
-  vertical-align: 0em !important;
-}
-
 .cds--overflow-menu.cds--overflow-menu--open,
 .cds--overflow-menu.cds--overflow-menu--open .cds--overflow-menu__trigger,
 .cds--overflow-menu.cds--overflow-menu--open:hover {
@@ -394,6 +430,13 @@ cds--overflow-menu cds--btn--icon-only cds--btn cds--btn--ghost {
 .cds--btn--ghost:active {
   color: var(--accent-complimentary) / 10;
   background-color: var(--accent);
+}
+
+cds-header-global .cds--overflow-menu.cds--btn--ghost {
+  border-radius: 0 !important;
+}
+cds-header-global .cds--overflow-menu.cds--btn--ghost:hover {
+  background-color: #374151 !important;
 }
 
 .cds--btn--primary:hover {

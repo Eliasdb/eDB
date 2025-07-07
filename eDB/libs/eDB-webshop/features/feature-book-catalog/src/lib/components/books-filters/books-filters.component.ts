@@ -1,3 +1,6 @@
+/* ------------------------------------------------------------------
+   Filters - chip style, light theme
+-------------------------------------------------------------------*/
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -6,138 +9,180 @@ import {
   Input,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Genre, mappedGenres } from '@eDB-webshop/shared-data';
-import { UiButtonComponent } from '@edb/shared-ui';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 
+import { Genre, mappedGenres } from '@eDB-webshop/shared-data';
+import { UiButtonComponent } from '@edb/shared-ui';
+
 @Component({
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    FormsModule,
-    UiButtonComponent,
-    CommonModule,
-  ],
   selector: 'book-filters',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule,
+    UiButtonComponent,
+    FormsModule,
+  ],
   template: `
-    <section class="flex flex-col gap-4">
-      <!-- Search Input Container -->
-      <div class="max-w-full xl:max-w-[17rem]">
-        <h4 class="text-[13.5px] mb-[6px]">Title/Author</h4>
+    <section class="flex flex-col gap-6 text-sm">
+      <!-- ── Search ─────────────────────────────────────────── -->
+      <div>
+        <label class="block mb-1 font-medium text-black">Title / Author</label>
         <div
-          class="relative shadow-[0_2px_1px_-2px_rgba(0,0,0,0.2),0_0px_2px_0_rgba(0,0,0,0.14),0_0px_4px_0_rgba(0,0,0,0.12)] pl-8 bg-white rounded-[3px] hover:shadow-[0_0_0_0.1rem_#90EE90]"
+          class="relative flex items-center rounded border border-gray-300
+                 focus-within:border-accent-complimentary focus-within:ring-1
+                 focus-within:ring-accent-complimentary bg-white"
         >
-          <input
-            type="text"
-            placeholder="Search"
-            class="p-[0.3rem] bg-white rounded border border-transparent tracking-[0.075rem] outline-none"
-            [formControl]="searchControl"
+          <img
+            src="https://sapphire-zena-72.tiiny.site/search-icon.svg"
+            alt="search"
+            class="w-4 ml-3"
           />
-          <div>
-            <img
-              src="https://sapphire-zena-72.tiiny.site/search-icon.svg"
-              alt="search-icon"
-              class="w-4 absolute left-[11px] top-[11px]"
-            />
-          </div>
+          <input
+            [formControl]="searchControl"
+            placeholder="Search"
+            class="flex-1 px-3 py-[7px] rounded bg-transparent outline-none"
+          />
         </div>
       </div>
 
-      <!-- Genre Filters -->
-      <div
-        class="flex flex-row gap-4 justify-between items-center flex-wrap xl:flex-col xl:items-start xl:justify-start xl:gap-0"
-      >
-        <h4 class="text-[13.5px] w-full text-left m-0 xl:mb-[6px]">Genre</h4>
-        @for (genre of genres; track $index) {
+      <!-- ── Genre chips ────────────────────────────────────── -->
+      <div>
+        <p class="mb-2 font-medium">Genre</p>
+
+        <!-- scrollable row on phones, column on xl -->
+        <div
+          class="flex gap-2 overflow-x-auto scrollbar-hide
+                 xl:flex-col xl:overflow-visible"
+        >
           <button
-            class="capitalize tracking-[0.075rem] text-white cursor-pointer text-[13px] border bg-[#393939] p-2 rounded"
-            [ngClass]="
-              activeGenre === genre ? 'opacity-100 border-[#24262b]' : ''
-            "
+            *ngFor="let genre of genres"
             (click)="selectGenre(genre)"
+            [ngClass]="{
+              'chip--active': activeGenre === genre,
+            }"
+            class="chip"
           >
             {{ genre }}
           </button>
-        }
+        </div>
       </div>
 
-      <!-- Status Filter and Clear Button -->
-      <section class="flex justify-between xl:flex-col xl:gap-4">
-        <div>
-          <h4 class="text-[13.5px] mb-[6px]">Status</h4>
-          <mat-slide-toggle [(ngModel)]="isChecked" (change)="selectStatus()">
-            <span class="text-black">
-              {{ isChecked ? 'Available' : 'Unavailable' }}
-            </span>
-          </mat-slide-toggle>
-        </div>
-        <div class="mt-4">
-          <ui-button
-            size="md"
-            variant="tertiary"
-            (buttonClick)="clearFilters.emit(); isChecked = true"
-          >
-            Clear filters
-          </ui-button>
-        </div>
-      </section>
+      <!-- ── Status + clear ─────────────────────────────────── -->
+      <div class="flex items-center justify-between">
+        <mat-slide-toggle
+          [(ngModel)]="isChecked"
+          (change)="selectStatus()"
+          color="primary"
+        >
+          {{ isChecked ? 'Available' : 'Unavailable' }}
+        </mat-slide-toggle>
+
+        <ui-button
+          size="sm"
+          variant="tertiary"
+          (buttonClick)="clearFilters.emit(); isChecked = true"
+        >
+          Clear
+        </ui-button>
+      </div>
     </section>
   `,
+  /* ----------------------------------------------------------------
+     STYLES – self-contained, no custom Tailwind colours needed
+---------------------------------------------------------------- */
+  styles: [
+    `
+      :host {
+        display: block;
+        width: 100%;
+      }
+      @media (min-width: 1280px) {
+        /* xl */
+        :host {
+          width: 14rem;
+        }
+      }
+
+      /* hide scrollbar for horizontal chip row */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* ---------- Chip base ---------- */
+      .chip {
+        @apply whitespace-nowrap px-3 py-[6px] rounded-full
+             text-xs tracking-wide flex-shrink-0
+             transition-colors duration-150 border;
+
+        /* fallback colour tokens */
+        color: var(--accent-complimentary, #1f2937);
+        border-color: var(--accent-complimentary, #1f2937);
+        background: transparent;
+      }
+
+      /* hover (subtle tinted bg) */
+      .chip:hover {
+        background: color-mix(
+          in srgb,
+          var(--accent-complimentary, #1f2937) 10%,
+          transparent
+        );
+      }
+
+      /* active / selected */
+      .chip--active {
+        background: var(--accent-complimentary, #1f2937);
+        color: var(--accent, #ffffff);
+      }
+    `,
+  ],
 })
 export class BooksFiltersComponent implements OnInit {
-  protected isChecked = true;
-  private fb = inject(FormBuilder);
-  protected searchControl = this.fb.control('');
-  genres: Genre[] = mappedGenres;
-
+  /* ------------- Inputs / Outputs (unchanged) ------------- */
   @Input() set value(v: string | null) {
-    if (v !== this.searchControl.value) {
-      this.searchControl.setValue(v);
-    }
+    if (v !== this.searchControl.value) this.searchControl.setValue(v);
   }
-
   @Input() activeGenre: Genre | string | null = null;
   @Input() bookStatus: string | null = null;
+
   @Output() search = new EventEmitter<string>();
   @Output() filterGenre = new EventEmitter<string>();
   @Output() filterStatus = new EventEmitter<string>();
   @Output() clearFilters = new EventEmitter<void>();
 
-  selectGenre(genre: Genre) {
-    this.filterGenre.emit(genre);
-  }
+  /* ------------- internals ------------- */
+  genres = mappedGenres;
+  isChecked = true;
+  private fb = inject(FormBuilder);
+  searchControl = this.fb.control('');
 
-  selectStatus() {
-    if (this.isChecked) {
-      this.filterStatus.emit('available');
-    } else {
-      this.filterStatus.emit('loaned');
-    }
-  }
-
+  /* ------------- lifecycle ------------- */
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(
-        filter((s): s is string => s !== null),
-        debounceTime(300),
+        filter((v): v is string => v !== null),
+        debounceTime(250),
         distinctUntilChanged(),
       )
-      .subscribe((value) => {
-        this.search.emit(value);
-      });
+      .subscribe((v) => this.search.emit(v));
+
+    if (this.bookStatus === 'loaned') this.isChecked = false;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['bookStatus']) {
-      if (this.bookStatus && this.bookStatus === 'loaned') {
-        this.isChecked = false;
-      }
-    }
+  /* ------------- handlers ------------- */
+  selectGenre(genre: Genre) {
+    this.filterGenre.emit(genre);
+  }
+  selectStatus() {
+    this.filterStatus.emit(this.isChecked ? 'available' : 'loaned');
   }
 }
