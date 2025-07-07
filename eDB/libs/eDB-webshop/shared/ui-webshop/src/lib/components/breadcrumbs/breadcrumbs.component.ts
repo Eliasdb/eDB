@@ -9,9 +9,7 @@ import { UiIconComponent } from '@edb/shared-ui';
   imports: [MatIconModule, RouterLink, UiIconComponent],
   template: ` <section class="ml-4 flex items-center gap-2">
     <p class="title">
-      <a
-        class="underline underline-offset-4 text-inherit"
-        routerLink="/webshop/catalog"
+      <a class="underline underline-offset-4 text-inherit" routerLink="/webshop"
         >Books</a
       >
     </p>

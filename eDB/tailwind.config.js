@@ -6,6 +6,8 @@ module.exports = {
     extend: {
       colors: {
         border: 'hsl(100, 5%, 84%)', // or any other color
+        accent: 'var(--accent)', // very-light tint
+        'accent-complimentary': 'var(--accent-complimentary)', // slate-900
       },
     },
   },

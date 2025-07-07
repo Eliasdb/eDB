@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, input, model } from '@angular/core';
-import { HeaderModule } from 'carbon-components-angular';
+import { UiIconButtonComponent } from '../../buttons/icon-button/icon-button.component';
 
 interface OrderItem {
   id: number;
@@ -24,63 +24,46 @@ export interface Book {
 
 @Component({
   selector: 'ui-platform-subheader',
-  imports: [HeaderModule],
+  standalone: true,
+  imports: [UiIconButtonComponent],
   template: `
-    <cds-header [brand]="brandTemplate" [name]="name()" class="webshop-header">
-      <!-- Hamburger Menu (for mobile) -->
-      @if (hasHamburger()) {
-        <cds-hamburger (click)="hamburgerToggle.emit($event)"></cds-hamburger>
-      }
+    <header
+      class="fixed inset-x-0 top-20 z-50 flex items-center justify-end
+             px-6 py-3 border-b border-gray-200 bg-transparent"
+    >
+      <!-- Cart button – offset from top/left so the slide-in panel clears it -->
+      <div class="relative">
+        <ui-icon-button
+          icon="faShoppingCart"
+          [description]="'View cart'"
+          [iconSize]="'16px'"
+          [iconColor]="'var(--accent)'"
+          (click)="toggleCart()"
+          class="hover:scale-105 transition-transform"
+        ></ui-icon-button>
 
-      <cds-header-global>
-        <section class="action-bar-items">
-          <img
-            src="https://i.imghippo.com/files/SBfh8354yOw.png"
-            alt="icon"
-            class="launcher-icon"
-            tabindex="0"
-            role="button"
-            (click)="onOpenDialog(isDialogOpen())"
-            (keydown.enter)="onOpenDialog(isDialogOpen())"
-            (keydown.space)="onOpenDialog(isDialogOpen())"
-          />
-
-          <span class="amount">{{ cartItems()?.length }}</span>
-        </section>
-      </cds-header-global>
-    </cds-header>
-
-    <!-- Brand Template -->
-    <ng-template #brandTemplate>
-      <a class="cds--header__name">
-        <span class="cds--header__name--prefix">
-          <div class="logo">
-            <img
-              src="https://i.imghippo.com/files/GP7783eG.png"
-              alt="eDB logo"
-              width="70"
-              height="35"
-            />
-          </div>
-        </span>
-      </a>
-    </ng-template>
+        <!-- Badge -->
+        @if (cartItems()?.length) {
+          <span
+            class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
+                   rounded-full bg-red-500 text-xs font-medium text-white shadow-sm"
+          >
+            {{ cartItems()?.length }}
+          </span>
+        }
+      </div>
+    </header>
   `,
-  styleUrl: 'sub-header.component.scss',
 })
 export class UiPlatformSubHeaderComponent {
-  readonly name = input<string>('eDB');
-  readonly hasHamburger = input<boolean>(false);
   readonly cartItems = input<OrderItem[]>();
   isDialogOpen = model<boolean>(false);
 
-  @Output() hamburgerToggle = new EventEmitter<Event>();
-  @Output() linkClick = new EventEmitter<string>();
   @Output() openDialog = new EventEmitter<boolean>();
 
-  onOpenDialog(isDialogOpen: boolean) {
-    const newState = !isDialogOpen;
-    this.isDialogOpen.set(newState);
-    this.openDialog.emit(newState);
+  toggleCart() {
+    const next = !this.isDialogOpen();
+    this.isDialogOpen.set(next);
+    this.openDialog.emit(next);
   }
 }
