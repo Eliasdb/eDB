@@ -26,16 +26,8 @@ import { RouterModule } from '@angular/router';
           </a>
 
           <a
-            routerLink="settings"
-            class="p-6 rounded-xl bg-white border shadow hover:bg-gray-50 transition"
-          >
-            <h2 class="text-lg font-semibold mb-2">⚙️ Settings</h2>
-            <p class="text-sm text-gray-600">Manage CRM configuration</p>
-          </a>
-
-          <a
             routerLink="reports"
-            class="p-6 rounded-xl bg-white border shadow hover:bg-gray-50 transition"
+            class="p-6 rounded-xl bg-white border shadow hover:bg-gray-50 transition opacity-50 cursor-not-allowed"
           >
             <h2 class="text-lg font-semibold mb-2">📊 Reports</h2>
             <p class="text-sm text-gray-600">

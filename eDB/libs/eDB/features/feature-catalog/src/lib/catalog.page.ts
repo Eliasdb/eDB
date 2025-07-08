@@ -22,7 +22,7 @@ interface CatalogItem {
   providers: [NotificationService],
   template: `
     <section
-      class="relative bg-white flex flex-col items-center min-h-screen pt-20 overflow-hidden"
+      class="relative bg-slate-50 flex flex-col items-center min-h-screen pt-20 overflow-hidden"
     >
       <section
         class="relative z-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-6 bg-[#1f2937]"

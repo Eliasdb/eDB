@@ -9,7 +9,7 @@ import { UiTagComponent } from '../tag/tag.component';
   template: `
     <cds-tile
       [class.subscribed]="isSubscribed()"
-      class="relative flex flex-col min-w-[20rem]  transition-colors duration-1000 ease-linear border border-width-2 rounded-[0.375rem]"
+      class="relative flex flex-col min-w-[20rem] bg-white  transition-colors duration-1000 ease-linear border border-width-2 rounded-[0.375rem]"
     >
       <div class="flex flex-col gap-4 ">
         <h3 class="m-0 text-base text-[#1f2937] font-semibold">

@@ -380,7 +380,7 @@ cds-skeleton-text p {
 
 .cds--tile {
   /* --cds-layer: var(--accent); */
-  --cds-layer: transparent;
+  --cds-layer: white;
   padding: 1rem;
   border-radius: 0.375rem !important;
 }
@@ -455,4 +455,8 @@ cds-header-global .cds--overflow-menu.cds--btn--ghost:hover {
   * {
     @apply border-border;
   }
+}
+
+.cds--label {
+  --cds-text-secondary: white;
 }

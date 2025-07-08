@@ -127,7 +127,7 @@ export function PersonalInfoView({ userInfo }: Props) {
             Personal Information
           </h2>
         </div>
-        <section className="text-sm bg-white space-y-6">
+        <section className="text-sm bg-transparent space-y-6">
           {fields.map(({ key, defaultLabel }) => {
             const isName = key === 'firstName';
             const isEditingRow = editing === key;
@@ -172,7 +172,7 @@ export function PersonalInfoView({ userInfo }: Props) {
             Company
           </h2>
         </div>
-        <section className="text-sm bg-white space-y-6">
+        <section className="text-sm bg-transparent space-y-6">
           {(['jobTitle', 'company', 'industry'] as const).map((key) => {
             const label = key
               .replace(/([A-Z])/g, ' $1')
@@ -212,7 +212,7 @@ export function PersonalInfoView({ userInfo }: Props) {
           </h2>
         </div>
 
-        <div className="text-sm bg-white">
+        <div className="text-sm bg-transparent">
           <div
             className="
         border-t pt-6 pb-6 space-y-6
