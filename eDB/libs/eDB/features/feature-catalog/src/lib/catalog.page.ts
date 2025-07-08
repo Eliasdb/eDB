@@ -57,7 +57,6 @@ interface CatalogItem {
       </section>
     </section>
   `,
-  styles: [],
 })
 export class CatalogPageComponent {
   private catalogService = inject(CatalogService);
@@ -82,13 +81,21 @@ export class CatalogPageComponent {
   }
 
   onSubscribe(appId: number) {
+    const item = this.catalog().find((i) => i.id === appId);
+    const wasSubscribed = item?.isSubscribed ?? false;
+
     this.toggleSubscribeMutation.mutate(appId, {
       onSuccess: () => {
-        this.handleSubscriptionToggle();
-        console.log('Subscribed to app with ID:', appId);
+        if (wasSubscribed) {
+          this.handleUnSubscriptionToggle();
+          console.log('Unsubscribed from app with ID:', appId);
+        } else {
+          this.handleSubscriptionToggle();
+          console.log('Subscribed to app with ID:', appId);
+        }
       },
       onError: (error) => {
-        console.error('Failed to subscribe', error);
+        console.error('Failed to toggle subscription', error);
       },
     });
   }
@@ -97,7 +104,16 @@ export class CatalogPageComponent {
     this.notificationService.showNotification({
       type: 'success',
       title: 'Subscription',
-      message: 'Successful',
+      message: 'Successfully subscribed!',
+      duration: 4000,
+    });
+  }
+
+  private handleUnSubscriptionToggle(): void {
+    this.notificationService.showNotification({
+      type: 'error',
+      title: 'Subscription',
+      message: 'Successfully unsubscribed',
       duration: 4000,
     });
   }
