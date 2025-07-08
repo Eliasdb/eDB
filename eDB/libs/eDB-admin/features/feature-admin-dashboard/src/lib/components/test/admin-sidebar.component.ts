@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule, MatButtonModule, CommonModule],
   template: `
-    <nav class=" w-[16rem] bg-gray-900 text-white h-full flex flex-col p-4">
+    <nav class="w-[16rem] bg-gray-900 text-white h-full flex flex-col p-4">
       <section class="flex items-start justify-between pl-2">
         <!-- Left icon + text block -->
         <div class="flex items-center gap-2 mb-8 ">

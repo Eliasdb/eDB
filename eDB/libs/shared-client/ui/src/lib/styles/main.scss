@@ -450,3 +450,9 @@ cds-header-global .cds--overflow-menu.cds--btn--ghost:hover {
 .flatpickr-calendar.open {
   inline-size: 20rem;
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
