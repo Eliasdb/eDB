@@ -29,13 +29,15 @@ export interface NavItem {
       class="h-full w-[16rem] bg-gray-900 text-white flex flex-col p-4 pt-24"
     >
       <!-- ─── Brand row ───────────────────────────────────────────── -->
-      <section class="flex items-start justify-between mb-8 pl-1.5">
+      <section class="flex items-start justify-between mb-8 pl-2">
         <div class="flex items-center gap-2">
           <!-- Let parent provide an <svg>, otherwise show a tiny rectangle -->
           <ng-content select="[sidebarLogo]"></ng-content>
-          <div class="-mt-0.5 leading-tight">
+          <div class="leading-tight">
             <div class="text-sm font-semibold">{{ brandTitle }}</div>
-            <div class="text-xs text-gray-400">{{ brandSubtitle }}</div>
+            <div class="text-xs leading-[0.75rem] text-gray-400">
+              {{ brandSubtitle }}
+            </div>
           </div>
         </div>
 
