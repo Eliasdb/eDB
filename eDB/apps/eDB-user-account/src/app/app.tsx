@@ -38,12 +38,14 @@ import { fetchCustomAttributes, getToken } from '../services/user-service';
 import { useUserInfoQuery } from '../hooks/useUserInfoQuery';
 
 // Types
-import { UserInfo } from '../types/types';
+import { NavItem, UserInfo } from '../types/types';
 
 // External libs
 
 export default function App() {
-  const [selectedNavItem, setSelectedNavItem] = useState(sampleData.navMain[0]);
+  const [selectedNavItem, setSelectedNavItem] = useState<NavItem>(
+    sampleData.navMain[0],
+  );
   const [token, setToken] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
@@ -88,7 +90,7 @@ export default function App() {
   }
 
   return (
-    <main className="flex h-screen bg-background text-black">
+    <main className="flex h-screen bg-slate-50 text-black">
       <SidebarProvider>
         <AppSidebar
           onSelectProject={setSelectedNavItem}

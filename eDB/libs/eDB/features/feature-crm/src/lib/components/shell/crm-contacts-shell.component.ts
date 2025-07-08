@@ -36,11 +36,5 @@ export class CrmContactsShellComponent {
       route: 'contacts',
       icon: 'people',
     },
-    {
-      id: 'settings',
-      label: 'Settings',
-      route: 'settings',
-      icon: 'settings',
-    },
   ]);
 }

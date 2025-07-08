@@ -37,7 +37,7 @@ console.log('✅ Chart.js registered once in host:', Chart);
 
 @Component({
   selector: 'platform-admin',
-  template: ` <section class="admin-page">
+  template: ` <section class="admin-page ">
     <admin-dashboard />
     <!-- <admin-stats-container />
     <ui-content-switcher [options]="['Platform', 'Webshop']">

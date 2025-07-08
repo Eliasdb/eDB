@@ -55,9 +55,9 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
 
       <!-- Main Content -->
       <mat-drawer-content>
-        <div class="pt-0 bg-white text-black   min-h-[calc(100dvh-5rem)]">
+        <div class="pt-0 bg-slate-50 text-black   min-h-[calc(100dvh-5rem)]">
           <div
-            class="h-16 flex items-center justify-between border-b border-solid border-[#e5e7eb]"
+            class="h-16 bg-white flex items-center justify-between border-b border-solid border-[#e5e7eb]"
           >
             <div class="flex items-center gap-2 text-sm  ml-6">
               <svg
@@ -90,7 +90,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           </div>
 
           <ng-container *ngIf="currentView() === 'platform'">
-            <div class="p-4">
+            <div class="p-6">
               <h2 class="mb-4 text-2xl font-medium">Dashboard</h2>
 
               <!-- Metric Tiles -->
@@ -190,13 +190,15 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           </ng-container>
 
           <ng-container *ngIf="currentView() === 'webshop'">
-            <h2 class="mb-4 text-2xl font-bold">Webshop Dashboard</h2>
-            <cds-tile class="bg-[#262626] p-4 mb-4">
-              <p>
-                This is the Webshop view. You can add stats, charts, or other
-                widgets here.
-              </p>
-            </cds-tile>
+            <section class="p-6">
+              <h2 class="mb-4 text-2xl font-medium">Webshop Dashboard</h2>
+              <cds-tile class="bg-[#262626]  mb-4">
+                <p>
+                  This is the Webshop view. You can add stats, charts, or other
+                  widgets here.
+                </p>
+              </cds-tile>
+            </section>
           </ng-container>
         </div>
       </mat-drawer-content>
