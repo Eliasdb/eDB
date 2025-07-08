@@ -42,7 +42,7 @@ import { UiTagComponent } from '../tag/tag.component';
     `
       cds-tile.subscribed {
         background-color: var(--surface-primary); /* Tailwind emerald‑100 */
-        border-color: #10b981; /* Tailwind emerald‑500 */
+        border-color: var(--accent-complimentary); /* Tailwind emerald‑500 */
       }
     `,
   ],
