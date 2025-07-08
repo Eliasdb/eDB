@@ -56,154 +56,172 @@ import { ContactStatus } from './types/contact.types';
     MatIconModule,
   ],
   template: `
-    <section class="max-w-7xl mx-auto px-6 pb-14">
-      <!-- ░ Page title ░ -->
-      <h1 class="mb-10 text-2xl font-bold tracking-tight text-black">
-        Companies&nbsp;&amp;&nbsp;Contacts
-      </h1>
+    <section class="bg-slate-50 px-6 pb-28 pt-8 min-h-[calc(100dvh-9rem)]">
+      <section class="max-w-7xl mx-auto">
+        <!-- ░ Page title ░ -->
+        <h1 class="mb-10 text-2xl font-bold tracking-tight text-black">
+          Companies&nbsp;&amp;&nbsp;Contacts
+        </h1>
 
-      <!-- ░░ Companies ░░ -->
-      <header
-        class="mb-6 flex flex-col gap-4
+        <!-- ░░ Companies ░░ -->
+        <header
+          class="mb-6 flex flex-col gap-4
                sm:flex-row sm:items-end sm:justify-between text-black"
-      >
-        <div>
-          <h2 class="text-xl font-semibold">Companies</h2>
-          <p class="text-gray-500 text-sm">Snapshot of your accounts</p>
-        </div>
-
-        <ui-button
-          variant="ghost"
-          size="sm"
-          icon="faPlus"
-          (buttonClick)="openAddCompanyModal()"
         >
-          New&nbsp;Company
-        </ui-button>
-      </header>
+          <div>
+            <h2 class="text-xl font-semibold">Companies</h2>
+            <p class="text-gray-500 text-sm">Snapshot of your accounts</p>
+          </div>
 
-      <div
-        class="mb-8 grid gap-6"
-        [ngClass]="{
-          'grid-cols-1': true,
-          'sm:grid-cols-2': companies().length > 1,
-          'lg:grid-cols-3': companies().length > 2,
-        }"
-        *ngIf="companies().length; else noCompanies"
-      >
-        <button
-          *ngFor="let c of companies()"
-          class="group relative rounded-lg border p-5 text-left transition
-                 hover:shadow focus:outline-none focus:ring-2
-                 focus:ring-offset-2 focus:ring-blue-500"
-          [ngClass]="{
-            'border-blue-600 bg-blue-50 shadow-sm':
-              selectedCompany() === c.name,
-          }"
-          (click)="filterByCompany(c.name)"
-        >
-          <h3 class="font-medium text-gray-900 group-hover:text-gray-700">
-            {{ c.name }}
-          </h3>
-          <p class="mt-1 text-xs text-gray-500">
-            {{ c.contactCount }} contact<span *ngIf="c.contactCount !== 1"
-              >s</span
-            >
-          </p>
-
-          <!-- opens the company sidebar -->
-          <ui-icon-button
-            icon="faPen"
-            kind="ghost"
+          <ui-button
+            variant="ghost"
             size="sm"
-            description="Edit company"
-            class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
-            (iconButtonClick)="openCompanySidebar(c); $event.stopPropagation()"
-          />
-        </button>
-      </div>
+            icon="faPlus"
+            (buttonClick)="openAddCompanyModal()"
+          >
+            New&nbsp;Company
+          </ui-button>
+        </header>
 
-      <!-- clear-filter chip -->
-      <div class="mb-10" *ngIf="selectedCompany()">
-        <ui-button
-          variant="ghost"
-          size="sm"
-          icon="faTimes"
-          (buttonClick)="clearCompanyFilter()"
+        <div
+          class="mb-8 grid gap-6"
+          [ngClass]="{
+            'grid-cols-1': true,
+            'sm:grid-cols-2': companies().length > 1,
+            'lg:grid-cols-3': companies().length > 2,
+          }"
+          *ngIf="companies().length; else noCompanies"
         >
-          Showing&nbsp;“{{ selectedCompany() }}” – Clear
-        </ui-button>
-      </div>
+          <button
+            *ngFor="let c of companies()"
+            class="group relative rounded-lg border p-5 text-left transition
+                 hover:shadow focus:outline-none focus:ring-2
+                 focus:ring-offset-2 focus:ring-blue-500 bg-white"
+            [ngClass]="{
+              'border-blue-600 bg-blue-50 shadow-sm':
+                selectedCompany() === c.name,
+            }"
+            (click)="filterByCompany(c.name)"
+          >
+            <h3 class="font-medium text-gray-900 group-hover:text-gray-700">
+              {{ c.name }}
+            </h3>
+            <p class="mt-1 text-xs text-gray-500">
+              {{ c.contactCount }} contact<span *ngIf="c.contactCount !== 1"
+                >s</span
+              >
+            </p>
 
-      <ng-template #noCompanies>
-        <p class="mb-10 text-sm text-gray-500">
-          No companies yet – add one to get started.
-        </p>
-      </ng-template>
-
-      <!-- ░░ Contacts ░░ -->
-      <header class="mb-4 flex items-center justify-between text-black">
-        <div>
-          <h2 class="text-xl font-semibold">Contacts</h2>
-          <p class="text-gray-500 text-sm">All business contacts</p>
+            <!-- opens the company sidebar -->
+            <ui-icon-button
+              icon="faPen"
+              kind="ghost"
+              size="sm"
+              description="Edit company"
+              class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
+              (iconButtonClick)="
+                openCompanySidebar(c); $event.stopPropagation()
+              "
+            />
+          </button>
         </div>
 
-        <ui-button
-          variant="primary"
-          size="sm"
-          icon="faPlus"
-          (buttonClick)="openAddContactModal()"
+        <!-- clear-filter chip -->
+        <div class="mb-10" *ngIf="selectedCompany()">
+          <ui-button
+            variant="ghost"
+            size="sm"
+            icon="faTimes"
+            (buttonClick)="clearCompanyFilter()"
+          >
+            Showing&nbsp;“{{ selectedCompany() }}” – Clear
+          </ui-button>
+        </div>
+
+        <ng-template #noCompanies>
+          <p class="mb-10 text-sm text-gray-500">
+            No companies yet – add one to get started.
+          </p>
+        </ng-template>
+
+        <!-- ░░ Contacts ░░ -->
+        <header class="mb-4 flex items-center justify-between text-black">
+          <div>
+            <h2 class="text-xl font-semibold">Contacts</h2>
+            <p class="text-gray-500 text-sm">All business contacts</p>
+          </div>
+
+          <ui-button
+            variant="primary"
+            size="sm"
+            icon="faPlus"
+            (buttonClick)="openAddContactModal()"
+          >
+            New&nbsp;Contact
+          </ui-button>
+        </header>
+
+        <ui-table
+          [model]="displayedModel()"
+          [showToolbar]="true"
+          [showButton]="false"
+          [showHeader]="false"
+          searchPlaceholder="Search contacts…"
+          tableSize="sm"
+          (rowClicked)="handleRowClick($event)"
         >
-          New&nbsp;Contact
-        </ui-button>
-      </header>
+        </ui-table>
 
-      <ui-table
-        [model]="displayedModel()"
-        [showToolbar]="true"
-        [showButton]="false"
-        [showHeader]="false"
-        searchPlaceholder="Search contacts…"
-        tableSize="sm"
-        (rowClicked)="handleRowClick($event)"
-      >
-      </ui-table>
+        <!-- ░░ Sidebars ░░ -->
+        <crm-contact-sidebar
+          #contactSidebar
+          (closed)="onContactSidebarClosed()"
+        >
+        </crm-contact-sidebar>
 
-      <!-- ░░ Sidebars ░░ -->
-      <crm-contact-sidebar #contactSidebar (closed)="onContactSidebarClosed()">
-      </crm-contact-sidebar>
+        <crm-company-sidebar
+          #companySidebar
+          (closed)="onCompanySidebarClosed()"
+        >
+        </crm-company-sidebar>
 
-      <crm-company-sidebar #companySidebar (closed)="onCompanySidebarClosed()">
-      </crm-company-sidebar>
+        <!-- ░░ Modals ░░ -->
+        <ng-template #addContactForm>
+          <form [formGroup]="addContactFormGroup" class="space-y-4">
+            <ui-text-input label="Name" formControlName="name" theme="light" />
+            <ui-text-input
+              label="Email"
+              formControlName="email"
+              theme="light"
+            />
+            <ui-text-input
+              label="Phone"
+              formControlName="phone"
+              theme="light"
+            />
+            <ui-text-input
+              label="Company"
+              formControlName="company"
+              theme="light"
+            />
+            <ui-text-input
+              label="Status"
+              formControlName="status"
+              theme="light"
+            />
+          </form>
+        </ng-template>
 
-      <!-- ░░ Modals ░░ -->
-      <ng-template #addContactForm>
-        <form [formGroup]="addContactFormGroup" class="space-y-4">
-          <ui-text-input label="Name" formControlName="name" theme="light" />
-          <ui-text-input label="Email" formControlName="email" theme="light" />
-          <ui-text-input label="Phone" formControlName="phone" theme="light" />
-          <ui-text-input
-            label="Company"
-            formControlName="company"
-            theme="light"
-          />
-          <ui-text-input
-            label="Status"
-            formControlName="status"
-            theme="light"
-          />
-        </form>
-      </ng-template>
-
-      <ng-template #addCompanyForm>
-        <form [formGroup]="addCompanyFormGroup" class="space-y-4">
-          <ui-text-input
-            label="Company name"
-            formControlName="company"
-            theme="light"
-          />
-        </form>
-      </ng-template>
+        <ng-template #addCompanyForm>
+          <form [formGroup]="addCompanyFormGroup" class="space-y-4">
+            <ui-text-input
+              label="Company name"
+              formControlName="company"
+              theme="light"
+            />
+          </form>
+        </ng-template>
+      </section>
     </section>
   `,
 })

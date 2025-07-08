@@ -54,3 +54,22 @@ cds-header.webshop-header header.cds--header {
   border-top-left-radius: 0;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
+
+ibm-toast {
+  position: fixed !important;
+  bottom: 2rem !important;
+  right: 2rem !important;
+  z-index: 9999 !important;
+  animation: slide-up 300ms ease-out !important;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

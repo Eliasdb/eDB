@@ -29,7 +29,7 @@
     </#if>
     <#if properties.styles?has_content>
         <#list properties.styles?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}?v=2" rel="stylesheet" />
+            <link href="${url.resourcesPath}/${style}?v=3" rel="stylesheet" />
         </#list>
     </#if>
     <#if properties.scripts?has_content>
