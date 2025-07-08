@@ -78,9 +78,7 @@ export class CatalogPageComponent {
   ];
 
   protected catalog = this.catalogService.catalog;
-  // protected isLoading = this.catalogService.isLoading;
-  protected isLoading = () => true; // Force loading state for testing
-
+  protected isLoading = this.catalogService.isLoading;
   protected error = this.catalogService.error;
 
   private toggleSubscribeMutation =
