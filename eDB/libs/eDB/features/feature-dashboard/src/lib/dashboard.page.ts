@@ -12,7 +12,7 @@ import { SubscriptionsCollectionContainer } from './components/subscription-coll
     I18nModule, // ✅ add this!
   ],
   template: `
-    <section class="pt-[7rem]">
+    <section class="min-h-screen pt-[7rem] bg-slate-50">
       <div class="px-6 flex flex-col gap-8">
         <!-- Title Section -->
         <section class="title">
