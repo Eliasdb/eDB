@@ -38,6 +38,14 @@ import { UiTagComponent } from '../tag/tag.component';
       </div>
     </cds-tile>
   `,
+  styles: [
+    `
+      cds-tile.subscribed {
+        background-color: var(--surface-primary); /* Tailwind emerald‑100 */
+        border-color: #10b981; /* Tailwind emerald‑500 */
+      }
+    `,
+  ],
 })
 export class UiTileComponent {
   readonly id = input<number>();
