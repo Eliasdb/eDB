@@ -31,10 +31,10 @@ interface CatalogItem {
       class="relative bg-slate-50 flex flex-col items-center min-h-screen pt-20 overflow-hidden"
     >
       <section
-        class="relative z-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-6 bg-[#1f2937]"
+        class="relative z-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 pb-6 bg-[var(--accent)]"
       >
         <section>
-          <h1 class="my-4 mt-8 text-3xl text-white">Catalog</h1>
+          <h1 class="my-4 mt-8 text-3xl text-black">Catalog</h1>
           <ui-combobox label="Filter by tags." [items]="items"></ui-combobox>
         </section>
       </section>
