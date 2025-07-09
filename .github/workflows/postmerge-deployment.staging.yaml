@@ -150,9 +150,9 @@ jobs:
                   sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
                     k8s/staging/webshop-api/api.deployment.template.staging.yaml \
                     > k8s/staging/webshop-api/api.deployment.staging.yaml
-            - run: kubectl apply --dry-run=client -f k8s/staging/webshop-api/api-deployment.staging.yaml
+            - run: kubectl apply --dry-run=client -f k8s/staging/webshop-api/api.deployment.staging.yaml
             - run: |
-                  kubectl apply -f k8s/staging/webshop-api/api-deployment.staging.yaml
+                  kubectl apply -f k8s/staging/webshop-api/api.deployment.staging.yaml
                   kubectl rollout status deployment/webshop-api-staging || kubectl rollout undo deployment/webshop-api-staging
 
     # ─────────────────────────────────────────────────────────────────────────────
