@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, model, Output } from '@angular/core';
+import { Component, Input, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule, MatButtonModule],
   template: `
-    <div class="flex self-center items-center justify-center">
+    <div class="flex items-center justify-center">
       <button
         mat-mini-fab
         aria-label="Decrement quantity"
@@ -16,31 +16,36 @@ import { MatIconModule } from '@angular/material/icon';
       >
         <mat-icon>remove</mat-icon>
       </button>
+
       <span>{{ quantity() }}</span>
-      <button mat-mini-fab (click)="increment()" class="scale-[0.5]">
+
+      <button
+        mat-mini-fab
+        aria-label="Increment quantity"
+        (click)="increment()"
+        class="scale-[0.5]"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </div>
   `,
 })
 export class QuantitySelectorComponent {
-  quantity = model<number>(1);
-  max = input<number>();
+  /** Two-way bound model – usable with [(quantity)] */
+  quantity = model<number>(0);
 
-  @Output() quantityChange = new EventEmitter<number>();
+  /** Optional upper limit for the counter */
+  @Input() max?: number;
 
   increment() {
-    // Allow increment only if current quantity is less than the maximum (or max is undefined)
-    if (this.quantity() < (this.max() ?? Infinity)) {
-      this.quantity.update((current) => current + 1);
-      this.quantityChange.emit(this.quantity());
+    if (this.quantity() < (this.max ?? Infinity)) {
+      this.quantity.update((v) => v + 1); // fires quantityChange automatically
     }
   }
 
   decrement() {
     if (this.quantity() > 1) {
-      this.quantity.update((current) => current - 1);
-      this.quantityChange.emit(this.quantity());
+      this.quantity.update((v) => v - 1);
     }
   }
 }

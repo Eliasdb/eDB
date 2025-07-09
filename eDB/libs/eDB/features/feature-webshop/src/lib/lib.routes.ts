@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { SingleBookPage } from './single-book.page';
 import { WebshopAppComponent } from './webshop.home.component';
 
 export const featureWebshopRoutes: Route[] = [
@@ -8,11 +9,14 @@ export const featureWebshopRoutes: Route[] = [
     children: [
       {
         path: '',
+
         loadChildren: () =>
           import('@eDB-webshop/feature-book-catalog').then(
             (m) => m.featureBookCatalogRoutes,
           ),
       },
+      { path: 'books/:id', component: SingleBookPage },
+
       {
         path: 'checkout',
         loadChildren: () =>
