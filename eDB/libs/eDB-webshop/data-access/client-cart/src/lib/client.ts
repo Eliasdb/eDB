@@ -57,7 +57,7 @@ export class CartService {
       mutationFn: (payload) => {
         const body = {
           id: payload.id,
-          selected_amount: payload.selectedAmount,
+          selectedAmount: payload.selectedAmount,
         } as const;
         return firstValueFrom(
           this.http.post<CartResponse>(
@@ -122,7 +122,7 @@ export class CartService {
         switchMap(() =>
           this.http.patch<CartResponse>(
             `${environment.bookAPIUrl}/cart/items/${cartItemId}`,
-            { selected_amount: quantity },
+            { selectedAmount: quantity },
           ),
         ),
       )
