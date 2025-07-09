@@ -1,6 +1,3 @@
-/* ------------------------------------------------------------------
-   Filters - chip style, light theme
--------------------------------------------------------------------*/
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -9,13 +6,13 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 
 import { Genre, mappedGenres } from '@eDB-webshop/shared-data';
-import { UiButtonComponent } from '@edb/shared-ui';
+import { UiButtonComponent, UiToggleComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'book-filters',
@@ -23,7 +20,7 @@ import { UiButtonComponent } from '@edb/shared-ui';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatSlideToggleModule,
+    UiToggleComponent,
     UiButtonComponent,
     FormsModule,
   ],
@@ -52,9 +49,8 @@ import { UiButtonComponent } from '@edb/shared-ui';
 
       <!-- ── Genre chips ────────────────────────────────────── -->
       <div>
-        <p class="mb-2 font-medium">Genre</p>
+        <p class="mb-2 font-medium text-sm">Genre</p>
 
-        <!-- scrollable row on phones, column on xl -->
         <div
           class="flex gap-2 overflow-x-auto scrollbar-hide
                  xl:flex-col xl:overflow-visible"
@@ -73,28 +69,31 @@ import { UiButtonComponent } from '@edb/shared-ui';
       </div>
 
       <!-- ── Status + clear ─────────────────────────────────── -->
-      <div class="flex items-center justify-between">
-        <mat-slide-toggle
-          [(ngModel)]="isChecked"
-          (change)="selectStatus()"
-          color="primary"
-        >
-          {{ isChecked ? 'Available' : 'Unavailable' }}
-        </mat-slide-toggle>
+      <div class="flex flex-col gap-3 text-black mt-4">
+        <div class="flex items-center justify-between ">
+          <span class="font-medium">Available</span>
+          <ui-toggle
+            [label]="''"
+            [onText]="'Yes'"
+            [offText]="'No'"
+            [checked]="isChecked()"
+            (checkedChange)="onToggleChange($event)"
+          />
+        </div>
 
-        <ui-button
-          size="sm"
-          variant="tertiary"
-          (buttonClick)="clearFilters.emit(); isChecked = true"
-        >
-          Clear
-        </ui-button>
+        <div class="w-[14rem] self-end mt-4">
+          <ui-button
+            size="sm"
+            variant="tertiary"
+            [fullWidth]="true"
+            (buttonClick)="clearFilters.emit(); isChecked.set(true)"
+          >
+            Clear filters
+          </ui-button>
+        </div>
       </div>
     </section>
   `,
-  /* ----------------------------------------------------------------
-     STYLES – self-contained, no custom Tailwind colours needed
----------------------------------------------------------------- */
   styles: [
     `
       :host {
@@ -102,13 +101,11 @@ import { UiButtonComponent } from '@edb/shared-ui';
         width: 100%;
       }
       @media (min-width: 1280px) {
-        /* xl */
         :host {
           width: 14rem;
         }
       }
 
-      /* hide scrollbar for horizontal chip row */
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
@@ -117,28 +114,25 @@ import { UiButtonComponent } from '@edb/shared-ui';
         scrollbar-width: none;
       }
 
-      /* ---------- Chip base ---------- */
       .chip {
-        @apply whitespace-nowrap px-3 py-[6px] rounded-full
+        @apply whitespace-nowrap px-3 py-[6px] rounded-md
              text-xs tracking-wide flex-shrink-0
              transition-colors duration-150 border;
 
-        /* fallback colour tokens */
         color: var(--accent-complimentary, #1f2937);
         border-color: var(--accent-complimentary, #1f2937);
         background: transparent;
       }
 
-      /* hover (subtle tinted bg) */
       .chip:hover {
         background: color-mix(
           in srgb,
-          var(--accent-complimentary, #1f2937) 10%,
+          var(--accent-complimentary, #1f2937) 90%,
           transparent
         );
+        color: white;
       }
 
-      /* active / selected */
       .chip--active {
         background: var(--accent-complimentary, #1f2937);
         color: var(--accent, #ffffff);
@@ -147,7 +141,6 @@ import { UiButtonComponent } from '@edb/shared-ui';
   ],
 })
 export class BooksFiltersComponent implements OnInit {
-  /* ------------- Inputs / Outputs (unchanged) ------------- */
   @Input() set value(v: string | null) {
     if (v !== this.searchControl.value) this.searchControl.setValue(v);
   }
@@ -159,13 +152,11 @@ export class BooksFiltersComponent implements OnInit {
   @Output() filterStatus = new EventEmitter<string>();
   @Output() clearFilters = new EventEmitter<void>();
 
-  /* ------------- internals ------------- */
   genres = mappedGenres;
-  isChecked = true;
+  isChecked = signal(true);
   private fb = inject(FormBuilder);
   searchControl = this.fb.control('');
 
-  /* ------------- lifecycle ------------- */
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(
@@ -175,14 +166,15 @@ export class BooksFiltersComponent implements OnInit {
       )
       .subscribe((v) => this.search.emit(v));
 
-    if (this.bookStatus === 'loaned') this.isChecked = false;
+    if (this.bookStatus === 'loaned') this.isChecked.set(false);
   }
 
-  /* ------------- handlers ------------- */
   selectGenre(genre: Genre) {
     this.filterGenre.emit(genre);
   }
-  selectStatus() {
-    this.filterStatus.emit(this.isChecked ? 'available' : 'loaned');
+
+  onToggleChange(value: boolean) {
+    this.isChecked.set(value);
+    this.filterStatus.emit(value ? 'available' : 'loaned');
   }
 }
