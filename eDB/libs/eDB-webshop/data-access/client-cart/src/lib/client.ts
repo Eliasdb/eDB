@@ -1,85 +1,137 @@
+// ─────────────────────────────────────────────────────────────
+// cart.service.ts — renamed Order* types to Cart*
+// ─────────────────────────────────────────────────────────────
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import {
-  Book,
+  CartApiResponse,
+  CartItem,
   CartItemCreateRequest,
-  OrderApiResponse,
 } from '@eDB-webshop/shared-types';
 import { environment } from '@eDB/shared-env';
 import {
   injectMutation,
   injectQuery,
+  MutationOptions,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+/** Backend returns { data: Cart } */
+type CartResponse = CartApiResponse;
+
+@Injectable({ providedIn: 'root' })
 export class CartService {
-  private http = inject(HttpClient);
-  private queryClient = inject(QueryClient);
+  private readonly http = inject(HttpClient);
+  private readonly queryClient = inject(QueryClient);
 
-  public selectedAmount = signal<number>(1);
-
-  private cartResult = injectQuery(() => ({
+  // ───────── QUERY: whole cart ─────────
+  private readonly cartQuery = injectQuery<CartResponse>(() => ({
     queryKey: ['cart'],
-    queryFn: async () =>
-      await firstValueFrom(
-        this.http.get<OrderApiResponse>(`${environment.bookAPIUrl}/cart`),
+    queryFn: () =>
+      firstValueFrom(
+        this.http.get<CartResponse>(`${environment.bookAPIUrl}/cart`),
       ),
     refetchOnWindowFocus: false,
   }));
 
-  cart = computed(() => this.cartResult.data?.() || []);
-  cartItems = computed(() => {
-    const response = this.cartResult.data?.();
+  // derived signals
+  readonly cart = computed(() => this.cartQuery.data?.()?.data);
+  readonly cartItems = computed(() => this.cart()?.items ?? []);
+  readonly isLoading = computed(() => this.cartQuery.isLoading?.() ?? false);
+  readonly error = computed(() => this.cartQuery.error?.()?.message ?? null);
 
-    return response?.data?.items || [];
-  });
+  // ───────── helpers ─────────
+  getItemByBookId(id: number): CartItem | undefined {
+    return this.cartItems().find((it) => it.bookId === id);
+  }
 
-  isLoading = computed(() => this.cartResult.isLoading?.());
-  error = computed(() => this.cartResult.error?.()?.message || null);
-
-  // Update mutation to accept the minimal payload
-  readonly addToCartMutation = injectMutation(() => ({
-    mutationFn: async (payload: CartItemCreateRequest) => {
-      const updatedCart = await firstValueFrom(
-        this.http.post<OrderApiResponse>(
-          `${environment.bookAPIUrl}/cart/items`,
-          payload,
-        ),
-      );
-      if (!updatedCart) {
-        throw new Error('Failed to update cart');
-      }
-      console.log(updatedCart);
-      return updatedCart;
-    },
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
-  }));
-
+  // ───────── mutation: add line (POST) ─────────
+  private readonly addToCartMutation = injectMutation<
+    CartResponse,
+    Error,
+    CartItemCreateRequest
+  >(
+    (): MutationOptions<CartResponse, Error, CartItemCreateRequest> => ({
+      mutationFn: (payload) => {
+        const body = {
+          id: payload.id,
+          selected_amount: payload.selectedAmount,
+        } as const;
+        return firstValueFrom(
+          this.http.post<CartResponse>(
+            `${environment.bookAPIUrl}/cart/items`,
+            body,
+          ),
+        );
+      },
+      onSuccess: () =>
+        this.queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    }),
+  );
   addToCart(payload: CartItemCreateRequest) {
-    // Execute the mutation with the provided payload (just id and selectedAmount)
     this.addToCartMutation.mutate(payload);
   }
 
-  readonly removeFromCartMutation = injectMutation(() => ({
-    mutationFn: async (cartItemId: number) => {
-      return firstValueFrom(
-        this.http.delete<Book>(
-          `${environment.bookAPIUrl}/cart/items/${cartItemId}`,
+  // ───────── mutation: remove line (DELETE) ─────────
+  private readonly removeFromCartMutation = injectMutation<
+    CartResponse,
+    Error,
+    number
+  >(
+    (): MutationOptions<CartResponse, Error, number> => ({
+      mutationFn: (cartItemId) =>
+        firstValueFrom(
+          this.http.delete<CartResponse>(
+            `${environment.bookAPIUrl}/cart/items/${cartItemId}`,
+          ),
         ),
-      );
-    },
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
-  }));
-
+      onSuccess: () =>
+        this.queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    }),
+  );
   removeFromCart(cartItemId: number) {
     this.removeFromCartMutation.mutate(cartItemId);
+  }
+
+  // ───────── mutation: update quantity (PATCH) ─────────
+  private readonly _saveSubs = new Map<number, Subscription>();
+  updateItemQuantity(bookId: number, quantity: number) {
+    const line = this.getItemByBookId(bookId);
+    if (!line) return;
+
+    const cartItemId = line.id;
+    const oldCart = this.queryClient.getQueryData<CartResponse>(['cart']);
+    if (!oldCart) return;
+
+    const newCart: CartResponse = {
+      ...oldCart,
+      data: {
+        ...oldCart.data,
+        items: oldCart.data.items.map((it) =>
+          it.id === cartItemId ? { ...it, selectedAmount: quantity } : it,
+        ),
+      },
+    };
+    this.queryClient.setQueryData(['cart'], newCart);
+
+    this._saveSubs.get(cartItemId)?.unsubscribe();
+    const sub = timer(400)
+      .pipe(
+        switchMap(() =>
+          this.http.patch<CartResponse>(
+            `${environment.bookAPIUrl}/cart/items/${cartItemId}`,
+            { selected_amount: quantity },
+          ),
+        ),
+      )
+      .subscribe({
+        next: () => this.queryClient.invalidateQueries({ queryKey: ['cart'] }),
+        error: () => {
+          this.queryClient.setQueryData(['cart'], oldCart);
+        },
+      });
+    this._saveSubs.set(cartItemId, sub);
   }
 }
