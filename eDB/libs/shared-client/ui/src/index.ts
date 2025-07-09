@@ -1,3 +1,5 @@
+export { UiToggleComponent } from './lib/components/toggle/toggle.component';
+
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';

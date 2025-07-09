@@ -473,3 +473,12 @@ cds-header-global .cds--overflow-menu.cds--btn--ghost:hover {
   --cds-background-inverse: var(--accent-complimentary);
   margin-bottom: 0.5rem;
 }
+
+.cds--btn--tertiary {
+  --cds-button-tertiary: var(--accent-complimentary);
+}
+
+.cds--btn--tertiary:hover {
+  --cds-text-inverse: var(--accent-complimentary);
+  --cds-button-tertiary-hover: var(--accent);
+}

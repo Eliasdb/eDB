@@ -35,8 +35,10 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
         <button
           type="button"
           (click)="toggleShow(false)"
-          class="bg-transparent border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
-          [ngClass]="{ 'bg-black text-white': !showList() }"
+          class="border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
+          [ngClass]="{
+            'bg-[var(--accent-complimentary)] text-slate-50': !showList(),
+          }"
         >
           <svg
             stroke="currentColor"
@@ -56,8 +58,10 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
         <button
           type="button"
           (click)="toggleShow(true)"
-          class="bg-transparent border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
-          [ngClass]="{ 'bg-black text-white': showList() }"
+          class="border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
+          [ngClass]="{
+            'bg-[var(--accent-complimentary)] text-slate-50': showList(),
+          }"
         >
           <svg
             stroke="currentColor"

@@ -16,7 +16,6 @@ import {
 } from '@eDB-webshop/util-book-params';
 
 import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
-import { UiLoadingSpinnerComponent } from '@edb/shared-ui';
 import {
   BooksCollectionGridOverviewComponent,
   BooksCollectionListOverviewComponent,
@@ -25,95 +24,68 @@ import {
 } from './components/index';
 
 @Component({
+  selector: 'books-container',
+  standalone: true,
   imports: [
     BooksCollectionGridOverviewComponent,
     BooksCollectionListOverviewComponent,
     BooksFiltersComponent,
     BooksSortBarComponent,
     LoadingStateComponent,
-    UiLoadingSpinnerComponent,
   ],
-  selector: 'books-container',
   template: `
     <section
-      class="flex flex-col items-center mt-[14rem] max-w-[90%] xl:max-w-[60%] mx-auto"
+      class="flex flex-col gap-10 xl:gap-24 xl:flex-row max-w-[88%] xl:max-w-[72%] mt-48 mx-auto"
     >
-      <!-- Page Title -->
-      <section class="w-full">
-        <h2>Webshop</h2>
-      </section>
+      <!-- Filters (fixed ~15rem) -->
+      <aside class="flex-shrink-0 xl:w-[15rem]">
+        <h2 class="text-2xl font-medium mb-6">Webshop</h2>
 
-      <!-- Books Wrapper -->
-      <section class="w-full">
-        <section
-          class="flex flex-col xl:flex-row mt-8 mb-60 gap-12 justify-between"
-        >
-          <!-- Filters Component -->
-          <book-filters
-            [value]="query()"
-            [bookStatus]="status()"
-            [activeGenre]="genre()"
-            (search)="onSearch($event)"
-            (filterGenre)="filterGenre($event)"
-            (filterStatus)="filterStatus($event)"
-            (clearFilters)="clearFilters()"
-          ></book-filters>
+        <book-filters
+          [value]="query()"
+          [bookStatus]="status()"
+          [activeGenre]="genre()"
+          (search)="onSearch($event)"
+          (filterGenre)="filterGenre($event)"
+          (filterStatus)="filterStatus($event)"
+          (clearFilters)="clearFilters()"
+        ></book-filters>
+      </aside>
 
-          <!-- Books Section -->
-          <section class="flex flex-col items-stretch">
-            <!-- Sort Bar Component -->
-            <books-sort-bar
-              [showList]="showList"
-              [bookCount]="totalBooksCount() || 0"
-              [selectedSort]="sort() || 'title,asc'"
-              (sort)="onSort($event)"
-              (clickEvent)="toggleShowList($event)"
-            ></books-sort-bar>
+      <!-- Right‑hand (Books + sort) -->
+      <section class="flex-1 flex flex-col gap-6">
+        <!-- Section Title -->
 
-            <!-- Books Query Results -->
-            <section class="books-list">
-              <!-- Books Query Results -->
-              @if (booksInfiniteQuery.isSuccess(); as result) {
-                <section class="w-full box-border">
-                  @if (showList) {
-                    <books-collection-list-overview
-                      [books]="flattenedBooks() || []"
-                    ></books-collection-list-overview>
-                  } @else {
-                    <books-collection-grid-overview
-                      [books]="flattenedBooks() || []"
-                    ></books-collection-grid-overview>
-                  }
-                </section>
-              }
-              @if (booksInfiniteQuery.isLoading()) {
-                <ui-webshop-books-loading-state></ui-webshop-books-loading-state>
-              }
-              @if (booksInfiniteQuery.isError()) {
-                <p>Error</p>
-              }
-            </section>
+        <books-sort-bar
+          [showList]="showList"
+          [bookCount]="totalBooksCount() || 0"
+          [selectedSort]="sort() || 'title,asc'"
+          (sort)="onSort($event)"
+          (clickEvent)="toggleShowList($event)"
+        ></books-sort-bar>
 
-            <!-- Sentinel element for triggering fetch -->
-            <div #scrollAnchor class="scroll-anchor">
-              <!-- Optionally show a loading spinner/text when fetching next page -->
-              @if (booksInfiniteQuery.isFetchingNextPage()) {
-                <ng-container>
-                  <p>Loading more...</p>
-                  <!-- Replace with your spinner component if available -->
-                  <ui-loading></ui-loading>
-                </ng-container>
-              }
-            </div>
-
-            @if (booksInfiniteQuery.isLoading()) {
-              <ui-webshop-books-loading-state></ui-webshop-books-loading-state>
+        <!-- Results / loader -->
+        <section class="min-h-[50vh] flex-1">
+          @if (booksInfiniteQuery.isSuccess(); as _result) {
+            @if (showList) {
+              <books-collection-list-overview
+                [books]="flattenedBooks() || []"
+              />
+            } @else {
+              <books-collection-grid-overview
+                [books]="flattenedBooks() || []"
+              />
             }
-            @if (booksInfiniteQuery.isError()) {
-              <p>Error</p>
-            }
-          </section>
+          }
+          @if (booksInfiniteQuery.isLoading()) {
+            <ui-webshop-books-loading-state />
+          }
+          @if (booksInfiniteQuery.isError()) {
+            <p class="text-red-500">Error loading books.</p>
+          }
         </section>
+
+        <div #scrollAnchor class="h-6"></div>
       </section>
     </section>
   `,
@@ -129,54 +101,57 @@ export class BooksCollectionContainer {
   protected status = this.bookParamService.statusSignal;
   protected sort = this.bookParamService.sortSignal;
 
-  public showList: boolean = false;
+  public showList = false;
 
   protected booksInfiniteQuery = this.booksService.booksInfiniteQuery;
 
-  // Flatten pages into a single array of books.
   protected flattenedBooks = computed(() => {
     const data = this.booksInfiniteQuery.data();
-    return data ? data.pages.flatMap((page) => page.data.items) : [];
+    return data ? data.pages.flatMap((p) => p.data.items) : [];
   });
 
   protected totalBooksCount = this.booksService.totalBooksCount;
 
-  toggleShowList(state: boolean): void {
-    this.showList = state;
+  toggleShowList(v: boolean) {
+    this.showList = v;
   }
 
-  protected onSearch(query: string) {
-    this.bookParamService.navigate({ [SEARCH_QUERY_PARAM]: query });
+  /*––––– Query helpers –––––*/
+  onSearch(q: string) {
+    this.bookParamService.navigate({ [SEARCH_QUERY_PARAM]: q });
   }
-
-  protected onSort(sort: string) {
-    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: sort });
+  onSort(s: string) {
+    this.bookParamService.navigate({ [SORT_QUERY_PARAM]: s });
   }
-
-  protected filterGenre(genre: string) {
-    this.bookParamService.navigate({ [GENRE_QUERY_PARAM]: genre });
+  filterGenre(g: string) {
+    this.bookParamService.navigate({ [GENRE_QUERY_PARAM]: g });
   }
-
-  protected filterStatus(status: string) {
-    this.bookParamService.navigate({ [STATUS_QUERY_PARAM]: status });
+  filterStatus(st: string) {
+    this.bookParamService.navigate({ [STATUS_QUERY_PARAM]: st });
   }
-
-  protected clearFilters() {
+  clearFilters() {
     this.bookParamService.clearParams();
   }
 
+  /*––––– Infinite scroll –––––*/
   ngAfterViewInit() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+    const observer = new IntersectionObserver(
+      (entries) => {
         if (
-          entry.isIntersecting &&
+          entries[0].isIntersecting &&
           !this.booksInfiniteQuery.isFetchingNextPage()
         ) {
           this.booksInfiniteQuery.fetchNextPage();
         }
-      });
-    });
-    // Start observing the sentinel element.
+      },
+      {
+        // fetch sooner (top & bottom)
+        rootMargin: '100px 0px',
+        // fire once element is at least 10 % visible
+        threshold: 0.1,
+      },
+    );
+
     observer.observe(this.scrollAnchor.nativeElement);
   }
 }
