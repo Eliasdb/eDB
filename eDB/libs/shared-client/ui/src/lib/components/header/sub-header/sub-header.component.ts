@@ -29,7 +29,7 @@ export interface Book {
   template: `
     <header
       class="fixed inset-x-0 top-20 z-50 flex items-center justify-end
-             px-6 py-6 pb-12 border-b border-gray-200 bg-white"
+             px-6 py-6  border-b border-gray-200 bg-white"
     >
       <!-- Cart button – offset from top/left so the slide-in panel clears it -->
       <div class="relative">
