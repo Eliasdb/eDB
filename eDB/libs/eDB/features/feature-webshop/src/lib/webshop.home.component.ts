@@ -37,6 +37,7 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
             [isCartVisible]="showCart"
             (showCart)="showCart = false"
             (cartItemDeleted)="onDeleteCartItem($event)"
+            (checkoutClicked)="goToCheckout()"
           ></app-cart>
         </section>
       }
@@ -61,5 +62,10 @@ export class WebshopAppComponent {
 
   onDeleteCartItem(cartItemId: number) {
     this.cartService.removeFromCart(cartItemId);
+  }
+
+  goToCheckout() {
+    this.showCart = false;
+    this.router.navigate(['/webshop/checkout']);
   }
 }

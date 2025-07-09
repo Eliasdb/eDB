@@ -15,7 +15,7 @@ import { Book } from '@eDB-webshop/shared-types';
     >
       <!-- keep aspect-ratio 2:3 -->
       <a
-        [routerLink]="['/webshop', book()?.id]"
+        [routerLink]="['/webshop//books', book()?.id]"
         class="block w-full aspect-[2/3] relative"
       >
         <img

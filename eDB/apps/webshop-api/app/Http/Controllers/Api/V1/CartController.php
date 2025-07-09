@@ -49,13 +49,19 @@ class CartController extends Controller
         return new CartResource($cart);
     }
 
+    // CartController@updateItem
     public function updateItem(Request $request, $itemId)
     {
         $data = $request->validate([
-            'selectedAmount' => 'required|integer|min:1'
+            'selectedAmount' => 'required|integer|min:1',
         ]);
+
+        // 🔹 translate to the actual column name
+        $data['selected_amount'] = $data['selectedAmount'];
+        unset($data['selectedAmount']);
 
         $cart = $this->cartService->updateItem($this->userId, $itemId, $data);
         return new CartResource($cart);
     }
+
 }
