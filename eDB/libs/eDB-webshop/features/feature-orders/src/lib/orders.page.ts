@@ -17,7 +17,7 @@ interface Order {
   selector: 'order-tracking-page',
   imports: [CommonModule],
   template: `
-    <div class="p-8 bg-slate-50 min-h-screen text-white mt-40">
+    <div class="p-6 bg-slate-50 min-h-screen text-white mt-40">
       <div class="max-w-4xl mx-auto">
         <!-- Page Title -->
         <header class="mb-10">

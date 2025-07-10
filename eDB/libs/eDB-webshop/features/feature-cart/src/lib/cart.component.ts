@@ -10,13 +10,14 @@ import {
   Output,
 } from '@angular/core';
 import { CartItem } from '@eDB-webshop/shared-types';
-import { UiButtonComponent } from '@edb/shared-ui';
+import { UiButtonComponent, UiIconButtonComponent } from '@edb/shared-ui';
+
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, UiButtonComponent],
+  imports: [CommonModule, UiIconButtonComponent, UiButtonComponent],
   animations: [
     trigger('fadeLift', [
       transition(':enter', [
@@ -125,59 +126,85 @@ import { Subscription } from 'rxjs';
                     </div>
 
                     <!-- remove -->
-                    <ui-button
+                    <ui-icon-button
+                      icon="faClose"
+                      description="Remove item"
                       size="sm"
-                      variant="ghost"
-                      (buttonClick)="removeItem(item.id)"
-                      >✕</ui-button
-                    >
+                      [iconColor]="'var(--accent)'"
+                      [iconSize]="'16px'"
+                      (iconButtonClick)="removeItem(item.id)"
+                      buttonNgClass="bg-slate-50"
+                    ></ui-icon-button>
                   </div>
                 }
               </div>
 
               <!-- ───────── Mobile cards ───────── -->
-              <div class="md:hidden p-4 space-y-4">
+              <div class="md:hidden p-4 space-y-3">
                 @for (item of cartItems(); track item.id) {
                   <div
-                    class="rounded-lg bg-white p-4 flex flex-col gap-3
-                           shadow hover:shadow-md transition-shadow duration-200"
+                    class="rounded-xl bg-white p-3 flex flex-col gap-2 shadow-sm border border-gray-100"
                   >
-                    <div class="flex gap-4">
+                    <!-- Top: Image + Info + Remove -->
+                    <div class="flex gap-3">
                       <img
                         [src]="item.book.photoUrl"
                         [alt]="item.book.title"
-                        class="h-24 w-16 rounded-md object-cover flex-shrink-0"
+                        class="h-20 w-14 rounded-md object-cover flex-shrink-0"
                       />
-                      <div class="flex-1 flex flex-col gap-[2px]">
-                        <p class="font-semibold text-sm leading-tight">
-                          {{ item.book.title }}
-                        </p>
-                        <p class="text-xs opacity-70">
-                          {{ item.book.author }} • {{ item.book.publishedDate }}
-                        </p>
-                        <p class="text-xs opacity-60">
-                          Genre: {{ item.book.genre }}
-                        </p>
-                      </div>
-                      <ui-button
-                        size="sm"
-                        variant="ghost"
-                        (buttonClick)="removeItem(item.id)"
-                        >✕</ui-button
+                      <div
+                        class="flex-1 flex flex-col justify-between gap-[1px]"
                       >
+                        <span class="font-semibold text-sm leading-tight m-0">
+                          {{ item.book.title }}
+                        </span>
+                        <span class="text-xs text-gray-500 m-0">
+                          {{ item.book.author }} • {{ item.book.publishedDate }}
+                        </span>
+                        <span class="text-xs text-gray-400 m-0">
+                          Genre: {{ item.book.genre }}
+                        </span>
+                      </div>
+                      <ui-icon-button
+                        icon="faClose"
+                        description="Remove item"
+                        size="sm"
+                        [iconColor]="'var(--accent)'"
+                        [iconSize]="'16px'"
+                        (iconButtonClick)="removeItem(item.id)"
+                        buttonNgClass="bg-slate-50"
+                      ></ui-icon-button>
                     </div>
 
+                    <!-- Bottom: Qty and Price -->
                     <div
-                      class="flex items-center justify-between
-                                pt-2 border-t border-white"
+                      class="flex items-start justify-between pt-2 border-t border-gray-100 text-sm"
                     >
-                      <span class="font-medium">{{ item.selectedAmount }}</span>
-                      <div class="font-medium text-sm">
-                        {{
-                          item.book.price * item.selectedAmount
-                            | currency: 'EUR' : 'symbol'
-                        }}
-                      </div>
+                      <!-- Quantity badge -->
+                      <span class="flex items-center gap-1">
+                        <span
+                          class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-[2px] rounded-full"
+                        >
+                          Quantity
+                        </span>
+                        <span class="text-sm font-semibold text-gray-800">
+                          {{ item.selectedAmount }}
+                        </span>
+                      </span>
+
+                      <!-- Total + Unit Price -->
+                      <span class="text-right">
+                        <span class="block font-medium text-gray-800">
+                          {{
+                            item.book.price * item.selectedAmount
+                              | currency: 'EUR' : 'symbol'
+                          }}
+                        </span>
+                        <span class="block text-xs text-gray-400">
+                          {{ item.book.price | currency: 'EUR' : 'symbol' }}
+                          each
+                        </span>
+                      </span>
                     </div>
                   </div>
                 }
