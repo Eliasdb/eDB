@@ -11,7 +11,7 @@ const BASE_URL =
 export async function getToken(): Promise<string | null> {
   return (
     document.querySelector('home-react')?.getAttribute('data-token') ||
-    sessionStorage.getItem('access_token') ||
+    localStorage.getItem('access_token') ||
     null
   );
 }
