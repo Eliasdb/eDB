@@ -81,7 +81,7 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
         </div>
 
         <!-- Form Pane -->
-        <div class="p-8 md:p-12 lg:p-16 bg-white">
+        <div class="p-6 md:p-12 lg:p-16 bg-white">
           <h1 class="text-4xl font-bold text-gray-800 mb-2">Checkout</h1>
           <p class="text-gray-500 mb-8">
             Enter your shipping details to complete your purchase.
