@@ -7,8 +7,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartComponent } from '@eDB-webshop/feature-cart';
-import { UiPlatformSubHeaderComponent } from '@edb/shared-ui';
 import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
+import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
 @Component({
   selector: 'edb-webshop-root',
@@ -18,10 +18,10 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
     RouterOutlet,
     PlaceholderModule,
     I18nModule,
-    UiPlatformSubHeaderComponent,
     MatButtonModule,
     MatDialogModule,
     CartComponent,
+    UiPlatformSubHeaderComponent,
   ],
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-gray-100">
@@ -44,7 +44,7 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
         </section>
       }
 
-      <main class="platform-content ">
+      <main class="platform-content">
         <router-outlet></router-outlet>
       </main>
     </div>

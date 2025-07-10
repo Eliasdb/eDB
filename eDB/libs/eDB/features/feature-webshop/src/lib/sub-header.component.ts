@@ -9,30 +9,9 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { CartItem } from '@eDB-webshop/shared-types';
+import { CartItem, OrderItem } from '@eDB-webshop/shared-types';
+import { UiIconButtonComponent } from '@edb/shared-ui';
 import { filter } from 'rxjs';
-import { UiIconButtonComponent } from '../../buttons/icon-button/icon-button.component';
-
-interface OrderItem {
-  id: number;
-  bookId: number;
-  selectedAmount: number;
-  price: number;
-  book: Book;
-}
-
-export interface Book {
-  id: number;
-  photoUrl: string;
-  genre: string;
-  description: string;
-  title: string;
-  price: number;
-  stock: number;
-  author: string;
-  status: string;
-  publishedDate: string;
-}
 
 @Component({
   selector: 'ui-platform-subheader',
