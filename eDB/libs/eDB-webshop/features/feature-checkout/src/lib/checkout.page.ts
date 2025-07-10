@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// checkout.page.ts — use backend total + correct price path
+// checkout.page.ts — uses skeleton rows until cart loads
 // ─────────────────────────────────────────────────────────────
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
@@ -14,7 +14,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { Cart, CartItem } from '@eDB-webshop/shared-types';
 import { UiButtonComponent, UiTextInputComponent } from '@edb/shared-ui';
+import { SkeletonModule } from 'carbon-components-angular';
 import { CheckoutService } from './checkout.service';
+import { OrderSummaryItemComponent } from './components/order-summary-item/order-summary-item.component';
 
 @Component({
   standalone: true,
@@ -27,10 +29,12 @@ import { CheckoutService } from './checkout.service';
     MatIconModule,
     UiTextInputComponent,
     UiButtonComponent,
+    OrderSummaryItemComponent,
+    SkeletonModule,
   ],
   template: `
     <section
-      class="min-h-screen bg-gradient-to-r from-slate-50 to-slate-100 py-36 lg:py-[14rem] "
+      class="min-h-screen bg-gradient-to-r from-slate-50 to-slate-100 py-36 lg:py-[14rem]"
     >
       <div
         class="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2"
@@ -46,35 +50,28 @@ import { CheckoutService } from './checkout.service';
                 Review your selected books before checkout.
               </p>
 
-              <div
-                *ngFor="let item of cartItems"
-                class="flex items-start justify-between mb-4"
-              >
-                <div class="flex items-center space-x-4">
-                  <img
-                    [src]="item.book.photoUrl"
-                    class="h-14 w-10 rounded-lg shadow-md object-cover"
-                  />
-                  <div>
-                    <p class="font-medium leading-tight">
-                      {{ item.book.title }}
-                    </p>
-                    <p class="text-sm opacity-80">
-                      Qty: {{ item.selectedAmount }}
-                    </p>
-                  </div>
-                </div>
-                <p class="font-semibold whitespace-nowrap">
-                  {{ item.book.price * item.selectedAmount | currency: 'EUR' }}
-                </p>
-              </div>
+              @if (loading) {
+                @for (_ of placeholderRows; track _) {
+                  <order-summary-item [skeleton]="true"></order-summary-item>
+                }
+              } @else {
+                @for (item of cartItems; track item.id) {
+                  <order-summary-item [item]="item"></order-summary-item>
+                }
+              }
             </div>
 
             <div
               class="border-t border-white/30 pt-4 text-xl font-bold flex justify-between"
             >
               <span>Total</span>
-              <span>{{ total | currency: 'EUR' }}</span>
+              <span>
+                @if (loading) {
+                  <cds-skeleton-text width="70px"></cds-skeleton-text>
+                } @else {
+                  {{ total | currency: 'EUR' }}
+                }
+              </span>
             </div>
           </div>
         </div>
@@ -103,7 +100,6 @@ import { CheckoutService } from './checkout.service';
               formControlName="address"
               inputId="address"
             ></ui-text-input>
-
             <div class="grid gap-6 md:grid-cols-2">
               <ui-text-input
                 label="City"
@@ -118,7 +114,6 @@ import { CheckoutService } from './checkout.service';
                 inputId="postalCode"
               ></ui-text-input>
             </div>
-
             <ui-text-input
               label="Email"
               placeholder="john.doe@example.com"
@@ -129,47 +124,44 @@ import { CheckoutService } from './checkout.service';
             ></ui-text-input>
 
             <!-- Mobile summary -->
-            <div
-              class="lg:hidden border-t pt-6 space-y-4"
-              *ngIf="cartItems.length"
-            >
-              <h2 class="text-2xl font-bold">Order Summary</h2>
-              <div *ngFor="let item of cartItems" class="flex justify-between">
-                <span>{{ item.book.title }} ×{{ item.selectedAmount }}</span>
-                <span>{{
-                  item.book.price * item.selectedAmount | currency: 'EUR'
-                }}</span>
+            @if (!loading && cartItems.length) {
+              <div class="lg:hidden border-t pt-6 space-y-4">
+                <h2 class="text-2xl font-bold">Order Summary</h2>
+                @for (item of cartItems; track item.id) {
+                  <order-summary-item [item]="item"></order-summary-item>
+                }
+                <div class="flex justify-between font-bold text-lg">
+                  <span>Total</span>
+                  <span>{{ total | currency: 'EUR' }}</span>
+                </div>
               </div>
-              <div class="flex justify-between font-bold text-lg">
-                <span>Total</span>
-                <span>{{ total | currency: 'EUR' }}</span>
-              </div>
-            </div>
+            }
 
             <div class="flex justify-end pt-4">
               <ui-button
                 size="lg"
-                [disabled]="checkoutForm.invalid"
+                [disabled]="checkoutForm.invalid || loading"
                 (buttonClick)="submit()"
                 >Place Order</ui-button
               >
             </div>
           </form>
 
-          <div
-            *ngIf="confirmation()"
-            class="mt-10 p-6 rounded-2xl bg-green-50 border border-green-200"
-          >
-            <h3 class="text-2xl font-semibold text-green-700 mb-2">
-              Order Confirmed!
-            </h3>
-            <p>
-              Your order <strong>{{ confirmation()?.orderId }}</strong> has been
-              placed. Estimated delivery:
-              <strong>{{ confirmation()?.estimatedDelivery }}</strong
-              >.
-            </p>
-          </div>
+          @if (confirmation()) {
+            <div
+              class="mt-10 p-6 rounded-2xl bg-green-50 border border-green-200"
+            >
+              <h3 class="text-2xl font-semibold text-green-700 mb-2">
+                Order Confirmed!
+              </h3>
+              <p>
+                Your order <strong>{{ confirmation()?.orderId }}</strong> has
+                been placed. Estimated delivery:
+                <strong>{{ confirmation()?.estimatedDelivery }}</strong
+                >.
+              </p>
+            </div>
+          }
         </div>
       </div>
     </section>
@@ -179,10 +171,12 @@ import { CheckoutService } from './checkout.service';
 export class CheckoutPageComponent implements OnInit {
   cartItems: CartItem[] = [];
   cart!: Cart;
+  loading = true;
+  placeholderRows = Array.from({ length: 2 });
+
   checkoutForm: FormGroup;
   confirmation = signal<any>(null);
 
-  /** Prefer backend total, fallback to client calc */
   get total(): number {
     return (
       this.cart?.total ??
@@ -206,6 +200,7 @@ export class CheckoutPageComponent implements OnInit {
   async ngOnInit() {
     this.cart = await this.checkoutService.getCart();
     this.cartItems = this.cart.items;
+    this.loading = false;
   }
 
   isInvalid(controlName: string): boolean {

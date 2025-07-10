@@ -57,7 +57,7 @@ import { Subscription } from 'rxjs';
         >
           <!-- Header -->
           <header
-            class="flex items-center justify-between px-6 py-4 border-b border-white/10
+            class="flex items-center justify-between px-6 py-4 border-b border-white
                    sticky top-0 bg-[var(--accent)] z-10"
           >
             <h2 class="text-lg font-semibold">Your Cart</h2>
@@ -139,7 +139,7 @@ import { Subscription } from 'rxjs';
               <div class="md:hidden p-4 space-y-4">
                 @for (item of cartItems(); track item.id) {
                   <div
-                    class="rounded-lg bg-white/10 p-4 flex flex-col gap-3
+                    class="rounded-lg bg-white p-4 flex flex-col gap-3
                            shadow hover:shadow-md transition-shadow duration-200"
                   >
                     <div class="flex gap-4">
@@ -169,7 +169,7 @@ import { Subscription } from 'rxjs';
 
                     <div
                       class="flex items-center justify-between
-                                pt-2 border-t border-white/10"
+                                pt-2 border-t border-white"
                     >
                       <span class="font-medium">{{ item.selectedAmount }}</span>
                       <div class="font-medium text-sm">

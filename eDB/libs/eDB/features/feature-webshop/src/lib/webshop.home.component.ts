@@ -28,6 +28,8 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
       <ui-platform-subheader
         (openDialog)="toggleCart()"
         [cartItems]="cartItems()"
+        [orderItems]="cartItems()"
+        (ordersClick)="goToOrders()"
       ></ui-platform-subheader>
 
       @if (showCart) {
@@ -67,5 +69,9 @@ export class WebshopAppComponent {
   goToCheckout() {
     this.showCart = false;
     this.router.navigate(['/webshop/checkout']);
+  }
+
+  goToOrders() {
+    this.router.navigate(['/webshop/orders']);
   }
 }
