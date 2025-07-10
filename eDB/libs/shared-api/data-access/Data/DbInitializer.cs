@@ -27,19 +27,19 @@ namespace EDb.DataAccess.Data
           },
           new Application
           {
-            Name = "Inventory",
-            Description = "Track inventory",
+            Name = "CRM",
+            Description = "Demo CRM",
             IconUrl = "/icons/inventory.png",
-            RoutePath = "/inventory",
-            Tags = ["React", "Python"],
+            RoutePath = "/crm",
+            Tags = ["Angular", ".NET"],
           },
           new Application
           {
-            Name = "Reports",
-            Description = "Generate detailed reports",
+            Name = "ERP",
+            Description = "Demo ERP",
             IconUrl = "/icons/reports.png",
-            RoutePath = "/reports",
-            Tags = ["Vue", "Laravel", "Insights"],
+            RoutePath = "/ERP",
+            Tags = ["Angular", "Python"],
           }
         );
 
