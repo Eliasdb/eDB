@@ -13,6 +13,7 @@ import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { ApplicationsCollectionContainer } from '../platform/applications-collection/applications-collection.container';
 import { UsersCollectionContainer } from '../platform/users-collection/users-collection.container';
+import { WebshopBooksTableComponent } from '../webshop/books-table/books-table.component';
 import { AdminSidebarComponent } from './admin-sidebar.component';
 
 @Component({
@@ -28,9 +29,9 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     MatButtonModule,
     CommonModule,
     BaseChartDirective,
-
     UsersCollectionContainer,
     ApplicationsCollectionContainer,
+    WebshopBooksTableComponent,
   ],
   template: `
     <!-- Floating button to open the sidebar when closed -->
@@ -191,13 +192,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
 
           <ng-container *ngIf="currentView() === 'webshop'">
             <section class="p-6">
-              <h2 class="mb-4 text-2xl font-medium">Webshop Dashboard</h2>
-              <cds-tile class="bg-[#262626]  mb-4">
-                <p>
-                  This is the Webshop view. You can add stats, charts, or other
-                  widgets here.
-                </p>
-              </cds-tile>
+              <webshop-books-table />
             </section>
           </ng-container>
         </div>
@@ -215,9 +210,13 @@ export class AdminDashboardComponent {
   sidenavMode: 'over' | 'side' = 'side';
 
   switchDrawerContent(newContent: 'platform' | 'webshop') {
-    console.log(`Switching view to: ${newContent}`);
-    this.currentView.set(newContent);
-    if (this.sidenavMode === 'over' && this.drawer.opened) {
+    // update the view only if it changed
+    if (this.currentView() !== newContent) {
+      this.currentView.set(newContent);
+    }
+
+    // close the drawer if it is open
+    if (this.drawer?.opened) {
       this.drawer.close();
     }
   }
