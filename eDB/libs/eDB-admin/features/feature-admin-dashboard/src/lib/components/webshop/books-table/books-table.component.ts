@@ -38,7 +38,7 @@ import {
       <img
         [src]="book.blurDataUrl || book.photoUrl"
         [alt]="book.title"
-        style="width:40px;height:60px;object-fit:cover;border-radius:4px;filter:blur(8px);transition:filter .25s;"
+        style="width:40px;height:60px;object-fit:cover;border-radius:4px;transition:filter .25s;"
         (load)="loadHighRes($event.target, book.photoUrl)"
       />
     </ng-template>
