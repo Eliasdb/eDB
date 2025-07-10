@@ -24,6 +24,13 @@ export const featureWebshopRoutes: Route[] = [
             (m) => m.featureCheckoutRoutes,
           ),
       },
+      {
+        path: 'orders',
+        loadChildren: () =>
+          import('@edb-webshop/feature-orders').then(
+            (m) => m.featureOrdersRoutes,
+          ),
+      },
     ],
   },
 ];
