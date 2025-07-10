@@ -116,22 +116,20 @@ export function PersonalInfoView({ userInfo }: Props) {
   ];
 
   return (
-    <section>
-      <section>
-        <h1 className="text-xl mb-8">Personal information</h1>
-      </section>
-      <section className="mb-16">
-        <div className="flex items-center justify-between pb-2 ">
+    <section className="space-y-12">
+      {/* Personal Info */}
+      <article className="bg-white p-6 rounded-xl border space-y-6">
+        <div className="flex items-center justify-between pb-2">
           <h2 className="text-lg font-normal flex items-center gap-2">
             <Contact className="w-5 h-5" />
             Personal Information
           </h2>
         </div>
-        <section className="text-sm bg-transparent space-y-6">
+        <section className="text-sm space-y-6">
           {fields.map(({ key, defaultLabel }) => {
             const isName = key === 'firstName';
             const isEditingRow = editing === key;
-            const primaryValue = formData[key]; // always just the field itself
+            const primaryValue = formData[key];
             const secondaryValue = isName ? formData.lastName : undefined;
             const displayValue =
               key === 'firstName'
@@ -163,25 +161,23 @@ export function PersonalInfoView({ userInfo }: Props) {
             );
           })}
         </section>
-      </section>
+      </article>
 
-      <section>
-        <div className="flex items-center justify-between pb-2 ">
+      {/* Company Info */}
+      <article className="bg-white p-6 rounded-xl border space-y-6">
+        <div className="flex items-center justify-between pb-2">
           <h2 className="text-lg font-normal flex items-center gap-2">
             <Building2 className="w-5 h-5" />
             Company
           </h2>
         </div>
-        <section className="text-sm bg-transparent space-y-6">
+        <section className="text-sm space-y-6">
           {(['jobTitle', 'company', 'industry'] as const).map((key) => {
             const label = key
               .replace(/([A-Z])/g, ' $1')
               .replace(/^./, (c) => c.toUpperCase());
-
-            // New: guard against undefined or blank
             const value = companyInfo[key] ?? '';
             const showValue = value.trim() !== '' ? value : undefined;
-            console.log(value);
 
             return (
               <EditableProfileRow
@@ -202,24 +198,22 @@ export function PersonalInfoView({ userInfo }: Props) {
             );
           })}
         </section>
-      </section>
+      </article>
 
-      <section className="pt-16 mt-16 border-t">
+      {/* Danger Zone */}
+      <section className="pt-16 mt-16">
         <div className="flex items-center justify-between pb-4">
           <h2 className="text-lg font-normal flex items-center gap-2 text-destructive">
             <Pencil className="w-5 h-5" />
             Danger Zone
           </h2>
         </div>
-
-        <div className="text-sm bg-transparent">
+        <div className="text-sm">
           <div
-            className="
-        border-t pt-6 pb-6 space-y-6
-        md:pt-4 md:pb-0 md:px-0
-        md:grid md:grid-cols-[1fr_2fr_1fr]
-        md:items-center md:space-y-0
-      "
+            className="border-t pt-6 pb-6 space-y-6
+          md:pt-4 md:pb-0 md:px-0
+          md:grid md:grid-cols-[1fr_2fr_1fr]
+          md:items-center md:space-y-0"
           >
             <div className="flex justify-between items-center md:justify-start md:col-start-1 md:col-end-2">
               <span className="font-normal text-destructive">

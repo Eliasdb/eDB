@@ -1,9 +1,17 @@
 'use client';
 
-// Hooks
+// ---------------------------------------------------------------------------
+// App.tsx — skeleton‑first loading strategy (no fullscreen spinner)
+// ---------------------------------------------------------------------------
+// • The global layout renders immediately.
+// • Sidebar + header show skeletons until we know the user.
+// • Content view receives `userInfo` (possibly undefined) and shows its own
+//   field‑level skeletons — no flash of error, no blocking spinner.
+// ---------------------------------------------------------------------------
+
 import { useEffect, useState } from 'react';
 
-// Components
+// Components ---------------------------------------------------------------
 import { AppSidebar } from '../components/app-sidebar';
 import {
   Breadcrumb,
@@ -19,8 +27,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '../components/ui/sidebar';
+import { Skeleton } from '../components/ui/skeleton';
 
-// Views
+// Views -------------------------------------------------------------------
 import {
   AccountSecurityView,
   ApplicationsView,
@@ -28,55 +37,71 @@ import {
   PlaceholderView,
 } from '../views';
 
-// Data
+// Data --------------------------------------------------------------------
 import { breadcrumbLabels, sampleData } from '../data/sample-data';
 
-// DAL
+// DAL ---------------------------------------------------------------------
 import { fetchCustomAttributes, getToken } from '../services/user-service';
 
-// Query Hook
+// Query Hook ---------------------------------------------------------------
 import { useUserInfoQuery } from '../hooks/useUserInfoQuery';
 
-// Types
-import { NavItem, UserInfo } from '../types/types';
-
-// External libs
+// Types -------------------------------------------------------------------
+import type { NavItem, UserInfo } from '../types/types';
 
 export default function App() {
+  // ─────────────────────────────────── State ──────────────────────────────
   const [selectedNavItem, setSelectedNavItem] = useState<NavItem>(
     sampleData.navMain[0],
   );
   const [token, setToken] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
+  // ─────────────────────────────────── Token ──────────────────────────────
   useEffect(() => {
-    getToken().then(setToken);
+    getToken().then(setToken).catch(console.error);
   }, []);
 
-  const { data, isLoading, isError } = useUserInfoQuery(token);
+  // ────────────────────────── Keycloak profile query ─────────────────────
+  const {
+    data: kcProfile,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+  } = useUserInfoQuery(token); // hook internally uses `enabled: !!token`
 
+  // ─────────────────────────── Custom attributes ─────────────────────────
   useEffect(() => {
-    if (!data || !token) return;
+    if (!kcProfile || !token) return;
 
-    fetchCustomAttributes(token)
-      .then((custom) => {
-        const merged = {
-          ...data,
+    (async () => {
+      try {
+        const custom = await fetchCustomAttributes(token);
+        setUserInfo({
+          ...kcProfile,
           attributes: custom.attributes ?? {},
-        };
-        console.log('✅ merged userInfo:', merged);
-        setUserInfo(merged);
-      })
-      .catch((err) => {
+        });
+      } catch (err) {
         console.error('Failed to fetch custom attributes:', err);
-      });
-  }, [data, token]);
+      }
+    })();
+  }, [kcProfile, token]);
 
-  function renderContent() {
-    if (isLoading) return <div className="p-6">Loading...</div>;
-    if (isError || !userInfo)
+  // ───────────────────────────── Derived flags ───────────────────────────
+  /** true until we know whether profile fetch succeeded/failed */
+  const isBootstrapping =
+    !token || isProfileLoading || (!kcProfile && !isProfileError);
+
+  /** Show skeleton sidebar/header while bootstrapping */
+  const showShellSkeleton = isBootstrapping;
+
+  // ───────────────────────────── Render helpers ───────────────────────────
+  const renderContent = () => {
+    if (isProfileError) {
       return <div className="p-6 text-red-500">Failed to load user info.</div>;
+    }
 
+    // Render the chosen view *even while userInfo is still null* — each view
+    // decides how to skeletonise its own fields.
     switch (selectedNavItem?.title) {
       case 'Personal Info':
         return <PersonalInfoView userInfo={userInfo} />;
@@ -87,26 +112,30 @@ export default function App() {
       default:
         return <PlaceholderView title={selectedNavItem?.title ?? 'Home'} />;
     }
-  }
+  };
 
+  // ───────────────────────────────────── UI ───────────────────────────────
   return (
     <main className="flex h-screen bg-slate-50 text-black">
       <SidebarProvider>
         <AppSidebar
           onSelectProject={setSelectedNavItem}
-          userInfo={
-            userInfo && {
-              name: userInfo.preferred_username,
-              email: userInfo.email,
-              avatar:
-                'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg',
-            }
-          }
+          userInfo={{
+            name: userInfo?.preferred_username ?? '',
+            email: userInfo?.email ?? '',
+            avatar:
+              'https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/08/placeholder-male.jpg',
+          }}
         />
+
         <SidebarInset>
-          <header className="flex h-16 fixed shrink-0 items-center gap-2 border-b px-6 mt-[5rem] w-full bg-white">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+          <header className="fixed flex h-16 shrink-0 items-center gap-2 border-b bg-white px-6 w-full mt-[5rem]">
+            {showShellSkeleton ? (
+              <Skeleton className="h-8 w-8 rounded-md" />
+            ) : (
+              <SidebarTrigger className="-ml-1" />
+            )}
+            <Separator orientation="vertical" className="mx-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -124,7 +153,8 @@ export default function App() {
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-6 overflow-y-auto py-[10rem] ">
+
+          <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-6 py-[10rem]">
             {renderContent()}
           </div>
         </SidebarInset>
