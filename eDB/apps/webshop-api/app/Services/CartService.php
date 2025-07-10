@@ -31,7 +31,7 @@ class CartService
      */
     public function addItem($userId, array $data)
     {
-        // Find the book or fail
+        // Find the book or fail.
         $book = Book::findOrFail($data['id']);
 
         // Check if there is enough stock
