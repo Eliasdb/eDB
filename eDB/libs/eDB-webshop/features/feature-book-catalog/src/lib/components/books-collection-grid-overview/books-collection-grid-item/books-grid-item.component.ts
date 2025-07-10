@@ -15,15 +15,23 @@ import { Book } from '@eDB-webshop/shared-types';
     >
       <!-- keep aspect-ratio 2:3 -->
       <a
-        [routerLink]="['/webshop//books', book()?.id]"
-        class="block w-full aspect-[2/3] relative"
+        [routerLink]="['/webshop/books', book()?.id]"
+        class="block w-full aspect-[2/3] relative group overflow-hidden"
       >
+        <!-- Blur placeholder -->
         <img
-          loading="lazy"
+          *ngIf="book()?.blurDataUrl && !imageLoaded"
+          [src]="book()?.blurDataUrl"
+          class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
+          aria-hidden="true"
+        />
+
+        <!-- Real image -->
+        <img
           [src]="book()?.photoUrl"
           [alt]="book()?.title"
-          class="absolute inset-0 w-full h-full object-cover
-             group-hover:opacity-90 transition-opacity duration-150"
+          (load)="imageLoaded = true"
+          class="absolute inset-0 w-full h-full object-cover"
         />
       </a>
 
@@ -60,4 +68,5 @@ import { Book } from '@eDB-webshop/shared-types';
 })
 export class BooksGridItemComponent {
   readonly book = input<Book>();
+  imageLoaded = false;
 }

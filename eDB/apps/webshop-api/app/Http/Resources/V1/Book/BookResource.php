@@ -18,6 +18,7 @@ class BookResource extends JsonResource
             "id" => $this->id,
             "photoUrl" => $this->photo_url,
             "description" => $this->description,
+            "blurDataUrl" => $this->blur_data_url,
             "title" => $this->title,
             "genre" => $this->genre,
             "author" => $this->author,
