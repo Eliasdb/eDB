@@ -2,22 +2,22 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
+  injectInfiniteQuery,
   injectMutation,
   injectQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
-import { firstValueFrom, lastValueFrom, map } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 import { environment } from '@eDB/shared-env';
 
+import { Book, RawApiDataBooks } from '@eDB-webshop/shared-types';
 import {
-  AdminStats,
   Application,
   CreateApplicationDto,
   PaginatedResponse,
   UserProfile,
 } from './types/admin.types';
-import { Book } from './types/book.types';
 
 @Injectable({
   providedIn: 'root',
@@ -263,17 +263,76 @@ export class AdminService {
     }));
   }
 
-  queryAdminStats = injectQuery(() => ({
-    queryKey: ['ADMIN_STATS'],
-    queryFn: async () =>
-      await firstValueFrom(
-        this.http
-          .get<AdminStats>(`${environment.bookAPIUrl}/admin-stats`)
-          .pipe(map((response) => response.data)),
-      ),
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-  }));
+  /**
+   * Expected API shape:
+   * {
+   *   items: Book[];
+   *   count: number;
+   *   hasMore: boolean;
+   *   offset: number;
+   *   limit: number;
+   * }
+   */
+  queryBooks() {
+    return injectQuery(() => ({
+      queryKey: ['books'],
+      queryFn: async () => {
+        const res = await firstValueFrom(
+          this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`),
+        );
+
+        // Pull out the array while still fetching the whole object
+        const books = res?.data.items ?? [];
+
+        if (!books.length) {
+          throw new Error('Books not found');
+        }
+        return books; // <— always Book[]
+      },
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    }));
+  }
+
+  queryBooksInfinite(pageSize = 15) {
+    type Page = { items: Book[]; hasMore: boolean; nextOffset: number };
+
+    return injectInfiniteQuery<Page>(() => ({
+      initialPageParam: 0,
+      queryKey: ['books', pageSize],
+      queryFn: async ({ pageParam = 0 }) => {
+        const params = new HttpParams()
+          .set('offset', String(pageParam))
+          .set('limit', pageSize);
+
+        const res = await firstValueFrom(
+          this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`, {
+            params,
+          }),
+        );
+
+        const {
+          items = [],
+          hasMore = false,
+          offset = 0,
+        } = res.data as {
+          items: Book[];
+          hasMore: boolean;
+          offset: number | string;
+        };
+
+        return {
+          items,
+          hasMore,
+          nextOffset: Number(offset) + items.length,
+        };
+      },
+      getNextPageParam: (lastPage) =>
+        lastPage.hasMore ? lastPage.nextOffset : undefined,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    }));
+  }
 
   // Instead of using a manually updated mutable signal, we now derive query parameters automatically
   // from the BookParamService signals.
