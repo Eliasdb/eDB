@@ -40,16 +40,19 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
         class="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2"
       >
         <!-- Summary Pane -->
+        <!-- Order Summary Pane -->
         <div class="hidden lg:block relative bg-[var(--accent-complimentary)]">
-          <div
-            class="absolute inset-0 p-10 flex flex-col justify-between text-white"
-          >
+          <div class="absolute inset-0 flex flex-col text-white p-10 space-y-6">
+            <!-- Header -->
             <div>
               <h2 class="text-4xl font-extrabold mb-2">Order Summary</h2>
               <p class="opacity-80 mb-6">
                 Review your selected books before checkout.
               </p>
+            </div>
 
+            <!-- Scrollable list of items -->
+            <div class="flex-1 overflow-y-auto pr-2 space-y-4">
               @if (loading) {
                 @for (_ of placeholderRows; track _) {
                   <order-summary-item [skeleton]="true"></order-summary-item>
@@ -61,6 +64,7 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
               }
             </div>
 
+            <!-- Total -->
             <div
               class="border-t border-white/30 pt-4 text-xl font-bold flex justify-between"
             >
@@ -82,25 +86,30 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
           <p class="text-gray-500 mb-8">
             Enter your shipping details to complete your purchase.
           </p>
+          <form [formGroup]="checkoutForm">
+            <div class="mb-6">
+              <ui-text-input
+                label="Full Name"
+                placeholder="John Doe"
+                [invalid]="isInvalid('fullName')"
+                invalidText="Required"
+                formControlName="fullName"
+                inputId="fullName"
+              ></ui-text-input>
+            </div>
 
-          <form [formGroup]="checkoutForm" class="space-y-8">
-            <ui-text-input
-              label="Full Name"
-              placeholder="John Doe"
-              [invalid]="isInvalid('fullName')"
-              invalidText="Required"
-              formControlName="fullName"
-              inputId="fullName"
-            ></ui-text-input>
-            <ui-text-input
-              label="Address"
-              placeholder="123 Main St"
-              [invalid]="isInvalid('address')"
-              invalidText="Required"
-              formControlName="address"
-              inputId="address"
-            ></ui-text-input>
-            <div class="grid gap-6 md:grid-cols-2">
+            <div class="mb-6">
+              <ui-text-input
+                label="Address"
+                placeholder="123 Main St"
+                [invalid]="isInvalid('address')"
+                invalidText="Required"
+                formControlName="address"
+                inputId="address"
+              ></ui-text-input>
+            </div>
+
+            <div class="grid gap-y-8 gap-x-6 md:grid-cols-2 mb-6">
               <ui-text-input
                 label="City"
                 placeholder="Metropolis"
@@ -114,23 +123,28 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
                 inputId="postalCode"
               ></ui-text-input>
             </div>
-            <ui-text-input
-              label="Email"
-              placeholder="john.doe@example.com"
-              [invalid]="isInvalid('email')"
-              invalidText="Invalid email"
-              formControlName="email"
-              inputId="email"
-            ></ui-text-input>
 
-            <!-- Mobile summary -->
+            <div class="mb-6">
+              <ui-text-input
+                label="Email"
+                placeholder="john.doe@example.com"
+                [invalid]="isInvalid('email')"
+                invalidText="Invalid email"
+                formControlName="email"
+                inputId="email"
+              ></ui-text-input>
+            </div>
+
+            <!-- Mobile Order Summary -->
             @if (!loading && cartItems.length) {
-              <div class="lg:hidden border-t pt-6 space-y-4">
-                <h2 class="text-2xl font-bold">Order Summary</h2>
+              <div class="lg:hidden border-t mt-10 space-y-4">
+                <h2 class="text-2xl font-bold text-gray-800">Order Summary</h2>
                 @for (item of cartItems; track item.id) {
                   <order-summary-item [item]="item"></order-summary-item>
                 }
-                <div class="flex justify-between font-bold text-lg">
+                <div
+                  class="flex justify-between font-bold text-lg text-gray-700"
+                >
                   <span>Total</span>
                   <span>{{ total | currency: 'EUR' }}</span>
                 </div>
@@ -142,8 +156,9 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
                 size="lg"
                 [disabled]="checkoutForm.invalid || loading"
                 (buttonClick)="submit()"
-                >Place Order</ui-button
               >
+                Place Order
+              </ui-button>
             </div>
           </form>
 
@@ -172,7 +187,7 @@ export class CheckoutPageComponent implements OnInit {
   cartItems: CartItem[] = [];
   cart!: Cart;
   loading = true;
-  placeholderRows = Array.from({ length: 2 });
+  placeholderRows = Array.from({ length: 4 });
 
   checkoutForm: FormGroup;
   confirmation = signal<any>(null);
