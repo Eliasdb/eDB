@@ -482,3 +482,7 @@ cds-header-global .cds--overflow-menu.cds--btn--ghost:hover {
   --cds-text-inverse: var(--accent-complimentary);
   --cds-button-tertiary-hover: var(--accent);
 }
+
+html .mat-mdc-mini-fab.mat-accent {
+  --mdc-fab-small-container-color: var(--accent) !important;
+}
