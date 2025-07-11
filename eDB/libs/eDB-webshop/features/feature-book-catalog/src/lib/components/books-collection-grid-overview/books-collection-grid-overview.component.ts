@@ -1,19 +1,23 @@
+// books-collection-grid-overview.component.ts
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Book } from '@eDB-webshop/shared-types';
 import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-item.component';
 
 @Component({
   selector: 'books-collection-grid-overview',
-  imports: [BooksGridItemComponent],
+  standalone: true,
+  imports: [BooksGridItemComponent, NgClass],
   template: `
     <section
-      class="grid gap-4 sm:gap-6
-     [grid-template-columns:repeat(auto-fill,minmax(10rem,1fr))]
-     sm:[grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]
-     [grid-auto-rows:1fr]"
+      class="grid auto-rows-fr gap-x-1 gap-y-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-6"
     >
-      @for (book of books(); track book.id) {
-        <books-grid-item [book]="book" />
+      @for (book of books(); track book.id; let idx = $index) {
+        <books-grid-item
+          [book]="book"
+          class="xl:col-span-2"
+          [ngClass]="{ 'xl:col-span-3': isWide(idx) }"
+        />
       }
     </section>
   `,
@@ -21,4 +25,9 @@ import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-
 })
 export class BooksCollectionGridOverviewComponent {
   readonly books = input<Book[]>();
+
+  isWide(i: number): boolean {
+    const r = i % 5;
+    return r === 3 || r === 4;
+  }
 }

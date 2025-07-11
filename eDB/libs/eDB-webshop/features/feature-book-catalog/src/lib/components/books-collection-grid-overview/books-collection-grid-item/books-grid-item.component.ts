@@ -1,3 +1,4 @@
+// books-grid-item.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -5,62 +6,60 @@ import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'books-grid-item',
+  standalone: true,
   imports: [RouterLink, CommonModule],
   template: `
     <article
-      class="bg-white border border-gray-200 rounded-lg overflow-hidden
-             shadow-sm hover:shadow-md transition-shadow duration-200
-             flex flex-col h-full"
+      class="relative bg-[var(--accent)] rounded-lg border border-transparent shadow-sm hover:shadow-md transition duration-200 flex flex-col items-center text-center h-full px-8 pt-10 pb-8"
     >
-      <!-- keep aspect-ratio 2:3 -->
-      <a
-        [routerLink]="['/webshop/books', book()?.id]"
-        class="block w-full h-[200px] sm:h-auto sm:aspect-[2/3] relative group overflow-hidden"
+      <!-- ♥ wishlist icon -->
+      <button
+        class="absolute top-4 right-4 text-gray-400 hover:text-pink-500 focus:outline-none"
+        aria-label="Save to wishlist"
       >
-        @if (book()?.blurDataUrl && !imageLoaded()) {
-          <img
-            [src]="book()?.blurDataUrl"
-            class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
-            aria-hidden="true"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.22 2.44h.57C13.09 5.01 14.76 4 16.5 4 19 4 21 6 21 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
           />
-        }
+        </svg>
+      </button>
 
-        <img
-          [src]="book()?.photoUrl"
-          [alt]="book()?.title"
-          (load)="imageLoaded.set(true)"
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-      </a>
-
-      <div class="p-3 flex flex-col gap-[2px] flex-1">
+      <!-- Title + author on top -->
+      <div class="mb-6">
         <h3
-          class="font-semibold text-sm text-gray-900 leading-snug line-clamp-2"
+          class="text-lg font-medium text-gray-900 leading-snug mb-1 max-w-[14ch]"
         >
           {{ book()?.title }}
         </h3>
-        <p class="text-xs text-gray-500 truncate">
+        <p class="text-sm text-gray-600 truncate max-w-[18ch]">
           {{ book()?.author }}
         </p>
+      </div>
 
-        <div class="flex justify-between items-center text-xs mt-auto pt-2">
-          <span
-            class="px-2 py-[1px] rounded-full bg-slate-100 text-slate-600 capitalize"
-          >
-            {{ book()?.genre }}
-          </span>
+      <!-- Cover image -->
+      <a
+        [routerLink]="['/webshop/books', book()?.id]"
+        class="group flex-grow flex items-center justify-center"
+      >
+        <img
+          [src]="book()?.photoUrl"
+          [alt]="book()?.title"
+          class="w-40 h-60 object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+        />
+      </a>
 
-          @switch (book()?.status) {
-            @case ('available') {
-              <span class="text-green-600 font-medium">
-                €{{ book()?.price | number: '1.2-2' }}
-              </span>
-            }
-            @default {
-              <span class="text-red-400 font-medium">Loaned</span>
-            }
-          }
-        </div>
+      <!-- Price at bottom -->
+      <div class="mt-6 text-base font-semibold text-gray-900">
+        @if (book()?.status === 'available') {
+          € {{ book()?.price | number: '1.2-2' }}
+        } @else {
+          <span class="text-red-500">Loaned</span>
+        }
       </div>
     </article>
   `,

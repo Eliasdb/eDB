@@ -21,7 +21,7 @@ import { filter } from 'rxjs';
       class="fixed inset-x-0 top-20 z-50 border-b border-gray-200 bg-white py-6"
     >
       <div
-        class="max-w-[100%] px-6 xl:px-0 xl:max-w-[72%] mx-auto flex items-center justify-between w-full"
+        class="max-w-[100%] px-6 xl:px-0 xl:max-w-[82%] mx-auto flex items-center justify-between w-full"
       >
         <!-- Left: Title + Back Button -->
         <div class="flex items-center gap-6">
