@@ -29,49 +29,48 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
         • Book count becomes right-aligned
     -->
     <section
-      class="grid grid-cols-1 items-center mb-8 gap-y-3 xl:grid-cols-[auto_auto_1fr_auto] xl:gap-x-8 xl:gap-y-0 xl:min-w-[40rem]"
+      class="grid grid-cols-1 gap-y-4 xl:grid-cols-[auto_auto_1fr_auto] xl:gap-x-8 xl:items-center w-full px-2"
     >
-      <div class="w-[50px] xl:w-auto grid grid-cols-2 gap-x-2">
+      <!-- Toggle Buttons -->
+      <div class="flex gap-2">
         <button
           type="button"
+          aria-label="Grid View"
           (click)="toggleShow(false)"
-          class="border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
           [ngClass]="{
-            'bg-[var(--accent-complimentary)] text-slate-50': !showList(),
+            'bg-[var(--accent-complimentary)] text-white shadow-md':
+              !showList(),
+            'bg-white text-gray-700 border': showList(),
           }"
+          class="w-7 h-7 rounded border border-gray-300 flex items-center justify-center transition-colors"
         >
           <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
             viewBox="0 0 16 16"
-            height="1em"
-            width="1em"
+            class="w-4 h-4"
+            fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
-            class="text-[0.7rem]"
           >
             <path
               d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"
             ></path>
           </svg>
         </button>
+
         <button
           type="button"
+          aria-label="List View"
           (click)="toggleShow(true)"
-          class="border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
           [ngClass]="{
-            'bg-[var(--accent-complimentary)] text-slate-50': showList(),
+            'bg-[var(--accent-complimentary)] text-white shadow-md': showList(),
+            'bg-white text-gray-700 border': !showList(),
           }"
+          class="w-7 h-7 rounded border border-gray-300 flex items-center justify-center transition-colors"
         >
           <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
             viewBox="0 0 16 16"
-            height="1em"
-            width="1em"
+            class="w-4 h-4"
+            fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
-            class="text-[0.7rem]"
           >
             <path
               fill-rule="evenodd"
@@ -80,25 +79,29 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
           </svg>
         </button>
       </div>
-      <section>
-        <p class="w-[7rem] min-w-[9rem] text-left xl:text-right m-0">
-          {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
-        </p>
-      </section>
-      <hr class="border-t border-slate-300 opacity-100" />
 
-      <div class="flex items-center">
-        <label for="sort" class="min-w-[3rem] inline-block mr-2">sort by</label>
+      <!-- Book Count -->
+      <p class="text-sm text-gray-600 xl:text-right">
+        {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
+      </p>
+
+      <!-- Divider for mobile only -->
+      <hr class="border-slate-200" />
+
+      <!-- Sort Select -->
+      <div class="flex items-center gap-2">
+        <label for="sort" class="text-sm text-gray-700 font-medium"
+          >Sort by</label
+        >
         <select
-          name="sort"
           id="sort"
-          class="border border-transparent py-1 px-2 bg-inherit"
+          name="sort"
+          class="rounded-md border border-gray-300 bg-white text-sm text-gray-800 px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-complimentary)] focus:border-transparent transition"
           (change)="selectSort($event)"
         >
           @for (sort of sortByOrder; track sort) {
             <option
               [value]="sortByMap[sort].key"
-              class="status-option"
               [selected]="selectedValue() === sortByMap[sort].key"
             >
               {{ sortByMap[sort].label }}

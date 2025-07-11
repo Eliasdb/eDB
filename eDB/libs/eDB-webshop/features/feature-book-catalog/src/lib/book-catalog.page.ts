@@ -36,13 +36,13 @@ import {
   ],
   template: `
     <section
-      class="flex flex-col gap-10 xl:gap-24 xl:flex-row max-w-[88%] xl:max-w-[72%] mt-48 mx-auto"
+      class="flex flex-col gap-10 xl:gap-24 lg:flex-row max-w-[88%] xl:max-w-[82%] mt-48 mx-auto "
     >
       <!-- Filters (fixed ~15rem) -->
       <aside
-        class="flex-shrink-0 xl:w-[17rem] p-6 rounded-xl backdrop-blur-md bg-white/70 shadow-md border border-white/40"
+        class="xl:self-start flex-shrink-0 lg:w-[17rem] p-6 rounded-xl backdrop-blur-md bg-white/70 shadow-md border border-white/40"
       >
-        <h2 class="text-xl font-medium mb-6 flex items-center gap-2">
+        <h2 class="text-lg font-normal mb-6 flex items-center gap-2">
           <ui-icon name="faFilter" size="1.25rem" />
           Filters
         </h2>
