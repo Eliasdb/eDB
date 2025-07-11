@@ -16,6 +16,7 @@ import {
 } from '@eDB-webshop/util-book-params';
 
 import { LoadingStateComponent } from '@eDB-webshop/ui-webshop';
+import { UiIconComponent } from '@edb/shared-ui';
 import {
   BooksCollectionGridOverviewComponent,
   BooksCollectionListOverviewComponent,
@@ -31,6 +32,7 @@ import {
     BooksFiltersComponent,
     BooksSortBarComponent,
     LoadingStateComponent,
+    UiIconComponent,
   ],
   template: `
     <section
@@ -40,7 +42,10 @@ import {
       <aside
         class="flex-shrink-0 xl:w-[17rem] p-6 rounded-xl backdrop-blur-md bg-white/70 shadow-md border border-white/40"
       >
-        <h2 class="text-2xl font-medium mb-6">Filters</h2>
+        <h2 class="text-xl font-medium mb-6 flex items-center gap-2">
+          <ui-icon name="faFilter" size="1.25rem" />
+          Filters
+        </h2>
 
         <book-filters
           [value]="query()"
