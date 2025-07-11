@@ -19,7 +19,7 @@ import { filter } from 'rxjs';
   imports: [UiIconButtonComponent, RouterLink],
   template: `
     <header
-      class="fixed inset-x-0 top-20 z-50 border-b border-gray-200 bg-white px-6 py-6"
+      class="fixed inset-x-0 top-20 z-50 border-b border-gray-200 bg-white py-6"
     >
       <div
         class="max-w-[88%] xl:max-w-[72%] mx-auto flex items-center justify-between w-full"
