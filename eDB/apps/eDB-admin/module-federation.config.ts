@@ -52,6 +52,11 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '0.0.1',
   },
+  '@angular/cdk': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.1.5',
+  },
 };
 
 const config: ModuleFederationConfig = {
