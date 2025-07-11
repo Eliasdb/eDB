@@ -52,7 +52,7 @@ spec:
                                 name: postgres-secret-prod
                                 key: POSTGRES_PASSWORD
                       - name: KEYCLOAK_JWKS_URL
-                        value: 'https://app.eliasdebock.com/keycloak/realms/EDB/protocol/openid-connect/certs'
+                        value: 'https://app.eliasdebock.com/keycloak/realms/EDB-PROD/protocol/openid-connect/certs'
                   resources:
                       requests:
                           memory: '256Mi'

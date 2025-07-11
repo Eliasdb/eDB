@@ -64,7 +64,7 @@ class BooksPullCommand extends Command
             ];
         }
 
-        // Step 3: Save updated book collection
+        // Step 3: Save updated book collection.
         $json = json_encode($records, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         file_put_contents($outFile, $json);
 

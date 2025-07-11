@@ -7,8 +7,8 @@ import {
   MatSidenavModule,
 } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-
 import { Subject, takeUntil } from 'rxjs';
+
 import { UiNavSidebarComponent } from '../components/sidebar-main/nav-sidebar.component';
 import { SidebarToggleService } from '../services/sidebar-toggle.service';
 
@@ -59,20 +59,21 @@ export interface NavItem {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-gallery-vertical-end size-4 mr-2 "
+                class="lucide lucide-gallery-vertical-end size-4 mr-2"
                 aria-hidden="true"
               >
-                <path d="M7 2h10"></path>
-                <path d="M5 6h14"></path>
-                <rect width="18" height="12" x="3" y="10" rx="2"></rect></svg
-            ></span>
+                <path d="M7 2h10" />
+                <path d="M5 6h14" />
+                <rect width="18" height="12" x="3" y="10" rx="2" />
+              </svg>
+            </span>
           </ui-nav-sidebar>
         </mat-drawer>
 
         <!-- ▣ MAIN CONTENT ---------------------------------------------- -->
         <mat-drawer-content class="bg-white pt-20">
           <header
-            class="h-16 flex items-center gap-2 px-6 border-b border-solid border-[#e5e7eb]  text-sm text-black"
+            class="h-16 flex items-center gap-2 px-6 border-b border-solid border-[#e5e7eb] text-sm text-black"
           >
             <svg
               (click)="leftNav.open()"
@@ -101,16 +102,19 @@ export interface NavItem {
   `,
 })
 export class UiSidebarLayoutSmarterComponent implements OnInit, OnDestroy {
-  @ViewChild('leftNav', { static: true }) leftNav!: MatDrawer;
-
+  // 🧠 Inputs as signals (Angular 17+)
   readonly brandTitle = input<string>('Sidebar');
   readonly brandSubtitle = input<string>('Module');
   readonly pageTitle = input<string>('Page');
   readonly items = input<NavItem[]>([]);
 
-  constructor(private sidebarToggle: SidebarToggleService) {}
+  // Drawer ref
+  @ViewChild('leftNav', { static: true }) leftNav!: MatDrawer;
 
-  private destroy$ = new Subject<void>();
+  // Lifecycle
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(private sidebarToggle: SidebarToggleService) {}
 
   ngOnInit() {
     this.sidebarToggle.toggle$
