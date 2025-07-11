@@ -1,36 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'books-grid-item',
-  standalone: true,
   imports: [RouterLink, CommonModule],
   template: `
     <article
       class="bg-white border border-gray-200 rounded-lg overflow-hidden
-         shadow-sm hover:shadow-md transition-shadow duration-200
-         flex flex-col h-full"
+             shadow-sm hover:shadow-md transition-shadow duration-200
+             flex flex-col h-full"
     >
       <!-- keep aspect-ratio 2:3 -->
       <a
         [routerLink]="['/webshop/books', book()?.id]"
         class="block w-full h-[200px] sm:h-auto sm:aspect-[2/3] relative group overflow-hidden"
       >
-        <!-- Blur placeholder -->
-        <img
-          *ngIf="book()?.blurDataUrl && !imageLoaded"
-          [src]="book()?.blurDataUrl"
-          class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
-          aria-hidden="true"
-        />
+        @if (book()?.blurDataUrl && !imageLoaded()) {
+          <img
+            [src]="book()?.blurDataUrl"
+            class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
+            aria-hidden="true"
+          />
+        }
 
-        <!-- Real image -->
         <img
           [src]="book()?.photoUrl"
           [alt]="book()?.title"
-          (load)="imageLoaded = true"
+          (load)="imageLoaded.set(true)"
           class="absolute inset-0 w-full h-full object-cover"
         />
       </a>
@@ -41,7 +39,9 @@ import { Book } from '@eDB-webshop/shared-types';
         >
           {{ book()?.title }}
         </h3>
-        <p class="text-xs text-gray-500 truncate">{{ book()?.author }}</p>
+        <p class="text-xs text-gray-500 truncate">
+          {{ book()?.author }}
+        </p>
 
         <div class="flex justify-between items-center text-xs mt-auto pt-2">
           <span
@@ -50,17 +50,16 @@ import { Book } from '@eDB-webshop/shared-types';
             {{ book()?.genre }}
           </span>
 
-          <ng-container [ngSwitch]="book()?.status">
-            <span
-              *ngSwitchCase="'available'"
-              class="text-green-600 font-medium"
-            >
-              €{{ book()?.price | number: '1.2-2' }}
-            </span>
-            <span *ngSwitchDefault class="text-red-400 font-medium">
-              Loaned
-            </span>
-          </ng-container>
+          @switch (book()?.status) {
+            @case ('available') {
+              <span class="text-green-600 font-medium">
+                €{{ book()?.price | number: '1.2-2' }}
+              </span>
+            }
+            @default {
+              <span class="text-red-400 font-medium">Loaned</span>
+            }
+          }
         </div>
       </div>
     </article>
@@ -68,5 +67,5 @@ import { Book } from '@eDB-webshop/shared-types';
 })
 export class BooksGridItemComponent {
   readonly book = input<Book>();
-  imageLoaded = false;
+  readonly imageLoaded = signal(false);
 }

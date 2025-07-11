@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild, input } from '@angular/core';
 import {
   MatDrawer,
@@ -9,8 +8,8 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
-import { UiNavSidebarComponent } from '../components/sidebar-main/nav-sidebar.component';
-import { SidebarToggleService } from '../services/sidebar-toggle.service';
+import { UiNavSidebarComponent } from '../../components/sidebar-main/nav-sidebar.component';
+import { SidebarToggleService } from '../../services/sidebar-toggle.service';
 
 export interface NavItem {
   id: string;
@@ -20,10 +19,8 @@ export interface NavItem {
 }
 
 @Component({
-  selector: 'ui-sidebar-layout-2',
-  standalone: true,
+  selector: 'ui-sidebar-layout',
   imports: [
-    CommonModule,
     MatSidenavModule,
     MatDrawerContainer,
     MatDrawerContent,
@@ -102,7 +99,6 @@ export interface NavItem {
   `,
 })
 export class UiSidebarLayoutSmarterComponent implements OnInit, OnDestroy {
-  // 🧠 Inputs as signals (Angular 17+)
   readonly brandTitle = input<string>('Sidebar');
   readonly brandSubtitle = input<string>('Module');
   readonly pageTitle = input<string>('Page');

@@ -1,12 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'admin-sidebar',
-  standalone: true,
-  imports: [MatIconModule, MatButtonModule, CommonModule],
+  imports: [MatIconModule],
   template: `
     <nav class="w-[16rem] bg-gray-900 text-white h-full flex flex-col p-4">
       <section class="flex items-start justify-between pl-2">

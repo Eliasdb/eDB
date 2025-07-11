@@ -13,7 +13,6 @@ interface Order {
 }
 
 @Component({
-  standalone: true,
   selector: 'order-tracking-page',
   imports: [CommonModule],
   template: `

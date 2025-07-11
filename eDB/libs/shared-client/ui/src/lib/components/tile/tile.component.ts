@@ -5,7 +5,6 @@ import { UiTagComponent } from '../tag/tag.component';
 
 @Component({
   selector: 'ui-tile',
-  standalone: true,
   imports: [TilesModule, UiTagComponent, UiIconButtonComponent, SkeletonModule],
   styles: [
     `

@@ -4,7 +4,6 @@ import { UiIconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'ui-icon-button',
-  standalone: true,
   imports: [UiIconComponent, ButtonModule],
   template: `
     <cds-icon-button

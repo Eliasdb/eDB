@@ -23,7 +23,6 @@ import { TableUtilsService } from '@eDB/shared-utils';
 import { PlaceholderModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
-import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -39,13 +38,11 @@ import {
 
 @Component({
   selector: 'platform-admin-applications-collection',
-  standalone: true,
   imports: [
     UiTableComponent,
     UiButtonComponent,
     PlaceholderModule,
     UiPlatformOverflowMenuComponent,
-    CommonModule,
     MatCardModule,
     ApplicationsCollectionAccordionComponent,
     UiTextInputComponent,

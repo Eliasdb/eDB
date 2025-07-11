@@ -3,7 +3,6 @@ import { UiShellHostComponent } from '@eDB/feature-shell';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [UiShellHostComponent],
   template: `<ui-shell-host />`,
 })

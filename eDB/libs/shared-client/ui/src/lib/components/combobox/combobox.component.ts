@@ -3,7 +3,6 @@ import { ComboBoxModule, ListItem } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-combobox',
-  standalone: true,
   imports: [ComboBoxModule],
   template: `
     <cds-combo-box

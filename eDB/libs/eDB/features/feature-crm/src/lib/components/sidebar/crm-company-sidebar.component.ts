@@ -22,7 +22,6 @@ export interface CompanyCard {
 
 @Component({
   selector: 'crm-company-sidebar',
-  standalone: true,
   imports: [CommonModule, UiSlideInSidebarComponent, UiIconButtonComponent],
   template: `
     <ui-slide-in-sidebar [embedded]="embedded" #shell (closed)="closed.emit()">

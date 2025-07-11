@@ -15,7 +15,6 @@ import { filter } from 'rxjs';
 
 @Component({
   selector: 'ui-platform-subheader',
-  standalone: true,
   imports: [UiIconButtonComponent, RouterLink],
   template: `
     <header

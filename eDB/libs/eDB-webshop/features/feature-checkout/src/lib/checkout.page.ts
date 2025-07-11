@@ -19,7 +19,6 @@ import { CheckoutService } from './checkout.service';
 import { OrderSummaryItemComponent } from './components/order-summary-item/order-summary-item.component';
 
 @Component({
-  standalone: true,
   selector: 'app-checkout-page',
   imports: [
     CommonModule,

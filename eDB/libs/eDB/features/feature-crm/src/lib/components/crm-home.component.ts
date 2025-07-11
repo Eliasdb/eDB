@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'crm-home',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   template: `
     <div class="p-6 pt-8 bg-slate-50 min-h-[calc(100vh-9rem)] ">
       <section class="max-w-7xl mx-auto">

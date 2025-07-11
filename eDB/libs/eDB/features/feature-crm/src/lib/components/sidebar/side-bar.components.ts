@@ -29,7 +29,6 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
 
 @Component({
   selector: 'crm-contact-sidebar',
-  standalone: true,
   imports: [
     CommonModule,
     UiSlideInSidebarComponent,
