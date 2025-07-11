@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,8 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        DB::table('books')->truncate();
+
         $this->call([
-            BookSeeder::class,
+            // BookSeeder::class,
+            CuratedBooksSeeder::class
             // OrderSeeder::class,
         ]);
 

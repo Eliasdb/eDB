@@ -7,8 +7,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartComponent } from '@eDB-webshop/feature-cart';
-import { UiPlatformSubHeaderComponent } from '@edb/shared-ui';
 import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
+import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
 @Component({
   selector: 'edb-webshop-root',
@@ -18,16 +18,18 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
     RouterOutlet,
     PlaceholderModule,
     I18nModule,
-    UiPlatformSubHeaderComponent,
     MatButtonModule,
     MatDialogModule,
     CartComponent,
+    UiPlatformSubHeaderComponent,
   ],
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-gray-100">
       <ui-platform-subheader
         (openDialog)="toggleCart()"
         [cartItems]="cartItems()"
+        [orderItems]="cartItems()"
+        (ordersClick)="goToOrders()"
       ></ui-platform-subheader>
 
       @if (showCart) {
@@ -37,11 +39,12 @@ import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
             [isCartVisible]="showCart"
             (showCart)="showCart = false"
             (cartItemDeleted)="onDeleteCartItem($event)"
+            (checkoutClicked)="goToCheckout()"
           ></app-cart>
         </section>
       }
 
-      <main class="platform-content ">
+      <main class="platform-content">
         <router-outlet></router-outlet>
       </main>
     </div>
@@ -61,5 +64,14 @@ export class WebshopAppComponent {
 
   onDeleteCartItem(cartItemId: number) {
     this.cartService.removeFromCart(cartItemId);
+  }
+
+  goToCheckout() {
+    this.showCart = false;
+    this.router.navigate(['/webshop/checkout']);
+  }
+
+  goToOrders() {
+    this.router.navigate(['/webshop/orders']);
   }
 }

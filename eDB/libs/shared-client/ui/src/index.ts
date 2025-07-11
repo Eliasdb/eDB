@@ -1,9 +1,10 @@
+export { UiToggleComponent } from './lib/components/toggle/toggle.component';
+
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';
 export { UiDatePickerComponent } from './lib/components/date-picker/date-picker.component';
 export { UiPlatformHeaderComponent } from './lib/components/header/platform-header.component';
-export { UiPlatformSubHeaderComponent } from './lib/components/header/sub-header/sub-header.component';
 export { UiIconComponent } from './lib/components/icon/icon.component';
 export { UiDropdownComponent } from './lib/components/inputs/dropdown/dropdown.component';
 export { UiPasswordInputComponent } from './lib/components/inputs/password-input/password-input.component';

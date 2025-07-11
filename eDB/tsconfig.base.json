@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@edb/feature-webshop": [
-        "libs/eDB/features/feature-webshop/src/index.ts"
+      "@edb-webshop/feature-orders": [
+        "libs/eDB-webshop/features/feature-orders/src/index.ts"
       ],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
@@ -86,6 +86,9 @@
       "@edb/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
       "@edb/feature-crm": ["libs/eDB/features/feature-crm/src/index.ts"],
       "@edb/feature-erp": ["libs/eDB/features/feature-erp/src/index.ts"],
+      "@edb/feature-webshop": [
+        "libs/eDB/features/feature-webshop/src/index.ts"
+      ],
       "@edb/shared-ui": ["libs/shared-client/ui/src/index.ts"],
       "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
       "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],

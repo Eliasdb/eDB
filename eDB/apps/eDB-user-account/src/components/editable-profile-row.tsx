@@ -33,93 +33,76 @@ export function EditableProfileRow({
 }: EditableProfileRowProps) {
   const isName = fieldKey === 'firstName';
 
-  const inputSection = isName ? (
-    <div className="flex flex-col gap-4 mt-4">
-      <div className="flex flex-col gap-1">
-        <Label htmlFor="firstName">First name</Label>
-        <Input
-          id="firstName"
-          name="firstName"
-          type="text"
-          placeholder="First name"
-          value={value}
-          onChange={onChange}
-          className="w-full text-base h-10 md:max-w-xs"
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <Label htmlFor="lastName">Last name</Label>
-        <Input
-          id="lastName"
-          name="lastName"
-          type="text"
-          placeholder="Last name"
-          value={secondaryValue}
-          onChange={onChange}
-          className="w-full text-base h-10 md:max-w-xs"
-        />
-      </div>
-    </div>
-  ) : (
-    <Input
-      id={fieldKey}
-      name={fieldKey}
-      type={fieldKey === 'email' ? 'email' : 'text'}
-      placeholder={`Enter ${label.toLowerCase()}`}
-      value={value}
-      onChange={onChange}
-      className="w-full text-base h-10 md:max-w-xs"
-    />
-  );
-
   return (
-    <div
-      className={`
-        border-t pt-4
-        grid 
-        grid-cols-1
-        md:grid-cols-[1fr_2fr_1fr]
-        ${isEditing ? 'md:items-start' : 'md:items-center'}
-      `}
-    >
-      <div className="flex justify-between items-center md:justify-start md:col-start-1 md:col-end-2">
-        <span className="font-normal">{label}</span>
-        <div className="md:hidden w-[72px] flex justify-end">
+    <div className="border-t pt-6 pb-6 grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] md:items-start gap-y-4">
+      {/* Label */}
+      <div className="flex justify-between md:justify-start md:items-start">
+        <span className="font-medium text-sm text-muted-foreground">
+          {label}
+        </span>
+        {!isEditing && (
           <Button
             size="sm"
             variant="ghost"
-            className={`text-sm font-normal transition-opacity duration-150 ${
-              isEditing ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            }`}
+            className="text-sm font-normal md:hidden"
             onClick={onEdit}
           >
             Edit <Pencil className="w-4 h-4 ml-1" />
           </Button>
-        </div>
+        )}
       </div>
 
-      <div className="md:col-start-2 md:col-end-3 flex flex-col gap-2">
+      {/* Input or Value */}
+      <div className="flex flex-col gap-2">
         {isEditing ? (
           <>
-            <span className="text-sm font-normal text-muted-foreground">
-              Update your {label.toLowerCase()}
-            </span>
-            {inputSection}
+            {isName ? (
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <Label htmlFor="firstName">First name</Label>
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    placeholder="First name"
+                    value={value}
+                    onChange={onChange}
+                    className="h-10 text-base"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label htmlFor="lastName">Last name</Label>
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Last name"
+                    value={secondaryValue}
+                    onChange={onChange}
+                    className="h-10 text-base"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1">
+                <Label htmlFor={fieldKey}>{label}</Label>
+                <Input
+                  id={fieldKey}
+                  name={fieldKey}
+                  type={fieldKey === 'email' ? 'email' : 'text'}
+                  placeholder={`Enter ${label.toLowerCase()}`}
+                  value={value}
+                  onChange={onChange}
+                  className="h-10 text-base"
+                />
+              </div>
+            )}
           </>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <span>
               {value || <span className="text-muted-foreground">Not set</span>}
             </span>
             {fieldKey === 'email' && (
-              <span
-                className="text-xs px-2 py-0.5 rounded-full"
-                style={{
-                  backgroundColor: '#f1f6fd',
-                  color: '#2a5bd7',
-                  fontWeight: 500,
-                }}
-              >
+              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-medium">
                 Primary
               </span>
             )}
@@ -127,22 +110,21 @@ export function EditableProfileRow({
         )}
       </div>
 
-      <div className="md:col-start-3 md:col-end-4 text-right flex flex-col items-end gap-2 ">
-        <div className="hidden md:block relative">
-          {!isEditing && (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-sm font-normal absolute top-1/2 right-0 -translate-y-1/2"
-              onClick={onEdit}
-            >
-              Edit <Pencil className="w-4 h-4 ml-1" />
-            </Button>
-          )}
-        </div>
+      {/* Buttons */}
+      <div className="flex flex-col items-end gap-2">
+        {!isEditing && (
+          <Button
+            size="sm"
+            variant="ghost"
+            className="hidden md:inline-flex text-sm font-normal"
+            onClick={onEdit}
+          >
+            Edit <Pencil className="w-4 h-4 ml-1" />
+          </Button>
+        )}
 
         {isEditing && (
-          <div className="w-full flex flex-col md:flex-row md:justify-end gap-2">
+          <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
             <Button
               size="sm"
               variant="secondary"

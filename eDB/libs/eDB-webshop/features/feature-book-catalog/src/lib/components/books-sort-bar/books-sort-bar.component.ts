@@ -35,8 +35,10 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
         <button
           type="button"
           (click)="toggleShow(false)"
-          class="bg-transparent border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
-          [ngClass]="{ 'bg-black text-white': !showList() }"
+          class="border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
+          [ngClass]="{
+            'bg-[var(--accent-complimentary)] text-slate-50': !showList(),
+          }"
         >
           <svg
             stroke="currentColor"
@@ -56,8 +58,10 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
         <button
           type="button"
           (click)="toggleShow(true)"
-          class="bg-transparent border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
-          [ngClass]="{ 'bg-black text-white': showList() }"
+          class="border border-black text-black w-[1.5rem] h-[1.5rem] rounded flex items-center justify-center cursor-pointer"
+          [ngClass]="{
+            'bg-[var(--accent-complimentary)] text-slate-50': showList(),
+          }"
         >
           <svg
             stroke="currentColor"
@@ -81,7 +85,8 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
           {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
         </p>
       </section>
-      <hr />
+      <hr class="border-t border-slate-300 opacity-100" />
+
       <div class="flex items-center">
         <label for="sort" class="min-w-[3rem] inline-block mr-2">sort by</label>
         <select

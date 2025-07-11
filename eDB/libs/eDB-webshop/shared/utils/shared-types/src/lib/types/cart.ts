@@ -1,23 +1,27 @@
+// ─────────────────────────────────────────────────────────────
+// shared-types.ts — rename Order* to Cart*
+// ─────────────────────────────────────────────────────────────
 import { Book } from './book';
 
-export interface OrderItem {
+export interface CartItem {
   id: number;
   bookId: number;
   selectedAmount: number;
-  price: number; // You might convert the string to a number if necessary.
+  price: number;
   book: Book;
 }
 
-export interface Order {
+export interface Cart {
   id: number;
   userId: number;
-  items: OrderItem[];
+  items: CartItem[];
   createdAt: string;
   updatedAt: string;
+  total: number;
 }
 
-export interface OrderApiResponse {
-  data: Order;
+export interface CartApiResponse {
+  data: Cart;
 }
 
 export interface CartItemCreateRequest {

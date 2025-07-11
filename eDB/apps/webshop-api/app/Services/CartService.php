@@ -31,7 +31,7 @@ class CartService
      */
     public function addItem($userId, array $data)
     {
-        // Find the book or fail
+        // Find the book or fail.
         $book = Book::findOrFail($data['id']);
 
         // Check if there is enough stock
@@ -91,6 +91,11 @@ class CartService
      */
     public function updateItem($userId, $itemId, array $data)
     {
+        if (isset($data['selectedAmount'])) {
+            $data['selected_amount'] = $data['selectedAmount'];
+            unset($data['selectedAmount']);
+        }
+
         $cart = Cart::firstOrCreate(['user_id' => $userId]);
         $item = $cart->items()->findOrFail($itemId);
         $item->update($data);
@@ -98,4 +103,5 @@ class CartService
         $cart->load('items.book');
         return $cart;
     }
+
 }

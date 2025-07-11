@@ -3,16 +3,18 @@ import { Book } from '@eDB-webshop/shared-types';
 import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-item.component';
 
 @Component({
-  imports: [BooksGridItemComponent],
   selector: 'books-collection-grid-overview',
+  standalone: true,
+  imports: [BooksGridItemComponent],
   template: `
     <section
-      class="grid justify-items-center grid-cols-2 gap-y-16 gap-x-0 sm:grid-cols-4 sm:gap-8 md:grid-cols-5 md:gap-16 xl:grid-cols-3 xl:gap-16"
+      class="grid gap-4 sm:gap-6
+     [grid-template-columns:repeat(auto-fill,minmax(10rem,1fr))]
+     sm:[grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]
+     [grid-auto-rows:1fr]"
     >
-      @for (book of books(); track $index) {
-        <div class="col-2">
-          <books-grid-item [book]="book" />
-        </div>
+      @for (book of books(); track book.id) {
+        <books-grid-item [book]="book" />
       }
     </section>
   `,
