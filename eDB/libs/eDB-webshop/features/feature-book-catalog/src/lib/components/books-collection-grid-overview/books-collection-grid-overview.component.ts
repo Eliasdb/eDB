@@ -8,9 +8,10 @@ import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-
   imports: [BooksGridItemComponent],
   template: `
     <section
-      class="grid auto-rows-auto gap-5 sm:gap-6 
-         [grid-template-columns:repeat(auto-fill,minmax(9rem,1fr))] 
-         sm:[grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]"
+      class="grid gap-4 sm:gap-6
+     [grid-template-columns:repeat(auto-fill,minmax(10rem,1fr))]
+     sm:[grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))]
+     [grid-auto-rows:1fr]"
     >
       @for (book of books(); track book.id) {
         <books-grid-item [book]="book" />

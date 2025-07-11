@@ -34,10 +34,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     WebshopBooksTableComponent,
   ],
   template: `
-    <!-- Floating button to open the sidebar when closed -->
-
     <mat-drawer-container class="h-[calc(100dvh-5rem)] relative">
-      <!-- Sidebar with dark theme styling and dynamic mode -->
       <mat-drawer
         #drawer
         [mode]="sidenavMode"
@@ -49,18 +46,15 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           [isOpen]="drawer.opened"
           (toggleSidebar)="drawer.toggle()"
           (itemSelected)="switchDrawerContent($event)"
-        >
-          ></admin-sidebar
-        >
+        ></admin-sidebar>
       </mat-drawer>
 
-      <!-- Main Content -->
       <mat-drawer-content>
-        <div class="pt-0 bg-slate-50 text-black   min-h-[calc(100dvh-5rem)]">
+        <div class="pt-0 bg-slate-50 text-black min-h-[calc(100dvh-5rem)]">
           <div
             class="h-16 bg-white flex items-center justify-between border-b border-solid border-[#e5e7eb]"
           >
-            <div class="flex items-center gap-2 text-sm  ml-6">
+            <div class="flex items-center gap-2 text-sm ml-6">
               <svg
                 (click)="drawer.open()"
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,46 +72,39 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                 <rect width="18" height="18" x="3" y="3" rx="2"></rect>
                 <path d="M9 3v18"></path>
               </svg>
-              <div
-                data-orientation="vertical"
-                role="none"
-                class="shrink-0 bg-border w-[1px] mr-2 h-4"
-              ></div>
-
+              <div class="shrink-0 bg-border w-[1px] mr-2 h-4"></div>
               <span class="text-gray-500">Admin</span>
               <span class="text-gray-400">/</span>
               <span class="text-gray-700 font-medium">Platform</span>
             </div>
           </div>
 
-          <ng-container *ngIf="currentView() === 'platform'">
+          @if (currentView() === 'platform') {
             <div class="p-6">
               <h2 class="mb-4 text-2xl font-medium">Dashboard</h2>
 
-              <!-- Metric Tiles -->
               <div class="flex flex-col md:flex-row gap-4 mb-4">
-                <cds-tile class="flex-1  border  rounded-[0.375rem] ">
+                <cds-tile class="flex-1 border rounded-[0.375rem]">
                   <h5 class="mb-1 font-light opacity-80">Total Revenue</h5>
                   <h3 class="text-xl font-medium">{{ totalRevenue }}</h3>
                 </cds-tile>
-                <cds-tile class="flex-1   border  rounded-[0.375rem]">
+                <cds-tile class="flex-1 border rounded-[0.375rem]">
                   <h5 class="mb-1 font-light opacity-80">Customers</h5>
                   <h3 class="text-xl font-medium">{{ customers }}</h3>
                 </cds-tile>
-                <cds-tile class="flex-1   border  rounded-[0.375rem]">
+                <cds-tile class="flex-1 border rounded-[0.375rem]">
                   <h5 class="mb-1 font-light opacity-80">Avg Order Value</h5>
                   <h3 class="text-xl font-medium">{{ avgOrderValue }}</h3>
                 </cds-tile>
-                <cds-tile class="flex-1   border  rounded-[0.375rem]">
+                <cds-tile class="flex-1 border rounded-[0.375rem]">
                   <h5 class="mb-1 font-light opacity-80">Sessions</h5>
                   <h3 class="text-xl font-medium">{{ sessions }}</h3>
                 </cds-tile>
               </div>
 
-              <!-- Charts Row -->
               <div class="flex flex-col md:flex-row gap-4 mb-4">
                 <cds-tile
-                  class="flex-1 border  rounded-[0.375rem] p-4 flex flex-col"
+                  class="flex-1 border rounded-[0.375rem] p-4 flex flex-col"
                 >
                   <h4 class="mb-2 text-lg font-medium">Revenue</h4>
                   <div class="flex-1 min-h-[300px]">
@@ -144,12 +131,11 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                 </cds-tile>
               </div>
 
-              <!-- Bottom Row -->
               <div class="flex flex-col md:flex-row gap-4">
-                <cds-tile class="flex-1 border  rounded-[0.375rem] p-4">
+                <cds-tile class="flex-1 border rounded-[0.375rem] p-4">
                   <platform-admin-applications-collection></platform-admin-applications-collection>
                 </cds-tile>
-                <cds-tile class="flex-1 border  rounded-[0.375rem] p-4">
+                <cds-tile class="flex-1 border rounded-[0.375rem] p-4">
                   <h4 class="mb-2 text-lg font-medium">Top Products</h4>
                   <ul class="list-none p-0 m-0">
                     <li
@@ -188,13 +174,13 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                 <platform-admin-users-collection></platform-admin-users-collection>
               </div>
             </div>
-          </ng-container>
+          }
 
-          <ng-container *ngIf="currentView() === 'webshop'">
+          @if (currentView() === 'webshop') {
             <section class="p-6">
               <webshop-books-table />
             </section>
-          </ng-container>
+          }
         </div>
       </mat-drawer-content>
     </mat-drawer-container>
@@ -203,28 +189,25 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
   standalone: true,
 })
 export class AdminDashboardComponent {
-  isDrawerOpen = false; // ✅ removed type
+  isDrawerOpen = false;
   @ViewChild('drawer') drawer!: MatDrawer;
 
   currentView = signal<'platform' | 'webshop'>('platform');
   sidenavMode: 'over' | 'side' = 'side';
 
   switchDrawerContent(newContent: 'platform' | 'webshop') {
-    // update the view only if it changed
     if (this.currentView() !== newContent) {
       this.currentView.set(newContent);
     }
-
-    // close the drawer if it is open
     if (this.drawer?.opened) {
       this.drawer.close();
     }
   }
 
   totalRevenue = '$56,945';
-  customers = 1092; // ✅ removed type
+  customers = 1092;
   avgOrderValue = '$202';
-  sessions = 9285; // ✅ removed type
+  sessions = 9285;
 
   revenueChartData: ChartConfiguration<'line'>['data'] = {
     labels: [

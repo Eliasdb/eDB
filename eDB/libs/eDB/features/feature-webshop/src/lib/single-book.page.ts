@@ -14,7 +14,6 @@ import { BooksService } from '@eDB-webshop/client-books';
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartItemCreateRequest } from '@eDB-webshop/shared-types';
 import {
-  BreadcrumbsComponent,
   LoadingStateComponent,
   QuantitySelectorComponent,
 } from '@eDB-webshop/ui-webshop';
@@ -34,7 +33,6 @@ import { UiButtonComponent } from '@edb/shared-ui';
     MatButtonModule,
 
     /* Local UI */
-    BreadcrumbsComponent,
     UiButtonComponent,
     QuantitySelectorComponent,
   ],
