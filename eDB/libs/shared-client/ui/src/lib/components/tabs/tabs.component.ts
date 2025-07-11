@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 import { TabsModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-tabs',
-  standalone: true,
-  imports: [TabsModule, CommonModule],
+  imports: [TabsModule],
   template: `
     <cds-tabs
       type="line"

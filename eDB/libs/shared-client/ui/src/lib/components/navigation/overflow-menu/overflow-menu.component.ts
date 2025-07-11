@@ -15,7 +15,6 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
 
 @Component({
   selector: 'ui-platform-overflow-menu',
-  standalone: true,
   imports: [DialogModule, UiIconComponent],
   template: `
     <cds-overflow-menu

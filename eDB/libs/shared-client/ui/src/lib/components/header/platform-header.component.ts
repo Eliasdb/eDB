@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -22,13 +22,11 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
 
 @Component({
   selector: 'ui-platform-header',
-  standalone: true,
   imports: [
     HeaderModule,
     UiPlatformOverflowMenuComponent,
     UiButtonComponent,
     RouterLink,
-    CommonModule,
     RouterLinkActive,
     UiIconComponent,
   ],
@@ -44,11 +42,13 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
             @for (link of navigationLinks(); track link.id) {
               <a
                 [routerLink]="link.id === '' ? '/' : '/' + link.id"
-                routerLinkActive="text-white after:absolute after:left-1 after:right-1 after:-bottom-0.5 after:h-0.5 after:bg-[var(--accent)]"
                 [routerLinkActiveOptions]="{ exact: link.id === '' }"
+                routerLinkActive="text-white after:absolute after:left-1 after:right-1 after:-bottom-0.5 after:h-0.5 after:bg-[var(--accent)]"
                 class="group relative inline-flex items-center gap-2 px-2 py-1 text-sm text-gray-400 hover:text-white transition"
               >
-                <ui-icon *ngIf="link.icon" [name]="link.icon" size="sm" />
+                @if (link.icon) {
+                  <ui-icon [name]="link.icon" size="sm" />
+                }
                 <span class="font-medium">{{ link.label }}</span>
               </a>
             }

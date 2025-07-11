@@ -4,7 +4,6 @@ import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-
 
 @Component({
   selector: 'books-collection-grid-overview',
-  standalone: true,
   imports: [BooksGridItemComponent],
   template: `
     <section

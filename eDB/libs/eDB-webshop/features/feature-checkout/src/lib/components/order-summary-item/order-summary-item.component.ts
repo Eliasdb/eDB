@@ -7,7 +7,6 @@ import { CartItem } from '@eDB-webshop/shared-types';
 import { SkeletonModule } from 'carbon-components-angular';
 
 @Component({
-  standalone: true,
   selector: 'order-summary-item',
   imports: [CommonModule, SkeletonModule],
   template: `

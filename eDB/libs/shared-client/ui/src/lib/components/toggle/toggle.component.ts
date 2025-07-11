@@ -10,7 +10,6 @@ import { ToggleModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-toggle',
-  standalone: true,
   imports: [ToggleModule],
   template: `
     <cds-toggle

@@ -25,7 +25,6 @@ import {
 
 @Component({
   selector: 'books-container',
-  standalone: true,
   imports: [
     BooksCollectionGridOverviewComponent,
     BooksCollectionListOverviewComponent,

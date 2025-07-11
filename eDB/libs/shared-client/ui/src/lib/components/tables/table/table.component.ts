@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule, TableModule } from 'carbon-components-angular';
@@ -12,35 +11,32 @@ export interface SortEvent {
 
 @Component({
   selector: 'ui-table',
-  standalone: true,
-  imports: [
-    TableModule,
-    PaginationModule,
-    FormsModule,
-    UiButtonComponent,
-    CommonModule,
-  ],
+  imports: [TableModule, PaginationModule, FormsModule, UiButtonComponent],
   template: `
     <cds-table-container>
       <!-- optional header -->
-      <cds-table-header *ngIf="showHeader()" class="table-header-container">
-        <div>
-          <h4 cdsTableHeaderTitle style="margin:0;">{{ title() }}</h4>
-          <p cdsTableHeaderDescription style="margin:0;">{{ description() }}</p>
-        </div>
-
-        @if (showButton()) {
+      @if (showHeader()) {
+        <cds-table-header class="table-header-container">
           <div>
-            <ui-button
-              size="sm"
-              icon="faPlus"
-              (buttonClick)="onPrimaryActionClick()"
-            >
-              {{ primaryActionLabel() }}
-            </ui-button>
+            <h4 cdsTableHeaderTitle style="margin:0;">{{ title() }}</h4>
+            <p cdsTableHeaderDescription style="margin:0;">
+              {{ description() }}
+            </p>
           </div>
-        }
-      </cds-table-header>
+
+          @if (showButton()) {
+            <div>
+              <ui-button
+                size="sm"
+                icon="faPlus"
+                (buttonClick)="onPrimaryActionClick()"
+              >
+                {{ primaryActionLabel() }}
+              </ui-button>
+            </div>
+          }
+        </cds-table-header>
+      }
 
       @if (showToolbar()) {
         <cds-table-toolbar #toolbar [model]="model()">

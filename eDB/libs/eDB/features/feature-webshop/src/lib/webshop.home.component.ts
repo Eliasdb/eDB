@@ -1,28 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartComponent } from '@eDB-webshop/feature-cart';
-import { I18nModule, PlaceholderModule } from 'carbon-components-angular';
 import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
 @Component({
   selector: 'edb-webshop-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    PlaceholderModule,
-    I18nModule,
-    MatButtonModule,
-    MatDialogModule,
-    CartComponent,
-    UiPlatformSubHeaderComponent,
-  ],
+  imports: [RouterOutlet, CartComponent, UiPlatformSubHeaderComponent],
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-gray-100">
       <ui-platform-subheader

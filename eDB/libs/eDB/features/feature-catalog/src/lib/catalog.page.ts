@@ -8,17 +8,8 @@ import {
   SkeletonModule,
 } from 'carbon-components-angular';
 
-interface CatalogItem {
-  id: number;
-  name: string;
-  description: string;
-  tags: string[];
-  isSubscribed: boolean;
-}
-
 @Component({
-  selector: 'lib-catalog', // ✅ fixed prefix
-  standalone: true,
+  selector: 'lib-catalog',
   imports: [
     UiTileComponent,
     UiComboboxComponent,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,7 +26,6 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     AdminSidebarComponent,
     MatIconModule,
     MatButtonModule,
-    CommonModule,
     BaseChartDirective,
     UsersCollectionContainer,
     ApplicationsCollectionContainer,
@@ -185,8 +183,6 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
       </mat-drawer-content>
     </mat-drawer-container>
   `,
-  styles: [],
-  standalone: true,
 })
 export class AdminDashboardComponent {
   isDrawerOpen = false;

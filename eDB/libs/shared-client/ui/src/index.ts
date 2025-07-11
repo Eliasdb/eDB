@@ -1,5 +1,3 @@
-export { UiToggleComponent } from './lib/components/toggle/toggle.component';
-
 export { UiButtonComponent } from './lib/components/buttons/button/button.component';
 export { UiIconButtonComponent } from './lib/components/buttons/icon-button/icon-button.component';
 export { UiComboboxComponent } from './lib/components/combobox/combobox.component';
@@ -29,9 +27,9 @@ export { UiTagComponent } from './lib/components/tag/tag.component';
 export { UiSkeletonTextComponent } from './lib/components/text/skeleton-text/skeleton-text.component';
 export { UiTitleComponent } from './lib/components/text/title/title.component';
 export { UiTileComponent } from './lib/components/tile/tile.component';
+export { UiToggleComponent } from './lib/components/toggle/toggle.component';
 
-export { UiSidebarLayoutComponent } from './lib/layouts/sidebar-layout/sidebar-layout.component';
-export { UiSidebarLayoutSmarterComponent } from './lib/layouts/sidebar.layout';
+export { UiSidebarLayoutSmarterComponent } from './lib/layouts/sidebar-layout/sidebar.layout';
 
 export { CustomModalService } from './lib/services/custom-modal.service';
 export { SidebarToggleService } from './lib/services/sidebar-toggle.service';

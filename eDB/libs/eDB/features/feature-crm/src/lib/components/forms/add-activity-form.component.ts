@@ -1,6 +1,5 @@
 /* add-activity-form.component.ts
    ─────────────────────────────────────────────────────────────────── */
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -20,9 +19,7 @@ export interface NewActivity {
 
 @Component({
   selector: 'crm-add-activity-form',
-  standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     UiDatePickerComponent,
     UiTextInputComponent,

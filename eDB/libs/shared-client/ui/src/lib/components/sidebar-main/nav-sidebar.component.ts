@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,19 +12,12 @@ export interface NavItem {
 
 @Component({
   selector: 'ui-nav-sidebar',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    RouterLinkActive,
-    MatIconModule,
-    MatButtonModule,
-  ],
+  imports: [RouterLink, RouterLinkActive, MatIconModule, MatButtonModule],
   template: `
     <nav
       class="h-full w-[16rem] bg-gray-900 text-white flex flex-col p-4 pt-24"
     >
-      <!-- ─── Brand row ───────────────────────────────────────────── -->
+      <!-- Brand row -->
       <section class="flex items-start justify-between mb-8 pl-2">
         <div class="flex items-center gap-2">
           <ng-content select="[sidebarLogo]"></ng-content>
@@ -57,7 +49,7 @@ export interface NavItem {
         </svg>
       </section>
 
-      <!-- ─── Menu ─────────────────────────────────────────────────── -->
+      <!-- Menu -->
       <nav class="h-full w-[16rem] bg-gray-900 text-white flex flex-col">
         <h3 class="text-xs mb-2 uppercase tracking-wider text-gray-400">
           {{ sectionLabel() }}
@@ -69,11 +61,12 @@ export interface NavItem {
               <a
                 [routerLink]="itm.route"
                 routerLinkActive="bg-gray-800"
-                class="flex items-center gap-3 rounded-md px-3 py-2
-                     hover:bg-gray-800/70 transition text-white outline-none"
+                class="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-gray-800/70 transition text-white outline-none"
                 [routerLinkActiveOptions]="{ exact: true }"
               >
-                <mat-icon *ngIf="itm.icon">{{ itm.icon }}</mat-icon>
+                @if (itm.icon) {
+                  <mat-icon>{{ itm.icon }}</mat-icon>
+                }
                 <span class="text-sm">{{ itm.label }}</span>
               </a>
             </li>
@@ -87,7 +80,6 @@ export class UiNavSidebarComponent {
   readonly brandTitle = input('App');
   readonly brandSubtitle = input('');
   readonly sectionLabel = input('Navigation');
-
   readonly items = input<NavItem[]>([]);
 
   @Output() navClick = new EventEmitter<string>();

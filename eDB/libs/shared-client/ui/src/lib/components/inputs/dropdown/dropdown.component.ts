@@ -6,7 +6,6 @@ type DropdownItem = { content: string; selected: boolean };
 
 @Component({
   selector: 'ui-dropdown',
-  standalone: true,
   imports: [DropdownModule, I18nModule],
   template: `
     <cds-dropdown
