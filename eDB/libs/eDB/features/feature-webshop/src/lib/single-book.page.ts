@@ -51,13 +51,6 @@ import { UiButtonComponent } from '@edb/shared-ui';
       <!-- Success -->
       <ng-container *ngIf="book() as book" class="flex flex-col">
         <div>
-          <!-- ❷ BREADCRUMBS -->
-          <!-- <nav
-            class="max-w-6xl mx-auto mb-6 relative z-[49] pointer-events-auto"
-          >
-            <ui-webshop-bread-crumbs [book]="book" />
-          </nav> -->
-
           <!-- ❸ CARD -->
           <mat-card
             class="max-w-6xl mx-auto rounded-2xl shadow-xl overflow-hidden relative z-10"

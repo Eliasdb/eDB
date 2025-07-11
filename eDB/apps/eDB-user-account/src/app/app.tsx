@@ -67,7 +67,7 @@ export default function App() {
     data: kcProfile,
     isLoading: isProfileLoading,
     isError: isProfileError,
-  } = useUserInfoQuery(token); // hook internally uses `enabled: !!token`
+  } = useUserInfoQuery(token);
 
   // ─────────────────────────── Custom attributes ─────────────────────────
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function App() {
   const isBootstrapping =
     !token || isProfileLoading || (!kcProfile && !isProfileError);
 
-  /** Show skeleton sidebar/header while bootstrapping */
+  /** Show skeleton sidebar/header while bootstrapping. */
   const showShellSkeleton = isBootstrapping;
 
   // ───────────────────────────── Render helpers ───────────────────────────
