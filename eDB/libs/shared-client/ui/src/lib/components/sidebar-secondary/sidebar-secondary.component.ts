@@ -14,7 +14,6 @@ import {
 
 @Component({
   selector: 'ui-slide-in-sidebar',
-  standalone: true,
   imports: [CommonModule],
   template: `
     <!-- backdrop (stand-alone mode only) -->

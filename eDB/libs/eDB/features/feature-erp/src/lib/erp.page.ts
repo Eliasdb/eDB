@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { UiSidebarLayoutSmarterComponent } from '@edb/shared-ui';
 
@@ -11,10 +10,9 @@ export interface NavItem {
 
 @Component({
   selector: 'erp-invoices-shell',
-  standalone: true,
-  imports: [CommonModule, UiSidebarLayoutSmarterComponent],
+  imports: [UiSidebarLayoutSmarterComponent],
   template: `
-    <ui-sidebar-layout-2
+    <ui-sidebar-layout
       [brandTitle]="'eDB'"
       [brandSubtitle]="'ERP'"
       [pageTitle]="'Invoices'"

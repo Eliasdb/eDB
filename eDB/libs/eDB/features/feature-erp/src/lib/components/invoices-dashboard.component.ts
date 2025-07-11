@@ -33,7 +33,6 @@ ChartJS.register(
 
 @Component({
   selector: 'erp-invoice-dashboard',
-  standalone: true,
   imports: [
     CommonModule,
     UiTableComponent,

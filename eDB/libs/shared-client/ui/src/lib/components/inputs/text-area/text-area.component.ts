@@ -10,7 +10,6 @@ export const TEXTAREA_VALUE_ACCESSOR: Provider = {
 
 @Component({
   selector: 'ui-textarea',
-  standalone: true,
   imports: [InputModule],
   template: `
     <cds-textarea-label

@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, effect, input } from '@angular/core';
 import { DatePickerModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'ui-date-picker',
-  standalone: true,
-  imports: [CommonModule, DatePickerModule],
+  imports: [DatePickerModule],
   template: `
     <div class="w-full">
       <cds-date-picker

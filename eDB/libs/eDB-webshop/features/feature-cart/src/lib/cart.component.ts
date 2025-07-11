@@ -16,7 +16,6 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
-  standalone: true,
   imports: [CommonModule, UiIconButtonComponent, UiButtonComponent],
   animations: [
     trigger('fadeLift', [
