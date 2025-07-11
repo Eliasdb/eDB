@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'erp-home',
-  standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
     <div class="min-h-[calc(100dvh-9rem)] p-6 bg-slate-50">

@@ -14,7 +14,6 @@ import { UiButtonComponent } from '../buttons/button/button.component';
 
 @Component({
   selector: 'ui-modal',
-  standalone: true,
   imports: [ModalModule, ReactiveFormsModule, UiButtonComponent, CommonModule],
   template: `
     <cds-modal [open]="true" [size]="'md'" (close)="onCancel()">

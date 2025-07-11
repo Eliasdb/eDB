@@ -16,7 +16,6 @@ import { UiToggleComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'book-filters',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, UiToggleComponent, FormsModule],
   template: `
     <section class="flex flex-col gap-6 text-sm rounded-xl w-full xl:w-[14rem]">

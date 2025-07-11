@@ -1,17 +1,13 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
-
 import { AuthGuard } from './guards/auth.guard';
-import { LogoutHandlerComponent } from './logout-handler.component';
 import { WrapperComponent } from './wrapReact';
 
 export const routes: Route[] = [
   {
     path: '',
-    canActivate: [AuthGuard], // keep guards here if you need them
+    canActivate: [AuthGuard],
     children: [
-      /* redirect plain slash to /dashboard */
-
       /* real dashboard segment */
       {
         path: '',
@@ -21,7 +17,7 @@ export const routes: Route[] = [
           ),
       },
 
-      /* remote admin */
+      /* Remote admin (Dynamic Module Federation) */
       {
         path: 'admin',
         loadChildren: () =>
@@ -30,23 +26,25 @@ export const routes: Route[] = [
           ),
       },
 
-      /* rest of your routes */
       {
         path: 'catalog',
         loadChildren: () =>
           import('@eDB/feature-catalog').then((m) => m.featureCatalogRoutes),
       },
-      {
-        path: 'webshop',
-        loadChildren: () =>
-          import('@edb/feature-webshop').then((m) => m.featureWebshopRoutes),
-      },
+
       {
         path: 'account',
         component: WrapperComponent,
         canActivate: [AuthGuard],
       },
 
+      /* Demo applications */
+
+      {
+        path: 'webshop',
+        loadChildren: () =>
+          import('@edb/feature-webshop').then((m) => m.featureWebshopRoutes),
+      },
       {
         path: 'crm',
         loadChildren: () =>
@@ -57,7 +55,6 @@ export const routes: Route[] = [
         loadChildren: () =>
           import('@edb/feature-erp').then((m) => m.featureERPRoutes),
       },
-      { path: 'logout', component: LogoutHandlerComponent },
     ],
   },
 

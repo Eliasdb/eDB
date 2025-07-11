@@ -7,7 +7,6 @@ import { MENU_OPTIONS } from './shell.config';
 
 @Component({
   selector: 'ui-shell-host',
-  standalone: true,
   imports: [UiShellComponent, CommonModule],
   template: `
     <ui-shell

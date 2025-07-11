@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
@@ -6,8 +5,7 @@ import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'books-list-item',
-  standalone: true,
-  imports: [CommonModule, RouterLink, MatButtonModule],
+  imports: [RouterLink, MatButtonModule],
   template: `
     @if (book()) {
       <section
@@ -22,12 +20,13 @@ import { Book } from '@eDB-webshop/shared-types';
             class="block w-full h-full"
           >
             <!-- Blur placeholder -->
-            <img
-              *ngIf="book()?.blurDataUrl && !imageLoaded"
-              [src]="book()?.blurDataUrl"
-              class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
-              aria-hidden="true"
-            />
+            @if (book()?.blurDataUrl && !imageLoaded) {
+              <img
+                [src]="book()?.blurDataUrl"
+                class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
+                aria-hidden="true"
+              />
+            }
 
             <!-- Real image -->
             <img
@@ -70,11 +69,13 @@ import { Book } from '@eDB-webshop/shared-types';
   `,
 })
 export class BooksListItemComponent {
-  private router = inject(Router);
+  private readonly router = inject(Router);
   readonly book = input<Book>();
   imageLoaded = false;
 
   navigateToBookDetails(id: number | undefined) {
-    this.router.navigate(['/', id]);
+    if (id != null) {
+      this.router.navigate(['/webshop/books', id]);
+    }
   }
 }

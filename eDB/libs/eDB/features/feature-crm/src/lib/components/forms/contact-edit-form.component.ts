@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -12,8 +11,7 @@ import { Contact, ContactStatus } from '../../types/contact.types';
 
 @Component({
   selector: 'crm-contact-edit-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   template: `
     <h3 class="text-lg font-medium mb-4">Edit Contact</h3>
 
