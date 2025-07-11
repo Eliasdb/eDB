@@ -58,11 +58,12 @@ const config: ModuleFederationConfig = {
   name: 'eDB',
   exposes: {},
   remotes: ['eDB-admin'],
-  shared: (lib) => {
-    if (lib.startsWith('@angular/material')) {
+  shared: (libraryName) => {
+    if (!libraryName) return false;
+    if (libraryName.startsWith('@angular/material')) {
       return { singleton: true, strictVersion: true };
     }
-    return map[lib] ?? false;
+    return map[libraryName] ?? false;
   },
 };
 
