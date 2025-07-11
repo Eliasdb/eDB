@@ -62,6 +62,7 @@ const config: ModuleFederationConfig = {
   },
 
   shared: (libraryName) => {
+    if (!libraryName) return false;
     if (libraryName.startsWith('@angular/material')) {
       return { singleton: true, strictVersion: true };
     }
