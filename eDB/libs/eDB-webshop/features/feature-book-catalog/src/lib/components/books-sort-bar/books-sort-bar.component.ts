@@ -95,14 +95,15 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
           class="border border-transparent py-1 px-2 bg-inherit"
           (change)="selectSort($event)"
         >
-          <option
-            *ngFor="let sort of sortByOrder"
-            [value]="sortByMap[sort].key"
-            class="status-option"
-            [selected]="selectedValue() === sortByMap[sort].key"
-          >
-            {{ sortByMap[sort].label }}
-          </option>
+          @for (sort of sortByOrder; track sort) {
+            <option
+              [value]="sortByMap[sort].key"
+              class="status-option"
+              [selected]="selectedValue() === sortByMap[sort].key"
+            >
+              {{ sortByMap[sort].label }}
+            </option>
+          }
         </select>
       </div>
     </section>
