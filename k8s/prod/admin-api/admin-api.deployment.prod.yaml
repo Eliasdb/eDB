@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: admin-api
-                  image: eliasdb/admin-api:pr-330-staging
+                  image: eliasdb/admin-api:v1.83
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 9102
