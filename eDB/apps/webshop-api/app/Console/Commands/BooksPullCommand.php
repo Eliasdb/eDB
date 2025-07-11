@@ -86,7 +86,7 @@ class BooksPullCommand extends Command
                 ->resize(20, 20)
                 ->blur(10);
 
-            // First encode it (AutoEncoder), which returns EncodedImage
+            // First encode it (AutoEncoder), which returns EncodedImage.
             $encoded = $image->encode();
 
             // Now wrap it in a data URI
