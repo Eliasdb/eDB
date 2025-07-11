@@ -58,7 +58,7 @@ export const routes: Route[] = [
     ],
   },
 
-  /* 404 */
+  /* 404 page */
   {
     path: 'not-found',
     loadChildren: () =>
