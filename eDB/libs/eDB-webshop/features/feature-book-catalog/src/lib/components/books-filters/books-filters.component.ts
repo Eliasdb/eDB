@@ -43,19 +43,20 @@ import { UiToggleComponent } from '@edb/shared-ui';
         <div
           class="flex gap-2 overflow-x-auto scrollbar-hide xl:overflow-visible xl:flex-wrap"
         >
-          <button
-            *ngFor="let genre of genres"
-            (click)="selectGenre(genre)"
-            [ngClass]="{
-              'bg-slate-800 text-white border-transparent':
-                activeGenre === genre,
-              'bg-white/60 text-slate-700 hover:bg-slate-100 border-slate-300':
-                activeGenre !== genre,
-            }"
-            class="w-full text-left px-4 py-0 sm:py-2 text-sm rounded-xl border transition-all duration-150"
-          >
-            {{ genre }}
-          </button>
+          @for (genre of genres; track genre) {
+            <button
+              (click)="selectGenre(genre)"
+              [ngClass]="{
+                'bg-slate-800 text-white border-transparent':
+                  activeGenre === genre,
+                'bg-white/60 text-slate-700 hover:bg-slate-100 border-slate-300':
+                  activeGenre !== genre,
+              }"
+              class="w-full text-left px-4 py-0 sm:py-2 text-sm rounded-xl border transition-all duration-150"
+            >
+              {{ genre }}
+            </button>
+          }
         </div>
       </div>
 

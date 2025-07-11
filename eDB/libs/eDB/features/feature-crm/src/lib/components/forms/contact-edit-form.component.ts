@@ -18,30 +18,30 @@ import { Contact, ContactStatus } from '../../types/contact.types';
     <h3 class="text-lg font-medium mb-4">Edit Contact</h3>
 
     <div class="space-y-4">
-      <ng-container *ngFor="let f of fields">
+      @for (f of fields; track f.key) {
         <div class="space-y-1">
           <label class="block text-xs font-medium text-gray-600">
             {{ f.label }}
           </label>
 
-          <!-- text / email / tel -->
-          <input
-            *ngIf="f.type !== 'select'"
-            [type]="f.type"
-            [(ngModel)]="draft[f.key]"
-            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
-          />
-
-          <!-- status -->
-          <select
-            *ngIf="f.type === 'select'"
-            [(ngModel)]="draft.status"
-            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
-          >
-            <option *ngFor="let s of statuses" [ngValue]="s">{{ s }}</option>
-          </select>
+          @if (f.type !== 'select') {
+            <input
+              [type]="f.type"
+              [(ngModel)]="draft[f.key]"
+              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
+            />
+          } @else {
+            <select
+              [(ngModel)]="draft.status"
+              class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
+            >
+              @for (s of statuses; track s) {
+                <option [ngValue]="s">{{ s }}</option>
+              }
+            </select>
+          }
         </div>
-      </ng-container>
+      }
     </div>
 
     <!-- buttons -->
@@ -62,15 +62,12 @@ import { Contact, ContactStatus } from '../../types/contact.types';
   `,
 })
 export class ContactEditFormComponent implements OnChanges {
-  /* API */
   @Input({ required: true }) contact!: Contact;
   @Output() save = new EventEmitter<Contact>();
   @Output() cancel = new EventEmitter<void>();
 
-  /* editable copy */
   draft: Contact = {} as Contact;
 
-  /* meta */
   readonly statuses: ContactStatus[] = ['Lead', 'Customer', 'Archived'];
   readonly fields = [
     { key: 'name', label: 'Name', type: 'text' },
@@ -80,7 +77,6 @@ export class ContactEditFormComponent implements OnChanges {
     { key: 'status', label: 'Status', type: 'select' },
   ] as const;
 
-  /* sync input → draft */
   ngOnChanges(_: SimpleChanges) {
     this.draft = { ...this.contact };
   }
