@@ -12,37 +12,27 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 
 import { Genre, mappedGenres } from '@eDB-webshop/shared-data';
-import { UiButtonComponent, UiToggleComponent } from '@edb/shared-ui';
+import { UiToggleComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'book-filters',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    UiToggleComponent,
-    UiButtonComponent,
-    FormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, UiToggleComponent, FormsModule],
   template: `
-    <section class="flex flex-col gap-6 text-sm">
+    <section class="flex flex-col gap-6 text-sm rounded-xl w-full xl:w-[14rem]">
       <!-- ── Search ─────────────────────────────────────────── -->
       <div>
         <label class="block mb-1 font-medium text-black">Title / Author</label>
-        <div
-          class="relative flex items-center rounded border border-gray-300
-                 focus-within:border-accent-complimentary focus-within:ring-1
-                 focus-within:ring-accent-complimentary bg-white"
-        >
-          <img
-            src="https://sapphire-zena-72.tiiny.site/search-icon.svg"
-            alt="search"
-            class="w-4 ml-3"
-          />
+        <div class="relative">
           <input
             [formControl]="searchControl"
             placeholder="Search"
-            class="flex-1 px-3 py-[7px] rounded bg-transparent outline-none"
+            class="w-full text-sm pl-10 pr-4 py-2 rounded-xl border border-slate-300 bg-white/60 hover:bg-slate-100 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent transition-all"
+          />
+          <img
+            src="https://sapphire-zena-72.tiiny.site/search-icon.svg"
+            alt="search"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
           />
         </div>
       </div>
@@ -50,18 +40,19 @@ import { UiButtonComponent, UiToggleComponent } from '@edb/shared-ui';
       <!-- ── Genre chips ────────────────────────────────────── -->
       <div>
         <p class="mb-2 font-medium text-sm">Genre</p>
-
         <div
-          class="flex gap-2 overflow-x-auto scrollbar-hide
-                 xl:flex-col xl:overflow-visible"
+          class="flex gap-2 overflow-x-auto scrollbar-hide xl:overflow-visible xl:flex-wrap"
         >
           <button
             *ngFor="let genre of genres"
             (click)="selectGenre(genre)"
             [ngClass]="{
-              'chip--active': activeGenre === genre,
+              'bg-slate-800 text-white border-transparent':
+                activeGenre === genre,
+              'bg-white/60 text-slate-700 hover:bg-slate-100 border-slate-300':
+                activeGenre !== genre,
             }"
-            class="chip"
+            class="w-full text-left px-4 py-0 sm:py-2 text-sm rounded-xl border transition-all duration-150"
           >
             {{ genre }}
           </button>
@@ -70,7 +61,7 @@ import { UiButtonComponent, UiToggleComponent } from '@edb/shared-ui';
 
       <!-- ── Status + clear ─────────────────────────────────── -->
       <div class="flex flex-col gap-3 text-black mt-4">
-        <div class="flex items-center justify-between ">
+        <div class="flex items-center justify-between">
           <span class="font-medium">Available</span>
           <ui-toggle
             [label]="''"
@@ -81,61 +72,23 @@ import { UiButtonComponent, UiToggleComponent } from '@edb/shared-ui';
           />
         </div>
 
-        <div class="w-[14rem] self-end mt-4">
-          <ui-button
-            size="sm"
-            variant="tertiary"
-            [fullWidth]="true"
-            (buttonClick)="clearFilters.emit(); isChecked.set(true)"
-          >
-            Clear filters
-          </ui-button>
-        </div>
+        <button
+          class="w-full mt-2 text-sm px-4 py-2 rounded-xl border border-slate-300 bg-white/60 text-slate-700 hover:bg-slate-100 transition-all"
+          (click)="clearFilters.emit(); isChecked.set(true)"
+        >
+          Clear filters
+        </button>
       </div>
     </section>
   `,
   styles: [
     `
-      :host {
-        display: block;
-        width: 100%;
-      }
-      @media (min-width: 1280px) {
-        :host {
-          width: 14rem;
-        }
-      }
-
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
       .scrollbar-hide {
         -ms-overflow-style: none;
         scrollbar-width: none;
-      }
-
-      .chip {
-        @apply whitespace-nowrap px-3 py-[6px] rounded-md
-             text-xs tracking-wide flex-shrink-0
-             transition-colors duration-150 border;
-
-        color: var(--accent-complimentary, #1f2937);
-        border-color: var(--accent-complimentary, #1f2937);
-        background: transparent;
-      }
-
-      .chip:hover {
-        background: color-mix(
-          in srgb,
-          var(--accent-complimentary, #1f2937) 90%,
-          transparent
-        );
-        color: white;
-      }
-
-      .chip--active {
-        background: var(--accent-complimentary, #1f2937);
-        color: var(--accent, #ffffff);
       }
     `,
   ],

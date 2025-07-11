@@ -21,19 +21,25 @@ import { filter } from 'rxjs';
     <header
       class="fixed inset-x-0 top-20 z-50 border-b border-gray-200 bg-white px-6 py-6"
     >
-      <div class="flex items-center justify-between w-full">
-        <div>
-          @if (!isOnCatalog()) {
+      <div
+        class="max-w-[88%] xl:max-w-[72%] mx-auto flex items-center justify-between w-full"
+      >
+        <!-- Left: Title + Back Button -->
+        <div class="flex items-center gap-6">
+          @if (isOnCatalog()) {
+            <h1 class="text-xl font-semibold text-slate-800">Demo Webshop</h1>
+          } @else {
             <a
               routerLink="/webshop"
               class="text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors
-                  py-1 rounded-lg hover:bg-slate-100"
+             py-1 rounded-lg hover:bg-slate-100"
             >
               ← Back to Catalog
             </a>
           }
         </div>
 
+        <!-- Right: Cart + Orders -->
         <div class="flex items-center gap-4">
           <!-- Orders icon -->
           <div class="relative">
@@ -48,7 +54,7 @@ import { filter } from 'rxjs';
             @if (orderItems()?.length) {
               <span
                 class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
-                   rounded-full bg-blue-600 text-xs font-medium text-white shadow-sm"
+                       rounded-full bg-blue-600 text-xs font-medium text-white shadow-sm"
               >
                 {{ orderItems()?.length }}
               </span>
@@ -68,7 +74,7 @@ import { filter } from 'rxjs';
             @if (cartItems()?.length) {
               <span
                 class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
-                   rounded-full bg-red-500 text-xs font-medium text-white shadow-sm"
+                       rounded-full bg-red-500 text-xs font-medium text-white shadow-sm"
               >
                 {{ cartItems()?.length }}
               </span>
@@ -96,7 +102,11 @@ export class UiPlatformSubHeaderComponent {
       .subscribe((event) => this.currentUrl.set(event.urlAfterRedirects));
   }
 
-  isOnCatalog = computed(() => this.currentUrl() === '/webshop');
+  isOnCatalog = computed(() => {
+    const url = this.currentUrl();
+    const path = url.split('?')[0]; // strip query params
+    return path === '/webshop';
+  });
 
   toggleCart() {
     const next = !this.isDialogOpen();

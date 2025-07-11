@@ -85,7 +85,8 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
           {{ bookCount() }} {{ bookCount() === 1 ? 'book' : 'books' }} found
         </p>
       </section>
-      <hr />
+      <hr class="border-t border-slate-300 opacity-100" />
+
       <div class="flex items-center">
         <label for="sort" class="min-w-[3rem] inline-block mr-2">sort by</label>
         <select

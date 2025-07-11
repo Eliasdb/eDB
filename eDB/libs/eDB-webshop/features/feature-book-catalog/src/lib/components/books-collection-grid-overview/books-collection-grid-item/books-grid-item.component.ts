@@ -11,12 +11,12 @@ import { Book } from '@eDB-webshop/shared-types';
     <article
       class="bg-white border border-gray-200 rounded-lg overflow-hidden
          shadow-sm hover:shadow-md transition-shadow duration-200
-         flex flex-col min-h-[22rem]"
+         flex flex-col h-full"
     >
       <!-- keep aspect-ratio 2:3 -->
       <a
         [routerLink]="['/webshop/books', book()?.id]"
-        class="block w-full aspect-[2/3] relative group overflow-hidden"
+        class="block w-full h-[200px] sm:h-auto sm:aspect-[2/3] relative group overflow-hidden"
       >
         <!-- Blur placeholder -->
         <img

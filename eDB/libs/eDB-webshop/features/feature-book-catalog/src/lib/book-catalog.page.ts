@@ -38,8 +38,10 @@ import {
       class="flex flex-col gap-10 xl:gap-24 xl:flex-row max-w-[88%] xl:max-w-[72%] mt-48 mx-auto"
     >
       <!-- Filters (fixed ~15rem) -->
-      <aside class="flex-shrink-0 xl:w-[15rem]">
-        <h2 class="text-2xl font-medium mb-6">Webshop</h2>
+      <aside
+        class="flex-shrink-0 xl:w-[17rem] p-6 rounded-xl backdrop-blur-md bg-white/70 shadow-md border border-white/40"
+      >
+        <h2 class="text-2xl font-medium mb-6">Filters</h2>
 
         <book-filters
           [value]="query()"
