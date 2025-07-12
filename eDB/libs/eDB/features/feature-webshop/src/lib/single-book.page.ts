@@ -4,7 +4,7 @@
    · Responsive cover sizes: 9 rem → 17 rem
 -------------------------------------------------------------------*/
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, model } from '@angular/core';
+import { Component, effect, inject, model, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
@@ -32,7 +32,8 @@ import { UiButtonComponent } from '@edb/shared-ui';
   ],
   template: `
     <section
-      class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 flex justify-center bg-slate-50 max-w-[100%] xl:max-w-[72%] mx-auto"
+      class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 xl:px-0 bg-[#f4f4f7] 
+         max-w-[100%] xl:max-w-[82%] mx-auto flex justify-center"
     >
       <ui-webshop-books-loading-state *ngIf="bookResult.isLoading()" />
       <p *ngIf="bookResult.isError()" class="text-red-600">
@@ -41,20 +42,36 @@ import { UiButtonComponent } from '@edb/shared-ui';
 
       <ng-container *ngIf="book() as book">
         <div
-          class="w-full max-w-screen-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-24 items-start"
+          class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-24 items-start"
         >
-          <!-- Cover panel -->
+          <!-- Cover panel bg-[#e5e9f0] backup bg colour -->
           <div
-            class="bg-[var(--accent)] rounded-lg p-6 py-16 sm:p-8 md:p-24  flex justify-center "
+            class="bg-[#e5e9f0]   rounded-lg p-6 py-16 sm:p-8 md:p-24  flex justify-center "
           >
-            <img
-              [src]="book.photoUrl"
-              [alt]="book.title"
-              class="
-                w-full max-w-[6rem] sm:max-w-[11rem] md:max-w-[14rem] lg:max-w-[15rem]
-                 object-cover shadow-[0_25px_60px_rgba(0,0,0,0.25)]
-              "
-            />
+            <div
+              class="relative w-full max-w-[6rem] sm:max-w-[11rem] md:max-w-[14rem] lg:max-w-[15rem] aspect-[2/3]"
+            >
+              <!-- Blur image -->
+              <img
+                *ngIf="book.blurDataUrl"
+                [src]="book.blurDataUrl"
+                class="absolute inset-0 w-full h-full object-cover blur-xl  transition-opacity duration-700 ease-out will-change-[opacity]"
+                [class.opacity-100]="!imageLoaded()"
+                [class.opacity-0]="imageLoaded()"
+                aria-hidden="true"
+              />
+
+              <!-- Full image -->
+              <img
+                [src]="book.photoUrl"
+                [alt]="book.title"
+                loading="lazy"
+                (load)="imageLoaded.set(true)"
+                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in will-change-[opacity]"
+                [class.opacity-0]="!imageLoaded()"
+                [class.opacity-100]="imageLoaded()"
+              />
+            </div>
           </div>
 
           <!-- Details -->
@@ -136,6 +153,7 @@ export class SingleBookPage {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly booksService = inject(BooksService);
   private readonly cartService = inject(CartService);
+  imageLoaded = signal(false);
 
   readonly routeParams = toSignal(this.activatedRoute.params);
   readonly bookId = () => this.routeParams()?.['id'];

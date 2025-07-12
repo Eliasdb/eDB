@@ -1,4 +1,3 @@
-// books-grid-item.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -10,7 +9,7 @@ import { Book } from '@eDB-webshop/shared-types';
   imports: [RouterLink, CommonModule],
   template: `
     <article
-      class="relative bg-[var(--accent)] rounded-lg border border-transparent shadow-sm hover:shadow-md transition duration-200 flex flex-col items-center text-center h-full px-8 pt-10 pb-8"
+      class="relative bg-[#f6fdff] rounded-lg border border-transparent shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between items-center text-center h-full px-8 pt-10 pb-8"
     >
       <!-- ♥ wishlist icon -->
       <button
@@ -29,7 +28,7 @@ import { Book } from '@eDB-webshop/shared-types';
         </svg>
       </button>
 
-      <!-- Title + author on top -->
+      <!-- Title + author (fixed height) -->
       <div class="mb-6">
         <h3
           class="text-lg font-medium text-gray-900 leading-snug mb-1 max-w-[14ch]"
@@ -41,20 +40,34 @@ import { Book } from '@eDB-webshop/shared-types';
         </p>
       </div>
 
-      <!-- Cover image -->
+      <!-- Cover image with blur transition -->
       <a
         [routerLink]="['/webshop/books', book()?.id]"
-        class="group flex-grow flex items-center justify-center"
+        class="group relative w-40 h-60 flex items-center justify-center"
       >
+        <!-- Blur preview -->
+        <img
+          [src]="book()?.blurDataUrl"
+          class="absolute inset-0 w-full h-full object-cover blur-lg transition-opacity duration-700 ease-out will-change-[opacity]"
+          [class.opacity-100]="!imageLoaded()"
+          [class.opacity-0]="imageLoaded()"
+          aria-hidden="true"
+        />
+
+        <!-- Actual image -->
         <img
           [src]="book()?.photoUrl"
           [alt]="book()?.title"
-          class="w-40 h-60 object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+          (load)="imageLoaded.set(true)"
+          class="absolute inset-0 w-full h-full object-contain drop-shadow-lg transition-opacity duration-700 ease-in will-change-[opacity]"
+          [class.opacity-0]="!imageLoaded()"
+          [class.opacity-100]="imageLoaded()"
         />
       </a>
 
-      <!-- Price at bottom -->
-      <div class="mt-6 text-base font-semibold text-gray-900">
+      <!-- Price pinned to bottom -->
+      <div class="mt-auto pt-4 text-base font-semibold text-gray-900">
         @if (book()?.status === 'available') {
           € {{ book()?.price | number: '1.2-2' }}
         } @else {

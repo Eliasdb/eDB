@@ -9,7 +9,7 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
   selector: 'edb-webshop-root',
   imports: [RouterOutlet, CartComponent, UiPlatformSubHeaderComponent],
   template: `
-    <div class="flex flex-col min-h-[100dvh] bg-[#dae4f2]">
+    <div class="flex flex-col min-h-[100dvh] bg-[#f4f4f7]">
       <ui-platform-subheader
         (openDialog)="toggleCart()"
         [cartItems]="cartItems()"
