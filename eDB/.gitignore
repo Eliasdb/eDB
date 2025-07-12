@@ -21,7 +21,7 @@ node_modules
 !.env.staging
 !.env.production
 
-*.css
+
 !styles.css
 
 *.css.map
