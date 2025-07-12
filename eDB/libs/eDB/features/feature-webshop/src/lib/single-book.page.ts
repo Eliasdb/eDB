@@ -4,7 +4,7 @@
    · Responsive cover sizes: 9 rem → 17 rem
 -------------------------------------------------------------------*/
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, model } from '@angular/core';
+import { Component, effect, inject, model, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
@@ -48,14 +48,30 @@ import { UiButtonComponent } from '@edb/shared-ui';
           <div
             class="bg-[#e5e9f0]   rounded-lg p-6 py-16 sm:p-8 md:p-24  flex justify-center "
           >
-            <img
-              [src]="book.photoUrl"
-              [alt]="book.title"
-              class="
-                w-full max-w-[6rem] sm:max-w-[11rem] md:max-w-[14rem] lg:max-w-[15rem]
-                 object-cover shadow-[0_25px_60px_rgba(0,0,0,0.25)]
-              "
-            />
+            <div
+              class="relative w-full max-w-[6rem] sm:max-w-[11rem] md:max-w-[14rem] lg:max-w-[15rem] aspect-[2/3]"
+            >
+              <!-- Blur image -->
+              <img
+                *ngIf="book.blurDataUrl"
+                [src]="book.blurDataUrl"
+                class="absolute inset-0 w-full h-full object-cover blur-xl  transition-opacity duration-700 ease-out will-change-[opacity]"
+                [class.opacity-100]="!imageLoaded()"
+                [class.opacity-0]="imageLoaded()"
+                aria-hidden="true"
+              />
+
+              <!-- Full image -->
+              <img
+                [src]="book.photoUrl"
+                [alt]="book.title"
+                loading="lazy"
+                (load)="imageLoaded.set(true)"
+                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in will-change-[opacity]"
+                [class.opacity-0]="!imageLoaded()"
+                [class.opacity-100]="imageLoaded()"
+              />
+            </div>
           </div>
 
           <!-- Details -->
@@ -137,6 +153,7 @@ export class SingleBookPage {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly booksService = inject(BooksService);
   private readonly cartService = inject(CartService);
+  imageLoaded = signal(false);
 
   readonly routeParams = toSignal(this.activatedRoute.params);
   readonly bookId = () => this.routeParams()?.['id'];
