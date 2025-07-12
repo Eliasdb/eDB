@@ -4,32 +4,41 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-         'user_id', 'book_id', 'quantity', 'amount', 'status', 'order_date'
+        'user_id',
+        'amount',
+        'status',
+        'order_date',
+        'full_name',
+        'address',
+        'city',
+        'postal_code',
+        'email',
     ];
-    
-    // Each order belongs to a user.
-    public function user()
+
+    public $incrementing = false; // 👈 disable auto-incrementing
+    protected $keyType = 'string'; // 👈 treat id as UUID string
+
+    protected static function booted()
     {
-         return $this->belongsTo(User::class);
-    }
-    
-    // Each order belongs to a book.
-    public function book()
-    {
-         return $this->belongsTo(Book::class);
+        static::creating(function ($order) {
+            $order->id = (string) Str::uuid();
+        });
     }
 
     public function items()
-{
-    return $this->hasMany(OrderItem::class);
-}
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 
-
-    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

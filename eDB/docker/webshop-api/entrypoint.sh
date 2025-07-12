@@ -1,15 +1,19 @@
 #!/bin/sh
 set -e
 
-# Wait for PostgreSQL
+# Wait for Postgres to accept connections
 ./wait-for-postgres.sh postgres-service-staging
 
-# Run migrations (only new ones, don’t drop data)
-php artisan migrate
+# Apply only new migrations
+php artisan migrate --force
 
-# Run your custom book seeder (which truncates the books table itself)
-php artisan db:seed --class=CuratedBooksSeeder
+# Seed curated books (truncates books table on purpose)
+php artisan db:seed --class=CuratedBooksSeeder --force
 
-# Start PHP-FPM and Nginx
+# Cache config/routes if you want startup perf (optional)
+# php artisan config:cache
+# php artisan route:cache
+
+# Launch services
 php-fpm -D
 exec nginx -g 'daemon off;'
