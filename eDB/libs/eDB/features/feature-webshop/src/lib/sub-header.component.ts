@@ -40,6 +40,28 @@ import { filter } from 'rxjs';
 
         <!-- Right: Cart + Orders -->
         <div class="flex items-center gap-4">
+          <div class="relative">
+            <ui-icon-button
+              icon="faHeart"
+              [description]="'View wishlist'"
+              [iconSize]="'16px'"
+              [iconColor]="'var(--accent)'"
+              (iconButtonClick)="onWishlistClick()"
+              class="hover:scale-105 transition-transform"
+            />
+            <!-- Optional badge (e.g., if you want to show a count later) -->
+            <!--
+  @if (wishlistCount() > 0) {
+    <span
+      class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
+             rounded-full bg-pink-500 text-xs font-medium text-white shadow-sm"
+    >
+      {{ wishlistCount() }}
+    </span>
+  }
+  -->
+          </div>
+
           <!-- Orders icon -->
           <div class="relative">
             <ui-icon-button
@@ -79,6 +101,8 @@ import { filter } from 'rxjs';
               </span>
             }
           </div>
+
+          <!-- Wishlist icon -->
         </div>
       </div>
     </header>
@@ -91,6 +115,7 @@ export class UiPlatformSubHeaderComponent {
 
   @Output() openDialog = new EventEmitter<boolean>();
   @Output() ordersClick = new EventEmitter<void>();
+  @Output() wishlistClick = new EventEmitter<void>();
 
   private router = inject(Router);
   private currentUrl = signal(this.router.url);
@@ -115,5 +140,9 @@ export class UiPlatformSubHeaderComponent {
 
   onOrdersClick() {
     this.ordersClick.emit();
+  }
+
+  onWishlistClick() {
+    this.wishlistClick.emit();
   }
 }

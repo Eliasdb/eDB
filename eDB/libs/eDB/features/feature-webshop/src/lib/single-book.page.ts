@@ -32,7 +32,8 @@ import { UiButtonComponent } from '@edb/shared-ui';
   ],
   template: `
     <section
-      class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 flex justify-center bg-slate-50 max-w-[100%] xl:max-w-[72%] mx-auto"
+      class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 xl:px-0 bg-[#f4f4f7] 
+         max-w-[100%] xl:max-w-[82%] mx-auto flex justify-center"
     >
       <ui-webshop-books-loading-state *ngIf="bookResult.isLoading()" />
       <p *ngIf="bookResult.isError()" class="text-red-600">
@@ -41,11 +42,11 @@ import { UiButtonComponent } from '@edb/shared-ui';
 
       <ng-container *ngIf="book() as book">
         <div
-          class="w-full max-w-screen-xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-24 items-start"
+          class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-24 items-start"
         >
-          <!-- Cover panel -->
+          <!-- Cover panel bg-[#e5e9f0] backup bg colour -->
           <div
-            class="bg-[var(--accent)] rounded-lg p-6 py-16 sm:p-8 md:p-24  flex justify-center "
+            class="bg-[#e5e9f0]   rounded-lg p-6 py-16 sm:p-8 md:p-24  flex justify-center "
           >
             <img
               [src]="book.photoUrl"
