@@ -8,28 +8,16 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { sortArray, sortValues } from '@eDB-webshop/shared-data';
+import { UiSelectComponent } from '@edb/shared-ui';
 import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
 
 @Component({
-  imports: [FormsModule, CommonModule],
   selector: 'books-sort-bar',
-  // Apply full width to the host element
   host: { class: 'w-full' },
+  imports: [FormsModule, CommonModule, UiSelectComponent],
   template: `
-    <!--
-      Mobile-first (default):
-        • A single-column grid with a row gap of 0.75rem
-        • .btn-container is 50px wide
-        • Book count is left-aligned
-      Desktop (xl: ≥1280px):
-        • Grid switches to 4 columns: auto auto 1fr auto
-        • Horizontal gap becomes 2rem (and row gap is removed)
-        • Container gets a min-width of 40rem
-        • .btn-container reverts to auto width
-        • Book count becomes right-aligned
-    -->
     <section
-      class="grid grid-cols-1 gap-y-4 xl:grid-cols-[auto_auto_1fr_auto] xl:gap-x-8 xl:items-center w-full px-2"
+      class="grid grid-cols-1 gap-y-4 xl:grid-cols-[auto_auto_1fr_auto] xl:gap-x-8 xl:items-center w-full px-0 xl:px-2"
     >
       <!-- Toggle Buttons -->
       <div class="flex gap-2">
@@ -90,24 +78,13 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
 
       <!-- Sort Select -->
       <div class="flex items-center gap-2">
-        <label for="sort" class="text-sm text-gray-700 font-medium"
-          >Sort by</label
-        >
-        <select
-          id="sort"
-          name="sort"
-          class="rounded-md border border-gray-300 bg-white text-sm text-gray-800 px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-complimentary)] focus:border-transparent transition"
-          (change)="selectSort($event)"
-        >
-          @for (sort of sortByOrder; track sort) {
-            <option
-              [value]="sortByMap[sort].key"
-              [selected]="selectedValue() === sortByMap[sort].key"
-            >
-              {{ sortByMap[sort].label }}
-            </option>
-          }
-        </select>
+        <ui-select
+          [label]="'Sort by'"
+          [options]="sortOptions()"
+          [model]="selectedValue()"
+          (valueChange)="selectSort($event)"
+          display="inline"
+        />
       </div>
     </section>
   `,
@@ -122,6 +99,13 @@ export class BooksSortBarComponent {
 
   selectedValue = computed(() => this.selectedSort());
 
+  readonly sortOptions = computed(() =>
+    this.sortByOrder.map((key) => ({
+      value: this.sortByMap[key].key,
+      label: this.sortByMap[key].label,
+    })),
+  );
+
   sortArray: sortValues[] = sortArray;
 
   @Output() clickEvent = new EventEmitter<boolean>();
@@ -131,8 +115,7 @@ export class BooksSortBarComponent {
     this.clickEvent.emit(state);
   }
 
-  selectSort(event: Event) {
-    const value = (event.target as HTMLSelectElement).value;
+  selectSort(value: string) {
     this.sort.emit(value);
   }
 }
