@@ -16,6 +16,14 @@ class OrderItem extends Model
         'price',
     ];
 
+    public $incrementing = false; // optional, only if you're using UUIDs for order_items.id
+    protected $keyType = 'string'; // optional
+
+    protected $casts = [
+       'order_id' => 'string', // ✅ correct for UUIDs
+];
+
+
     public function order()
     {
         return $this->belongsTo(Order::class);
