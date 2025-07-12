@@ -19,7 +19,7 @@
         "index": "apps/eDB/src/index.html",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/eDB/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
+        "inlineStyleLanguage": "css",
         "assets": [
           {
             "glob": "**/*",
@@ -33,7 +33,7 @@
         ],
         "scripts": [],
         "styles": [
-          "apps/eDB/src/styles.scss",
+          "apps/eDB/src/styles.css",
           "@angular/material/prebuilt-themes/purple-green.css"
         ],
         "stylePreprocessorOptions": {

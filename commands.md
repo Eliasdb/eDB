@@ -10,3 +10,5 @@
 # Run Migrations
 
 `php artisan migrate`
+
+export KUBECONFIG=$(pwd)/secret/k3s-config.yaml

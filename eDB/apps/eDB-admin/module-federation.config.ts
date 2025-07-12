@@ -51,6 +51,7 @@ const map: Record<string, any> = {
     singleton: true,
     strictVersion: true,
     requiredVersion: '0.0.1',
+    import: false, // 👈 CRUCIAL: tells Webpack not to bundle it here
   },
   '@angular/cdk': {
     singleton: true,
