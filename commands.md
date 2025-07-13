@@ -12,3 +12,7 @@
 `php artisan migrate`
 
 export KUBECONFIG=$(pwd)/secret/k3s-config.yaml
+
+# Applying new config to cluster
+
+`kubectl apply -f k8s/prod/admin-api/admin-api-deployment.prod.yaml`
