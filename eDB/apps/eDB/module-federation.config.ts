@@ -57,6 +57,11 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '19.1.5',
   },
+  '@angular/core/rxjs-interop': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '19.0.3', // ✅ same as @angular/core
+  },
 };
 
 const config: ModuleFederationConfig = {
