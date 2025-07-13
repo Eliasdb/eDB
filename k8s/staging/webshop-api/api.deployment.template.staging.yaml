@@ -47,7 +47,7 @@ spec:
                         valueFrom:
                             secretKeyRef:
                                 name: postgres-secret-staging
-                                key: POSTGRES_DB
+                                key: WEB_API_DB
                       - name: DB_PASSWORD
                         valueFrom:
                             secretKeyRef:
