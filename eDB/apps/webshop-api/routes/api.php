@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BookController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
+use App\Http\Controllers\Api\V1\Admin\OrderAdminController;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\V1\User\UserResource;
 use App\Models\User;
@@ -35,27 +36,28 @@ use Illuminate\Support\Facades\Route;
 //     return new UserResource($user);
 // });
 
-// Route::middleware('auth:sanctum')->put('/v1/user', function (UpdateUserRequest $request, User $user) {
-//     $user = $request->user();
-//     $user->update($request->all());
-//     return new UserResource($user);
-// });
-
 // PUBLIC ROUTES
-Route::group(["prefix" => "v1", "namespace" => "App\Http\Controllers\Api\V1"], function () {
+Route::prefix('v1')->group(function () {
     Route::apiResource("books", BookController::class);
-    Route::apiResource('orders', OrderController::class);
-
 });
 
-// AUTHENTICATED ROUTES
+// AUTHENTICATED USER ROUTES
 Route::group([
-    "prefix" => "v1",
-    "namespace" => "App\Http\Controllers\Api\V1",
-    "middleware" => ["auth"]
+  "prefix" => "v1",
+  "middleware" => ["auth"]
 ], function () {
+    // order routes
+    Route::apiResource('orders', OrderController::class);
+
+    // cart routes
     Route::get('/cart', [CartController::class, 'index']);
     Route::post('/cart/items', [CartController::class, 'addItem']);
     Route::patch('/cart/items/{itemId}', [CartController::class, 'updateItem']);
     Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
+});
+
+
+// ADMIN ROUTES (AUTHENTICATED)
+Route::prefix('v1/admin')->middleware('auth')->group(function () {
+    Route::get('/orders', [OrderAdminController::class, 'index']);
 });

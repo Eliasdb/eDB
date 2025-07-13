@@ -13,6 +13,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ApplicationsCollectionContainer } from '../platform/applications-collection/applications-collection.container';
 import { UsersCollectionContainer } from '../platform/users-collection/users-collection.container';
 import { WebshopBooksTableComponent } from '../webshop/books-table/books-table.component';
+import { AdminOrdersListComponent } from '../webshop/order-collection/order.collection';
 import { AdminSidebarComponent } from './admin-sidebar.component';
 
 @Component({
@@ -30,6 +31,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     UsersCollectionContainer,
     ApplicationsCollectionContainer,
     WebshopBooksTableComponent,
+    AdminOrdersListComponent,
   ],
   template: `
     <mat-drawer-container class="h-[calc(100dvh-5rem)] relative">
@@ -173,10 +175,24 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
               </div>
             </div>
           }
-
           @if (currentView() === 'webshop') {
             <section class="p-6">
-              <webshop-books-table />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Books Table (takes full width on mobile, half on desktop) -->
+                <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
+                  <h4 class="mb-4 text-lg font-medium">Books</h4>
+                  <div class="max-h-[28rem] overflow-y-auto pr-2">
+                    <webshop-books-table />
+                  </div>
+                </cds-tile>
+
+                <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
+                  <h4 class="mb-4 text-lg font-medium">Orders</h4>
+                  <div class="max-h-[28rem] overflow-y-auto pr-2">
+                    <admin-orders-list />
+                  </div>
+                </cds-tile>
+              </div>
             </section>
           }
         </div>

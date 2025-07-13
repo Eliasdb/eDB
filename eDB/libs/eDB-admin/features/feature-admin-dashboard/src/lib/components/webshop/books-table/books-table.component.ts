@@ -1,3 +1,7 @@
+// ─────────────────────────────────────────────────────────────
+// webshop-books-table.component.ts (updated to support mobile)
+// ─────────────────────────────────────────────────────────────
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -9,7 +13,9 @@ import {
   TemplateRef,
   ViewChild,
   computed,
+  effect,
   inject,
+  signal,
 } from '@angular/core';
 import { Book } from '@eDB-webshop/shared-types';
 import { AdminService } from '@eDB/client-admin';
@@ -19,11 +25,13 @@ import {
   TableItem,
   TableModel,
 } from 'carbon-components-angular/table';
+import { WebshopBooksAccordionComponent } from '../books-accordion/books-accordion.component';
 
 @Component({
   selector: 'webshop-books-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, UiTableComponent],
+  standalone: true,
+  imports: [CommonModule, UiTableComponent, WebshopBooksAccordionComponent],
   template: `
     <ng-template #coverTemplate let-book="data">
       <img
@@ -34,14 +42,27 @@ import {
       />
     </ng-template>
 
-    <ui-table
-      [model]="tableModel()"
-      [showPagination]="false"
-      [showToolbar]="true"
-      [searchPlaceholder]="'Search books'"
-      [title]="'Books'"
-      [description]="'Available books in the collection'"
-    ></ui-table>
+    @if (isSmallScreen()) {
+      <section class="">
+        <p class="text-gray-600 mb-4">Available books in the collection</p>
+        <webshop-books-accordion
+          [books]="books()"
+          (viewMoreId)="onViewMore($event)"
+        />
+      </section>
+    } @else {
+      <div class="max-h-[28rem] overflow-y-auto pr-2">
+        <ui-table
+          [model]="tableModel()"
+          [showPagination]="false"
+          [showToolbar]="true"
+          [searchPlaceholder]="'Search books'"
+          [title]="''"
+          [description]="'Available books in the collection'"
+        ></ui-table>
+      </div>
+      v
+    }
 
     @if (booksQuery.isFetchingNextPage()) {
       <div class="flex justify-center my-2 text-gray-500 text-sm animate-pulse">
@@ -61,7 +82,16 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
 
   private readonly admin = inject(AdminService);
   private readonly zone = inject(NgZone);
+  private readonly breakpoint = inject(BreakpointObserver);
   private intersectionObserver?: IntersectionObserver;
+
+  protected readonly isSmallScreen = signal(false);
+
+  readonly booksQuery = this.admin.queryBooksInfinite(15);
+  readonly books = computed(() => {
+    const data = this.booksQuery.data();
+    return data ? data.pages.flatMap((p) => p.items) : [];
+  });
 
   private readonly header: TableHeaderItem[] = [
     new TableHeaderItem({ data: 'Cover' }),
@@ -73,12 +103,6 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
       metadata: { sortField: 'price' },
     }),
   ];
-
-  readonly booksQuery = this.admin.queryBooksInfinite(15);
-  private readonly books = computed<Book[]>(() => {
-    const data = this.booksQuery.data();
-    return data ? data.pages.flatMap((p) => p.items) : [];
-  });
 
   readonly tableModel = computed<TableModel>(() => {
     const model = new TableModel();
@@ -93,6 +117,18 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
     model.totalDataLength = this.books().length;
     return model;
   });
+
+  constructor() {
+    effect(() => {
+      this.breakpoint
+        .observe('(max-width: 768px)')
+        .subscribe((result) => this.isSmallScreen.set(result.matches));
+    });
+  }
+
+  onViewMore(bookId: number) {
+    console.log('View more clicked:', bookId);
+  }
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {

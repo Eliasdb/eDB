@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed } from '@angular/core';
-import { OrderService } from './services/order.service';
-import { Order } from './types/order.types';
+import { Component, computed, inject } from '@angular/core';
+import { Order } from '@eDB-webshop/shared-types';
+import { OrderService } from '@edb-webshop/client-orders';
 
 @Component({
   selector: 'order-tracking-page',
@@ -79,9 +79,8 @@ import { Order } from './types/order.types';
 })
 export class OrderTrackingPageComponent {
   /** Signal that always contains the latest mapped orders list. */
+  orderService = inject(OrderService);
   readonly orders$ = computed(() => this.orderService.ordersQuery.data());
-
-  constructor(private readonly orderService: OrderService) {}
 
   statusColor(status: Order['status']) {
     return {
