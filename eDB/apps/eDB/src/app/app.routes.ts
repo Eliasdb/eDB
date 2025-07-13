@@ -8,7 +8,7 @@ export const routes: Route[] = [
     path: '',
     canActivate: [AuthGuard],
     children: [
-      /* real dashboard segment */
+      /* Real dashboard segment */
       {
         path: '',
         loadChildren: () =>
