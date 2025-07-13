@@ -1,19 +1,22 @@
 #!/bin/sh
 set -e
 
-# Wait for Postgres to accept connections
+echo "⏳ Waiting for PostgreSQL..."
 ./wait-for-postgres.sh postgres-service-staging
+echo "✅ PostgreSQL is ready"
 
-# Apply only new migrations
-php artisan migrate --force
+echo "🔥 Wiping and re-running all migrations..."
+php artisan migrate:fresh --force || { echo "❌ migrate:fresh failed"; exit 1; }
+echo "✅ Database freshly migrated"
 
-# Seed curated books (truncates books table on purpose)
-php artisan db:seed --class=CuratedBooksSeeder --force
+echo "🌱 Seeding curated books..."
+php artisan db:seed --class=CuratedBooksSeeder --force || { echo "❌ Seeder failed"; exit 1; }
+echo "✅ Seeder completed"
 
-# Cache config/routes if you want startup perf (optional)
+# Optional cache
 # php artisan config:cache
 # php artisan route:cache
 
-# Launch services
+echo "📡 Starting PHP-FPM..."
 php-fpm -D
 exec nginx -g 'daemon off;'

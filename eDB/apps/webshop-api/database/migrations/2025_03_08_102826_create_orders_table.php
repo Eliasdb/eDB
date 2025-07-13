@@ -11,8 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-
+            $table->uuid('id')->primary();
             $table->string('user_id'); // Keycloak `sub`
             $table->decimal('total_price', 10, 2); // 🔹 Store total order price
             $table->enum('status', ['pending', 'paid', 'shipped', 'cancelled'])->default('pending'); // 🔹 Order status
