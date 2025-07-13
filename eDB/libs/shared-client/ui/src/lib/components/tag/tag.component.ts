@@ -31,7 +31,7 @@ export class UiTagComponent {
     | 'warm-gray'
     | 'high-contrast'
     | 'outline'
-  >('blue'); // Default to 'red'
+  >('outline'); // Default to 'red'
   readonly size = input<'sm' | 'md'>('md'); // Restrict to 'sm' or 'md'
   readonly label = input.required<string>(); // Label for the tag
   readonly icon = input<string>(); // Icon name for the UiIconComponent

@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
   selector: 'crm-home',
   imports: [RouterModule],
   template: `
-    <div class="p-6 pt-8 bg-slate-50 min-h-[calc(100vh-9rem)] ">
+    <div class="p-6 pt-8 bg-slate-50 min-h-[calc(100vh-9rem)] text-black">
       <section class="max-w-7xl mx-auto">
-        <h1 class="text-2xl font-bold mb-6 text-black">CRM Home</h1>
+        <h1 class="text-2xl font-bold mb-6 ">CRM Home</h1>
         <p class="text-gray-600 mb-8">
           Welcome! Choose a module below to get started:
         </p>

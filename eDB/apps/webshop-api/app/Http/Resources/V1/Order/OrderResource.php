@@ -19,6 +19,13 @@ class OrderResource extends JsonResource
             'orderDate'  => $this->order_date,
             'createdAt'  => $this->created_at,
             'updatedAt'  => $this->updated_at,
+
+            'fullName'   => $this->full_name,
+            'address'    => $this->address,
+            'city'       => $this->city,
+            'postalCode' => $this->postal_code,
+            'email'      => $this->email,
+
             'items'      => OrderItemResource::collection($this->whenLoaded('items')),
         ];
     }
