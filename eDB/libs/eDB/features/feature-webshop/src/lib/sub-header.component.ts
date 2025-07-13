@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { CartItem, OrderItem } from '@eDB-webshop/shared-types';
+import { CartItem } from '@eDB-webshop/shared-types';
 import { UiIconButtonComponent } from '@edb/shared-ui';
 import { filter } from 'rxjs';
 
@@ -72,12 +72,12 @@ import { filter } from 'rxjs';
               (iconButtonClick)="onOrdersClick()"
               class="hover:scale-105 transition-transform"
             />
-            @if (orderItems()?.length) {
+            @if (orderCount()) {
               <span
                 class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
                        rounded-full bg-blue-600 text-xs font-medium text-white shadow-sm"
               >
-                {{ orderItems()?.length }}
+                {{ orderCount() }}
               </span>
             }
           </div>
@@ -110,7 +110,8 @@ import { filter } from 'rxjs';
 })
 export class UiPlatformSubHeaderComponent {
   readonly cartItems = input<CartItem[]>();
-  readonly orderItems = input<OrderItem[]>();
+  readonly orderCount = input<number>();
+
   readonly isDialogOpen = model(false);
 
   @Output() openDialog = new EventEmitter<boolean>();

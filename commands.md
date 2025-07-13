@@ -16,3 +16,6 @@ export KUBECONFIG=$(pwd)/secret/k3s-config.yaml
 # Applying new config to cluster
 
 `kubectl apply -f k8s/prod/admin-api/admin-api-deployment.prod.yaml`
+
+➜ eDB git:(sprint-2) ✗ nx g @nx/angular:library --name=client-checkout --directory=libs/eDB-webshop/data-access/client-checko
+ut

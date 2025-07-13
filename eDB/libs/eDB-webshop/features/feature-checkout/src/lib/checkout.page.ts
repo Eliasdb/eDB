@@ -18,7 +18,7 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
 // Services & Types
 import { CartService } from '@eDB-webshop/client-cart';
 import { CartItem } from '@eDB-webshop/shared-types';
-import { CheckoutService, OrderCreateRequest } from './checkout.service';
+import { CheckoutService, OrderCreateRequest } from '@edb/client-checkout';
 
 @Component({
   selector: 'app-checkout-page',
