@@ -11,57 +11,51 @@ use Exception;
 
 class CartController extends Controller
 {
-    protected $cartService;
-    protected $userId;
-
-    public function __construct(CartService $cartService)
+    public function __construct(protected CartService $cartService)
     {
-        $this->cartService = $cartService;
-        // Using middleware closure to capture jwt_user_id after middleware execution.
-        $this->middleware(function ($request, $next) {
-            $this->userId = $request->get('jwt_user_id');
-            return $next($request);
-        });
+        // Middleware should still run to inject jwt_user_id
+        $this->middleware('auth'); // or whatever alias you use
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $cart = $this->cartService->getCart($this->userId);
+        $userId = $request->get('jwt_user_id');
+        $cart = $this->cartService->getCart($userId);
         return new CartResource($cart);
     }
 
     public function addItem(StoreCartItemRequest $request)
     {
+        $userId = $request->get('jwt_user_id');
         $data = $request->validated();
 
         try {
-            $cart = $this->cartService->addItem($this->userId, $data);
+            $cart = $this->cartService->addItem($userId, $data);
+            return new CartResource($cart);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
-
-        return new CartResource($cart);
     }
 
-    public function removeItem($itemId)
+    public function removeItem(Request $request, $itemId)
     {
-        $cart = $this->cartService->removeItem($this->userId, $itemId);
+        $userId = $request->get('jwt_user_id');
+        $cart = $this->cartService->removeItem($userId, $itemId);
         return new CartResource($cart);
     }
 
-    // CartController@updateItem
     public function updateItem(Request $request, $itemId)
     {
+        $userId = $request->get('jwt_user_id');
+
         $data = $request->validate([
             'selectedAmount' => 'required|integer|min:1',
         ]);
 
-        // 🔹 translate to the actual column name
         $data['selected_amount'] = $data['selectedAmount'];
         unset($data['selectedAmount']);
 
-        $cart = $this->cartService->updateItem($this->userId, $itemId, $data);
+        $cart = $this->cartService->updateItem($userId, $itemId, $data);
         return new CartResource($cart);
     }
-
 }

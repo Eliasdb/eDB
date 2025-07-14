@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@edb-webshop/feature-orders": [
-        "libs/eDB-webshop/features/feature-orders/src/index.ts"
+      "@edb/client-checkout": [
+        "libs/eDB-webshop/data-access/client-checkout/src/index.ts"
       ],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
@@ -82,6 +82,12 @@
       ],
       "@eDB/utils-user-params": [
         "libs/shared/utils/utils-user-params/src/index"
+      ],
+      "@edb-webshop/client-orders": [
+        "libs/eDB-webshop/data-access/client-orders/src/index.ts"
+      ],
+      "@edb-webshop/feature-orders": [
+        "libs/eDB-webshop/features/feature-orders/src/index.ts"
       ],
       "@edb/client-auth": ["libs/eDB/data-access/client-auth/src/index"],
       "@edb/feature-crm": ["libs/eDB/features/feature-crm/src/index.ts"],

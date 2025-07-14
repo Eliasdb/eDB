@@ -40,7 +40,7 @@ import { UiToggleComponent } from '@edb/shared-ui';
       <div>
         <p class="mb-2 font-medium text-sm">Genre</p>
         <div
-          class="flex gap-2 overflow-x-auto scrollbar-hide xl:overflow-visible xl:flex-wrap"
+          class="flex gap-2 overflow-x-auto scrollbar-hide lg:overflow-visible lg:flex-wrap"
         >
           @for (genre of genres; track genre) {
             <button

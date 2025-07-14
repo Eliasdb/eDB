@@ -1,7 +1,8 @@
+// webshop-app.component.ts
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-
 import { CartService } from '@eDB-webshop/client-cart';
+import { OrderService } from '@edb-webshop/client-orders';
 import { CartComponent } from '@eDB-webshop/feature-cart';
 import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
@@ -9,11 +10,11 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
   selector: 'edb-webshop-root',
   imports: [RouterOutlet, CartComponent, UiPlatformSubHeaderComponent],
   template: `
-    <div class="flex flex-col min-h-[100dvh] bg-gray-100">
+    <div class="flex flex-col min-h-[100dvh] bg-[#f4f4f7]">
       <ui-platform-subheader
         (openDialog)="toggleCart()"
         [cartItems]="cartItems()"
-        [orderItems]="cartItems()"
+        [orderCount]="orderCount()"
         (ordersClick)="goToOrders()"
       ></ui-platform-subheader>
 
@@ -38,13 +39,15 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
 export class WebshopAppComponent {
   protected router = inject(Router);
   protected cartService = inject(CartService);
+  protected orderService = inject(OrderService);
 
   cartItems = this.cartService.cartItems;
+  orderCount = this.orderService.orderCount;
+
   showCart = false;
 
   toggleCart() {
     this.showCart = !this.showCart;
-    console.log('toggle', `${this.showCart}`);
   }
 
   onDeleteCartItem(cartItemId: number) {

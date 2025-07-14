@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '@carbon/styles';
+@import '@carbon/styles/css/styles.css';
 
 :root {
   --cds-ui-01: yellow;
@@ -485,4 +485,17 @@ cds-header-global .cds--overflow-menu.cds--btn--ghost:hover {
 
 html .mat-mdc-mini-fab.mat-accent {
   --mdc-fab-small-container-color: var(--accent) !important;
+}
+
+.cds--select--inline .cds--select-input {
+  --cds-text-primary: red;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.cds--select--inline .cds--label {
+  font-weight: 500;
+  color: var(--accent-complimentary);
 }

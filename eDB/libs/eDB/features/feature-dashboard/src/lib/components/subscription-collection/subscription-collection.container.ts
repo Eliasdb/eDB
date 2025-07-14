@@ -26,6 +26,7 @@ import { SubscribedApplication } from '../../types/dashboard.types';
                   [tags]="app.tags"
                   [skeleton]="false"
                   [routePath]="app.routePath"
+                  [iconUrl]="app.iconUrl"
                 ></ui-launch-tile>
               }
             } @else {

@@ -16,7 +16,7 @@ import { SubscriptionsCollectionContainer } from './components/subscription-coll
       <div class="px-6 flex flex-col gap-8">
         <!-- Title Section -->
         <section class="title">
-          <h1 class=" text-3xl text-[#1f2937]">My apps</h1>
+          <h1 class=" text-3xl text-[#1f2937] font-light">My apps</h1>
         </section>
 
         <!-- Toolbar Container -->

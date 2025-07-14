@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { CartItem, OrderItem } from '@eDB-webshop/shared-types';
+import { CartItem } from '@eDB-webshop/shared-types';
 import { UiIconButtonComponent } from '@edb/shared-ui';
 import { filter } from 'rxjs';
 
@@ -21,12 +21,12 @@ import { filter } from 'rxjs';
       class="fixed inset-x-0 top-20 z-50 border-b border-gray-200 bg-white py-6"
     >
       <div
-        class="max-w-[88%] xl:max-w-[72%] mx-auto flex items-center justify-between w-full"
+        class="max-w-[100%] px-6 xl:px-0 xl:max-w-[82%] mx-auto flex items-center justify-between w-full"
       >
         <!-- Left: Title + Back Button -->
         <div class="flex items-center gap-6">
           @if (isOnCatalog()) {
-            <h1 class="text-xl font-semibold text-slate-800">Demo Webshop</h1>
+            <h1 class="text-lg font-semibold text-slate-800">Demo Webshop</h1>
           } @else {
             <a
               routerLink="/webshop"
@@ -40,6 +40,28 @@ import { filter } from 'rxjs';
 
         <!-- Right: Cart + Orders -->
         <div class="flex items-center gap-4">
+          <div class="relative">
+            <ui-icon-button
+              icon="faHeart"
+              [description]="'View wishlist'"
+              [iconSize]="'16px'"
+              [iconColor]="'var(--accent)'"
+              (iconButtonClick)="onWishlistClick()"
+              class="hover:scale-105 transition-transform"
+            />
+            <!-- Optional badge (e.g., if you want to show a count later) -->
+            <!--
+  @if (wishlistCount() > 0) {
+    <span
+      class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
+             rounded-full bg-pink-500 text-xs font-medium text-white shadow-sm"
+    >
+      {{ wishlistCount() }}
+    </span>
+  }
+  -->
+          </div>
+
           <!-- Orders icon -->
           <div class="relative">
             <ui-icon-button
@@ -50,12 +72,12 @@ import { filter } from 'rxjs';
               (iconButtonClick)="onOrdersClick()"
               class="hover:scale-105 transition-transform"
             />
-            @if (orderItems()?.length) {
+            @if (orderCount()) {
               <span
                 class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
                        rounded-full bg-blue-600 text-xs font-medium text-white shadow-sm"
               >
-                {{ orderItems()?.length }}
+                {{ orderCount() }}
               </span>
             }
           </div>
@@ -79,6 +101,8 @@ import { filter } from 'rxjs';
               </span>
             }
           </div>
+
+          <!-- Wishlist icon -->
         </div>
       </div>
     </header>
@@ -86,11 +110,13 @@ import { filter } from 'rxjs';
 })
 export class UiPlatformSubHeaderComponent {
   readonly cartItems = input<CartItem[]>();
-  readonly orderItems = input<OrderItem[]>();
+  readonly orderCount = input<number>();
+
   readonly isDialogOpen = model(false);
 
   @Output() openDialog = new EventEmitter<boolean>();
   @Output() ordersClick = new EventEmitter<void>();
+  @Output() wishlistClick = new EventEmitter<void>();
 
   private router = inject(Router);
   private currentUrl = signal(this.router.url);
@@ -115,5 +141,9 @@ export class UiPlatformSubHeaderComponent {
 
   onOrdersClick() {
     this.ordersClick.emit();
+  }
+
+  onWishlistClick() {
+    this.wishlistClick.emit();
   }
 }

@@ -8,7 +8,7 @@ export const routes: Route[] = [
     path: '',
     canActivate: [AuthGuard],
     children: [
-      /* real dashboard segment */
+      /* Real dashboard segment */
       {
         path: '',
         loadChildren: () =>
@@ -58,7 +58,7 @@ export const routes: Route[] = [
     ],
   },
 
-  /* 404 */
+  /* 404 page */
   {
     path: 'not-found',
     loadChildren: () =>

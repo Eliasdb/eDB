@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Order;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -14,31 +13,16 @@ class StoreOrderRequest extends FormRequest
     {
         return true;
     }
-    
+
     /**
      * Prepare the data for validation.
      */
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
-        // Transform orderDate (if provided) to order_date.
         if ($this->has('orderDate')) {
             $this->merge([
                 'order_date' => $this->orderDate,
             ]);
-        }
-
-        // Transform nested items keys from camelCase to snake_case.
-        if ($this->has('items') && is_array($this->items)) {
-            $transformedItems = [];
-            foreach ($this->items as $item) {
-                $transformed = [];
-                foreach ($item as $key => $value) {
-                    // Convert keys like "bookId" to "book_id", etc.
-                    $transformed[Str::snake($key)] = $value;
-                }
-                $transformedItems[] = $transformed;
-            }
-            $this->merge(['items' => $transformedItems]);
         }
     }
 
@@ -48,10 +32,11 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items' => 'required|array|min:1',
-            'items.*.book_id' => 'required|exists:books,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required|numeric',
+            'fullName' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'postalCode' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
             'order_date' => 'nullable|date',
         ];
     }

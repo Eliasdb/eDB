@@ -35,7 +35,7 @@ import {
 } from 'rxjs';
 
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { PaginatedResponse } from '../../../types/paged-result.type';
+import { PaginatedResponse } from '../../../types/paged-result.model';
 import { SortEvent } from '../../../types/sort-event.type';
 import { UserProfile } from '../../../types/user.type';
 import { UsersCollectionAccordionComponent } from '../users-collection-mobile-accordion/users-collection-mobile-accordion';

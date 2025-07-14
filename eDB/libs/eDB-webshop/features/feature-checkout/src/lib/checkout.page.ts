@@ -1,22 +1,24 @@
 // ─────────────────────────────────────────────────────────────
 // checkout.page.ts — uses skeleton rows until cart loads
 // ─────────────────────────────────────────────────────────────
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+// Component Modules
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { Cart, CartItem } from '@eDB-webshop/shared-types';
-import { UiButtonComponent, UiTextInputComponent } from '@edb/shared-ui';
 import { SkeletonModule } from 'carbon-components-angular';
-import { CheckoutService } from './checkout.service';
+
+// UI
+import { UiButtonComponent, UiTextInputComponent } from '@edb/shared-ui';
 import { OrderSummaryItemComponent } from './components/order-summary-item/order-summary-item.component';
+
+// Services & Types
+import { CartService } from '@eDB-webshop/client-cart';
+import { CartItem } from '@eDB-webshop/shared-types';
+import { CheckoutService, OrderCreateRequest } from '@edb/client-checkout';
 
 @Component({
   selector: 'app-checkout-page',
@@ -182,51 +184,56 @@ import { OrderSummaryItemComponent } from './components/order-summary-item/order
   `,
   styles: [],
 })
-export class CheckoutPageComponent implements OnInit {
-  cartItems: CartItem[] = [];
-  cart!: Cart;
-  loading = true;
-  placeholderRows = Array.from({ length: 4 });
+export class CheckoutPageComponent {
+  // ───────── dependencies via inject() ─────────
+  private readonly fb = inject(FormBuilder);
+  private readonly cartService = inject(CartService);
+  private readonly checkoutService = inject(CheckoutService);
 
-  checkoutForm: FormGroup;
+  // ───────── reactive state ─────────
+  readonly placeholderRows = Array.from({ length: 4 });
   confirmation = signal<any>(null);
 
+  // form created with the injected FormBuilder
+  checkoutForm = this.fb.group({
+    fullName: ['John Doe', Validators.required],
+    address: ['123 Main St', Validators.required],
+    city: ['Metropolis', Validators.required],
+    postalCode: ['10001', Validators.required],
+    email: ['john.doe@example.com', [Validators.required, Validators.email]],
+  });
+
+  // ───────── template getters ─────────
+  get loading(): boolean {
+    return this.cartService.isLoading();
+  }
+
+  get cartItems(): CartItem[] {
+    return this.cartService.cartItems();
+  }
+
   get total(): number {
+    const cart = this.cartService.cart();
     return (
-      this.cart?.total ??
-      this.cartItems.reduce((s, i) => s + i.book.price * i.selectedAmount, 0)
+      cart?.total ??
+      this.cartItems.reduce(
+        (sum, item) => sum + item.book.price * item.selectedAmount,
+        0,
+      )
     );
   }
 
-  constructor(
-    private checkoutService: CheckoutService,
-    private fb: FormBuilder,
-  ) {
-    this.checkoutForm = this.fb.group({
-      fullName: ['John Doe', Validators.required],
-      address: ['123 Main St', Validators.required],
-      city: ['Metropolis', Validators.required],
-      postalCode: ['10001', Validators.required],
-      email: ['john.doe@example.com', [Validators.required, Validators.email]],
-    });
-  }
-
-  async ngOnInit() {
-    this.cart = await this.checkoutService.getCart();
-    this.cartItems = this.cart.items;
-    this.loading = false;
-  }
-
+  // ───────── helpers ─────────
   isInvalid(controlName: string): boolean {
     const control = this.checkoutForm.get(controlName);
     return !!control && control.invalid && control.touched;
   }
 
-  async submit() {
+  async submit(): Promise<void> {
     if (this.checkoutForm.invalid) return;
-    const result = await this.checkoutService.submitOrder(
-      this.checkoutForm.value,
-    );
-    this.confirmation.set(result);
+    const payload = this.checkoutForm.getRawValue() as OrderCreateRequest;
+    const confirmation = await this.checkoutService.submitOrder(payload);
+
+    this.confirmation.set(confirmation);
   }
 }

@@ -10,11 +10,8 @@ class CartService
 {
     /**
      * Get the cart for the given user, creating one if needed.
-     *
-     * @param int $userId
-     * @return \App\Models\Cart
      */
-    public function getCart($userId)
+    public function getCart(string $userId): Cart
     {
         $cart = Cart::firstOrCreate(['user_id' => $userId]);
         $cart->load('items.book');
@@ -24,30 +21,22 @@ class CartService
     /**
      * Add an item to the user's cart.
      *
-     * @param int $userId
-     * @param array $data
-     * @return \App\Models\Cart
      * @throws Exception
      */
-    public function addItem($userId, array $data)
+    public function addItem(string $userId, array $data): Cart
     {
-        // Find the book or fail.
         $book = Book::findOrFail($data['id']);
 
-        // Check if there is enough stock
         if ($data['selected_amount'] > $book->stock) {
             throw new Exception("Only {$book->stock} items available in stock.");
         }
 
-        // Prepare the data for cart item creation
         $data['price'] = $book->price;
         $data['book_id'] = $data['id'];
         unset($data['id']);
 
-        // Get or create the user's cart
         $cart = Cart::firstOrCreate(['user_id' => $userId]);
 
-        // Check if the book is already in the cart
         $cartItem = $cart->items()->where('book_id', $data['book_id'])->first();
 
         if ($cartItem) {
@@ -66,12 +55,8 @@ class CartService
 
     /**
      * Remove an item from the user's cart.
-     *
-     * @param int $userId
-     * @param int $itemId
-     * @return \App\Models\Cart
      */
-    public function removeItem($userId, $itemId)
+    public function removeItem(string $userId, int $itemId): Cart
     {
         $cart = Cart::firstOrCreate(['user_id' => $userId]);
         $item = $cart->items()->findOrFail($itemId);
@@ -83,13 +68,8 @@ class CartService
 
     /**
      * Update an item in the user's cart.
-     *
-     * @param int $userId
-     * @param int $itemId
-     * @param array $data
-     * @return \App\Models\Cart
      */
-    public function updateItem($userId, $itemId, array $data)
+    public function updateItem(string $userId, int $itemId, array $data): Cart
     {
         if (isset($data['selectedAmount'])) {
             $data['selected_amount'] = $data['selectedAmount'];
@@ -104,4 +84,15 @@ class CartService
         return $cart;
     }
 
+    /**
+     * Clear all items in the user's cart.
+     */
+    public function clearCart(string $userId): void
+    {
+        $cart = Cart::where('user_id', $userId)->first();
+
+        if ($cart) {
+            $cart->items()->delete();
+        }
+    }
 }

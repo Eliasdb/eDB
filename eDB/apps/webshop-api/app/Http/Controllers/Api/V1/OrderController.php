@@ -4,85 +4,143 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
-use Illuminate\Http\Request;
-use App\Models\Order;
-use App\Http\Resources\V1\Order\OrderResource;
 use App\Http\Resources\V1\Order\OrderCollection;
+use App\Http\Resources\V1\Order\OrderResource;
+use App\Models\Order;
+use App\Services\CartService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
-    // List orders (with pagination)
-    public function index()
+    public function __construct(protected CartService $cartService)
     {
-     $orders = Order::with('items.book')->paginate(15);
-         return new OrderCollection($orders);
+        $this->middleware('auth'); // applies JWT middleware to extract jwt_user_id
     }
 
-    // Create a new order
-    public function store(StoreOrderRequest $request)
+    /**
+     * GET /orders — Paginated list of orders for the authenticated user
+     */
+    public function index(Request $request): OrderCollection|JsonResponse
     {
-        // The request is already validated here.
-        $validated = $request->validated();
-    
-        // Wrap only the JWT decoding (and optionally order creation) in try/catch.
-        try {
-            $token = $request->bearerToken();
-            $payload = JWTAuth::setToken($token)->getPayload();
-        } catch (\Exception $e) {
-            Log::error('JWT error:', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'Invalid token'], 401);
+        $userId = $request->get('jwt_user_id');
+        if (!$userId) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-        
-        $userId = $payload->get('sub');
-    
+
+        $orders = Order::with('items.book')
+            ->where('user_id', $userId)
+            ->latest()
+            ->paginate(15);
+
+        return new OrderCollection($orders);
+    }
+
+    /**
+     * POST /orders — Create a new order from the cart
+     */
+    public function store(StoreOrderRequest $request): OrderResource|JsonResponse
+    {
+        $userId = $request->get('jwt_user_id');
+        if (!$userId) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $cart = $this->cartService->getCart($userId);
+        if ($cart->items->isEmpty()) {
+            return response()->json(['error' => 'Cart is empty'], 422);
+        }
+
         try {
-            // Create order with validated data and associated order items
-            $order = Order::create([
-                'user_id'   => $userId,
-                'status'    => 'pending',
-                'order_date'=> $validated['order_date'] ?? now(),
-                'amount'    => collect($validated['items'])->sum(fn($item) => $item['price'] * $item['quantity']),
-            ]);
-    
-            foreach ($validated['items'] as $itemData) {
-                $order->items()->create($itemData);
-            }
-    
+            $order = DB::transaction(function () use ($request, $cart, $userId) {
+                $order = Order::create([
+                    'user_id'     => $userId,
+                    'status'      => 'pending',
+                    'order_date'  => $request->input('order_date') ?? now(),
+                    'amount'      => $cart->items->sum(
+                        fn ($item) => $item->price * $item->selected_amount
+                    ),
+                    'full_name'   => $request->input('fullName'),
+                    'address'     => $request->input('address'),
+                    'city'        => $request->input('city'),
+                    'postal_code' => $request->input('postalCode'),
+                    'email'       => $request->input('email'),
+                ]);
+
+                foreach ($cart->items as $item) {
+                    $order->items()->create([
+                        'book_id'  => $item->book_id,
+                        'price'    => $item->price,
+                        'quantity' => $item->selected_amount,
+                    ]);
+                }
+
+                $this->cartService->clearCart($userId);
+
+                return $order;
+            });
+
             return new OrderResource($order->load('items.book'));
-        } catch (\Exception $e) {
-            Log::error('Error creating order:', ['error' => $e->getMessage()]);
+        } catch (\Throwable $e) {
+            Log::error('❌ Order creation failed', [
+                'user_id' => $userId,
+                'error'   => $e->getMessage(),
+            ]);
+
             return response()->json(['error' => 'Order creation failed'], 500);
         }
     }
-    
-    
 
-    // Show a single order
-    public function show(Order $order)
+    /**
+     * GET /orders/{order}
+     */
+    public function show(Request $request, Order $order): OrderResource|JsonResponse
     {
-          $order->load('items.book');
-         return new OrderResource($order);
+        $userId = $request->get('jwt_user_id');
+
+        if ($order->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        return new OrderResource($order->load('items.book'));
     }
 
-    // Update an order
-    public function update(Request $request, Order $order)
+    /**
+     * PATCH /orders/{order}
+     */
+    public function update(Request $request, Order $order): OrderResource|JsonResponse
     {
-         $validated = $request->validate([
-             'quantity' => 'sometimes|integer|min:1',
-             'status'   => 'sometimes|in:pending,completed,cancelled',
-         ]);
+        $userId = $request->get('jwt_user_id');
 
-         $order->update($validated);
-         return new OrderResource($order);
+        if ($order->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'quantity' => 'sometimes|integer|min:1',
+            'status'   => 'sometimes|in:pending,completed,cancelled',
+        ]);
+
+        $order->update($validated);
+
+        return new OrderResource($order);
     }
 
-    // Delete an order
-    public function destroy(Order $order)
+    /**
+     * DELETE /orders/{order}
+     */
+    public function destroy(Request $request, Order $order): JsonResponse
     {
-         $order->delete();
-         return response()->json(['message' => 'Order deleted successfully.']);
+        $userId = $request->get('jwt_user_id');
+
+        if ($order->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $order->delete();
+
+        return response()->json(['message' => 'Order deleted successfully.']);
     }
 }
