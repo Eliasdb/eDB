@@ -1,3 +1,7 @@
+// ─────────────────────────────────────────────────────────────
+// admin-dashboard.component.ts   (breadcrumb text animation 🌀)
+// ─────────────────────────────────────────────────────────────
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ViewChild, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +14,8 @@ import {
 import { TilesModule } from 'carbon-components-angular';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+
+import { TitleCasePipe } from '@angular/common';
 import { ApplicationsCollectionContainer } from '../platform/applications-collection/applications-collection.container';
 import { UsersCollectionContainer } from '../platform/users-collection/users-collection.container';
 import { WebshopBooksTableComponent } from '../webshop/books-table/books-table.component';
@@ -32,9 +38,27 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     ApplicationsCollectionContainer,
     WebshopBooksTableComponent,
     AdminOrdersListComponent,
+    TitleCasePipe,
+  ],
+  animations: [
+    /* --------------------------------------------------------
+     * Flip/Fade animation for the breadcrumb text
+     * ------------------------------------------------------ */
+    trigger('viewFlip', [
+      transition('platform <=> webshop', [
+        /* leave phase                                                           */
+        style({ opacity: 0, transform: 'rotateX(90deg)' }),
+        /* enter phase                                                           */
+        animate(
+          '200ms ease-out',
+          style({ opacity: 1, transform: 'rotateX(0deg)' }),
+        ),
+      ]),
+    ]),
   ],
   template: `
     <mat-drawer-container class="h-[calc(100dvh-5rem)] relative">
+      <!-- Side-nav ----------------------------------------------------------- -->
       <mat-drawer
         #drawer
         [mode]="sidenavMode"
@@ -49,34 +73,43 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
         ></admin-sidebar>
       </mat-drawer>
 
+      <!-- Main content ------------------------------------------------------- -->
       <mat-drawer-content>
         <div class="pt-0 bg-slate-50 text-black min-h-[calc(100dvh-5rem)]">
+          <!-- Top bar / breadcrumb ------------------------------------------- -->
           <div
-            class="h-16 bg-white flex items-center justify-between border-b border-solid border-[#e5e7eb]"
+            class="h-16 bg-white flex items-center border-b border-[#e5e7eb] px-6 text-sm"
           >
-            <div class="flex items-center gap-2 text-sm ml-6">
-              <svg
-                (click)="drawer.open()"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-panel-left cursor-pointer scale-[0.7] mr-1"
-                aria-hidden="true"
-              >
-                <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-                <path d="M9 3v18"></path>
-              </svg>
-              <div class="shrink-0 bg-border w-[1px] mr-2 h-4"></div>
-              <span class="text-gray-500">Admin</span>
-              <span class="text-gray-400">/</span>
-              <span class="text-gray-700 font-medium">Platform</span>
-            </div>
+            <svg
+              (click)="drawer.open()"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-panel-left cursor-pointer scale-[0.7] mr-1 shrink-0"
+              aria-hidden="true"
+            >
+              <rect width="18" height="18" x="3" y="3" rx="2" />
+              <path d="M9 3v18" />
+            </svg>
+
+            <div class="shrink-0 bg-border w-[1px] h-4 mx-2"></div>
+
+            <span class="text-gray-500">Admin</span>
+            <span class="text-gray-400 mx-1">/</span>
+
+            <!-- 🌀 Animated section title -->
+            <span
+              [@viewFlip]="currentView()"
+              class="inline-block text-gray-700 font-medium  origin-top"
+            >
+              {{ currentView() | titlecase }}
+            </span>
           </div>
 
           @if (currentView() === 'platform') {
@@ -177,6 +210,8 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           }
           @if (currentView() === 'webshop') {
             <section class="p-6">
+              <h2 class="mb-4 text-2xl font-medium">Webshop Management</h2>
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Books Table (takes full width on mobile, half on desktop) -->
                 <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
@@ -201,21 +236,24 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
   `,
 })
 export class AdminDashboardComponent {
+  /* Drawer --------------------------------------------------------------- */
+  @ViewChild('drawer') private drawer!: MatDrawer;
   isDrawerOpen = false;
-  @ViewChild('drawer') drawer!: MatDrawer;
+  sidenavMode: 'over' | 'side' | 'push' = 'push';
 
+  /* View toggle state ---------------------------------------------------- */
   currentView = signal<'platform' | 'webshop'>('platform');
-  sidenavMode: 'over' | 'side' = 'side';
 
-  switchDrawerContent(newContent: 'platform' | 'webshop') {
-    if (this.currentView() !== newContent) {
-      this.currentView.set(newContent);
+  switchDrawerContent(view: 'platform' | 'webshop') {
+    if (this.currentView() !== view) {
+      this.currentView.set(view);
     }
-    if (this.drawer?.opened) {
-      this.drawer.close();
-    }
+    if (this.drawer?.opened) this.drawer.close();
   }
 
+  /* --------------------------------------------------------------------- */
+  /*  Dummy KPI data + chart configs (unchanged)                          */
+  /* --------------------------------------------------------------------- */
   totalRevenue = '$56,945';
   customers = 1092;
   avgOrderValue = '$202';
@@ -250,7 +288,6 @@ export class AdminDashboardComponent {
       },
     ],
   };
-
   revenueChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
@@ -266,7 +303,6 @@ export class AdminDashboardComponent {
       },
     ],
   };
-
   salesCategoryChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
