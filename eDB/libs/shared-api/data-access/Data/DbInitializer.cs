@@ -21,7 +21,7 @@ namespace EDb.DataAccess.Data
           {
             Name = "Webshop",
             Description = "Demo webshop",
-            IconUrl = "/icons/appointments.png",
+            IconUrl = "https://unpkg.com/lucide-static/icons/shopping-cart.svg",
             RoutePath = "/webshop",
             Tags = ["Angular", "Laravel"],
           },
@@ -29,7 +29,7 @@ namespace EDb.DataAccess.Data
           {
             Name = "CRM",
             Description = "Demo CRM",
-            IconUrl = "/icons/inventory.png",
+            IconUrl = "https://unpkg.com/lucide-static/icons/users.svg",
             RoutePath = "/crm",
             Tags = ["Angular", ".NET"],
           },
@@ -37,8 +37,8 @@ namespace EDb.DataAccess.Data
           {
             Name = "ERP",
             Description = "Demo ERP",
-            IconUrl = "/icons/reports.png",
-            RoutePath = "/ERP",
+            IconUrl = "https://unpkg.com/lucide-static/icons/layers.svg",
+            RoutePath = "/erp",
             Tags = ["Angular", "Python"],
           }
         );

@@ -45,7 +45,7 @@ spec:
                         valueFrom:
                             secretKeyRef:
                                 name: postgres-secret-prod
-                                key: POSTGRES_DB
+                                key: WEBSHOP_DB
                       - name: DB_PASSWORD
                         valueFrom:
                             secretKeyRef:

@@ -6,7 +6,7 @@ echo "⏳ Waiting for PostgreSQL..."
 echo "✅ PostgreSQL is ready"
 
 echo "🚀 Running migrations..."
-php artisan migrate --force || { echo "❌ Migrations failed"; exit 1; }
+php artisan migrate:fresh --force || { echo "❌ migrate:fresh failed"; exit 1; }
 echo "✅ Migrations done"
 
 echo "🌱 Seeding books..."

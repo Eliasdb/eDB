@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
   selector: 'erp-home',
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="min-h-[calc(100dvh-9rem)] p-6 bg-slate-50">
-      <h1 class="text-2xl font-bold mb-6 text-black">ERP Home</h1>
+    <div class="min-h-[calc(100dvh-9rem)] p-6 bg-slate-50 text-black">
+      <h1 class="text-2xl font-bold mb-6 ">ERP Home</h1>
       <p class="text-gray-600 mb-8">
         Welcome to the ERP dashboard. Choose a module below:
       </p>
