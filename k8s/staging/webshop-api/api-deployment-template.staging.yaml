@@ -51,6 +51,11 @@ spec:
                             secretKeyRef:
                                 name: postgres-secret-staging
                                 key: POSTGRES_PASSWORD
+                      - name: OPENAI_API_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: openai-secret-staging
+                                key: OPENAI_API_KEY
                   resources:
                       requests:
                           memory: '256Mi'
