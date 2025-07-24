@@ -78,6 +78,11 @@ spec:
                             configMapKeyRef:
                                 name: laravel-session-config-staging
                                 key: SESSION_LIFETIME
+                      - name: OPENAI_API_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: openai-secret-staging
+                                key: OPENAI_API_KEY
                       - name: REDIS_HOST
                         value: 'redis-service-staging' # Reference the Redis service inside the cluster
                       - name: REDIS_PORT
