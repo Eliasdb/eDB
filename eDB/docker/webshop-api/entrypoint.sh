@@ -11,9 +11,13 @@ echo "✅ Database freshly migrated"
 
 echo "🌱 Seeding curated books..."
 php artisan db:seed --class=CuratedBooksSeeder --force || { echo "❌ Seeder failed"; exit 1; }
-echo "✅ Seeder completed"
+echo "✅ Curated books seeded"
 
-# Optional cache
+echo "🧠 Setting Meilisearch filterable attributes..."
+php artisan db:seed --class=MeilisearchIndexSeeder --force || { echo "❌ Meilisearch index seeding failed"; exit 1; }
+echo "✅ Meilisearch index configured"
+
+# Optional: config and route cache
 # php artisan config:cache
 # php artisan route:cache
 
