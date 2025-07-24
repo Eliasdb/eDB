@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: webshop-api-staging
+    namespace: default
+    labels:
+        app: webshop-api-staging
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: webshop-api-staging
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: webshop-api-staging
+        spec:
+            containers:
+                - name: webshop-api
+                  image: eliasdb/webshop-api:v8-test
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 8000
+                        protocol: TCP
+                  env:
+                      - name: APP_ENV
+                        value: 'staging'
+                      - name: APP_DEBUG
+                        value: 'false'
+                      - name: APP_URL
+                        value: 'https://api.staging.eliasdebock.com'
+                      - name: DB_CONNECTION
+                        value: 'pgsql'
+                      - name: DB_HOST
+                        value: 'postgres-service-staging'
+                      - name: DB_USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_USER
+                      - name: DB_DATABASE
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_DB
+                      - name: DB_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: postgres-secret-staging
+                                key: POSTGRES_PASSWORD
+                      - name: OPENAI_API_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: openai-secret-staging
+                                key: OPENAI_API_KEY
+                  resources:
+                      requests:
+                          memory: '256Mi'
+                          cpu: '500m'
+                      limits:
+                          memory: '1Gi'
+                          cpu: '1'

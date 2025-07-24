@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -11,7 +12,8 @@ import { Contact, ContactStatus } from '../../types/contact.types';
 
 @Component({
   selector: 'crm-contact-edit-form',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   template: `
     <h3 class="text-lg font-medium mb-4">Edit Contact</h3>
 
@@ -42,16 +44,18 @@ import { Contact, ContactStatus } from '../../types/contact.types';
       }
     </div>
 
-    <!-- buttons -->
+    <!-- action buttons -->
     <div class="flex justify-end gap-2 pt-6">
       <button
         class="px-3 py-1.5 rounded-md border text-sm hover:bg-gray-50"
+        type="button"
         (click)="cancel.emit()"
       >
         Cancel
       </button>
       <button
         class="px-3 py-1.5 rounded-md text-sm text-white bg-gray-900 hover:bg-gray-800"
+        type="button"
         (click)="save.emit(draft)"
       >
         Save
@@ -60,22 +64,33 @@ import { Contact, ContactStatus } from '../../types/contact.types';
   `,
 })
 export class ContactEditFormComponent implements OnChanges {
+  /* ---------- Inputs / Outputs ---------- */
   @Input({ required: true }) contact!: Contact;
   @Output() save = new EventEmitter<Contact>();
   @Output() cancel = new EventEmitter<void>();
 
+  /* ---------- Working copy ---------- */
   draft: Contact = {} as Contact;
 
-  readonly statuses: ContactStatus[] = ['Lead', 'Customer', 'Archived'];
+  /* ---------- Field definitions ---------- */
+  readonly statuses: ContactStatus[] = [
+    'Lead',
+    'Prospect',
+    'Customer',
+    'Archived',
+  ];
+
   readonly fields = [
-    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'firstName', label: 'First name', type: 'text' },
+    { key: 'lastName', label: 'Last name', type: 'text' },
     { key: 'email', label: 'Email', type: 'email' },
     { key: 'phone', label: 'Phone', type: 'tel' },
-    { key: 'company', label: 'Company', type: 'text' },
     { key: 'status', label: 'Status', type: 'select' },
   ] as const;
 
+  /* ---------- Lifecycle ---------- */
   ngOnChanges(_: SimpleChanges) {
+    /** fresh shallow-copy each time the input changes */
     this.draft = { ...this.contact };
   }
 }
