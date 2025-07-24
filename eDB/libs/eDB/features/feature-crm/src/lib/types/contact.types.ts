@@ -1,22 +1,52 @@
-/* Shared domain types */
-
-export type ContactStatus = 'Lead' | 'Customer' | 'Archived';
+/* libs/shared-types/src/lib/crm.types.ts
+   -------------------------------------------------------------- */
+export type ContactStatus = 'Lead' | 'Customer' | 'Prospect' | 'Archived';
 
 export interface ActivityItem {
-  date: string;
+  date: string; // ISO date string
   title: string;
   text?: string;
 }
 
 export interface Contact {
-  /* core */
-  name: string;
+  /* ── Core ── */
+  id?: string; // optional for “new” contacts
+  firstName: string;
+  lastName: string;
   email?: string;
   phone?: string;
-  company?: string;
+
+  companyId?: string;
+  companyName?: string;
   status?: ContactStatus;
 
-  /* extras the sidebar needs */
+  /* ── Extras ── */
   tags?: string[];
   activity?: ActivityItem[];
+
+  /* Derived helper (not persisted) */
+  /** Convenience getter so templates can use {{contact.fullName}} */
+  fullName?: string; // filled client-side: `${first} ${last}`
+}
+
+export interface CompanyDto {
+  id: string;
+  name: string;
+  vatNumber?: string;
+  website?: string;
+}
+
+export interface ContactDto {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+
+  companyId: string;
+  companyName: string;
+  status: 'Lead' | 'Prospect' | 'Customer' | 'Inactive' | 'Archived';
+
+  createdAt?: string;
+  updatedAt?: string;
 }

@@ -21,6 +21,7 @@ import {
 import { BaseChartDirective } from 'ng2-charts';
 
 import { environment } from '@eDB/shared-env';
+import { BtwFilingReminderComponent } from './btw-filing-reminder.component';
 
 ChartJS.register(
   BarController,
@@ -38,9 +39,13 @@ ChartJS.register(
     UiTableComponent,
     UiTileComponent,
     BaseChartDirective,
+    BtwFilingReminderComponent,
   ],
   template: `
     <div class="p-8 flex flex-col gap-10 bg-slate-50 min-h-screen">
+      <!-- ░ Reminder Section ░ -->
+      <btw-filing-reminder />
+
       <!-- ░ KPI Section ░ -->
       <section class="grid gap-6 sm:grid-cols-3">
         <ui-tile

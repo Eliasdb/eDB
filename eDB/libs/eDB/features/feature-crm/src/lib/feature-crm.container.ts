@@ -4,7 +4,6 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  OnInit,
   TemplateRef,
   ViewChild,
   computed,
@@ -12,6 +11,9 @@ import {
   signal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import {
   CustomModalService,
   UiButtonComponent,
@@ -25,32 +27,37 @@ import {
   TableModel,
 } from 'carbon-components-angular';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+/* sidebars */
 import {
   CompanyCard,
   CrmCompanySidebarComponent,
 } from './components/sidebar/crm-company-sidebar.component';
 import { ContactSidebarComponent } from './components/sidebar/side-bar.components';
+
+/* DTOs & service */
+import {
+  CrmService,
+  NewCompanyPayload,
+  NewContactPayload,
+} from '@edb/client-crm';
 import { ContactStatus } from './types/contact.types';
 
 @Component({
   selector: 'crm-contacts-page',
+  standalone: true,
   imports: [
+    /* Angular */
     CommonModule,
     ReactiveFormsModule,
-
-    /* shared-ui */
+    /* Shared UI */
     UiTableComponent,
     UiTextInputComponent,
     UiButtonComponent,
     UiIconButtonComponent,
-
-    /* sidebars */
+    /* Feature */
     ContactSidebarComponent,
     CrmCompanySidebarComponent,
-
-    /* material */
+    /* Material */
     MatButtonModule,
     MatIconModule,
   ],
@@ -64,7 +71,8 @@ import { ContactStatus } from './types/contact.types';
 
         <!-- ░░ Companies ░░ -->
         <header
-          class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between text-black"
+          class="mb-6 flex flex-col gap-4
+               sm:flex-row sm:items-end sm:justify-between text-black"
         >
           <div>
             <h2 class="text-xl font-semibold">Companies</h2>
@@ -81,67 +89,66 @@ import { ContactStatus } from './types/contact.types';
           </ui-button>
         </header>
 
-        @if (companies().length > 0) {
-          <div
-            class="mb-8 grid gap-6"
+        <div
+          class="mb-8 grid gap-6"
+          [ngClass]="{
+            'grid-cols-1': true,
+            'sm:grid-cols-2': companies().length > 1,
+            'lg:grid-cols-3': companies().length > 2,
+          }"
+          *ngIf="companies().length; else noCompanies"
+        >
+          <button
+            *ngFor="let c of companies()"
+            class="group relative rounded-lg border p-5 text-left transition
+                 hover:shadow focus:outline-none focus:ring-2
+                 focus:ring-offset-2 focus:ring-blue-500 bg-white"
             [ngClass]="{
-              'grid-cols-1': true,
-              'sm:grid-cols-2': companies().length > 1,
-              'lg:grid-cols-3': companies().length > 2,
+              'border-blue-600 bg-blue-50 shadow-sm':
+                selectedCompany() === c.name,
             }"
+            (click)="filterByCompany(c.name)"
           >
-            @for (c of companies(); track c.name) {
-              <button
-                class="group relative rounded-lg border p-5 text-left transition
-                   hover:shadow focus:outline-none focus:ring-2
-                   focus:ring-offset-2 focus:ring-blue-500 bg-white"
-                [ngClass]="{
-                  'border-blue-600 bg-blue-50 shadow-sm':
-                    selectedCompany() === c.name,
-                }"
-                (click)="filterByCompany(c.name)"
+            <h3 class="font-medium text-gray-900 group-hover:text-gray-700">
+              {{ c.name }}
+            </h3>
+            <p class="mt-1 text-xs text-gray-500">
+              {{ c.contactCount }} contact<span *ngIf="c.contactCount !== 1"
+                >s</span
               >
-                <h3 class="font-medium text-gray-900 group-hover:text-gray-700">
-                  {{ c.name }}
-                </h3>
-                <p class="mt-1 text-xs text-gray-500">
-                  {{ c.contactCount }} contact
-                  @if (c.contactCount !== 1) {
-                    s
-                  }
-                </p>
+            </p>
 
-                <ui-icon-button
-                  icon="faPen"
-                  kind="ghost"
-                  size="sm"
-                  description="Edit company"
-                  class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
-                  (iconButtonClick)="
-                    openCompanySidebar(c); $event.stopPropagation()
-                  "
-                />
-              </button>
-            }
-          </div>
-        } @else {
+            <!-- opens the company sidebar -->
+            <ui-icon-button
+              icon="faPen"
+              kind="ghost"
+              size="sm"
+              description="Edit company"
+              class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
+              (iconButtonClick)="
+                openCompanySidebar(c); $event.stopPropagation()
+              "
+            />
+          </button>
+        </div>
+
+        <!-- clear-filter chip -->
+        <div class="mb-10" *ngIf="selectedCompany()">
+          <ui-button
+            variant="ghost"
+            size="sm"
+            icon="faTimes"
+            (buttonClick)="clearCompanyFilter()"
+          >
+            Showing&nbsp;“{{ selectedCompany() }}” – Clear
+          </ui-button>
+        </div>
+
+        <ng-template #noCompanies>
           <p class="mb-10 text-sm text-gray-500">
             No companies yet – add one to get started.
           </p>
-        }
-
-        @if (selectedCompany()) {
-          <div class="mb-10">
-            <ui-button
-              variant="ghost"
-              size="sm"
-              icon="faTimes"
-              (buttonClick)="clearCompanyFilter()"
-            >
-              Showing&nbsp;“{{ selectedCompany() }}” – Clear
-            </ui-button>
-          </div>
-        }
+        </ng-template>
 
         <!-- ░░ Contacts ░░ -->
         <header class="mb-4 flex items-center justify-between text-black">
@@ -187,7 +194,16 @@ import { ContactStatus } from './types/contact.types';
         <!-- ░░ Modals ░░ -->
         <ng-template #addContactForm>
           <form [formGroup]="addContactFormGroup" class="space-y-4">
-            <ui-text-input label="Name" formControlName="name" theme="light" />
+            <ui-text-input
+              label="First name"
+              formControlName="firstName"
+              theme="light"
+            />
+            <ui-text-input
+              label="Last name"
+              formControlName="lastName"
+              theme="light"
+            />
             <ui-text-input
               label="Email"
               formControlName="email"
@@ -199,8 +215,8 @@ import { ContactStatus } from './types/contact.types';
               theme="light"
             />
             <ui-text-input
-              label="Company"
-              formControlName="company"
+              label="Company ID"
+              formControlName="companyId"
               theme="light"
             />
             <ui-text-input
@@ -215,7 +231,17 @@ import { ContactStatus } from './types/contact.types';
           <form [formGroup]="addCompanyFormGroup" class="space-y-4">
             <ui-text-input
               label="Company name"
-              formControlName="company"
+              formControlName="name"
+              theme="light"
+            />
+            <ui-text-input
+              label="VAT number"
+              formControlName="vatNumber"
+              theme="light"
+            />
+            <ui-text-input
+              label="Website"
+              formControlName="website"
               theme="light"
             />
           </form>
@@ -224,57 +250,44 @@ import { ContactStatus } from './types/contact.types';
     </section>
   `,
 })
-export class CRMContainer implements OnInit {
+export class CRMContainer {
   /* ────────── DI ────────── */
   private fb = inject(FormBuilder);
   private mod = inject(CustomModalService);
+  private crm = inject(CrmService);
 
-  /* ────────── state ─────── */
-  private readonly allModel = signal(new TableModel());
-  readonly displayedModel = signal(new TableModel());
+  /* ────────── Signals ────────── */
   readonly selectedCompany = signal<string | null>(null);
   private readonly extraCompanies = signal<Set<string>>(new Set());
 
-  /* card list */
+  /* API data */
+  readonly contacts = this.crm.contacts;
   readonly companies = computed(() => {
     const map = new Map<string, number>();
 
-    this.allModel().data.forEach((row) => {
-      const n = (row[3]?.data as string)?.trim();
-      if (n) map.set(n, (map.get(n) ?? 0) + 1);
+    this.contacts().forEach((c) => {
+      const name = c.companyName.trim();
+      map.set(name, (map.get(name) ?? 0) + 1);
     });
 
-    this.extraCompanies().forEach((n) => {
-      if (!map.has(n)) map.set(n, 0);
-    });
+    this.extraCompanies().forEach((n) => map.set(n, map.get(n) ?? 0));
 
     return Array.from(map, ([name, contactCount]) => ({ name, contactCount }));
   });
 
-  /* ─── view refs ─── */
-  @ViewChild('addContactForm', { static: true })
-  addContactTpl!: TemplateRef<any>;
-  @ViewChild('addCompanyForm', { static: true })
-  addCompanyTpl!: TemplateRef<any>;
+  /* ────────── Table model derived from signals ────────── */
+  readonly displayedModel = computed<TableModel>(() => {
+    const selected = this.selectedCompany();
+    const rows = this.contacts()
+      .filter((c) => !selected || c.companyName === selected)
+      .map((c) => [
+        new TableItem({ data: `${c.firstName} ${c.lastName}` }),
+        new TableItem({ data: c.email }),
+        new TableItem({ data: c.phone }),
+        new TableItem({ data: c.companyName }),
+        new TableItem({ data: c.status }),
+      ]);
 
-  @ViewChild('contactSidebar') contactSidebar?: ContactSidebarComponent;
-  @ViewChild('companySidebar') companySidebar?: CrmCompanySidebarComponent;
-
-  /* ─── forms ─── */
-  addContactFormGroup = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', Validators.required],
-    phone: ['', Validators.required],
-    company: ['', Validators.required],
-    status: ['', Validators.required],
-  });
-
-  addCompanyFormGroup = this.fb.group({
-    company: ['', Validators.required],
-  });
-
-  /* ─── init ─── */
-  ngOnInit(): void {
     const tm = new TableModel();
     tm.header = [
       new TableHeaderItem({ data: 'Name' }),
@@ -283,125 +296,111 @@ export class CRMContainer implements OnInit {
       new TableHeaderItem({ data: 'Company' }),
       new TableHeaderItem({ data: 'Status' }),
     ];
-    tm.data = [
-      [
-        new TableItem({ data: 'Kristin Watson' }),
-        new TableItem({ data: 'kristin.watson@example.com' }),
-        new TableItem({ data: '+1 605-555-0123' }),
-        new TableItem({ data: 'Acme Inc.' }),
-        new TableItem({ data: 'Lead' }),
-      ],
-      [
-        new TableItem({ data: 'Darrell Steward' }),
-        new TableItem({ data: 'darrell.steward@example.com' }),
-        new TableItem({ data: '+1 605-555-0162' }),
-        new TableItem({ data: 'Giobex Corporation' }),
-        new TableItem({ data: 'Customer' }),
-      ],
-    ];
-    this.allModel.set(tm);
-    this.displayedModel.set(tm);
-  }
+    tm.data = rows;
+    return tm;
+  });
+  /* ───── view refs ───── */
+  @ViewChild('addContactForm', { static: true })
+  private addContactTpl!: TemplateRef<any>;
+  @ViewChild('addCompanyForm', { static: true })
+  private addCompanyTpl!: TemplateRef<any>;
+  @ViewChild('contactSidebar') private contactSidebar?: ContactSidebarComponent;
+  @ViewChild('companySidebar')
+  private companySidebar?: CrmCompanySidebarComponent;
 
-  /* ─── filtering ─── */
-  filterByCompany(name: string): void {
+  /* ───── forms ───── */
+  addContactFormGroup = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    email: ['', Validators.email],
+    phone: [''],
+    companyId: ['', Validators.required],
+    status: ['Lead' as ContactStatus],
+  });
+
+  addCompanyFormGroup = this.fb.group({
+    name: ['', Validators.required],
+    vatNumber: [''],
+    website: [''],
+  });
+
+  /* ───── filtering ───── */
+  filterByCompany(name: string) {
     this.selectedCompany.set(name);
-
-    const fm = new TableModel();
-    fm.header = this.allModel().header;
-    fm.data = this.allModel().data.filter(
-      (r) => (r[3]?.data as string)?.trim() === name,
-    );
-
-    this.displayedModel.set(fm);
   }
-  clearCompanyFilter(): void {
+  clearCompanyFilter() {
     this.selectedCompany.set(null);
-    this.displayedModel.set(this.allModel());
   }
 
-  /* ─── contacts ─── */
-  handleRowClick(row: TableItem[]): void {
-    /** 1️⃣ extract the cell objects */
-    const [nameCell, emailCell, phoneCell, companyCell, statusCell] = row;
+  /* ───── contacts ───── */
+  handleRowClick(row: TableItem[]) {
+    const [name, email, phone, company, status] = row;
+    const [firstName, ...lastName] = (name.data as string).split(' ');
 
-    /** 2️⃣ pass their `.data` *string* to the sidebar */
     this.contactSidebar?.open({
-      name: nameCell.data as string,
-      email: emailCell.data as string,
-      phone: phoneCell.data as string,
-      company: companyCell.data as string,
-      status: statusCell.data as ContactStatus, // 👈 cast
+      firstName,
+      lastName: lastName.join(' '),
+      email: email.data as string,
+      phone: phone.data as string,
+      companyName: company.data as string,
+      status: status.data as ContactStatus,
     });
   }
 
-  openAddContactModal(): void {
-    this.addContactFormGroup.reset();
+  openAddContactModal() {
+    this.addContactFormGroup.reset({ status: 'Lead' });
     this.mod.openModal({
       header: 'New Contact',
       template: this.addContactTpl,
       context: { form: this.addContactFormGroup },
       onSave: () => {
+        if (this.addContactFormGroup.invalid) return;
+
         const v = this.addContactFormGroup.value;
-
-        /** 3️⃣ add the new row (same as before) */
-        const row = [
-          new TableItem({ data: v.name! }),
-          new TableItem({ data: v.email! }),
-          new TableItem({ data: v.phone! }),
-          new TableItem({ data: v.company! }),
-          new TableItem({ data: v.status! }),
-        ];
-        const all = this.allModel();
-        all.addRow(row);
-        this.allModel.set(all);
-
-        /** 4️⃣ immediately open the sidebar with plain strings */
-        this.contactSidebar?.open({
-          name: v.name!,
+        const payload: NewContactPayload = {
+          firstName: v.firstName!,
+          lastName: v.lastName!,
           email: v.email!,
           phone: v.phone!,
-          company: v.company!,
+          companyId: v.companyId!,
           status: v.status! as ContactStatus,
-        });
-
-        this.clearCompanyFilter(); // keep the new row visible
+        };
+        this.crm.addContactMutation().mutate(payload);
       },
     });
   }
 
-  onContactSidebarClosed(): void {
-    /* nothing yet */
+  /* ───── companies ───── */
+  openCompanySidebar(c: CompanyCard) {
+    this.companySidebar?.open({ ...c, address: '', website: '', tags: [] });
   }
 
-  /* ─── companies ─── */
-  openCompanySidebar(c: CompanyCard): void {
-    /* ensure optional fields are always defined to satisfy the CompanyCard type */
-    this.companySidebar?.open({
-      ...c,
-      address: c.address ?? '',
-      website: c.website ?? '',
-      tags: c.tags ?? [],
-    });
-  }
-
-  openAddCompanyModal(): void {
+  openAddCompanyModal() {
     this.addCompanyFormGroup.reset();
     this.mod.openModal({
       header: 'New Company',
       template: this.addCompanyTpl,
       context: { form: this.addCompanyFormGroup },
       onSave: () => {
-        const name = this.addCompanyFormGroup.value.company?.trim();
-        if (!name) return;
+        if (this.addCompanyFormGroup.invalid) return;
+
+        const v = this.addCompanyFormGroup.value;
+        const payload: NewCompanyPayload = {
+          name: v.name!,
+          vatNumber: v.vatNumber!,
+          website: v.website!,
+        };
+        this.crm.addCompanyMutation().mutate(payload);
+
+        /* Add to local set so it appears immediately */
         const set = new Set(this.extraCompanies());
-        set.add(name);
+        set.add(payload['name'].trim());
         this.extraCompanies.set(set);
       },
     });
   }
 
-  onCompanySidebarClosed(): void {
-    /* nothing yet */
-  }
+  /* ───── sidebar close hooks (reserved) ───── */
+  onContactSidebarClosed() {}
+  onCompanySidebarClosed() {}
 }

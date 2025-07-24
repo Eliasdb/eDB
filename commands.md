@@ -18,5 +18,5 @@ export KUBECONFIG=$(pwd)/secret/k3s-prod-config.yaml
 
 `kubectl apply -f k8s/prod/admin-api/admin-api-deployment.prod.yaml`
 
-➜ eDB git:(sprint-2) ✗ nx g @nx/angular:library --name=client-checkout --directory=libs/eDB-webshop/data-access/client-checko
-ut
+`nx g @nx/angular:library --name=client-checkout --directory=libs/eDB-webshop/data-access/client-checkout`
+nx g @nx/angular:library --name=feature-aimode --directory=libs/eDB-webshop/features/feature-aimode

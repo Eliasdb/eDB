@@ -47,7 +47,7 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
         <!-- ░ Header ░ -->
         <header class="p-6 border-b relative">
           <h2 class="text-2xl font-semibold">
-            {{ contact()?.name || '—' }}
+            {{ contact()?.companyName }}
           </h2>
           <p class="text-sm text-gray-500">
             {{ contact()?.email || 'no-email@example.com' }}

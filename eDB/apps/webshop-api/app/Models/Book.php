@@ -2,38 +2,27 @@
 
 namespace App\Models;
 
-use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class Book extends Model
 {
     use HasFactory;
     use FilterQueryString;
-
-    protected $filters = [
-        "in",
-        "status",
-        "sort",
-        "title",
-        "genre",
-        "author",
-        "like",
-        "search",
-        "published_date",
-        "q",
-    ];
+    use Searchable;
 
     protected $fillable = [
-        "title",
-        "photo_url",
-        "status",
-        "genre",
-        "price",
-        "stock",
-        "description",
-        "author",
-        "published_date",
+        'title',
+        'photo_url',
+        'status',
+        'genre',
+        'price',
+        'stock',
+        'description',
+        'author',
+        'published_date',
     ];
 
     protected $casts = [
@@ -41,22 +30,56 @@ class Book extends Model
         'stock' => 'integer',
     ];
 
-    public function genre($query, $value)
+    // Filters used by FilterQueryString (normal flow)
+    protected $filters = [
+        'in',
+        'status',
+        'sort',
+        'title',
+        'genre',
+        'author',
+        'like',
+        'searchFilter',      // keep your renamed one
+        'published_date',
+        'q',
+        'stock',
+        'price',
+    ];
+
+    // ---------- Scout / Meilisearch ----------
+    public function toSearchableArray(): array
     {
-        return $query->where('genre', 'ILIKE', "%$value%");
+        return [
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'description' => $this->description,
+            'author'      => $this->author,
+            'genre'       => $this->genre,
+            'status'      => $this->status,
+            'published_date' => $this->published_date,
+            'price'       => (float) $this->price,
+            'stock'       => (int) $this->stock,
+        ];
     }
 
-    public function search($query, $value)
+    // ---------- FilterQueryString custom handlers (normal flow) ----------
+    public function genre($query, $value)
+    {
+        return $query->where('genre', 'ILIKE', "%{$value}%");
+    }
+
+    public function searchFilter($query, $value)
     {
         return $query->where(function ($q) use ($value) {
-            $q->where('title', 'ilike', "%$value%")
-              ->orWhere('author', 'ilike', "%$value%");
+            $q->where('title', 'ILIKE', "%{$value}%")
+              ->orWhere('author', 'ILIKE', "%{$value}%")
+              ->orWhere('description', 'ILIKE', "%{$value}%");
         });
     }
 
     public function author($query, $value)
     {
-        return $query->where('author', 'like', "%$value%");
+        return $query->where('author', 'ILIKE', "%{$value}%");
     }
 
     public function orders()
