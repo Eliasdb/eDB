@@ -1,14 +1,20 @@
 // webshop-app.component.ts
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CartService } from '@eDB-webshop/client-cart';
 import { OrderService } from '@edb-webshop/client-orders';
 import { CartComponent } from '@eDB-webshop/feature-cart';
+import { AiModeCatalogComponent, AiSearchService } from '@edb/feature-aimode';
 import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
 @Component({
   selector: 'edb-webshop-root',
-  imports: [RouterOutlet, CartComponent, UiPlatformSubHeaderComponent],
+  imports: [
+    RouterOutlet,
+    CartComponent,
+    UiPlatformSubHeaderComponent,
+    AiModeCatalogComponent,
+  ],
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-[#f4f4f7]">
       <ui-platform-subheader
@@ -16,7 +22,8 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
         [cartItems]="cartItems()"
         [orderCount]="orderCount()"
         (ordersClick)="goToOrders()"
-      ></ui-platform-subheader>
+        (aiToggleClick)="toggleAiView()"
+      />
 
       @if (showCart) {
         <section class="relative">
@@ -26,39 +33,51 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
             (showCart)="showCart = false"
             (cartItemDeleted)="onDeleteCartItem($event)"
             (checkoutClicked)="goToCheckout()"
-          ></app-cart>
+          />
         </section>
       }
 
       <main class="platform-content">
-        <router-outlet></router-outlet>
+        @if (aiView()) {
+          <ai-mode-catalog [onClose]="toggleAiView" />
+        } @else {
+          <router-outlet />
+        }
       </main>
     </div>
   `,
 })
 export class WebshopAppComponent {
-  protected router = inject(Router);
-  protected cartService = inject(CartService);
-  protected orderService = inject(OrderService);
+  private router = inject(Router);
+  private cartService = inject(CartService);
+  private orderService = inject(OrderService);
+  private aiSvc = inject(AiSearchService);
 
   cartItems = this.cartService.cartItems;
   orderCount = this.orderService.orderCount;
 
   showCart = false;
+  private _aiView = signal(false);
+  aiView = this._aiView.asReadonly();
 
-  toggleCart() {
-    this.showCart = !this.showCart;
+  toggleCart = () => (this.showCart = !this.showCart);
+
+  toggleAiView = () => {
+    const next = !this._aiView();
+    this._aiView.set(next);
+    if (next) {
+      // optional: seed with last typed search or a blank
+      this.aiSvc.run(this.aiSvc.nlQuery() || 'drama books');
+    }
+  };
+
+  onDeleteCartItem(id: number) {
+    this.cartService.removeFromCart(id);
   }
-
-  onDeleteCartItem(cartItemId: number) {
-    this.cartService.removeFromCart(cartItemId);
-  }
-
   goToCheckout() {
     this.showCart = false;
     this.router.navigate(['/webshop/checkout']);
   }
-
   goToOrders() {
     this.router.navigate(['/webshop/orders']);
   }

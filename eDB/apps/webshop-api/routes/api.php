@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BookController;
+use App\Http\Controllers\Api\V1\AIController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\Admin\OrderAdminController;
@@ -40,6 +41,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::apiResource("books", BookController::class);
 });
+
+Route::post('/v1/search/books', [AIController::class, 'handle']);
+
 
 // AUTHENTICATED USER ROUTES
 Route::group([

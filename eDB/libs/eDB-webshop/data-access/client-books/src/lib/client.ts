@@ -31,7 +31,7 @@ export class BooksService {
       params = params.set('genre', genre);
     }
     if (search) {
-      params = params.set('search', search);
+      params = params.set('searchFilter', search);
     }
     if (sort) {
       params = params.set('sort', sort);
