@@ -1,34 +1,34 @@
-// module-federation.config.ts  – host or remote
+// apps/eDB-admin/module-federation.config.ts
 import { ModuleFederationConfig } from '@nx/module-federation';
 
 const config: ModuleFederationConfig = {
   name: 'eDB-admin',
+
   exposes: {
     './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
   },
 
-  shared: (lib) => {
-    if (!lib) return false;
+  shared: (pkg) => {
+    if (!pkg) return false;
 
-    /** 1 . share *all* Angular entry‑points (and sub‑paths) as one singleton */
-    if (lib.startsWith('@angular/')) {
+    // 1) share every Angular entry point (and its sub‑paths)
+    if (pkg.startsWith('@angular/')) {
       return { singleton: true, strictVersion: true, requiredVersion: 'auto' };
     }
 
-    /** 2 . other libraries you really want single‑instanced */
-    if (lib.startsWith('@angular/material') || lib.startsWith('@angular/cdk')) {
-      return { singleton: true, strictVersion: true, requiredVersion: 'auto' };
-    }
+    // 2) other libraries that must remain singletons
     if (
-      lib === 'rxjs' ||
-      lib === '@tanstack/angular-query-experimental' ||
-      lib === 'carbon-components-angular' ||
-      lib === '@edb/shared-ui'
+      pkg.startsWith('@angular/material') ||
+      pkg.startsWith('@angular/cdk') ||
+      pkg === 'rxjs' ||
+      pkg === '@tanstack/angular-query-experimental' ||
+      pkg === 'carbon-components-angular' ||
+      pkg === '@edb/shared-ui'
     ) {
       return { singleton: true, strictVersion: true, requiredVersion: 'auto' };
     }
 
-    /** 3 . everything else: don't share */
+    // 3) everything else is not shared
     return false;
   },
 };
