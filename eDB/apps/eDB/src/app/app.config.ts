@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http';
 import {
   ApplicationConfig,
-  importProvidersFrom,
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -17,7 +16,7 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
-import { BrowserModule } from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 import {
   ExperimentalService,
   IconService,
@@ -31,12 +30,15 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideClientHydration(), // ① concrete renderer
+    provideAnimations(), // ② single animation engine (wraps ①)
+
     provideRouter(
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
-    importProvidersFrom(BrowserModule),
-    provideAnimations(),
+
+    /* everything else is exactly as you had it */
     provideZonelessChangeDetection(),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
@@ -48,9 +50,9 @@ export const appConfig: ApplicationConfig = {
     {
       provide: IconService,
       useFactory: () => {
-        const iconService = new IconService();
-        iconService.registerAll([AddIcon, UserIcon]);
-        return iconService;
+        const svc = new IconService();
+        svc.registerAll([AddIcon, UserIcon]);
+        return svc;
       },
     },
   ],
