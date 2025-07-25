@@ -5,18 +5,19 @@ import {
 } from '@angular/common/http';
 import {
   ApplicationConfig,
+  importProvidersFrom,
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import AddIcon from '@carbon/icons/es/add/16';
 import UserIcon from '@carbon/icons/es/user/16';
-
 import {
   provideTanStackQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 
+import { BrowserModule } from '@angular/platform-browser';
 import {
   ExperimentalService,
   IconService,
@@ -30,12 +31,13 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZonelessChangeDetection(),
     provideRouter(
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
+    importProvidersFrom(BrowserModule),
     provideAnimations(),
+    provideZonelessChangeDetection(),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
     NotificationService,
