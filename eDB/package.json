@@ -68,8 +68,7 @@
     "reusify": "^1.1.0",
     "rxjs": "7.8.2",
     "tailwind-merge": "^3.3.0",
-    "tw-animate-css": "^1.3.0",
-    "zone.js": "0.15.0"
+    "tw-animate-css": "^1.3.0"
   },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "1.19.1",
