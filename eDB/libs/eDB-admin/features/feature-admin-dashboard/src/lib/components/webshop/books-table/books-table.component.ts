@@ -6,7 +6,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  NgZone,
   OnDestroy,
   TemplateRef,
   ViewChild,
@@ -22,7 +21,7 @@ import {
   TableHeaderItem,
   TableItem,
   TableModel,
-} from 'carbon-components-angular/table';
+} from 'carbon-components-angular';
 import { WebshopBooksAccordionComponent } from '../books-accordion/books-accordion.component';
 
 @Component({
@@ -76,7 +75,6 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
   private sentinel!: ElementRef<HTMLDivElement>;
 
   private readonly admin = inject(AdminService);
-  private readonly zone = inject(NgZone);
   private readonly breakpoint = inject(BreakpointObserver);
   private intersectionObserver?: IntersectionObserver;
 
@@ -126,26 +124,24 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          const entry = entries[0];
-          if (
-            entry.isIntersecting &&
-            this.booksQuery.hasNextPage() &&
-            !this.booksQuery.isFetchingNextPage()
-          ) {
-            this.zone.run(() => this.booksQuery.fetchNextPage());
-          }
-        },
-        {
-          root: null,
-          rootMargin: '300px 0px',
-          threshold: 0.01,
-        },
-      );
-      this.intersectionObserver.observe(this.sentinel.nativeElement);
-    });
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (
+          entry.isIntersecting &&
+          this.booksQuery.hasNextPage() &&
+          !this.booksQuery.isFetchingNextPage()
+        ) {
+          this.booksQuery.fetchNextPage();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '300px 0px',
+        threshold: 0.01,
+      },
+    );
+    this.intersectionObserver.observe(this.sentinel.nativeElement);
   }
 
   ngOnDestroy() {
