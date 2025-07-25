@@ -72,6 +72,11 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '7.8.2',
   },
+  '@angular/compiler': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '20.1.3',
+  },
 };
 
 const config: ModuleFederationConfig = {
