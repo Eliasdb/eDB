@@ -180,7 +180,7 @@
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-string": "^1.2.3",
     "vitest": "^3.0.0",
-    "webpack": "5.96.1",
+    "webpack": "5.99.9",
     "webpack-cli": "^6.0.1"
   },
   "peerDependencies": {

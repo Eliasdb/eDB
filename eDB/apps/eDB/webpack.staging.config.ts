@@ -1,16 +1,27 @@
 // apps/eDB/webpack.prod.config.ts
 import { withModuleFederation } from '@nx/module-federation/angular';
+import { composePlugins, withNx } from '@nx/webpack';
+import { DefinePlugin } from 'webpack';
 import baseConfig from './module-federation.config';
 
-const prodConfig = {
-  ...baseConfig,
-  remotes: [
-    // tell TS “this is exactly a [string, string] tuple”
-    // [
-    //   'eDB-admin',
-    //   'https://app.staging.eliasdebock.com/admin/remoteEntry.mjs',
-    // ] as [string, string],
-  ],
-};
-
-export default withModuleFederation(prodConfig, { dts: false });
+export default composePlugins(
+  withNx(),
+  withModuleFederation(
+    {
+      ...baseConfig,
+      /* remotes, exposes, etc. */
+    },
+    { dts: false },
+  ),
+  // <── our custom plugin
+  (config) => {
+    config.plugins ??= [];
+    config.plugins.push(
+      new DefinePlugin({
+        ngDevMode: JSON.stringify(false),
+        ngJitMode: JSON.stringify(false),
+      }),
+    );
+    return config;
+  },
+);
