@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -30,11 +30,11 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
 @Component({
   selector: 'crm-contact-sidebar',
   imports: [
-    CommonModule,
     UiSlideInSidebarComponent,
     UiIconButtonComponent,
     ContactEditFormComponent,
     AddActivityFormComponent,
+    NgClass,
   ],
   template: `
     <ui-slide-in-sidebar

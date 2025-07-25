@@ -2,10 +2,8 @@
 // webshop-books-table.component.ts (updated to support mobile)
 // ─────────────────────────────────────────────────────────────
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   NgZone,
@@ -29,9 +27,7 @@ import { WebshopBooksAccordionComponent } from '../books-accordion/books-accordi
 
 @Component({
   selector: 'webshop-books-table',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, UiTableComponent, WebshopBooksAccordionComponent],
+  imports: [UiTableComponent, WebshopBooksAccordionComponent],
   template: `
     <ng-template #coverTemplate let-book="data">
       <img
@@ -61,7 +57,6 @@ import { WebshopBooksAccordionComponent } from '../books-accordion/books-accordi
           [description]="'Available books in the collection'"
         ></ui-table>
       </div>
-      v
     }
 
     @if (booksQuery.isFetchingNextPage()) {

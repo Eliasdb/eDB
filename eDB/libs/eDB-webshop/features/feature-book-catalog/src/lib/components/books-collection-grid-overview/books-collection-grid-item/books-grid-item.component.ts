@@ -1,12 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Book } from '@eDB-webshop/shared-types';
 
 @Component({
   selector: 'books-grid-item',
-  standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, DecimalPipe],
   template: `
     <article
       class="relative bg-[#f6fdff] rounded-lg border border-transparent shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between items-center text-center h-full px-8 pt-10 pb-8"
