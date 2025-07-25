@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -16,7 +16,7 @@ import { UiToggleComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'book-filters',
-  imports: [CommonModule, ReactiveFormsModule, UiToggleComponent, FormsModule],
+  imports: [ReactiveFormsModule, UiToggleComponent, FormsModule, NgClass],
   template: `
     <section class="flex flex-col gap-6 text-sm rounded-xl w-full xl:w-[14rem]">
       <!-- ── Search ─────────────────────────────────────────── -->

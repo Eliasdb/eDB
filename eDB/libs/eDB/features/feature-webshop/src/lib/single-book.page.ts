@@ -3,7 +3,7 @@
    · Reduced padding & gap on mobile so details sit right below cover
    · Responsive cover sizes: 9 rem → 17 rem
 -------------------------------------------------------------------*/
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, effect, inject, model, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,47 +21,42 @@ import { UiButtonComponent } from '@edb/shared-ui';
 
 @Component({
   selector: 'single-book',
-  standalone: true,
   imports: [
-    CommonModule,
     LoadingStateComponent,
     MatRippleModule,
     MatButtonModule,
     UiButtonComponent,
     QuantitySelectorComponent,
+    CurrencyPipe,
+    DatePipe,
   ],
   template: `
     <section
-      class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 xl:px-0 bg-[#f4f4f7] 
+      class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 xl:px-0 bg-[#f4f4f7]
          max-w-[100%] xl:max-w-[82%] mx-auto flex justify-center"
     >
-      <ui-webshop-books-loading-state *ngIf="bookResult.isLoading()" />
-      <p *ngIf="bookResult.isError()" class="text-red-600">
-        Error loading book
-      </p>
-
-      <ng-container *ngIf="book() as book">
+      @if (book(); as book) {
+        <!-- ───── book details ───── -->
         <div
           class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-24 items-start"
         >
-          <!-- Cover panel bg-[#e5e9f0] backup bg colour -->
+          <!-- Cover panel -->
           <div
-            class="bg-[#e5e9f0]   rounded-lg p-6 py-16 sm:p-8 md:p-24  flex justify-center "
+            class="bg-[#e5e9f0] rounded-lg p-6 py-16 sm:p-8 md:p-24 flex justify-center"
           >
             <div
               class="relative w-full max-w-[6rem] sm:max-w-[11rem] md:max-w-[14rem] lg:max-w-[15rem] aspect-[2/3]"
             >
-              <!-- Blur image -->
-              <img
-                *ngIf="book.blurDataUrl"
-                [src]="book.blurDataUrl"
-                class="absolute inset-0 w-full h-full object-cover blur-xl  transition-opacity duration-700 ease-out will-change-[opacity]"
-                [class.opacity-100]="!imageLoaded()"
-                [class.opacity-0]="imageLoaded()"
-                aria-hidden="true"
-              />
+              @if (book.blurDataUrl; as blur) {
+                <img
+                  [src]="blur"
+                  class="absolute inset-0 w-full h-full object-cover blur-xl transition-opacity duration-700 ease-out will-change-[opacity]"
+                  [class.opacity-100]="!imageLoaded()"
+                  [class.opacity-0]="imageLoaded()"
+                  aria-hidden="true"
+                />
+              }
 
-              <!-- Full image -->
               <img
                 [src]="book.photoUrl"
                 [alt]="book.title"
@@ -130,12 +125,17 @@ import { UiButtonComponent } from '@edb/shared-ui';
                 class="min-w-[9rem]"
                 (buttonClick)="addToCart(book.id)"
                 style="--_bg: var(--button-primary-bg); --_fg: var(--button-primary-fg); --_bg-h: var(--button-primary-bg--hover); --_bg-a: var(--button-primary-bg--active);"
-                >Add to cart</ui-button
               >
+                Add to cart
+              </ui-button>
             </div>
           </div>
         </div>
-      </ng-container>
+      } @else if (bookResult.isLoading()) {
+        <ui-webshop-books-loading-state />
+      } @else if (bookResult.isError()) {
+        <p class="text-red-600">Error loading book</p>
+      }
     </section>
   `,
   styles: [

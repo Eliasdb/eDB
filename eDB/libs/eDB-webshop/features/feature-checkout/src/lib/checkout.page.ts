@@ -5,7 +5,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Component Modules
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,7 +23,6 @@ import { CheckoutService, OrderCreateRequest } from '@edb/client-checkout';
 @Component({
   selector: 'app-checkout-page',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatGridListModule,
@@ -32,6 +31,7 @@ import { CheckoutService, OrderCreateRequest } from '@edb/client-checkout';
     UiButtonComponent,
     OrderSummaryItemComponent,
     SkeletonModule,
+    CurrencyPipe,
   ],
   template: `
     <section

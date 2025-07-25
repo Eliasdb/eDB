@@ -31,12 +31,13 @@ import { AiBookItem } from './types/ai-search';
             />
 
             <div class="flex gap-2 flex-wrap justify-center">
-              <span
-                *ngFor="let k of filterKeys()"
-                class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-xs"
-              >
-                {{ k }}={{ firstPage().filters_used[k] }}
-              </span>
+              @for (k of filterKeys(); track k) {
+                <span
+                  class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-xs"
+                >
+                  {{ k }}={{ firstPage().filters_used[k] }}
+                </span>
+              }
             </div>
           </div>
         </div>
@@ -50,70 +51,62 @@ import { AiBookItem } from './types/ai-search';
       </div>
 
       <!-- Content -->
-      <ng-container *ngIf="!svc.isLoading(); else loadingTpl">
-        <ng-container *ngIf="svc.flatItems().length; else emptyTpl">
+      @if (!svc.isLoading()) {
+        @if (svc.flatItems().length) {
           <div
             class="mx-auto max-w-[82%] grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3"
           >
-            <article
-              *ngFor="
-                let b of svc.flatItems();
-                let i = index;
-                trackBy: trackByIndex
-              "
-              class="bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md transition overflow-hidden"
-            >
-              <img
-                [src]="b.photoUrl"
-                [alt]="b.title"
-                loading="lazy"
-                class="w-full aspect-[2/3] object-cover"
-              />
-              <div class="p-3">
-                <h3
-                  class="text-sm font-semibold text-slate-800 mb-1 leading-snug"
-                >
-                  {{ b.title }}
-                </h3>
-                <p class="text-xs text-slate-600 mb-0.5">by {{ b.author }}</p>
-                <p class="text-[11px] text-slate-500 mb-1">
-                  {{ b.publishedDate }} • {{ b.genre }}
-                </p>
-                <p class="text-xs text-slate-700 line-clamp-3 leading-snug">
-                  {{ b.description }}
-                </p>
-              </div>
-            </article>
+            @for (b of svc.flatItems(); track b) {
+              <article
+                class="bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md transition overflow-hidden"
+              >
+                <img
+                  [src]="b.photoUrl"
+                  [alt]="b.title"
+                  loading="lazy"
+                  class="w-full aspect-[2/3] object-cover"
+                />
+                <div class="p-3">
+                  <h3
+                    class="text-sm font-semibold text-slate-800 mb-1 leading-snug"
+                  >
+                    {{ b.title }}
+                  </h3>
+                  <p class="text-xs text-slate-600 mb-0.5">by {{ b.author }}</p>
+                  <p class="text-[11px] text-slate-500 mb-1">
+                    {{ b.publishedDate }} • {{ b.genre }}
+                  </p>
+                  <p class="text-xs text-slate-700 line-clamp-3 leading-snug">
+                    {{ b.description }}
+                  </p>
+                </div>
+              </article>
+            }
           </div>
 
-          <div class="text-center py-8" *ngIf="svc.hasMore()">
-            <button
-              class="px-4 py-2 text-sm rounded-md bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-50"
-              (click)="svc.aiInfiniteQuery.fetchNextPage()"
-              [disabled]="svc.isFetchingNextPage()"
-            >
-              {{ svc.isFetchingNextPage() ? 'Loading…' : 'Load more' }}
-            </button>
+          @if (svc.hasMore()) {
+            <div class="text-center py-8">
+              <button
+                class="px-4 py-2 text-sm rounded-md bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-50"
+                (click)="svc.aiInfiniteQuery.fetchNextPage()"
+                [disabled]="svc.isFetchingNextPage()"
+              >
+                {{ svc.isFetchingNextPage() ? 'Loading…' : 'Load more' }}
+              </button>
+            </div>
+          } @else {
+            <div class="mt-6 text-center text-slate-400 text-xs">
+              End of results
+            </div>
+          }
+        } @else {
+          <div class="py-32 text-center text-slate-400 text-sm">
+            No results for “{{ svc.nlQuery() }}”
           </div>
-
-          <div
-            *ngIf="!svc.hasMore()"
-            class="mt-6 text-center text-slate-400 text-xs"
-          >
-            End of results
-          </div>
-        </ng-container>
-      </ng-container>
-
-      <ng-template #loadingTpl>
+        }
+      } @else {
         <div class="py-32 text-center text-slate-500 text-sm">Loading…</div>
-      </ng-template>
-
-      <ng-template #emptyTpl>
-        <div class="py-32 text-center text-slate-400 text-sm">
-          No results for “{{ svc.nlQuery() }}”
-        </div>
-      </ng-template>
+      }
     </section>
   `,
 })

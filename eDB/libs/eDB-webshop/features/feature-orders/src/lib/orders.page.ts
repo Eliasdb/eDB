@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, NgClass, TitleCasePipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { Order } from '@eDB-webshop/shared-types';
 import { OrderService } from '@edb-webshop/client-orders';
@@ -6,7 +6,7 @@ import { OrderService } from '@edb-webshop/client-orders';
 @Component({
   selector: 'order-tracking-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass, CurrencyPipe, TitleCasePipe],
   template: `
     <div class="p-6 bg-slate-50 min-h-screen text-black mt-40">
       <div class="max-w-4xl mx-auto">
@@ -20,8 +20,8 @@ import { OrderService } from '@edb-webshop/client-orders';
         </header>
 
         <!-- Data / loading / error states -->
-        <ng-container *ngIf="orders$(); else loading">
-          <ng-container *ngIf="orders$() as orders; else error">
+        @if (orders$(); as orders) {
+          @if (orders.length > 0) {
             @for (order of orders; track order.id) {
               <div
                 class="border border-white/10 rounded-2xl bg-gray-900 text-white p-6 mb-8 shadow-lg"
@@ -61,25 +61,24 @@ import { OrderService } from '@edb-webshop/client-orders';
                 </div>
               </div>
             }
-          </ng-container>
-        </ng-container>
-
-        <ng-template #loading>
-          <p>Loading orders…</p>
-        </ng-template>
-
-        <ng-template #error>
-          <p class="text-red-500">
-            Sorry, we couldn’t load your orders. Please try again later.
-          </p>
-        </ng-template>
+          } @else {
+            <p>No orders found.</p>
+          }
+        } @else {
+          @if (orderService.ordersQuery.isLoading()) {
+            <p>Loading orders…</p>
+          } @else if (orderService.ordersQuery.isError()) {
+            <p class="text-red-500">
+              Sorry, we couldn’t load your orders. Please try again later.
+            </p>
+          }
+        }
       </div>
     </div>
   `,
 })
 export class OrderTrackingPageComponent {
-  /** Signal that always contains the latest mapped orders list. */
-  orderService = inject(OrderService);
+  readonly orderService = inject(OrderService);
   readonly orders$ = computed(() => this.orderService.ordersQuery.data());
 
   statusColor(status: Order['status']) {

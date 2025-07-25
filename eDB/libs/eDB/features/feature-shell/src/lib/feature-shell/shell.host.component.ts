@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { KeycloakService } from '@edb/client-auth';
 import { UiShellComponent } from '@edb/shared-ui';
@@ -7,7 +7,7 @@ import { MENU_OPTIONS } from './shell.config';
 
 @Component({
   selector: 'ui-shell-host',
-  imports: [UiShellComponent, CommonModule],
+  imports: [UiShellComponent, AsyncPipe],
   template: `
     <ui-shell
       [navigationLinks]="(navService.navigationLinks$ | async) ?? []"
