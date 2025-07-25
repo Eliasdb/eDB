@@ -13,7 +13,11 @@ const config: ModuleFederationConfig = {
 
     // 1) share every Angular entry point (and its sub‑paths)
     if (pkg.startsWith('@angular/')) {
-      return { singleton: true, strictVersion: true, requiredVersion: 'auto' };
+      return {
+        singleton: true,
+        strictVersion: true,
+        requiredVersion: '20.1.3',
+      };
     }
 
     // 2) other libraries that must remain singletons
