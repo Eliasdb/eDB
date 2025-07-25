@@ -36,6 +36,12 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '20.1.3',
   },
+  '@angular/animations': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '20.1.3',
+  },
+
   '@angular/core/rxjs-interop': {
     singleton: true,
     strictVersion: true,
