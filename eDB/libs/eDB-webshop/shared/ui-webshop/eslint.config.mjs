@@ -1,7 +1,8 @@
-const nx = require('@nx/eslint-plugin');
-const baseConfig = require('../../../../../eslint.config.js');
+import nx from '@nx/eslint-plugin';
+import baseConfig from '../../../eslint.config.js';
 
-module.exports = [
+/** @type {import('eslint').Linter.Config[]} */
+const config = [
   ...baseConfig,
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
@@ -12,7 +13,7 @@ module.exports = [
         'error',
         {
           type: 'attribute',
-          prefix: 'lib',
+          prefix: 'ui',
           style: 'camelCase',
         },
       ],
@@ -20,7 +21,7 @@ module.exports = [
         'error',
         {
           type: 'element',
-          prefix: 'lib',
+          prefix: 'ui',
           style: 'kebab-case',
         },
       ],
@@ -28,7 +29,8 @@ module.exports = [
   },
   {
     files: ['**/*.html'],
-    // Override or add rules here
     rules: {},
   },
 ];
+
+export default config;

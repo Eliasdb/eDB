@@ -15,9 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@edb/feature-aimode": [
-        "libs/eDB-webshop/features/feature-aimode/src/index.ts"
-      ],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -94,6 +91,9 @@
         "libs/eDB-webshop/data-access/client-checkout/src/index.ts"
       ],
       "@edb/client-crm": ["libs/eDB/data-access/client-crm/src/index.ts"],
+      "@edb/feature-aimode": [
+        "libs/eDB-webshop/features/feature-aimode/src/index.ts"
+      ],
       "@edb/feature-crm": ["libs/eDB/features/feature-crm/src/index.ts"],
       "@edb/feature-erp": ["libs/eDB/features/feature-erp/src/index.ts"],
       "@edb/feature-webshop": [
