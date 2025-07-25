@@ -67,6 +67,11 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '0.0.1',
   },
+  rxjs: {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '7.8.2',
+  },
 };
 
 const config: ModuleFederationConfig = {
