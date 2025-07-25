@@ -88,6 +88,9 @@ const config: ModuleFederationConfig = {
     if (libraryName.startsWith('@angular/material')) {
       return { singleton: true, strictVersion: true };
     }
+    if (libraryName.startsWith('@angular/cdk')) {
+      return { singleton: true, strictVersion: true };
+    }
     return map[libraryName] ?? false;
   },
 };
