@@ -18,7 +18,7 @@ export default composePlugins(
     config.plugins ??= [];
     config.plugins.push(
       new DefinePlugin({
-        ngDevMode: JSON.stringify(false),
+        ngDevMode: JSON.stringify(true),
         ngJitMode: JSON.stringify(false),
       }),
     );
