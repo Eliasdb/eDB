@@ -1,14 +1,16 @@
 import type { StorybookConfig } from '@storybook/angular';
+import { createRequire } from 'node:module';
 import * as path from 'path';
+import { dirname, join } from 'path';
 import { DefinePlugin } from 'webpack';
+
+const require = createRequire(import.meta.url);
 
 const config: StorybookConfig = {
   stories: ['../**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
     {
-      name: '@storybook/addon-styling-webpack',
+      name: getAbsolutePath('@storybook/addon-styling-webpack'),
       options: {
         rules: [
           {
@@ -27,10 +29,11 @@ const config: StorybookConfig = {
         ],
       },
     },
+    getAbsolutePath('@storybook/addon-docs'),
   ],
 
   framework: {
-    name: '@storybook/angular',
+    name: getAbsolutePath('@storybook/angular'),
     options: {},
   },
 
@@ -85,3 +88,7 @@ const config: StorybookConfig = {
 };
 
 export default config;
+
+function getAbsolutePath(value: string): any {
+  return dirname(require.resolve(join(value, 'package.json')));
+}

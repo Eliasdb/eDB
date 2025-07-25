@@ -101,7 +101,8 @@
       "options": {
         "port": 4300,
         "publicHost": "http://localhost:4300"
-      }
+      },
+      "continuous": true
     },
     "test": {
       "executor": "@nx/vite:test",
