@@ -1,6 +1,6 @@
 // books-collection-grid-overview.component.ts
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Book } from '@eDB-webshop/shared-types';
 import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-item.component';
 
@@ -21,7 +21,6 @@ import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-
       }
     </section>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BooksCollectionGridOverviewComponent {
   readonly books = input<Book[]>();

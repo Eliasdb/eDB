@@ -1,46 +1,55 @@
-// apps/eDB-admin/module-federation.config.ts
 import { ModuleFederationConfig } from '@nx/module-federation';
 
 const map: Record<string, any> = {
   '@angular/core': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
   },
   '@angular/common': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
   },
   '@angular/common/http': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
   },
   '@angular/router': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
   },
   '@angular/forms': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
   },
   '@angular/platform-browser': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
   },
   '@angular/platform-browser/animations': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '19.0.3',
+    requiredVersion: '20.1.3',
+  },
+  '@angular/core/rxjs-interop': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '20.1.3',
+  },
+  '@angular/cdk': {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: '20.1.3',
   },
   'carbon-components-angular': {
     singleton: true,
     strictVersion: true,
-    requiredVersion: '5.58.0',
+    requiredVersion: '5.59.0',
   },
   '@tanstack/angular-query-experimental': {
     singleton: true,
@@ -52,26 +61,13 @@ const map: Record<string, any> = {
     strictVersion: true,
     requiredVersion: '0.0.1',
   },
-  '@angular/cdk': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: '19.1.5',
-  },
-
-  '@angular/core/rxjs-interop': {
-    singleton: true,
-    strictVersion: true,
-    requiredVersion: '19.0.3', // ✅ same as @angular/core
-  },
 };
 
 const config: ModuleFederationConfig = {
   name: 'eDB-admin',
-
   exposes: {
     './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
   },
-
   shared: (libraryName) => {
     if (!libraryName) return false;
     if (libraryName.startsWith('@angular/material')) {

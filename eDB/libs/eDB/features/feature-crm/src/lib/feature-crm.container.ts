@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------ */
 /* crm-contacts-page.component.ts – Companies & Contacts dashboard    */
 /* ------------------------------------------------------------------ */
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   TemplateRef,
@@ -47,8 +47,8 @@ import { ContactStatus } from './types/contact.types';
   standalone: true,
   imports: [
     /* Angular */
-    CommonModule,
     ReactiveFormsModule,
+    NgClass,
     /* Shared UI */
     UiTableComponent,
     UiTextInputComponent,
@@ -89,60 +89,67 @@ import { ContactStatus } from './types/contact.types';
           </ui-button>
         </header>
 
-        <div
-          class="mb-8 grid gap-6"
-          [ngClass]="{
-            'grid-cols-1': true,
-            'sm:grid-cols-2': companies().length > 1,
-            'lg:grid-cols-3': companies().length > 2,
-          }"
-          *ngIf="companies().length; else noCompanies"
-        >
-          <button
-            *ngFor="let c of companies()"
-            class="group relative rounded-lg border p-5 text-left transition
-                 hover:shadow focus:outline-none focus:ring-2
-                 focus:ring-offset-2 focus:ring-blue-500 bg-white"
+        @if (companies().length > 0) {
+          <div
+            class="mb-8 grid gap-6"
             [ngClass]="{
-              'border-blue-600 bg-blue-50 shadow-sm':
-                selectedCompany() === c.name,
+              'grid-cols-1': true,
+              'sm:grid-cols-2': companies().length > 1,
+              'lg:grid-cols-3': companies().length > 2,
             }"
-            (click)="filterByCompany(c.name)"
           >
-            <h3 class="font-medium text-gray-900 group-hover:text-gray-700">
-              {{ c.name }}
-            </h3>
-            <p class="mt-1 text-xs text-gray-500">
-              {{ c.contactCount }} contact<span *ngIf="c.contactCount !== 1"
-                >s</span
+            @for (c of companies(); track c.name) {
+              <button
+                class="group relative rounded-lg border p-5 text-left transition
+               hover:shadow focus:outline-none focus:ring-2
+               focus:ring-offset-2 focus:ring-blue-500 bg-white"
+                [ngClass]="{
+                  'border-blue-600 bg-blue-50 shadow-sm':
+                    selectedCompany() === c.name,
+                }"
+                (click)="filterByCompany(c.name)"
               >
-            </p>
+                <h3 class="font-medium text-gray-900 group-hover:text-gray-700">
+                  {{ c.name }}
+                </h3>
+                <p class="mt-1 text-xs text-gray-500">
+                  {{ c.contactCount }} contact
+                  @if (c.contactCount !== 1) {
+                    <span>s</span>
+                  }
+                </p>
 
-            <!-- opens the company sidebar -->
-            <ui-icon-button
-              icon="faPen"
-              kind="ghost"
+                <ui-icon-button
+                  icon="faPen"
+                  kind="ghost"
+                  size="sm"
+                  description="Edit company"
+                  class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
+                  (iconButtonClick)="
+                    openCompanySidebar(c); $event.stopPropagation()
+                  "
+                />
+              </button>
+            }
+          </div>
+        } @else {
+          <p class="mb-10 text-sm text-gray-500">
+            No companies yet – add one to get started.
+          </p>
+        }
+
+        @if (selectedCompany()) {
+          <div class="mb-10">
+            <ui-button
+              variant="ghost"
               size="sm"
-              description="Edit company"
-              class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
-              (iconButtonClick)="
-                openCompanySidebar(c); $event.stopPropagation()
-              "
-            />
-          </button>
-        </div>
-
-        <!-- clear-filter chip -->
-        <div class="mb-10" *ngIf="selectedCompany()">
-          <ui-button
-            variant="ghost"
-            size="sm"
-            icon="faTimes"
-            (buttonClick)="clearCompanyFilter()"
-          >
-            Showing&nbsp;“{{ selectedCompany() }}” – Clear
-          </ui-button>
-        </div>
+              icon="faTimes"
+              (buttonClick)="clearCompanyFilter()"
+            >
+              Showing&nbsp;“{{ selectedCompany() }}” – Clear
+            </ui-button>
+          </div>
+        }
 
         <ng-template #noCompanies>
           <p class="mb-10 text-sm text-gray-500">
