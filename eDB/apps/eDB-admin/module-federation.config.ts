@@ -1,8 +1,10 @@
-// apps/eDB-admin/module-federation.config.ts  (remote)
+// apps/eDB-admin/module-federation.config.ts (remote)
 
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-/** eager singleton helper */
+/**
+ * eager singleton helper (only for core libs + RxJS)
+ */
 const eager = (requiredVersion = '^20.1.3') => ({
   singleton: true,
   eager: true,
@@ -10,7 +12,7 @@ const eager = (requiredVersion = '^20.1.3') => ({
   requiredVersion,
 });
 
-/** loose singleton helper for libs you own */
+/** loose singleton helper for libraries you own */
 const loose = { singleton: true, strictVersion: false, requiredVersion: false };
 
 export default {
@@ -23,7 +25,7 @@ export default {
   shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    // 1️⃣  Angular bootstrap libs + rxjs – must be eager
+    // 1. Angular runtime – eager
     if (
       pkg === '@angular/core' ||
       pkg === '@angular/common' ||
@@ -35,11 +37,12 @@ export default {
       return eager(); // ^20.1.3
     }
 
+    // 2. RxJS – eager with correct version
     if (pkg === 'rxjs') {
-      return eager('^7.8.2'); // correct version for rxjs
+      return eager('^7.8.2');
     }
 
-    // 2️⃣  Angular Material / CDK – regular strict singleton
+    // 3. Angular Material / CDK – strict singleton
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
       return {
         singleton: true,
@@ -48,7 +51,7 @@ export default {
       };
     }
 
-    // 3️⃣  Any other @angular/* entry point – strict singleton
+    // 4. Any other @angular/* entry point – strict singleton
     if (pkg.startsWith('@angular/')) {
       return {
         singleton: true,
@@ -57,7 +60,7 @@ export default {
       };
     }
 
-    // 4️⃣  Libraries you own – loose singleton
+    // 5. Libraries you own – loose singleton
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
@@ -66,7 +69,7 @@ export default {
       return loose;
     }
 
-    // 5️⃣  Everything else – don’t share
+    // 6. Everything else – do not share
     return false;
   },
 } satisfies ModuleFederationConfig;

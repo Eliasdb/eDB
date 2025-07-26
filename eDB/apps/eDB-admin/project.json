@@ -58,7 +58,7 @@
         },
         "staging": {
           "optimization": true,
-          "sourceMap": true,
+          "sourceMap": false,
           "outputHashing": "all",
           "namedChunks": true,
           "vendorChunk": false,
