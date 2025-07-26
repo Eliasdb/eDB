@@ -21,13 +21,14 @@ const config: ModuleFederationConfig = {
     /* ---------- Angular animations (both entry‑points) ------------------ */
     if (
       pkg === '@angular/animations' ||
-      pkg === '@angular/animations/browser'
+      pkg === '@angular/animations/browser' ||
+      pkg === '@angular/platform-browser/animations'
     ) {
       return {
         singleton: true,
         strictVersion: true,
         requiredVersion: '^20.1.3',
-        eager: true, // ← fixes the RUNTIME‑006 warning
+        eager: true, // ← prevents the RUNTIME‑006 error
       };
     }
 

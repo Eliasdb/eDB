@@ -20,13 +20,14 @@ export default {
     /* ---- Angular animations (both entry‑points) ------------------------- */
     if (
       pkg === '@angular/animations' ||
-      pkg === '@angular/animations/browser'
+      pkg === '@angular/animations/browser' ||
+      pkg === '@angular/platform-browser/animations'
     ) {
       return {
         singleton: true,
         strictVersion: true,
         requiredVersion: '^20.1.3',
-        eager: true, //  ← important for RUNTIME‑006
+        eager: true, // ← prevents the RUNTIME‑006 error
       };
     }
 
