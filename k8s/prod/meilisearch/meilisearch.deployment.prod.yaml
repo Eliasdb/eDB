@@ -6,7 +6,7 @@ metadata:
     labels:
         app: meilisearch
 spec:
-    replicas: 2 # production usually runs ≥ 2 pods; change as needed
+    replicas: 1 # production usually runs ≥ 2 pods; change as needed
     selector:
         matchLabels:
             app: meilisearch
