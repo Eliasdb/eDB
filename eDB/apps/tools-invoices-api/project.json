@@ -27,12 +27,12 @@
       "options": {}
     },
     "serve": {
-  "executor": "@nxlv/python:run-commands",
-  "options": {
-    "command": "poetry run uvicorn tools_invoices_api.main:app --reload --port 8000",
-    "cwd": "{projectRoot}"
-  }
-},
+      "executor": "@nxlv/python:run-commands",
+      "options": {
+        "command": "poetry run uvicorn tools_invoices_api.main:app --reload --port 8000",
+        "cwd": "{projectRoot}"
+      }
+    },
     "build": {
       "executor": "@nxlv/python:build",
       "outputs": ["{projectRoot}/dist"],
@@ -78,7 +78,8 @@
   "tags": [],
   "release": {
     "version": {
-      "generator": "@nxlv/python:release-version"
+      "generator": "@nxlv/python:release-version",
+      "useLegacyVersioning": true
     }
   }
 }

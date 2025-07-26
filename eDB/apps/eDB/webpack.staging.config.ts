@@ -1,16 +1,31 @@
-// apps/eDB/webpack.prod.config.ts
 import { withModuleFederation } from '@nx/module-federation/angular';
+import { composePlugins } from '@nx/webpack';
+import { DefinePlugin } from 'webpack';
 import baseConfig from './module-federation.config';
 
-const prodConfig = {
-  ...baseConfig,
-  remotes: [
-    // tell TS “this is exactly a [string, string] tuple”
-    // [
-    //   'eDB-admin',
-    //   'https://app.staging.eliasdebock.com/admin/remoteEntry.mjs',
-    // ] as [string, string],
-  ],
-};
+export default composePlugins(
+  // ✅ Correct usage: just call withNx with no params
 
-export default withModuleFederation(prodConfig, { dts: false });
+  // ✅ wrap module federation config
+  withModuleFederation(
+    {
+      ...baseConfig,
+    },
+    { dts: false },
+  ),
+
+  // ✅ Add workaround plugin to patch the options error
+  (config, context, options = {}) => {
+    // Optional safeguard: avoid error if options is undefined
+
+    config.plugins ??= [];
+    config.plugins.push(
+      new DefinePlugin({
+        ngDevMode: JSON.stringify(false),
+        ngJitMode: JSON.stringify(false),
+      }),
+    );
+
+    return config;
+  },
+);

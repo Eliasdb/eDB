@@ -5,7 +5,7 @@ import {
   UiTableComponent,
 } from '@edb/shared-ui';
 
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -48,7 +48,7 @@ import {
 @Component({
   selector: 'platform-admin-users-collection',
   imports: [
-    CommonModule,
+    AsyncPipe,
     UiTableComponent,
     UiLoadingSpinnerComponent,
     UiPlatformOverflowMenuComponent,

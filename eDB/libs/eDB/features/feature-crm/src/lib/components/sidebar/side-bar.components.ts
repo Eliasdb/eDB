@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -30,11 +30,11 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
 @Component({
   selector: 'crm-contact-sidebar',
   imports: [
-    CommonModule,
     UiSlideInSidebarComponent,
     UiIconButtonComponent,
     ContactEditFormComponent,
     AddActivityFormComponent,
+    NgClass,
   ],
   template: `
     <ui-slide-in-sidebar
@@ -47,7 +47,7 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
         <!-- ░ Header ░ -->
         <header class="p-6 border-b relative">
           <h2 class="text-2xl font-semibold">
-            {{ contact()?.name || '—' }}
+            {{ contact()?.companyName }}
           </h2>
           <p class="text-sm text-gray-500">
             {{ contact()?.email || 'no-email@example.com' }}

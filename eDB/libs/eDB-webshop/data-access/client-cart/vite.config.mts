@@ -1,5 +1,8 @@
-// vitest.config.mts
-import { defineVitestConfig } from '@analogjs/vitest-angular';
-export default defineVitestConfig({
-  test: { environment: 'jsdom', globals: true },
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
 });

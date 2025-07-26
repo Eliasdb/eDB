@@ -32,7 +32,7 @@ class BookController extends Controller
             $filters['status'] = $request->input('status');
         }
 
-        // Delegate to the service
+        // Delegate to the service.
         $result = $this->bookService->getBooks($filters, $offset, $limit);
         $books  = $result['books'];
         $total  = $result['total'];

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   computed,
@@ -14,7 +14,7 @@ import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
 @Component({
   selector: 'books-sort-bar',
   host: { class: 'w-full' },
-  imports: [FormsModule, CommonModule, UiSelectComponent],
+  imports: [FormsModule, NgClass, UiSelectComponent],
   template: `
     <section
       class="grid grid-cols-1 gap-y-4 xl:grid-cols-[auto_auto_1fr_auto] xl:gap-x-8 xl:items-center w-full px-0 xl:px-2"

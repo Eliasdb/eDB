@@ -1,14 +1,14 @@
 // ─────────────────────────────────────────────────────────────
 // order-summary-item.component.ts — use only cds‑skeleton‑placeholder
 // ─────────────────────────────────────────────────────────────
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { CartItem } from '@eDB-webshop/shared-types';
 import { SkeletonModule } from 'carbon-components-angular';
 
 @Component({
   selector: 'order-summary-item',
-  imports: [CommonModule, SkeletonModule],
+  imports: [SkeletonModule, CurrencyPipe],
   template: `
     @if (skeleton) {
       <!-- Skeleton row: cover · title/qty · price -->

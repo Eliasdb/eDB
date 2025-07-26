@@ -2,13 +2,10 @@
 // webshop-books-table.component.ts (updated to support mobile)
 // ─────────────────────────────────────────────────────────────
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  NgZone,
   OnDestroy,
   TemplateRef,
   ViewChild,
@@ -24,14 +21,12 @@ import {
   TableHeaderItem,
   TableItem,
   TableModel,
-} from 'carbon-components-angular/table';
+} from 'carbon-components-angular';
 import { WebshopBooksAccordionComponent } from '../books-accordion/books-accordion.component';
 
 @Component({
   selector: 'webshop-books-table',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, UiTableComponent, WebshopBooksAccordionComponent],
+  imports: [UiTableComponent, WebshopBooksAccordionComponent],
   template: `
     <ng-template #coverTemplate let-book="data">
       <img
@@ -61,7 +56,6 @@ import { WebshopBooksAccordionComponent } from '../books-accordion/books-accordi
           [description]="'Available books in the collection'"
         ></ui-table>
       </div>
-      v
     }
 
     @if (booksQuery.isFetchingNextPage()) {
@@ -81,7 +75,6 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
   private sentinel!: ElementRef<HTMLDivElement>;
 
   private readonly admin = inject(AdminService);
-  private readonly zone = inject(NgZone);
   private readonly breakpoint = inject(BreakpointObserver);
   private intersectionObserver?: IntersectionObserver;
 
@@ -131,26 +124,24 @@ export class WebshopBooksTableComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.zone.runOutsideAngular(() => {
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          const entry = entries[0];
-          if (
-            entry.isIntersecting &&
-            this.booksQuery.hasNextPage() &&
-            !this.booksQuery.isFetchingNextPage()
-          ) {
-            this.zone.run(() => this.booksQuery.fetchNextPage());
-          }
-        },
-        {
-          root: null,
-          rootMargin: '300px 0px',
-          threshold: 0.01,
-        },
-      );
-      this.intersectionObserver.observe(this.sentinel.nativeElement);
-    });
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (
+          entry.isIntersecting &&
+          this.booksQuery.hasNextPage() &&
+          !this.booksQuery.isFetchingNextPage()
+        ) {
+          this.booksQuery.fetchNextPage();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '300px 0px',
+        threshold: 0.01,
+      },
+    );
+    this.intersectionObserver.observe(this.sentinel.nativeElement);
   }
 
   ngOnDestroy() {

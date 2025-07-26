@@ -58,6 +58,17 @@ spec:
                             secretKeyRef:
                                 name: jwt-secret-staging
                                 key: JWT_SECRET
+                      - name: OPENAI_API_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: openai-secret-staging
+                                key: OPENAI_API_KEY
+                      - name: MEILISEARCH_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: meilisearch-secret-staging
+                                key: MEILI_MASTER_KEY
+
                       - name: SESSION_DRIVER
                         valueFrom:
                             configMapKeyRef:

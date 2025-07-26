@@ -40,6 +40,16 @@ import { filter } from 'rxjs';
 
         <!-- Right: Cart + Orders -->
         <div class="flex items-center gap-4">
+          <!-- AI Mode toggle -->
+          <ui-icon-button
+            icon="faMagicWandSparkles"
+            [description]="'Toggle AI Mode'"
+            [iconSize]="'16px'"
+            [iconColor]="'var(--accent)'"
+            (click)="onAiToggleClick()"
+            class="hover:scale-105 transition-transform"
+          />
+
           <div class="relative">
             <ui-icon-button
               icon="faHeart"
@@ -145,5 +155,11 @@ export class UiPlatformSubHeaderComponent {
 
   onWishlistClick() {
     this.wishlistClick.emit();
+  }
+
+  @Output() aiToggleClick = new EventEmitter<void>();
+
+  onAiToggleClick() {
+    this.aiToggleClick.emit();
   }
 }

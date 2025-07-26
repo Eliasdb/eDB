@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/eDB-admin",
         "main": "apps/eDB-admin/src/main.ts",
         "index": "apps/eDB-admin/src/index.html",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/eDB-admin/tsconfig.app.json",
         "inlineStyleLanguage": "css",
         "assets": [
@@ -101,7 +101,8 @@
       "options": {
         "port": 4300,
         "publicHost": "http://localhost:4300"
-      }
+      },
+      "continuous": true
     },
     "test": {
       "executor": "@nx/vite:test",

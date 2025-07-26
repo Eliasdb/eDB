@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -15,8 +15,12 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
-  standalone: true,
-  imports: [CommonModule, UiIconButtonComponent, UiButtonComponent],
+  imports: [
+    UiIconButtonComponent,
+    UiButtonComponent,
+    CurrencyPipe,
+    CommonModule,
+  ],
   animations: [
     // ───────────────────── Desktop fade + lift ─────────────────────
     trigger('fadeLift', [

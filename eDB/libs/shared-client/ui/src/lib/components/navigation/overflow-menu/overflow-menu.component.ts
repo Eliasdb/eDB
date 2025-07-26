@@ -11,8 +11,6 @@ import { DialogModule } from 'carbon-components-angular';
 import { filter } from 'rxjs';
 import { UiIconComponent } from '../../../components/icon/icon.component';
 
-// Carbon’s real web-component type
-
 @Component({
   selector: 'ui-platform-overflow-menu',
   imports: [DialogModule, UiIconComponent],

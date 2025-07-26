@@ -17,7 +17,7 @@
         "outputPath": "dist/apps/eDB",
         "main": "apps/eDB/src/main.ts",
         "index": "apps/eDB/src/index.html",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/eDB/tsconfig.app.json",
         "inlineStyleLanguage": "css",
         "assets": [
@@ -125,7 +125,8 @@
           "buildTarget": "eDB:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
