@@ -51,7 +51,6 @@ const config: ModuleFederationConfig = {
         singleton: true,
         strictVersion: true,
         requiredVersion: '^20.1.3',
-        includeSecondaries: true, // ←  **important!**
       };
     }
 
