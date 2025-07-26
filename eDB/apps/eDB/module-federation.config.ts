@@ -1,7 +1,8 @@
 // apps/eDB/module-federation.config.ts  (HOST)
+
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-/* one literal‑typed object we can reuse */
+/* reusable “just‑make‑it‑singleton” helper */
 const SINGLETON = {
   singleton: true,
   strictVersion: false,
@@ -10,33 +11,37 @@ const SINGLETON = {
 
 const config: ModuleFederationConfig = {
   name: 'eDB',
+
   exposes: {},
   remotes: ['eDB-admin'],
 
-  shared: (pkg) => {
+  shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    // 1) the one entry that must be eager
-    if (pkg === '@angular/platform-browser/animations') {
+    /* ---------- Angular animations (both entry‑points) ------------------ */
+    if (
+      pkg === '@angular/animations' ||
+      pkg === '@angular/animations/browser'
+    ) {
       return {
         singleton: true,
         strictVersion: true,
         requiredVersion: '^20.1.3',
-        eager: true, // <-- still fine
+        eager: true, // ← fixes the RUNTIME‑006 warning
       };
     }
 
-    /* 1) packages you control or don’t care to version‑check */
+    /* ---------- libraries you control / don’t version‑check ------------- */
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
       pkg === '@tanstack/angular-query-experimental' ||
       pkg === 'rxjs'
     ) {
-      return SINGLETON; // 👈 avoids the “needs auto” error
+      return SINGLETON;
     }
 
-    /* 2) Angular Material & CDK – keep strict version if you like */
+    /* ---------- Angular Material & CDK ---------------------------------- */
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
       return {
         singleton: true,
@@ -45,7 +50,7 @@ const config: ModuleFederationConfig = {
       };
     }
 
-    /* 3) every Angular entry point (and sub‑paths) */
+    /* ---------- every other Angular entry‑point ------------------------- */
     if (pkg.startsWith('@angular/')) {
       return {
         singleton: true,
@@ -54,7 +59,7 @@ const config: ModuleFederationConfig = {
       };
     }
 
-    /* 4) everything else: not shared */
+    /* ---------- everything else: don’t share ---------------------------- */
     return false;
   },
 };
