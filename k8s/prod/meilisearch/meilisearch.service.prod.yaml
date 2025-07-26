@@ -1,0 +1,15 @@
+# meilisearch-service.yaml  (production)
+apiVersion: v1
+kind: Service
+metadata:
+    name: meilisearch-prod
+    labels:
+        app: meilisearch
+spec:
+    selector:
+        app: meilisearch
+    ports:
+        - protocol: TCP
+          port: 7700 # service port
+          targetPort: 7700 # container port
+    type: ClusterIP

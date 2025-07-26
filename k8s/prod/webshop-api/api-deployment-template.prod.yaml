@@ -26,12 +26,19 @@ spec:
                       - containerPort: 8000
                         protocol: TCP
                   env:
+                      # ──────────────────────────────
+                      # Laravel / app settings
+                      # ──────────────────────────────
                       - name: APP_ENV
                         value: 'production'
                       - name: APP_DEBUG
                         value: 'false'
                       - name: APP_URL
                         value: 'https://api.eliasdebock.com'
+
+                      # ──────────────────────────────
+                      # Database (PostgreSQL)
+                      # ──────────────────────────────
                       - name: DB_CONNECTION
                         value: 'pgsql'
                       - name: DB_HOST
@@ -51,8 +58,27 @@ spec:
                             secretKeyRef:
                                 name: postgres-secret-prod
                                 key: POSTGRES_PASSWORD
+
+                      # ──────────────────────────────
+                      # Authentication
+                      # ──────────────────────────────
                       - name: KEYCLOAK_JWKS_URL
                         value: 'https://app.eliasdebock.com/keycloak/realms/EDB-PROD/protocol/openid-connect/certs'
+
+                      # ──────────────────────────────
+                      # NEW ✅  External services
+                      # ──────────────────────────────
+                      - name: MEILI_MASTER_KEY # Meilisearch master key
+                        valueFrom:
+                            secretKeyRef:
+                                name: meilisearch-secret-prod
+                                key: MEILI_MASTER_KEY
+
+                      - name: OPENAI_API_KEY # OpenAI key for text/search helpers
+                        valueFrom:
+                            secretKeyRef:
+                                name: openai-secret-prod
+                                key: OPENAI_API_KEY
 
                   resources:
                       requests:
