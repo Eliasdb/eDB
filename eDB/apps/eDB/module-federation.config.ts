@@ -1,80 +1,53 @@
-// apps/eDB/module-federation.config.ts  (HOST)
+// apps/eDB/module-federation.config.ts  (host)
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-/** quick helper for third‑party libs you own */
-const SINGLETON = {
+const eager = (pkg: string) => ({
   singleton: true,
-  strictVersion: false,
-  requiredVersion: false,
-} as const;
-
-/** eager singleton for every runtime‑critical Angular package */
-const ANGULAR_EAGER = {
-  singleton: true,
-  strictVersion: true,
-  requiredVersion: '^20.1.3',
   eager: true,
-};
+  requiredVersion: '^20.1.3',
+  strictVersion: true,
+});
+const loose = { singleton: true, strictVersion: false, requiredVersion: false };
 
 export default {
   name: 'eDB',
-  exposes: {},
   remotes: ['eDB-admin'],
-
+  exposes: {},
   shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    /* ---------------------------------------------------------------
-     * 1️⃣  Core Angular runtime entry points ‑ must be eager
-     * ------------------------------------------------------------- */
     if (
       pkg === '@angular/core' ||
       pkg === '@angular/common' ||
       pkg === '@angular/platform-browser' ||
       pkg === '@angular/platform-browser/animations' ||
       pkg === '@angular/animations' ||
-      pkg === '@angular/animations/browser'
-    ) {
-      return ANGULAR_EAGER;
-    }
+      pkg === '@angular/animations/browser' ||
+      pkg === 'rxjs'
+    )
+      return eager(pkg);
 
-    /* ---------------------------------------------------------------
-     * 2️⃣  Libraries you control / don’t strict‑version
-     * ------------------------------------------------------------- */
+    if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk'))
+      return {
+        singleton: true,
+        strictVersion: true,
+        requiredVersion: '^20.1.3',
+      };
+
+    if (pkg.startsWith('@angular/'))
+      return {
+        singleton: true,
+        strictVersion: true,
+        requiredVersion: '^20.1.3',
+      };
+
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
-      pkg === '@tanstack/angular-query-experimental' ||
-      pkg === 'rxjs'
-    ) {
-      return SINGLETON;
-    }
+      pkg === '@tanstack/angular-query-experimental'
+    )
+      return loose;
 
-    /* ---------------------------------------------------------------
-     * 3️⃣  Angular Material & CDK
-     * ------------------------------------------------------------- */
-    if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
-      return {
-        singleton: true,
-        strictVersion: true,
-        requiredVersion: '^20.1.3',
-      };
-    }
-
-    /* ---------------------------------------------------------------
-     * 4️⃣  Any other Angular entry point
-     * ------------------------------------------------------------- */
-    if (pkg.startsWith('@angular/')) {
-      return {
-        singleton: true,
-        strictVersion: true,
-        requiredVersion: '^20.1.3',
-      };
-    }
-
-    /* ---------------------------------------------------------------
-     * 5️⃣  Everything else – do NOT share
-     * ------------------------------------------------------------- */
     return false;
   },
 } satisfies ModuleFederationConfig;
