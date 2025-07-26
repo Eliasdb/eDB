@@ -1,10 +1,9 @@
-// apps/eDB-admin/module-federation.config.ts (remote)
-
+/* apps/eDB‑admin/module‑federation.config.ts  (remote)
+ * ASCII‑only, CI‑friendly
+ */
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-/**
- * eager singleton helper (only for core libs + RxJS)
- */
+/** eager singleton helper (core Angular + RxJS only) */
 const eager = (requiredVersion = '^20.1.3') => ({
   singleton: true,
   eager: true,
@@ -12,7 +11,7 @@ const eager = (requiredVersion = '^20.1.3') => ({
   requiredVersion,
 });
 
-/** loose singleton helper for libraries you own */
+/** loose singleton helper (your own libs) */
 const loose = { singleton: true, strictVersion: false, requiredVersion: false };
 
 export default {
@@ -25,24 +24,23 @@ export default {
   shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    // 1. Angular runtime – eager
+    /* 1. Angular core runtime – eager */
     if (
       pkg === '@angular/core' ||
+      pkg.startsWith('@angular/core/') || // every sub‑entry‑point
       pkg === '@angular/common' ||
       pkg === '@angular/platform-browser' ||
       pkg === '@angular/platform-browser/animations' ||
       pkg === '@angular/animations' ||
       pkg === '@angular/animations/browser'
     ) {
-      return eager(); // ^20.1.3
+      return eager(); // version ^20.1.3
     }
 
-    // 2. RxJS – eager with correct version
-    if (pkg === 'rxjs') {
-      return eager('^7.8.2');
-    }
+    /* 2. RxJS – eager, own version */
+    if (pkg === 'rxjs') return eager('^7.8.2');
 
-    // 3. Angular Material / CDK – strict singleton
+    /* 3. Angular Material / CDK – strict singleton (lazy ok) */
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
       return {
         singleton: true,
@@ -51,7 +49,7 @@ export default {
       };
     }
 
-    // 4. Any other @angular/* entry point – strict singleton
+    /* 4. any other @angular/* entry‑point – strict singleton */
     if (pkg.startsWith('@angular/')) {
       return {
         singleton: true,
@@ -60,7 +58,7 @@ export default {
       };
     }
 
-    // 5. Libraries you own – loose singleton
+    /* 5. libs you own – loose singleton */
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
@@ -69,7 +67,7 @@ export default {
       return loose;
     }
 
-    // 6. Everything else – do not share
+    /* 6. everything else – do not share */
     return false;
   },
 } satisfies ModuleFederationConfig;
