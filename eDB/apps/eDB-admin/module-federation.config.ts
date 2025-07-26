@@ -9,23 +9,29 @@ const SINGLETON = {
 
 export default {
   name: 'eDB-admin',
+
   exposes: {
     './Routes': 'apps/eDB-admin/src/app/remote-entry/entry.routes.ts',
   },
 
-  shared: (pkg) => {
+  shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    if (pkg === '@angular/platform-browser/animations') {
+    /* ---- Angular animations (both entry‑points) ------------------------- */
+    if (
+      pkg === '@angular/animations' ||
+      pkg === '@angular/animations/browser' ||
+      pkg === '@angular/platform-browser/animations'
+    ) {
       return {
         singleton: true,
         strictVersion: true,
         requiredVersion: '^20.1.3',
-        eager: true, // <-- still fine
+        eager: true, // ← prevents the RUNTIME‑006 error
       };
     }
 
-    // 1) packages you control
+    /* ---- libs you own / don’t version‑check ----------------------------- */
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
@@ -35,7 +41,7 @@ export default {
       return SINGLETON;
     }
 
-    // 2) material / cdk
+    /* ---- Angular Material & CDK ---------------------------------------- */
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
       return {
         singleton: true,
@@ -44,7 +50,7 @@ export default {
       };
     }
 
-    // 3) every Angular entry point (sub‑paths included)
+    /* ---- every other Angular entry‑point ------------------------------- */
     if (pkg.startsWith('@angular/')) {
       return {
         singleton: true,
@@ -53,6 +59,7 @@ export default {
       };
     }
 
+    /* ---- everything else: don’t share ---------------------------------- */
     return false;
   },
 } satisfies ModuleFederationConfig;
