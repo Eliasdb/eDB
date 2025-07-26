@@ -16,6 +16,16 @@ const config: ModuleFederationConfig = {
   shared: (pkg) => {
     if (!pkg) return false;
 
+    // 1) the one entry that must be eager
+    if (pkg === '@angular/platform-browser/animations') {
+      return {
+        singleton: true,
+        strictVersion: true,
+        requiredVersion: '^20.1.3',
+        eager: true, // <-- still fine
+      };
+    }
+
     /* 1) packages you control or don’t care to version‑check */
     if (
       pkg === '@edb/shared-ui' ||
