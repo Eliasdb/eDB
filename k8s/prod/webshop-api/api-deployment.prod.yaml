@@ -26,12 +26,15 @@ spec:
                       - containerPort: 8000
                         protocol: TCP
                   env:
+                      # ── Laravel / application ─────────────────────────
                       - name: APP_ENV
                         value: 'production'
                       - name: APP_DEBUG
                         value: 'false'
                       - name: APP_URL
                         value: 'https://api.eliasdebock.com'
+
+                      # ── PostgreSQL ────────────────────────────────────
                       - name: DB_CONNECTION
                         value: 'pgsql'
                       - name: DB_HOST
@@ -51,8 +54,24 @@ spec:
                             secretKeyRef:
                                 name: postgres-secret-prod
                                 key: POSTGRES_PASSWORD
+
+                      # ── Auth / Keycloak ───────────────────────────────
                       - name: KEYCLOAK_JWKS_URL
                         value: 'https://app.eliasdebock.com/keycloak/realms/EDB-PROD/protocol/openid-connect/certs'
+
+                      # ── NEW: external services secrets ────────────────
+                      - name: MEILI_MASTER_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: meilisearch-secret-prod
+                                key: MEILI_MASTER_KEY
+
+                      - name: OPENAI_API_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: openai-secret-prod
+                                key: OPENAI_API_KEY
+
                   resources:
                       requests:
                           memory: '256Mi'
