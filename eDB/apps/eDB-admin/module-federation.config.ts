@@ -2,7 +2,9 @@
 
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-/** eager singleton helper (only for core libs + RxJS) */
+/**
+ * eager singleton helper (only for core libs + RxJS)
+ */
 const eager = (requiredVersion = '^20.1.3') => ({
   singleton: true,
   eager: true,
@@ -23,9 +25,7 @@ export default {
   shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    /* ───────────────────────────────────────────────
-     * 1️⃣  Angular runtime – eager
-     * ───────────────────────────────────────────── */
+    // 1. Angular runtime – eager
     if (
       pkg === '@angular/core' ||
       pkg === '@angular/common' ||
@@ -37,16 +37,12 @@ export default {
       return eager(); // ^20.1.3
     }
 
-    /* ───────────────────────────────────────────────
-     * 2️⃣  RxJS – eager with correct version
-     * ───────────────────────────────────────────── */
+    // 2. RxJS – eager with correct version
     if (pkg === 'rxjs') {
       return eager('^7.8.2');
     }
 
-    /* ───────────────────────────────────────────────
-     * 3️⃣  Angular Material / CDK – strict singleton
-     * ───────────────────────────────────────────── */
+    // 3. Angular Material / CDK – strict singleton
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
       return {
         singleton: true,
@@ -55,9 +51,7 @@ export default {
       };
     }
 
-    /* ───────────────────────────────────────────────
-     * 4️⃣  Any other @angular/* entry point – strict singleton
-     * ───────────────────────────────────────────── */
+    // 4. Any other @angular/* entry point – strict singleton
     if (pkg.startsWith('@angular/')) {
       return {
         singleton: true,
@@ -66,9 +60,7 @@ export default {
       };
     }
 
-    /* ───────────────────────────────────────────────
-     * 5️⃣  Libraries you own – loose singleton
-     * ───────────────────────────────────────────── */
+    // 5. Libraries you own – loose singleton
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
@@ -77,9 +69,7 @@ export default {
       return loose;
     }
 
-    /* ───────────────────────────────────────────────
-     * 6️⃣  Everything else – do not share
-     * ───────────────────────────────────────────── */
+    // 6. Everything else – do not share
     return false;
   },
 } satisfies ModuleFederationConfig;
