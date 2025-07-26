@@ -30,7 +30,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideClientHydration(), // concrete DOM renderer
     provideAnimations(), // ② single animation engine (wraps ①)
 
     provideRouter(
