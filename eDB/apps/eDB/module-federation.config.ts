@@ -1,10 +1,10 @@
 // apps/eDB/module-federation.config.ts  (host)
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-const eager = (pkg: string) => ({
+const eager = (reqVersion = '^20.1.3') => ({
   singleton: true,
   eager: true,
-  requiredVersion: '^20.1.3',
+  requiredVersion: reqVersion,
   strictVersion: true,
 });
 const loose = { singleton: true, strictVersion: false, requiredVersion: false };
@@ -16,37 +16,41 @@ export default {
   shared: (pkg?: string) => {
     if (!pkg) return false;
 
+    // Angular runtime – eager
     if (
       pkg === '@angular/core' ||
       pkg === '@angular/common' ||
       pkg === '@angular/platform-browser' ||
       pkg === '@angular/platform-browser/animations' ||
       pkg === '@angular/animations' ||
-      pkg === '@angular/animations/browser' ||
-      pkg === 'rxjs'
-    )
-      return eager(pkg);
+      pkg === '@angular/animations/browser'
+    ) {
+      return eager(); // ^20.1.3
+    }
 
-    if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk'))
-      return {
-        singleton: true,
-        strictVersion: true,
-        requiredVersion: '^20.1.3',
-      };
+    // rxjs – eager but with correct version
+    if (pkg === 'rxjs') {
+      return eager('^7.8.2'); // 🔑 here
+    }
 
-    if (pkg.startsWith('@angular/'))
-      return {
-        singleton: true,
-        strictVersion: true,
-        requiredVersion: '^20.1.3',
-      };
+    // Material / CDK
+    if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
+      return eager(); // still ^20.1.3, but not eager
+    }
 
+    // Any other @angular/ entry point
+    if (pkg.startsWith('@angular/')) {
+      return eager(); // ^20.1.3
+    }
+
+    // Your own libs
     if (
       pkg === '@edb/shared-ui' ||
       pkg === 'carbon-components-angular' ||
       pkg === '@tanstack/angular-query-experimental'
-    )
+    ) {
       return loose;
+    }
 
     return false;
   },
