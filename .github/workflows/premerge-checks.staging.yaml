@@ -183,7 +183,7 @@ jobs:
                       echo "🏗️ Building $app"
                       pnpm nx run "$app":build --configuration=staging
                     else
-                      echo "⚠️ Skipping NX build for $app"
+                      echo "⚠️ Skipping Nx build for $app"
                     fi
 
                     # skip Docker for the user-account app
