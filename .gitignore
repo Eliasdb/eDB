@@ -17,6 +17,8 @@ node_modules
 apps/**/*-account.json
 secret
 
+/obj
+
 *-secrets.yaml
 *-config.yaml
 
