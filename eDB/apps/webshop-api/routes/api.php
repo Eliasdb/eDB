@@ -1,16 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AdminController;
-use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BookController;
 use App\Http\Controllers\Api\V1\AIController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\Admin\OrderAdminController;
-use App\Http\Requests\User\UpdateUserRequest;
-use App\Http\Resources\V1\User\UserResource;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +41,7 @@ Route::post('/v1/search/books', [AIController::class, 'handle']);
 
 
 // AUTHENTICATED USER ROUTES
+
 Route::group([
   "prefix" => "v1",
   "middleware" => ["auth"]
@@ -58,6 +54,11 @@ Route::group([
     Route::post('/cart/items', [CartController::class, 'addItem']);
     Route::patch('/cart/items/{itemId}', [CartController::class, 'updateItem']);
     Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
+
+    // stripe checkout session route
+    Route::post('/checkout-session', [CheckoutController::class, 'createCheckoutSession']);
+    Route::get('/checkout-success', [CheckoutController::class, 'handleCheckoutSuccess']);
+
 });
 
 
