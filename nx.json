@@ -1,7 +1,10 @@
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
 	"namedInputs": {
-		"default": ["{projectRoot}/**/*", "sharedGlobals"],
+		"default": [
+			"{projectRoot}/**/*",
+			"sharedGlobals"
+		],
 		"production": [
 			"default",
 			"!{projectRoot}/.eslintrc.json",
@@ -18,13 +21,20 @@
 			"!{projectRoot}/.storybook/**/*",
 			"!{projectRoot}/tsconfig.storybook.json"
 		],
-		"sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+		"sharedGlobals": [
+			"{workspaceRoot}/.github/workflows/ci.yml"
+		]
 	},
 	"targetDefaults": {
 		"@angular-devkit/build-angular:application": {
 			"cache": true,
-			"dependsOn": ["^build"],
-			"inputs": ["production", "^production"]
+			"dependsOn": [
+				"^build"
+			],
+			"inputs": [
+				"production",
+				"^production"
+			]
 		},
 		"@nx/eslint:lint": {
 			"cache": true,
@@ -37,7 +47,10 @@
 		},
 		"@nx/vite:test": {
 			"cache": true,
-			"inputs": ["default", "^production"],
+			"inputs": [
+				"default",
+				"^production"
+			],
 			"options": {
 				"passWithNoTests": true
 			},
@@ -48,18 +61,29 @@
 			}
 		},
 		"e2e-ci--**/*": {
-			"dependsOn": ["^build"]
+			"dependsOn": [
+				"^build"
+			]
 		},
 		"build-storybook": {
 			"cache": true
 		},
 		"@nx/js:tsc": {
 			"cache": true,
-			"dependsOn": ["^build"],
-			"inputs": ["production", "^production"]
+			"dependsOn": [
+				"^build"
+			],
+			"inputs": [
+				"production",
+				"^production"
+			]
 		},
 		"build": {
-			"dependsOn": ["^build", "codegen", "^codegen"],
+			"dependsOn": [
+				"^build",
+				"codegen",
+				"^codegen"
+			],
 			"cache": true
 		},
 		"codegen": {
@@ -82,12 +106,16 @@
 					"env": "NX_MF_DEV_REMOTES"
 				}
 			],
-			"dependsOn": ["^build"],
+			"dependsOn": [
+				"^build"
+			],
 			"cache": true
 		},
 		"@nx/angular:webpack-browser": {
 			"cache": true,
-			"dependsOn": ["^build"],
+			"dependsOn": [
+				"^build"
+			],
 			"inputs": [
 				"production",
 				"^production",
@@ -98,8 +126,13 @@
 		},
 		"@angular-devkit/build-angular:browser": {
 			"cache": true,
-			"dependsOn": ["^build"],
-			"inputs": ["production", "^production"]
+			"dependsOn": [
+				"^build"
+			],
+			"inputs": [
+				"production",
+				"^production"
+			]
 		}
 	},
 	"plugins": [
@@ -190,5 +223,5 @@
 		}
 	},
 	"parallel": 3,
-	"nxCloudId": "6733ac554277bfac823c438a"
+	"nxCloudId": "68879482439a8c730e9fbbaf"
 }
