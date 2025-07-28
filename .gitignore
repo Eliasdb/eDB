@@ -6,6 +6,8 @@ node_modules
 /tests/e2e/screenshots/
 
 .nx
+.angular/
+
 .cache
 # local env files
 .env.local

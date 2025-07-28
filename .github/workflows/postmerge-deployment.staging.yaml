@@ -66,10 +66,8 @@ jobs:
 
             - name: Install Dependencies
               run: pnpm install
-              working-directory: ./eDB
 
             - name: Print Affected
-              working-directory: ./eDB
               run: |
                   pnpm nx show projects --affected \
                     --with-target=build \
