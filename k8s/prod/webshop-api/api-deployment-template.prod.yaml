@@ -74,6 +74,12 @@ spec:
                                 name: meilisearch-secret-prod
                                 key: MEILI_MASTER_KEY
 
+                      - name: MEILISEARCH_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: meilisearch-secret-prod
+                                key: MEILI_MASTER_KEY
+
                       - name: OPENAI_API_KEY # OpenAI key for text/search helpers
                         valueFrom:
                             secretKeyRef:
