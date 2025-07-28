@@ -61,6 +61,16 @@ spec:
                             secretKeyRef:
                                 name: meilisearch-secret-staging
                                 key: MEILI_MASTER_KEY
+                      - name: STRIPE_PUBLIC
+                        valueFrom:
+                            secretKeyRef:
+                                name: stripe-secret-staging
+                                key: STRIPE_PUBLIC
+                      - name: STRIPE_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: stripe-secret-staging
+                                key: STRIPE_SECRET
 
                   resources:
                       requests:
