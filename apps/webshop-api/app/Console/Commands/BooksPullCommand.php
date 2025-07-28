@@ -89,7 +89,7 @@ class BooksPullCommand extends Command
             // First encode it (AutoEncoder), which returns EncodedImage.
             $encoded = $image->encode();
 
-            // Now wrap it in a data URI
+            // Now wrap it in a data URI.
             return $encoded->toDataUri();
 
         } catch (\Throwable $e) {

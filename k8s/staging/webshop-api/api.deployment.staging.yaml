@@ -95,6 +95,17 @@ spec:
                         value: '6379'
                       - name: KEYCLOAK_JWKS_URL
                         value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/protocol/openid-connect/certs'
+                      - name: STRIPE_PUBLIC
+                        valueFrom:
+                            secretKeyRef:
+                                name: stripe-secret-staging
+                                key: STRIPE_PUBLIC
+                      - name: STRIPE_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: stripe-secret-staging
+                                key: STRIPE_SECRET
+
                   resources:
                       requests:
                           memory: '256Mi'
