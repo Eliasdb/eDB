@@ -6,7 +6,6 @@
 # Ignore Angular and Nx caches
 **/.angular
 **/.nx
-**/dist
 **/.turbo
 **/.output
 **/.next

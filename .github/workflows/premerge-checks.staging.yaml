@@ -49,11 +49,9 @@ jobs:
 
             - name: Install Dependencies
               run: pnpm install --frozen-lockfile
-              working-directory: ./eDB
 
             - name: Determine Affected
               id: detect
-              working-directory: ./eDB
               run: |
                   AFFECTED=$(pnpm nx show projects --affected --plain \
                     --base=origin/dev \
@@ -88,10 +86,8 @@ jobs:
 
             - run: npm install -g pnpm
             - run: pnpm install
-              working-directory: ./eDB
 
             - name: Lint
-              working-directory: ./eDB
               run: |
                   pnpm nx affected --target=lint \
                     --base=origin/dev --head=HEAD \
@@ -117,10 +113,8 @@ jobs:
 
             - run: npm install -g pnpm
             - run: pnpm install
-              working-directory: ./eDB
 
             - name: Test
-              working-directory: ./eDB
               run: |
                   pnpm nx affected --target=test \
                     --base=origin/dev --head=HEAD \
@@ -148,7 +142,6 @@ jobs:
 
             - run: npm install -g pnpm
             - run: pnpm install
-              working-directory: ./eDB
 
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
@@ -163,7 +156,6 @@ jobs:
                   poetry --version
 
             - name: Build & Push Docker images (skip admin)
-              working-directory: ./eDB
               run: |
                   # get all non-admin apps affected
                   AFFECTED=$(pnpm nx show projects --affected --type=app \

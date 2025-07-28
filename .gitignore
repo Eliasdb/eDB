@@ -6,13 +6,18 @@ node_modules
 /tests/e2e/screenshots/
 
 .nx
+.angular/
+
 .cache
 # local env files
 .env.local
 .env.*.local
 .env
 
+apps/**/*-account.json
 secret
+
+/obj
 
 *-secrets.yaml
 *-config.yaml
