@@ -2,16 +2,17 @@
 
 ---
 
-## 🌐 Access & Environments
+### 🌐 Access & Environments
 
 Here's an overview of the key resources of this platform:
 
-| Purpose                    | URL                                                                                    |
-| -------------------------- | -------------------------------------------------------------------------------------- |
-| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/intro](https://eliasdebock.com/nl/docs/eDB/intro) |
-| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)             |
-| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                             |
-| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)     |
+| Purpose                    | URL                                                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/intro](https://eliasdebock.com/nl/docs/eDB/intro)                                         |
+| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)                                                     |
+| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                                                                     |
+| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)                                             |
+| 🧪 Nx Cloud Workspace      | [https://cloud.nx.app/orgs/68834b4ecc7a680070d7bfc6/workspaces](https://cloud.nx.app/orgs/68834b4ecc7a680070d7bfc6/workspaces) |
 
 ---
 
@@ -19,27 +20,108 @@ Here's an overview of the key resources of this platform:
 
 #### Project Goal
 
-I am building a platform housing multiple applications. Users can make an account, subscribe to the apps and launch them. So far I have one webshop in there.
+I'm building a modular platform that allows users to create an account, subscribe to various applications, and launch them from a central dashboard.
+
+#### What’s Built So Far
+
+<details>
+<summary><strong>🧑‍💼 Admin Dashboard</strong></summary>
+
+A centralized admin interface to:
+
+-   Manage user accounts and platform subscriptions
+-   View and manage the global product catalog
+-   Track and fulfill webshop orders
+
+</details>
+
+<details>
+<summary><strong>🛒 Webshop</strong></summary>
+
+A complete e-commerce solution with:
+
+-   Product catalog
+-   Shopping cart
+-   Checkout flow
+-   Order history and tracking
+-   **AI Mode** powered by `gpt-4o-mini` and Meilisearch, allowing users to search the catalog using natural language queries
+
+</details>
+
+<details>
+<summary><strong>📊 ERP (Enterprise Resource Planning)</strong></summary>
+
+Currently includes an **Accounting module** to:
+
+-   Track business expenses
+-   Manage VAT (BTW) reporting
+
+</details>
+
+<details>
+<summary><strong>🧾 CRM (Customer Relationship Management)</strong></summary>
+
+Includes a module for:
+
+-   Managing companies
+-   Tracking contacts associated with each company
+
+</details>
+
+---
 
 #### 🧰 Tech Stack
 
-| Category             | Technology                                          |
-| -------------------- | --------------------------------------------------- |
-| **Monorepo**         | Nx                                                  |
-| **Client**           | Angular - React                                     |
-| **API**              | .NET API - Laravel API                              |
-| **Auth Server**      | Keycloak                                            |
-| **Database**         | PostgreSQL                                          |
-| **Containerization** | Docker                                              |
-| **Orchestration**    | K3s                                                 |
-| **Hosting**          | VPS on Hetzner                                      |
-| **OS**               | Ubuntu                                              |
-| **CI/CD**            | GitHub Actions                                      |
-| **File Storage**     | Cloudflare R2                                       |
-| **Domains & DNS**    | Cloudflare                                          |
-| **Monitoring**       | Prometheus + Grafana + Loki                         |
-| **Testing**          | Vitest (frontend) · xUnit + Moq (.NET backend)      |
-| **Build Tooling**    | Vite (frontend) · Webpack (Angular-specific setups) |
+##### 🧱 Architecture & Core Stack
+
+| Category          | Technology                     |
+| ----------------- | ------------------------------ |
+| **Monorepo**      | Nx                             |
+| **Languages**     | Typescript · C# · PHP · Python |
+| **Client**        | Angular                        |
+|                   | React                          |
+| **API**           | .NET                           |
+|                   | Laravel                        |
+|                   | FastAPI                        |
+| **Auth Server**   | Keycloak                       |
+| **Database**      | PostgreSQL                     |
+| **Domains & DNS** | Cloudflare                     |
+| **OS**            | Ubuntu                         |
+| **Hosting**       | VPS on Hetzner                 |
+
+---
+
+##### 🧠 AI, Search & Personalization
+
+| Category          | Technology  |
+| ----------------- | ----------- |
+| **AI Models**     | GPT-4o-mini |
+| **Search Engine** | Meilisearch |
+
+---
+
+##### 🛠️ DevOps & Tooling
+
+| Category             | Technology       |
+| -------------------- | ---------------- |
+| **Containerization** | Docker           |
+| **Orchestration**    | K3s              |
+| **CI/CD**            | GitHub Actions   |
+| **Monitoring**       | Prometheus       |
+|                      | Grafana          |
+|                      | Loki · Promtrail |
+
+---
+
+##### 🧪 Testing & Build Tools
+
+| Category             | Technology        |
+| -------------------- | ----------------- |
+| **Frontend Testing** | Vitest            |
+| **Backend Testing**  | xUnit · Postman   |
+|                      | Moq               |
+| **Build Tooling**    | Vite (React)      |
+|                      | Webpack (Angular) |
 
 ---
 
@@ -47,100 +129,167 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 #### 🐳 Infrastructure & Deployment
 
--   [x] **Containerizing applications** → Dockerfiles
--   [x] **Development environment** → K3s cluster using k3d + Skaffold or Nx + local Postgres
--   [x] **Staging environment** → K3s cluster on VPS
--   [x] **Production environment** → K3s cluster on VPS
--   [x] **CI/CD pipelines** → Pre-merge checks + post-merge deploy via self-hosted ARM GitHub Actions runner
+<details>
+<summary><strong>Infrastructure Overview</strong></summary>
 
-#### 🖥️ Client
+-   **Containerizing applications:** Dockerfiles
+-   **Development environment:** K3s cluster using k3d + Skaffold or Nx + local Postgres
+-   **Staging environment:** K3s cluster on VPS
+-   **Production environment:** K3s cluster on VPS
+-   **CI/CD pipelines:** Pre-merge checks + post-merge deploy via self-hosted ARM GitHub Actions runner
 
--   [x] **Microfrontends** → Implemented using dynamic Module Federation and Web Components
--   [x] **Layered Modular Architecture** → apps and libs
-
-#### 🔐 Identity & Access
-
--   [x] **Authentication** → Self-hosted Keycloak (login, register, profile, sessions, ...)
-
-#### 📚 Documentation
-
--   [x] **Documentation** → Technical docs hosted and maintained
-
-#### 📊 Monitoring & Observability
-
--   [x] **Dashboards for centralized logging and platform metrics** → Implemented with Grafana, Prometheus, Loki, and Promtail
-
-#### 🧩 Platform Apps
-
--   [x] **Demo App #1** → Webshop (deployed as a full platform application)
+</details>
 
 ---
 
-### All Tools Used
+#### 🖥️ Client
 
-**DevOps**
+<details>
+<summary><strong>Frontend Architecture</strong></summary>
 
--   [x] **Docker**: Docker Compose - Docker Desktop - Docker Hub - Dockerfiles - Docker images - multi-stage
--   [x] **Kubernetes**: k3d - k3s - kubectl - Deployments - Services - Pods - Secrets - Configmaps - Certificates - NGINX Controller - Ingress - YAML - Namespaces
+-   **Microfrontends:** Implemented using dynamic Module Federation and Web Components
+-   **Layered Modular Architecture:** Separated into apps and libs (feature, data-access, ui, util, etc.)
 
-    -   [x] **Package Manager**: Helm
+</details>
 
--   [x] **Servers**: - VPS
-    -   [x] **OS** → Linux (Ubuntu)
-    -   [x] **Static file web server** → NGINX
-    -   [x] **API web server** → .NET Web API - Laravel PHP-FPM
-    -   [x] **Database server** → Postgres
-    -   [x] **Authentication server** → Keycloak
-    -   [x] **Github Actions runner** → Self-hosted on VPS
-    -   [x] **Shell scripts** (`wait-for-postgres.sh` / `entrypoint.sh`)
--   [x] **CI/CD**: Github Actions - `nx affected` - yamllint - staging/production environment - lint, test, build, deploy
+---
 
--   [x] **Monitoring & analytics**: Grafana, Prometheus
--   [x] **Logging**: Loki, Promtrail
+#### 🔐 Identity & Access
 
-**Monorepo**
+<details>
+<summary><strong>Authentication</strong></summary>
 
--   [x] **Nx**:
-    -   apps
-    -   libs
-        -   **client**: feature - util - data-access/client - ui
-    -   Nx generators/scaffolding commands - `nx affected` - modular layered architecture
+-   **Auth system:** Self-hosted Keycloak (login, registration, profile management, session handling, etc.)
 
-**Auth**
+</details>
 
--   [x] **Authentication**: Keycloak - keycloak-js - JWT - firebase/php-jwt -
+---
 
-**Client**
+#### 📚 Documentation
 
--   [x] **Language**: Typescript
--   [x] **Node Package Manager**: pnpm
--   [x] **Frameworks**:
-    -   [x] **Angular**: (Standalone) Components - Services - RxJS - Signals - Interceptors - Guards - Reactive Forms
-    -   [x] **React**: as Micro UI - built as UMD bundle in Vite integrated with Webcomponents
--   [x] **Testing**: Vitest - Storybook
--   [x] **Linting + formatting**: Prettier - ESLint
--   [x] **UI**: HTML - SCSS - Tailwind - Carbon Design System - Angular Material - FontAwesome
--   [x] **API Integration**: TanStack Query
--   [x] **Bundler**: Webpack - Vite
--   [x] **Microfrontends**: Dynamic Module Federation - Web Components
+<details>
+<summary><strong>Developer Docs</strong></summary>
 
-**API**
+-   **Documentation:** Internal technical documentation is hosted and actively maintained
 
--   [x] **Language**: C# - PHP - Python
--   [x] **Package Manager**: NuGet - Composer
--   [x] **Frameworks**:
-    -   [x] **.NET**: Controllers - Services - Repositories - Entities - DTOs - Extensions - Interfaces - MappingProfiles - Middleware (exception middleware) - Migrations - .NET CLI - Fluent API - JWT - CORS - Attributes - DbContext - .NET SDK
-    -   [x] **Laravel**: Controllers - Models - Requests - Resources - Collections - PHP Artisan CLI - Middleware - Migrations - Seeders - Factories
--   [x] **ORM**: EF - Doctrine
--   [x] **Testing**: xUnit - Moq - Postman
--   [x] **Formatting**: dotnet format
--   [x] **API Documentation**: Swagger
--   [x] **Object Mapper**: Automapper
--   [x] **Database**: PostgreSQL - pgAdmin 4
+</details>
 
-**PM**
+---
 
--   [x] Jira
+#### 📊 Monitoring & Observability
+
+<details>
+<summary><strong>Dashboards & Logs</strong></summary>
+
+-   **Stack:** Grafana · Prometheus · Loki · Promtail
+-   **Use:** Centralized logging, metrics, and platform-wide observability
+
+</details>
+
+---
+
+### 🧠 Platform Technology Overview
+
+Below is a categorized overview of the technologies powering the platform and its apps.
+
+<details>
+<summary><strong>🧱 Core Infrastructure</strong></summary>
+
+-   **OS:** Ubuntu (Linux)
+-   **Servers:** VPS (Hetzner)
+-   **Static Web Server:** NGINX
+-   **Authentication Server:** Keycloak
+-   **Database:** PostgreSQL · pgAdmin 4
+-   **File Storage:** Cloudflare R2
+-   **Domains & DNS:** Cloudflare
+
+</details>
+
+<details>
+<summary><strong>🚀 Containerization & DevOps</strong></summary>
+
+-   **Docker:** Docker Compose · Docker Desktop · Docker Hub · Dockerfiles · Multi-stage images
+-   **Kubernetes:** K3s · k3d · kubectl · Deployments · Services · Secrets · ConfigMaps · Ingress · TLS Certs · NGINX Ingress Controller
+-   **Package Management:** Helm
+-   **CI/CD:** GitHub Actions · `nx affected` · staging & production workflows · yaml linting · lint/test/build/deploy phases
+-   **Shell Scripts:** `wait-for-postgres.sh` · `entrypoint.sh`
+
+</details>
+
+<details>
+<summary><strong>📈 Observability</strong></summary>
+
+-   **Monitoring:** Prometheus · Grafana
+-   **Logging:** Loki · Promtail
+
+</details>
+
+<details>
+<summary><strong>🔍 AI & Search</strong></summary>
+
+-   **Search Engine:** Meilisearch
+-   **AI Models:** OpenAI GPT-4o-mini (function calling for search filters)
+
+</details>
+
+<details>
+<summary><strong>🧰 Monorepo & Tooling</strong></summary>
+
+-   **Monorepo Manager:** Nx
+    -   Apps and modular libraries (`feature`, `ui`, `data-access`, `util`)
+    -   Nx Generators · `nx affected` · layered architecture
+    -   Nx Cloud · remote caching
+-   **CI Runners:** Self-hosted GitHub Actions on VPS
+
+</details>
+
+<details>
+<summary><strong>🧑‍💻 Frontend (Client)</strong></summary>
+
+-   **Languages & Tools:** TypeScript · pnpm
+-   **Frameworks:**
+    -   **Angular:** Standalone Components · RxJS · Signals · Interceptors · Guards · Reactive Forms
+    -   **React:** Micro UI as UMD bundle via Vite + Web Components
+-   **State & Data:** TanStack Query
+-   **UI & Styling:** Tailwind · SCSS · Carbon Design System · Angular Material · HTML · FontAwesome
+-   **Testing:** Vitest · Storybook
+-   **Linting & Formatting:** ESLint · Prettier
+-   **Bundlers:** Vite · Webpack
+-   **Microfrontends:** Dynamic Module Federation · Web Components
+
+</details>
+
+<details>
+<summary><strong>🔗 Backend (API)</strong></summary>
+
+-   **Languages:** C# · PHP · Python
+-   **Frameworks:**
+    -   **.NET:** Controllers · Services · DTOs · Middleware · Migrations · Fluent API · DbContext · Entities (Models)
+    -   **Laravel:** Models · Requests · Resources · Artisan CLI · Seeders · Factories · Commands · Controllers · Services
+    -   **FastAPI:** (used for utility APIs or AI controller)
+-   **Package Managers:** NuGet · Composer
+-   **ORMs:** Entity Framework (EF) · Doctrine
+-   **Object Mapper:** AutoMapper
+-   **Testing:** xUnit · Moq · Postman
+-   **Formatting:** `dotnet format`
+-   **API Docs:** Swagger
+
+</details>
+
+<details>
+<summary><strong>🔐 Authentication</strong></summary>
+
+-   **Auth Server:** Keycloak
+-   **Client Integration:** `keycloak-js` · JWT · `firebase/php-jwt`
+
+</details>
+
+<details>
+<summary><strong>📋 Project Management</strong></summary>
+
+-   **PM Tool:** Jira — used for sprint planning, backlog tracking, and task management
+
+</details>
 
 ---
 
@@ -148,31 +297,40 @@ I am building a platform housing multiple applications. Users can make an accoun
 
 **DevOps**
 
--   [ ] **Secrets Management**: HashiCorp Vault, SealedSecrets, External Secrets Operator
--   [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch, Logstash, Kibana)
--   [ ] **Cluster Management**: ArgoCD (GitOps), Helm, Kustomize
--   [ ] **Hotfixes and Feature Flags**
--   [ ] **Load balancing**
--   [ ] **Caching & Performance Optimization**: Nx Cloud, TurboRepo
--   [ ] **Azure**
-    -   [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes instead of K3s
-    -   [ ] **Azure Container Registry (ACR)** – Store and manage Docker images
-    -   [ ] **Azure DevOps Pipelines** – Alternative to GitHub Actions
-    -   [ ] **Azure Resource Manager (ARM) / Terraform / Bicep** – Infrastructure as Code (IaC)
-    -   [ ] **Azure App Service** – Deploy apps without full Kubernetes
-    -   [ ] **Azure Functions** – Serverless execution for background jobs
+-   [ ] **Secrets Management**: HashiCorp Vault · SealedSecrets · External Secrets Operator
+-   [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch · Logstash · Kibana)
+-   [ ] **Cluster Management**: ArgoCD (GitOps) · Helm · Kustomize
+-   [ ] **Hotfixes & Feature Flags**: Under evaluation
+-   [ ] **Load Balancing**: Ingress Controller or External LB support
+
+---
+
+**Cloud & Platform Services**
+
+-   [ ] **Cloud Provider**: Azure (planned)
+    -   [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes alternative to K3s
+    -   [ ] **Azure Container Registry (ACR)** – For storing Docker images
+    -   [ ] **Azure DevOps Pipelines** – CI/CD alternative to GitHub Actions
+    -   [ ] **Azure App Service** – App hosting without full Kubernetes
+    -   [ ] **Azure Functions** – Serverless background processing
+    -   [ ] **Infrastructure as Code (IaC)**: Azure Resource Manager (ARM) · Terraform · Bicep
+
+---
 
 **Client**
 
--   [ ] **End-to-End Testing**: Cypress, Playwright
--   [ ] **State Management**: NgRx, Akita, SignalStore
--   [ ] **Error Handling & Monitoring**: Sentry, PostHog
--   [ ] **Accessibility (a11y) Testing**: Axe DevTools, Lighthouse
+-   [ ] **End-to-End Testing**: Cypress · Playwright
+-   [ ] **State Management**: NgRx · Akita · SignalStore
+-   [ ] **Error Handling & Monitoring**: Sentry · PostHog
+-   [ ] **Accessibility (a11y) Testing**: Axe DevTools · Lighthouse
+
+---
 
 **API**
 
--   [ ] **Architecture**: Event Driven Architecture, Domain Driven Architecture
--   [ ] **Background Jobs & Messaging**: Hangfire, MassTransit, MediatR, RabbitMQ, Kafka
+-   [ ] **Architecture**: Event-Driven Architecture · Domain-Driven Design
+-   [ ] **Background Jobs & Messaging**: Hangfire · MassTransit · MediatR · RabbitMQ · Kafka
+-   [ ] **Real-Time Communication**: WebSockets (SignalR · Laravel WebSockets · FastAPI WebSocket support)
 -   [ ] **Caching**: Redis
--   [ ] **Rate Limiting & API Gateway**: Ocelot, YARP, Envoy
--   [ ] **Feature Flags & Config Management**: Unleash, ConfigCat
+-   [ ] **Rate Limiting & API Gateway**: Ocelot · YARP · Envoy
+-   [ ] **Feature Flags & Config Management**: Unleash · ConfigCat

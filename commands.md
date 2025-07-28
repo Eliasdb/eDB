@@ -20,3 +20,5 @@ export KUBECONFIG=$(pwd)/secret/k3s-prod-config.yaml
 
 `nx g @nx/angular:library --name=client-checkout --directory=libs/eDB-webshop/data-access/client-checkout`
 nx g @nx/angular:library --name=feature-aimode --directory=libs/eDB-webshop/features/feature-aimode
+
+php artisan make:seeder YourSeederName
