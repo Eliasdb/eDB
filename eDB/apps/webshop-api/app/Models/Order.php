@@ -15,6 +15,7 @@ class Order extends Model
         'amount',
         'status',
         'order_date',
+        'stripe_session_id',
         'full_name',
         'address',
         'city',

@@ -1,6 +1,16 @@
 import { Route } from '@angular/router';
-import { CheckoutPageComponent } from './checkout.page';
 
 export const featureCheckoutRoutes: Route[] = [
-  { path: '', component: CheckoutPageComponent },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./pages/checkout.page').then((m) => m.CheckoutPageComponent),
+  },
+  {
+    path: 'success',
+    loadComponent: () =>
+      import('./pages/checkout-success.page').then(
+        (m) => m.CheckoutSuccessPageComponent,
+      ),
+  },
 ];

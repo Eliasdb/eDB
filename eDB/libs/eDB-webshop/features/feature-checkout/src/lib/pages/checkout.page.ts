@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // checkout.page.ts — uses skeleton rows until cart loads
 // ─────────────────────────────────────────────────────────────
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Component Modules
@@ -13,7 +13,7 @@ import { SkeletonModule } from 'carbon-components-angular';
 
 // UI
 import { UiButtonComponent, UiTextInputComponent } from '@edb/shared-ui';
-import { OrderSummaryItemComponent } from './components/order-summary-item/order-summary-item.component';
+import { OrderSummaryItemComponent } from '../components/order-summary-item/order-summary-item.component';
 
 // Services & Types
 import { CartService } from '@eDB-webshop/client-cart';
@@ -162,22 +162,6 @@ import { CheckoutService, OrderCreateRequest } from '@edb/client-checkout';
               </ui-button>
             </div>
           </form>
-
-          @if (confirmation()) {
-            <div
-              class="mt-10 p-6 rounded-2xl bg-green-50 border border-green-200"
-            >
-              <h3 class="text-2xl font-semibold text-green-700 mb-2">
-                Order Confirmed!
-              </h3>
-              <p>
-                Your order <strong>{{ confirmation()?.orderId }}</strong> has
-                been placed. Estimated delivery:
-                <strong>{{ confirmation()?.estimatedDelivery }}</strong
-                >.
-              </p>
-            </div>
-          }
         </div>
       </div>
     </section>
@@ -192,7 +176,6 @@ export class CheckoutPageComponent {
 
   // ───────── reactive state ─────────
   readonly placeholderRows = Array.from({ length: 4 });
-  confirmation = signal<any>(null);
 
   // form created with the injected FormBuilder
   checkoutForm = this.fb.group({
@@ -232,8 +215,13 @@ export class CheckoutPageComponent {
   async submit(): Promise<void> {
     if (this.checkoutForm.invalid) return;
     const payload = this.checkoutForm.getRawValue() as OrderCreateRequest;
-    const confirmation = await this.checkoutService.submitOrder(payload);
 
-    this.confirmation.set(confirmation);
+    try {
+      const { url } = await this.checkoutService.submitCheckoutSession(payload);
+      window.location.href = url; // redirect to Stripe Checkout
+    } catch (e) {
+      console.error('❌ Stripe checkout session failed', e);
+      // Optionally show error message in UI
+    }
   }
 }
