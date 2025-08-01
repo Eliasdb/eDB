@@ -17,6 +17,10 @@ echo "🧠 Setting Meilisearch filterable attributes..."
 php artisan db:seed --class=MeilisearchIndexSeeder --force || { echo "❌ Meilisearch index seeding failed"; exit 1; }
 echo "✅ Meilisearch index configured"
 
+echo "📄 Generating OpenAPI spec..."
+php artisan scramble:export || { echo "❌ Failed to export API spec"; exit 1; }
+echo "✅ OpenAPI spec exported"
+
 # Optional: config and route cache
 # php artisan config:cache
 # php artisan route:cache

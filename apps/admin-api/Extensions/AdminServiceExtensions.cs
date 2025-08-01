@@ -12,72 +12,75 @@ namespace Edb.AdminAPI.Extensions;
 
 public static class AdminServiceExtensions
 {
-  public static IServiceCollection AddAdminServices(
-    this IServiceCollection services,
-    IConfiguration config
-  )
-  {
-    // Determine environment
-    var environment = config["ASPNETCORE_ENVIRONMENT"] ?? "Production";
-    string connectionString;
-
-    if (environment == "Development")
+    public static IServiceCollection AddAdminServices(
+        this IServiceCollection services,
+        IConfiguration config
+    )
     {
-      Env.Load();
-      var host = Env.GetString("DB_HOST");
-      var port = Env.GetString("DB_PORT");
-      var db = Env.GetString("DB_NAME");
-      var user = Env.GetString("DB_USER");
-      var pwd = Env.GetString("DB_PASSWORD");
+        // Determine environment
+        var environment = config["ASPNETCORE_ENVIRONMENT"] ?? "Production";
+        string connectionString;
 
-      connectionString = $"Host={host};Port={port};Database={db};Username={user};Password={pwd}";
-    }
-    else
-    {
-      connectionString =
-        config.GetConnectionString("DefaultConnection")
-        ?? throw new InvalidOperationException("Missing DefaultConnection.");
-    }
-
-    // Register DBs
-    services.AddDbContext<MyDbContext>(opt =>
-      opt.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
-    );
-
-    services.AddDbContext<KeycloakDbContext>(opt =>
-      opt.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
-    );
-
-    // Register repositories and services
-    services.AddScoped<IApplicationRepository, ApplicationRepository>();
-    services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-    services.AddScoped<IAdminService, AdminService>();
-
-    // AutoMapper
-    services.AddAutoMapper(typeof(MappingProfile).Assembly);
-
-    services.AddCors(options =>
-    {
-      options.AddPolicy(
-        "AllowFrontend",
-        policy =>
+        if (environment == "Development")
         {
-          policy
-            .WithOrigins(
-              "http://localhost:4200",
-              "http://localhost:4300",
-              "http://localhost:8080",
-              "https://keycloak.staging.eliasdebock.com",
-              "https://app.staging.eliasdebock.com",
-              "https://app.eliasdebock.com"
-            )
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-        }
-      );
-    });
+            Env.Load();
+            var host = Env.GetString("DB_HOST");
+            var port = Env.GetString("DB_PORT");
+            var db = Env.GetString("DB_NAME");
+            var user = Env.GetString("DB_USER");
+            var pwd = Env.GetString("DB_PASSWORD");
 
-    return services;
-  }
+            connectionString =
+                $"Host={host};Port={port};Database={db};Username={user};Password={pwd}";
+        }
+        else
+        {
+            connectionString =
+                config.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Missing DefaultConnection.");
+        }
+
+        // Register DBs
+        services.AddDbContext<MyDbContext>(opt =>
+            opt.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
+        );
+
+        services.AddDbContext<KeycloakDbContext>(opt =>
+            opt.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
+        );
+
+        // Register repositories and services
+        services.AddScoped<IApplicationRepository, ApplicationRepository>();
+        services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+        services.AddScoped<IAdminService, AdminService>();
+
+        // AutoMapper
+        services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy(
+                "AllowFrontend",
+                policy =>
+                {
+                    policy
+                        .WithOrigins(
+                            "http://localhost:4200",
+                            "http://localhost:4300",
+                            "http://localhost:8080",
+                            "http://localhost:5098", // ← add this
+                            "https://keycloak.staging.eliasdebock.com",
+                            "https://app.staging.eliasdebock.com",
+                            "https://app.eliasdebock.com",
+                            "https://api.eliasdebock.com"
+                        )
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                }
+            );
+        });
+
+        return services;
+    }
 }

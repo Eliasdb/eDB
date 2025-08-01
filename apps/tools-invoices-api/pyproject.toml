@@ -44,6 +44,7 @@ readme = 'README.md'
   google-api-python-client = "^2.174.0"
   google-auth-httplib2 = "^0.2.0"
   httplib2 = "^0.22.0"
+  uvicorn = "^0.35.0"
 
 [build-system]
 requires = ["poetry-core"]

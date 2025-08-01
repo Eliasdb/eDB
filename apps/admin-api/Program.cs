@@ -8,17 +8,28 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAdminServices(builder.Configuration);
 
+builder.Services.AddCors(o =>
+    o.AddPolicy(
+        "DocsCors",
+        p =>
+            p.WithOrigins("http://localhost:5098") // ← docs site origin
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+    )
+);
+
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
+app.UseCors("DocsCors");
 
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 app.MapControllers();

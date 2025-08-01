@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/api.json', function () {
+    $path = storage_path('docs/api.json');
+
+    abort_unless(File::exists($path), 404);
+
+    return Response::make(File::get($path), 200, [
+        'Content-Type'                => 'application/json',
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+        'Access-Control-Allow-Headers' => 'Content-Type, Authorization',
+    ]);
+});
 
 
 Route::post('/', function () {
