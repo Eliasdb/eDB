@@ -74,30 +74,30 @@ spec:
                   name: meilisearch-secret-staging
                   key: MEILI_MASTER_KEY
 
-            - name: SESSION_DRIVER
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_DRIVER
-            - name: SESSION_DOMAIN
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_DOMAIN
-            - name: SESSION_SECURE_COOKIE
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_SECURE_COOKIE
-            - name: SESSION_LIFETIME
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_LIFETIME
-            - name: REDIS_HOST
-              value: 'redis-service-staging' # Reference the Redis service inside the cluster
-            - name: REDIS_PORT
-              value: '6379'
+            # - name: SESSION_DRIVER
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_DRIVER
+            # - name: SESSION_DOMAIN
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_DOMAIN
+            # - name: SESSION_SECURE_COOKIE
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_SECURE_COOKIE
+            # - name: SESSION_LIFETIME
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_LIFETIME
+            # - name: REDIS_HOST
+            #   value: 'redis-service-staging' # Reference the Redis service inside the cluster
+            # - name: REDIS_PORT
+            #   value: '6379'
             - name: KEYCLOAK_JWKS_URL
               value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/protocol/openid-connect/certs'
             - name: STRIPE_PUBLIC
