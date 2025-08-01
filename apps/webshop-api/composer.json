@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "dedoc/scramble": "^0.12.26",
         "doctrine/dbal": "^4.2",
         "fakerphp/faker": "^1.9.1",
         "firebase/php-jwt": "^6.11",
@@ -42,7 +43,6 @@
         "vlucas/phpdotenv": "^5.6"
     },
     "require-dev": {
-        "dedoc/scramble": "^0.12.26",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
