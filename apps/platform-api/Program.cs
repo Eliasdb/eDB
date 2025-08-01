@@ -12,6 +12,14 @@ if (builder.Environment.IsDevelopment())
 {
     Env.Load();
 }
+else if (builder.Environment.IsStaging())
+{
+    Env.Load(".env.staging");
+}
+else if (builder.Environment.IsProduction())
+{
+    Env.Load(".env.prod");
+}
 
 builder.Configuration.AddEnvironmentVariables();
 
