@@ -12,14 +12,6 @@ if (builder.Environment.IsDevelopment())
 {
     Env.Load();
 }
-else if (builder.Environment.IsStaging())
-{
-    Env.Load(".env.staging");
-}
-else if (builder.Environment.IsProduction())
-{
-    Env.Load(".env.prod");
-}
 
 builder.Configuration.AddEnvironmentVariables();
 
@@ -30,11 +22,10 @@ if (builder.Environment.IsDevelopment() && string.IsNullOrEmpty(Env.GetString("J
 
 // --- Read Scalar External API URLs ---
 var adminApiUrl =
-    Environment.GetEnvironmentVariable("ADMIN_API_URL")
+    Env.GetString("ADMIN_API_URL")
     ?? throw new InvalidOperationException("ADMIN_API_URL not configured");
-
 var webshopApiUrl =
-    Environment.GetEnvironmentVariable("WEBSHOP_API_URL")
+    Env.GetString("WEBSHOP_API_URL")
     ?? throw new InvalidOperationException("WEBSHOP_API_URL not configured");
 
 // --- Service Registrations ---
