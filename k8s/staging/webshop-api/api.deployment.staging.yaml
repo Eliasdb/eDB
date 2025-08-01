@@ -63,26 +63,26 @@ spec:
                 secretKeyRef:
                   name: jwt-secret-staging
                   key: JWT_SECRET
-            - name: SESSION_DRIVER
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_DRIVER
-            - name: SESSION_DOMAIN
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_DOMAIN
-            - name: SESSION_SECURE_COOKIE
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_SECURE_COOKIE
-            - name: SESSION_LIFETIME
-              valueFrom:
-                configMapKeyRef:
-                  name: laravel-session-config-staging
-                  key: SESSION_LIFETIME
+            # - name: SESSION_DRIVER
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_DRIVER
+            # - name: SESSION_DOMAIN
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_DOMAIN
+            # - name: SESSION_SECURE_COOKIE
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_SECURE_COOKIE
+            # - name: SESSION_LIFETIME
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_LIFETIME
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -94,10 +94,10 @@ spec:
                   name: meilisearch-secret-staging
                   key: MEILI_MASTER_KEY
 
-            - name: REDIS_HOST
-              value: 'redis-service-staging' # Reference the Redis service inside the cluster
-            - name: REDIS_PORT
-              value: '6379'
+            # - name: REDIS_HOST
+            #   value: 'redis-service-staging' # Reference the Redis service inside the cluster
+            # - name: REDIS_PORT
+            #   value: '6379'
             - name: KEYCLOAK_JWKS_URL
               value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/protocol/openid-connect/certs'
             - name: STRIPE_PUBLIC
