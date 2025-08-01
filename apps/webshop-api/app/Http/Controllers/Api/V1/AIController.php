@@ -20,7 +20,7 @@ class AIController extends Controller
     {
         $query = $request->input('query');
 
-        // Step 1: Ask GPT to convert natural language into supported filters.
+        // Step 1: Ask GPT to convert natural language into supported filters
         $openaiResponse = Http::withToken(env('OPENAI_API_KEY'))->post(
             'https://api.openai.com/v1/chat/completions',
             [
