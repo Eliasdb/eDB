@@ -31,8 +31,8 @@ spec:
             - name: APP_KEY
               valueFrom:
                 secretKeyRef:
-                name: webshop-api-secret
-                key: APP_KEY
+                  name: webshop-api-secret
+                  key: APP_KEY
             - name: APP_DEBUG
               value: 'false'
             - name: LOG_CHANNEL
