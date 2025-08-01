@@ -30,11 +30,11 @@ if (builder.Environment.IsDevelopment() && string.IsNullOrEmpty(Env.GetString("J
 
 // --- Read Scalar External API URLs ---
 var adminApiUrl =
-    builder.Configuration["ADMIN_API_URL"]
+    Environment.GetEnvironmentVariable("ADMIN_API_URL")
     ?? throw new InvalidOperationException("ADMIN_API_URL not configured");
 
 var webshopApiUrl =
-    builder.Configuration["WEBSHOP_API_URL"]
+    Environment.GetEnvironmentVariable("WEBSHOP_API_URL")
     ?? throw new InvalidOperationException("WEBSHOP_API_URL not configured");
 
 // --- Service Registrations ---
