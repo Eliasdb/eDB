@@ -50,3 +50,6 @@ ingress-nginx-controller.yaml
 
 logs.txt
 *.srl
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
