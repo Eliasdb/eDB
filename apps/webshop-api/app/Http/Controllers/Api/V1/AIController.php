@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Resources\V1\Book\BookResource;
 use App\Services\BookService;
 
-/**
- * @OA\Tag(
- *     name="AI",
- *     description="AI-powered book filtering"
- * )
- */
 class AIController extends Controller
 {
     public function __construct(
@@ -21,40 +15,7 @@ class AIController extends Controller
     ) {
     }
 
-    /**
-     * Handle AI-assisted book filtering
-     *
-     * @OA\Post(
-     *     path="/api/v1/ai",
-     *     operationId="handleAIQuery",
-     *     tags={"AI"},
-     *     summary="Convert natural language query to filters and return matching books",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="query", type="string", example="Show me available books by Orwell under 15 euros"),
-     *             @OA\Property(property="offset", type="integer", example=0),
-     *             @OA\Property(property="limit", type="integer", example=15)
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Filtered books returned",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="query", type="string"),
-     *             @OA\Property(property="filters_used", type="object"),
-     *             @OA\Property(
-     *                 property="items",
-     *                 type="array",
-     *                 @OA\Items(type="object")
-     *             ),
-     *             @OA\Property(property="total", type="integer"),
-     *             @OA\Property(property="hasMore", type="boolean"),
-     *             @OA\Property(property="error", type="string", nullable=true)
-     *         )
-     *     )
-     * )
-     */
+
     public function handle(Request $request)
     {
         $query = $request->input('query');
