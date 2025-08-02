@@ -79,7 +79,7 @@ app.MapScalarApiReference(opts =>
     }
 
     // Register Documents (always)
-    opts.AddDocument("v1", "Platform API", "/swagger/v1/swagger.json");
+    opts.AddDocument("v1", "Platform API");
     opts.AddDocument("admin", "Admin API", adminApiUrl);
     opts.AddDocument("webshop", "Webshop API (Laravel)", webshopApiUrl);
 });

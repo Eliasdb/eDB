@@ -5,8 +5,8 @@ namespace EDb.FeatureApplications.Interfaces;
 
 public interface IApplicationsService
 {
-  Task<List<ApplicationDto>> GetApplicationsAsync();
-  Task<IEnumerable<ApplicationDto>> GetSubscribedApplicationsAsync(string keycloakUserId);
-  Task<string> ToggleSubscriptionAsync(string keycloakUserId, int applicationId);
-  string? GetAuthenticatedUserId();
+    Task<List<ApplicationDto>> GetApplicationsAsync();
+    Task<IEnumerable<ApplicationDto>> GetSubscribedApplicationsAsync(string keycloakUserId);
+    Task<string> ToggleSubscriptionAsync(string keycloakUserId, int applicationId);
+    string? GetAuthenticatedUserId();
 }
