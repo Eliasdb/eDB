@@ -68,17 +68,20 @@ app.UseCustomSwagger(app.Environment.IsDevelopment());
 
 app.MapScalarApiReference(opts =>
 {
-    opts.WithTitle("Unified API reference");
+    opts.WithTitle("Unified API Reference");
 
-    opts.AddDocument("v1", "Platform API");
+    if (!app.Environment.IsDevelopment())
+    {
+        // Only add servers in staging/production
+        opts.AddServer("/platform", "Platform API");
+        opts.AddServer("/admin", "Admin API");
+        opts.AddServer("/webshop", "Webshop API");
+    }
 
-    opts.AddDocument(documentName: "admin", title: "Admin API", routePattern: adminApiUrl);
-
-    opts.AddDocument(
-        documentName: "webshop",
-        title: "Webshop API (Laravel)",
-        routePattern: webshopApiUrl
-    );
+    // Register Documents (always)
+    opts.AddDocument("v1", "Platform API", "/swagger/v1/swagger.json");
+    opts.AddDocument("admin", "Admin API", adminApiUrl);
+    opts.AddDocument("webshop", "Webshop API (Laravel)", webshopApiUrl);
 });
 
 if (!app.Environment.IsDevelopment())
