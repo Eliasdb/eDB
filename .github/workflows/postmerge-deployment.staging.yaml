@@ -1,250 +1,250 @@
 name: (Staging) Deployment
 
 on:
-    push:
-        branches:
-            - dev
+  push:
+    branches:
+      - dev
 
 jobs:
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🔖 Derive PR Tag
-    # ─────────────────────────────────────────────────────────────────────────────
-    derive-pr-tag:
-        name: Derive Tag from Most Recent PR
-        runs-on: self-hosted
-        outputs:
-            image_tag: ${{ steps.derive_tag.outputs.image_tag }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 1
-            - name: Derive Docker Image Tag
-              id: derive_tag
-              run: |
-                  PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
-                  if [ -z "$PR_NUMBER" ]; then
-                      echo "Error: Could not derive PR number"
-                      exit 1
-                  fi
-                  VERSION="pr-${PR_NUMBER}-staging"
-                  echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🔖 Derive PR Tag
+  # ─────────────────────────────────────────────────────────────────────────────
+  derive-pr-tag:
+    name: Derive Tag from Most Recent PR
+    runs-on: self-hosted
+    outputs:
+      image_tag: ${{ steps.derive_tag.outputs.image_tag }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Derive Docker Image Tag
+        id: derive_tag
+        run: |
+          PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
+          if [ -z "$PR_NUMBER" ]; then
+              echo "Error: Could not derive PR number"
+              exit 1
+          fi
+          VERSION="pr-${PR_NUMBER}-staging"
+          echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🔍 Determine Nx Affected Projects
-    # ─────────────────────────────────────────────────────────────────────────────
-    nx-affected:
-        name: Determine Nx Affected Projects
-        runs-on: self-hosted
-        needs: derive-pr-tag
-        outputs:
-            platform_api: ${{ steps.set_booleans.outputs.platform_api }}
-            webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
-            platform_app: ${{ steps.set_booleans.outputs.platform_app }}
-            admin_app: ${{ steps.set_booleans.outputs.admin_app }}
-            admin_api: ${{ steps.set_booleans.outputs.admin_api }}
-            invoices_api: ${{ steps.set_booleans.outputs.invoices_api }} # Added here
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🔍 Determine Nx Affected Projects
+  # ─────────────────────────────────────────────────────────────────────────────
+  nx-affected:
+    name: Determine Nx Affected Projects
+    runs-on: self-hosted
+    needs: derive-pr-tag
+    outputs:
+      platform_api: ${{ steps.set_booleans.outputs.platform_api }}
+      webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
+      platform_app: ${{ steps.set_booleans.outputs.platform_app }}
+      admin_app: ${{ steps.set_booleans.outputs.admin_app }}
+      admin_api: ${{ steps.set_booleans.outputs.admin_api }}
+      invoices_api: ${{ steps.set_booleans.outputs.invoices_api }} # Added here
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
-            - name: Install .NET SDK
-              uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
 
-            - name: Install pnpm
-              run: npm i -g pnpm
+      - name: Install pnpm
+        run: npm i -g pnpm
 
-            - name: Install Dependencies
-              run: pnpm install
+      - name: Install Dependencies
+        run: pnpm install
 
-            - name: Print Affected
-              run: |
-                  pnpm nx show projects --affected \
-                    --with-target=build \
-                    --base=$(git rev-parse HEAD^1) \
-                    --head=HEAD > affected.txt || true
-                    echo "Affected Projects:"
-                  cat affected.txt
+      - name: Print Affected
+        run: |
+          pnpm nx show projects --affected \
+            --with-target=build \
+            --base=$(git rev-parse HEAD^1) \
+            --head=HEAD > affected.txt || true
+            echo "Affected Projects:"
+          cat affected.txt
 
-            - name: Extract and set booleans for affected projects
-              id: set_booleans
-              run: |
-                  AFFECTED=$(cat affected.txt)
-                  echo "Affected Projects: $AFFECTED"
+      - name: Extract and set booleans for affected projects
+        id: set_booleans
+        run: |
+          AFFECTED=$(cat affected.txt)
+          echo "Affected Projects: $AFFECTED"
 
-                  PLATFORM_API=$(echo "$AFFECTED" | grep -xq "platform-api" && echo "true" || echo "false")
-                  WEBSHOP_API=$(echo "$AFFECTED" | grep -xq "webshop-api" && echo "true" || echo "false")
-                  PLATFORM_APP=$(echo "$AFFECTED" | grep -xq "eDB" && echo "true" || echo "false")
-                  ADMIN_APP=$(echo "$AFFECTED" | grep -xq "eDB-admin" && echo "true" || echo "false")
-                  ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
-                  INVOICES_API=$(echo "$AFFECTED" | grep -xq "tools-invoices-api" && echo "true" || echo "false")  # added here
+          PLATFORM_API=$(echo "$AFFECTED" | grep -xq "platform-api" && echo "true" || echo "false")
+          WEBSHOP_API=$(echo "$AFFECTED" | grep -xq "webshop-api" && echo "true" || echo "false")
+          PLATFORM_APP=$(echo "$AFFECTED" | grep -xq "edb" && echo "true" || echo "false")
+          ADMIN_APP=$(echo "$AFFECTED" | grep -xq "mfe-edb-admin" && echo "true" || echo "false")
+          ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
+          INVOICES_API=$(echo "$AFFECTED" | grep -xq "tools-invoices-api" && echo "true" || echo "false")  # added here
 
-                  echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
-                  echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
-                  echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
-                  echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
-                  echo "admin_api=${ADMIN_API}" >> $GITHUB_OUTPUT
-                  echo "invoices_api=${INVOICES_API}" >> $GITHUB_OUTPUT     # added here
+          echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
+          echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
+          echo "platform_app=${PLATFORM_APP}" >> $GITHUB_OUTPUT
+          echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
+          echo "admin_api=${ADMIN_API}" >> $GITHUB_OUTPUT
+          echo "invoices_api=${INVOICES_API}" >> $GITHUB_OUTPUT     # added here
 
-                  printf "\n📦 What Will Be Deployed:\n\
-                    🔌 APIs:\n\
-                      🚀 Platform API:   %s\n\
-                      🧠 Admin API:      %s\n\
-                      🛒 Webshop API:    %s\n\
-                      🧾 Invoice API:    %s\n\
-                    🧩 Apps:\n\
-                      📱 Platform App:   %s\n\
-                      👑 Admin App:      %s\n\n" \
-                    "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$INVOICES_API" "$PLATFORM_APP" "$ADMIN_APP"
+          printf "\n📦 What Will Be Deployed:\n\
+            🔌 APIs:\n\
+              🚀 Platform API:   %s\n\
+              🧠 Admin API:      %s\n\
+              🛒 Webshop API:    %s\n\
+              🧾 Invoice API:    %s\n\
+            🧩 Apps:\n\
+              📱 Platform App:   %s\n\
+              👑 Admin App:      %s\n\n" \
+            "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$INVOICES_API" "$PLATFORM_APP" "$ADMIN_APP"
 
-              shell: bash
+        shell: bash
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🚀 Deploy Platform API to Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    deploy-platform-api:
-        name: Deploy Platform API to Staging
-        runs-on: self-hosted
-        needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
-        steps:
-            - uses: actions/checkout@v3
-            - run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-            - run: |
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/api/api.deployment.template.staging.yaml \
-                    > k8s/staging/api/api.deployment.staging.yaml
-            - run: kubectl apply --dry-run=client -f k8s/staging/api/api.deployment.staging.yaml
-            - run: |
-                  kubectl apply -f k8s/staging/api/api.deployment.staging.yaml
-                  kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🚀 Deploy Platform API to Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  deploy-platform-api:
+    name: Deploy Platform API to Staging
+    runs-on: self-hosted
+    needs: [nx-affected, derive-pr-tag]
+    if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+      - run: |
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+            k8s/staging/apis/platform-api/api.deployment.template.staging.yaml \
+            > k8s/staging/apis/platform-api/api.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/apis/platform-api/api.deployment.staging.yaml
+      - run: |
+          kubectl apply -f k8s/staging/apis/platform-api/api.deployment.staging.yaml
+          kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🛒 Deploy Webshop API to Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    deploy-webshop-api:
-        name: Deploy Webshop API to Staging
-        runs-on: self-hosted
-        needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
-        steps:
-            - uses: actions/checkout@v3
-            - run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-            - run: |
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/webshop-api/api.deployment.template.staging.yaml \
-                    > k8s/staging/webshop-api/api.deployment.staging.yaml
-            - run: kubectl apply --dry-run=client -f k8s/staging/webshop-api/api.deployment.staging.yaml
-            - run: |
-                  kubectl apply -f k8s/staging/webshop-api/api.deployment.staging.yaml
-                  kubectl rollout status deployment/webshop-api-staging || kubectl rollout undo deployment/webshop-api-staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🛒 Deploy Webshop API to Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  deploy-webshop-api:
+    name: Deploy Webshop API to Staging
+    runs-on: self-hosted
+    needs: [nx-affected, derive-pr-tag]
+    if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+      - run: |
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+            k8s/staging/apis/webshop-api/api.deployment.template.staging.yaml \
+            > k8s/staging/apis/webshop-api/api.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/apis/webshop-api/api.deployment.staging.yaml
+      - run: |
+          kubectl apply -f k8s/staging/apis/webshop-api/api.deployment.staging.yaml
+          kubectl rollout status deployment/webshop-api-staging || kubectl rollout undo deployment/webshop-api-staging
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🌐 Deploy Platform App to Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    deploy-platform:
-        name: Deploy Platform App to Staging
-        runs-on: self-hosted
-        needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.platform_app == 'true' }}
-        steps:
-            - uses: actions/checkout@v3
-            - run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-            - run: |
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/eDB/frontend-deployment-template.staging.yaml \
-                    > k8s/staging/eDB/frontend-deployment.staging.yaml
-            - run: kubectl apply --dry-run=client -f k8s/staging/eDB/frontend-deployment.staging.yaml
-            - run: |
-                  kubectl apply -f k8s/staging/eDB/frontend-deployment.staging.yaml
-                  kubectl rollout status deployment/web-app-staging || kubectl rollout undo deployment/web-app-staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🌐 Deploy Platform App to Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  deploy-platform:
+    name: Deploy Platform App to Staging
+    runs-on: self-hosted
+    needs: [nx-affected, derive-pr-tag]
+    if: ${{ needs.nx-affected.outputs.platform_app == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+      - run: |
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+            k8s/staging/client/edb/frontend-deployment-template.staging.yaml \
+            > k8s/staging/client/edb/frontend-deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/client/edb/frontend-deployment.staging.yaml
+      - run: |
+          kubectl apply -f k8s/staging/client/edb/frontend-deployment.staging.yaml
+          kubectl rollout status deployment/web-app-staging || kubectl rollout undo deployment/web-app-staging
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 👑 Deploy Admin App to Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    deploy-admin-app:
-        name: Deploy Admin App to Staging
-        runs-on: self-hosted
-        needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
-        steps:
-            - uses: actions/checkout@v3
-            - run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-            - run: |
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/eDB-admin/edb-admin.deployment-template.staging.yaml \
-                    > k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-            - run: kubectl apply --dry-run=client -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-            - run: |
-                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.deployment.staging.yaml
-                  kubectl apply -f k8s/staging/eDB-admin/edb-admin.service.staging.yaml
-                  kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 👑 Deploy Admin App to Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  deploy-admin-app:
+    name: Deploy Admin App to Staging
+    runs-on: self-hosted
+    needs: [nx-affected, derive-pr-tag]
+    if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+      - run: |
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+            k8s/staging/client/mfe-edb-admin/edb-admin.deployment-template.staging.yaml \
+            > k8s/staging/client/mfe-edb-admin/edb-admin.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/client/mfe-edb-admin/edb-admin.deployment.staging.yaml
+      - run: |
+          kubectl apply -f k8s/staging/client/mfe-edb-admin/edb-admin.deployment.staging.yaml
+          kubectl apply -f k8s/staging/client/mfe-edb-admin/edb-admin.service.staging.yaml
+          kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🧠 Deploy Admin API to Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    deploy-admin-api:
-        name: Deploy Admin API to Staging
-        runs-on: self-hosted
-        needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.admin_api == 'true' }}
-        steps:
-            - uses: actions/checkout@v3
-            - run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-            - run: |
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/admin-api/admin-api.deployment.template.staging.yaml \
-                    > k8s/staging/admin-api/admin-api.deployment.staging.yaml
-            - run: kubectl apply --dry-run=client -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
-            - run: |
-                  kubectl apply -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
-                  kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🧠 Deploy Admin API to Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  deploy-admin-api:
+    name: Deploy Admin API to Staging
+    runs-on: self-hosted
+    needs: [nx-affected, derive-pr-tag]
+    if: ${{ needs.nx-affected.outputs.admin_api == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+      - run: |
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+            k8s/staging/apis/admin-api/admin-api.deployment.template.staging.yaml \
+            > k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
+      - run: |
+          kubectl apply -f k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
+          kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🧾 Deploy Tools Invoices API to Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    deploy-tools-invoices:
-        name: Deploy Tools Invoices API to Staging
-        runs-on: self-hosted
-        needs: [nx-affected, derive-pr-tag]
-        if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
-        steps:
-            - uses: actions/checkout@v3
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🧾 Deploy Tools Invoices API to Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  deploy-tools-invoices:
+    name: Deploy Tools Invoices API to Staging
+    runs-on: self-hosted
+    needs: [nx-affected, derive-pr-tag]
+    if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
 
-            - run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
+      - run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
 
-            - run: |
-                  sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-                    k8s/staging/tools-invoices/invoices.deployment.template.staging.yaml \
-                    > k8s/staging/tools-invoices/invoices.deployment.staging.yaml
+      - run: |
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+            k8s/staging/apis/tools-invoices/invoices.deployment.template.staging.yaml \
+            > k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
 
-            - run: kubectl apply --dry-run=client -f k8s/staging/tools-invoices/invoices.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/tools-invoices/invoices.deployment.staging.yaml
 
-            - run: |
-                  kubectl apply -f k8s/staging/tools-invoices/invoices.deployment.staging.yaml
-                  kubectl rollout status deployment/tools-invoices-staging || kubectl rollout undo deployment/tools-invoices-staging
+      - run: |
+          kubectl apply -f k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
+          kubectl rollout status deployment/tools-invoices-staging || kubectl rollout undo deployment/tools-invoices-staging
 
-            - run: |
-                  kubectl apply -f k8s/staging/tools-invoices/invoices.service.staging.yaml
+      - run: |
+          kubectl apply -f k8s/staging/apis/tools-invoices/invoices.service.staging.yaml

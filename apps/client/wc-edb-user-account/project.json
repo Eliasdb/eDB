@@ -1,5 +1,5 @@
 {
-  "name": "eDB-user-account",
+  "name": "wc-edb-user-account",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/client/wc-edb-user-account/src",
   "projectType": "application",

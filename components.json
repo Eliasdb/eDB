@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "eDB/apps/edb-account-ui/src/styles.css",
+    "css": "eDB/apps/client/wc-edb-user-account/src/styles.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""

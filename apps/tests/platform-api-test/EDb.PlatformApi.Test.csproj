@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\server\platform-api\EDb.PlatformApi.csproj" />
+    <ProjectReference Include="..\apps\server\platform-api\EDb.PlatformApi.csproj" />
   </ItemGroup>
 
 </Project>

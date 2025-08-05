@@ -1,11 +1,11 @@
 {
-  "name": "eDB",
+  "name": "edb",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/client/edb/src",
   "tags": [],
-  "implicitDependencies": ["eDB-user-account"],
+  "implicitDependencies": ["wc-edb-user-account"],
   "targets": {
     "build": {
       "allowedCommonJsDependencies": [

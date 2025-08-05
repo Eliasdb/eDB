@@ -3,10 +3,10 @@ FROM nginx:alpine
 
 # Copy built files from CI/CD pipeline output
 # Assuming the CI/CD pipeline outputs the build to 'dist/apps/eDB-admin'
-COPY dist/apps/eDB-admin /etc/nginx/html/admin-app
+COPY dist/apps/client/mfe-edb-admin /etc/nginx/html/admin-app
 
 # Copy custom nginx configuration for the admin app
-COPY apps/eDB-admin/nginx.admin.conf /etc/nginx/conf.d/default.conf
+COPY docker/mfe-edb-admin/nginx/nginx.admin.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80

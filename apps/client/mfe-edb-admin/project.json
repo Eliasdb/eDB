@@ -1,5 +1,5 @@
 {
-  "name": "eDB-admin",
+  "name": "mfe-edb-admin",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",

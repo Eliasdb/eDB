@@ -21,7 +21,6 @@
       "@e-db/generated-platform-api-types": [
         "libs/generated/platform-api-types/src/index"
       ],
-      "@eDB-webshop": ["apps/eDB-webshop/src/app/webshop.module"],
       "@eDB-webshop/client-books": [
         "libs/eDB-webshop/data-access/client-books/src/index.ts"
       ],
