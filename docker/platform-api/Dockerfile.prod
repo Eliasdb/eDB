@@ -17,7 +17,7 @@ RUN chmod +x ./wait-for-postgres.sh
 ENV DOTNET_ENVIRONMENT=Production
 
 # Expose production port
-EXPOSE 9102
+EXPOSE 9101
 
 # Entry point waits for DB then runs the app
 ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service-prod", "dotnet", "EDb.PlatformApi.dll"]
