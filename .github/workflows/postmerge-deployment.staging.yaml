@@ -215,7 +215,7 @@ jobs:
           sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
             k8s/staging/apis/admin-api/admin-api.deployment.template.staging.yaml \
             > k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
-      - run: kubectl apply --dry-run=client -f k8s/staging/admin-api/admin-api.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
       - run: |
           kubectl apply -f k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
           kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging
@@ -240,7 +240,7 @@ jobs:
             k8s/staging/apis/tools-invoices/invoices.deployment.template.staging.yaml \
             > k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
 
-      - run: kubectl apply --dry-run=client -f k8s/staging/tools-invoices/invoices.deployment.staging.yaml
+      - run: kubectl apply --dry-run=client -f k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
 
       - run: |
           kubectl apply -f k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
