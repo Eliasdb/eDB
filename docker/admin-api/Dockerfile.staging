@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/l
 
 WORKDIR /app
 
-COPY dist/apps/server/admin-api/net8.0/linux-arm64 ./ 
+COPY dist/apps/server/admin-api ./ 
 COPY apps/server/admin-api/wait-for-postgres.sh ./wait-for-postgres.sh
 RUN chmod +x ./wait-for-postgres.sh
 
