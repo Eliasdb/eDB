@@ -1,0 +1,74 @@
+{
+  "name": "eDB-user-account",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/client/wc-edb-user-account/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.config.ts"
+          },
+          {
+            "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+          }
+        ],
+        "parallel": false
+      },
+      "configurations": {
+        "production": {
+          "commands": [
+            {
+              "command": "pnpm vite build --mode production --config apps/client/wc-edb-user-account/vite.config.ts"
+            },
+            {
+              "command": "pnpm vite build --mode production --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+            }
+          ]
+        },
+        "staging": {
+          "commands": [
+            {
+              "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.config.ts"
+            },
+            {
+              "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+            }
+          ]
+        },
+        "development": {
+          "commands": [
+            {
+              "command": "pnpm vite build --mode development --config apps/client/wc-edb-user-account/vite.config.ts"
+            },
+            {
+              "command": "pnpm vite build --mode development --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "options": {
+        "configFile": "apps/client/wc-edb-user-account/vite.config.ts"
+      },
+      "configurations": {
+        "production": {
+          "mode": "production"
+        },
+        "staging": {
+          "mode": "staging"
+        },
+        "development": {
+          "mode": "development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

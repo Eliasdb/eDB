@@ -100,9 +100,9 @@
         "libs/eDB/features/feature-webshop/src/index.ts"
       ],
       "@edb/shared-ui": ["libs/shared-client/ui/src/index.ts"],
-      "admin/Routes": ["apps/eDB-admin/src/app/remote-entry/entry.routes.ts"],
-      "eDBAccountUi/Module": ["apps/edb-account-ui/src/remote-entry.ts"],
-      "shop/Routes": ["apps/shop/src/app/remote-entry/entry.routes.ts"]
+      "admin/Routes": [
+        "apps/client/mfe/mfe-edb-admin/src/app/remote-entry/entry.routes.ts"
+      ]
     }
   },
   "exclude": ["tmp"]

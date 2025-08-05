@@ -1,0 +1,26 @@
+{
+  "name": "admin-api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/server/admin-api",
+  "tags": ["scope:admin", "type:api"],
+  "targets": {
+    "build": {
+      "executor": "@nx-dotnet/core:publish",
+      "options": {
+        "configuration": "Release",
+        "output": "dist/apps/server/admin-api",
+        "runtime": "linux-arm64",
+        "selfContained": false
+      }
+    },
+    "swagger": {
+      "executor": "@nx-dotnet/core:update-swagger",
+      "outputs": ["{workspaceRoot}/libs/generated/admin-api-swagger"],
+      "options": {
+        "output": "libs/generated/admin-api-swagger"
+      },
+      "dependsOn": ["build"]
+    }
+  }
+}
