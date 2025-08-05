@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-staging
+  namespace: default
+  labels:
+    app: api-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-staging
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: api-staging
+    spec:
+      containers:
+        - name: api
+          image: eliasdb/platform-api:${IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9101
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: 'Staging'
+            - name: ADMIN_API_URL
+              value: 'https://api.staging.eliasdebock.com/admin/swagger/v1/swagger.json'
+            - name: WEBSHOP_API_URL
+              value: 'https://api.staging.eliasdebock.com/webshop/api.json'
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: CONNECTION_STRING
+
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-staging
+                  key: JWT_KEY
+
+            - name: Session_Domain
+              valueFrom:
+                configMapKeyRef:
+                  name: laravel-session-config-staging
+                  key: SESSION_DOMAIN
+
+            - name: ConnectionStrings__Redis
+              value: 'redis-service-staging:6379'
+
+            # 🔐 Keycloak secrets
+            - name: Keycloak__ClientId
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-staging
+                  key: CLIENT_ID
+
+            - name: Keycloak__ClientSecret
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-staging
+                  key: CLIENT_SECRET
+
+            - name: Keycloak__BaseUrl
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-staging
+                  key: BASE_URL
+
+            - name: Keycloak__Realm
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-staging
+                  key: REALM
+
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '500m'
+            limits:
+              memory: '1Gi'
+              cpu: '1'

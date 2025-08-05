@@ -1,0 +1,157 @@
+{
+  "name": "edb",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/client/edb/src",
+  "tags": [],
+  "implicitDependencies": ["wc-edb-user-account"],
+  "targets": {
+    "build": {
+      "allowedCommonJsDependencies": [
+        "flatpickr",
+        "flatpickr/dist/plugins/rangePlugin"
+      ],
+      "executor": "@nx/angular:webpack-browser",
+      "options": {
+        "outputPath": "dist/apps/client/edb",
+        "main": "apps/client/edb/src/main.ts",
+        "index": "apps/client/edb/src/index.html",
+        "polyfills": [],
+        "tsConfig": "apps/client/edb/tsconfig.app.json",
+        "inlineStyleLanguage": "css",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/client/edb/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "dist/apps/client/edb-user-account/assets",
+            "output": "assets/eDB-user-account"
+          }
+        ],
+        "scripts": [],
+        "styles": [
+          "apps/client/edb/src/styles.css",
+          "@angular/material/prebuilt-themes/purple-green.css"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["./node_modules", "libs/shared/ui/src/lib/styles/"]
+        },
+        "namedChunks": true,
+        "customWebpackConfig": {
+          "path": "apps/client/edb/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "4mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
+            },
+            {
+              "replace": "apps/client/edb/src/environments/environment.ts",
+              "with": "apps/client/edb/src/environments/environment.prod.ts"
+            }
+          ],
+          "customWebpackConfig": {
+            "path": "apps/client/edb/webpack.prod.config.ts"
+          }
+        },
+        "staging": {
+          "optimization": false,
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
+            },
+            {
+              "replace": "apps/client/edb/src/environments/environment.ts",
+              "with": "apps/client/edb/src/environments/environment.staging.ts"
+            }
+          ],
+          "customWebpackConfig": {
+            "path": "apps/client/edb/webpack.staging.config.ts"
+          }
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
+              "with": "libs/shared/utils/environment/src/lib/environments/environment.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "allowedCommonJsDependencies": [
+        "flatpickr",
+        "flatpickr/dist/plugins/rangePlugin"
+      ],
+      "executor": "@nx/angular:module-federation-dev-server",
+      "options": {
+        "proxyConfig": "apps/client/edb/proxy.conf.json",
+        "publicHost": "http://localhost:4200"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "eDB:build:production"
+        },
+        "staging": {
+          "buildTarget": "eDB:build:staging"
+        },
+        "development": {
+          "buildTarget": "eDB:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "continuous": true
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "eDB:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "vitestConfig": "apps/client/edb/vitest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "eDB:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/client/edb/browser",
+        "spa": true
+      }
+    }
+  }
+}

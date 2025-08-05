@@ -1,0 +1,120 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webshop-api-staging
+  namespace: default
+  labels:
+    app: webshop-api-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webshop-api-staging
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: webshop-api-staging
+    spec:
+      containers:
+        - name: webshop-api
+          image: eliasdb/webshop-api:${IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          env:
+            - name: APP_ENV
+              value: 'staging'
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: webshop-api-secret
+                  key: APP_KEY
+            - name: APP_DEBUG
+              value: 'false'
+            - name: LOG_CHANNEL
+              value: 'stderr'
+            - name: APP_URL
+              value: 'https://api.staging.eliasdebock.com'
+            - name: DB_CONNECTION
+              value: 'pgsql'
+            - name: DB_HOST
+              value: 'postgres-service-staging'
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: POSTGRES_USER
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: WEB_API_DB
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: POSTGRES_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-staging
+                  key: JWT_SECRET
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-secret-staging
+                  key: OPENAI_API_KEY
+            - name: MEILISEARCH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: meilisearch-secret-staging
+                  key: MEILI_MASTER_KEY
+
+            # - name: SESSION_DRIVER
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_DRIVER
+            # - name: SESSION_DOMAIN
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_DOMAIN
+            # - name: SESSION_SECURE_COOKIE
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_SECURE_COOKIE
+            # - name: SESSION_LIFETIME
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: laravel-session-config-staging
+            #       key: SESSION_LIFETIME
+            # - name: REDIS_HOST
+            #   value: 'redis-service-staging' # Reference the Redis service inside the cluster
+            # - name: REDIS_PORT
+            #   value: '6379'
+            - name: KEYCLOAK_JWKS_URL
+              value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/protocol/openid-connect/certs'
+            - name: STRIPE_PUBLIC
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret-staging
+                  key: STRIPE_PUBLIC
+            - name: STRIPE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret-staging
+                  key: STRIPE_SECRET
+
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '500m'
+            limits:
+              memory: '1Gi'
+              cpu: '1'
