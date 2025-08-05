@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 
 # Copy your app code (adjust path as needed)
-COPY apps/tools-invoices-api/tools_invoices_api ./tools_invoices_api
+COPY apps/server/tools-invoices-api/tools_invoices_api ./tools_invoices_api
 
 # Expose port (optional)
 EXPOSE 8000

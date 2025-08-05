@@ -4,7 +4,7 @@ FROM composer:2 AS build
 WORKDIR /var/www
 
 # Copy application files 
-COPY apps/webshop-api /var/www
+COPY apps/server/webshop-api /var/www
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
