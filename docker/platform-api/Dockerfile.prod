@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-COPY apps/server/platform-api/EDb.PlatformApi.csproj ./apps/platform-api/
+COPY apps/server/platform-api/EDb.PlatformApi.csproj ./apps/server/platform-api/
 COPY nx.json ./
 COPY tsconfig.base.json ./
 COPY package.json ./

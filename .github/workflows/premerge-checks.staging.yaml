@@ -198,8 +198,7 @@ jobs:
             echo "🐳 Building Docker image for $app from docker/$lower_app/Dockerfile.staging"
             docker build --platform linux/arm64 \
               -f "./docker/$lower_app/Dockerfile.staging" \
-              -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" \
-              ./docker/$lower_app
+              -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" .
 
             echo "🚀 Pushing Docker image eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
             docker push "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
