@@ -163,11 +163,27 @@ jobs:
 
           echo "Affected apps (non-admin): $AFFECTED"
 
+          echo "🔍 Current working directory: $(pwd)"
+          echo "🔍 Listing contents of ./docker/"
+          ls -la ./docker
+
           for app in $AFFECTED; do
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
+            echo ""
+            echo "▶️ Processing app: $app (docker/$lower_app)"
+
+            echo "🔍 Checking if docker/$lower_app exists..."
+            if [ ! -d "docker/$lower_app" ]; then
+              echo "❌ ERROR: docker/$lower_app does not exist!"
+              continue
+            fi
+
+            echo "🔍 Contents of docker/$lower_app:"
+            ls -la docker/$lower_app
+
             if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
-              echo "🏗️ Building $app"
+              echo "🏗️ Building $app via Nx"
               pnpm nx run "$app":build --configuration=staging
             else
               echo "⚠️ Skipping Nx build for $app"
@@ -175,14 +191,17 @@ jobs:
 
             # skip Docker for the user-account app
             if [ "$app" = "wc-edb-user-account" ]; then
-              echo "⚠️ Skipping Docker for $app"
+              echo "⚠️ Skipping Docker build for $app"
               continue
             fi
 
-            echo "🐳 Docker build & push for $app"
+            echo "🐳 Building Docker image for $app from docker/$lower_app/Dockerfile.staging"
             docker build --platform linux/arm64 \
-              -f "docker/$app/Dockerfile.staging" \
-              -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" .
+              -f "./docker/$lower_app/Dockerfile.staging" \
+              -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" \
+              ./docker/$lower_app
+
+            echo "🚀 Pushing Docker image eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
             docker push "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
           done
 
