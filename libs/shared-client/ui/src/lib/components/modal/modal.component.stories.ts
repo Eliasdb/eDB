@@ -8,7 +8,6 @@ const meta: Meta<UiModalComponent> = {
   args: {
     header: 'Default Header',
     content: 'This is a confirmation modal.',
-    hasForm: false,
     cancelRoute: undefined,
   },
   argTypes: {
@@ -19,10 +18,6 @@ const meta: Meta<UiModalComponent> = {
     content: {
       control: 'text',
       description: 'The content of the modal if no form is present.',
-    },
-    hasForm: {
-      control: 'boolean',
-      description: 'Whether the modal includes a form.',
     },
     cancelRoute: {
       control: 'text',

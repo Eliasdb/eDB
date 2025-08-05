@@ -5,7 +5,6 @@ using EDb.Domain.Entities;
 using EDb.Domain.Interfaces;
 using EDb.FeatureApplications.DTOs;
 using EDb.FeatureApplications.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace EDb.FeatureApplications.Services;
 
