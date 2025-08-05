@@ -3,4 +3,4 @@
 
 def hello():
     """Return a friendly greeting."""
-    return "Hello tools-invoices-api"
+    return "Hello tools-invoices-api :("

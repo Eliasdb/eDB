@@ -163,24 +163,8 @@ jobs:
 
           echo "Affected apps (non-admin): $AFFECTED"
 
-          echo "🔍 Current working directory: $(pwd)"
-          echo "🔍 Listing contents of ./docker/"
-          ls -la ./docker
-
           for app in $AFFECTED; do
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
-
-            echo ""
-            echo "▶️ Processing app: $app (docker/$lower_app)"
-
-            echo "🔍 Checking if docker/$lower_app exists..."
-            if [ ! -d "docker/$lower_app" ]; then
-              echo "❌ ERROR: docker/$lower_app does not exist!"
-              continue
-            fi
-
-            echo "🔍 Contents of docker/$lower_app:"
-            ls -la docker/$lower_app
 
             if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
               echo "🏗️ Building $app via Nx"
