@@ -37,7 +37,7 @@ export const routes: Route[] = [
           ),
       },
 
-      /* Demo applications */
+      /* Demo applications. */
 
       {
         path: 'webshop',
