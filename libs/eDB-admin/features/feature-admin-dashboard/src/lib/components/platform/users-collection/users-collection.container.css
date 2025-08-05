@@ -1,0 +1,20 @@
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.no-more-users {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-more-users p {
+  font-size: smaller;
+}
+
+.loading-spinner p {
+  font-size: smaller;
+}/*# sourceMappingURL=users-collection.container.css.map */

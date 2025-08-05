@@ -73,6 +73,25 @@ const config: StorybookConfig = {
       ],
     });
 
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: { importLoaders: 1 },
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: [require('tailwindcss'), require('autoprefixer')],
+            },
+          },
+        },
+      ],
+    });
+
     config?.plugins?.forEach((plugin) => {
       if (
         plugin?.constructor.name === 'DefinePlugin' &&

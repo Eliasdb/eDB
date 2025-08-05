@@ -1,0 +1,9 @@
+{
+  "name": "mfe-edb-admin-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "e2e/mfe-edb-admin-e2e/src",
+  "implicitDependencies": ["mfe-edb-admin"],
+  "// targets": "to see all targets run: nx show project mfe-edb-admin-e2e --web",
+  "targets": {}
+}

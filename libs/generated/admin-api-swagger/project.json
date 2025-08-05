@@ -1,6 +1,7 @@
 {
   "name": "admin-api-swagger",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["admin-api"],
   "targets": {
     "build": {
       "executor": "nx:noop",
@@ -18,6 +19,5 @@
       "inputs": ["{projectRoot}/libs/generated/admin-api-swagger"],
       "outputs": ["{workspaceRoot}"]
     }
-  },
-  "implicitDependencies": ["admin-api"]
+  }
 }

@@ -9,8 +9,16 @@ import {
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'carbon-components-angular';
 
+type FlatOption = { value: string; label: string; group?: false };
+type GroupedOption = {
+  label: string;
+  group: true;
+  options: { value: string; label: string }[];
+};
+
 @Component({
   selector: 'ui-select',
+  standalone: true,
   imports: [SelectModule, FormsModule],
   template: `
     <cds-select
@@ -35,16 +43,18 @@ import { SelectModule } from 'carbon-components-angular';
         </option>
       }
 
-      @for (option of options(); track option) {
-        @if (!option.group) {
-          <option [value]="option.value">{{ option.label }}</option>
-        } @else {
-          <optgroup [label]="option.label">
-            @for (subOption of option.options; track subOption.value) {
-              <option [value]="subOption.value">{{ subOption.label }}</option>
-            }
-          </optgroup>
-        }
+      <!-- Flat Options -->
+      @for (option of flatOptions; track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+
+      <!-- Grouped Options -->
+      @for (group of groupedOptions; track group.label) {
+        <optgroup [label]="group.label">
+          @for (subOption of group.options; track subOption.value) {
+            <option [value]="subOption.value">{{ subOption.label }}</option>
+          }
+        </optgroup>
       }
     </cds-select>
   `,
@@ -63,39 +73,34 @@ export class UiSelectComponent {
   readonly warn = input<boolean>(false);
   readonly skeleton = input<boolean>(false);
   readonly display = input<'inline' | 'default'>('default');
-  readonly options = input<
-    Array<
-      | { value: string; label: string; group?: false }
-      | {
-          label: string;
-          group: true;
-          options: { value: string; label: string }[];
-        }
-    >
-  >([]);
+  readonly options = input<Array<FlatOption | GroupedOption>>([]);
   readonly model = input<string>('');
 
-  // Writable signal for managing local state
   localModel = signal(this.model());
 
   @Output() valueChange = new EventEmitter<string>();
 
   constructor() {
-    // Sync localModel with input model
     effect(() => {
       this.localModel.set(this.model());
     });
   }
 
-  // Getter for modelValue
   get modelValue(): string {
     return this.localModel();
   }
 
-  // Setter for modelValue (called when the value changes in the UI)
   onModelChange(newValue: string): void {
-    this.localModel.set(newValue); // Update the local signal
-    // Emit the new value so the parent can react.
+    this.localModel.set(newValue);
     this.valueChange.emit(newValue);
+  }
+
+  // 🟢 Type-predicated getters to split union arrays
+  get flatOptions(): FlatOption[] {
+    return this.options().filter((o): o is FlatOption => !o.group);
+  }
+
+  get groupedOptions(): GroupedOption[] {
+    return this.options().filter((o): o is GroupedOption => o.group === true);
   }
 }

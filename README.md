@@ -4,15 +4,19 @@
 
 ### 🌐 Access & Environments
 
-Here's an overview of the key resources of this platform:
+Here's an overview of the key resources for this platform:
 
-| Purpose                    | URL                                                                                                                            |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/intro](https://eliasdebock.com/nl/docs/eDB/intro)                                         |
-| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)                                                     |
-| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                                                                     |
-| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)                                             |
-| 🧪 Nx Cloud Workspace      | [https://cloud.nx.app/orgs/68834b4ecc7a680070d7bfc6/workspaces](https://cloud.nx.app/orgs/68834b4ecc7a680070d7bfc6/workspaces) |
+| Purpose                    | URL                                                                                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)                                                                   |
+| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                                                                                   |
+| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)                                                           |
+| 🧩 Scalar API Docs         | [https://api.staging.eliasdebock.com/platform/scalar](https://api.staging.eliasdebock.com/platform/scalar)                                   |
+| 🧪 Nx Cloud Workspace      | [https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces](https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces)               |
+| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview](https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview) |
+| 🗺️ Dependency Graph        | [https://eliasdebock.com/docs/dep-graph/graph#/projects/all](https://eliasdebock.com/docs/dep-graph/graph#/projects/all)                     |
+| 📚 Storybook UI Library    | [https://eliasdebock.com/docs/storybook/index.html](https://eliasdebock.com/docs/storybook/index.html)                                       |
+| 🐳 Docker Hub Repository   | [https://hub.docker.com/u/eliasdb](https://hub.docker.com/u/eliasdb)                                                                         |
 
 ---
 
@@ -115,13 +119,15 @@ Includes a module for:
 
 ##### 🧪 Testing & Build Tools
 
-| Category             | Technology        |
-| -------------------- | ----------------- |
-| **Frontend Testing** | Vitest            |
-| **Backend Testing**  | xUnit · Postman   |
-|                      | Moq               |
-| **Build Tooling**    | Vite (React)      |
-|                      | Webpack (Angular) |
+| Category              | Technology        |
+| --------------------- | ----------------- |
+| **Frontend Testing**  | Vitest            |
+| **Backend Testing**   | xUnit · Postman   |
+|                       | Moq               |
+| **UI Component Dev**  | Storybook         |
+| **API Documentation** | Scalar            |
+| **Build Tooling**     | Vite (React)      |
+|                       | Webpack (Angular) |
 
 ---
 
@@ -202,6 +208,7 @@ Below is a categorized overview of the technologies powering the platform and it
 - **Database:** PostgreSQL · pgAdmin 4
 - **File Storage:** Cloudflare R2
 - **Domains & DNS:** Cloudflare
+- **Payments** Stripe
 
 </details>
 
@@ -236,9 +243,9 @@ Below is a categorized overview of the technologies powering the platform and it
 <summary><strong>🧰 Monorepo & Tooling</strong></summary>
 
 - **Monorepo Manager:** Nx
-    - Apps and modular libraries (`feature`, `ui`, `data-access`, `util`)
-    - Nx Generators · `nx affected` · layered architecture
-    - Nx Cloud · remote caching
+  - Apps and modular libraries (`feature`, `ui`, `data-access`, `util`)
+  - Nx Generators · `nx affected` · layered architecture
+  - Nx Cloud · remote caching
 - **CI Runners:** Self-hosted GitHub Actions on VPS
 
 </details>
@@ -248,8 +255,8 @@ Below is a categorized overview of the technologies powering the platform and it
 
 - **Languages & Tools:** TypeScript · pnpm
 - **Frameworks:**
-    - **Angular:** Standalone Components · RxJS · Signals · Interceptors · Guards · Reactive Forms
-    - **React:** Micro UI as UMD bundle via Vite + Web Components
+  - **Angular:** Standalone Components · RxJS · Signals · Interceptors · Guards · Reactive Forms
+  - **React:** Micro UI as UMD bundle via Vite + Web Components
 - **State & Data:** TanStack Query
 - **UI & Styling:** Tailwind · SCSS · Carbon Design System · Angular Material · HTML · FontAwesome
 - **Testing:** Vitest · Storybook
@@ -264,15 +271,15 @@ Below is a categorized overview of the technologies powering the platform and it
 
 - **Languages:** C# · PHP · Python
 - **Frameworks:**
-    - **.NET:** Controllers · Services · DTOs · Middleware · Migrations · Fluent API · DbContext · Entities (Models)
-    - **Laravel:** Models · Requests · Resources · Artisan CLI · Seeders · Factories · Commands · Controllers · Services
-    - **FastAPI:** (used for utility APIs or AI controller)
+  - **.NET:** Controllers · Services · DTOs · Middleware · Migrations · Fluent API · DbContext · Entities (Models)
+  - **Laravel:** Models · Requests · Resources · Artisan CLI · Seeders · Factories · Commands · Controllers · Services
+  - **FastAPI:** (used for utility APIs or AI controller)
 - **Package Managers:** NuGet · Composer
 - **ORMs:** Entity Framework (EF) · Doctrine
 - **Object Mapper:** AutoMapper
 - **Testing:** xUnit · Moq · Postman
 - **Formatting:** `dotnet format`
-- **API Docs:** Swagger
+- **API Docs:** Scalar · Swagger
 
 </details>
 
@@ -298,7 +305,7 @@ Below is a categorized overview of the technologies powering the platform and it
 **DevOps**
 
 - [ ] **Secrets Management**: HashiCorp Vault · SealedSecrets · External Secrets Operator
-- [ ] **Logging & Distributed Tracing**: ELK Stack (Elasticsearch · Logstash · Kibana)
+- [ ] **Logging & Distributed Tracing/Search Engine**: ELK Stack (Elasticsearch · Logstash · Kibana)
 - [ ] **Cluster Management**: ArgoCD (GitOps) · Helm · Kustomize
 - [ ] **Hotfixes & Feature Flags**: Under evaluation
 - [ ] **Load Balancing**: Ingress Controller or External LB support
@@ -308,12 +315,12 @@ Below is a categorized overview of the technologies powering the platform and it
 **Cloud & Platform Services**
 
 - [ ] **Cloud Provider**: Azure (planned)
-    - [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes alternative to K3s
-    - [ ] **Azure Container Registry (ACR)** – For storing Docker images
-    - [ ] **Azure DevOps Pipelines** – CI/CD alternative to GitHub Actions
-    - [ ] **Azure App Service** – App hosting without full Kubernetes
-    - [ ] **Azure Functions** – Serverless background processing
-    - [ ] **Infrastructure as Code (IaC)**: Azure Resource Manager (ARM) · Terraform · Bicep
+  - [ ] **Azure Kubernetes Service (AKS)** – Managed Kubernetes alternative to K3s
+  - [ ] **Azure Container Registry (ACR)** – For storing Docker images
+  - [ ] **Azure DevOps Pipelines** – CI/CD alternative to GitHub Actions
+  - [ ] **Azure App Service** – App hosting without full Kubernetes
+  - [ ] **Azure Functions** – Serverless background processing
+  - [ ] **Infrastructure as Code (IaC)**: Azure Resource Manager (ARM) · Terraform · Bicep
 
 ---
 
@@ -334,6 +341,8 @@ Below is a categorized overview of the technologies powering the platform and it
 - [ ] **Caching**: Redis
 - [ ] **Rate Limiting & API Gateway**: Ocelot · YARP · Envoy
 - [ ] **Feature Flags & Config Management**: Unleash · ConfigCat
+
+---
 
 # EDB
 

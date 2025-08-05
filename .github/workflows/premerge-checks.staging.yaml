@@ -1,215 +1,220 @@
 name: (Staging) Pre-Merge Checks
 
 on:
-    pull_request:
-        branches:
-            - dev
+  pull_request:
+    branches:
+      - dev
 
 jobs:
-    # ─────────────────────────────────────────────
-    version:
-        name: Set Version
-        runs-on: self-hosted
-        outputs:
-            image_tag: ${{ steps.setver.outputs.image_tag }}
-        steps:
-            - name: Set Version with PR number
-              id: setver
-              run: |
-                  VERSION=pr-${{ github.event.pull_request.number }}-staging
-                  echo "image_tag=${VERSION}" | tee -a $GITHUB_ENV >> $GITHUB_OUTPUT
+  # ─────────────────────────────────────────────
+  version:
+    name: Set Version
+    runs-on: self-hosted
+    outputs:
+      image_tag: ${{ steps.setver.outputs.image_tag }}
+    steps:
+      - name: Set Version with PR number
+        id: setver
+        run: |
+          VERSION=pr-${{ github.event.pull_request.number }}-staging
+          echo "image_tag=${VERSION}" | tee -a $GITHUB_ENV >> $GITHUB_OUTPUT
 
-    # ─────────────────────────────────────────────────────────────────────────────
-    # 🔍 Detect Affected Projects for Staging
-    # ─────────────────────────────────────────────────────────────────────────────
-    detect-affected:
-        name: Detect Affected Projects
-        runs-on: self-hosted
-        needs: version
-        outputs:
-            admin_changed: ${{ steps.detect.outputs.admin_changed }}
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - name: Setup .NET SDK
-              uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
-
-            - name: Install pnpm
-              run: npm install -g pnpm
-
-            - name: Install Dependencies
-              run: pnpm install --frozen-lockfile
-
-            - name: Determine Affected
-              id: detect
-              run: |
-                  AFFECTED=$(pnpm nx show projects --affected --plain \
-                    --base=origin/dev \
-                    --head=HEAD)
-
-                  echo "Affected projects:"
-                  echo "$AFFECTED"
-
-                  ADMIN_CHANGED=$(echo "$AFFECTED" | grep -qw 'eDB-admin' && echo true || echo false)
-                  echo "admin_changed=$ADMIN_CHANGED" >> $GITHUB_OUTPUT
-
-                  echo "Debug:"
-                  echo "admin_changed=$ADMIN_CHANGED"
-
-    # ─────────────────────────────────────────────
-    lint:
-        name: Lint Affected Projects
-        runs-on: self-hosted
-        needs:
-            - version
-            - detect-affected
-        steps:
-            - uses: actions/checkout@v3
-
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
-
-            - run: npm install -g pnpm
-            - run: pnpm install
-
-            - name: Lint
-              run: |
-                  pnpm nx affected --target=lint \
-                    --base=origin/dev --head=HEAD \
-                    --parallel --exclude=eDB-admin || true
-
-    # ─────────────────────────────────────────────
-    test:
-        name: Test Affected Projects
-        runs-on: self-hosted
-        needs:
-            - version
-            - lint
-        steps:
-            - uses: actions/checkout@v3
-
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
-
-            - run: npm install -g pnpm
-            - run: pnpm install
-
-            - name: Test
-              run: |
-                  pnpm nx affected --target=test \
-                    --base=origin/dev --head=HEAD \
-                    --parallel --exclude=eDB-admin || true
-
-    # ─────────────────────────────────────────────
-    build:
-        name: Build & Push Docker Images
-        runs-on: self-hosted
-        needs:
-            - version
-            - test
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '20'
-
-            - uses: actions/setup-dotnet@v3
-              with:
-                  dotnet-version: '8.0'
-
-            - run: npm install -g pnpm
-            - run: pnpm install
-
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_TOKEN }}
-
-            - name: Install Poetry
-              run: |
-                  curl -sSL https://install.python-poetry.org | python3 -
-                  export PATH="$HOME/.local/bin:$PATH"
-                  poetry --version
-
-            - name: Build & Push Docker images (skip admin)
-              run: |
-                  # get all non-admin apps affected
-                  AFFECTED=$(pnpm nx show projects --affected --type=app \
-                    --base=origin/dev --head=HEAD --plain --exclude=eDB-admin)
-
-                  echo "Affected apps (non-admin): $AFFECTED"
-
-                  # Profile page 
-                  # if echo "$AFFECTED_APPS" | grep -iq "eDB-user-account"; then
-                  #   echo "Building React app eDB-user-account with Vite"
-                  #   pnpm vite build --mode staging --config apps/eDB-user-account/vite.config.ts
-                  #   pnpm vite build --mode staging --config apps/eDB-user-account/vite.styles.config.ts
-                  # fi
-
-                  for app in $AFFECTED; do
-                    lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
-
-                    # skip the embedded webshop
-                    if [ "$lower_app" = "edb-webshop" ]; then
-                      echo "⚠️ Skipping $app"
-                      continue
-                    fi
-
-                    if [ "$lower_app" != "webshop-api" ] && [ "$app" != "eDB-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
-                      echo "🏗️ Building $app"
-                      pnpm nx run "$app":build --configuration=staging
-                    else
-                      echo "⚠️ Skipping Nx build for $app"
-                    fi
-
-                    # skip Docker for the user-account app
-                    if [ "$app" = "eDB-user-account" ]; then
-                      echo "⚠️ Skipping Docker for $app"
-                      continue
-                    fi
-
-                    echo "🐳 Docker build & push for $app"
-                    docker build --platform linux/arm64 \
-                      -f "docker/$app/Dockerfile.staging" \
-                      -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" .
-                    docker push "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
-                  done
-
-    # ─────────────────────────────────────────────
-    call-admin:
-        name: Admin App CI
-        needs:
-            - detect-affected
-            - version
-
-        if: needs.detect-affected.outputs.admin_changed == 'true'
-        uses: ./.github/workflows/admin-ci.staging.yml
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🔍 Detect Affected Projects for Staging
+  # ─────────────────────────────────────────────────────────────────────────────
+  detect-affected:
+    name: Detect Affected Projects
+    runs-on: self-hosted
+    needs: version
+    outputs:
+      admin_changed: ${{ steps.detect.outputs.admin_changed }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
         with:
-            image_tag: ${{ needs.version.outputs.image_tag }}
-        secrets:
-            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Determine Affected
+        id: detect
+        run: |
+          AFFECTED=$(pnpm nx show projects --affected --plain \
+            --base=origin/dev \
+            --head=HEAD)
+
+          echo "Affected projects:"
+          echo "$AFFECTED"
+
+          ADMIN_CHANGED=$(echo "$AFFECTED" | grep -qw 'mfe-edb-admin' && echo true || echo false)
+          echo "admin_changed=$ADMIN_CHANGED" >> $GITHUB_OUTPUT
+
+          echo "Debug:"
+          echo "admin_changed=$ADMIN_CHANGED"
+
+  # ─────────────────────────────────────────────
+  lint:
+    name: Lint Affected Projects
+    runs-on: self-hosted
+    needs:
+      - version
+      - detect-affected
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - run: npm install -g pnpm
+      - run: pnpm install
+
+      - name: Lint
+        run: |
+          pnpm nx affected --target=lint \
+            --base=origin/dev --head=HEAD \
+            --parallel --exclude=mfe-edb-admin || true
+
+  # ─────────────────────────────────────────────
+  test:
+    name: Test Affected Projects
+    runs-on: self-hosted
+    needs:
+      - version
+      - lint
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - run: npm install -g pnpm
+      - run: pnpm install
+
+      - name: Test
+        run: |
+          pnpm nx affected --target=test \
+            --base=origin/dev --head=HEAD \
+            --parallel --exclude=mfe-edb-admin || true
+
+  # ─────────────────────────────────────────────
+  build:
+    name: Build & Push Docker Images
+    runs-on: self-hosted
+    needs:
+      - version
+      - test
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - run: npm install -g pnpm
+      - run: pnpm install
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry --version
+
+      - name: Build & Push Docker images (skip admin)
+        run: |
+          # get all non-admin apps affected
+          AFFECTED=$(pnpm nx show projects --affected --type=app \
+            --base=origin/dev --head=HEAD --plain --exclude=mfe-edb-admin)
+
+          echo "Affected apps (non-admin): $AFFECTED"
+
+          echo "🔍 Current working directory: $(pwd)"
+          echo "🔍 Listing contents of ./docker/"
+          ls -la ./docker
+
+          for app in $AFFECTED; do
+            lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
+
+            echo ""
+            echo "▶️ Processing app: $app (docker/$lower_app)"
+
+            echo "🔍 Checking if docker/$lower_app exists..."
+            if [ ! -d "docker/$lower_app" ]; then
+              echo "❌ ERROR: docker/$lower_app does not exist!"
+              continue
+            fi
+
+            echo "🔍 Contents of docker/$lower_app:"
+            ls -la docker/$lower_app
+
+            if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
+              echo "🏗️ Building $app via Nx"
+              pnpm nx run "$app":build --configuration=staging
+            else
+              echo "⚠️ Skipping Nx build for $app"
+            fi
+
+            # skip Docker for the user-account app
+            if [ "$app" = "wc-edb-user-account" ]; then
+              echo "⚠️ Skipping Docker build for $app"
+              continue
+            fi
+
+            echo "🐳 Building Docker image for $app from docker/$lower_app/Dockerfile.staging"
+            docker build --platform linux/arm64 \
+              -f "./docker/$lower_app/Dockerfile.staging" \
+              -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" .
+
+            echo "🚀 Pushing Docker image eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
+            docker push "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
+          done
+
+  # ─────────────────────────────────────────────
+  call-admin:
+    name: Admin App CI
+    needs:
+      - detect-affected
+      - version
+
+    if: needs.detect-affected.outputs.admin_changed == 'true'
+    uses: ./.github/workflows/admin-ci.staging.yml
+    with:
+      image_tag: ${{ needs.version.outputs.image_tag }}
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

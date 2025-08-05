@@ -7,10 +7,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd 
 WORKDIR /app
 
 # Copy published output
-COPY dist/apps/admin-api/net8.0/linux-arm64 ./
+COPY dist/apps/server/admin-api ./
 
 # Copy DB wait script
-COPY apps/admin-api/wait-for-postgres.sh ./wait-for-postgres.sh
+COPY apps/server/admin-api/wait-for-postgres.sh ./wait-for-postgres.sh
 RUN chmod +x ./wait-for-postgres.sh
 
 # Set environment to Production

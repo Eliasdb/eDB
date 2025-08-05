@@ -2,10 +2,10 @@
 FROM nginx:alpine
 
 # Copy built files from CI/CD pipeline output
-COPY dist/apps/eDB /etc/nginx/html/app
+COPY dist/apps/client/edb /etc/nginx/html/app
 
 # Copy custom nginx configuration for the platform app
-COPY apps/eDB/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/edb/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
