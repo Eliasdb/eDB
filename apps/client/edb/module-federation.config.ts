@@ -23,8 +23,8 @@ const loose: SharedLibraryConfig = {
 };
 
 export default {
-  name: 'eDB',
-  remotes: ['eDB-admin'],
+  name: 'edb',
+  remotes: ['mfe-edb-admin'],
   exposes: {},
 
   shared: (pkg?: string) => {

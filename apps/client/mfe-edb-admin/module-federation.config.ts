@@ -23,7 +23,7 @@ const loose: SharedLibraryConfig = {
 };
 
 export default {
-  name: 'eDB-admin',
+  name: 'mfe-edb-admin',
 
   exposes: {
     './Routes':
