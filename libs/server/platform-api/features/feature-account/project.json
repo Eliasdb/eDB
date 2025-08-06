@@ -1,0 +1,9 @@
+{
+  "name": "platform-api-features-feature-account",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/server/platform-api/features/feature-account",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project platform-api-features-feature-account --web",
+  "targets": {}
+}

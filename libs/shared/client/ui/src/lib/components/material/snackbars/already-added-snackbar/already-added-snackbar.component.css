@@ -1,0 +1,9 @@
+.snack-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+p {
+  margin: 0;
+} /*# sourceMappingURL=already-added-snackbar.component.css.map */
