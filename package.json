@@ -4,15 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start:web": "nx serve eDB",
-    "start:admin": "nx serve eDB-admin --host 0.0.0.0 --port 4300",
     "start:webshop": "nx serve eDB-webshop",
     "start:webshop-api": "nx serve webshop-api",
     "start:platform-api": "nx serve platform-api",
-    "build:staging": "nx build eDB --configuration=staging --skip-nx-cache",
-    "build:staging:account": "nx build eDBAccountUi --configuration=staging",
-    "build:staging:admin": "nx build eDB-admin --configuration=staging --skip-nx-cache --base-href=/admin/ --deploy-url=/admin/",
-    "build:prod": "nx build eDB --prod",
-    "build:prod:admin": "nx build eDB-admin --prod --skip-nx-cache",
     "test:utils": "nx test utils --verbose",
     "prepare": "nx g @nx-dotnet/core:restore",
     "build:user-account": "nx build eDB-user-account"

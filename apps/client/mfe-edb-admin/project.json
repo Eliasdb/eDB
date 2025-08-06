@@ -48,8 +48,8 @@
           "outputHashing": "all",
           "fileReplacements": [
             {
-              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-              "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
+              "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
+              "with": "libs/utils/util-environment/src/lib/environments/environment.prod.ts"
             }
           ],
           "customWebpackConfig": {
@@ -65,8 +65,8 @@
           "buildOptimizer": true,
           "fileReplacements": [
             {
-              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-              "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
+              "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
+              "with": "libs/utils/util-environment/src/lib/environments/environment.staging.ts"
             }
           ],
           "customWebpackConfig": {
@@ -79,8 +79,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-              "with": "libs/shared/utils/environment/src/lib/environments/environment.ts"
+              "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
+              "with": "libs/utils/util-environment/src/lib/environments/environment.ts"
             }
           ]
         }
@@ -91,10 +91,10 @@
       "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "eDB-admin:build:production"
+          "buildTarget": "mfe-edb-admin:build:production"
         },
         "development": {
-          "buildTarget": "eDB-admin:build:development"
+          "buildTarget": "mfe-edb-admin:build:development"
         }
       },
       "defaultConfiguration": "development",
@@ -114,7 +114,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "eDB-admin:build"
+        "buildTarget": "mfe-edb-admin:build"
       }
     },
     "lint": {
@@ -124,16 +124,16 @@
       "executor": "@nx/web:file-server",
       "defaultConfiguration": "production",
       "options": {
-        "buildTarget": "eDB-admin:build",
+        "buildTarget": "mfe-edb-admin:build:development",
         "port": 4300,
         "watch": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "eDB-admin:build:development"
+          "buildTarget": "mfe-edb-admin:build:development"
         },
         "production": {
-          "buildTarget": "eDB-admin:build:production"
+          "buildTarget": "mfe-edb-admin:build:production"
         }
       }
     }

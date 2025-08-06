@@ -50,7 +50,7 @@ importers:
         version: 1.87.0(sass@1.89.2)
       '@edb/shared-ui':
         specifier: workspace:*
-        version: link:libs/shared-client/ui
+        version: link:libs/shared/client/ui
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.7.1
         version: 6.7.2
@@ -548,15 +548,13 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3
 
-  libs/eDB/data-access/client-auth: {}
-
-  libs/generated/admin-api-types:
+  libs/server/admin-api/generated/admin-api-types:
     dependencies:
       tslib:
         specifier: ^2.3.0
         version: 2.8.1
 
-  libs/shared-client/ui:
+  libs/shared/client/ui:
     dependencies:
       '@angular/common':
         specifier: 20.1.3
