@@ -1,0 +1,18 @@
+h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 1.5rem 0;
+}
+
+.create-title {
+  margin-bottom: 0;
+  font-size: 2rem;
+}
+
+@media (max-width: 500px) {
+  .create-title {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+  }
+} /*# sourceMappingURL=title.component.css.map */

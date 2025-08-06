@@ -87,9 +87,9 @@ jobs:
           pnpm nx show projects --affected \
             --with-target=build \
             --base=$(git rev-parse HEAD^1) \
-            --head=HEAD > ../affected.txt || true
+            --head=HEAD > affected.txt || true
           echo "Affected Projects:"
-          cat ../affected.txt
+          cat affected.txt
 
       - name: Extract and set booleans for affected projects
         id: set_booleans

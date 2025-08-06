@@ -548,8 +548,6 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3
 
-  libs/eDB/data-access/client-auth: {}
-
   libs/generated/admin-api-types:
     dependencies:
       tslib:

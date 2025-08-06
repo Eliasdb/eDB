@@ -1,0 +1,37 @@
+.sidenav-container {
+  width: 20rem;
+}
+@media (max-width: 1255px) {
+  .sidenav-container {
+    width: 100%;
+  }
+}
+
+cds-sidenav {
+  z-index: initial;
+  position: initial;
+  inline-size: 20rem;
+  max-inline-size: 20rem;
+  padding: 0;
+  background: #f4f4f4;
+}
+cds-sidenav nav {
+  padding: 0;
+}
+@media (max-width: 1255px) {
+  cds-sidenav {
+    inline-size: 100%;
+    max-inline-size: 100%;
+  }
+}
+
+.sidenav-icon {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+} /*# sourceMappingURL=side-nav.component.css.map */

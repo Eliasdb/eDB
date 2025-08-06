@@ -37,7 +37,10 @@
           "@angular/material/prebuilt-themes/purple-green.css"
         ],
         "stylePreprocessorOptions": {
-          "includePaths": ["./node_modules", "libs/shared/ui/src/lib/styles/"]
+          "includePaths": [
+            "./node_modules",
+            "libs/shared/client/ui/src/lib/styles/"
+          ]
         },
         "namedChunks": true,
         "customWebpackConfig": {
@@ -61,8 +64,8 @@
           "outputHashing": "all",
           "fileReplacements": [
             {
-              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-              "with": "libs/shared/utils/environment/src/lib/environments/environment.prod.ts"
+              "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
+              "with": "libs/utils/util-environment/src/lib/environments/environment.prod.ts"
             },
             {
               "replace": "apps/client/edb/src/environments/environment.ts",
@@ -78,8 +81,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-              "with": "libs/shared/utils/environment/src/lib/environments/environment.staging.ts"
+              "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
+              "with": "libs/utils/util-environment/src/lib/environments/environment.staging.ts"
             },
             {
               "replace": "apps/client/edb/src/environments/environment.ts",
@@ -96,8 +99,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/shared/utils/environment/src/lib/environments/environment.ts",
-              "with": "libs/shared/utils/environment/src/lib/environments/environment.ts"
+              "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
+              "with": "libs/utils/util-environment/src/lib/environments/environment.ts"
             }
           ]
         }
@@ -112,17 +115,18 @@
       "executor": "@nx/angular:module-federation-dev-server",
       "options": {
         "proxyConfig": "apps/client/edb/proxy.conf.json",
-        "publicHost": "http://localhost:4200"
+        "publicHost": "http://localhost:4200",
+        "buildTarget": "edb:build:development"
       },
       "configurations": {
         "production": {
-          "buildTarget": "eDB:build:production"
+          "buildTarget": "edb:build:production"
         },
         "staging": {
-          "buildTarget": "eDB:build:staging"
+          "buildTarget": "edb:build:staging"
         },
         "development": {
-          "buildTarget": "eDB:build:development"
+          "buildTarget": "edb:build:development"
         }
       },
       "defaultConfiguration": "development",
@@ -131,7 +135,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "eDB:build"
+        "buildTarget": "edb:build"
       }
     },
     "lint": {
@@ -147,7 +151,7 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "eDB:build",
+        "buildTarget": "edb:build",
         "port": 4200,
         "staticFilePath": "dist/apps/client/edb/browser",
         "spa": true

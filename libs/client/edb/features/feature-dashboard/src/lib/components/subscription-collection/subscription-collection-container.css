@@ -1,0 +1,23 @@
+.subscriptions-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-bottom: 6rem;
+}
+.subscriptions-tiles > * {
+  flex: 0 0 calc((100% - 4rem) / 3);
+}
+
+@media (max-width: 1312px) {
+  .subscriptions-tiles > * {
+    flex: 0 0 calc((100% - 2rem) / 2);
+  }
+}
+@media (max-width: 671px) {
+  .subscriptions-tiles {
+    flex-direction: column;
+  }
+  .subscriptions-tiles > * {
+    flex: 0 0 100%;
+  }
+} /*# sourceMappingURL=subscription-collection-container.css.map */
