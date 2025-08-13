@@ -5,10 +5,10 @@ const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;
 
 if (!environment.production) {
   // DEV: ping the local manifest, only register if it’s up.
-  fetch(manifestUrl, { method: 'HEAD' })
+  fetch(manifestUrl, { method: 'GET' })
     .then((res) => {
       if (res.ok) {
-        registerRemotes([{ name: 'eDB-admin', entry: manifestUrl }]);
+        registerRemotes([{ name: 'mfe-edb-admin', entry: manifestUrl }]);
       } else {
         console.warn(
           'Admin manifest not found (dev), skipping remote registration',
@@ -22,7 +22,7 @@ if (!environment.production) {
     });
 } else {
   // STAGING & PROD: assume manifest is always there
-  registerRemotes([{ name: 'eDB-admin', entry: manifestUrl }]);
+  registerRemotes([{ name: 'mfe-edb-admin', entry: manifestUrl }]);
 }
 
 import('./bootstrap');

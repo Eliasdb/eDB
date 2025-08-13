@@ -73,7 +73,9 @@ spec:
                 secretKeyRef:
                   name: meilisearch-secret-staging
                   key: MEILI_MASTER_KEY
-
+          envFrom:
+            - secretRef:
+                name: webshop-amqp
             # - name: SESSION_DRIVER
             #   valueFrom:
             #     configMapKeyRef:

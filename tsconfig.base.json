@@ -98,7 +98,7 @@
       "@edb/shared-ui": ["libs/shared/client/ui/src/index.ts"],
       "@edb/util-common": ["libs/utils/util-common/src/index"],
       "@edb/util-user-params": ["libs/utils/util-user-params/src/index"],
-      "admin/Routes": [
+      "mfe-edb-admin/Routes": [
         "apps/client/mfe/mfe-edb-admin/src/app/remote-entry/entry.routes.ts"
       ]
     }

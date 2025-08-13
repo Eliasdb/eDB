@@ -32,7 +32,7 @@ export const routes: Route[] = [
       {
         path: 'admin',
         loadChildren: () =>
-          loadRemote<{ default: Route[] }>('eDB-admin/Routes').then(
+          loadRemote<{ default: Route[] }>('mfe-edb-admin/Routes').then(
             (m) => m!.default,
           ),
       },

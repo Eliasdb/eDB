@@ -3,6 +3,7 @@ export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:5098/api',
   apiAdminUrl: 'http://localhost:5206/api',
+  apiAdminStreamUrl: 'http://localhost:5206',
   bookAPIUrl: 'http://localhost:8000/api/v1',
   invoicesAPIUrl: 'http://localhost:8000',
 

@@ -110,7 +110,9 @@ spec:
                 secretKeyRef:
                   name: stripe-secret-staging
                   key: STRIPE_SECRET
-
+          envFrom:
+            - secretRef:
+                name: webshop-amqp
           resources:
             requests:
               memory: '256Mi'
