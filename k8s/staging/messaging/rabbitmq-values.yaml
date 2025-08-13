@@ -1,0 +1,56 @@
+## Auth
+auth:
+  username: dev
+  password: dev # change in real staging
+  erlangCookie: 'supersecretcookiepleasechange'
+  vhost: '/'
+
+## Persistence
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClass: '' # leave empty to use default storageClass
+
+## Management UI Ingress (Traefik)
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: rabbitmq.staging.eliasdebock.com
+  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production # or letsencrypt-production
+
+## Service exposure
+service:
+  type: ClusterIP # internal for AMQP (5672)
+  ports:
+    amqp: 5672
+    amqps: 5671
+    manager: 15672
+
+## Preload definitions (optional step 2)
+loadDefinition:
+  enabled: true
+  existingSecret: rabbitmq-definitions
+  # key must be 'definitions.json' – Bitnami chart expects this exact key
+
+## Resource hints (adjust to your nodes)
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+## NetworkPolicy (only allow from specific namespaces; uncomment to enforce)
+# networkPolicy:
+#   enabled: true
+#   allowExternal: false
+#   extraIngress:
+#     - from:
+#       - namespaceSelector:
+#           matchLabels:
+#             name: admin
+#       - namespaceSelector:
+#           matchLabels:
+#             name: webshop

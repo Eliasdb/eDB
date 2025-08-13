@@ -82,7 +82,10 @@
               "replace": "libs/utils/util-environment/src/lib/environments/environment.ts",
               "with": "libs/utils/util-environment/src/lib/environments/environment.ts"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/client/mfe-edb-admin/webpack.config.ts"
+          }
         }
       },
       "defaultConfiguration": "production"

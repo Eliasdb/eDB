@@ -12,6 +12,7 @@ Here's an overview of the key resources for this platform:
 | 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                                                                                   |
 | 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)                                                           |
 | 🧩 Scalar API Docs         | [https://api.staging.eliasdebock.com/platform/scalar](https://api.staging.eliasdebock.com/platform/scalar)                                   |
+| 🐇 RabbitMQ Management UI  | [https://rabbitmq.staging.eliasdebock.com](https://rabbitmq.staging.eliasdebock.com)                                                         |
 | 🧪 Nx Cloud Workspace      | [https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces](https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces)               |
 | 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview](https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview) |
 | 🗺️ Dependency Graph        | [https://eliasdebock.com/docs/dep-graph/graph#/projects/all](https://eliasdebock.com/docs/dep-graph/graph#/projects/all)                     |

@@ -41,57 +41,82 @@ class OrderController extends Controller
     /**
      * POST /orders — Create a new order from the cart
      */
-    public function store(StoreOrderRequest $request): OrderResource|JsonResponse
-    {
-        $userId = $request->get('jwt_user_id');
-        if (!$userId) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+    // public function store(StoreOrderRequest $request): OrderResource|JsonResponse
+    // {
+    //     $userId = $request->get('jwt_user_id');
+    //     if (!$userId) {
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
 
-        $cart = $this->cartService->getCart($userId);
-        if ($cart->items->isEmpty()) {
-            return response()->json(['error' => 'Cart is empty'], 422);
-        }
+    //     $cart = $this->cartService->getCart($userId);
+    //     if ($cart->items->isEmpty()) {
+    //         return response()->json(['error' => 'Cart is empty'], 422);
+    //     }
 
-        try {
-            $order = DB::transaction(function () use ($request, $cart, $userId) {
-                $order = Order::create([
-                    'user_id'     => $userId,
-                    'status'      => 'pending',
-                    'order_date'  => $request->input('order_date') ?? now(),
-                    'amount'      => $cart->items->sum(
-                        fn ($item) => $item->price * $item->selected_amount
-                    ),
-                    'full_name'   => $request->input('fullName'),
-                    'address'     => $request->input('address'),
-                    'city'        => $request->input('city'),
-                    'postal_code' => $request->input('postalCode'),
-                    'email'       => $request->input('email'),
-                ]);
+    //     try {
+    //         $order = DB::transaction(function () use ($request, $cart, $userId) {
+    //             $order = Order::create([
+    //                 'user_id'     => $userId,
+    //                 'status'      => 'pending',
+    //                 'order_date'  => $request->input('order_date') ?? now(),
+    //                 'amount'      => $cart->items->sum(
+    //                     fn ($item) => $item->price * $item->selected_amount
+    //                 ),
+    //                 'full_name'   => $request->input('fullName'),
+    //                 'address'     => $request->input('address'),
+    //                 'city'        => $request->input('city'),
+    //                 'postal_code' => $request->input('postalCode'),
+    //                 'email'       => $request->input('email'),
+    //             ]);
 
-                foreach ($cart->items as $item) {
-                    $order->items()->create([
-                        'book_id'  => $item->book_id,
-                        'price'    => $item->price,
-                        'quantity' => $item->selected_amount,
-                    ]);
-                }
+    //             foreach ($cart->items as $item) {
+    //                 $order->items()->create([
+    //                     'book_id'  => $item->book_id,
+    //                     'price'    => $item->price,
+    //                     'quantity' => $item->selected_amount,
+    //                 ]);
+    //             }
 
-                $this->cartService->clearCart($userId);
+    //             $this->cartService->clearCart($userId);
 
-                return $order;
-            });
+    //             return $order;
+    //         });
 
-            return new OrderResource($order->load('items.book'));
-        } catch (\Throwable $e) {
-            Log::error('❌ Order creation failed', [
-                'user_id' => $userId,
-                'error'   => $e->getMessage(),
-            ]);
+    //         // ✅ Publish RabbitMQ event here
+    //         $publisher = new AmqpPublisher();
+    //         $publisher->publish([
+    //             'id'        => (string) $order->id,
+    //             'userId'    => (string) $order->user_id,
+    //             'status'    => $order->status,
+    //             'amount'    => (float) $order->amount,
+    //             'fullName'  => $order->full_name,
+    //             'address'   => $order->address,
+    //             'city'      => $order->city,
+    //             'postalCode' => $order->postal_code,
+    //             'email'     => $order->email,
+    //             'createdAt' => $order->order_date->toISOString(),
+    //             'items'     => $order->items->map(fn ($item) => [
+    //                 'bookId'   => (string) $item->book_id,
+    //                 'price'    => (float) $item->price,
+    //                 'quantity' => (int) $item->quantity,
+    //             ]),
+    //             'meta'      => [
+    //                 'schema' => 'order.created@v1',
+    //             ],
+    //         ]);
 
-            return response()->json(['error' => 'Order creation failed'], 500);
-        }
-    }
+    //         return new OrderResource($order->load('items.book'));
+
+    //     } catch (\Throwable $e) {
+    //         Log::error('❌ Order creation failed', [
+    //             'user_id' => $userId,
+    //             'error'   => $e->getMessage(),
+    //         ]);
+
+    //         return response()->json(['error' => 'Order creation failed'], 500);
+    //     }
+    // }
+
 
     /**
      * GET /orders/{order}
