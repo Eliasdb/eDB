@@ -17,7 +17,7 @@ class BooksPullCommand extends Command
         $outFile = base_path($this->option('out'));
         $records = [];
 
-        // Step 1: Load existing books if the file exists.
+        // Step 1: Load existing books if the file exists...
         if (file_exists($outFile)) {
             $existing = json_decode(file_get_contents($outFile), true);
             if (is_array($existing)) {
