@@ -1,28 +1,46 @@
-# Base runtime image with required PHP extensions
+# docker/webshop-api/Dockerfile.staging
+# -----------------------------------
+
+# Base runtime with needed PHP extensions (incl. sockets for php-amqplib)
 FROM php:8.3-fpm-alpine AS runtime
 
+# Build deps to compile extensions, then remove them
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev linux-headers \
     && apk add --no-cache nginx bash postgresql-libs \
     && docker-php-ext-install sockets pdo pdo_pgsql \
     && apk del .build-deps
 
-
-# Bring Composer into this image
+# Bring Composer into this image (so it sees ext-sockets)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /var/www
+
+# Leverage Docker layer caching: copy composer files first
+COPY apps/server/webshop-api/composer.json apps/server/webshop-api/composer.lock ./
+
+# Install PHP deps (no dev)
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+# Now copy the rest of the app
 COPY apps/server/webshop-api /var/www
 
-# Now Composer runs against THIS image (has ext-sockets), so no ignore flag needed
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress \
-    && php artisan package:discover || true
+# Pre-discover packages (won’t fail the build if artisan isn’t fully wired yet)
+RUN php artisan package:discover || true
 
-# Final stage (can be the same runtime layer)
+# Ensure Laravel storage directories exist & are writable
+RUN mkdir -p storage/framework/{cache/data,sessions,views} \
+    && chown -R www-data:www-data /var/www \
+    && chmod -R 775 storage bootstrap/cache
+
+# ---- Final stage (can reuse runtime) ----
 FROM runtime AS final
 WORKDIR /var/www
+
+# Copy the prepared app from runtime
 COPY --from=runtime /var/www /var/www
 
-# Same as before
+# Helper scripts & Nginx config
 COPY docker/webshop-api/wait-for-postgres.sh /var/www/wait-for-postgres.sh
 RUN chmod +x /var/www/wait-for-postgres.sh
 
