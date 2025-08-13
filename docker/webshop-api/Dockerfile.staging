@@ -1,10 +1,11 @@
 # Base runtime image with required PHP extensions
 FROM php:8.3-fpm-alpine AS runtime
 
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev \
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev linux-headers \
     && apk add --no-cache nginx bash postgresql-libs \
     && docker-php-ext-install sockets pdo pdo_pgsql \
     && apk del .build-deps
+
 
 # Bring Composer into this image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
