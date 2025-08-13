@@ -1,10 +1,9 @@
-# docker/webshop-api/Dockerfile.staging
-# -----------------------------------
-
-# Base runtime with needed PHP extensions (incl. sockets for php-amqplib)
+# =========================================================
+# Base runtime with needed PHP extensions (Alpine)
+# =========================================================
 FROM php:8.3-fpm-alpine AS runtime
 
-# Build deps to compile extensions, then remove them
+# Build deps for PHP extensions, then runtime tools
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev linux-headers \
     && apk add --no-cache nginx bash postgresql-libs \
     && docker-php-ext-install sockets pdo pdo_pgsql \
@@ -12,35 +11,35 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev linux-h
 
 # Bring Composer into this image (so it sees ext-sockets)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /var/www
 
-# Leverage Docker layer caching: copy composer files first
+# ---------------------------------------------------------
+# Composer layer with cache:
+#  1) copy only composer files
+#  2) install deps WITHOUT scripts (artisan not copied yet)
+# ---------------------------------------------------------
 COPY apps/server/webshop-api/composer.json apps/server/webshop-api/composer.lock ./
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scripts
 
-# Install PHP deps (no dev)
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
-
-# Now copy the rest of the app
+# ---------------------------------------------------------
+# Now copy the rest of the Laravel app (artisan included)
+# ---------------------------------------------------------
 COPY apps/server/webshop-api /var/www
 
-# Pre-discover packages (won’t fail the build if artisan isn’t fully wired yet)
+# Run Laravel package discovery now that artisan exists
+# (don't fail the build if app code references env/services)
 RUN php artisan package:discover || true
 
-# Ensure Laravel storage directories exist & are writable
-RUN mkdir -p storage/framework/{cache/data,sessions,views} \
+# Make sure required dirs exist & are writable
+RUN mkdir -p storage/framework/{cache,sessions,views} \
+    && mkdir -p bootstrap/cache \
     && chown -R www-data:www-data /var/www \
-    && chmod -R 775 storage bootstrap/cache
+    && chmod -R ug+rw storage bootstrap/cache
 
-# ---- Final stage (can reuse runtime) ----
-FROM runtime AS final
-WORKDIR /var/www
-
-# Copy the prepared app from runtime
-COPY --from=runtime /var/www /var/www
-
-# Helper scripts & Nginx config
+# ---------------------------------------------------------
+# Nginx + entrypoint
+# ---------------------------------------------------------
 COPY docker/webshop-api/wait-for-postgres.sh /var/www/wait-for-postgres.sh
 RUN chmod +x /var/www/wait-for-postgres.sh
 
