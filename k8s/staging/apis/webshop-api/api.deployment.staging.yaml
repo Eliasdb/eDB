@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: webshop-api
-          image: eliasdb/webshop-api:pr-482-staging
+          image: eliasdb/webshop-api:pr-484-staging
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
