@@ -84,8 +84,8 @@ class CheckoutController extends Controller
             'metadata' => [
                 'user_id' => $userId,
             ],
-              'success_url' => env('APP_URL') . '/webshop/checkout/success?session_id={CHECKOUT_SESSION_ID}',
-              'cancel_url'  => env('APP_URL') . '/webshop/checkout/cancel',
+             'success_url' => env('CHECKOUT_SUCCESS_URL'),
+'cancel_url'  => env('CHECKOUT_CANCEL_URL'),
 
         ]);
 
