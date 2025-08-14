@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Edb.AdminAPI.Consumers;
 
-// Consumers/OrderCreatedConsumer.cs
 public class OrderCreatedConsumer : IConsumer<OrderCreatedV1>
 {
     private readonly IHubContext<OrdersHub> _ordersHub;
