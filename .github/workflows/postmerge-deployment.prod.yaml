@@ -217,9 +217,8 @@ jobs:
         run: |
           sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
             k8s/prod/client/mfe-edb-admin/edb-admin.deployment-template.prod.yaml \
-            > k8s/client/mfe-edb-admin/edb-admin.deployment.prod.yaml
-          kubectl apply --dry-run=client -f k8s/client/mfe-edb-admin/edb-admin.deployment.prod.yaml
-          kubectl apply -f k8s/client/mfe-edb-admin/edb-admin.deployment.prod.yaml
+          | tee /dev/tty \
+          | kubectl apply -f -
           kubectl rollout status deployment/admin-app-prod || kubectl rollout undo deployment/admin-app-prod
 
   # ─────────────────────────────────────────────────────────────────────────────
