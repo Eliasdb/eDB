@@ -132,6 +132,14 @@ Includes a module for:
 
 ---
 
+| Category                | Technology           |
+| ----------------------- | -------------------- |
+| **Message Broker**      | RabbitMQ             |
+| **Service Messaging**   | MassTransit (.NET)   |
+| **Real-Time Transport** | SignalR (WebSockets) |
+
+---
+
 ### 🏁 Achieved Goals
 
 #### 🐳 Infrastructure & Deployment
@@ -168,6 +176,18 @@ Includes a module for:
 
 - **Auth system:** Self-hosted Keycloak (login, registration, profile management, session handling, etc.)
 
+</details>
+
+---
+
+#### 📨 Messaging & Real-Time
+
+<details>
+<summary><strong>Implemented</strong></summary>
+
+- **Message Broker:** RabbitMQ
+- **Service Messaging:** MassTransit (.NET) for async, resilient communication
+- **Real-Time UI:** SignalR → live updates in Angular dashboard (orders, notifications)
 </details>
 
 ---
@@ -275,6 +295,8 @@ Below is a categorized overview of the technologies powering the platform and it
   - **.NET:** Controllers · Services · DTOs · Middleware · Migrations · Fluent API · DbContext · Entities (Models)
   - **Laravel:** Models · Requests · Resources · Artisan CLI · Seeders · Factories · Commands · Controllers · Services
   - **FastAPI:** (used for utility APIs or AI controller)
+  - **Messaging & Background:** MassTransit · RabbitMQ
+- **Real-Time:** SignalR (WebSockets)
 - **Package Managers:** NuGet · Composer
 - **ORMs:** Entity Framework (EF) · Doctrine
 - **Object Mapper:** AutoMapper
@@ -336,10 +358,9 @@ Below is a categorized overview of the technologies powering the platform and it
 
 **API**
 
-- [ ] **Architecture**: Event-Driven Architecture · Domain-Driven Design
-- [ ] **Background Jobs & Messaging**: Hangfire · MassTransit · MediatR · RabbitMQ · Kafka
-- [ ] **Real-Time Communication**: WebSockets (SignalR · Laravel WebSockets · FastAPI WebSocket support)
-- [ ] **Caching**: Redis
+- [ ] **Architecture**: Domain-Driven Design · Clean Architecture (incremental)
+- [ ] **Background Jobs & Messaging**: Hangfire · MediatR · Kafka
+- [ ] **Caching**: Redis (enable & add invalidation strategy)
 - [ ] **Rate Limiting & API Gateway**: Ocelot · YARP · Envoy
 - [ ] **Feature Flags & Config Management**: Unleash · ConfigCat
 
