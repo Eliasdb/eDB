@@ -11,7 +11,7 @@ persistence:
   size: 5Gi
   storageClass: '' # leave empty to use default storageClass
 
-## Management UI Ingress (Traefik)
+## Management UI Ingress (nginx)
 ingress:
   enabled: true
   ingressClassName: nginx
