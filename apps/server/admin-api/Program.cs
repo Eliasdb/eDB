@@ -29,5 +29,6 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.MapAdminEndpoints(); // ⬅️ maps SignalR + CORS
 app.MapControllers();
 app.Run();

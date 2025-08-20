@@ -1,52 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: admin-api-staging
-    namespace: default
-    labels:
-        app: admin-api-staging
+  name: admin-api-staging
+  namespace: default
+  labels:
+    app: admin-api-staging
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: admin-api-staging
-    strategy:
-        type: Recreate
-    template:
-        metadata:
-            labels:
-                app: admin-api-staging
-        spec:
-            containers:
-                - name: admin-api
-                  image: eliasdb/admin-api:pr-287-staging
-                  imagePullPolicy: Always
-                  ports:
-                      - containerPort: 9102
-                        protocol: TCP
-                  env:
-                      - name: ASPNETCORE_ENVIRONMENT
-                        value: 'Staging'
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-api-staging
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: admin-api-staging
+    spec:
+      containers:
+        - name: admin-api
+          image: eliasdb/admin-api:pr-287-staging
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9102
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: 'Staging'
 
-                      - name: ConnectionStrings__DefaultConnection
-                        valueFrom:
-                            secretKeyRef:
-                                name: postgres-secret-staging
-                                key: CONNECTION_STRING
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: CONNECTION_STRING
 
-                      - name: Jwt__Key
-                        valueFrom:
-                            secretKeyRef:
-                                name: jwt-secret-staging
-                                key: JWT_KEY
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-staging
+                  key: JWT_KEY
 
-                      - name: ASPNETCORE_URLS
-                        value: 'http://+:9102'
-
-                  resources:
-                      requests:
-                          memory: '256Mi'
-                          cpu: '500m'
-                      limits:
-                          memory: '1Gi'
-                          cpu: '1'
+            - name: ASPNETCORE_URLS
+              value: 'http://+:9102'
+          envFrom:
+            - secretRef:
+                name: adminapi-rabbitmq
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '500m'
+            limits:
+              memory: '1Gi'
+              cpu: '1'

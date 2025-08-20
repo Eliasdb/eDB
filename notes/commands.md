@@ -1,6 +1,6 @@
 # Run Frontend Apps (Platform + Admin)
 
-`nx run eDB:serve --devRemotes=eDB-admin`
+`nx run eDB:serve --devRemotes=mfe-edb-admin`
 
 # Check Laravel Logs locally
 

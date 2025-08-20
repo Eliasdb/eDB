@@ -8,24 +8,24 @@ namespace EDb.Domain.Entities;
 /// </summary>
 public class Contact
 {
-  public Guid Id { get; set; }
+    public Guid Id { get; set; }
 
-  /* ── Basic info ───────────────────────────────────────────── */
-  public string FirstName { get; set; } = default!;
-  public string LastName { get; set; } = default!;
-  public string? Email { get; set; }
-  public string? Phone { get; set; }
+    /* ── Basic info ───────────────────────────────────────────── */
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
+    public string? Email { get; set; }
+    public string? Phone { get; set; }
 
-  /* ── CRM status (enum below) ──────────────────────────────── */
-  public ContactStatus Status { get; set; } = ContactStatus.Lead;
+    /* ── CRM status (enum below) ──────────────────────────────── */
+    public ContactStatus Status { get; set; } = ContactStatus.Lead;
 
-  /* ── FK & navigation ──────────────────────────────────────── */
-  public Guid CompanyId { get; set; }
-  public Company? Company { get; set; }
+    /* ── FK & navigation ──────────────────────────────────────── */
+    public Guid CompanyId { get; set; }
+    public Company? Company { get; set; }
 
-  /* ── Audit fields (optional) ──────────────────────────────── */
-  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-  public DateTime? UpdatedAt { get; set; }
+    /* ── Audit fields (optional) ──────────────────────────────── */
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; }
 }
 
 /// <summary>
@@ -33,8 +33,8 @@ public class Contact
 /// </summary>
 public enum ContactStatus
 {
-  Lead,
-  Prospect,
-  Customer,
-  Inactive,
+    Lead,
+    Prospect,
+    Customer,
+    Inactive,
 }

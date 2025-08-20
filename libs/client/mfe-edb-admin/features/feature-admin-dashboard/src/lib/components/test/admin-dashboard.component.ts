@@ -2,7 +2,7 @@
 // admin-dashboard.component.ts   (breadcrumb text animation 🌀)
 // ─────────────────────────────────────────────────────────────
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ViewChild, signal } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -18,6 +18,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import { TitleCasePipe } from '@angular/common';
 import { ApplicationsCollectionContainer } from '../platform/applications-collection/applications-collection.container';
 import { UsersCollectionContainer } from '../platform/users-collection/users-collection.container';
+import { NotificationsPanelComponent } from '../signalr/notifications-panel.component';
+import { NotificationsStreamService } from '../signalr/orders-stream.service';
 import { WebshopBooksTableComponent } from '../webshop/books-table/books-table.component';
 import { AdminOrdersListComponent } from '../webshop/order-collection/order.collection';
 import { AdminSidebarComponent } from './admin-sidebar.component';
@@ -39,6 +41,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     WebshopBooksTableComponent,
     AdminOrdersListComponent,
     TitleCasePipe,
+    NotificationsPanelComponent,
   ],
   animations: [
     /* --------------------------------------------------------
@@ -115,6 +118,9 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
           @if (currentView() === 'platform') {
             <div class="p-6">
               <h2 class="mb-4 text-2xl font-medium">Dashboard</h2>
+              <cds-tile class="flex-1 border rounded-[0.375rem] p-4 mb-4">
+                <notifications-panel></notifications-panel>
+              </cds-tile>
 
               <div class="flex flex-col md:flex-row gap-4 mb-4">
                 <cds-tile class="flex-1 border rounded-[0.375rem]">
@@ -243,6 +249,11 @@ export class AdminDashboardComponent {
 
   /* View toggle state ---------------------------------------------------- */
   currentView = signal<'platform' | 'webshop'>('platform');
+
+  private notifStream = inject(NotificationsStreamService);
+  ngOnInit() {
+    this.notifStream.start();
+  }
 
   switchDrawerContent(view: 'platform' | 'webshop') {
     if (this.currentView() !== view) {
