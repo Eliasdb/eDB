@@ -22,7 +22,6 @@ public class OrderCreatedConsumer : IConsumer<OrderCreatedV1>
         var e = ctx.Message;
 
         Console.WriteLine("🔥 Received order.created.v1:");
-        // ... your logs ...
 
         // 1) Persist notification (+ optional live push)
         await _notifications.WriteOrderCreatedAsync(e, ctx.CancellationToken);

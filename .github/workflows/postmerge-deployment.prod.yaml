@@ -43,7 +43,6 @@ jobs:
           sudo apt-get install -y yamllint
       - name: Run yamllint
         run: |
-          yamllint k8s/prod/apis/api/
           yamllint k8s/prod/client/edb
           yamllint k8s/prod/client/mfe-edb-admin
   # ─────────────────────────────────────────────────────────────────────────────

@@ -1,20 +1,20 @@
 {
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
-    "sourceRoot": "apps/webshop-api",
+    "sourceRoot": "apps/server/webshop-api",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
                 "commands": ["php artisan config:cache"],
-                "cwd": "apps/webshop-api"
+                "cwd": "apps/server/webshop-api"
             }
         },
         "serve": {
             "executor": "nx:run-commands",
             "options": {
                 "commands": ["php artisan serve --host=0.0.0.0"],
-                "cwd": "apps/webshop-api"
+                "cwd": "apps/server/webshop-api"
             }
         }
     }
