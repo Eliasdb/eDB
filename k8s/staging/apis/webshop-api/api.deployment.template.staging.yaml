@@ -74,7 +74,7 @@ spec:
                   name: meilisearch-secret-staging
                   key: MEILI_MASTER_KEY
             - name: KEYCLOAK_JWKS_URL
-              value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/protocol/openid-connect/certs'
+              value: 'https://keycloak.staging.eliasdebock.com/realms/EDB-STAGING/protocol/openid-connect/certs'
             - name: STRIPE_PUBLIC
               valueFrom:
                 secretKeyRef:
