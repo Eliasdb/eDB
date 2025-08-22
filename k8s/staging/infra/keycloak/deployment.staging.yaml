@@ -1,68 +1,61 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: keycloak-staging
-    labels:
-        app: keycloak-staging
+  name: keycloak-staging
+  namespace: auth # ✅ put staging Keycloak in the auth namespace
+  labels:
+    app: keycloak-staging
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: keycloak-staging
-    template:
-        metadata:
-            labels:
-                app: keycloak-staging
-        spec:
-            # add an imagePullSecrets block here if the Docker Hub repo is private
-            # imagePullSecrets:
-            #   - name: dockerhub-creds
-            containers:
-                - name: keycloak
-                  image: eliasdb/keycloak-edb:26.2.4-v19
-                  imagePullPolicy: IfNotPresent
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-staging
+  template:
+    metadata:
+      labels:
+        app: keycloak-staging
+    spec:
+      # Uncomment if your Docker Hub repo is private
+      # imagePullSecrets:
+      #   - name: dockerhub-creds
+      containers:
+        - name: keycloak
+          image: eliasdb/keycloak-edb:26.2.4-v19
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            # Bootstrap admin
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              value: 'admin'
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              value: 'admin'
 
-                  ports:
-                      - containerPort: 8080
+            # External hostname
+            - name: KC_HOSTNAME
+              value: 'https://keycloak.staging.eliasdebock.com'
 
-                  env:
-                      # bootstrap user (unchanged)
-                      - name: KC_BOOTSTRAP_ADMIN_USERNAME
-                        value: 'admin'
-                      - name: KC_BOOTSTRAP_ADMIN_PASSWORD
-                        value: 'admin'
+            # Custom theme
+            - name: KC_SPI_THEME_LOGIN_DEFAULT
+              value: 'edb-theme'
 
-                      # tell Keycloak its external URL
-                      - name: KC_HOSTNAME
-                        value: 'https://app.staging.eliasdebock.com/keycloak'
-
-                      # 🔽  Make your custom theme the default everywhere
-                      - name: KC_SPI_THEME_LOGIN_DEFAULT
-                        value: 'edb-theme'
-                      # - name: KC_SPI_THEME_ACCOUNT_DEFAULT
-                      #   value: "edb-theme"
-                      # - name: KC_SPI_THEME_ADMIN_DEFAULT
-                      #   value: "edb-theme"
-                      # - name: KC_SPI_THEME_EMAIL_DEFAULT
-                      #   value: "edb-theme"
-
-                      # --- PostgreSQL connection (unchanged) ---
-                      - name: KC_DB
-                        value: 'postgres'
-                      - name: KC_DB_URL
-                        value: 'jdbc:postgresql://postgres-service-staging:5432/mydatabase'
-                      - name: KC_DB_USERNAME
-                        valueFrom:
-                            secretKeyRef:
-                                name: postgres-secret-staging
-                                key: POSTGRES_USER
-                      - name: KC_DB_PASSWORD
-                        valueFrom:
-                            secretKeyRef:
-                                name: postgres-secret-staging
-                                key: POSTGRES_PASSWORD
-                      - name: POSTGRES_DB
-                        valueFrom:
-                            secretKeyRef:
-                                name: postgres-secret-staging
-                                key: POSTGRES_DB
+            # PostgreSQL connection
+            - name: KC_DB
+              value: 'postgres'
+            - name: KC_DB_URL
+              value: 'jdbc:postgresql://postgres-service-staging.default:5432/mydatabase'
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: POSTGRES_USER
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: POSTGRES_DB

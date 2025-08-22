@@ -26,3 +26,6 @@ php artisan make:seeder YourSeederName
 # move a project (lib or app)
 
 ➜ webshop-api git:(sprint-2) ✗ nx g @nx/workspace:move --project platform-api --destination apps/server/platform-api
+
+eDB git:(sprint-2) kubectl set image deployment/webshop-api-prod webshop-api=eliasdb/webshop-api:v2.0.1
+kubectl rollout status deployment/webshop-api-prod
