@@ -1,7 +1,5 @@
 /* ------------------------------------------------------------------
    Single-book view – polished mobile / desktop alignment
-   · Reduced padding & gap on mobile so details sit right below cover
-   · Responsive cover sizes: 9 rem → 17 rem
 -------------------------------------------------------------------*/
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, effect, inject, model, signal } from '@angular/core';
@@ -34,13 +32,12 @@ import {
     <section
       class="min-h-screen pt-[10rem] sm:pt-[13rem] pb-24 px-6 xl:px-0 bg-[#f4f4f7]
          max-w-[100%] xl:max-w-[82%] mx-auto flex justify-center"
+      data-testid="book-details-root"
     >
       @if (book(); as book) {
-        <!-- ───── book details ───── -->
         <div
           class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-24 items-start"
         >
-          <!-- Cover panel -->
           <div
             class="bg-[#e5e9f0] rounded-lg p-6 py-16 sm:p-8 md:p-24 flex justify-center"
           >
@@ -79,6 +76,7 @@ import {
               </p>
               <h1
                 class="text-3xl sm:text-4xl font-extrabold leading-tight mt-1 mb-2"
+                data-testid="book-title"
               >
                 {{ book.title }}
               </h1>
@@ -113,22 +111,29 @@ import {
             </div>
 
             <div class="flex items-center gap-4 pt-2 flex-wrap">
-              <div class="text-2xl font-semibold">
+              <div class="text-2xl font-semibold" data-testid="book-price">
                 {{ book.price | currency: 'EUR' : 'symbol' }}
               </div>
+
               <ui-webshop-quantity-selector
                 class="ml-auto"
                 [max]="book.stock"
                 [(quantity)]="selectedAmount"
+                data-testid="qty"
               ></ui-webshop-quantity-selector>
+
               <ui-button
                 class="min-w-[9rem]"
                 (buttonClick)="addToCart(book.id)"
                 style="--_bg: var(--button-primary-bg); --_fg: var(--button-primary-fg); --_bg-h: var(--button-primary-bg--hover); --_bg-a: var(--button-primary-bg--active);"
+                data-testid="add-to-cart"
+                aria-label="Add to cart"
               >
                 Add to cart
               </ui-button>
             </div>
+
+            <!-- ✅ test-friendly, invisible status hook -->
           </div>
         </div>
       } @else if (bookResult.isLoading()) {
@@ -146,6 +151,17 @@ import {
       .label {
         @apply block font-semibold uppercase tracking-wide text-gray-500;
       }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
     `,
   ],
 })
@@ -153,7 +169,9 @@ export class SingleBookPage {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly booksService = inject(BooksService);
   private readonly cartService = inject(CartService);
+
   imageLoaded = signal(false);
+  liveStatus = signal(''); // ✅ status text for tests & screen readers
 
   readonly routeParams = toSignal(this.activatedRoute.params);
   readonly bookId = () => this.routeParams()?.['id'];
@@ -189,14 +207,17 @@ export class SingleBookPage {
   addToCart(bookId: number) {
     const qty = this.selectedAmount();
     const existing = this.cartService.getItemByBookId(bookId);
+
     if (existing) {
       this.cartService.updateItemQuantity(bookId, qty);
+      // this.notify('Cart updated');
     } else {
       const payload: CartItemCreateRequest = {
         id: bookId,
         selectedAmount: qty,
       };
       this.cartService.addToCart(payload);
+      // this.notify('Added to cart');
     }
   }
 }

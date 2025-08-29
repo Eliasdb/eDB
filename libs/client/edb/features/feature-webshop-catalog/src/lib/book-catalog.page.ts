@@ -36,6 +36,7 @@ import {
   template: `
     <section
       class="flex flex-col gap-10 xl:gap-24 lg:flex-row max-w-[88%] xl:max-w-[82%] mt-48 mx-auto "
+      data-testid="webshop-root"
     >
       <!-- Filters (fixed ~15rem) -->
       <aside
@@ -47,6 +48,7 @@ import {
         </h2>
 
         <book-filters
+          data-testid="books-filters-form"
           [value]="query()"
           [bookStatus]="status()"
           [activeGenre]="genre()"
@@ -63,6 +65,7 @@ import {
 
         <books-sort-bar
           [showList]="showList"
+          data-testid="books-sortbar"
           [bookCount]="totalBooksCount() || 0"
           [selectedSort]="sort() || 'title,asc'"
           (sort)="onSort($event)"
@@ -70,23 +73,27 @@ import {
         ></books-sort-bar>
 
         <!-- Results / loader -->
-        <section class="min-h-[50vh] flex-1">
+        <section class="min-h-[50vh] flex-1" data-testid="books-results">
           @if (booksInfiniteQuery.isSuccess(); as _result) {
             @if (showList) {
               <books-collection-list-overview
+                data-testid="books-list"
                 [books]="flattenedBooks() || []"
               />
             } @else {
               <books-collection-grid-overview
+                data-testid="books-grid"
                 [books]="flattenedBooks() || []"
               />
             }
           }
           @if (booksInfiniteQuery.isLoading()) {
-            <ui-webshop-books-loading-state />
+            <ui-webshop-books-loading-state data-testid="books-loading" />
           }
           @if (booksInfiniteQuery.isError()) {
-            <p class="text-red-500">Error loading books.</p>
+            <p class="text-red-500" data-testid="books-error">
+              Error loading books.
+            </p>
           }
         </section>
 

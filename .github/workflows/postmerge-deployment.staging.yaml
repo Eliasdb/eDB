@@ -4,31 +4,22 @@ on:
   push:
     branches:
       - dev
+    paths-ignore:
+      - 'k8s/apps/**/overlays/**/kustomization.yaml'
 
 jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # 🔖 Derive PR Tag
   # ─────────────────────────────────────────────────────────────────────────────
-  derive-pr-tag:
-    name: Derive Tag from Most Recent PR
+  derive-tag:
     runs-on: self-hosted
     outputs:
-      image_tag: ${{ steps.derive_tag.outputs.image_tag }}
+      image_tag: ${{ steps.out.outputs.image_tag }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-      - name: Derive Docker Image Tag
-        id: derive_tag
-        run: |
-          PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
-          if [ -z "$PR_NUMBER" ]; then
-              echo "Error: Could not derive PR number"
-              exit 1
-          fi
-          VERSION="pr-${PR_NUMBER}-staging"
-          echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
+        with: { fetch-depth: 1 }
+      - id: out
+        run: echo "image_tag=${GITHUB_SHA}" >> $GITHUB_OUTPUT
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🔍 Determine Nx Affected Projects
@@ -36,7 +27,7 @@ jobs:
   nx-affected:
     name: Determine Nx Affected Projects
     runs-on: self-hosted
-    needs: derive-pr-tag
+    needs: derive-tag
     outputs:
       platform_api: ${{ steps.set_booleans.outputs.platform_api }}
       webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
@@ -115,7 +106,7 @@ jobs:
   deploy-platform-api:
     name: Deploy Platform API to Staging
     runs-on: self-hosted
-    needs: [nx-affected, derive-pr-tag]
+    needs: [nx-affected, derive-tag]
     if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -123,7 +114,7 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
       - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
             k8s/staging/apis/platform-api/api.deployment.template.staging.yaml \
             > k8s/staging/apis/platform-api/api.deployment.staging.yaml
       - run: kubectl apply --dry-run=client -f k8s/staging/apis/platform-api/api.deployment.staging.yaml
@@ -137,7 +128,7 @@ jobs:
   deploy-webshop-api:
     name: Deploy Webshop API to Staging
     runs-on: self-hosted
-    needs: [nx-affected, derive-pr-tag]
+    needs: [nx-affected, derive-tag]
     if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -145,7 +136,7 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
       - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
             k8s/staging/apis/webshop-api/api.deployment.template.staging.yaml \
             > k8s/staging/apis/webshop-api/api.deployment.staging.yaml
       - run: kubectl apply --dry-run=client -f k8s/staging/apis/webshop-api/api.deployment.staging.yaml
@@ -159,7 +150,7 @@ jobs:
   deploy-platform:
     name: Deploy Platform App to Staging
     runs-on: self-hosted
-    needs: [nx-affected, derive-pr-tag]
+    needs: [nx-affected, derive-tag]
     if: ${{ needs.nx-affected.outputs.platform_app == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -167,7 +158,7 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
       - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
             k8s/staging/client/edb/frontend-deployment-template.staging.yaml \
             > k8s/staging/client/edb/frontend-deployment.staging.yaml
       - run: kubectl apply --dry-run=client -f k8s/staging/client/edb/frontend-deployment.staging.yaml
@@ -181,7 +172,7 @@ jobs:
   deploy-admin-app:
     name: Deploy Admin App to Staging
     runs-on: self-hosted
-    needs: [nx-affected, derive-pr-tag]
+    needs: [nx-affected, derive-tag]
     if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -189,7 +180,7 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
       - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
             k8s/staging/client/mfe-edb-admin/edb-admin.deployment-template.staging.yaml \
             > k8s/staging/client/mfe-edb-admin/edb-admin.deployment.staging.yaml
       - run: kubectl apply --dry-run=client -f k8s/staging/client/mfe-edb-admin/edb-admin.deployment.staging.yaml
@@ -199,26 +190,36 @@ jobs:
           kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # 🧠 Deploy Admin API to Staging
+  # 🧠 Deploy Admin API to Staging (ArgoCD bump only)
   # ─────────────────────────────────────────────────────────────────────────────
-  deploy-admin-api:
-    name: Deploy Admin API to Staging
+  bump-admin-api-staging:
+    name: Bump admin-api image tag in kustomize (staging)
     runs-on: self-hosted
-    needs: [nx-affected, derive-pr-tag]
-    if: ${{ needs.nx-affected.outputs.admin_api == 'true' }}
+    needs: [derive-tag, nx-affected]
+    permissions:
+      contents: write # 👈 required to commit & push with GITHUB_TOKEN
+    if: needs.nx-affected.outputs.admin_api == 'true'
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-      - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
-            k8s/staging/apis/admin-api/admin-api.deployment.template.staging.yaml \
-            > k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
-      - run: kubectl apply --dry-run=client -f k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
-      - run: |
-          kubectl apply -f k8s/staging/apis/admin-api/admin-api.deployment.staging.yaml
-          kubectl rollout status deployment/admin-api-staging || kubectl rollout undo deployment/admin-api-staging
+        with:
+          ref: dev
+          token: ${{ secrets.GITHUB_TOKEN }} # repo write perms
+      - name: Install yq
+        run: |
+          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+            -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq
+      - name: Update kustomization.yaml
+        env:
+          TAG: ${{ needs.derive-tag.outputs.image_tag }}
+        run: |
+          FILE="k8s/apps/admin-api/overlays/staging/kustomization.yaml"
+          yq -i '(.images[] | select(.name=="eliasdb/admin-api") | .newTag)=env(TAG)' "$FILE"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "chore(staging): admin-api → $TAG" || echo "no changes"
+          git push origin dev
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧾 Deploy Tools Invoices API to Staging
@@ -226,7 +227,7 @@ jobs:
   deploy-tools-invoices:
     name: Deploy Tools Invoices API to Staging
     runs-on: self-hosted
-    needs: [nx-affected, derive-pr-tag]
+    needs: [nx-affected, derive-tag]
     if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -236,7 +237,7 @@ jobs:
           echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
 
       - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-pr-tag.outputs.image_tag }}/g" \
+          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
             k8s/staging/apis/tools-invoices/invoices.deployment.template.staging.yaml \
             > k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
 

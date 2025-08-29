@@ -7,11 +7,14 @@ import { SubscribedApplication } from '../../types/dashboard.types';
   selector: 'platform-subscription-collection',
   imports: [UiLaunchTileComponent],
   template: `
-    <div class="subscriptions-container pt-6 text-black">
+    <div
+      class="subscriptions-container pt-6 text-black"
+      data-testid="my-apps-section"
+    >
       @if (error()) {
         <p>Error loading subscriptions: {{ error() }}</p>
       } @else {
-        <div class="subscriptions-tiles">
+        <div class="subscriptions-tiles" data-testid="my-apps-list">
           @if (isLoading()) {
             <!-- Render fixed number of skeleton tiles while loading -->
             @for (i of [1]; track $index) {
@@ -22,6 +25,7 @@ import { SubscribedApplication } from '../../types/dashboard.types';
               @for (app of subscriptions(); track $index) {
                 <ui-launch-tile
                   [title]="app.name"
+                  data-testid="my-app-card"
                   [description]="app.description"
                   [tags]="app.tags"
                   [skeleton]="false"

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: admin-api
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: 'Production'
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-prod
+                  key: CONNECTION_STRING
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-prod
+                  key: JWT_KEY
+          envFrom:
+            - secretRef:
+                name: adminapi-rabbitmq

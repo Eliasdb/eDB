@@ -56,7 +56,7 @@ namespace Edb.AdminAPI.Controllers
         //     return NotFound(new ApiResponse { Message = "User not found..." });
         //   }
 
-        //   return Ok(new ApiResponse { Message = "User deleted successfully." });
+        //   return Ok(new ApiResponse { Message = "User deleted successfully..." });
         // }
 
         [HttpGet("applications")]

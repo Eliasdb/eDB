@@ -38,7 +38,8 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
 
       @if (navigationLinks().length > 0) {
         <cds-header-navigation>
-          <nav class="flex items-center gap-1 sm:gap-2">
+          <
+          <div class="flex items-center gap-1 sm:gap-2">
             @for (link of navigationLinks(); track link.id) {
               <a
                 [routerLink]="link.id === '' ? '/' : '/' + link.id"
@@ -52,7 +53,7 @@ import { UiPlatformOverflowMenuComponent } from '../navigation/overflow-menu/ove
                 <span class="font-medium">{{ link.label }}</span>
               </a>
             }
-          </nav>
+          </div>
         </cds-header-navigation>
       }
 
