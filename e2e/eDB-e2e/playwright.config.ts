@@ -1,69 +1,63 @@
-import { defineConfig, devices } from '@playwright/test';
-import { nxE2EPreset } from '@nx/playwright/preset';
-
 import { workspaceRoot } from '@nx/devkit';
+import { nxE2EPreset } from '@nx/playwright/preset';
+import { defineConfig, devices } from '@playwright/test';
+import * as path from 'node:path';
 
-// For CI, you may want to set BASE_URL to the deployed application.
 const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+// reuse the same local state file
+const stateFile = path.join(__dirname, '.auth', 'state.json');
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './src' }),
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  // ...nxE2EPreset(__filename, { testDir: './src' }),
+  ...nxE2EPreset(__filename, { testDir: './' }),
   use: {
     baseURL,
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    navigationTimeout: 15000,
+    actionTimeout: 15000,
     trace: 'on-first-retry',
   },
-  /* Run your local dev server before starting the tests */
+  globalSetup: './global-setup.ts', // ← runs once before tests
   webServer: {
     command: 'npx nx run eDB:serve',
     url: 'http://localhost:4200',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env['CI'],
     cwd: workspaceRoot,
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'chromium@auth',
+      grep: /@auth/,
+      grepInvert: /@anon|@logout/, // <-- exclude logout from normal run
+      use: { ...devices['Desktop Chrome'], storageState: './.auth/state.json' },
+    },
+    {
+      name: 'chromium@anon',
+      grep: /@anon/,
+      grepInvert: /@auth|@logout/,
       use: { ...devices['Desktop Chrome'] },
     },
-
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'chromium@logout',
+      grep: /@logout/, // only logout tests
+      workers: 1, // single worker
+      use: { ...devices['Desktop Chrome'], storageState: './.auth/state.json' },
     },
 
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: 'chromium@regression',
+      grep: /@regression/,
+      grepInvert: /@mutates|@anon/,
+      use: { ...devices['Desktop Chrome'], storageState: stateFile },
     },
 
-    // Uncomment for mobile browsers support
-    /* {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
+    // Mutating tests: isolated, single worker, serialized.
     {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    }, */
-
-    // Uncomment for branded browsers
-    /* {
-      name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+      name: 'chromium@mutates',
+      grep: /@mutates/,
+      workers: 1,
+      fullyParallel: false,
+      use: { ...devices['Desktop Chrome'], storageState: stateFile },
     },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    } */
   ],
 });

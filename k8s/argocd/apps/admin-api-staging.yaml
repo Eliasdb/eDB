@@ -1,0 +1,19 @@
+# k8s/argocd/apps/admin-api-staging.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: admin-api-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev # <- staging tracks dev
+    path: k8s/apps/admin-api/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true # delete resources not in Git
+      selfHeal: true # revert cluster drift

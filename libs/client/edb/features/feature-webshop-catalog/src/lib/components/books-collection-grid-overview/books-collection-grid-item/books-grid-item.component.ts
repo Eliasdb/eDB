@@ -9,11 +9,14 @@ import { Book } from '@edb/shared-types';
   template: `
     <article
       class="relative bg-[#f6fdff] rounded-lg border border-transparent shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between items-center text-center h-full px-8 pt-10 pb-8"
+      data-testid="book-card"
+      [attr.data-book-id]="book()?.id"
     >
       <!-- ♥ wishlist icon -->
       <button
         class="absolute top-4 right-4 text-gray-400 hover:text-pink-500 focus:outline-none"
         aria-label="Save to wishlist"
+        data-testid="wishlist-btn"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,10 +34,14 @@ import { Book } from '@edb/shared-types';
       <div class="mb-6">
         <h3
           class="text-lg font-medium text-gray-900 leading-snug mb-1 max-w-[14ch]"
+          data-testid="book-title"
         >
           {{ book()?.title }}
         </h3>
-        <p class="text-sm text-gray-600 truncate max-w-[18ch]">
+        <p
+          class="text-sm text-gray-600 truncate max-w-[18ch]"
+          data-testid="book-author"
+        >
           {{ book()?.author }}
         </p>
       </div>
@@ -43,6 +50,7 @@ import { Book } from '@edb/shared-types';
       <a
         [routerLink]="['/webshop/books', book()?.id]"
         class="group relative w-40 h-60 flex items-center justify-center"
+        data-testid="book-thumb-link"
       >
         <!-- Blur preview -->
         <img
@@ -62,15 +70,18 @@ import { Book } from '@edb/shared-types';
           class="absolute inset-0 w-full h-full object-contain drop-shadow-lg transition-opacity duration-700 ease-in will-change-[opacity]"
           [class.opacity-0]="!imageLoaded()"
           [class.opacity-100]="imageLoaded()"
+          data-testid="book-thumb-img"
         />
       </a>
 
-      <!-- Price pinned to bottom -->
+      <!-- Price / status pinned to bottom -->
       <div class="mt-auto pt-4 text-base font-semibold text-gray-900">
         @if (book()?.status === 'available') {
-          € {{ book()?.price | number: '1.2-2' }}
+          <span data-testid="book-price">
+            € {{ book()?.price | number: '1.2-2' }}
+          </span>
         } @else {
-          <span class="text-red-500">Loaned</span>
+          <span class="text-red-500" data-testid="book-status">Loaned</span>
         }
       </div>
     </article>

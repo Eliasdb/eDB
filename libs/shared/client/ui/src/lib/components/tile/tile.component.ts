@@ -82,6 +82,8 @@ import { UiTagComponent } from '../tag/tag.component';
 
             <div class="mb-2">
               <ui-icon-button
+                [ariaLabel]="isSubscribed() ? 'Unsubscribe' : 'Subscribe'"
+                [testId]="isSubscribed() ? 'unsubscribe-btn' : 'subscribe-btn'"
                 buttonId="subscribe-btn"
                 size="sm"
                 icon="faDownload"

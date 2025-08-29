@@ -116,7 +116,7 @@ export default function App() {
 
   // ───────────────────────────────────── UI ───────────────────────────────
   return (
-    <main className="flex h-screen bg-slate-50 text-black">
+    <section className="flex h-screen bg-slate-50 text-black">
       <SidebarProvider>
         <AppSidebar
           onSelectProject={setSelectedNavItem}
@@ -159,6 +159,6 @@ export default function App() {
           </div>
         </SidebarInset>
       </SidebarProvider>
-    </main>
+    </section>
   );
 }

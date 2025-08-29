@@ -1,0 +1,90 @@
+# infra/docker-compose.yml
+name: edb-dev
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: edb-postgres
+    environment:
+      POSTGRES_USER: ${PG_SUPERUSER}
+      POSTGRES_PASSWORD: ${PG_SUPERPASSWORD}
+    ports:
+      - '${PG_PORT}:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${PG_SUPERUSER}']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.3
+    container_name: edb-keycloak
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ['start-dev']
+    environment:
+      KEYCLOAK_ADMIN: ${KC_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD}
+
+      KC_DB: postgres
+      KC_DB_USERNAME: ${PLATFORM_USER}
+      KC_DB_PASSWORD: ${PLATFORM_PASS}
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${PLATFORM_DB}
+
+      KC_SPI_THEME_CACHE_THEMES: 'false'
+      KC_SPI_THEME_CACHE_TEMPLATES: 'false'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./keycloak/themes:/opt/keycloak/themes:ro
+      - ./keycloak/conf:/opt/keycloak/conf:ro
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    container_name: edb-meilisearch
+    environment:
+      MEILI_NO_ANALYTICS: 'true'
+      MEILI_ENV: 'development'
+      MEILI_MASTER_KEY: masterKey
+    ports:
+      - '7700:7700'
+    volumes:
+      - meili_data:/meili_data
+    command:
+      ['meilisearch', '--db-path', '/meili_data', '--http-addr', '0.0.0.0:7700']
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: edb-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-dev}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-dev}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
+    ports:
+      - '5672:5672' # AMQP
+      - '15672:15672' # Management UI
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: edb-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: elias.db3@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASS:-admin}
+    ports:
+      - '5050:80' # host:container  → http://localhost:5050
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data:
+  meili_data:
+  rabbitmq_data:
+  pgadmin_data:

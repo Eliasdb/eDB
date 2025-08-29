@@ -42,6 +42,8 @@ import {
             @for (item of catalog(); track item.id) {
               <ui-tile
                 [title]="item.name"
+                data-testid="catalog-card"
+                [attr.data-subscribed]="item.isSubscribed ? 'true' : 'false'"
                 [description]="item.description"
                 [tags]="item.tags"
                 [id]="item.id"
