@@ -205,30 +205,34 @@ jobs:
     runs-on: self-hosted
     needs: [derive-tag, nx-affected]
     permissions:
-      contents: write # 👈 required to commit & push with GITHUB_TOKEN
+      contents: write # required to commit & push with GITHUB_TOKEN
     if: needs.nx-affected.outputs.admin_api == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
           ref: dev
           token: ${{ secrets.GITHUB_TOKEN }} # repo write perms
-      - name: Install yq
-        run: |
-          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
-            -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq
-      - name: Update kustomization.yaml
+
+      - name: Update kustomization.yaml with yq
+        uses: mikefarah/yq@v4.44.3
+        env:
+          TAG: ${{ needs.derive-tag.outputs.image_tag }}
+        with:
+          cmd: >
+            yq -i
+            '(.images[] | select(.name=="eliasdb/admin-api") | .newTag)=strenv(TAG)'
+            k8s/apps/admin-api/overlays/staging/kustomization.yaml
+
+      - name: Commit & push
         env:
           TAG: ${{ needs.derive-tag.outputs.image_tag }}
         run: |
           FILE="k8s/apps/admin-api/overlays/staging/kustomization.yaml"
-          yq -i '(.images[] | select(.name=="eliasdb/admin-api") | .newTag)=env(TAG)' "$FILE"
-
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "$FILE"
-          git commit -m "chore(staging): admin-api → $TAG" || echo "no changes"
+          git commit -m "chore(staging): admin-api → ${TAG}" || echo "no changes"
           git push origin dev
-
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧾 Deploy Tools Invoices API to Staging
   # ─────────────────────────────────────────────────────────────────────────────
