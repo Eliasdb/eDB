@@ -28,7 +28,7 @@ public class OrderCreatedConsumer : IConsumer<OrderCreatedV1>
 
         // 2) Keep your live orders stream too
         await _ordersHub.Clients.All.SendAsync(
-            "OrderCreated", // <- match the Angular .on('OrderCreated', ...)
+            "OrderCreated", // <- match the Angular .on('OrderCreated', .)
             new
             {
                 id = e.Id,
