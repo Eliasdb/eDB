@@ -8,4 +8,4 @@ patchesStrategicMerge:
   - patch.yaml
 images:
   - name: eliasdb/admin-api
-    newTag: ${IMAGE_TAG} # replaced by CI
+    newTag: pr-500-staging # replaced by CI
