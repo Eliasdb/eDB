@@ -12,6 +12,7 @@ jobs:
   # 🔖 Derive PR Tag
   # ─────────────────────────────────────────────────────────────────────────────
   derive-tag:
+    name: Derive tag
     runs-on: self-hosted
     outputs:
       image_tag: ${{ steps.out.outputs.image_tag }}
@@ -19,7 +20,14 @@ jobs:
       - uses: actions/checkout@v3
         with: { fetch-depth: 1 }
       - id: out
-        run: echo "image_tag=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+        run: |
+          # Grab the PR number from the merge commit message
+          PR_NUMBER=$(git log --oneline -1 | grep -o 'Merge pull request #[0-9]*' | grep -o '[0-9]*')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "❌ Could not detect PR number in merge commit"
+            exit 1
+          fi
+          echo "image_tag=pr-${PR_NUMBER}-staging" >> $GITHUB_OUTPUT
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🔍 Determine Nx Affected Projects
