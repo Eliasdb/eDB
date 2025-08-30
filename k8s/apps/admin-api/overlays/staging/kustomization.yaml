@@ -6,5 +6,5 @@ resources:
   - ../../base
 patches:
   - path: patch.yaml
-# images:
-#   - name: eliasdb/admin-api
+images:
+  - name: eliasdb/admin-api
