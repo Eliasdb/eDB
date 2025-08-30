@@ -109,28 +109,6 @@ jobs:
         shell: bash
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # 🚀 Deploy Platform API to Staging
-  # ─────────────────────────────────────────────────────────────────────────────
-  deploy-platform-api:
-    name: Deploy Platform API to Staging
-    runs-on: self-hosted
-    needs: [nx-affected, derive-tag]
-    if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-      - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
-            k8s/staging/apis/platform-api/api.deployment.template.staging.yaml \
-            > k8s/staging/apis/platform-api/api.deployment.staging.yaml
-      - run: kubectl apply --dry-run=client -f k8s/staging/apis/platform-api/api.deployment.staging.yaml
-      - run: |
-          kubectl apply -f k8s/staging/apis/platform-api/api.deployment.staging.yaml
-          kubectl rollout status deployment/api-staging || kubectl rollout undo deployment/api-staging
-
-  # ─────────────────────────────────────────────────────────────────────────────
   # 🛒 Deploy Webshop API to Staging
   # ─────────────────────────────────────────────────────────────────────────────
   deploy-webshop-api:
@@ -196,32 +174,3 @@ jobs:
           kubectl apply -f k8s/staging/client/mfe-edb-admin/edb-admin.deployment.staging.yaml
           kubectl apply -f k8s/staging/client/mfe-edb-admin/edb-admin.service.staging.yaml
           kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # 🧾 Deploy Tools Invoices API to Staging
-  # ─────────────────────────────────────────────────────────────────────────────
-  deploy-tools-invoices:
-    name: Deploy Tools Invoices API to Staging
-    runs-on: self-hosted
-    needs: [nx-affected, derive-tag]
-    if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-
-      - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
-            k8s/staging/apis/tools-invoices/invoices.deployment.template.staging.yaml \
-            > k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
-
-      - run: kubectl apply --dry-run=client -f k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
-
-      - run: |
-          kubectl apply -f k8s/staging/apis/tools-invoices/invoices.deployment.staging.yaml
-          kubectl rollout status deployment/tools-invoices-staging || kubectl rollout undo deployment/tools-invoices-staging
-
-      - run: |
-          kubectl apply -f k8s/staging/apis/tools-invoices/invoices.service.staging.yaml

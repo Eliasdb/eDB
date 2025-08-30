@@ -5,9 +5,10 @@ metadata:
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     cert-manager.io/cluster-issuer: letsencrypt-production
     cert-manager.io/certificate-name: api-tls
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
@@ -35,15 +36,13 @@ spec:
                 name: admin-api-staging
                 port:
                   number: 9102
-
           - path: /invoices(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: tools-invoices-staging
+                name: tools-invoices-api-staging # <-- updated
                 port:
                   number: 8000
-
   tls:
     - hosts:
         - api.staging.eliasdebock.com

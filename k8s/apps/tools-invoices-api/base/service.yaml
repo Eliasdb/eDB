@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tools-invoices-api
+  labels:
+    app: tools-invoices-api
+spec:
+  type: ClusterIP
+  selector:
+    app: tools-invoices-api
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
