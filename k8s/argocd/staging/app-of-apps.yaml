@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
-    path: k8s/argocd/staging
+    path: k8s/argocd/apps
     kustomize: {} # 👈 tell Argo to use Kustomize
   destination:
     server: https://kubernetes.default.svc
