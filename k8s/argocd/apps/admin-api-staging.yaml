@@ -20,9 +20,9 @@ spec:
     targetRevision: dev
     path: k8s/apps/admin-api/overlays/staging
     # (optional) You can omit kustomize entirely; the updater will add images here.
-    # kustomize:
-    #   images:
-    #     - admin-api=eliasdb/admin-api
+    kustomize:
+      images:
+        - eliasdb/admin-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
