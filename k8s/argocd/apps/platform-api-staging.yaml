@@ -14,9 +14,6 @@ spec:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
     path: k8s/apps/platform-api/overlays/staging
-    kustomize:
-      images:
-        - platformapi=eliasdb/platform-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
