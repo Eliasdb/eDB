@@ -6,5 +6,5 @@ resources:
   - ../../base
 patches:
   - path: patch.yaml
-# Do NOT set a tag here. Image Updater will inject the tag at runtime.
-# kustomize.images is intentionally omitted.
+images:
+  - name: eliasdb/platform-api
