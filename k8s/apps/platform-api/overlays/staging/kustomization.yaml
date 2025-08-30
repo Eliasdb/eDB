@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+nameSuffix: -staging
+namespace: default
+resources:
+  - ../../base
+patches:
+  - path: patch.yaml
+# Do NOT set a tag here. Image Updater will inject the tag at runtime.
+# kustomize.images is intentionally omitted.

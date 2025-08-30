@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-api # → api-prod
+spec:
+  template:
+    spec:
+      containers:
+        - name: platform-api
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: 'Production'
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-prod
+                  key: CONNECTION_STRING
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-prod
+                  key: JWT_KEY
+            - name: Keycloak__ClientId
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-prod
+                  key: CLIENT_ID
+            - name: Keycloak__ClientSecret
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-prod
+                  key: CLIENT_SECRET
+            - name: Keycloak__BaseUrl
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-prod
+                  key: BASE_URL
+            - name: Keycloak__Realm
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret-prod
+                  key: REALM
+            - name: ADMIN_API_URL
+              value: 'https://api.eliasdebock.com/admin/swagger/v1/swagger.json'
+            - name: WEBSHOP_API_URL
+              value: 'https://api.eliasdebock.com/webshop/api.json'
