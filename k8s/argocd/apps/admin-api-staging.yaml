@@ -1,17 +1,13 @@
-# k8s/argocd/apps/admin-api-staging.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: admin-api-staging
   namespace: argocd
   annotations:
-    # Track this image for staging
-    argocd-image-updater.argoproj.io/image-list: eliasdb/admin-api
-    # Only pick tags like pr-123-staging
-    argocd-image-updater.argoproj.io/admin-api.allow-tags: regexp:^pr-\d+-staging$
-    # Choose the newest matching tag
-    argocd-image-updater.argoproj.io/admin-api.update-strategy: latest
-    # Patch the live Application (no Git write-back for staging)
+    # use an alias "adminapi"
+    argocd-image-updater.argoproj.io/image-list: adminapi=eliasdb/admin-api
+    argocd-image-updater.argoproj.io/adminapi.allow-tags: regexp:^pr-\d+-staging$
+    argocd-image-updater.argoproj.io/adminapi.update-strategy: latest
     argocd-image-updater.argoproj.io/write-back-method: argocd
 spec:
   project: default
@@ -19,17 +15,14 @@ spec:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
     path: k8s/apps/admin-api/overlays/staging
-    # (optional) You can omit kustomize entirely; the updater will add images here.
-    # kustomize:
-    #   images:
-    #     - eliasdb/admin-api
+    kustomize:
+      images:
+        - adminapi=eliasdb/admin-api # <-- alias matches annotations
   destination:
     server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    automated: { prune: true, selfHeal: true }
     syncOptions:
       - PrunePropagationPolicy=foreground
       - PruneLast=true
