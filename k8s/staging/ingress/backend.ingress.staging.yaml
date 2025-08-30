@@ -18,7 +18,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: edb-api-staging-service
+                name: platform-api-staging
                 port:
                   number: 9101
           - path: /webshop(/|$)(.*)

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-api
+  labels:
+    app: platform-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platform-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: platform-api
+    spec:
+      containers:
+        - name: platform-api
+          image: eliasdb/platform-api # <-- no tag here; overlays control it
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9101
+              protocol: TCP
+          env:
+            # envs that differ by env go into overlay patches
+            - name: ASPNETCORE_ENVIRONMENT
+              value: 'Staging'
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '500m'
+            limits:
+              memory: '1Gi'
+              cpu: '1'

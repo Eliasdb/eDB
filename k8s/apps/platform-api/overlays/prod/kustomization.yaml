@@ -5,6 +5,7 @@ namespace: default
 resources:
   - ../../base
 patches:
-  - patch.yaml
+  - path: patch.yaml
 images:
-  - name: eliasdb/admin-api
+  - name: eliasdb/platform-api
+    newTag: v2.0.1 # pin prod here (change via PR)
