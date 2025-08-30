@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
   annotations:
     # Track this image for staging
-    argocd-image-updater.argoproj.io/image-list: admin-api=eliasdb/admin-api
+    argocd-image-updater.argoproj.io/image-list: eliasdb/admin-api
     # Only pick tags like pr-123-staging
     argocd-image-updater.argoproj.io/admin-api.allow-tags: regexp:^pr-\d+-staging$
     # Choose the newest matching tag
@@ -20,9 +20,9 @@ spec:
     targetRevision: dev
     path: k8s/apps/admin-api/overlays/staging
     # (optional) You can omit kustomize entirely; the updater will add images here.
-    kustomize:
-      images:
-        - eliasdb/admin-api
+    # kustomize:
+    #   images:
+    #     - eliasdb/admin-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
