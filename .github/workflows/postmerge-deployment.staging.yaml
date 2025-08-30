@@ -109,28 +109,6 @@ jobs:
         shell: bash
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # 🛒 Deploy Webshop API to Staging
-  # ─────────────────────────────────────────────────────────────────────────────
-  deploy-webshop-api:
-    name: Deploy Webshop API to Staging
-    runs-on: self-hosted
-    needs: [nx-affected, derive-tag]
-    if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
-    steps:
-      - uses: actions/checkout@v3
-      - run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_STAGING_CONFIG }}" | base64 --decode > ~/.kube/config
-      - run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.derive-tag.outputs.image_tag }}/g" \
-            k8s/staging/apis/webshop-api/api.deployment.template.staging.yaml \
-            > k8s/staging/apis/webshop-api/api.deployment.staging.yaml
-      - run: kubectl apply --dry-run=client -f k8s/staging/apis/webshop-api/api.deployment.staging.yaml
-      - run: |
-          kubectl apply -f k8s/staging/apis/webshop-api/api.deployment.staging.yaml
-          kubectl rollout status deployment/webshop-api-staging || kubectl rollout undo deployment/webshop-api-staging
-
-  # ─────────────────────────────────────────────────────────────────────────────
   # 🌐 Deploy Platform App to Staging
   # ─────────────────────────────────────────────────────────────────────────────
   deploy-platform:

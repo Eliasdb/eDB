@@ -26,7 +26,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: edb-webshop-api-staging-service
+                name: webshop-api-staging
                 port:
                   number: 8000
           - path: /admin(/|$)(.*)
