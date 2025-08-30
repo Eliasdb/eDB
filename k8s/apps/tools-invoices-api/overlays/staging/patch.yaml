@@ -7,7 +7,6 @@ spec:
     spec:
       containers:
         - name: tools-invoices-api
-          image: eliasdb/tools-invoices-api:latest # overridden by Image Updater
           env:
             - name: ENVIRONMENT
               value: 'staging'
