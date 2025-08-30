@@ -198,42 +198,6 @@ jobs:
           kubectl rollout status deployment/admin-app-staging || kubectl rollout undo deployment/admin-app-staging
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # 🧠 Deploy Admin API to Staging (ArgoCD bump only)
-  # ─────────────────────────────────────────────────────────────────────────────
-  bump-admin-api-staging:
-    name: Bump admin-api image tag in kustomize (staging)
-    runs-on: self-hosted
-    needs: [derive-tag, nx-affected]
-    permissions:
-      contents: write # required to commit & push with GITHUB_TOKEN
-    if: needs.nx-affected.outputs.admin_api == 'true'
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: dev
-          token: ${{ secrets.GITHUB_TOKEN }} # repo write perms
-
-      - name: Update kustomization.yaml with yq
-        uses: mikefarah/yq@v4.44.3
-        env:
-          TAG: ${{ needs.derive-tag.outputs.image_tag }}
-        with:
-          cmd: >
-            yq -i
-            '(.images[] | select(.name=="eliasdb/admin-api") | .newTag)=strenv(TAG)'
-            k8s/apps/admin-api/overlays/staging/kustomization.yaml
-
-      - name: Commit & push
-        env:
-          TAG: ${{ needs.derive-tag.outputs.image_tag }}
-        run: |
-          FILE="k8s/apps/admin-api/overlays/staging/kustomization.yaml"
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "$FILE"
-          git commit -m "chore(staging): admin-api → ${TAG}" || echo "no changes"
-          git push origin dev
-  # ─────────────────────────────────────────────────────────────────────────────
   # 🧾 Deploy Tools Invoices API to Staging
   # ─────────────────────────────────────────────────────────────────────────────
   deploy-tools-invoices:

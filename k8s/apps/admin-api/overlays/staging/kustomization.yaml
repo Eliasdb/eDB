@@ -4,8 +4,7 @@ nameSuffix: -staging
 namespace: default
 resources:
   - ../../base
-patchesStrategicMerge:
-  - patch.yaml
+patches:
+  - path: patch.yaml
 images:
   - name: eliasdb/admin-api
-    newTag: ${IMAGE_TAG} # replaced by CI
