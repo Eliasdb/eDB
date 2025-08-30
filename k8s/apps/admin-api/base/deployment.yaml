@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: admin-api
-          image: eliasdb/admin-api:latest # overridden by overlays
+          image: eliasdb/admin-api
           imagePullPolicy: Always
           ports:
             - containerPort: 9102
