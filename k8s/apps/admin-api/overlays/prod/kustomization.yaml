@@ -4,7 +4,7 @@ nameSuffix: -prod
 namespace: default
 resources:
   - ../../base
-patchesStrategicMerge:
+patches:
   - patch.yaml
 images:
   - name: eliasdb/admin-api

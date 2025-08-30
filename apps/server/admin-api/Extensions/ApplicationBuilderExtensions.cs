@@ -1,4 +1,3 @@
-// Edb.AdminAPI.Extensions/ApplicationBuilderExtensions.cs
 using Edb.AdminAPI.Hubs;
 using Microsoft.AspNetCore.Builder;
 
@@ -10,8 +9,7 @@ public static class ApplicationBuilderExtensions
     {
         app.UseCors("AllowFrontend");
         app.MapHub<OrdersHub>("/hubs/orders");
-        app.MapHub<NotificationHub>("/hubs/notifications"); // create class below
-
+        app.MapHub<NotificationHub>("/hubs/notifications");
         return app;
     }
 }

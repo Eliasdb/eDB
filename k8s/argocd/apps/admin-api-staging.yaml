@@ -4,16 +4,32 @@ kind: Application
 metadata:
   name: admin-api-staging
   namespace: argocd
+  annotations:
+    # Track this image for staging
+    argocd-image-updater.argoproj.io/image-list: admin-api=eliasdb/admin-api
+    # Only pick tags like pr-123-staging
+    argocd-image-updater.argoproj.io/admin-api.allow-tags: regexp:^pr-\d+-staging$
+    # Choose the newest matching tag
+    argocd-image-updater.argoproj.io/admin-api.update-strategy: latest
+    # Patch the live Application (no Git write-back for staging)
+    argocd-image-updater.argoproj.io/write-back-method: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
-    targetRevision: dev # <- staging tracks dev
+    targetRevision: dev
     path: k8s/apps/admin-api/overlays/staging
+    # (optional) You can omit kustomize entirely; the updater will add images here.
+    # kustomize:
+    #   images:
+    #     - admin-api=eliasdb/admin-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
     automated:
-      prune: true # delete resources not in Git
-      selfHeal: true # revert cluster drift
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
