@@ -15,9 +15,6 @@ spec:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
     path: k8s/apps/admin-api/overlays/staging
-    kustomize:
-      images:
-        - adminapi=eliasdb/admin-api # <-- alias matches annotations
   destination:
     server: https://kubernetes.default.svc
     namespace: default
