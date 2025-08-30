@@ -16,7 +16,7 @@ spec:
     path: k8s/apps/platform-api/overlays/staging
     kustomize:
       images:
-        - platform-api=eliasdb/platform-api
+        - eliasdb/platform-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
