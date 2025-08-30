@@ -4,7 +4,7 @@ metadata:
   name: platform-api-staging
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: platform-api=eliasdb/platform-api
+    argocd-image-updater.argoproj.io/image-list: eliasdb/platform-api
     argocd-image-updater.argoproj.io/platform-api.allow-tags: regexp:^pr-\d+-staging$
     argocd-image-updater.argoproj.io/platform-api.update-strategy: latest
     argocd-image-updater.argoproj.io/write-back-method: argocd
@@ -14,9 +14,9 @@ spec:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
     path: k8s/apps/platform-api/overlays/staging
-    kustomize:
-      images:
-        - eliasdb/platform-api
+    # kustomize:
+    #   images:
+    #     - eliasdb/platform-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
