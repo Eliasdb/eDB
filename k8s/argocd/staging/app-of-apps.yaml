@@ -9,8 +9,7 @@ spec:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
     path: k8s/argocd/staging
-    directory:
-      recurse: true # pick up all files in that folder
+    kustomize: {} # 👈 tell Argo to use Kustomize
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd # child Applications are created in argocd ns
