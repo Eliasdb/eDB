@@ -1,0 +1,34 @@
+auth:
+  username: dev
+  # use a secret in real envs (see step 2)
+  password: dev
+  erlangCookie: supersecretcookiepleasechange
+  vhost: '/'
+
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClass: '' # use default
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: rabbitmq.staging.eliasdebock.com
+  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+
+service:
+  type: ClusterIP
+  ports:
+    amqp: 5672
+    amqps: 5671
+    manager: 15672
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
