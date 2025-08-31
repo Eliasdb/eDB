@@ -1,11 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # API
   - admin-api-staging.yaml
   - platform-api-staging.yaml
   - tools-invoices-api-staging.yaml
   - webshop-api-staging.yaml
+  # Client
   - platform-client-staging.yaml
   - admin-client-staging.yaml
+  # Infra
   - keycloak-staging.yaml
   - meilisearch-staging.yaml
+  - redis-staging.yaml
