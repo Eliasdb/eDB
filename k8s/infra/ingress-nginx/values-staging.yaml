@@ -1,0 +1,30 @@
+controller:
+  # Give the new controller its own ingressClass
+  ingressClass: nginx-argo
+  ingressClassResource:
+    name: nginx-argo
+    controllerValue: 'k8s.io/ingress-nginx'
+    default: false
+  ingressClassByName: true
+
+  # Run alongside the old one
+  admissionWebhooks:
+    enabled: true
+  replicaCount: 1
+
+  service:
+    type: NodePort
+    externalIPs:
+      - 49.12.69.40 # <- you had this on your current SVC
+    externalTrafficPolicy: Local
+    nodePorts:
+      http: 30888 # match your current ports if you want
+      https: 30848
+
+  # optional: don’t publish LB address via status
+  publishService:
+    enabled: false
+
+  # labels to make it easy to list/select
+  labels:
+    app.kubernetes.io/instance: ingress-nginx-argo
