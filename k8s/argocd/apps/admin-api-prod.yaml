@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: admin-api-prod
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # <-- add this
 spec:
   project: default
   source:
