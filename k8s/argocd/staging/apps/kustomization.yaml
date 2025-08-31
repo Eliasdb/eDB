@@ -15,3 +15,6 @@ resources:
   - meilisearch-staging.yaml
   - redis-staging.yaml
   - rabbitmq-staging.yaml
+    # Monitoring
+  - grafana-staging.yaml
+  - prometheus-stack-staging.yaml
