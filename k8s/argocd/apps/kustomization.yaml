@@ -4,3 +4,4 @@ resources:
   - admin-api-staging.yaml
   - platform-api-staging.yaml
   - tools-invoices-api-staging.yaml
+  - webshop-api-staging.yaml
