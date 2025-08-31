@@ -1,2 +1,20 @@
 grafana:
-  enabled: false
+  enabled: false # you’re running Grafana separately
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx-argo
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: '/'
+      # If you want cert-manager to provision the TLS secret:
+      # cert-manager.io/cluster-issuer: letsencrypt-production
+    hosts:
+      - prometheus.staging.eliasdebock.com
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - secretName: prometheus-tls
+        hosts:
+          - prometheus.staging.eliasdebock.com
