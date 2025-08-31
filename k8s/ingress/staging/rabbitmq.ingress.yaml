@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rabbitmq-mgmt
+  name: rabbitmq-staging-ingress
   namespace: messaging
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
@@ -15,9 +15,10 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: rabbitmq
+                name: rabbitmq-staging # 👈 use your new service
                 port:
-                  name: management
+                  name: management # 👈 matches port in rabbitmq-staging svc
   tls:
-    - hosts: [rabbitmq.staging.eliasdebock.com]
+    - hosts:
+        - rabbitmq.staging.eliasdebock.com
       secretName: rabbitmq.staging.eliasdebock.com-tls
