@@ -5,19 +5,20 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev
+    path: k8s/apps/rabbitmq # <- directory in your repo
+    helm:
+      releaseName: rabbitmq-staging
+      valueFiles:
+        - values-staging.yaml # <- RELATIVE to path above
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
-  source:
-    repoURL: https://charts.bitnami.com/bitnami
-    chart: rabbitmq
-    targetRevision: 14.* # pick a stable major your cluster supports
-    helm:
-      valueFiles:
-        - k8s/apps/rabbitmq/values-staging.yaml # path in THIS repo
-      values: |-
-        # you can inline small tweaks here if needed
+    namespace: messaging # or default, but be consistent
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      # - CreateNamespace=true
