@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: webshop-api-staging
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # <-- add this
   annotations:
     # Track the image and let Image Updater set the tag for staging
     argocd-image-updater.argoproj.io/image-list: webshop-api=eliasdb/webshop-api

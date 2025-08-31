@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: admin-api-staging
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # <-- add this
   annotations:
     # use an alias "adminapi"
     argocd-image-updater.argoproj.io/image-list: adminapi=eliasdb/admin-api

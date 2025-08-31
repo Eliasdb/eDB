@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: platform-api-staging
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # <-- add this
   annotations:
     argocd-image-updater.argoproj.io/image-list: platformapi=eliasdb/platform-api
     argocd-image-updater.argoproj.io/platformapi.allow-tags: regexp:^pr-\d+-staging$
