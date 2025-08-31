@@ -12,7 +12,7 @@ persistence:
 
 ingress:
   enabled: true
-  ingressClassName: nginx-argo
+  ingressClassName: nginx
   hostname: rabbitmq.eliasdebock.com
   tls: true
   annotations:
