@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-client
+  labels:
+    app: admin-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-client
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: admin-client
+    spec:
+      containers:
+        - name: admin-client
+          image: eliasdb/edb-admin # tag pinned per overlay / Image Updater
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: production # default; overridden in staging
+          readinessProbe:
+            httpGet:
+              path: /admin
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /admin
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
