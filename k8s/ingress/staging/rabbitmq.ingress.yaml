@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rabbitmq-mgmt
+  namespace: messaging
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx-argo
+  rules:
+    - host: rabbitmq.staging.eliasdebock.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbitmq
+                port:
+                  name: management
+  tls:
+    - hosts: [rabbitmq.staging.eliasdebock.com]
+      secretName: rabbitmq.staging.eliasdebock.com-tls

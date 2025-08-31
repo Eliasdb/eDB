@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod
+  namespace: argocd
+spec:
+  project: prod
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: main # or a prod branch/tag
+    path: k8s/argocd/prod/apps # <— points to prod folder
+    kustomize: {}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
