@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: meilisearch-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: main
+    path: k8s/apps/meilisearch/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }

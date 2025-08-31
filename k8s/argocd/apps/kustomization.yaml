@@ -8,3 +8,4 @@ resources:
   - platform-client-staging.yaml
   - admin-client-staging.yaml
   - keycloak-staging.yaml
+  - meilisearch-staging.yaml

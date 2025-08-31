@@ -1,0 +1,9 @@
+# k8s/apps/meilisearch/base/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+images:
+  - name: getmeili/meilisearch
+    newTag: v1.8.0

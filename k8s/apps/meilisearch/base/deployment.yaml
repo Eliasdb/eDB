@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meilisearch
+  labels: { app: meilisearch }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: meilisearch }
+  template:
+    metadata:
+      labels: { app: meilisearch }
+    spec:
+      containers:
+        - name: meilisearch
+          image: getmeili/meilisearch:v1.8.0
+          ports: [{ containerPort: 7700 }]
+          env:
+            - name: MEILI_ENV
+              value: production
+            # Mount your key per env in overlays
+          readinessProbe:
+            httpGet: { path: /health, port: 7700 }
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet: { path: /health, port: 7700 }
+            initialDelaySeconds: 10
