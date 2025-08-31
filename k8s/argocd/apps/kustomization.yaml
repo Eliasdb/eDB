@@ -7,3 +7,4 @@ resources:
   - webshop-api-staging.yaml
   - platform-client-staging.yaml
   - admin-client-staging.yaml
+  - keycloak-staging.yaml
