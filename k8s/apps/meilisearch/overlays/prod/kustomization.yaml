@@ -5,15 +5,4 @@ namespace: default
 nameSuffix: -prod
 resources: [../../base]
 patches:
-  - target:
-      kind: Deployment
-      name: meilisearch-prod
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/env/-
-        value:
-          name: MEILI_MASTER_KEY
-          valueFrom:
-            secretKeyRef:
-              name: meilisearch-secret-prod
-              key: MEILI_MASTER_KEY
+  - patch-env.yaml

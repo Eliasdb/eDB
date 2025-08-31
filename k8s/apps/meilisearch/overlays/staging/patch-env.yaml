@@ -1,0 +1,16 @@
+# k8s/apps/meilisearch/overlays/staging/patch-env.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meilisearch-staging # use the final name (with -staging)
+spec:
+  template:
+    spec:
+      containers:
+        - name: meilisearch # container name in your base
+          env:
+            - name: MEILI_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: meilisearch-secret-staging
+                  key: MEILI_MASTER_KEY
