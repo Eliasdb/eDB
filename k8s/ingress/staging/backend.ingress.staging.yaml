@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/certificate-name: api-tls
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.staging.eliasdebock.com
+      http:
+        paths:
+          - path: /platform(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: platform-api-staging
+                port:
+                  number: 9101
+          - path: /webshop(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: webshop-api-staging
+                port:
+                  number: 8000
+          - path: /admin(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: admin-api-staging
+                port:
+                  number: 9102
+          - path: /invoices(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tools-invoices-api-staging
+                port:
+                  number: 8000
+  tls:
+    - hosts:
+        - api.staging.eliasdebock.com
+      secretName: api-tls

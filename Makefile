@@ -3,7 +3,7 @@ ITERM_APP ?= iTerm2
 ITERM := ./scripts/iterm_tab.sh   # ./scripts/iterm_tab.sh <appName> "<tab title>" <command...>
 
 # point compose at your infra file (and optional env file)
-COMPOSE := docker compose -f infra/docker-compose.yml
+COMPOSE := docker compose -f dev-env/docker-compose.yml
 # If you keep infra vars in infra/.env, uncomment:
 # COMPOSE := docker compose -f infra/docker-compose.yml --env-file infra/.env
 
