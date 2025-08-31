@@ -5,26 +5,20 @@ metadata:
   namespace: argocd
 spec:
   project: default
-
-  # 👇 Multi-source: 1) Helm chart, 2) your repo for values
-  sources:
-    - repoURL: https://kubernetes.github.io/ingress-nginx
-      chart: ingress-nginx
-      targetRevision: 4.11.2
-      helm:
-        valueFiles:
-          # $values refers to the Git source below (ref: values)
-          - $values/k8s/infra/ingress-nginx/values-staging.yaml
-
-    - repoURL: https://github.com/Eliasdb/eDB.git
-      targetRevision: dev
-      ref: values
-
   destination:
     server: https://kubernetes.default.svc
-    namespace: ingress-nginx
-
+    namespace: ingress-nginx-argo
+  source:
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: ingress-nginx
+    targetRevision: 4.11.2
+    helm:
+      # Point Helm at the values file you keep in this repo
+      valueFiles:
+        - ../../infra/ingress-nginx/values-staging.yaml
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
