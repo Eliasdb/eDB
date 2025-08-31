@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-stack-staging
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: 75.6.1
+      helm:
+        releaseName: monitoring
+        valueFiles:
+          - $values/k8s/infra/monitoring/prometheus/values-staging.yaml
+    - repoURL: https://github.com/Eliasdb/eDB.git
+      targetRevision: dev
+      ref: values
+
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true]

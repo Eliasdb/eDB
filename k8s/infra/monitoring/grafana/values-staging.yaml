@@ -1,0 +1,27 @@
+admin:
+  existingSecret: grafana-admin
+  userKey: admin-user
+  passwordKey: admin-password
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    folder: /var/lib/grafana/dashboards
+    searchNamespace: 'monitoring'
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  ingressClassName: nginx-argo
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+  hosts:
+    - grafana.staging.eliasdebock.com
+  tls:
+    - secretName: monitoring-tls
+      hosts: [grafana.staging.eliasdebock.com]
