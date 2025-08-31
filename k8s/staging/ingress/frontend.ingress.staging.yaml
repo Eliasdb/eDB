@@ -23,7 +23,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: admin-app-staging-service
+                name: admin-client-staging
                 port:
                   number: 80
 
