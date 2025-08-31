@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: admin-client-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: main
+    path: k8s/apps/admin-client/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
