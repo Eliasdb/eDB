@@ -10,7 +10,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-production
     cert-manager.io/certificate-name: api-tls
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-argo
   rules:
     - host: api.staging.eliasdebock.com
       http:
