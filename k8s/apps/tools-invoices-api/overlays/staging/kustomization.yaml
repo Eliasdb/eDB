@@ -8,4 +8,3 @@ patches:
   - path: patch.yaml
 images:
   - name: eliasdb/tools-invoices-api
-    newTag: pr-496-staging
