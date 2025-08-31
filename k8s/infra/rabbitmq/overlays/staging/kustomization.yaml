@@ -3,5 +3,3 @@ kind: Kustomization
 namespace: messaging
 resources:
   - ../../base
-patches:
-  - path: patch-probes.yaml
