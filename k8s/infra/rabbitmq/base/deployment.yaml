@@ -7,6 +7,7 @@ metadata:
     app: rabbitmq-staging
 spec:
   replicas: 1
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app: rabbitmq-staging
@@ -40,20 +41,23 @@ spec:
                   name: rabbitmq-creds
                   key: cookie
           readinessProbe:
-            httpGet:
-              path: /api/health/checks/alarms
-              port: management
-            initialDelaySeconds: 10
+            exec:
+              command:
+                ['rabbitmq-diagnostics', '-q', 'check_port_listener', '5672']
+            initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 12
           livenessProbe:
-            httpGet:
-              path: /api/health/checks/local-alarms
-              port: management
-            initialDelaySeconds: 20
+            exec:
+              command: ['rabbitmq-diagnostics', '-q', 'ping']
+            initialDelaySeconds: 60
             periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
           volumeMounts:
             - name: data
               mountPath: /var/lib/rabbitmq
       volumes:
         - name: data
-          emptyDir: {} # fine for dev, swap for PVC if you want persistence
+          emptyDir: {} # fine for dev; replace with a PVC for persistence
