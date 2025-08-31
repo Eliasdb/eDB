@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-staging
+  namespace: messaging
+  labels:
+    app: rabbitmq-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-staging
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-staging
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3.13-management
+          ports:
+            - name: amqp
+              containerPort: 5672
+            - name: management
+              containerPort: 15672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-creds
+                  key: username
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-creds
+                  key: password
+            - name: RABBITMQ_ERLANG_COOKIE
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-creds
+                  key: cookie
+          readinessProbe:
+            httpGet:
+              path: /api/health/checks/alarms
+              port: management
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health/checks/local-alarms
+              port: management
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: data
+          emptyDir: {} # fine for dev, swap for PVC if you want persistence
