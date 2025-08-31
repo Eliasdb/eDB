@@ -10,6 +10,7 @@ resources:
   - platform-client-staging.yaml
   - admin-client-staging.yaml
   # Infra
+  - ingress-nginx-staging.yaml
   - keycloak-staging.yaml
   - meilisearch-staging.yaml
   - redis-staging.yaml
