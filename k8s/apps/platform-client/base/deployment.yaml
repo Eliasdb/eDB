@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-client
+  labels:
+    app: platform-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platform-client
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: platform-client
+    spec:
+      containers:
+        - name: platform-client
+          # image and tag are set by overlays via Kustomize `images:`
+          image: eliasdb/edb
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: production # default; staging overlay patches this
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
