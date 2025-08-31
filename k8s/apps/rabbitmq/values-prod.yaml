@@ -1,0 +1,34 @@
+auth:
+  username: prod-user
+  # move these to secrets before go-live
+  password: 'prod'
+  erlangCookie: 'replace-with-very-long-random-cookie'
+  vhost: '/'
+
+persistence:
+  enabled: true
+  size: 20Gi
+  storageClass: '' # or your prod class
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: rabbitmq.eliasdebock.com
+  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+
+service:
+  type: ClusterIP
+  ports:
+    amqp: 5672
+    amqps: 5671
+    manager: 15672
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: '1'
+    memory: 1Gi

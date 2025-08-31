@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rabbitmq-staging
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: rabbitmq
+    targetRevision: 14.* # pick a stable major your cluster supports
+    helm:
+      valueFiles:
+        - k8s/apps/rabbitmq/values-staging.yaml # path in THIS repo
+      values: |-
+        # you can inline small tweaks here if needed
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
