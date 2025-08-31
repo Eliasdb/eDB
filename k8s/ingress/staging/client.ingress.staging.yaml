@@ -13,7 +13,7 @@ metadata:
     # -- enable RE2 regex support so dots and wildcards are allowed
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-argo
   rules:
     - host: app.staging.eliasdebock.com
       http:
