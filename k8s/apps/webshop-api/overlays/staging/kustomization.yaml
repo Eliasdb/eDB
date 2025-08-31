@@ -9,4 +9,3 @@ patches:
 images:
   # Let Argo CD Image Updater inject the tag at runtime
   - name: eliasdb/webshop-api
-    newTag: pr-496-staging

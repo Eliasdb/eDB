@@ -17,9 +17,6 @@ spec:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
     path: k8s/apps/webshop-api/overlays/staging
-    kustomize:
-      images:
-        - webshop-api=eliasdb/webshop-api
   destination:
     server: https://kubernetes.default.svc
     namespace: default
