@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
-    path: k8s/apps/platform-client/overlays/staging
+    path: k8s/product/platform-client/overlays/staging
   destination:
     server: https://kubernetes.default.svc
     namespace: default

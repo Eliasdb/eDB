@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
-    path: k8s/infra/meilisearch/overlays/staging
+    path: k8s/platform/search/meilisearch/overlays/staging
   destination:
     server: https://kubernetes.default.svc
     namespace: default

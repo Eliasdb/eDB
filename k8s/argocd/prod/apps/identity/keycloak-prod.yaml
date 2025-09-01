@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: main
-    path: k8s/apps/keycloak/overlays/prod
+    path: k8s/platform/identity/keycloak/overlays/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: auth

@@ -17,7 +17,7 @@ spec:
       helm:
         releaseName: loki
         valueFiles:
-          - $values/k8s/infra/monitoring/loki/values-staging.yaml
+          - $values/k8s/platform/observability/loki/values-staging.yaml
 
     - repoURL: https://grafana.github.io/helm-charts
       chart: promtail
@@ -25,7 +25,7 @@ spec:
       helm:
         releaseName: promtail
         valueFiles:
-          - $values/k8s/infra/monitoring/promtail/values-staging.yaml
+          - $values/k8s/platform/observability/promtail/values-staging.yaml
 
     - repoURL: https://github.com/Eliasdb/eDB.git
       targetRevision: dev

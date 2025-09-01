@@ -18,7 +18,7 @@ spec:
       helm:
         releaseName: grafana
         valueFiles:
-          - $values/k8s/infra/monitoring/grafana/values-staging.yaml
+          - $values/k8s/platform/observability/grafana/values-staging.yaml
 
     # B) Your repo (only to fetch the values file)
     - repoURL: https://github.com/Eliasdb/eDB.git

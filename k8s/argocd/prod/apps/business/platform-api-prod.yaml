@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tools-invoices-api-prod
+  name: platform-api-prod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io # <-- add this
@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: main
-    path: k8s/apps/tools-invoices-api/overlays/prod
+    path: k8s/product/platform-api/overlays/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: default

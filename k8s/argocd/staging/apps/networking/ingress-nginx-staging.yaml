@@ -15,7 +15,7 @@ spec:
       targetRevision: 4.11.2
       helm:
         valueFiles:
-          - $values/k8s/infra/ingress-nginx/values-staging.yaml
+          - $values/k8s/platform/networking/ingress-nginx/values-staging.yaml
     # 2) Your repo containing the values file
     - repoURL: https://github.com/Eliasdb/eDB.git
       targetRevision: dev # or the branch you use
