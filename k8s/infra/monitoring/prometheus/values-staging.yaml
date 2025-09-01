@@ -9,7 +9,9 @@ prometheusOperator:
   admissionWebhooks:
     enabled: true
     patch:
-      enabled: false # temporarily disable to avoid RBAC conflicts
+      enabled: true
+    certManager:
+      enabled: true
 
 prometheus:
   ingress:
