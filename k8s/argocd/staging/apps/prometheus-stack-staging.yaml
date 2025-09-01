@@ -14,7 +14,7 @@ spec:
       chart: kube-prometheus-stack
       targetRevision: 75.6.1
       helm:
-        releaseName: monitoring\
+        releaseName: monitoring
         skipCrds: true # <— add this
         valueFiles:
           - $values/k8s/infra/monitoring/prometheus/values-staging.yaml
