@@ -1,20 +1,23 @@
 grafana:
-  enabled: false # you’re running Grafana separately
+  enabled: false # you run Grafana separately
+
+# Install/update CRDs via Helm (so Argo doesn't try to patch them with SSA)
+crds:
+  enabled: true
 
 prometheus:
   ingress:
     enabled: true
-    ingressClassName: nginx-argo
+    ingressClassName: nginx-argo # <- your class
     annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: '/'
-      # If you want cert-manager to provision the TLS secret:
-      # cert-manager.io/cluster-issuer: letsencrypt-production
+      # DO NOT rewrite-root for Prometheus; it breaks the UI links
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
       - prometheus.staging.eliasdebock.com
     paths:
       - /
     pathType: Prefix
     tls:
-      - secretName: prometheus-tls
-        hosts:
+      - hosts:
           - prometheus.staging.eliasdebock.com
+        secretName: prometheus-tls # cert-manager will fill this if you set the issuer annotation above
