@@ -11,10 +11,8 @@ controller:
 
   # Service: NodePort, let K8s pick free ports (avoid "port already allocated")
   service:
-    type: NodePort
-    nodePorts:
-      http: null
-      https: null
+    type: LoadBalancer
+    externalTrafficPolicy: Local
 
   # If you use snippet annotations or rewrite-target, keep this on
   allowSnippetAnnotations: true

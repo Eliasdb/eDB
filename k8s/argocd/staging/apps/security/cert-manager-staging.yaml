@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://charts.jetstack.io
     chart: cert-manager
-    targetRevision: v1.14.4 # 👈 set this explicitly (check your current version with kubectl get deployment -n cert-manager cert-manager -o yaml | grep chart)
+    targetRevision: v1.14.4
     helm:
       parameters:
         - name: installCRDs
@@ -19,7 +19,7 @@ spec:
     namespace: security
   syncPolicy:
     automated:
-      prune: false # keep false until first sync looks good
-      selfHeal: false
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
