@@ -11,7 +11,7 @@ spec:
     path: k8s/platform/data/redis/overlays/staging
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: data
   syncPolicy:
     automated:
       prune: true
