@@ -18,6 +18,7 @@ Here's an overview of the key resources for this platform:
 | 🗺️ Dependency Graph        | [https://eliasdebock.com/docs/dep-graph/graph#/projects/all](https://eliasdebock.com/docs/dep-graph/graph#/projects/all)                                                                                 |
 | 📚 Storybook UI Library    | [https://eliasdebock.com/docs/storybook/index.html](https://eliasdebock.com/docs/storybook/index.html)                                                                                                   |
 | 🐳 Docker Hub Repository   | [https://hub.docker.com/u/eliasdb](https://hub.docker.com/u/eliasdb)                                                                                                                                     |
+| 🚦 Argo CD Dashboard       | [https://argocd.staging.eliasdebock.com](https://argocd.staging.eliasdebock.com)                                                                                                                         |
 
 ### TLDR docs
 
