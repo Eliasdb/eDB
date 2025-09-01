@@ -5,6 +5,12 @@ grafana:
 crds:
   enabled: true
 
+prometheusOperator:
+  admissionWebhooks:
+    enabled: true
+    patch:
+      enabled: false # temporarily disable to avoid RBAC conflicts
+
 prometheus:
   ingress:
     enabled: true
