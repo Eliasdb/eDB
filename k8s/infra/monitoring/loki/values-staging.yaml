@@ -1,14 +1,30 @@
-# Run Loki in single-process mode (no read/write/backend split)
+# Force single-process Loki
 deploymentMode: SingleBinary
 
 fullnameOverride: loki
+
+# ✅ keep ONLY singleBinary replicas
+singleBinary:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 20Gi
+    # storageClass: <your-storage-class>
+
+# 🚫 ensure scalable targets are OFF
+read:
+  replicas: 0
+write:
+  replicas: 0
+backend:
+  replicas: 0
 
 loki:
   auth_enabled: false
   server:
     http_listen_port: 3100
 
-  # Use filesystem (OK for single-binary; NOT OK for scalable/distributed)
+  # filesystem storage is fine for SingleBinary
   storage:
     type: filesystem
 
@@ -32,14 +48,6 @@ loki:
 
   limits_config:
     retention_period: 7d
-
-# Persistence for the single-binary pod
-singleBinary:
-  replicas: 1
-  persistence:
-    enabled: true
-    size: 20Gi
-    # storageClass: <your-storage-class>   # uncomment if needed
 
 service:
   type: ClusterIP
