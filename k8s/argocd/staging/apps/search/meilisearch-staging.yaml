@@ -12,6 +12,6 @@ spec:
     path: k8s/platform/search/meilisearch/overlays/staging
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: search
   syncPolicy:
     automated: { prune: true, selfHeal: true }

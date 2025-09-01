@@ -10,7 +10,7 @@ spec:
     # - https://helm.meilisearch.com         # add if you switch to official chart
   destinations:
     - server: https://kubernetes.default.svc
-      namespace: default # ← current ns
+      namespace: search # ← current ns
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
