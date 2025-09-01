@@ -3,15 +3,14 @@ deploymentMode: SingleBinary
 
 fullnameOverride: loki
 
-# ✅ keep ONLY singleBinary replicas
+# ✅ keep ONLY single-binary; zero scalable targets
 singleBinary:
   replicas: 1
   persistence:
     enabled: true
     size: 20Gi
-    # storageClass: <your-storage-class>
+    # storageClass: <your-storage-class>  # uncomment if you need a specific SC
 
-# 🚫 ensure scalable targets are OFF
 read:
   replicas: 0
 write:
@@ -19,19 +18,36 @@ write:
 backend:
   replicas: 0
 
+# Help with PVC permissions
+podSecurityContext:
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  fsGroupChangePolicy: 'OnRootMismatch'
+
+service:
+  type: ClusterIP
+  ports:
+    http: 3100
+
+# ---- Loki configuration (this renders into loki.yaml) ----
 loki:
   auth_enabled: false
+
   server:
     http_listen_port: 3100
 
-  # filesystem storage is fine for SingleBinary
-  storage:
-    type: filesystem
-
-  commonConfig:
+  # Common paths + local filesystem storage layout
+  common:
+    path_prefix: /var/loki
     replication_factor: 1
+    storage:
+      filesystem:
+        chunks_directory: /var/loki/chunks
+        rules_directory: /var/loki/rules
 
-  schemaConfig:
+  # Index & schema (boltdb-shipper on filesystem)
+  schema_config:
     configs:
       - from: 2024-01-01
         store: boltdb-shipper
@@ -41,15 +57,22 @@ loki:
           prefix: index_
           period: 24h
 
+  storage_config:
+    boltdb_shipper:
+      active_index_directory: /var/loki/index
+      cache_location: /var/loki/boltdb-cache
+      shared_store: filesystem
+    filesystem:
+      directory: /var/loki/chunks
+
+  # Retention requires delete_request_store
   compactor:
-    working_directory: /data/compactor
+    working_directory: /var/loki/compactor
     compaction_interval: 5m
     retention_enabled: true
+    delete_request_store: filesystem
 
+  # Keep it simple until you migrate to TSDB
   limits_config:
     retention_period: 7d
-
-service:
-  type: ClusterIP
-  ports:
-    http: 3100
+    allow_structured_metadata: false
