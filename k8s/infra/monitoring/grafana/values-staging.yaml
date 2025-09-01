@@ -29,3 +29,13 @@ ingress:
   tls:
     - secretName: monitoring-tls
       hosts: [grafana.staging.eliasdebock.com]
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring.svc:3100
+        isDefault: false

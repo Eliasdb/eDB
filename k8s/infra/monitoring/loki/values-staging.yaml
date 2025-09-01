@@ -1,0 +1,35 @@
+fullnameOverride: loki
+
+loki:
+  auth_enabled: false
+  server:
+    http_listen_port: 3100
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: filesystem
+  schemaConfig:
+    configs:
+      - from: 2024-01-01
+        store: boltdb-shipper
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+  compactor:
+    working_directory: /data/compactor
+    compaction_interval: 5m
+    retention_enabled: true
+  limits_config:
+    retention_period: 7d
+
+persistence:
+  enabled: true
+  size: 20Gi
+  # storageClass: <your-storage-class>   # uncomment if you need a specific SC
+
+service:
+  type: ClusterIP
+  ports:
+    http: 3100

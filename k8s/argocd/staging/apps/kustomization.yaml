@@ -18,3 +18,4 @@ resources:
     # Monitoring
   - grafana-staging.yaml
   - prometheus-stack-staging.yaml
+  - loki-promtrail-staging.yaml
