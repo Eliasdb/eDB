@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: identity
+  namespace: argocd
+spec:
+  description: Identity & access services (Keycloak)
+
+  # repos this project is allowed to deploy from
+  sourceRepos:
+    - https://github.com/Eliasdb/eDB.git
+
+  # where apps in this project may deploy
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: auth
+
+  # allow all resource kinds (tighten later if you want)
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
