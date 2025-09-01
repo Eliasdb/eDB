@@ -1,14 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # API
-  - admin-api-staging.yaml
-  - platform-api-staging.yaml
-  - tools-invoices-api-staging.yaml
-  - webshop-api-staging.yaml
-  # Client
-  - platform-client-staging.yaml
-  - admin-client-staging.yaml
   # Infra
   - ingress-nginx-staging.yaml
   - keycloak-staging.yaml
@@ -16,7 +8,6 @@ resources:
   - redis-staging.yaml
   - rabbitmq-staging.yaml
 
-  # Observability (moved into subfolder)
-  - observability/grafana-staging.yaml
-  - observability/prometheus-stack-staging.yaml
-  - observability/loki-promtail-staging.yaml
+  # Grouped projects
+  - observability/
+  - business/

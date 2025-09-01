@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: admin-client-staging
+  namespace: argocd
+  annotations:
+    # Image Updater (staging tracks PR images)
+    argocd-image-updater.argoproj.io/image-list: admin-client=eliasdb/edb-admin
+    argocd-image-updater.argoproj.io/admin-client.allow-tags: regexp:^pr-\d+-staging$
+    argocd-image-updater.argoproj.io/admin-client.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+spec:
+  project: apps
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev
+    path: k8s/apps/admin-client/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
