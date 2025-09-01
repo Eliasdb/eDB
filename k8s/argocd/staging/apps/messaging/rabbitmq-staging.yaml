@@ -4,7 +4,7 @@ metadata:
   name: rabbitmq-staging
   namespace: argocd
 spec:
-  project: default
+  project: messaging
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
