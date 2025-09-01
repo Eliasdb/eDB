@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   # Infra
   - ingress-nginx-staging.yaml
-  - keycloak-staging.yaml
   - meilisearch-staging.yaml
   - redis-staging.yaml
   - rabbitmq-staging.yaml
 
   # Grouped projects
   - observability/
+  - identity/ # <— add this
   - business/
