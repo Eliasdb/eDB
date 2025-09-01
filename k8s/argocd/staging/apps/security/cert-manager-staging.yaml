@@ -16,10 +16,10 @@ spec:
           value: 'true'
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: security
   syncPolicy:
     automated:
       prune: false # keep false until first sync looks good
-      selfHeal: true
+      selfHeal: false
     syncOptions:
       - CreateNamespace=true
