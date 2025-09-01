@@ -15,7 +15,8 @@ resources:
   - meilisearch-staging.yaml
   - redis-staging.yaml
   - rabbitmq-staging.yaml
-    # Monitoring
-  - grafana-staging.yaml
-  - prometheus-stack-staging.yaml
-  - loki-promtail-staging.yaml
+
+  # Observability (moved into subfolder)
+  - observability/grafana-staging.yaml
+  - observability/prometheus-stack-staging.yaml
+  - observability/loki-promtail-staging.yaml
