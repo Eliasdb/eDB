@@ -7,8 +7,12 @@ sidecar:
   dashboards:
     enabled: true
     label: grafana_dashboard
-    folder: /var/lib/grafana/dashboards
-    searchNamespace: 'monitoring'
+    labelValue: '1' # important: value to match on
+    searchNamespace: ALL # or "monitoring" if you prefer
+    provider:
+      allowUiUpdates: true # <-- lets you Save provisioned dashboards
+      options:
+        path: /var/lib/grafana/dashboards # keep your folder
 
 service:
   type: ClusterIP
