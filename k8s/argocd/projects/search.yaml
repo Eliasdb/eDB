@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: search
+  namespace: argocd
+spec:
+  description: Search/indexing services (Meilisearch)
+  sourceRepos:
+    - https://github.com/Eliasdb/eDB.git
+    # - https://helm.meilisearch.com         # add if you switch to official chart
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: default # ← current ns
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
