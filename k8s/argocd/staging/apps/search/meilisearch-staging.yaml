@@ -5,7 +5,7 @@ metadata:
   name: meilisearch-staging
   namespace: argocd
 spec:
-  project: default
+  project: search
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: dev
