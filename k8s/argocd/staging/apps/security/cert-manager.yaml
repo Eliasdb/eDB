@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  project: security
+  source:
+    repoURL: https://charts.jetstack.io
+    chart: cert-manager
+    # Tip: pin to the chart version you currently run or a tested one.
+    # targetRevision: 1.14.4
+    # Install CRDs from Helm so GitOps owns them:
+    helm:
+      parameters:
+        - name: installCRDs
+          value: 'true'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: false # keep false for the first sync to avoid pruning anything unexpectedly
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

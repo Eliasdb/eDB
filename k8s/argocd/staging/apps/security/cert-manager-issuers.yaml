@@ -1,0 +1,19 @@
+# k8s/argocd/staging/apps/security/cert-manager-issuers.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-issuers
+  namespace: argocd
+spec:
+  project: security
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev
+    path: k8s/platform/security/cert-manager/issuers
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default # doesn't really matter; ClusterIssuer is cluster-scoped
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
