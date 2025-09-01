@@ -1,0 +1,29 @@
+# Unique names so it doesn’t clash with the existing controller
+fullnameOverride: ingress-nginx-argo
+
+controller:
+  # Use a distinct IngressClass so you can cut over gradually
+  ingressClass: nginx-argo
+  ingressClassResource:
+    name: nginx-argo
+    enabled: true
+    default: false
+
+  # Service: NodePort, let K8s pick free ports (avoid "port already allocated")
+  service:
+    type: NodePort
+    nodePorts:
+      http: null
+      https: null
+
+  # If you use snippet annotations or rewrite-target, keep this on
+  allowSnippetAnnotations: true
+
+  # Optional niceties
+  config:
+    use-forwarded-headers: 'true'
+    enable-brotli: 'true'
+
+# Turn off the default backend; not needed for most setups
+defaultBackend:
+  enabled: false
