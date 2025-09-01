@@ -17,6 +17,8 @@ spec:
   destinations:
     - namespace: monitoring
       server: https://kubernetes.default.svc
+    - namespace: kube-system # <-- add this
+      server: https://kubernetes.default.svc
 
   # Allow cluster-scoped resources (CRDs, ClusterRoles)
   clusterResourceWhitelist:
