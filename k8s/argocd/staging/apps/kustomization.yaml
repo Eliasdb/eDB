@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   # Infra
   - meilisearch-staging.yaml
-  - redis-staging.yaml
 
   # Grouped projects
   - observability/
@@ -11,3 +10,4 @@ resources:
   - business/
   - messaging/
   - networking/
+  - data/

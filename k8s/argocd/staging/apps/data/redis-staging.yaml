@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-staging
+  namespace: argocd
+spec:
+  project: data
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev
+    path: k8s/infra/data/redis/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
