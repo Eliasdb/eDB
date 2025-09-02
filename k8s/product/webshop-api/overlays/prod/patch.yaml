@@ -8,7 +8,7 @@ spec:
       containers:
         - name: webshop-api
           # Pin your prod tag here (change during releases)
-          image: eliasdb/webshop-api:v2.0.2
+          image: eliasdb/webshop-api
           env:
             - name: APP_ENV
               value: 'production'

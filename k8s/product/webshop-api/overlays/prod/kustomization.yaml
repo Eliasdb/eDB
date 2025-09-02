@@ -6,4 +6,6 @@ resources:
   - ../../base
 patches:
   - path: patch.yaml
-# No images: section here → prod tag is controlled in Git (or by your release process)
+images:
+  - name: eliasdb/webshop-api
+    newTag: v2.0
