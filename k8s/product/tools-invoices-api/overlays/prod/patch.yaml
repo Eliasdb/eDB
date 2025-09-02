@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: tools-invoices-api
-          image: eliasdb/tools-invoices-api:v1.0.0 # explicit release tag
+          image: eliasdb/tools-invoices-api
           env:
             - name: ENVIRONMENT
               value: 'production'

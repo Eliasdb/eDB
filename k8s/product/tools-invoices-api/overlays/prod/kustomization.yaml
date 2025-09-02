@@ -6,3 +6,6 @@ resources:
   - ../../base
 patches:
   - path: patch.yaml
+images:
+  - name: eliasdb/tools-invoices-api
+    newTag: v2.0
