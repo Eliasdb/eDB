@@ -254,6 +254,8 @@ jobs:
           title: 'Promote admin-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
           body: 'Promotes **admin-api** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
           branch: 'promote/admin-api-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true # clean up merged promo branch
+          branch-suffix: short-commit-hash # avoid collisions if tag repeats
           base: 'main'
           labels: |
             release
