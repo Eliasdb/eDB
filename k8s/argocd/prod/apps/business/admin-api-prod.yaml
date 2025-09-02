@@ -16,7 +16,7 @@ spec:
     namespace: default # or your prod namespace
   syncPolicy:
     # For prod, keep manual unless you’re confident
-    automated: { prune: false, selfHeal: false }
+    automated: { prune: false, selfHeal: true }
     syncOptions:
       - PrunePropagationPolicy=foreground
       - PruneLast=true
