@@ -8,3 +8,4 @@ patches:
   - patch.yaml
 images:
   - name: eliasdb/admin-api
+    newTag: v1.2.3 # <-- CI will bump this

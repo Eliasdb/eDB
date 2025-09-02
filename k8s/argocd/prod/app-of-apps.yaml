@@ -4,7 +4,7 @@ metadata:
   name: prod
   namespace: argocd
 spec:
-  project: prod
+  project: default
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: main # or a prod branch/tag

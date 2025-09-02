@@ -225,27 +225,40 @@ jobs:
   # 🧠 Deploy Admin API to Production
   # ─────────────────────────────────────────────────────────────────────────────
   deploy-admin-api:
-    name: Deploy Admin API to Production
+    name: Promote Admin API to Prod (GitOps)
     runs-on: self-hosted
     needs: [nx-affected, version, lint-yaml]
     if: ${{ needs.nx-affected.outputs.admin_api == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Configure Kubernetes
+      # Install kustomize (no yq needed)
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3' # or latest
+
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+          cd k8s/product/admin-api/overlays/prod
+          # Set eliasdb/admin-api => eliasdb/admin-api:${TAG}
+          kustomize edit set image eliasdb/admin-api=eliasdb/admin-api:${TAG}
+          echo "kustomization.yaml after bump:"
+          grep -n "images:" -n kustomization.yaml -n || true
+          grep -n "eliasdb/admin-api" kustomization.yaml || true
 
-      - name: Deploy YAML
-        run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-            k8s/prod/apis/admin-api/admin-api.deployment.template.prod.yaml \
-            > k8s/prod/apis/admin-api/admin-api.deployment.prod.yaml
-          kubectl apply --dry-run=client -f k8s/prod/apis/admin-api/admin-api.deployment.prod.yaml
-          kubectl apply -f k8s/prod/apis/admin-api/admin-api.deployment.prod.yaml
-          kubectl rollout status deployment/admin-api-prod || kubectl rollout undo deployment/admin-api-prod
-
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote admin-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote admin-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **admin-api** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/admin-api-${{ needs.version.outputs.image_tag }}'
+          base: 'main'
+          labels: |
+            release
+            prod
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧾 Deploy Tools Invoices API to Production
   # ─────────────────────────────────────────────────────────────────────────────
