@@ -3,9 +3,10 @@ kind: Kustomization
 nameSuffix: -prod
 namespace: default
 resources:
-  - ../../base
+- ../../base
 patches:
-  - path: patch.yaml
+- path: patch.yaml
 images:
-  - name: eliasdb/webshop-api
-    newTag: v2.0
+- name: eliasdb/webshop-api
+  newName: eliasdb/webshop-api
+  newTag: v2.0.5
