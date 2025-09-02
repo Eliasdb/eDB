@@ -1,6 +1,5 @@
 /**
  * apps/eDB-admin/module-federation.config.ts  (remote)
- * ASCII‑only, CI‑friendly
  */
 import {
   ModuleFederationConfig,
