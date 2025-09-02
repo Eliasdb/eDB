@@ -1,58 +1,58 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: frontend-ingress
-    namespace: default
-    annotations:
-        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-        nginx.ingress.kubernetes.io/backend-protocol: 'HTTP'
-        nginx.ingress.kubernetes.io/use-forwarded-headers: 'true'
-        cert-manager.io/cluster-issuer: letsencrypt-production
-        cert-manager.io/certificate-name: app-prod-tls
-        nginx.ingress.kubernetes.io/proxy-set-headers: 'ingress-nginx/custom-headers'
-        nginx.ingress.kubernetes.io/use-regex: 'true'
+  name: frontend-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/backend-protocol: 'HTTP'
+    nginx.ingress.kubernetes.io/use-forwarded-headers: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/certificate-name: app-prod-tls
+    nginx.ingress.kubernetes.io/proxy-set-headers: 'ingress-nginx/custom-headers'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
-    ingressClassName: nginx
-    rules:
-        - host: app.eliasdebock.com
-          http:
-              paths:
-                  # 1️⃣ Static admin bundles
-                  - path: /admin/.*\.[a-z0-9]+$
-                    pathType: ImplementationSpecific
-                    backend:
-                        service:
-                            name: admin-app-prod-service
-                            port:
-                                number: 80
+  ingressClassName: nginx
+  rules:
+    - host: app.eliasdebock.com
+      http:
+        paths:
+          # 1️⃣ Static admin bundles
+          - path: /admin/.*\.[a-z0-9]+$
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: admin-client-prod
+                port:
+                  number: 80
 
-                  # 2️⃣ Everything else under /admin
-                  - path: /admin(/.*)?$
-                    pathType: ImplementationSpecific
-                    backend:
-                        service:
-                            name: web-app-prod-service
-                            port:
-                                number: 80
+          # 2️⃣ Everything else under /admin
+          - path: /admin(/.*)?$
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: web-app-prod-service
+                port:
+                  number: 80
 
-                  # 3️⃣ Keycloak
-                  - path: /keycloak
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: keycloak-prod
-                            port:
-                                number: 8080
+          # 3️⃣ Keycloak
+          - path: /keycloak
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-prod
+                port:
+                  number: 8080
 
-                  # 4️⃣ Catch-all fallback to host app
-                  - path: /
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: web-app-prod-service
-                            port:
-                                number: 80
-    tls:
-        - hosts:
-              - app.eliasdebock.com
-          secretName: app-prod-tls
+          # 4️⃣ Catch-all fallback to host app
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-app-prod-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - app.eliasdebock.com
+      secretName: app-prod-tls

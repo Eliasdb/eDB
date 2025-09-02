@@ -33,7 +33,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: edb-admin-api-prod-service
+                name: admin-api-prod
                 port:
                   number: 9102
 
