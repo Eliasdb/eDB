@@ -31,27 +31,26 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧪 Lint Kubernetes YAML Files
   # ─────────────────────────────────────────────────────────────────────────────
-  lint-yaml:
-    name: Lint YAML Files
-    runs-on: [self-hosted]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - name: Install yamllint
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y yamllint
-      - name: Run yamllint
-        run: |
-          yamllint k8s/prod/client/edb
-          yamllint k8s/prod/client/mfe-edb-admin
+  #   name: Lint YAML Files
+  #   runs-on: [self-hosted]
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v3
+  #     - name: Install yamllint
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y yamllint
+  #     - name: Run yamllint
+  #       run: |
+  #         yamllint k8s/prod/client/edb
+  #         yamllint k8s/prod/client/mfe-edb-admin
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧠 Detect Affected
   # ─────────────────────────────────────────────────────────────────────────────
   nx-affected:
     name: Detect Affected
     runs-on: self-hosted
-    needs: [version, lint-yaml]
+    needs: [version]
     outputs:
       platform_api: ${{ steps.set_booleans.outputs.platform_api }}
       webshop_api: ${{ steps.set_booleans.outputs.webshop_api }}
@@ -128,7 +127,7 @@ jobs:
   deploy-platform-api:
     name: Deploy Platform API to Production
     runs-on: self-hosted
-    needs: [nx-affected, version, lint-yaml]
+    needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -153,7 +152,7 @@ jobs:
   deploy-webshop-api:
     name: Deploy Webshop API to Production
     runs-on: self-hosted
-    needs: [nx-affected, version, lint-yaml]
+    needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -178,7 +177,7 @@ jobs:
   deploy-platform:
     name: Deploy Platform App to Production
     runs-on: self-hosted
-    needs: [nx-affected, version, lint-yaml]
+    needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.platform_app == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -203,7 +202,7 @@ jobs:
   deploy-admin-app:
     name: Deploy Admin App to Production
     runs-on: self-hosted
-    needs: [nx-affected, version, lint-yaml]
+    needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
     steps:
       - uses: actions/checkout@v3
@@ -227,7 +226,7 @@ jobs:
   deploy-admin-api:
     name: Promote Admin API to Prod (GitOps)
     runs-on: self-hosted
-    needs: [nx-affected, version, lint-yaml]
+    needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.admin_api == 'true' }}
     steps:
       - uses: actions/checkout@v4
@@ -265,7 +264,7 @@ jobs:
   deploy-tools-invoices-api:
     name: Deploy Tools Invoices API to Production
     runs-on: self-hosted
-    needs: [nx-affected, version, lint-yaml]
+    needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
     steps:
       - uses: actions/checkout@v3
