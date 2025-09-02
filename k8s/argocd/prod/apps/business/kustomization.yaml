@@ -5,6 +5,5 @@ resources:
   - admin-client-prod.yaml
   - platform-client-prod.yaml
   - platform-api-prod.yaml
-  # - platform-api.yaml
-  # - webshop-api.yaml
-  # - tools-invoices.yaml
+  - webshop-api-prod.yaml
+  - tools-invoices-api-prod.yaml
