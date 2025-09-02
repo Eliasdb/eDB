@@ -3,9 +3,10 @@ kind: Kustomization
 nameSuffix: -prod
 namespace: default
 resources:
-  - ../../base
+- ../../base
 patches:
-  - path: patch.yaml
+- path: patch.yaml
 images:
-  - name: eliasdb/admin-api
-    newTag: v1.2.3 # <-- CI will bump this
+- name: eliasdb/admin-api
+  newName: eliasdb/admin-api
+  newTag: v2.0
