@@ -4,15 +4,18 @@ metadata:
   name: admin-client-prod
   namespace: argocd
 spec:
-  project: default
+  project: apps
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: main
     path: k8s/product/admin-client/overlays/prod
   destination:
-    server: https://kubernetes.default.svc
-    namespace: default
+    name: prod # 👈 now targets the prod cluster you registered
+    namespace: default # or your prod namespace
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
