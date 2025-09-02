@@ -9,4 +9,4 @@ patches:
 images:
   # Pin to an immutable prod tag
   - name: eliasdb/edb
-    # newTag: v1.0.256-prod
+    newTag: v2.0

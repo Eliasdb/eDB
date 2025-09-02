@@ -8,7 +8,7 @@ namespace Edb.PlatformAPI.Utilities
         public static MyDbContext CreateDbContext()
         {
             var options = new DbContextOptionsBuilder<MyDbContext>()
-                .UseInMemoryDatabase(databaseName: System.Guid.NewGuid().ToString()) // Unique DB name
+                .UseInMemoryDatabase(databaseName: System.Guid.NewGuid().ToString()) // Unique DB name.
                 .Options;
             return new MyDbContext(options);
         }
