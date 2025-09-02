@@ -9,4 +9,4 @@ patches:
 images:
 - name: eliasdb/admin-api
   newName: eliasdb/admin-api
-  newTag: v2.0.2
+  newTag: v2.0.3
