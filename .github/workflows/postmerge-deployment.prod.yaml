@@ -124,52 +124,95 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # 🚀 Deploy Platform API to Production
   # ─────────────────────────────────────────────────────────────────────────────
-  deploy-platform-api:
-    name: Deploy Platform API to Production
+  promote-platform-api:
+    name: Promote Platform API to Prod (GitOps)
     runs-on: self-hosted
     needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.platform_api == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Configure Kubernetes
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+      # Install kustomize
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3'
 
-      - name: Deploy YAML
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
+          IMAGE_NAME: eliasdb/platform-api # ⬅️ change if your repo name differs
         run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-            k8s/prod/apis/platform-api/api-deployment-template.prod.yaml \
-            > k8s/prod/apis/platform-api/api-deployment.prod.yaml
-          kubectl apply --dry-run=client -f k8s/prod/apis/platform-api/api-deployment.prod.yaml
-          kubectl apply -f k8s/prod/apis/platform-api/api-deployment.prod.yaml
-          kubectl rollout status deployment/platform-api-prod || kubectl rollout undo deployment/platform-api-prod
+          set -euo pipefail
+          cd k8s/product/platform-api/overlays/prod
+
+          # Update image to use the new tag
+          kustomize edit set image "${IMAGE_NAME}=${IMAGE_NAME}:${TAG}"
+
+          echo "kustomization.yaml after bump:"
+          grep -n "^images:" kustomization.yaml || true
+          grep -n "${IMAGE_NAME}" kustomization.yaml || true
+
+          # Sanity check the overlay builds
+          kustomize build . >/dev/null
+
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote platform-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote platform-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **platform-api** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/platform-api-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          base: 'main'
+          labels: |
+            release
+            prod
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🛒 Deploy Webshop API to Production
   # ─────────────────────────────────────────────────────────────────────────────
-  deploy-webshop-api:
-    name: Deploy Webshop API to Production
+  promote-webshop-api:
+    name: Promote Webshop API to Prod (GitOps)
     runs-on: self-hosted
     needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.webshop_api == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Configure Kubernetes
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3'
 
-      - name: Deploy YAML
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
+          IMAGE_NAME: eliasdb/webshop-api
         run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-            k8s/prod/apis/webshop-api/api-deployment-template.prod.yaml \
-            > k8s/prod/apis/webshop-api/api-deployment.prod.yaml
-          kubectl apply --dry-run=client -f k8s/prod/apis/webshop-api/api-deployment.prod.yaml
-          kubectl apply -f k8s/prod/apis/webshop-api/api-deployment.prod.yaml
-          kubectl rollout status deployment/webshop-api-prod || kubectl rollout undo deployment/webshop-api-prod
+          set -euo pipefail
+          cd k8s/product/webshop-api/overlays/prod
+
+          kustomize edit set image "${IMAGE_NAME}=${IMAGE_NAME}:${TAG}"
+
+          echo "kustomization.yaml after bump:"
+          grep -n "^images:" kustomization.yaml || true
+          grep -n "${IMAGE_NAME}" kustomization.yaml || true
+
+          kustomize build . >/dev/null
+
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote webshop-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote webshop-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **webshop-api** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/webshop-api-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          base: 'main'
+          labels: |
+            release
+            prod
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🌐 Deploy Platform App to Production
@@ -302,25 +345,44 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧾 Deploy Tools Invoices API to Production
   # ─────────────────────────────────────────────────────────────────────────────
-  deploy-tools-invoices-api:
-    name: Deploy Tools Invoices API to Production
+  promote-tools-invoices-api:
+    name: Promote Tools Invoices API to Prod (GitOps)
     runs-on: self-hosted
     needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.invoices_api == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Configure Kubernetes
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3'
+
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
+          IMAGE_NAME: eliasdb/tools-invoices-api
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+          set -euo pipefail
+          cd k8s/product/tools-invoices-api/overlays/prod
 
-      - name: Deploy YAML
-        run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-            k8s/prod/apis/tools-invoices-api/invoices.deployment.template.prod.yaml \
-            > k8s/prod/apis/tools-invoices-api/invoices.deployment.prod.yaml
+          kustomize edit set image "${IMAGE_NAME}=${IMAGE_NAME}:${TAG}"
 
-          kubectl apply --dry-run=client -f k8s/prod/apis/tools-invoices-api/invoices.deployment.prod.yaml
-          kubectl apply -f k8s/prod/apis/tools-invoices-api/invoices.deployment.prod.yaml
-          kubectl rollout status deployment/tools-invoices-prod || kubectl rollout undo deployment/tools-invoices-prod
+          echo "kustomization.yaml after bump:"
+          grep -n "^images:" kustomization.yaml || true
+          grep -n "${IMAGE_NAME}" kustomization.yaml || true
+
+          kustomize build . >/dev/null
+
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote tools-invoices-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote tools-invoices-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **tools-invoices-api** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/tools-invoices-api-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          base: 'main'
+          labels: |
+            release
+            prod
