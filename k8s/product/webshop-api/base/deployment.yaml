@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webshop-api
+  labels:
+    app: webshop-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webshop-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: webshop-api
+    spec:
+      containers:
+        - name: webshop-api
+          # No tag here; overlays / Image Updater will set it
+          image: eliasdb/webshop-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          # common bits stay in base; env is overlaid per env
+          env: []
+          envFrom:
+            - secretRef:
+                name: webshop-amqp
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '500m'
+            limits:
+              memory: '1Gi'
+              cpu: '1'

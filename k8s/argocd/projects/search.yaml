@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: search
+  namespace: argocd
+spec:
+  description: Search/indexing services (Meilisearch)
+  sourceRepos:
+    - https://github.com/Eliasdb/eDB.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: search
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

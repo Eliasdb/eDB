@@ -11,13 +11,18 @@ jobs:
     name: Set Version
     runs-on: self-hosted
     outputs:
-      image_tag: ${{ steps.setver.outputs.image_tag }}
+      image_tag: ${{ steps.setver.outputs.image_tag }} # SHA
+      pretty_tag: ${{ steps.setver.outputs.pretty_tag }} # pr-123-staging (optional)
     steps:
-      - name: Set Version with PR number
+      - name: Set Version (SHA + optional PR tag)
         id: setver
         run: |
-          VERSION=pr-${{ github.event.pull_request.number }}-staging
-          echo "image_tag=${VERSION}" | tee -a $GITHUB_ENV >> $GITHUB_OUTPUT
+          echo "image_tag=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            echo "pretty_tag=pr-${{ github.event.pull_request.number }}-staging" >> $GITHUB_OUTPUT
+          else
+            echo "pretty_tag=" >> $GITHUB_OUTPUT
+          fi
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🔍 Detect Affected Projects for Staging
@@ -156,6 +161,9 @@ jobs:
           poetry --version
 
       - name: Build & Push Docker images (skip admin)
+        env:
+          SHA_TAG: ${{ needs.version.outputs.image_tag }}
+          PRETTY_TAG: ${{ needs.version.outputs.pretty_tag }}
         run: |
           # get all non-admin apps affected
           AFFECTED=$(pnpm nx show projects --affected --type=app \
@@ -179,13 +187,24 @@ jobs:
               continue
             fi
 
-            echo "🐳 Building Docker image for $app from docker/$lower_app/Dockerfile.staging"
-            docker build --platform linux/arm64 \
-              -f "./docker/$lower_app/Dockerfile.staging" \
-              -t "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}" .
+            DOCKERFILE="./docker/$lower_app/Dockerfile.staging"
+            IMAGE="eliasdb/$lower_app"
 
-            echo "🚀 Pushing Docker image eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
-            docker push "eliasdb/$lower_app:${{ needs.version.outputs.image_tag }}"
+            echo "🐳 Building $IMAGE:$SHA_TAG"
+            docker build --platform linux/arm64 -f "$DOCKERFILE" -t "$IMAGE:$SHA_TAG" .
+
+            if [ -n "$PRETTY_TAG" ]; then
+              echo "🔖 Also tagging $IMAGE:$PRETTY_TAG"
+              docker tag "$IMAGE:$SHA_TAG" "$IMAGE:$PRETTY_TAG"
+            fi
+
+            echo "🚀 Pushing $IMAGE:$SHA_TAG"
+            docker push "$IMAGE:$SHA_TAG"
+
+            if [ -n "$PRETTY_TAG" ]; then
+              echo "🚀 Pushing $IMAGE:$PRETTY_TAG"
+              docker push "$IMAGE:$PRETTY_TAG"
+            fi
           done
 
   # ─────────────────────────────────────────────

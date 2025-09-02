@@ -1,3 +1,4 @@
+// ui-icon-button.component.ts
 import { Component, EventEmitter, Output, input } from '@angular/core';
 import { ButtonModule } from 'carbon-components-angular';
 import { UiIconComponent } from '../../icon/icon.component';
@@ -18,6 +19,9 @@ import { UiIconComponent } from '../../icon/icon.component';
       (mouseleave)="handleMouseLeave($event)"
       (focus)="handleFocus($event)"
       (blur)="handleBlur($event)"
+      [attr.aria-label]="ariaLabel()"
+      [attr.data-testid]="testId()"
+      role="button"
     >
       <ui-icon
         class="cds--btn__icon"
@@ -44,32 +48,31 @@ export class UiIconButtonComponent {
   readonly iconSize = input<string>('16px');
   readonly iconColor = input<string>('');
 
-  // Rename these to avoid native DOM event conflicts
+  // NEW: attributes we want to forward to the real button
+  readonly ariaLabel = input<string | null>(null);
+  readonly testId = input<string | null>(null);
+
+  @Output() click = new EventEmitter<Event>();
   @Output() iconButtonClick = new EventEmitter<Event>();
   @Output() iconButtonMouseEnter = new EventEmitter<Event>();
   @Output() iconButtonMouseLeave = new EventEmitter<Event>();
   @Output() iconButtonFocus = new EventEmitter<Event>();
   @Output() iconButtonBlur = new EventEmitter<Event>();
-  @Output() click = new EventEmitter<Event>(); // 👈 this line
 
-  handleClick(event: Event): void {
-    this.iconButtonClick.emit(event); // existing
-    this.click.emit(event); // 👈 add this
+  handleClick(event: Event) {
+    this.iconButtonClick.emit(event);
+    this.click.emit(event);
   }
-
-  handleMouseEnter(event: Event): void {
-    this.iconButtonMouseEnter.emit(event);
+  handleMouseEnter(e: Event) {
+    this.iconButtonMouseEnter.emit(e);
   }
-
-  handleMouseLeave(event: Event): void {
-    this.iconButtonMouseLeave.emit(event);
+  handleMouseLeave(e: Event) {
+    this.iconButtonMouseLeave.emit(e);
   }
-
-  handleFocus(event: Event): void {
-    this.iconButtonFocus.emit(event);
+  handleFocus(e: Event) {
+    this.iconButtonFocus.emit(e);
   }
-
-  handleBlur(event: Event): void {
-    this.iconButtonBlur.emit(event);
+  handleBlur(e: Event) {
+    this.iconButtonBlur.emit(e);
   }
 }

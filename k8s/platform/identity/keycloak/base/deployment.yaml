@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: eliasdb/keycloak-edb:26.2.4-v20 # default; overridden per overlay
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              value: 'admin'
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              value: 'admin'
+            - name: KC_SPI_THEME_LOGIN_DEFAULT
+              value: 'edb-theme'
+            - name: KC_DB
+              value: 'postgres'

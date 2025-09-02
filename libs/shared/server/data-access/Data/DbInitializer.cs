@@ -11,7 +11,7 @@ namespace EDb.DataAccess.Data
         public static void Initialize(MyDbContext context)
         {
             // Ensure the database is created
-            context.Database.Migrate(); // Apply migrations instead of manually creating tables
+            context.Database.Migrate(); // Apply migrations instead of manually creating tables?
 
             // Seed Applications
             if (!context.Applications.Any())

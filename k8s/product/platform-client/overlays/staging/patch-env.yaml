@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-client
+spec:
+  template:
+    spec:
+      containers:
+        - name: platform-client
+          env:
+            - name: NODE_ENV
+              value: staging

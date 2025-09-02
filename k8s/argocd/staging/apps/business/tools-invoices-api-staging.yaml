@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tools-invoices-api-staging
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # <-- add this
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: tools-invoices-api=eliasdb/tools-invoices-api
+    argocd-image-updater.argoproj.io/tools-invoices-api.allow-tags: regexp:^pr-\d+-staging$
+    argocd-image-updater.argoproj.io/tools-invoices-api.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+spec:
+  project: apps
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev
+    path: k8s/product/tools-invoices-api/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true

@@ -21,7 +21,7 @@ if (!environment.production) {
       );
     });
 } else {
-  // STAGING & PROD: assume manifest is always there
+  // STAGING & PROD: assume manifest is always there.
   registerRemotes([{ name: 'mfe-edb-admin', entry: manifestUrl }]);
 }
 

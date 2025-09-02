@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-api # becomes api-staging via nameSuffix
+spec:
+  template:
+    spec:
+      containers:
+        - name: platform-api
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: 'Staging'
+            - name: ADMIN_API_URL
+              value: 'https://api.staging.eliasdebock.com/admin/swagger/v1/swagger.json'
+            - name: WEBSHOP_API_URL
+              value: 'https://api.staging.eliasdebock.com/webshop/api.json'
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-staging
+                  key: CONNECTION_STRING
+            - name: Jwt__Key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret-staging
+                  key: JWT_KEY

@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-staging
+  namespace: argocd
+spec:
+  project: observability
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  # Multi-source application:
+  sources:
+    # A) Remote Helm chart
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: grafana
+      targetRevision: 8.* # pin as you like
+      helm:
+        releaseName: grafana
+        valueFiles:
+          - $values/k8s/platform/observability/grafana/values-staging.yaml
+
+    # B) Your repo (only to fetch the values file)
+    - repoURL: https://github.com/Eliasdb/eDB.git
+      targetRevision: dev
+      ref: values
+
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true]

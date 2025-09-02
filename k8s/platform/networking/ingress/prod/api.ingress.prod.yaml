@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/certificate-name: api-prod-tls
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.eliasdebock.com
+      http:
+        paths:
+          - path: /platform(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: platform-api-prod-service
+                port:
+                  number: 9101
+          - path: /webshop(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: edb-webshop-api-prod-service
+                port:
+                  number: 8000
+
+          - path: /admin(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: edb-admin-api-prod-service
+                port:
+                  number: 9102
+
+          - path: /invoices(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tools-invoices-prod
+                port:
+                  number: 8000
+  tls:
+    - hosts:
+        - api.eliasdebock.com
+      secretName: api-prod-tls

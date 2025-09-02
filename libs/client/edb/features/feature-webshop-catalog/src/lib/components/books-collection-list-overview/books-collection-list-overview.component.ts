@@ -6,7 +6,10 @@ import { BooksListItemComponent } from './books-list-item/books-list-item.compon
   imports: [BooksListItemComponent],
   selector: 'books-collection-list-overview',
   template: `
-    <section class="w-full flex flex-col gap-16">
+    <section
+      class="w-full flex flex-col gap-16"
+      data-testid="books-list-wrapper"
+    >
       @for (book of books(); track $index) {
         <books-list-item [book]="book" />
       }

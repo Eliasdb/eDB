@@ -1,0 +1,41 @@
+admin:
+  existingSecret: grafana-admin
+  userKey: admin-user
+  passwordKey: admin-password
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: '1' # important: value to match on
+    searchNamespace: ALL # or "monitoring" if you prefer
+    provider:
+      allowUiUpdates: true # <-- lets you Save provisioned dashboards
+      options:
+        path: /var/lib/grafana/dashboards # keep your folder
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  ingressClassName: nginx-argo
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+  hosts:
+    - grafana.staging.eliasdebock.com
+  tls:
+    - secretName: monitoring-tls
+      hosts: [grafana.staging.eliasdebock.com]
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring.svc:3100
+        isDefault: false

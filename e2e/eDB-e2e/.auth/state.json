@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "AUTH_SESSION_ID",
+      "value": "OTE3NzViYjgtODhkOS00MGU2LWE5YjYtMzlmMTcyYmJmZDkyLml4ZVA3UUp5WWpuSHprMkZweTNNaUFTSy1xVU8xbDg3SENOZ0c3Q25NWDRwRV9qN0tubFhSaWs2X3didnhoSVc3cnZxaU5GTS1wMDI0dTIyZnJJUy13",
+      "domain": "localhost",
+      "path": "/realms/eDB/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KC_AUTH_SESSION_HASH",
+      "value": "\"zMkY1IWfDnPUMMhT/jcWxEGLisAarteMyoNkmvzM45E\"",
+      "domain": "localhost",
+      "path": "/realms/eDB/",
+      "expires": 1756486698.518276,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "KEYCLOAK_IDENTITY",
+      "value": "eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2NzViODhlYy1hNWM5LTRjOTgtODIzYy1hY2NmZGQ3ZjZjZDAifQ.eyJleHAiOjE3NTY1MjI2MzgsImlhdCI6MTc1NjQ4NjYzOCwianRpIjoiMzg3YTI5ZGMtNzNkNi00MjY2LTkwMTktYzQ4MDg0ZWM2N2NhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9lREIiLCJzdWIiOiI2YjcwYmNiYi1mNDIyLTQzMDEtOTJkNS05NzZiMmZkNGZhMjQiLCJ0eXAiOiJTZXJpYWxpemVkLUlEIiwic2lkIjoiOTE3NzViYjgtODhkOS00MGU2LWE5YjYtMzlmMTcyYmJmZDkyIiwic3RhdGVfY2hlY2tlciI6Ijd4R0JITmNmcVJ3a1RmN1hlcnk1SGRWTlhGMWg0SFVZVXRQQXdyQlM4UzAifQ.JdsZ6VcsvWt2EM_2gF_IYEdGYsaTii5W9aapIRq7KIqx4Vqw51ubh9h8v2Ob_XwfsZxVV6lCqxstGwhUTc1VNw",
+      "domain": "localhost",
+      "path": "/realms/eDB/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KEYCLOAK_SESSION",
+      "value": "zMkY1IWfDnPUMMhT_jcWxEGLisAarteMyoNkmvzM45E",
+      "domain": "localhost",
+      "path": "/realms/eDB/",
+      "expires": 1756522638.897368,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:4200",
+      "localStorage": [
+        {
+          "name": "access_token",
+          "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJIeGpSWjBWczdKVjdiUjNjSW5HSmtldm1GZlYzV2ZHUC1YS1h4ZXBJdTFBIn0.eyJleHAiOjE3NTY0ODY5MzksImlhdCI6MTc1NjQ4NjYzOSwiYXV0aF90aW1lIjoxNzU2NDg2NjM4LCJqdGkiOiI1ODUxNmRkMC0xMGJlLTQyZTctOWYwNy0wM2JlMDUxMTNkMTkiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvcmVhbG1zL2VEQiIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI2YjcwYmNiYi1mNDIyLTQzMDEtOTJkNS05NzZiMmZkNGZhMjQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlZGItYXBwIiwic2lkIjoiOTE3NzViYjgtODhkOS00MGU2LWE5YjYtMzlmMTcyYmJmZDkyIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjQyMDAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJkZWZhdWx0LXJvbGVzLWVkYiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJlbGlhcyBkZSBib2NrIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZWxpYXMiLCJnaXZlbl9uYW1lIjoiZWxpYXMiLCJmYW1pbHlfbmFtZSI6ImRlIGJvY2siLCJlbWFpbCI6ImVsaWFzLmRiM0BnbWFpbC5jb20ifQ.ZekpIWFM1UR8BImnJwZY_PUBxyZhnOIXNxOMpjewt0OawOdOYBdTtwhODxGF4StgcpWAo4WNyrnuaO-sf8QZ_ycGkXjY_qAw4GRTiaDLUkD0Tk9PMhYHu2EzEIO_OWzpR6gfhGJdeL5XHv1ABaHxFFnKxVq9ykG3ovKXSbfTfX_ZzzdylyPyS_YbfI9q88BhOPD6x_iRsCLZqVYTHpYAiwnNFpMlRIYKDIWWA1EQWC7Tid4GTNOYdK3HqjoshDpk_qEewk3PPw9V-xxmV0WgkcAfGzYFLHmgIhuaecxk4Bac2efPCBUF75ddS8BAxE1Eg9kwa2KJoKZkAM4380oEVQ"
+        }
+      ]
+    }
+  ]
+}

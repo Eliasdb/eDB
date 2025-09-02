@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tools-invoices-api
+  labels:
+    app: tools-invoices-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tools-invoices-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tools-invoices-api
+    spec:
+      containers:
+        - name: tools-invoices-api
+          image: eliasdb/tools-invoices-api # no tag; overlays handle it
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: 'staging' # overridden per overlay
+          volumeMounts:
+            - name: sa-secret
+              mountPath: /app/service-account.json
+              subPath: service-account.json
+          resources:
+            requests:
+              cpu: '250m'
+              memory: '256Mi'
+            limits:
+              cpu: '1'
+              memory: '512Mi'
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 8000
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 8000
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 20
+      volumes:
+        - name: sa-secret
+          secret:
+            secretName: tools-invoices-service-account

@@ -84,8 +84,7 @@ import { filter } from 'rxjs';
             />
             @if (orderCount()) {
               <span
-                class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
-                       rounded-full bg-blue-600 text-xs font-medium text-white shadow-sm"
+                class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-medium text-white shadow-sm"
               >
                 {{ orderCount() }}
               </span>
@@ -95,6 +94,7 @@ import { filter } from 'rxjs';
           <!-- Cart icon -->
           <div class="relative">
             <ui-icon-button
+              data-testid="cart-button"
               icon="faShoppingCart"
               [description]="'View cart'"
               [iconSize]="'16px'"
@@ -104,8 +104,9 @@ import { filter } from 'rxjs';
             />
             @if (cartItems()?.length) {
               <span
+                data-testid="cart-badge"
                 class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
-                       rounded-full bg-red-500 text-xs font-medium text-white shadow-sm"
+             rounded-full bg-red-500 text-xs font-medium text-white shadow-sm"
               >
                 {{ cartItems()?.length }}
               </span>

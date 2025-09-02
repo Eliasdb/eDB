@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: data
+  namespace: argocd
+spec:
+  description: Datastores & caching (Redis, Postgres, etc.)
+  sourceRepos:
+    - https://github.com/Eliasdb/eDB.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: data # <- your Redis namespace
+    # add more later, e.g. postgres
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

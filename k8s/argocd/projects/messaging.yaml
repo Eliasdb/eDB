@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: messaging
+  namespace: argocd
+spec:
+  description: Messaging stack (RabbitMQ)
+  sourceRepos:
+    - https://github.com/Eliasdb/eDB.git # your repo (values, app)
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: messaging # <- only this ns
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

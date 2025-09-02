@@ -9,7 +9,6 @@
 #         └── Dockerfile.staging
 
 # ---- builder stage -------------------------------------------------
-# docker/keycloak/Dockerfile.staging  ← NO leading spaces
 ARG KC_VERSION=26.2.4
 
 # ---------- builder -------------------------------------------------
@@ -17,11 +16,10 @@ FROM quay.io/keycloak/keycloak:${KC_VERSION} AS builder
 USER root
 COPY --chown=1000:0 keycloak/themes/edb-theme /opt/keycloak/themes/edb-theme
 
-# Build an optimized distribution for Postgres and /keycloak path
+# Build an optimized distribution for Postgres
 RUN /opt/keycloak/bin/kc.sh build \
-        --db=postgres \
-        --http-relative-path=/keycloak
-
+        --db=postgres
+        # --http-relative-path=/keycloak
 # ---------- runtime -------------------------------------------------
 FROM quay.io/keycloak/keycloak:${KC_VERSION}
 USER root

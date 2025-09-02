@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tools-invoices-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: tools-invoices-api
+          env:
+            - name: ENVIRONMENT
+              value: 'staging'

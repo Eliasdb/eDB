@@ -6,20 +6,20 @@
 
 Here's an overview of the key resources for this platform:
 
-| Purpose                    | URL                                                                                                                                          |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)                                                                   |
-| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                                                                                   |
-| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)                                                           |
-| 🧩 Scalar API Docs         | [https://api.staging.eliasdebock.com/platform/scalar](https://api.staging.eliasdebock.com/platform/scalar)                                   |
-| 🐇 RabbitMQ Management UI  | [https://rabbitmq.staging.eliasdebock.com](https://rabbitmq.staging.eliasdebock.com)                                                         |
-| 🧪 Nx Cloud Workspace      | [https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces](https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces)               |
-| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview](https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview) |
-| 🗺️ Dependency Graph        | [https://eliasdebock.com/docs/dep-graph/graph#/projects/all](https://eliasdebock.com/docs/dep-graph/graph#/projects/all)                     |
-| 📚 Storybook UI Library    | [https://eliasdebock.com/docs/storybook/index.html](https://eliasdebock.com/docs/storybook/index.html)                                       |
-| 🐳 Docker Hub Repository   | [https://hub.docker.com/u/eliasdb](https://hub.docker.com/u/eliasdb)                                                                         |
-
----
+| Purpose                    | URL                                                                                                                                                                                                      |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🚧 Staging Environment     | [https://app.staging.eliasdebock.com](https://app.staging.eliasdebock.com)                                                                                                                               |
+| 🚀 Production Environment  | [https://app.eliasdebock.com](https://app.eliasdebock.com)                                                                                                                                               |
+| 📊 Monitoring & Logging    | [https://grafana.staging.eliasdebock.com](https://grafana.staging.eliasdebock.com)                                                                                                                       |
+| 📈 Prometheus (Metrics)    | [https://prometheus.staging.eliasdebock.com](https://prometheus.staging.eliasdebock.com)                                                                                                                 |
+| 🧩 Scalar API Docs         | [https://api.staging.eliasdebock.com/platform/scalar](https://api.staging.eliasdebock.com/platform/scalar) \| [https://api.eliasdebock.com/platform/scalar](https://api.eliasdebock.com/platform/scalar) |
+| 🐇 RabbitMQ Management UI  | [https://rabbitmq.staging.eliasdebock.com](https://rabbitmq.staging.eliasdebock.com) \| [https://rabbitmq.eliasdebock.com](https://rabbitmq.eliasdebock.com)                                             |
+| 🧪 Nx Cloud Workspace      | [https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces](https://cloud.nx.app/orgs/6733ac554277bfac823c438a/workspaces)                                                                           |
+| 🧾 Technical Documentation | [https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview](https://eliasdebock.com/nl/docs/eDB/getting-started/project-overview)                                                             |
+| 🗺️ Dependency Graph        | [https://eliasdebock.com/docs/dep-graph/graph#/projects/all](https://eliasdebock.com/docs/dep-graph/graph#/projects/all)                                                                                 |
+| 📚 Storybook UI Library    | [https://eliasdebock.com/docs/storybook/index.html](https://eliasdebock.com/docs/storybook/index.html)                                                                                                   |
+| 🐳 Docker Hub Repository   | [https://hub.docker.com/u/eliasdb](https://hub.docker.com/u/eliasdb)                                                                                                                                     |
+| 🚦 Argo CD Dashboard       | [https://argocd.staging.eliasdebock.com](https://argocd.staging.eliasdebock.com)                                                                                                                         |
 
 ### TLDR docs
 

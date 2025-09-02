@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# replace commonLabels with labels
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: ingress-staging
+
+resources:
+  - api.ingress.staging.yaml
+  - client.ingress.staging.yaml
+  - keycloak.ingress.staging.yaml
+  - rabbitmq.ingress.yaml
+  - argocd.ingress.staging.yaml
+
+  # certs (each file must include the correct metadata.namespace)
+  - certs/argocd.certificate.staging.yaml
+  - certs/keycloak-cert.staging.yaml
+  - certs/staging-cert.api.yaml
+  - certs/staging-cert.client.yaml
+  - certs/staging-certificate.grafana.yaml
+  - certs/staging.certificate.prometheus.yaml

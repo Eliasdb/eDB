@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: keycloak-tls
+  namespace: auth # 🔑 auth namespace now
+spec:
+  secretName: keycloak-tls # will be created in auth
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames:
+    - keycloak.staging.eliasdebock.com
