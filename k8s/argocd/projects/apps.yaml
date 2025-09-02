@@ -8,8 +8,12 @@ spec:
   sourceRepos:
     - https://github.com/Eliasdb/eDB.git
   destinations:
+    # Staging
     - namespace: default
       server: https://kubernetes.default.svc
+    # Prod
+    - name: prod # NEW: the cluster NAME you registered
+      namespace: default # or your real prod namespace
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
