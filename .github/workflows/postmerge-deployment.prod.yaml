@@ -197,29 +197,45 @@ jobs:
           kubectl rollout status deployment/web-app-prod || kubectl rollout undo deployment/web-app-prod
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # 👑 Deploy Admin App to Production
+  # 👑 Promote Admin App to Prod (GitOps)
   # ─────────────────────────────────────────────────────────────────────────────
   deploy-admin-app:
-    name: Deploy Admin App to Production
+    name: Promote Admin App to Prod (GitOps)
     runs-on: self-hosted
     needs: [nx-affected, version]
     if: ${{ needs.nx-affected.outputs.admin_app == 'true' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Configure Kubernetes
+      # Install kustomize
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3'
+
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > ~/.kube/config
+          cd k8s/product/admin-client/overlays/prod
+          # Set eliasdb/edb-admin => eliasdb/edb-admin:${TAG}
+          kustomize edit set image eliasdb/edb-admin=eliasdb/edb-admin:${TAG}
+          echo "kustomization.yaml after bump:"
+          grep -n "images:" -n kustomization.yaml -n || true
+          grep -n "eliasdb/edb-admin" kustomization.yaml || true
 
-      - name: Deploy YAML
-        run: |
-          sed "s/\${IMAGE_TAG}/${{ needs.version.outputs.image_tag }}/g" \
-            k8s/prod/client/mfe-edb-admin/edb-admin.deployment-template.prod.yaml \
-          | tee /dev/tty \
-          | kubectl apply -f -
-          kubectl rollout status deployment/admin-app-prod || kubectl rollout undo deployment/admin-app-prod
-
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote admin-client to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote admin-client to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **admin-client** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/admin-client-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          base: 'main'
+          labels: |
+            release
+            prod
   # ─────────────────────────────────────────────────────────────────────────────
   # 🧠 Deploy Admin API to Production
   # ─────────────────────────────────────────────────────────────────────────────

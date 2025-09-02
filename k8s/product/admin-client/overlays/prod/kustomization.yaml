@@ -9,7 +9,7 @@ resources:
 # Pin an explicit prod tag here
 images:
   - name: eliasdb/edb-admin
-    newTag: v2.0.2
+    newTag: v2.0
 
 patches:
   - target:
