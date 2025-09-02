@@ -12,8 +12,8 @@ spec:
     targetRevision: main
     path: k8s/product/tools-invoices-api/overlays/prod
   destination:
-    server: https://kubernetes.default.svc
-    namespace: default
+    name: prod # 👈 now targets the prod cluster you registered
+    namespace: default # or your prod namespace
   syncPolicy:
     automated:
       prune: true
