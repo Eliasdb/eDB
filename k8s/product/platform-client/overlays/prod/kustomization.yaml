@@ -3,10 +3,11 @@ kind: Kustomization
 nameSuffix: -prod
 namespace: default
 resources:
-  - ../../base
+- ../../base
 patches:
-  - path: patch-env.yaml
-images:
+- path: patch-env.yaml
   # Pin to an immutable prod tag
-  - name: eliasdb/edb
-    newTag: v2.0
+images:
+- name: eliasdb/edb
+  newName: eliasdb/edb
+  newTag: v2.0.4
