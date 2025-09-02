@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   private keycloakService = inject(KeycloakService);
 
   async canActivate(): Promise<boolean> {
-    // Optionally wait for the next microtick...
+    // Optionally wait for the next microtick.
     await Promise.resolve();
     const auth = this.keycloakService.isAuthenticated();
     console.log('AuthGuard (async) check, isAuthenticated:', auth);
