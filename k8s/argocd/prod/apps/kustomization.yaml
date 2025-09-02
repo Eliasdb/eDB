@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - business/
-  - data/
-  - identity/
-  - messaging/
-  - networking/
-  - observability/
-  - search/
-  - security/
+  # - data/
+  # - identity/
+  # - messaging/
+  # - networking/
+  # - observability/
+  # - search/
+  # - security/
