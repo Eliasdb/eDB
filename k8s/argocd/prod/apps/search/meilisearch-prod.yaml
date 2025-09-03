@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: main
-    path: k8s/search/meilisearch/overlays/prod
+    path: k8s/platform/search/meilisearch/overlays/prod
   destination:
     name: prod
     namespace: search
