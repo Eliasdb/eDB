@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-prod-ingress
+  namespace: auth
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+  labels:
+    app.kubernetes.io/name: keycloak
+spec:
+  ingressClassName: nginx-argo
+  rules:
+    - host: app.eliasdebock.com
+      http:
+        paths:
+          # Use ONE of these two options:
+
+          # OPTION A: Keycloak is configured at /keycloak (KC_HTTP_RELATIVE_PATH=/keycloak)
+          - path: /keycloak
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-prod
+                port:
+                  number: 8080
+
+          # OPTION B: Keycloak runs at root (/) and you want to strip /keycloak prefix
+          # - path: /keycloak(/|$)(.*)
+          #   pathType: ImplementationSpecific
+          #   backend:
+          #     service:
+          #       name: keycloak-prod
+          #       port:
+          #         number: 8080
