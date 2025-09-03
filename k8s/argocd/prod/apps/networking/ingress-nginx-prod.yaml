@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx-prod
+  namespace: argocd
+spec:
+  project: networking
+  source:
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: ingress-nginx
+    targetRevision: 4.10.1 # or current
+    helm:
+      valueFiles:
+        - k8s/platform/networking/ingress-nginx/values-prod.yaml
+  destination:
+    name: prod
+    namespace: networking
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -12,6 +12,8 @@ spec:
   destinations:
     - server: https://kubernetes.default.svc
       namespace: '*' # <-- allow multi-namespace resources
+    - name: prod
+      namespace: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

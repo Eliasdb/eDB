@@ -1,0 +1,26 @@
+# Give it a unique release/controller identity
+fullnameOverride: ingress-nginx-argo
+
+controller:
+  ingressClass: nginx-argo
+  ingressClassResource:
+    name: nginx-argo
+    enabled: true
+    default: false
+
+  # Start as NodePort to avoid clashing with the existing LB on 80/443
+  service:
+    type: NodePort
+    nodePorts:
+      http: null
+      https: null
+    externalTrafficPolicy: Local
+
+  allowSnippetAnnotations: true
+
+  config:
+    use-forwarded-headers: 'true'
+    enable-brotli: 'true'
+
+defaultBackend:
+  enabled: false
