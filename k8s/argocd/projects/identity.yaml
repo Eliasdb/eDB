@@ -14,7 +14,8 @@ spec:
   destinations:
     - server: https://kubernetes.default.svc
       namespace: auth
-
+    - name: prod # 👈 use the Argo cluster name you registered
+      namespace: auth #   Keycloak lives in auth
   # allow all resource kinds (tighten later if you want)
   clusterResourceWhitelist:
     - group: '*'
