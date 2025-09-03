@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-prod
+  namespace: argocd
+spec:
+  project: observability
+  destination:
+    name: prod
+    namespace: monitoring
+
+  sources:
+    # A) Grafana Helm chart
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: grafana
+      targetRevision: 8.* # pin as you wish
+      helm:
+        releaseName: grafana
+        valueFiles:
+          - $values/k8s/platform/observability/grafana/values-prod.yaml
+
+    # B) Your repo for values + dashboards
+    - repoURL: https://github.com/Eliasdb/eDB.git
+      targetRevision: main # prod follows main
+      ref: values
+    - repoURL: https://github.com/Eliasdb/eDB.git
+      targetRevision: main
+      path: k8s/platform/observability/grafana
+      directory:
+        recurse: true # picks up configmap-prod.yaml
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
