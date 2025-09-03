@@ -14,7 +14,6 @@ resources:
   - argocd.ingress.staging.yaml
 
   # certs (each file must include the correct metadata.namespace)
-  - certs/argocd.certificate.staging.yaml
   - certs/keycloak-cert.staging.yaml
   - certs/staging-cert.api.yaml
   - certs/staging-cert.client.yaml
