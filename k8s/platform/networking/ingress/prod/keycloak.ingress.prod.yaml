@@ -16,19 +16,19 @@ spec:
           # Use ONE of these two options:
 
           # OPTION A: Keycloak is configured at /keycloak (KC_HTTP_RELATIVE_PATH=/keycloak)
-          - path: /keycloak
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak-prod
-                port:
-                  number: 8080
-
-          # OPTION B: Keycloak runs at root (/) and you want to strip /keycloak prefix
-          # - path: /keycloak(/|$)(.*)
-          #   pathType: ImplementationSpecific
+          # - path: /keycloak
+          #   pathType: Prefix
           #   backend:
           #     service:
           #       name: keycloak-prod
           #       port:
           #         number: 8080
+
+          # OPTION B: Keycloak runs at root (/) and you want to strip /keycloak prefix
+          - path: /keycloak(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: keycloak-prod
+                port:
+                  number: 8080
