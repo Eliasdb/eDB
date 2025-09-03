@@ -9,10 +9,12 @@ metadata:
     nginx.ingress.kubernetes.io/use-forwarded-headers: 'true'
     cert-manager.io/cluster-issuer: letsencrypt-production
     cert-manager.io/certificate-name: app-prod-tls
-    nginx.ingress.kubernetes.io/proxy-set-headers: 'ingress-nginx/custom-headers'
+    # point to the headers CM in the *new* namespace/name
+    # nginx.ingress.kubernetes.io/proxy-set-headers: 'networking/ingress-nginx-argo-custom-headers'
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
-  ingressClassName: nginx
+  # 👇 cutover happens by changing the class
+  ingressClassName: nginx-argo
   rules:
     - host: app.eliasdebock.com
       http:
@@ -31,7 +33,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: web-app-prod-service
+                name: platform-client-prod
                 port:
                   number: 80
 
@@ -44,15 +46,14 @@ spec:
                 port:
                   number: 8080
 
-          # 4️⃣ Catch-all fallback to host app
+          # 4️⃣ Catch-all to platform client
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: web-app-prod-service
+                name: platform-client-prod
                 port:
                   number: 80
   tls:
-    - hosts:
-        - app.eliasdebock.com
+    - hosts: [app.eliasdebock.com]
       secretName: app-prod-tls

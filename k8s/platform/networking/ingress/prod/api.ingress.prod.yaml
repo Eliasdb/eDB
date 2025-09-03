@@ -1,3 +1,4 @@
+# k8s/platform/networking/ingress/prod/api.ingress.prod.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -5,11 +6,14 @@ metadata:
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: '/$2'
     cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
     cert-manager.io/certificate-name: api-prod-tls
+    # optional: if you want the same headers as the frontend ingress
+    # nginx.ingress.kubernetes.io/proxy-set-headers: "networking/ingress-nginx-argo-custom-headers"
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-argo
   rules:
     - host: api.eliasdebock.com
       http:
@@ -18,17 +22,16 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: platform-api-prod-service
+                name: platform-api-prod # <— updated
                 port:
                   number: 9101
           - path: /webshop(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: edb-webshop-api-prod-service
+                name: webshop-api-prod # <— updated
                 port:
                   number: 8000
-
           - path: /admin(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -36,12 +39,11 @@ spec:
                 name: admin-api-prod
                 port:
                   number: 9102
-
           - path: /invoices(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: tools-invoices-prod
+                name: tools-invoices-api-prod
                 port:
                   number: 8000
   tls:
