@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-prod
+  namespace: argocd
+spec:
+  project: data
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: main # prod tracks main
+    path: k8s/platform/data/redis/overlays/prod
+  destination:
+    name: prod
+    namespace: data # resources declare their own ns, but this is required
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
