@@ -4,7 +4,7 @@ resources:
   - business/
   # - data/
   # - identity/
-  # - messaging/
+  - messaging/
   - networking/
   # - observability/
   - search/
