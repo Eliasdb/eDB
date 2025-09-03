@@ -7,5 +7,5 @@ resources:
   # - messaging/
   # - networking/
   # - observability/
-  # - search/
-  # - security/
+  - search/
+  - security/
