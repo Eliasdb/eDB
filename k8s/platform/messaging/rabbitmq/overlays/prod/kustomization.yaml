@@ -8,5 +8,5 @@ resources:
 patches:
   - path: patch-env.yaml
     target: { kind: Deployment, name: rabbitmq }
-  - path: patch-persistence.yaml
-    target: { kind: Deployment, name: rabbitmq }
+  # - path: patch-persistence.yaml
+  #   target: { kind: Deployment, name: rabbitmq }
