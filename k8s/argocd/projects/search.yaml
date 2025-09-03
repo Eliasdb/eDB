@@ -10,6 +10,8 @@ spec:
   destinations:
     - server: https://kubernetes.default.svc
       namespace: search
+    - name: prod
+      namespace: search
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

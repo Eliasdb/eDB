@@ -9,11 +9,19 @@ spec:
     - https://github.com/Eliasdb/eDB.git
     - https://charts.jetstack.io
   destinations:
+    # ── in-cluster (staging)
     - server: https://kubernetes.default.svc
-      namespace: cert-manager
+      namespace: security
     - server: https://kubernetes.default.svc
       namespace: default
     - server: https://kubernetes.default.svc
+      namespace: '*'
+    # ── prod cluster by NAME (this is what your Applications use)
+    - name: prod
+      namespace: security
+    - name: prod
+      namespace: default
+    - name: prod
       namespace: '*'
   clusterResourceWhitelist:
     - group: '*'

@@ -1,22 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: meilisearch-prod
+  name: cert-manager-issuers-prod
   namespace: argocd
 spec:
-  project: search
+  project: security
   source:
     repoURL: https://github.com/Eliasdb/eDB.git
     targetRevision: main
-    path: k8s/search/meilisearch/overlays/prod
+    path: k8s/platform/security/cert-manager/issuers # 👈 see step 2
   destination:
     name: prod
-    namespace: search
+    namespace: default # ClusterIssuers are cluster-scoped; ns value isn't used
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-      - PruneLast=true
