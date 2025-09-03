@@ -9,7 +9,9 @@ spec:
     - https://github.com/Eliasdb/eDB.git
   destinations:
     - server: https://kubernetes.default.svc
-      namespace: data # <- your Redis namespace
+      namespace: data
+    - name: prod # 👈
+      namespace: data
     # add more later, e.g. postgres
   clusterResourceWhitelist:
     - group: '*'
