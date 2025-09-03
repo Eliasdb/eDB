@@ -9,7 +9,7 @@ spec:
         - name: keycloak
           env:
             - name: KC_HOSTNAME
-              value: 'https://app.eliasdebock.com'
+              value: 'https://app.eliasdebock.com/keycloak'
             - name: KC_DB_URL
               value: 'jdbc:postgresql://postgres-service-prod.default:5432/mydatabase'
             - name: KC_DB_USERNAME
