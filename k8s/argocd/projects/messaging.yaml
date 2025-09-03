@@ -6,10 +6,12 @@ metadata:
 spec:
   description: Messaging stack (RabbitMQ)
   sourceRepos:
-    - https://github.com/Eliasdb/eDB.git # your repo (values, app)
+    - https://github.com/Eliasdb/eDB.git
   destinations:
     - server: https://kubernetes.default.svc
-      namespace: messaging # <- only this ns
+      namespace: messaging
+    - name: prod # <-- allow prod cluster by name
+      namespace: messaging
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
