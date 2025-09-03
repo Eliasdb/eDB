@@ -17,6 +17,8 @@ spec:
   destinations:
     - namespace: monitoring
       server: https://kubernetes.default.svc
+    - name: prod
+      namespace: monitoring
     - namespace: kube-system # <-- add this
       server: https://kubernetes.default.svc
 
