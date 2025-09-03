@@ -4,18 +4,19 @@ metadata:
   name: rabbitmq-prod
   namespace: argocd
 spec:
-  project: default
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: default
+  project: messaging
   source:
-    repoURL: https://charts.bitnami.com/bitnami
-    chart: rabbitmq
-    targetRevision: 14.*
-    helm:
-      valueFiles:
-        - k8s/apps/rabbitmq/values-prod.yaml
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: main
+    path: k8s/platform/messaging/rabbitmq/overlays/prod
+  destination:
+    name: prod
+    namespace: messaging
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true

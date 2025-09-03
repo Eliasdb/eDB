@@ -1,63 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq-staging
-  namespace: messaging
-  labels:
-    app: rabbitmq-staging
+  name: rabbitmq
+  labels: { app: rabbitmq }
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
-    matchLabels:
-      app: rabbitmq-staging
+    matchLabels: { app: rabbitmq }
   template:
     metadata:
-      labels:
-        app: rabbitmq-staging
+      labels: { app: rabbitmq }
     spec:
       containers:
         - name: rabbitmq
           image: rabbitmq:3.13-management
           ports:
-            - name: amqp
-              containerPort: 5672
-            - name: management
-              containerPort: 15672
+            - { name: amqp, containerPort: 5672 }
+            - { name: management, containerPort: 15672 }
           env:
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
-                secretKeyRef:
-                  name: rabbitmq-creds
-                  key: username
+                { secretKeyRef: { name: rabbitmq-creds, key: username } }
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:
-                secretKeyRef:
-                  name: rabbitmq-creds
-                  key: password
+                { secretKeyRef: { name: rabbitmq-creds, key: password } }
             - name: RABBITMQ_ERLANG_COOKIE
-              valueFrom:
-                secretKeyRef:
-                  name: rabbitmq-creds
-                  key: cookie
+              valueFrom: { secretKeyRef: { name: rabbitmq-creds, key: cookie } }
           readinessProbe:
             exec:
-              command:
-                ['rabbitmq-diagnostics', '-q', 'check_port_listener', '5672']
+              {
+                command:
+                  ['rabbitmq-diagnostics', '-q', 'check_port_listener', '5672'],
+              }
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 12
           livenessProbe:
-            exec:
-              command: ['rabbitmq-diagnostics', '-q', 'ping']
+            exec: { command: ['rabbitmq-diagnostics', '-q', 'ping'] }
             initialDelaySeconds: 60
             periodSeconds: 20
             timeoutSeconds: 5
             failureThreshold: 6
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/rabbitmq
+          volumeMounts: [{ name: data, mountPath: /var/lib/rabbitmq }]
       volumes:
         - name: data
-          emptyDir: {} # fine for dev; replace with a PVC for persistence
+          emptyDir: {} # patch to PVC in prod
