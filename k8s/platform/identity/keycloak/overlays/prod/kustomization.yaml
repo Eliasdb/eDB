@@ -8,7 +8,7 @@ resources:
 
 images:
   - name: eliasdb/keycloak-edb
-    newTag: 26.2.4-v19 # <- your current prod tag
+    newTag: 26.2.4-v21-prod # <- your current prod tag
 
 patches:
   - path: patch-env.yaml
