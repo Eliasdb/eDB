@@ -1,0 +1,28 @@
+grafana:
+  enabled: false # Grafana is deployed separately
+
+crds:
+  enabled: true # let Helm handle CRDs creation/updates
+
+prometheusOperator:
+  admissionWebhooks:
+    enabled: true
+    patch:
+      enabled: true
+    certManager:
+      enabled: true
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx-argo
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    hosts:
+      - prometheus.eliasdebock.com
+    paths: ['/']
+    pathType: Prefix
+    tls:
+      - hosts: ['prometheus.eliasdebock.com']
+        secretName: prometheus-prod-tls # cert-manager will manage this
