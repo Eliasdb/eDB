@@ -26,3 +26,27 @@ prometheus:
     tls:
       - hosts: ['prometheus.eliasdebock.com']
         secretName: prometheus-prod-tls # cert-manager will manage this
+
+alertmanager:
+  enabled: true
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx-argo
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    hosts:
+      - alertmanager.eliasdebock.com
+    tls:
+      - hosts: [alertmanager.eliasdebock.com]
+        secretName: alertmanager-prod-tls
+
+  # Minimal config — just a dummy receiver so the pod starts
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: 'null'
+    receivers:
+      - name: 'null'
