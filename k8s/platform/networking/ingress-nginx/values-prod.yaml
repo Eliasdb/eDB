@@ -10,10 +10,7 @@ controller:
 
   # Start as NodePort to avoid clashing with the existing LB on 80/443
   service:
-    type: NodePort
-    nodePorts:
-      http: null
-      https: null
+    type: LoadBalancer
     externalTrafficPolicy: Local
 
   allowSnippetAnnotations: true
