@@ -10,24 +10,25 @@ spec:
     namespace: monitoring
 
   sources:
-    # A) Grafana Helm chart
+    # 1) Grafana chart
     - repoURL: https://grafana.github.io/helm-charts
       chart: grafana
-      targetRevision: 8.* # pin as you wish
+      targetRevision: 8.*
       helm:
         releaseName: grafana
         valueFiles:
           - $values/k8s/platform/observability/grafana/values-prod.yaml
 
-    # B) Your repo for values + dashboards
-    - repoURL: https://github.com/Eliasdb/eDB.git
-      targetRevision: main # prod follows main
-      ref: values
+    # 2) Your repo for the Helm values (aliased as $values)
     - repoURL: https://github.com/Eliasdb/eDB.git
       targetRevision: main
-      path: k8s/platform/observability/grafana
-      directory:
-        recurse: true # picks up configmap-prod.yaml
+      ref: values
+
+    # 3) Dashboards as a kustomize package (ONLY this folder)
+    - repoURL: https://github.com/Eliasdb/eDB.git
+      targetRevision: main
+      path: k8s/platform/observability/grafana/dashboards
+      # no 'directory: recurse' needed
 
   syncPolicy:
     automated:

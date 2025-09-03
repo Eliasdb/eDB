@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+
+# Turn JSON files into a ConfigMap
+configMapGenerator:
+  - name: grafana-dashboards
+    files:
+      - edb-logs.json
+      - edb-main.json
+
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: '1'
+  annotations:
+    grafana_dashboard: '1'
