@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - business/
   # - data/
-  # - identity/
+  - identity/
   - messaging/
   - networking/
   - observability/
