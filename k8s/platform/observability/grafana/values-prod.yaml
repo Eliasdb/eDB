@@ -1,0 +1,43 @@
+admin:
+  existingSecret: grafana-admin-prod
+  userKey: admin-user
+  passwordKey: admin-password
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  ingressClassName: nginx-argo
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts:
+    - grafana.eliasdebock.com # <- your prod hostname
+  tls:
+    - secretName: grafana-prod-tls # cert-manager will manage this
+      hosts: [grafana.eliasdebock.com]
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: '1'
+    searchNamespace: ALL
+    provider:
+      allowUiUpdates: true
+      options:
+        path: /var/lib/grafana/dashboards
+
+# If/when you deploy Loki to prod, this will “just work”.
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring.svc:3100
+        isDefault: false

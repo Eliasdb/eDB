@@ -6,6 +6,6 @@ resources:
   # - identity/
   - messaging/
   - networking/
-  # - observability/
+  - observability/
   - search/
   - security/
