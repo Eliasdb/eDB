@@ -37,15 +37,6 @@ spec:
                 port:
                   number: 80
 
-          # 3️⃣ Keycloak
-          - path: /keycloak
-            pathType: Prefix
-            backend:
-              service:
-                name: keycloak-prod
-                port:
-                  number: 8080
-
           # 4️⃣ Catch-all to platform client
           - path: /
             pathType: Prefix
