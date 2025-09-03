@@ -5,16 +5,23 @@ metadata:
   namespace: argocd
 spec:
   project: networking
-  source:
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    chart: ingress-nginx
-    targetRevision: 4.10.1 # or current
-    helm:
-      valueFiles:
-        - k8s/platform/networking/ingress-nginx/values-prod.yaml
   destination:
     name: prod
     namespace: networking
+
+  # MULTI-SOURCE: 1) chart repo, 2) your repo with values file
+  sources:
+    - repoURL: https://kubernetes.github.io/ingress-nginx
+      chart: ingress-nginx
+      targetRevision: 4.10.1 # or 4.11.2
+      helm:
+        valueFiles:
+          - $values/k8s/platform/networking/ingress-nginx/values-prod.yaml
+
+    - repoURL: https://github.com/Eliasdb/eDB.git
+      targetRevision: main # prod branch
+      ref: values # <- gives $values prefix
+
   syncPolicy:
     automated:
       prune: true
