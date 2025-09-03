@@ -15,7 +15,7 @@ spec:
       targetRevision: 75.6.1
       helm:
         releaseName: monitoring
-        skipCrds: true # CRDs are included below via SSA
+        # skipCrds: true # CRDs are included below via SSA
         valueFiles:
           - $values/k8s/platform/observability/prometheus/values-prod.yaml
 
