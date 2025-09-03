@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - grafana-prod.yaml
   - prometheus-stack-prod.yaml
-  - loki-promtrail-prod.yaml
+  - loki-promtail-prod.yaml
