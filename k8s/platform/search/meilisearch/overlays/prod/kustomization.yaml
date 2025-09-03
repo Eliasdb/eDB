@@ -5,4 +5,4 @@ namespace: default
 nameSuffix: -prod
 resources: [../../base]
 patches:
-  - patch-env.yaml
+  - path: patch-env.yaml
