@@ -4,6 +4,7 @@ resources:
   - api.ingress.prod.yaml
   - client.ingress.prod.yaml
   - rabbitmq.ingress.prod.yaml
+  - meilisearch.ingress.prod.yaml
 
   - certs/prod-cert.api.yaml
   - certs/prod-cert.client.yaml
