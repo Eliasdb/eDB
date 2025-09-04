@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 ITERM_APP ?= iTerm2
-ITERM := ./scripts/iterm_tab.sh   # ./scripts/iterm_tab.sh <appName> "<tab title>" <command...>
+ITERM := _dev-env/script/iterm_tab.sh   # ./scripts/iterm_tab.sh <appName> "<tab title>" <command...>
 
 # point compose at your infra file (and optional env file)
 COMPOSE := docker compose -f _dev-env/docker-compose.yml
