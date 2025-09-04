@@ -25,7 +25,7 @@ class BooksPullCommand extends Command
             }
         }
 
-        // Step 2: Track existing ISBNs to avoid duplicates
+        // Step 2: Track existing ISBNs to avoid duplicates.
         $existingIsbns = array_column($records, 'isbn');
 
         foreach ($this->argument('isbns') as $isbn) {
