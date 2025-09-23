@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // admin-dashboard.component.ts   (breadcrumb text animation 🌀)
 // ─────────────────────────────────────────────────────────────
-import { animate, style, transition, trigger } from '@angular/animations';
+import { TitleCasePipe } from '@angular/common';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +15,6 @@ import { TilesModule } from 'carbon-components-angular';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
-import { TitleCasePipe } from '@angular/common';
 import { ApplicationsCollectionContainer } from '../platform/applications-collection/applications-collection.container';
 import { UsersCollectionContainer } from '../platform/users-collection/users-collection.container';
 import { NotificationsPanelComponent } from '../signalr/notifications-panel.component';
@@ -42,22 +41,6 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     AdminOrdersListComponent,
     TitleCasePipe,
     NotificationsPanelComponent,
-  ],
-  animations: [
-    /* --------------------------------------------------------
-     * Flip/Fade animation for the breadcrumb text
-     * ------------------------------------------------------ */
-    trigger('viewFlip', [
-      transition('platform <=> webshop', [
-        /* leave phase                                                           */
-        style({ opacity: 0, transform: 'rotateX(90deg)' }),
-        /* enter phase                                                           */
-        animate(
-          '200ms ease-out',
-          style({ opacity: 1, transform: 'rotateX(0deg)' }),
-        ),
-      ]),
-    ]),
   ],
   template: `
     <mat-drawer-container class="h-[calc(100dvh-5rem)] relative">
@@ -106,12 +89,21 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
             <span class="text-gray-500">Admin</span>
             <span class="text-gray-400 mx-1">/</span>
 
-            <!-- 🌀 Animated section title -->
-            <span
-              [@viewFlip]="currentView()"
-              class="inline-block text-gray-700 font-medium  origin-top"
-            >
-              {{ currentView() | titlecase }}
+            <!-- 🌀 Animated section title (swap + animate.enter/leave) -->
+            <span class="crumb-3d">
+              @if (currentView() === 'platform') {
+                <span
+                  class="crumb-flip inline-block text-gray-700 font-medium origin-top"
+                >
+                  {{ 'platform' | titlecase }}
+                </span>
+              } @else {
+                <span
+                  class="crumb-flip inline-block text-gray-700 font-medium origin-top"
+                >
+                  {{ 'webshop' | titlecase }}
+                </span>
+              }
             </span>
           </div>
 
@@ -169,7 +161,6 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                   </div>
                 </cds-tile>
               </div>
-
               <div class="flex flex-col md:flex-row gap-4">
                 <cds-tile class="flex-1 border rounded-[0.375rem] p-4">
                   <platform-admin-applications-collection></platform-admin-applications-collection>
@@ -219,7 +210,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
               <h2 class="mb-4 text-2xl font-medium">Webshop Management</h2>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Books Table (takes full width on mobile, half on desktop) -->
+                <!-- Books Table -->
                 <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
                   <h4 class="mb-4 text-lg font-medium">Books</h4>
                   <div class="max-h-[28rem] overflow-y-auto pr-2">
@@ -227,6 +218,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                   </div>
                 </cds-tile>
 
+                <!-- Orders -->
                 <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
                   <h4 class="mb-4 text-lg font-medium">Orders</h4>
                   <div class="max-h-[28rem] overflow-y-auto pr-2">
@@ -242,12 +234,12 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
   `,
 })
 export class AdminDashboardComponent {
-  /* Drawer --------------------------------------------------------------- */
+  /* Drawer */
   @ViewChild('drawer') private drawer!: MatDrawer;
   isDrawerOpen = false;
   sidenavMode: 'over' | 'side' | 'push' = 'push';
 
-  /* View toggle state ---------------------------------------------------- */
+  /* View toggle state */
   currentView = signal<'platform' | 'webshop'>('platform');
 
   private notifStream = inject(NotificationsStreamService);
@@ -262,9 +254,7 @@ export class AdminDashboardComponent {
     if (this.drawer?.opened) this.drawer.close();
   }
 
-  /* --------------------------------------------------------------------- */
-  /*  Dummy KPI data + chart configs (unchanged)                          */
-  /* --------------------------------------------------------------------- */
+  /* KPI data + chart configs */
   totalRevenue = '$56,945';
   customers = 1092;
   avgOrderValue = '$202';
@@ -299,6 +289,7 @@ export class AdminDashboardComponent {
       },
     ],
   };
+
   revenueChartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
@@ -314,6 +305,7 @@ export class AdminDashboardComponent {
       },
     ],
   };
+
   salesCategoryChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,

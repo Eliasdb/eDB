@@ -1,6 +1,5 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -20,34 +19,7 @@ import { Subscription } from 'rxjs';
     UiButtonComponent,
     CurrencyPipe,
     CommonModule,
-  ],
-  animations: [
-    // ───────────────────── Desktop fade + lift ─────────────────────
-    trigger('fadeLift', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-0.75rem)' }),
-        animate(
-          '200ms ease-out',
-          style({ opacity: 1, transform: 'translateY(0)' }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '200ms ease-in',
-          style({ opacity: 0, transform: 'translateY(-0.75rem)' }),
-        ),
-      ]),
-    ]),
-    // ───────────────────── Mobile bottom-sheet slide ─────────────────────
-    trigger('sheetSlide', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)' }),
-        animate('250ms ease-out', style({ transform: 'translateY(0)' })),
-      ]),
-      transition(':leave', [
-        animate('200ms ease-in', style({ transform: 'translateY(100%)' })),
-      ]),
-    ]),
+    NgTemplateOutlet,
   ],
   template: `
     @if (isCartVisible()) {
@@ -233,18 +205,18 @@ import { Subscription } from 'rxjs';
         <!-- ───────── Desktop / Tablet panel ───────── -->
         @if (!isMobile) {
           <aside
-            @fadeLift
+            animate.enter.animate-leave
             (click)="$event.stopPropagation()"
-            class="w-full max-w-5xl md:max-h-[90vh] bg-[var(--accent)] text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5 rounded-lg flex flex-col overflow-hidden self-center"
+            class="cart-fade-lift w-full max-w-5xl md:max-h-[90vh] bg-[var(--accent)] text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5 rounded-lg flex flex-col overflow-hidden self-center"
           >
             <ng-container [ngTemplateOutlet]="cartContent" />
           </aside>
         } @else {
           <!-- ───────── Mobile bottom-sheet ───────── -->
           <aside
-            @sheetSlide
+            animate.enter.animate-leave
             (click)="$event.stopPropagation()"
-            class="w-full bg-[var(--accent)] text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5 rounded-t-2xl flex flex-col overflow-hidden mt-auto transition-transform"
+            class="cart-sheet-slide w-full bg-[var(--accent)] text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5 rounded-t-2xl flex flex-col overflow-hidden mt-auto transition-transform"
             [style.max-height]="hasItems() ? '75vh' : null"
             [style.transform]="
               sheetTranslate !== null
@@ -263,6 +235,49 @@ import { Subscription } from 'rxjs';
       </div>
     }
   `,
+  styles: [
+    `
+      /* Fade + lift for desktop panel */
+      .cart-fade-lift {
+        transition:
+          opacity 200ms ease,
+          transform 200ms ease;
+      }
+      .cart-fade-lift[ng-enter] {
+        opacity: 0;
+        transform: translateY(-0.75rem);
+      }
+      .cart-fade-lift[ng-enter-active] {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .cart-fade-lift[ng-leave] {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .cart-fade-lift[ng-leave-active] {
+        opacity: 0;
+        transform: translateY(-0.75rem);
+      }
+
+      /* Bottom-sheet slide for mobile */
+      .cart-sheet-slide {
+        transition: transform 250ms ease;
+      }
+      .cart-sheet-slide[ng-enter] {
+        transform: translateY(100%);
+      }
+      .cart-sheet-slide[ng-enter-active] {
+        transform: translateY(0);
+      }
+      .cart-sheet-slide[ng-leave] {
+        transform: translateY(0);
+      }
+      .cart-sheet-slide[ng-leave-active] {
+        transform: translateY(100%);
+      }
+    `,
+  ],
 })
 export class CartComponent implements OnInit, OnDestroy {
   /* Inputs */
@@ -286,7 +301,6 @@ export class CartComponent implements OnInit, OnDestroy {
 
   constructor(private bo: BreakpointObserver) {}
 
-  // ───────────────────── Lifecycle ─────────────────────
   ngOnInit() {
     this.sub = this.bo.observe('(max-width: 768px)').subscribe((res) => {
       this.isMobile = res.matches;
@@ -297,7 +311,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  // ───────────────────── Drag handlers ─────────────────────
   startDrag(event: PointerEvent | TouchEvent) {
     const y = 'touches' in event ? event.touches[0].clientY : event.clientY;
     this.startY = y;
@@ -320,18 +333,14 @@ export class CartComponent implements OnInit, OnDestroy {
     if (!this.dragging) return;
     this.dragging = false;
     if ((this.sheetTranslate ?? 0) > 120) {
-      // Close sheet
       this.sheetTranslate = null;
       this.toggleCart();
     } else {
-      // Snap back
       this.sheetTranslate = 0;
-      // remove transform after transition ends (~200ms)
       setTimeout(() => (this.sheetTranslate = null), 220);
     }
   }
 
-  // ───────────────────── UI helpers ─────────────────────
   toggleCart() {
     this.showCart.emit();
   }
