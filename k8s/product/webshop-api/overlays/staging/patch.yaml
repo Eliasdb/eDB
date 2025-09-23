@@ -62,3 +62,5 @@ spec:
                 secretKeyRef:
                   name: stripe-secret-staging
                   key: STRIPE_SECRET
+            - name: KEYCLOAK_JWKS_URL
+              value: 'https://app.staging.eliasdebock.com/keycloak/realms/EDB-STAGING/protocol/openid-connect/certs'
