@@ -9,7 +9,6 @@ spec:
   ingressClassName: nginx-argo
   tls:
     - hosts: [app.staging.eliasdebock.com]
-      secretName: app-tls
   rules:
     - host: app.staging.eliasdebock.com
       http:
