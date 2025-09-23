@@ -27,7 +27,7 @@
           },
           {
             "glob": "**/*",
-            "input": "dist/apps/client/edb-user-account/assets",
+            "input": "dist/apps/client/edb-user-account",
             "output": "assets/eDB-user-account"
           }
         ],

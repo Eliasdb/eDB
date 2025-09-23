@@ -8,7 +8,6 @@ export const environment = {
 
   KC: {
     url: 'https://app.eliasdebock.com/keycloak',
-    account: 'https://app.eliasdebock.com/keycloak/realms/EDB-PROD/account',
     realm: 'EDB-PROD',
     clientId: 'edb-app-prod',
   },

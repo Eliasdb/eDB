@@ -1,4 +1,4 @@
-using EDb.Domain.Entities;
+using EDb.Domain.Entities.Platform;
 
 namespace EDb.Domain.Interfaces;
 

@@ -1,15 +1,11 @@
-// Services/NotificationWriter.cs
 using Edb.AdminAPI.Contracts;
-using Edb.AdminAPI.DTOs;
+using Edb.AdminAPI.DTOs.Notifications;
 using Edb.AdminAPI.Hubs; // your NotificationHub (see §2)
 using EDb.DataAccess.Data;
-using EDb.Domain.Entities;
+using EDb.Domain.Entities.Notifications;
 using Microsoft.AspNetCore.SignalR;
 
-public interface INotificationWriter
-{
-    Task<Notification> WriteOrderCreatedAsync(OrderCreatedV1 e, CancellationToken ct);
-}
+namespace Edb.AdminAPI.Services;
 
 public class NotificationWriter : INotificationWriter
 {

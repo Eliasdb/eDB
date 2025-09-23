@@ -1,4 +1,3 @@
-// Consumers/OrderCreatedConsumer.cs
 using Edb.AdminAPI.Contracts;
 using Edb.AdminAPI.Hubs;
 using MassTransit;

@@ -1,5 +1,5 @@
 using EDb.DataAccess.Data;
-using EDb.Domain.Entities;
+using EDb.Domain.Entities.Platform;
 using EDb.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

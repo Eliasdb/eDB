@@ -1,5 +1,8 @@
 // Edb.PlatformAPI.Extensions.SwaggerExtensions.cs
+using Edb.PlatformAPI.Extensions;
 using Microsoft.OpenApi.Models;
+
+namespace Edb.PlatformAPI.Extensions;
 
 public static class SwaggerExtensions
 {
