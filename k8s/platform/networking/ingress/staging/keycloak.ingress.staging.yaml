@@ -13,8 +13,8 @@ spec:
     - host: app.staging.eliasdebock.com
       http:
         paths:
-          - path: /keycloak
-            pathType: Prefix
+          - path: /keycloak(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: keycloak-staging
