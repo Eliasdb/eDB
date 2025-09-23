@@ -1,12 +1,14 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
+namespace Edb.PlatformAPI.Extensions;
+
 public class GlobalSecurityOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        operation.Security = new List<OpenApiSecurityRequirement>
-        {
+        operation.Security =
+        [
             new OpenApiSecurityRequirement
             {
                 {
@@ -21,6 +23,6 @@ public class GlobalSecurityOperationFilter : IOperationFilter
                     Array.Empty<string>()
                 },
             },
-        };
+        ];
     }
 }

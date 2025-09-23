@@ -1,38 +1,35 @@
 using EDb.FeatureApplications.DTOs;
 using EDb.FeatureApplications.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EDb.FeatureApplications.Controllers;
 
-public class ApplicationsController(IApplicationsService applicationsService) : BaseApiController
+[Authorize] // ⬅️ Protects all routes in this controller
+[ApiController]
+[Route("api/[controller]")]
+public class ApplicationsController(IApplicationsService applicationsService) : ControllerBase
 {
     private readonly IApplicationsService _applicationsService = applicationsService;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
     {
-        // Get the general catalog.
         var applications = await _applicationsService.GetApplicationsAsync();
-        var keycloakUserId = _applicationsService.GetAuthenticatedUserId();
 
-        // If the user is authenticated, update each application DTO with their subscription status.
-        if (keycloakUserId != null)
+        // Keycloak always sets "sub" as the user ID claim
+        var keycloakUserId = User.FindFirst("sub")?.Value;
+
+        if (!string.IsNullOrEmpty(keycloakUserId))
         {
-            var subscribedApplications = await _applicationsService.GetSubscribedApplicationsAsync(
+            var subscribedApps = await _applicationsService.GetSubscribedApplicationsAsync(
                 keycloakUserId
             );
-            var subscribedIds = subscribedApplications.Select(app => app.Id).ToHashSet();
+            var subscribedIds = subscribedApps.Select(app => app.Id).ToHashSet();
+
             foreach (var app in applications)
             {
                 app.IsSubscribed = subscribedIds.Contains(app.Id);
-            }
-        }
-        else
-        {
-            // For anonymous users, mark all as unsubscribed.
-            foreach (var app in applications)
-            {
-                app.IsSubscribed = false;
             }
         }
 
@@ -42,8 +39,9 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
     [HttpPost("subscribe")]
     public async Task<IActionResult> SubscribeToApplication([FromBody] SubscribeRequest request)
     {
-        var keycloakUserId = _applicationsService.GetAuthenticatedUserId();
-        if (keycloakUserId == null)
+        var keycloakUserId = User.FindFirst("sub")?.Value;
+
+        if (string.IsNullOrEmpty(keycloakUserId))
         {
             return Unauthorized(new { message = "User is not authenticated." });
         }
@@ -58,15 +56,16 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
     [HttpGet("user")]
     public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
     {
-        var keycloakUserId = _applicationsService.GetAuthenticatedUserId();
-        if (keycloakUserId == null)
+        var keycloakUserId = User.FindFirst("sub")?.Value;
+
+        if (string.IsNullOrEmpty(keycloakUserId))
         {
             return Unauthorized(new { message = "User is not authenticated!" });
         }
 
-        var subscribedApplications = await _applicationsService.GetSubscribedApplicationsAsync(
+        var subscribedApps = await _applicationsService.GetSubscribedApplicationsAsync(
             keycloakUserId
         );
-        return Ok(subscribedApplications);
+        return Ok(subscribedApps);
     }
 }

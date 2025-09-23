@@ -9,7 +9,9 @@
     "start:platform-api": "nx serve platform-api",
     "test:utils": "nx test utils --verbose",
     "prepare": "nx g @nx-dotnet/core:restore",
-    "build:user-account": "nx build eDB-user-account"
+    "build:wc-account": "pnpm run build:wc-account:js && pnpm run build:wc-account:css",
+    "build:wc-account:js": "vite build --mode development --config apps/client/wc-edb-user-account/vite.config.mts",
+    "build:wc-account:css": "vite build --mode development --config apps/client/wc-edb-user-account/vite.styles.config.mts"
   },
   "private": true,
   "dependencies": {
@@ -172,7 +174,7 @@
     "tslib": "^2.8.1",
     "typescript": "5.8.3",
     "typescript-eslint": "^8.17.0",
-    "vite": "^6.3.5",
+    "vite": "^7.1.5",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-string": "^1.2.3",
     "vitest": "^3.0.0",

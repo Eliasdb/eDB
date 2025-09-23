@@ -22,7 +22,6 @@
         "libs/generated/platform-api-types/src/index"
       ],
       "@eDB-webshop/shared-data": ["libs/shared/client/data/src/index.ts"],
-      "@edb/shared-types": ["libs/types/webshop/src/index.ts"],
       "@eDB-webshop/ui-webshop": [
         "libs/eDB-webshop/shared/ui-webshop/src/index.ts"
       ],
@@ -95,6 +94,7 @@
       "@edb/feature-webshop-orders": [
         "libs/client/edb/features/feature-webshop-orders/src/index.ts"
       ],
+      "@edb/shared-types": ["libs/types/webshop/src/index.ts"],
       "@edb/shared-ui": ["libs/shared/client/ui/src/index.ts"],
       "@edb/util-common": ["libs/utils/util-common/src/index"],
       "@edb/util-user-params": ["libs/utils/util-user-params/src/index"],

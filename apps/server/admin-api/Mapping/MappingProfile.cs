@@ -1,6 +1,6 @@
 using AutoMapper;
-using Edb.AdminAPI.DTOs;
-using EDb.Domain.Entities;
+using Edb.AdminAPI.DTOs.Admin;
+using EDb.Domain.Entities.Platform;
 
 namespace Edb.AdminAPI.Mapping;
 

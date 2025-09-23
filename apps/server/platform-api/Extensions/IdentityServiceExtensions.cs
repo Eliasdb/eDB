@@ -1,7 +1,7 @@
+// Edb.PlatformAPI.Extensions.IdentityServiceExtensions.cs
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.JsonWebTokens; // 👈 add
 using Microsoft.IdentityModel.Tokens;
-
-namespace Edb.PlatformAPI.Extensions;
 
 public static class IdentityServiceExtensions
 {
@@ -10,7 +10,12 @@ public static class IdentityServiceExtensions
         IConfiguration config
     )
     {
-        var identitySettings = config.GetSection("Identity");
+        var identity = config.GetSection("Identity");
+        var authority = identity["Authority"];
+        var audience = identity["Audience"];
+
+        // 👇 keep inbound claim types as-is (no WS-* remapping)
+        JsonWebTokenHandler.DefaultMapInboundClaims = false;
 
         services
             .AddAuthentication(options =>
@@ -20,22 +25,27 @@ public static class IdentityServiceExtensions
             })
             .AddJwtBearer(options =>
             {
-                options.Authority = identitySettings["Authority"];
-                options.Audience = identitySettings["Audience"];
+                options.Authority = authority;
+                options.Audience = audience;
                 options.RequireHttpsMetadata = false;
+
+                // 👇 also disable mapping at the handler level
+                options.MapInboundClaims = false;
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = true,
-                    ValidAudience = identitySettings["Audience"],
-
                     ValidateIssuer = true,
-                    ValidIssuer = identitySettings["Authority"],
+                    ValidIssuer = authority,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+
+                    // ensure Name maps to what you expect (optional)
+                    NameClaimType = "preferred_username",
+                    RoleClaimType = "roles",
                 };
             });
 
-        // services.AddAuthorization();
-
+        services.AddAuthorization();
         return services;
     }
 }
