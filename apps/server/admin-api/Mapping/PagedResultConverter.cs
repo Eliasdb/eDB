@@ -1,5 +1,5 @@
 using AutoMapper;
-using Edb.AdminAPI.DTOs;
+using Edb.AdminAPI.DTOs.Admin;
 
 namespace Edb.AdminAPI.Mapping;
 

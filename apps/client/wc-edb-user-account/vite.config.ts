@@ -20,7 +20,8 @@ export default defineConfig({
       fileName: () => 'eDB-user-account.js',
       formats: ['umd'],
     },
-    outDir: '../../../dist/apps/client/edb-user-account/assets',
+    outDir: '../../../dist/apps/client/edb-user-account',
+    assetsDir: '.', // keep the file flat
     emptyOutDir: true,
     cssCodeSplit: true,
   },

@@ -6,19 +6,28 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 📦 Messaging / Realtime -->
+  <!-- ──────────────────────────────────────────────── -->
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="8.5.2" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
+  </ItemGroup>
 
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 📖 API & Documentation -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
-    <ItemGroup>
-    <!-- Database and ORM -->
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 🗃️ Database & ORM -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,26 +35,51 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
+  </ItemGroup>
 
-    <!-- Authentication -->
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 🔒 Authentication -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.0" />
+  </ItemGroup>
 
-    <!-- Swagger -->
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 🚀 Distributed Caching & Messaging Infra -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+  </ItemGroup>
 
-    <!-- Mocking seeding data -->
-    <PackageReference Include="Bogus" Version="35.6.1" />
-
-    <!-- Utilities -->
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 🛠️ Utilities & Helpers -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.1" /> <!-- test data -->
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.1" />
   </ItemGroup>
- <ItemGroup>
-<ProjectReference Include="..\..\..\libs\shared\server\utils\util-attributes\EDb.UtilAttributes.csproj" />
-<ProjectReference Include="..\..\..\libs\shared\server\data-access\EDb.DataAccess.csproj" />
-<ProjectReference Include="..\..\..\libs\shared\server\domain\EDb.Domain.csproj" />
-</ItemGroup>
+
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- ⏱️ Background Jobs -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Core" Version="1.8.12" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.12" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.6" />
+  </ItemGroup>
+
+  <!-- ──────────────────────────────────────────────── -->
+  <!-- 🧩 Project References -->
+  <!-- ──────────────────────────────────────────────── -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\libs\shared\server\utils\util-attributes\EDb.UtilAttributes.csproj" />
+    <ProjectReference Include="..\..\..\libs\shared\server\data-access\EDb.DataAccess.csproj" />
+    <ProjectReference Include="..\..\..\libs\shared\server\domain\EDb.Domain.csproj" />
+    <ProjectReference Include="..\..\..\libs\shared\server\identity\EDb.Identity.csproj" />
+  </ItemGroup>
 
 </Project>

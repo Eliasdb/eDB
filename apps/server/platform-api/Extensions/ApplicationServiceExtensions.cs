@@ -3,12 +3,12 @@ using EDb.DataAccess.Data;
 using EDb.DataAccess.Repositories;
 using EDb.Domain.Interfaces;
 using Edb.FeatureAccount.Interfaces;
-using Edb.FeatureAccount.Mapping;
-using Edb.FeatureAccount.Repositories;
 using Edb.FeatureAccount.Services;
 using EDb.FeatureApplications.Interfaces;
 using EDb.FeatureApplications.Mapping;
 using EDb.FeatureApplications.Services;
+using EDb.Identity.Abstractions;
+using EDb.Identity.Keycloak;
 using Microsoft.EntityFrameworkCore;
 
 namespace Edb.PlatformAPI.Extensions;
@@ -48,16 +48,16 @@ public static class ApplicationServiceExtensions
             options.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
         );
 
-        services.AddDbContext<KeycloakDbContext>(options =>
-            options.UseNpgsql(connectionString, b => b.MigrationsAssembly("EDb.DataAccess"))
-        );
-
         // ─────────────────────────────────────────────────────
         // 🧩 Repositories
         // ─────────────────────────────────────────────────────
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-        services.AddScoped<IKeycloakRepository, KeycloakRepository>();
+
+        // ─────────────────────────────────────────────────────
+        // 🧩 Gateways
+        // ─────────────────────────────────────────────────────
+        services.AddScoped<IIdentityGateway, KeycloakGateway>();
 
         // ─────────────────────────────────────────────────────
         // 🧠 Services
@@ -68,7 +68,6 @@ public static class ApplicationServiceExtensions
         // ─────────────────────────────────────────────────────
         // 🧭 AutoMapper
         // ─────────────────────────────────────────────────────
-        services.AddAutoMapper(typeof(AccountMappingProfile).Assembly);
         services.AddAutoMapper(typeof(ApplicationMappingProfile).Assembly);
 
         // ─────────────────────────────────────────────────────

@@ -1,7 +1,6 @@
 using Edb.AdminAPI.DTOs;
+using Edb.AdminAPI.DTOs.Admin;
 using Edb.AdminAPI.Interfaces;
-// using EDb.UtilAttributes.Attributes;
-// using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Edb.AdminAPI.Controllers
@@ -30,34 +29,6 @@ namespace Edb.AdminAPI.Controllers
 
             return Ok(result);
         }
-
-        // [HttpGet("users/{userId}")]
-        // // [Authorize(Policy = "AdminPolicy")]
-        // public async Task<ActionResult<UserDto>> GetUserById([FromRoute] int userId)
-        // {
-        //   var user = await _adminService.GetUserByIdAsync(userId);
-
-        //   if (user == null)
-        //   {
-        //     return NotFound(new { Message = "User not found!" });
-        //   }
-
-        //   return Ok(user);
-        // }
-
-        // [HttpDelete("users/{userId}")]
-        // // [Authorize(Policy = "AdminPolicy")]
-        // public async Task<IActionResult> DeleteUser([FromRoute] int userId)
-        // {
-        //   var success = await _adminService.DeleteUserAsync(userId);
-
-        //   if (!success)
-        //   {
-        //     return NotFound(new ApiResponse { Message = "User not found..." });
-        //   }
-
-        //   return Ok(new ApiResponse { Message = "User deleted successfully..." });
-        // }
 
         [HttpGet("applications")]
         // [Authorize(Policy = "AdminPolicy")]
@@ -116,23 +87,6 @@ namespace Edb.AdminAPI.Controllers
                 }
             );
         }
-
-        // [HttpDelete("applications/{applicationId}/subscriptions/{userId}")]
-        // // [Authorize(Policy = "AdminPolicy")]
-        // public async Task<IActionResult> RevokeSubscription(
-        //   [FromRoute] int applicationId,
-        //   [FromRoute] int userId
-        // )
-        // {
-        //   var success = await _adminService.RevokeSubscriptionAsync(applicationId, userId);
-
-        //   if (!success)
-        //   {
-        //     return NotFound(new { Message = "Subscription not found." });
-        //   }
-
-        //   return Ok(new { Message = "Subscription revoked successfully." });
-        // }
 
         [HttpDelete("applications/{applicationId}")]
         // [Authorize(Policy = "AdminPolicy")]

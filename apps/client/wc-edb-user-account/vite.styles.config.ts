@@ -5,7 +5,8 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: __dirname,
   build: {
-    outDir: '../../../dist/apps/client/edb-user-account/assets',
+    outDir: '../../../dist/apps/client/edb-user-account',
+    assetsDir: '.', // keep the file flat
     emptyOutDir: false,
     rollupOptions: {
       input: path.resolve(__dirname, 'src/styles.css'),
