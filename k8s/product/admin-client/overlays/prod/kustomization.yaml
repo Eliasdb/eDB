@@ -10,7 +10,7 @@ resources:
 images:
 - name: eliasdb/edb-admin
   newName: eliasdb/edb-admin
-  newTag: v2.0.4
+  newTag: v2.1
 
 patches:
 - patch: |-
