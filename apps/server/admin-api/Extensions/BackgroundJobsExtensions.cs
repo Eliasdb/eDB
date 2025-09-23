@@ -1,4 +1,3 @@
-// apps/server/admin-api/Extensions/BackgroundJobsExtensions.cs
 using System.Net;
 using Edb.AdminAPI.Jobs;
 using Hangfire;
@@ -58,8 +57,10 @@ public static class BackgroundJobsExtensions
         if (string.IsNullOrWhiteSpace(cron))
             cron = Cron.Daily(2); // 02:00 UTC
 
-        // Non-obsolete overload: pass RecurringJobOptions; let it use default queue
-        RecurringJob.AddOrUpdate<KeycloakUserSyncJob>(
+        // ✅ Get the recurring job manager from DI
+        var manager = app.ApplicationServices.GetRequiredService<IRecurringJobManager>();
+
+        manager.AddOrUpdate<KeycloakUserSyncJob>(
             recurringJobId: "sync-keycloak-users",
             methodCall: job => job.RunFullSync(CancellationToken.None),
             cronExpression: cron,

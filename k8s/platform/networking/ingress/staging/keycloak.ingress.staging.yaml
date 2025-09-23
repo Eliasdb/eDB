@@ -4,18 +4,16 @@ metadata:
   name: keycloak-staging
   namespace: auth
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
   ingressClassName: nginx-argo
-  tls:
-    - hosts: [keycloak.staging.eliasdebock.com]
-      secretName: keycloak-tls
   rules:
-    - host: keycloak.staging.eliasdebock.com
+    - host: app.staging.eliasdebock.com
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /keycloak(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: keycloak-staging
