@@ -7,8 +7,6 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
   ingressClassName: nginx-argo
-  tls:
-    - hosts: [app.staging.eliasdebock.com]
   rules:
     - host: app.staging.eliasdebock.com
       http:
