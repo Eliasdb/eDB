@@ -1,13 +1,14 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import { AuthGuard } from './guards/auth.guard';
-import { WrapperComponent } from './wrapReact';
+import { WrapperComponent } from './wc-wrapper/wrapReact';
 
 export const routes: Route[] = [
   {
     path: '',
     canActivate: [AuthGuard],
     children: [
+      /* Host app routes */
       {
         path: '',
         loadChildren: () =>

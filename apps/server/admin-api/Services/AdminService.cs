@@ -1,27 +1,24 @@
 using System.Linq.Dynamic.Core;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Edb.AdminAPI.DTOs;
+using Edb.AdminAPI.DTOs.Admin;
 using Edb.AdminAPI.Interfaces;
 using Edb.AdminAPI.Utilities;
-using EDb.Domain.Entities;
+using EDb.DataAccess.Data;
+using EDb.Domain.Entities.Platform;
 using EDb.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Edb.AdminAPI.Services
 {
     public class AdminService(
-        KeycloakDbContext keycloakContext,
+        MyDbContext db,
         IApplicationRepository applicationRepository,
-        ISubscriptionRepository subscriptionRepository,
         IMapper mapper
     ) : IAdminService
     {
-        // private readonly IUserRepository _userRepository = userRepository;
-        private readonly KeycloakDbContext _keycloakContext = keycloakContext;
-
+        private readonly MyDbContext _db = db;
         private readonly IApplicationRepository _applicationRepository = applicationRepository;
-        private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<PagedUserResult<UserDto>> GetUsersAsync(
@@ -31,93 +28,97 @@ namespace Edb.AdminAPI.Services
             int pageSize = 15
         )
         {
+            // Projection fields/columns
             var allowedSortFields = new List<string>
             {
-                "id",
-                "username",
-                "email",
-                "first_name",
-                "last_name",
+                "Id",
+                "Username",
+                "Email",
+                "FirstName",
+                "LastName",
+                "EmailVerified",
+                "SyncedAt",
             };
-            var fieldMapping = new Dictionary<string, string>
+
+            // map incoming sort keys (camelCase from UI) to entity props
+            var fieldMapping = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "id", "id" },
-                { "username", "username" },
-                { "email", "email" },
-                { "firstName", "first_name" },
-                { "lastName", "last_name" },
+                { "id", "Id" },
+                { "username", "Username" },
+                { "email", "Email" },
+                { "firstName", "FirstName" },
+                { "lastName", "LastName" },
+                { "emailVerified", "EmailVerified" },
+                { "syncedAt", "SyncedAt" },
             };
 
             var (sortField, sortDirection) = QueryUtils.ParseSortParameter(sort, fieldMapping);
+            if (!allowedSortFields.Contains(sortField))
+                (sortField, sortDirection) = ("Id", "asc");
 
-            var query = _keycloakContext.Users.AsQueryable();
+            var query = _db.KeycloakUsers.AsNoTracking().Where(u => !u.IsDeleted); // hide soft-deleted by default
 
             if (!string.IsNullOrWhiteSpace(search))
             {
                 var pattern = $"%{search}%";
                 query = query.Where(u =>
-                    EF.Functions.ILike(u.username ?? "", pattern)
-                    || EF.Functions.ILike(u.email ?? "", pattern)
-                    || EF.Functions.ILike(u.first_name ?? "", pattern)
-                    || EF.Functions.ILike(u.last_name ?? "", pattern)
+                    EF.Functions.ILike(u.Username ?? "", pattern)
+                    || EF.Functions.ILike(u.Email ?? "", pattern)
+                    || EF.Functions.ILike(u.FirstName ?? "", pattern)
+                    || EF.Functions.ILike(u.LastName ?? "", pattern)
                 );
             }
 
-            query = QueryUtils.ApplySorting(query, sortField, sortDirection, allowedSortFields);
-
-            if (cursor != null)
+            // keyset-ish cursor (cursor is the sort field value as string)
+            if (!string.IsNullOrWhiteSpace(cursor))
             {
-                if (sortDirection == "asc")
-                    query = query.Where($"{sortField} > @0", cursor);
-                else
-                    query = query.Where($"{sortField} < @0", cursor);
+                // naive cursor handling: treat cursor as string comparand
+                // For better keyset, pair with Id as tiebreaker or encode a composite cursor.
+                var op = sortDirection.Equals("asc", StringComparison.OrdinalIgnoreCase)
+                    ? ">"
+                    : "<";
+                query = query.Where($"{sortField} {op} @0", cursor);
             }
+
+            // dynamic sort (then by Id to stabilize)
+            query = query.OrderBy($"{sortField} {sortDirection}, Id asc");
 
             var users = await query
                 .Take(pageSize)
                 .Select(u => new UserDto
                 {
-                    Id = u.id,
-                    Username = u.username,
-                    Email = u.email,
-                    FirstName = u.first_name,
-                    LastName = u.last_name,
-                    EmailVerified = u.email_verified,
+                    Id = u.Id.ToString(), // adapt to your DTO shape
+                    Username = u.Username ?? "",
+                    Email = u.Email ?? "",
+                    FirstName = u.FirstName ?? "",
+                    LastName = u.LastName ?? "",
+                    EmailVerified = u.EmailVerified,
                 })
                 .ToListAsync();
 
-            var (hasMore, nextCursor) = QueryUtils.DetermineNextCursor(
-                users,
-                sortField,
-                sortDirection
-            );
+            // compute next cursor from the last item’s sort field
+            var nextCursor =
+                users.Count == pageSize
+                    ? (
+                        sortField switch
+                        {
+                            "Username" => users.Last().Username,
+                            "Email" => users.Last().Email,
+                            "FirstName" => users.Last().FirstName,
+                            "LastName" => users.Last().LastName,
+                            "EmailVerified" => users.Last().EmailVerified.ToString(),
+                            _ => users.Last().Id, // fallback
+                        }
+                    )
+                    : null;
 
             return new PagedUserResult<UserDto>
             {
                 Data = users,
                 NextCursor = nextCursor,
-                HasMore = hasMore,
+                HasMore = nextCursor != null,
             };
         }
-
-        // public async Task<UserDto?> GetUserByIdAsync(int userId)
-        // {
-        //   var user = await _userRepository.GetByIdAsync(userId);
-        //   return user != null ? _mapper.Map<UserDto>(user) : null;
-        // }
-
-        // public async Task<bool> DeleteUserAsync(int userId)
-        // {
-        //   var user = await _userRepository.GetByIdAsync(userId);
-        //   if (user == null)
-        //   {
-        //     return false; // User not found
-        //   }
-
-        //   await _userRepository.DeleteAsync(user);
-        //   await _userRepository.SaveChangesAsync();
-        //   return true; // User deleted successfully
-        // }
 
         public async Task<List<ApplicationOverviewDto>> GetApplicationsWithSubscribersAsync()
         {
@@ -127,15 +128,9 @@ namespace Edb.AdminAPI.Services
 
         public async Task<Application> AddApplicationAsync(CreateApplicationDto applicationDto)
         {
-            // Map the DTO to the Application entity
             var application = _mapper.Map<Application>(applicationDto);
-
-            // Add the application to the repository
             await _applicationRepository.AddApplicationAsync(application);
-
-            // Save changes to the database
             await _applicationRepository.SaveChangesAsync();
-
             return application;
         }
 
@@ -144,61 +139,25 @@ namespace Edb.AdminAPI.Services
             UpdateApplicationDto applicationDto
         )
         {
-            // Fetch the application by ID
             var application = await _applicationRepository.GetByIdAsync(applicationId);
+            if (application is null)
+                return null;
 
-            if (application == null)
-            {
-                return null; // Application not found
-            }
-
-            // Map the DTO to the existing application entity
             _mapper.Map(applicationDto, application);
-
-            // Update the application in the repository
             await _applicationRepository.UpdateApplicationAsync(application);
-
-            // Save changes
             await _applicationRepository.SaveChangesAsync();
-
             return application;
         }
 
         public async Task<bool> DeleteApplicationAsync(int applicationId)
         {
-            // Fetch the application by ID
             var application = await _applicationRepository.GetByIdAsync(applicationId);
-            if (application == null)
-            {
-                return false; // Application not found
-            }
+            if (application is null)
+                return false;
 
-            // Remove the application
             await _applicationRepository.DeleteApplicationAsync(application);
-
-            // Save changes to the database
             await _applicationRepository.SaveChangesAsync();
-
-            return true; // Application deleted successfully
+            return true;
         }
-
-        // public async Task<bool> RevokeSubscriptionAsync(int applicationId, int userId)
-        // {
-        //   // Fetch the subscription by applicationId and userId
-        //   var subscription = await _subscriptionRepository.GetSubscriptionAsync(applicationId, userId);
-
-        //   if (subscription == null)
-        //   {
-        //     return false; // Subscription not found
-        //   }
-
-        //   // Remove the subscription
-        //   await _subscriptionRepository.DeleteSubscriptionAsync(subscription);
-
-        //   // Save changes to the database
-        //   await _subscriptionRepository.SaveChangesAsync();
-
-        //   return true; // Subscription revoked successfully
-        // }
     }
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using EDb.Domain.Entities;
+using EDb.Domain.Entities.Platform;
 using EDb.FeatureApplications.DTOs;
 
 namespace EDb.FeatureApplications.Mapping;

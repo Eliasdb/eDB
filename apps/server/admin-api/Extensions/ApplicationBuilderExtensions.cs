@@ -1,7 +1,6 @@
 using Edb.AdminAPI.Hubs;
-using Microsoft.AspNetCore.Builder;
 
-namespace Edb.AdminAPI.Extensions;
+namespace EDb.AdminAPI.Extensions;
 
 public static class ApplicationBuilderExtensions
 {

@@ -1,7 +1,4 @@
-using System.Security.Cryptography;
-using System.Text;
-using Bogus;
-using EDb.Domain.Entities;
+using EDb.Domain.Entities.Platform;
 using Microsoft.EntityFrameworkCore;
 
 namespace EDb.DataAccess.Data

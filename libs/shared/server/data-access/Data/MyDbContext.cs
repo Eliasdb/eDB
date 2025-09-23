@@ -1,14 +1,20 @@
-using EDb.Domain.Entities;
+using EDb.Domain.Entities.Identity;
+using EDb.Domain.Entities.Notifications;
+using EDb.Domain.Entities.Platform;
 using Microsoft.EntityFrameworkCore;
 
 namespace EDb.DataAccess.Data;
 
 public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
 {
+    // Platform data
     public DbSet<Application> Applications { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
 
-    // NEW
+    // Keycloak user data synced to my own table
+    public DbSet<KeycloakUserProjection> KeycloakUsers { get; set; }
+
+    // Admin notifications on webshop order
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<NotificationRecipient> NotificationRecipients { get; set; }
 
@@ -82,7 +88,6 @@ public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(opti
         });
 
         // ===== NEW: NotificationRecipients =====
-        // in MyDbContext.OnModelCreating(...)
         modelBuilder.Entity<NotificationRecipient>(b =>
         {
             b.ToTable("notification_recipients");
@@ -96,6 +101,35 @@ public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(opti
             b.HasIndex(r => r.UserId)
                 .HasFilter("\"read_at\" IS NULL")
                 .HasDatabaseName("ix_recipients_user_unread");
+        });
+
+        // ===== Keycloak user projection =====
+        modelBuilder.Entity<KeycloakUserProjection>(b =>
+        {
+            b.ToTable("keycloak_users");
+            b.HasKey(u => u.Id);
+
+            b.Property(u => u.ExternalId).HasColumnName("external_id").IsRequired();
+
+            b.HasIndex(u => u.ExternalId)
+                .IsUnique()
+                .HasDatabaseName("ux_keycloak_users_external_id");
+
+            b.Property(u => u.Username).HasColumnName("username").HasMaxLength(255);
+            b.Property(u => u.Email).HasColumnName("email").HasMaxLength(320);
+            b.Property(u => u.FirstName).HasColumnName("first_name").HasMaxLength(255);
+            b.Property(u => u.LastName).HasColumnName("last_name").HasMaxLength(255);
+            b.Property(u => u.EmailVerified).HasColumnName("email_verified");
+
+            b.Property(u => u.SyncedAt).HasColumnName("synced_at");
+            b.Property(u => u.LastSeenAt).HasColumnName("last_seen_at");
+            b.Property(u => u.IsDeleted).HasColumnName("is_deleted");
+
+            // Simple btree indexes (good starting point)
+            b.HasIndex(u => u.Username).HasDatabaseName("ix_keycloak_users_username");
+            b.HasIndex(u => u.Email).HasDatabaseName("ix_keycloak_users_email");
+            b.HasIndex(u => u.LastName).HasDatabaseName("ix_keycloak_users_last_name");
+            b.HasIndex(u => u.IsDeleted).HasDatabaseName("ix_keycloak_users_is_deleted");
         });
     }
 }

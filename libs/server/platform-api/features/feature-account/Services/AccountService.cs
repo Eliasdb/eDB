@@ -1,129 +1,230 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Services/ProfileService.cs
+// Services/AccountService.cs  (implements Edb.FeatureAccount.Interfaces.IAccountService)
 // ─────────────────────────────────────────────────────────────────────────────
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
-using Edb.FeatureAccount.Config;
 using Edb.FeatureAccount.DTOs;
 using Edb.FeatureAccount.Interfaces;
-using Microsoft.Extensions.Options;
+using EDb.Identity.Abstractions;
+using Microsoft.AspNetCore.Http;
+// Avoid the DTO/Abstractions name clash explicitly
+using FeatureAppInfo = Edb.FeatureAccount.DTOs.ApplicationInfo;
 
 namespace Edb.FeatureAccount.Services;
 
-public class AccountService : IAccountService
+/// <summary>
+/// Orchestrates account-related operations via the identity gateway,
+/// using the current HTTP user's access token and subject id.
+/// </summary>
+public class AccountService(IIdentityGateway idp, IHttpContextAccessor ctx) : IAccountService
 {
-    private readonly IKeycloakRepository _repo;
-    private readonly IHttpContextAccessor _ctx;
-    private readonly KeycloakSettings _kc;
+    private const string BearerPrefix = "Bearer ";
+    private const string ClaimSub = "sub"; // with MapInboundClaims disabled, we keep OIDC names
 
-    public AccountService(
-        IKeycloakRepository repo,
-        IHttpContextAccessor ctx,
-        IOptions<KeycloakSettings> kc
-    )
+    private readonly IIdentityGateway _idp = idp ?? throw new ArgumentNullException(nameof(idp));
+    private readonly IHttpContextAccessor _ctx =
+        ctx ?? throw new ArgumentNullException(nameof(ctx));
+
+    /* ───────────────────────────────── helpers ───────────────────────────────── */
+
+    private HttpContext Http =>
+        _ctx.HttpContext ?? throw new InvalidOperationException("No active HttpContext.");
+
+    private ClaimsPrincipal User =>
+        Http.User ?? throw new InvalidOperationException("No authenticated user principal.");
+
+    /// <summary>
+    /// Extracts the raw access token from the Authorization header.
+    /// </summary>
+    private string EnsureAccessToken()
     {
-        _repo = repo;
-        _ctx = ctx;
-        _kc = kc.Value;
+        if (!Http.Request.Headers.TryGetValue("Authorization", out var authHeader))
+            throw new UnauthorizedAccessException("Missing Authorization header.");
+
+        var header = authHeader.ToString();
+        if (
+            string.IsNullOrWhiteSpace(header)
+            || !header.StartsWith(BearerPrefix, StringComparison.OrdinalIgnoreCase)
+        )
+            throw new UnauthorizedAccessException("Invalid Authorization header.");
+
+        var token = header.Substring(BearerPrefix.Length).Trim();
+        if (string.IsNullOrWhiteSpace(token))
+            throw new UnauthorizedAccessException("Missing bearer token.");
+
+        return token;
     }
 
-    private string? AccessToken =>
-        _ctx.HttpContext?.Request.Headers.Authorization.FirstOrDefault()?.Split(' ').Last();
-
-    private string? UserId
+    /// <summary>
+    /// Resolves the subject (user id) from claims or the JWT subject as a fallback.
+    /// </summary>
+    private string EnsureUserId()
     {
-        get
+        // Primary: the "sub" claim
+        var sub =
+            User.FindFirst(ClaimSub)?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!string.IsNullOrWhiteSpace(sub))
+            return sub!;
+
+        // Fallback: parse JWT if available
+        string token;
+        try
         {
-            var jwt = AccessToken is null
-                ? null
-                : new JwtSecurityTokenHandler().ReadJwtToken(AccessToken);
-            return jwt?.Subject
-                ?? _ctx.HttpContext?.User.FindFirst("sub")?.Value
-                ?? _ctx.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            token = EnsureAccessToken();
         }
+        catch
+        {
+            throw new UnauthorizedAccessException("Cannot resolve user id from claims or token.");
+        }
+
+        var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
+        if (!string.IsNullOrWhiteSpace(jwt?.Subject))
+            return jwt!.Subject!;
+
+        throw new UnauthorizedAccessException("Cannot resolve user id.");
     }
 
-    public async Task<string> GetUserInfoAsync()
+    /* ───────────────────────────────── queries & commands ───────────────────────────────── */
+
+    public Task<string> GetUserInfoAsync()
     {
-        if (string.IsNullOrWhiteSpace(AccessToken))
-            throw new UnauthorizedAccessException("Missing access token");
-        return await _repo.GetUserInfoAsync(AccessToken!);
+        var token = EnsureAccessToken();
+        return _idp.GetUserInfoRawAsync(token);
     }
 
     public async Task<object> UpdateUserInfoAsync(AccountUpdateRequest dto)
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        await _repo.UpdateUserAsync(UserId!, dto);
-        return new { message = "User info updated successfully" };
+        if (dto is null)
+            throw new ArgumentNullException(nameof(dto));
+
+        var userId = EnsureUserId();
+        await _idp.UpdateUserAsync(
+            userId,
+            new UpdateUserCommand(dto.FirstName, dto.LastName, dto.Email)
+        );
+
+        return ApiMessage("User info updated successfully.");
     }
 
-    public async Task<IEnumerable<JsonElement>> GetOtpDevicesAsync()
+    public Task<IEnumerable<JsonElement>> GetOtpDevicesAsync()
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        return await _repo.GetOtpDevicesAsync(UserId!);
+        var userId = EnsureUserId();
+        return _idp.GetOtpDevicesAsync(userId);
     }
 
-    public async Task<bool> DeleteOtpDeviceAsync(string credId)
+    public Task<bool> DeleteOtpDeviceAsync(string credId)
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        return await _repo.DeleteOtpDeviceAsync(UserId!, credId);
+        if (string.IsNullOrWhiteSpace(credId))
+            throw new ArgumentException("Credential id is required.", nameof(credId));
+
+        var userId = EnsureUserId();
+        return _idp.DeleteOtpDeviceAsync(userId, credId);
     }
 
     public async Task<object> ChangePasswordAsync(ChangePasswordRequest dto)
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        await _repo.ChangePasswordAsync(UserId!, dto.Password, dto.SignOutOthers);
-        return new { message = "Password updated successfully" };
+        if (dto is null)
+            throw new ArgumentNullException(nameof(dto));
+
+        var userId = EnsureUserId();
+        await _idp.ChangePasswordAsync(userId, dto.Password, dto.SignOutOthers);
+
+        return ApiMessage("Password updated successfully.");
     }
 
     public async Task<object> GetPasswordMetaAsync()
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        var created = await _repo.GetPasswordCreatedDateAsync(UserId!);
+        var userId = EnsureUserId();
+        var created = await _idp.GetPasswordCreatedDateAsync(userId);
         return new { createdDate = created };
     }
 
-    public async Task<IEnumerable<JsonElement>> GetUserSessionsAsync()
+    public Task<IEnumerable<JsonElement>> GetUserSessionsAsync()
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        return await _repo.GetUserSessionsAsync(UserId!);
+        var userId = EnsureUserId();
+        return _idp.GetUserSessionsAsync(userId);
     }
 
-    public async Task<bool> RevokeSessionAsync(string sessionId) =>
-        await _repo.RevokeSessionAsync(sessionId);
-
-    public async Task<IEnumerable<ApplicationInfo>> GetApplicationsAsync()
+    public Task<bool> RevokeSessionAsync(string sessionId)
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        return await _repo.GetApplicationsAsync(UserId!);
+        if (string.IsNullOrWhiteSpace(sessionId))
+            throw new ArgumentException("Session id is required.", nameof(sessionId));
+
+        // Depending on IDP, revocation may not need userId; keep API as-is.
+        return _idp.RevokeSessionAsync(sessionId);
+    }
+
+    public async Task<IEnumerable<FeatureAppInfo>> GetApplicationsAsync()
+    {
+        var userId = EnsureUserId();
+
+        // Gateway returns EDb.Identity.Abstractions.ApplicationInfo
+        var idpApps = await _idp.GetApplicationsAsync(userId);
+
+        // Map to feature DTO
+        return idpApps
+            .Select(a => new FeatureAppInfo
+            {
+                ClientId = a.ClientId,
+                Name = a.Name,
+                Url = a.Url,
+                Type = a.Type,
+                Status = a.Status,
+            })
+            .ToArray();
     }
 
     public async Task<Dictionary<string, string>> GetCustomAttributesAsync()
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        return await _repo.GetCustomAttributesAsync(UserId!);
+        var userId = EnsureUserId();
+        var dict = await _idp.GetCustomAttributesAsync(userId);
+        return new Dictionary<string, string>(dict); // defensive copy
     }
 
     public async Task<object> UpdateCustomAttributesAsync(Dictionary<string, string> attrs)
     {
-        if (UserId is null)
-            throw new UnauthorizedAccessException();
-        await _repo.UpdateCustomAttributesAsync(UserId!, attrs);
-        return new { message = "Custom attributes updated successfully." };
+        if (attrs is null)
+            throw new ArgumentNullException(nameof(attrs));
+
+        var userId = EnsureUserId();
+        await _idp.UpdateCustomAttributesAsync(userId, attrs);
+
+        return ApiMessage("Custom attributes updated successfully.");
     }
 
     public async Task<object> UpdateUserProfileConfigAsync()
     {
-        await _repo.UpdateUserProfileConfigAsync();
-        return new { message = "User profile config updated successfully." };
+        var cfg = BuildDefaultUserProfileConfig();
+        await _idp.UpdateUserProfileConfigAsync(cfg);
+        return ApiMessage("User profile config updated successfully.");
     }
+
+    /* ───────────────────────────────── internals ───────────────────────────────── */
+
+    private static object ApiMessage(string message) => new { message };
+
+    private static UserProfileConfig BuildDefaultUserProfileConfig() =>
+        new UserProfileConfig(
+            [
+                // Use positional arguments to match your abstraction's ctor
+                new UserProfileAttribute(
+                    "jobTitle", // key
+                    "Job Title", // displayName
+                    ["user", "admin"], // readRoles
+                    ["user", "admin"], // writeRoles
+                    "text", // type
+                    ["account", "admin"] // groups
+                ),
+                new UserProfileAttribute(
+                    "preferredLanguage",
+                    "Preferred Language",
+                    ["user", "admin"],
+                    ["user", "admin"],
+                    "text",
+                    ["account", "admin"]
+                ),
+            ]
+        );
 }

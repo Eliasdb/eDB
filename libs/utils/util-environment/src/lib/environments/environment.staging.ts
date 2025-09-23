@@ -7,7 +7,7 @@ export const environment = {
   invoicesAPIUrl: 'https://api.staging.eliasdebock.com',
 
   KC: {
-    url: 'https://keycloak.staging.eliasdebock.com',
+    url: 'https://app.staging.eliasdebock.com/keycloak',
     realm: 'EDB-STAGING',
     clientId: 'edb-app-staging',
   },

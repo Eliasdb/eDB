@@ -1,6 +1,6 @@
 using DotNetEnv;
 using EDb.DataAccess.Data;
-using Edb.FeatureAccount.Config;
+using EDb.Identity.Keycloak;
 using Edb.PlatformAPI.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;

@@ -24,7 +24,7 @@ namespace EDb.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EDb.Domain.Entities.Application", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Identity.KeycloakUserProjection", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,35 +32,69 @@ namespace EDb.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<string>("Email")
+                        .HasMaxLength(320)
+                        .HasColumnType("character varying(320)")
+                        .HasColumnName("email");
 
-                    b.Property<string>("IconUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("boolean")
+                        .HasColumnName("email_verified");
 
-                    b.Property<bool>("IsSubscribed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("ExternalId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("external_id");
 
-                    b.Property<string>("RoutePath")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("first_name");
 
-                    b.PrimitiveCollection<List<string>>("Tags")
-                        .IsRequired()
-                        .HasColumnType("text[]");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("last_name");
+
+                    b.Property<DateTimeOffset>("LastSeenAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_seen_at");
+
+                    b.Property<DateTimeOffset>("SyncedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("synced_at");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("username");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Applications");
+                    b.HasIndex("Email")
+                        .HasDatabaseName("ix_keycloak_users_email");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_keycloak_users_external_id");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_keycloak_users_is_deleted");
+
+                    b.HasIndex("LastName")
+                        .HasDatabaseName("ix_keycloak_users_last_name");
+
+                    b.HasIndex("Username")
+                        .HasDatabaseName("ix_keycloak_users_username");
+
+                    b.ToTable("keycloak_users", (string)null);
                 });
 
-            modelBuilder.Entity("EDb.Domain.Entities.Notification", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Notifications.Notification", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,7 +155,7 @@ namespace EDb.DataAccess.Migrations
                     b.ToTable("notifications", (string)null);
                 });
 
-            modelBuilder.Entity("EDb.Domain.Entities.NotificationRecipient", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Notifications.NotificationRecipient", b =>
                 {
                     b.Property<Guid>("NotificationId")
                         .HasColumnType("uuid")
@@ -144,7 +178,43 @@ namespace EDb.DataAccess.Migrations
                     b.ToTable("notification_recipients", (string)null);
                 });
 
-            modelBuilder.Entity("EDb.Domain.Entities.Subscription", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Platform.Application", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IconUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsSubscribed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoutePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<List<string>>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Applications");
+                });
+
+            modelBuilder.Entity("EDb.Domain.Entities.Platform.Subscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -171,9 +241,9 @@ namespace EDb.DataAccess.Migrations
                     b.ToTable("Subscriptions");
                 });
 
-            modelBuilder.Entity("EDb.Domain.Entities.NotificationRecipient", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Notifications.NotificationRecipient", b =>
                 {
-                    b.HasOne("EDb.Domain.Entities.Notification", "Notification")
+                    b.HasOne("EDb.Domain.Entities.Notifications.Notification", "Notification")
                         .WithMany("Recipients")
                         .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -182,9 +252,9 @@ namespace EDb.DataAccess.Migrations
                     b.Navigation("Notification");
                 });
 
-            modelBuilder.Entity("EDb.Domain.Entities.Subscription", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Platform.Subscription", b =>
                 {
-                    b.HasOne("EDb.Domain.Entities.Application", "Application")
+                    b.HasOne("EDb.Domain.Entities.Platform.Application", "Application")
                         .WithMany("Subscriptions")
                         .HasForeignKey("ApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -193,14 +263,14 @@ namespace EDb.DataAccess.Migrations
                     b.Navigation("Application");
                 });
 
-            modelBuilder.Entity("EDb.Domain.Entities.Application", b =>
-                {
-                    b.Navigation("Subscriptions");
-                });
-
-            modelBuilder.Entity("EDb.Domain.Entities.Notification", b =>
+            modelBuilder.Entity("EDb.Domain.Entities.Notifications.Notification", b =>
                 {
                     b.Navigation("Recipients");
+                });
+
+            modelBuilder.Entity("EDb.Domain.Entities.Platform.Application", b =>
+                {
+                    b.Navigation("Subscriptions");
                 });
 #pragma warning restore 612, 618
         }
