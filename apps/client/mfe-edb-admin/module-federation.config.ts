@@ -31,7 +31,7 @@ export default {
   shared: (pkg?: string) => {
     if (!pkg) return false;
 
-    // 1. Angular core runtime – strict singleton
+    // 1. Angular core runtime – strict singleton.
     if (
       pkg === '@angular/core' ||
       pkg.startsWith('@angular/core/') ||

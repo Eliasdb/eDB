@@ -9,12 +9,12 @@ spec:
   ingressClassName: nginx-argo
   tls:
     - hosts: [keycloak.staging.eliasdebock.com]
-      secretName: keycloak-tls
+      secretName: app-tls
   rules:
-    - host: keycloak.staging.eliasdebock.com
+    - host: app.staging.eliasdebock.com
       http:
         paths:
-          - path: /
+          - path: /keycloak
             pathType: Prefix
             backend:
               service:
