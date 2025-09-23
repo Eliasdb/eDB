@@ -10,10 +10,10 @@
       "options": {
         "commands": [
           {
-            "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.config.ts"
+            "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.config.mts"
           },
           {
-            "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+            "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.styles.config.mts"
           }
         ],
         "parallel": false
@@ -22,30 +22,30 @@
         "production": {
           "commands": [
             {
-              "command": "pnpm vite build --mode production --config apps/client/wc-edb-user-account/vite.config.ts"
+              "command": "pnpm vite build --mode production --config apps/client/wc-edb-user-account/vite.config.mts"
             },
             {
-              "command": "pnpm vite build --mode production --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+              "command": "pnpm vite build --mode production --config apps/client/wc-edb-user-account/vite.styles.config.mts"
             }
           ]
         },
         "staging": {
           "commands": [
             {
-              "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.config.ts"
+              "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.config.mts"
             },
             {
-              "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+              "command": "pnpm vite build --mode staging --config apps/client/wc-edb-user-account/vite.styles.config.mts"
             }
           ]
         },
         "development": {
           "commands": [
             {
-              "command": "pnpm vite build --mode development --config apps/client/wc-edb-user-account/vite.config.ts"
+              "command": "pnpm vite build --mode development --config apps/client/wc-edb-user-account/vite.config.mts"
             },
             {
-              "command": "pnpm vite build --mode development --config apps/client/wc-edb-user-account/vite.styles.config.ts"
+              "command": "pnpm vite build --mode development --config apps/client/wc-edb-user-account/vite.styles.config.mts"
             }
           ]
         }
@@ -55,7 +55,7 @@
     "serve": {
       "executor": "@nx/vite:dev-server",
       "options": {
-        "configFile": "apps/client/wc-edb-user-account/vite.config.ts"
+        "configFile": "apps/client/wc-edb-user-account/vite.config.mts"
       },
       "configurations": {
         "production": {
