@@ -1,11 +1,8 @@
-// apps/server/admin-api/Extensions/BackgroundJobsExtensions.cs
 using System.Net;
 using Edb.AdminAPI.Jobs;
 using Hangfire;
-using Hangfire.Common;
 using Hangfire.Dashboard;
 using Hangfire.PostgreSql;
-using Microsoft.Extensions.DependencyInjection; // <-- add this
 
 namespace EDb.AdminAPI.Extensions;
 
