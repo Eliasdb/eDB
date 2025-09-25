@@ -160,56 +160,48 @@ jobs:
           export PATH="$HOME/.local/bin:$PATH"
           poetry --version
 
-      - name: Build & Push Docker images (skip admin)
+      - name: Build & Push Docker images (skip admin + clients; include webshop/tools-invoices)
         env:
           SHA_TAG: ${{ needs.version.outputs.image_tag }}
           PRETTY_TAG: ${{ needs.version.outputs.pretty_tag }}
         run: |
-          # get all non-admin apps affected
-          AFFECTED=$(pnpm nx show projects --affected --type=app \
-          --base=origin/dev --head=HEAD --plain --exclude=mfe-edb-admin)
+          set -euo pipefail
 
-          echo "Affected apps (non-admin): $AFFECTED"
+          # IMPORTANT: comma-separated, NO spaces
+          DOCKER_APPS=$(pnpm nx show projects --affected --type=app \
+            --base=origin/dev --head=HEAD --plain \
+            --exclude=mfe-edb-admin,mobile,wc-edb-user-account)
 
-          for app in $AFFECTED; do
+          echo "Docker apps: $DOCKER_APPS"
+
+          for app in $DOCKER_APPS; do
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
-            # 1) Build via Nx (skip the ones you already skip)
-            if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
-              echo "🏗️ Building $app via Nx"
+            # Only run Nx build for apps that actually use it (skip python services)
+            if [ "$lower_app" != "webshop-api" ] && [ "$lower_app" != "tools-invoices-api" ]; then
+              echo "🏗️ Nx build for $app"
               pnpm nx run "$app":build --configuration=staging
             else
-              echo "⚠️ Skipping Nx build for $app"
+              echo "⚠️ Skipping Nx build for $app (handled in Dockerfile)"
             fi
 
-            # 2) Prune ONLY for clara-api (depends on its build)
+            # Prune ONLY for clara-api
             if [ "$app" = "clara-api" ]; then
-              echo "🪚 Pruning $app lockfile & workspace modules"
+              echo "🪚 Pruning $app"
               pnpm nx run clara-api:prune
             fi
 
-            # 3) Skip Docker for the user-account app
-            if [ "$app" = "wc-edb-user-account" ]; then
-              echo "⚠️ Skipping Docker build for $app"
-              continue
-            fi
-
-            DOCKERFILE="./docker/$lower_app/Dockerfile.staging"
             IMAGE="eliasdb/$lower_app"
+            DOCKERFILE="./docker/$lower_app/Dockerfile.staging"
 
             echo "🐳 Building $IMAGE:$SHA_TAG"
             docker build --platform linux/arm64 -f "$DOCKERFILE" -t "$IMAGE:$SHA_TAG" .
 
             if [ -n "$PRETTY_TAG" ]; then
-              echo "🔖 Also tagging $IMAGE:$PRETTY_TAG"
               docker tag "$IMAGE:$SHA_TAG" "$IMAGE:$PRETTY_TAG"
             fi
-
-            echo "🚀 Pushing $IMAGE:$SHA_TAG"
             docker push "$IMAGE:$SHA_TAG"
-
             if [ -n "$PRETTY_TAG" ]; then
-              echo "🚀 Pushing $IMAGE:$PRETTY_TAG"
               docker push "$IMAGE:$PRETTY_TAG"
             fi
           done

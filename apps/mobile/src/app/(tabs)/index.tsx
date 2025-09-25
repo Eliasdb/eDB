@@ -1,6 +1,7 @@
 // apps/mobile/src/app/(tabs)/index.tsx
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { API_BASE } from '../../lib/api/client';
 import { connectRealtime } from '../../lib/voice/realtime.web';
 import Avatar from '../components/Avatar';
 import MicButton from '../components/MicButton';
@@ -14,7 +15,6 @@ export default function HomeScreen() {
   const [connected, setConnected] = useState(false);
   const sessionRef = useRef<SessionHandle | null>(null);
 
-  const API_BASE = process.env.EXPO_PUBLIC_API_BASE!;
   const tokenUrl = `${API_BASE}/realtime/token`;
 
   async function onMicPress() {
