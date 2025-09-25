@@ -1,24 +1,21 @@
 # ---- deps: secure builder with pnpm (Wolfi) ----
-FROM cgr.dev/chainguard/node:20-dev AS deps
+FROM cgr.dev/chainguard/node:latest-dev AS deps
 WORKDIR /srv/app
-# corepack is available in chainguard/node
 RUN corepack enable && corepack prepare pnpm@9 --activate
 
-# Use Nx-pruned artifacts (created by: pnpm nx run clara-api:prune)
+# Nx-pruned artifacts (produced by: pnpm nx run clara-api:prune)
 COPY dist/apps/server/clara-api/package.json ./package.json
 COPY dist/apps/server/clara-api/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY dist/apps/server/clara-api/workspace_modules ./workspace_modules
 
-# Install ONLY production deps, offline when possible
 RUN pnpm install --prod --frozen-lockfile --prefer-offline
 
-# ---- runner: minimal, nonroot, zero-vuln baseline ----
-FROM cgr.dev/chainguard/node:20 AS runner
+# ---- runner: minimal, nonroot ----
+FROM cgr.dev/chainguard/node:latest AS runner
 ENV NODE_ENV=production
 ENV PORT=9101
 WORKDIR /srv/app
 
-# Nonroot is default in Chainguard images; no shell present (distroless-like)
 COPY --from=deps /srv/app/node_modules ./node_modules
 COPY dist/apps/server/clara-api ./  # contains app/main.js & assets/
 
