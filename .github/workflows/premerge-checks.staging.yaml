@@ -167,13 +167,14 @@ jobs:
         run: |
           # get all non-admin apps affected
           AFFECTED=$(pnpm nx show projects --affected --type=app \
-            --base=origin/dev --head=HEAD --plain --exclude=mfe-edb-admin)
+          --base=origin/dev --head=HEAD --plain --exclude=mfe-edb-admin)
 
           echo "Affected apps (non-admin): $AFFECTED"
 
           for app in $AFFECTED; do
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
+            # 1) Build via Nx (skip the ones you already skip)
             if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
               echo "🏗️ Building $app via Nx"
               pnpm nx run "$app":build --configuration=staging
@@ -181,7 +182,13 @@ jobs:
               echo "⚠️ Skipping Nx build for $app"
             fi
 
-            # skip Docker for the user-account app
+            # 2) Prune ONLY for clara-api (depends on its build)
+            if [ "$app" = "clara-api" ]; then
+              echo "🪚 Pruning $app lockfile & workspace modules"
+              pnpm nx run clara-api:prune
+            fi
+
+            # 3) Skip Docker for the user-account app
             if [ "$app" = "wc-edb-user-account" ]; then
               echo "⚠️ Skipping Docker build for $app"
               continue

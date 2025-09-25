@@ -1,9 +1,34 @@
+// apps/eDB/webpack.config.ts
 import { withModuleFederation } from '@nx/module-federation/angular';
-import config from './module-federation.config';
+import { composePlugins } from '@nx/webpack';
+import { DefinePlugin } from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import baseConfig from './module-federation.config';
 
-/**
- * DTS Plugin is disabled in Nx Workspaces as Nx already provides Typing support for Module Federation
- * The DTS Plugin can be enabled by setting dts: true
- * Learn more about the DTS Plugin here: https://module-federation.io/configure/dts.html
- */
-export default withModuleFederation(config, { dts: false });
+export default composePlugins(
+  withModuleFederation({ ...baseConfig }, { dts: false }),
+
+  (config) => {
+    config.plugins ??= [];
+
+    // 👇 patch Angular dev flags
+    config.plugins.push(
+      new DefinePlugin({
+        ngDevMode: JSON.stringify(false),
+        ngJitMode: JSON.stringify(false),
+      }),
+    );
+
+    // 👇 add analyzer only if enabled
+
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        analyzerPort: 8888,
+        openAnalyzer: true,
+      }),
+    );
+
+    return config;
+  },
+);

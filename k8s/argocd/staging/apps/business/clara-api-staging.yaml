@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clara-api-staging
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    # Image Updater config (alias "claraapi")
+    argocd-image-updater.argoproj.io/image-list: claraapi=eliasdb/clara-api
+    argocd-image-updater.argoproj.io/claraapi.allow-tags: regexp:^pr-\d+-staging$
+    argocd-image-updater.argoproj.io/claraapi.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+spec:
+  project: apps
+  source:
+    repoURL: https://github.com/Eliasdb/eDB.git
+    targetRevision: dev
+    path: k8s/product/clara-api/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true

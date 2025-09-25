@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Clara</title>
+  <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+  <style id="expo-reset">
+    /* These styles make the body full-height */
+    html,
+    body {
+      height: 100%;
+    }
+
+    /* These styles disable body scrolling if you are using <ScrollView> */
+    body {
+      overflow: hidden;
+    }
+
+    /* These styles make the root element full-height */
+    #root {
+      display: flex;
+      height: 100%;
+      flex: 1;
+    }
+  </style>
+  <link rel="preload" href="/_expo/static/css/modal.module-26231dad7ad98e1d35bacee4df3a5130.css" as="style">
+  <link rel="stylesheet" href="/_expo/static/css/modal.module-26231dad7ad98e1d35bacee4df3a5130.css">
+  <link rel="icon" href="/favicon.ico" />
+</head>
+
+<body>
+  <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <!-- The root element for your Expo app. -->
+  <div id="root"></div>
+  <!-- Make Expo Router think it's at "/" and set base for assets -->
+  <script>
+    (function () {
+      var BASE = '/assets/clara';
+      // If hosted under /assets/clara, rewrite visible URL to "/" so routes match.
+      if (location.pathname.startsWith(BASE)) {
+        var rest = location.pathname.slice(BASE.length);
+        if (!rest || rest === '/index.html') rest = '/';
+        // Only rewrite when needed
+        if (rest !== location.pathname) {
+          history.replaceState(null, '', rest + location.search + location.hash);
+        }
+      }
+      // Ensure all relative asset URLs load from /assets/clara/
+      var base = document.createElement('base');
+      base.href = BASE + '/';
+      document.head.prepend(base);
+    })();
+  </script>
+
+  <script src="/_expo/static/js/web/index-43b144908004b92ef8301e82c4ee48ba.js" defer></script>
+</body>
+
+</html>

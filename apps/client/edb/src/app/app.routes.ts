@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import { AuthGuard } from './guards/auth.guard';
-import { WrapperComponent } from './wc-wrapper/wrapReact';
+import { WrapperComponent } from './wrappers/wc-wrapper/wrapReact';
 
 export const routes: Route[] = [
   {
@@ -54,6 +54,15 @@ export const routes: Route[] = [
         path: 'erp',
         loadChildren: () =>
           import('@edb/feature-erp').then((m) => m.featureERPRoutes),
+      },
+
+      {
+        path: 'clara',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./wrappers/iframe-wrapper/iframe-wrapper.component').then(
+            (m) => m.IframeWrapperComponent,
+          ),
       },
     ],
   },

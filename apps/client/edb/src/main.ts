@@ -3,6 +3,9 @@ import { environment } from './environments/environment';
 
 const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;
 
+// I get a bug in dev env when I remove this...
+(window as any).ngDevMode = true;
+
 if (!environment.production) {
   // DEV: ping the local manifest, only register if it’s up.
   fetch(manifestUrl, { method: 'GET' })

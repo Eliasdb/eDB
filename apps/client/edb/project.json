@@ -27,8 +27,18 @@
           },
           {
             "glob": "**/*",
+            "input": "apps/client/edb/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
             "input": "dist/apps/client/edb-user-account",
             "output": "assets/eDB-user-account"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/client/edb/src/assets/clara/_expo",
+            "output": "_expo"
           }
         ],
         "scripts": [],
