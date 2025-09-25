@@ -6,6 +6,33 @@
   "tags": [],
   "// targets": "to see all targets run: nx show project mobile --web",
   "targets": {
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "dist/apps/server/clara-api",
+          "format": ["cjs"],
+          "bundle": false,
+          "main": "apps/server/clara-api/src/app/main.ts",
+          "tsConfig": "apps/server/clara-api/tsconfig.app.json",
+          "assets": ["apps/server/clara-api/src/assets"],
+          "generatePackageJson": true,
+          "esbuildOptions": { "sourcemap": true }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": { "sourcemap": false }
+          },
+          "staging": {
+            "esbuildOptions": { "sourcemap": true }
+          }
+        }
+      }
+    },
+
     "prebuild:ios": {
       "executor": "nx:run-commands",
       "options": {
