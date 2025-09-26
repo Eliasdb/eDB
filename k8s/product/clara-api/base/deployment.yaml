@@ -25,9 +25,6 @@ spec:
               value: 'production'
             - name: PORT
               value: '9101'
-          envFrom:
-            - secretRef:
-                name: clara-api-secrets
           readinessProbe:
             httpGet:
               path: /health
