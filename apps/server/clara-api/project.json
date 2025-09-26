@@ -15,6 +15,7 @@
         "main": "apps/server/clara-api/src/app/main.ts",
         "tsConfig": "apps/server/clara-api/tsconfig.app.json",
         "assets": ["apps/server/clara-api/src/assets"],
+        "externalDependencies": [],
         "generatePackageJson": true,
         "esbuildOptions": { "sourcemap": true }
       },
