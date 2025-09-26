@@ -11,7 +11,7 @@
         "platform": "node",
         "outputPath": "dist/apps/server/clara-api",
         "format": ["cjs"],
-        "bundle": false,
+        "bundle": true,
         "main": "apps/server/clara-api/src/app/main.ts",
         "tsConfig": "apps/server/clara-api/tsconfig.app.json",
         "assets": ["apps/server/clara-api/src/assets"],

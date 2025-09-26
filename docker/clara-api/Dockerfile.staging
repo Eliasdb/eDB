@@ -1,24 +1,25 @@
-# ---- deps (builder) ----
+# ---- deps (install only runtime deps that Nx emitted) ----
 FROM node:20-alpine AS deps
 WORKDIR /srv/app
 RUN corepack enable && corepack prepare pnpm@9 --activate
 
+# Nx writes a minimal package.json (+ often a lockfile) into dist
 COPY dist/apps/server/clara-api/package.json ./package.json
+# copy lockfile if it exists (ok if it doesn’t)
 COPY dist/apps/server/clara-api/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY dist/apps/server/clara-api/workspace_modules ./workspace_modules
 
-# if overrides mismatch was a problem earlier, drop --frozen-lockfile
-RUN pnpm install --prod --prefer-offline
-# 👇 ensure the path exists so the next COPY never fails
-RUN test -d node_modules || mkdir -p node_modules
+RUN pnpm install --prod --prefer-offline || pnpm install --prod
+# keep /srv/app/node_modules for runner
 
 # ---- runner (distroless Node 20) ----
 FROM gcr.io/distroless/nodejs20-debian12 AS runner
+ENV NODE_ENV=production
 ENV PORT=9101
 WORKDIR /srv/app
 
 COPY --from=deps /srv/app/node_modules ./node_modules
-COPY dist/apps/server/clara-api ./
+# copy the single bundled file to a stable path
+COPY dist/apps/server/clara-api/main.cjs ./main.cjs
 
 EXPOSE 9101
-ENTRYPOINT ["/nodejs/bin/node","app/main.js"]
+ENTRYPOINT ["/nodejs/bin/node","main.cjs"]
