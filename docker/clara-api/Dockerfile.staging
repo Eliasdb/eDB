@@ -1,0 +1,24 @@
+# ---- deps (builder) ----
+FROM node:20-alpine AS deps
+WORKDIR /srv/app
+RUN corepack enable && corepack prepare pnpm@9 --activate
+
+COPY dist/apps/server/clara-api/package.json ./package.json
+COPY dist/apps/server/clara-api/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY dist/apps/server/clara-api/workspace_modules ./workspace_modules
+
+# if overrides mismatch was a problem earlier, drop --frozen-lockfile
+RUN pnpm install --prod --prefer-offline
+# 👇 ensure the path exists so the next COPY never fails
+RUN test -d node_modules || mkdir -p node_modules
+
+# ---- runner (distroless Node 20) ----
+FROM gcr.io/distroless/nodejs20-debian12 AS runner
+ENV PORT=9101
+WORKDIR /srv/app
+
+COPY --from=deps /srv/app/node_modules ./node_modules
+COPY dist/apps/server/clara-api ./
+
+EXPOSE 9101
+ENTRYPOINT ["/nodejs/bin/node","app/main.js"]

@@ -1,0 +1,128 @@
+{
+  "name": "mobile",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/mobile/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project mobile --web",
+  "targets": {
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "dist/apps/server/clara-api",
+          "format": ["cjs"],
+          "bundle": false,
+          "main": "apps/server/clara-api/src/app/main.ts",
+          "tsConfig": "apps/server/clara-api/tsconfig.app.json",
+          "assets": ["apps/server/clara-api/src/assets"],
+          "generatePackageJson": true,
+          "esbuildOptions": { "sourcemap": true }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": { "sourcemap": false }
+          },
+          "staging": {
+            "esbuildOptions": { "sourcemap": true }
+          }
+        }
+      }
+    },
+
+    "prebuild:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo prebuild --platform ios"
+      }
+    },
+    "run:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo run:ios"
+      }
+    },
+    "start:devclient": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo start --dev-client"
+      }
+    },
+
+    "build:web": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo export:web --output-dir dist"
+      }
+    },
+    "copy:web:to:assets": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p apps/client/edb/src/assets/clara",
+          "echo '=== ls apps/mobile ===' && ls -la apps/mobile || true",
+          "echo '=== ls apps/mobile/dist ===' && ls -la apps/mobile/dist || true",
+          "cp -R apps/mobile/dist/* apps/client/edb/src/assets/clara/"
+        ]
+      }
+    },
+
+    "build:web:full": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc '\nset -euo pipefail\ncd apps/mobile\n(\n  expo export --platform web --output-dir dist \\\n  || expo export --platform web \\\n  || expo export:web \\\n  || expo export\n)\nOUT=\"\"\nfor d in dist dist-web web-build .expo/web-build .expo/web; do\n  [ -f \"$d/index.html\" ] && OUT=\"$d\" && break\ndone\n[ -z \"$OUT\" ] && echo \"No web export found\" >&2 && exit 1\necho \"Expo web output at $OUT\"\n# copy to Angular assets\nmkdir -p apps/client/edb/src/assets/clara\nrm -rf apps/client/edb/src/assets/clara/* || true\ncp -R \"$OUT\"/* apps/client/edb/src/assets/clara/\n'"
+      }
+    },
+    "build:web:staging": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc '\nset -euo pipefail\ncd apps/mobile\nset -a\n[ -f .env.staging ] && . ./.env.staging || true\nset +a\nnpx expo export --platform web --output-dir dist\n'"
+      }
+    },
+    "copy:web:staging:to:assets": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc '\nset -euo pipefail\nREPO=$(git rev-parse --show-toplevel)\ncd apps/mobile\nOUT=\"\"\nfor d in dist dist-web web-build .expo/web-build .expo/web; do\n  [ -f \"$d/index.html\" ] && OUT=\"$d\" && break\ndone\n[ -z \"$OUT\" ] && echo \"No web export found\" >&2 && exit 1\necho \"Expo web output at $OUT\"\nDEST=\"$REPO/apps/client/edb/src/assets/clara\"\nmkdir -p \"$DEST\"\nrm -rf \"$DEST\"/* || true\ncp -R \"$OUT\"/* \"$DEST\"/\n'"
+      }
+    },
+    "staging": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc '\nset -euo pipefail\nREPO=$(git rev-parse --show-toplevel)\ncd apps/mobile\n# 1) load staging env\nset -a; [ -f .env.staging ] && . ./.env.staging || true; set +a\n# 2) export web\nnpx expo export --platform web --output-dir dist\n# 3) detect output dir\nOUT=\"\"; for d in dist dist-web web-build .expo/web-build .expo/web; do [ -f \"$d/index.html\" ] && OUT=\"$d\" && break; done\n[ -z \"$OUT\" ] && echo \"No web export found\" >&2 && exit 1\necho \"Expo web output at $OUT\"\n# 4) patch index.html with base + url rewrite\nnode tools/patch-index.mjs \"$OUT/index.html\" \"/assets/clara\"\n# 5) copy to Angular assets\nDEST=\"$REPO/apps/client/edb/src/assets/clara\"\nmkdir -p \"$DEST\"; rm -rf \"$DEST\"/* || true\ncp -R \"$OUT\"/* \"$DEST\"/\n'"
+      }
+    },
+
+    "build:web:dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc '\nset -euo pipefail\ncd apps/mobile\n# force dev base, ignore any leftover env\nEXPO_PUBLIC_API_BASE=http://127.0.0.1:9101 \\\nEXPO_NO_TELEMETRY=1 \\\n npx expo export --platform web --output-dir dist --clear\n'"
+      }
+    },
+    "copy:web:dev:to:assets": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc '\nset -euo pipefail\nREPO=$(git rev-parse --show-toplevel)\ncd apps/mobile\nOUT=\"\"\nfor d in dist dist-web web-build .expo/web-build .expo/web; do [ -f \"$d/index.html\" ] && OUT=\"$d\" && break; done\n[ -z \"$OUT\" ] && echo \"No web export found\" >&2 && exit 1\necho \"Expo web output at $OUT\"\n# patch with /assets/clara base AND dev API override\nnode tools/patch-index.mjs \"$OUT/index.html\" \"/assets/clara\" \"${EXPO_PUBLIC_API_BASE:-http://127.0.0.1:9101}\"\nDEST=\"$REPO/apps/client/edb/src/assets/clara\"\nmkdir -p \"$DEST\"; rm -rf \"$DEST\"/* || true\ncp -R \"$OUT\"/* \"$DEST\"/\n'"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "pnpm nx run mobile:build:web:dev && pnpm nx run mobile:copy:web:dev:to:assets"
+      }
+    }
+  }
+}

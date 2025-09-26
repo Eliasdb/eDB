@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clara-api
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: clara-api
+          # Image Updater will rewrite this tag automatically
+          image: eliasdb/clara-api:pr-0-staging
+          env:
+            - name: NODE_ENV
+              value: 'staging'
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-secret-staging
+                  key: OPENAI_API_KEY

@@ -1,0 +1,66 @@
+{
+  "name": "clara-api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/clara-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/server/clara-api",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/server/clara-api/src/app/main.ts",
+        "tsConfig": "apps/server/clara-api/tsconfig.app.json",
+        "assets": ["apps/server/clara-api/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": { "sourcemap": true }
+      },
+      "configurations": {
+        "development": {},
+        "production": { "esbuildOptions": { "sourcemap": false } },
+        "staging": { "esbuildOptions": { "sourcemap": true } }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/server/clara-api/package.json",
+        "{workspaceRoot}/dist/apps/server/clara-api/pnpm-lock.yaml"
+      ],
+      "options": { "buildTarget": "build" }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:copy-workspace-modules",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/server/clara-api/workspace_modules"
+      ],
+      "options": { "buildTarget": "build" }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "clara-api:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": { "buildTarget": "clara-api:build:development" },
+        "production": { "buildTarget": "clara-api:build:production" },
+        "staging": { "buildTarget": "clara-api:build:staging" }
+      }
+    }
+  }
+}
