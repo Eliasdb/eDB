@@ -11,10 +11,11 @@
         "platform": "node",
         "outputPath": "dist/apps/server/clara-api",
         "format": ["cjs"],
-        "bundle": false,
+        "bundle": true,
         "main": "apps/server/clara-api/src/app/main.ts",
         "tsConfig": "apps/server/clara-api/tsconfig.app.json",
         "assets": ["apps/server/clara-api/src/assets"],
+        "externalDependencies": "all",
         "generatePackageJson": true,
         "esbuildOptions": { "sourcemap": true }
       },
@@ -25,23 +26,29 @@
       }
     },
     "prune-lockfile": {
-      "dependsOn": ["build"],
-      "cache": true,
       "executor": "@nx/js:prune-lockfile",
+      "cache": true,
       "outputs": [
         "{workspaceRoot}/dist/apps/server/clara-api/package.json",
         "{workspaceRoot}/dist/apps/server/clara-api/pnpm-lock.yaml"
       ],
-      "options": { "buildTarget": "build" }
+      "options": { "buildTarget": "clara-api:build" },
+      "configurations": {
+        "staging": { "buildTarget": "clara-api:build:staging" },
+        "production": { "buildTarget": "clara-api:build:production" }
+      }
     },
     "copy-workspace-modules": {
-      "dependsOn": ["build"],
-      "cache": true,
       "executor": "@nx/js:copy-workspace-modules",
+      "cache": true,
       "outputs": [
         "{workspaceRoot}/dist/apps/server/clara-api/workspace_modules"
       ],
-      "options": { "buildTarget": "build" }
+      "options": { "buildTarget": "clara-api:build" },
+      "configurations": {
+        "staging": { "buildTarget": "clara-api:build:staging" },
+        "production": { "buildTarget": "clara-api:build:production" }
+      }
     },
     "prune": {
       "dependsOn": ["prune-lockfile", "copy-workspace-modules"],

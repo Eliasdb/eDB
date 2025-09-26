@@ -231,7 +231,8 @@
   "pnpm": {
     "overrides": {
       "ora": "5.4.1",
-      "find-cache-directory": "npm:find-cache-dir@3.3.2"
+      "find-cache-directory": "npm:find-cache-dir@3.3.2",
+      "fastify": "^4"
     }
   }
 }

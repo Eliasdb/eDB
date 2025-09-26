@@ -1,24 +1,23 @@
-# ---- deps (builder) ----
+# ---- deps stage ----
 FROM node:20-alpine AS deps
 WORKDIR /srv/app
-RUN corepack enable && corepack prepare pnpm@9 --activate
 
-COPY dist/apps/server/clara-api/package.json ./package.json
+# Use Nx-pruned artifacts
 COPY dist/apps/server/clara-api/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY dist/apps/server/clara-api/workspace_modules ./workspace_modules
+# IMPORTANT: use the generated dist package.json (has deps)
+COPY dist/apps/server/clara-api/package.json ./package.json
 
-# if overrides mismatch was a problem earlier, drop --frozen-lockfile
-RUN pnpm install --prod --prefer-offline
-# 👇 ensure the path exists so the next COPY never fails
-RUN test -d node_modules || mkdir -p node_modules
+RUN corepack enable && corepack prepare pnpm@9 --activate
+RUN pnpm install --prod --frozen-lockfile || pnpm install --prod
 
-# ---- runner (distroless Node 20) ----
-FROM gcr.io/distroless/nodejs20-debian12 AS runner
-ENV PORT=9101
+# ---- runner ----
+FROM gcr.io/distroless/nodejs20-debian12:latest AS runner
 WORKDIR /srv/app
 
 COPY --from=deps /srv/app/node_modules ./node_modules
-COPY dist/apps/server/clara-api ./
+COPY dist/apps/server/clara-api/main.cjs ./main.cjs
+COPY dist/apps/server/clara-api/package.json ./package.json
 
-EXPOSE 9101
-ENTRYPOINT ["/nodejs/bin/node","app/main.js"]
+ENV PORT=9101
+CMD ["main.cjs"]

@@ -1,3 +1,4 @@
+import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import OpenAI from 'openai';
 
@@ -8,7 +9,7 @@ declare module 'fastify' {
   }
 }
 
-export const openAIPlugin = fp(async (app) => {
+export const openAIPlugin: FastifyPluginAsync = fp(async (app) => {
   const key = process.env.OPENAI_API_KEY;
   app.decorate('hasOpenAI', !!key);
   if (key) {

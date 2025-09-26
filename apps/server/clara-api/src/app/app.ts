@@ -1,12 +1,12 @@
-// apps/server/clara-api/src/app/app.ts
-import { fastifyCors } from '@fastify/cors';
+// ✅ use default exports
+import fastifyCors from '@fastify/cors';
 import multipart from '@fastify/multipart';
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify from 'fastify';
 
+// your plugins will be proper FastifyPluginAsync after the changes below
 import { authPlugin } from './plugins/auth';
 import { openAIPlugin } from './plugins/openai';
 
-// ---- Static route imports (no runtime path headaches)
 import actionsRoutes from '../routes/actions';
 import chatRoutes from '../routes/chat';
 import healthRoutes from '../routes/health';
@@ -17,14 +17,14 @@ import realtimeToolsRoutes from '../routes/realtime-tools';
 import rootRoutes from '../routes/root';
 import transcribeRoutes from '../routes/transcribe';
 
-export async function buildApp(): Promise<FastifyInstance> {
+export async function buildApp() {
   const app = Fastify({ logger: true });
 
-  // Core plugins
+  // Base utilities FIRST
   await app.register(fastifyCors, { origin: true });
   await app.register(multipart);
 
-  // Optional auth + OpenAI decorator
+  // Your plugins
   await app.register(authPlugin);
   await app.register(openAIPlugin);
 
