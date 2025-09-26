@@ -1,7 +1,8 @@
-// Usage: node patch-index.mjs <indexHtmlPath> <basePath>
+// Usage: node patch-index.mjs <indexHtmlPath> <basePath> [apiBase]
 import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 
-const [, , indexPath, basePath = '/assets/clara'] = process.argv;
+const [, , indexPath, basePath = '/assets/clara', apiBase] = process.argv;
 if (!indexPath) {
   console.error('patch-index: missing index.html path');
   process.exit(1);
@@ -9,13 +10,10 @@ if (!indexPath) {
 
 let html = readFileSync(indexPath, 'utf8');
 
-// 1) Make asset links relative (affects only leading-slash URLs)
-html = html
-  .replaceAll(' href="/', ' href="./')
-  .replaceAll(' src="/', ' src="./');
+// --- keep your existing rewrites here ---
 
-// 2) Inject <base> + URL rewrite script once (id guards)
-const INJECT = `
+// Inject <base> + URL rewrite (keep your current INJECT)…
+const BASE_INJECT = `
 <script id="clara-base-script">
 (function () {
   var BASE = '${basePath}';
@@ -33,18 +31,30 @@ const INJECT = `
 </script>`.trim();
 
 if (!html.includes('id="clara-base-script"')) {
-  // Prefer injecting before the first script tag; otherwise before </head>
   const firstScriptIdx = html.indexOf('<script');
-  if (firstScriptIdx !== -1) {
-    html =
-      html.slice(0, firstScriptIdx) +
-      INJECT +
-      '\n' +
-      html.slice(firstScriptIdx);
-  } else {
-    html = html.replace('</head>', `${INJECT}\n</head>`);
-  }
+  html =
+    firstScriptIdx !== -1
+      ? html.slice(0, firstScriptIdx) +
+        BASE_INJECT +
+        '\n' +
+        html.slice(firstScriptIdx)
+      : html.replace('</head>', `${BASE_INJECT}\n</head>`);
+}
+
+// NEW: inject window.CLARA_API_BASE if provided
+if (apiBase && !html.includes('id="clara-api-base"')) {
+  const API_INJECT = `<script id="clara-api-base">window.CLARA_API_BASE=${JSON.stringify(apiBase)};</script>`;
+  // put it after the base script (or before first script)
+  const insertAt =
+    html.indexOf('<script', html.indexOf('id="clara-base-script"')) ||
+    html.indexOf('<script');
+  html =
+    insertAt !== -1
+      ? html.slice(0, insertAt) + API_INJECT + '\n' + html.slice(insertAt)
+      : html.replace('</head>', `${API_INJECT}\n</head>`);
 }
 
 writeFileSync(indexPath, html, 'utf8');
-console.log(`Patched ${indexPath} for base ${basePath}`);
+console.log(
+  `Patched ${path.relative(process.cwd(), indexPath)} (base=${basePath}${apiBase ? `, api=${apiBase}` : ''})`,
+);

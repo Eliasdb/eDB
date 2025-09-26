@@ -99,10 +99,9 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": ".",
-        "command": "bash -lc '\nset -euo pipefail\nREPO=$(git rev-parse --show-toplevel)\ncd apps/mobile\n# 1) load staging env\nset -a; [ -f .env.staging ] && . ./.env.staging || true; set +a\n# 2) export web\nnpx expo export --platform web --output-dir dist\n# 3) detect output dir\nOUT=\"\"; for d in dist dist-web web-build .expo/web-build .expo/web; do [ -f \"$d/index.html\" ] && OUT=\"$d\" && break; done\n[ -z \"$OUT\" ] && echo \"No web export found\" >&2 && exit 1\necho \"Expo web output at $OUT\"\n# 4) patch index.html with base + url rewrite\nnode tools/patch-index.mjs \"$OUT/index.html\" \"/assets/clara\"\n# 5) copy to Angular assets\nDEST=\"$REPO/apps/client/edb/src/assets/clara\"\nmkdir -p \"$DEST\"; rm -rf \"$DEST\"/* || true\ncp -R \"$OUT\"/* \"$DEST\"/\n'"
+        "command": "apps/mobile/tools/mobile-staging.sh"
       }
     },
-
     "build:web:dev": {
       "executor": "nx:run-commands",
       "options": {
