@@ -188,7 +188,8 @@ jobs:
             # Prune ONLY for clara-api
             if [ "$app" = "clara-api" ]; then
               echo "🪚 Pruning $app"
-              pnpm nx run clara-api:prune
+              pnpm nx run clara-api:prune:staging --skip-nx-cache
+
             fi
 
             IMAGE="eliasdb/$lower_app"
