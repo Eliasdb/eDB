@@ -312,12 +312,14 @@ function EmptyState({ text }: { text: string }) {
   );
 }
 
-function initials(name: string) {
+function initials(name?: string) {
+  if (!name) return '';
   const parts = name.trim().split(/\s+/);
-  const letters = parts.slice(0, 2).map((p) => p[0]?.toUpperCase() ?? '');
-  return letters.join('');
+  return parts
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('');
 }
-
 /* ---------- Styles ---------- */
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#f6f7fb' },
