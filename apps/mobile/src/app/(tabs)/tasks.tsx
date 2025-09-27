@@ -51,7 +51,7 @@ export default function TasksScreen() {
       keyboardShouldPersistTaps="handled"
     >
       {/* Loading skeletons */}
-      {!isLoading ? (
+      {isLoading ? (
         <>
           <Section title="Tasks">
             <AddTaskInline onAdd={() => {}} isSaving />
