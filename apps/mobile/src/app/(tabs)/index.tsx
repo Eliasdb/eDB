@@ -1,8 +1,6 @@
+import { useRealtimeVoice } from '@features/voice/hooks/useRealtimeVoice';
+import { Avatar, MicButton, PulseDot } from '@ui';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRealtimeVoice } from '../../lib/voice/useRealtimeVoice';
-import Avatar from '../components/Avatar';
-import MicButton from '../components/MicButton';
-import PulseDot from '../components/PulseDot';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error } = useRealtimeVoice();
@@ -19,7 +17,7 @@ export default function HomeScreen() {
       </View>
 
       <Text style={styles.text}>
-        Hi, I’m Clara.{'\n'}What can I do for you today??
+        Hi, I’m Clara.{'\n'}What can I do for you today???
       </Text>
 
       <MicButton onPress={onMicPress} loading={loading} active={connected} />

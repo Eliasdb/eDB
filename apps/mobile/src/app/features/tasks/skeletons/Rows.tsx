@@ -1,6 +1,5 @@
-import React from 'react';
+import { Skeleton } from '@ui';
 import { View } from 'react-native';
-import Skeleton from '../Skeleton';
 
 export function TaskSkeletonRow() {
   return (

@@ -1,8 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { Pill } from '@ui';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { Task } from '../../../../lib/api/types';
-import Pill from '../Pill';
 
 export default function TaskRow({
   task,

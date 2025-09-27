@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/voice/useRealtimeVoice.ts
+import { connectRealtime } from '@voice';
 import { useCallback, useRef, useState } from 'react';
-import { connectRealtime } from './realtimeClient.web';
 
 export function useRealtimeVoice() {
   const sessionRef = useRef<Awaited<ReturnType<typeof connectRealtime>> | null>(
