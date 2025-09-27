@@ -1,9 +1,8 @@
-// ✅ use default exports
+// apps/server/clara-api/src/app/app.ts (or wherever buildApp is)
 import fastifyCors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import Fastify from 'fastify';
 
-// your plugins will be proper FastifyPluginAsync after the changes below
 import { authPlugin } from './plugins/auth';
 import { openAIPlugin } from './plugins/openai';
 
@@ -12,32 +11,36 @@ import healthRoutes from '../routes/health';
 import hubRoutes from '../routes/hub';
 import realtimeRoutes from '../routes/realtime';
 import realtimeExecRoutes from '../routes/realtime-exec';
-import realtimeToolsRoutes from '../routes/realtime-tools';
+import realtimeToolsRoutes from '../routes/realtime-tools'; // 👈 add this
 import rootRoutes from '../routes/root';
+import toolLogsRoutes from '../routes/tool-logs'; // ✅ correct import
 
 export async function buildApp() {
   const app = Fastify({ logger: true });
 
-  // Base utilities FIRST
   await app.register(fastifyCors, { origin: true });
   await app.register(multipart);
 
-  // Your plugins
   await app.register(authPlugin);
   await app.register(openAIPlugin);
 
-  // Routes
+  // Base
   await app.register(rootRoutes, { prefix: '/' });
   await app.register(healthRoutes, { prefix: '/' });
 
   // CRM
   await app.register(hubRoutes, { prefix: '/' });
+
+  // Chat
   await app.register(chatRoutes, { prefix: '/' });
 
-  // Real time
-  await app.register(realtimeRoutes, { prefix: '/' });
-  await app.register(realtimeToolsRoutes);
+  // Realtime
+  await app.register(realtimeRoutes);
   await app.register(realtimeExecRoutes);
+  await app.register(realtimeToolsRoutes, { prefix: '/' });
+
+  // 🔎 Tool logs
+  await app.register(toolLogsRoutes, { prefix: '/' });
 
   return app;
 }

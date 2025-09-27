@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 import { z } from 'zod';
 import { byKind, kind, patchByKind, type Kind } from '../../domain/schemas';
 import { store } from '../../domain/store';
+import { withToolLog } from './toolLog'; // ⬅️ add
 
 /** helpers */
 const uid = (p: string) =>
@@ -36,51 +37,54 @@ function parsePatch(a: z.infer<typeof UpdateArgs>) {
 
 /** The one executor the voice client calls */
 export async function executeTool(name: string, args: unknown) {
-  switch (name) {
-    case 'hub.list': {
-      return store.all();
+  return withToolLog(name, args, async () => {
+    // ⬅️ wrap in logger
+    switch (name) {
+      case 'hub.list': {
+        return store.all();
+      }
+      case 'hub.list_kind': {
+        const a = ListArgs.parse(args);
+        return store.list(a.kind);
+      }
+      case 'hub.create': {
+        const a = CreateArgs.parse(args);
+        const withId = parseCreate(a);
+        store.add(a.kind as Kind, withId);
+        return store.get(a.kind as Kind, withId.id);
+      }
+      case 'hub.update': {
+        const a = UpdateArgs.parse(args);
+        const patch = parsePatch(a);
+        const existing = store.get(a.kind as Kind, a.id);
+        if (!existing) return { error: 'not_found' };
+        const updated = { ...existing, ...patch, id: a.id };
+        store.update(a.kind as Kind, a.id, updated);
+        return updated;
+      }
+      case 'hub.delete': {
+        const a = DeleteArgs.parse(args);
+        const ok = store.remove(a.kind as Kind, a.id);
+        return ok ? { ok: true, id: a.id } : { error: 'not_found' };
+      }
+      default:
+        // Back-compat aliases (optional)
+        if (name === 'add_task')
+          return executeTool('hub.create', { kind: 'tasks', data: args });
+        if (name === 'update_task')
+          return executeTool('hub.update', { kind: 'tasks', ...(args as any) });
+        if (name === 'add_contact')
+          return executeTool('hub.create', { kind: 'contacts', data: args });
+        if (name === 'update_contact')
+          return executeTool('hub.update', {
+            kind: 'contacts',
+            ...(args as any),
+          });
+        if (name === 'add_company')
+          return executeTool('hub.create', { kind: 'companies', data: args });
+        return { error: `unknown_tool ${name}` };
     }
-    case 'hub.list_kind': {
-      const a = ListArgs.parse(args);
-      return store.list(a.kind);
-    }
-    case 'hub.create': {
-      const a = CreateArgs.parse(args);
-      const withId = parseCreate(a);
-      store.add(a.kind as Kind, withId);
-      return store.get(a.kind as Kind, withId.id);
-    }
-    case 'hub.update': {
-      const a = UpdateArgs.parse(args);
-      const patch = parsePatch(a);
-      const existing = store.get(a.kind as Kind, a.id);
-      if (!existing) return { error: 'not_found' };
-      const updated = { ...existing, ...patch, id: a.id };
-      store.update(a.kind as Kind, a.id, updated);
-      return updated;
-    }
-    case 'hub.delete': {
-      const a = DeleteArgs.parse(args);
-      const ok = store.remove(a.kind as Kind, a.id);
-      return ok ? { ok: true, id: a.id } : { error: 'not_found' };
-    }
-    default:
-      // Back-compat aliases (optional)
-      if (name === 'add_task')
-        return executeTool('hub.create', { kind: 'tasks', data: args });
-      if (name === 'update_task')
-        return executeTool('hub.update', { kind: 'tasks', ...(args as any) });
-      if (name === 'add_contact')
-        return executeTool('hub.create', { kind: 'contacts', data: args });
-      if (name === 'update_contact')
-        return executeTool('hub.update', {
-          kind: 'contacts',
-          ...(args as any),
-        });
-      if (name === 'add_company')
-        return executeTool('hub.create', { kind: 'companies', data: args });
-      return { error: `unknown_tool ${name}` };
-  }
+  });
 }
 
 // apps/server/clara-api/src/app/services/tools.ts (continued)
