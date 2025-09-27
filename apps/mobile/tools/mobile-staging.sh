@@ -3,6 +3,7 @@ set -euo pipefail
 
 cd apps/mobile
 
+
 # 1) Load env
 set -a
 [ -f .env.staging ] && . ./.env.staging || true

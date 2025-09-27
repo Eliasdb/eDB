@@ -3,14 +3,16 @@ const path = require('path');
 const { withNxMetro } = require('@nx/expo');
 const { getDefaultConfig } = require('@expo/metro-config');
 const { mergeConfig } = require('metro-config');
+const { withNativeWind } = require('nativewind/metro');
 
 const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, '../../'); // adjust if your depth differs
+const workspaceRoot = path.resolve(projectRoot, '../../'); // monorepo root
 
+// Base Expo config for this app
 const defaultConfig = getDefaultConfig(projectRoot);
 const { assetExts, sourceExts } = defaultConfig.resolver;
 
-// Force Metro to use *this app's* React & RN
+// Force Metro to resolve React & RN from THIS app (prevents duplicate React)
 const forceAppModules = {
   react: path.resolve(projectRoot, 'node_modules/react'),
   'react-native': path.resolve(projectRoot, 'node_modules/react-native'),
@@ -19,13 +21,14 @@ const forceAppModules = {
 const customConfig = {
   cacheVersion: 'mobile',
   transformer: {
+    // keep SVG support
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
   },
   resolver: {
     assetExts: assetExts.filter((ext) => ext !== 'svg'),
     sourceExts: [...sourceExts, 'cjs', 'mjs', 'svg'],
 
-    // ↓↓↓ key bits to avoid duplicate React ↓↓↓
+    // key bits to avoid duplicate React in a monorepo
     disableHierarchicalLookup: true,
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
@@ -33,12 +36,11 @@ const customConfig = {
     ],
     extraNodeModules: forceAppModules,
   },
-  // watch Nx libs in the workspace
+  // watch the workspace so shared packages rebuild
   watchFolders: [workspaceRoot],
 };
 
-module.exports = withNxMetro(mergeConfig(defaultConfig, customConfig), {
-  debug: false,
-  extensions: [],
-  watchFolders: [], // keep empty here; we already set watchFolders above
-});
+// Merge base + custom, then wrap with Nx, then wrap with NativeWind
+const merged = mergeConfig(defaultConfig, customConfig);
+
+module.exports = withNativeWind(merged, { input: './global.css' });

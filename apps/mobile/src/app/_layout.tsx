@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { AppState } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
+import '../../global.css'; // if using Tailwind, make sure this is imported
 import { getQueryClient } from '../lib/api/queryClient';
 
 const queryClient = getQueryClient();
