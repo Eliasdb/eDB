@@ -16,6 +16,12 @@ export default function HomeScreen() {
         <Avatar size={320} />
       </View>
 
+      <View className="flex-1 items-center justify-center bg-red-500 dark:bg-black">
+        <Text className="text-xl font-bold text-red-500 dark:text-red-500">
+          Hello Tailwind + NativeWind
+        </Text>
+      </View>
+
       <Text style={styles.text}>
         Hi, I’m Clara.{'\n'}What can I do for you today???
       </Text>

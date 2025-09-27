@@ -1,5 +1,6 @@
 // apps/mobile/src/lib/api/toolEffects.ts
-import { hubKeys, toolLogKeys } from './hooks';
+import { toolLogKeys } from '../../app/features/admin/hooks/useToolLogs';
+import { hubKeys } from './hooks';
 import { getQueryClient } from './queryClient';
 import type { HubPayload } from './types';
 
