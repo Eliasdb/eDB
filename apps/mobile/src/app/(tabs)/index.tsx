@@ -1,22 +1,19 @@
-// apps/mobile/src/app/(tabs)/index.tsx
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRealtimeVoice } from '../../lib/voice/useRealtimeVoice';
 import Avatar from '../components/Avatar';
 import MicButton from '../components/MicButton';
 import PulseDot from '../components/PulseDot';
 
-// ⬇️ use the hook instead of calling connectRealtime directly
-import { useRealtimeVoice } from '../../lib/voice/useRealtimeVoice';
-
 export default function HomeScreen() {
   const { start, stop, loading, connected, error } = useRealtimeVoice();
-
-  const onMicPress = () => {
-    if (connected) stop();
-    else start();
-  };
+  const onMicPress = () => (connected ? stop() : start());
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      // 👇 let vertical panning scroll even when touching children (RN Web)
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={{ alignItems: 'center' }}>
         <Avatar size={320} />
       </View>
@@ -41,16 +38,16 @@ export default function HomeScreen() {
       {error ? (
         <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>
       ) : null}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    minHeight: '100%',
+    padding: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 32,
   },
   text: {
     fontSize: 22,

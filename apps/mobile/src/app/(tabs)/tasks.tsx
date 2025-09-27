@@ -4,6 +4,7 @@ import {
   FlatList,
   Image,
   Keyboard,
+  Platform,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -20,6 +21,8 @@ import {
 } from '../../lib/api/hooks';
 import type { HubPayload, Task } from '../../lib/api/types';
 
+const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
+
 export default function TasksScreen() {
   const { data, isLoading, isRefetching, refetch, error } = useHub();
   const toggle = useToggleTask();
@@ -32,8 +35,8 @@ export default function TasksScreen() {
 
   return (
     <ScrollView
-      style={styles.screen}
-      contentContainerStyle={{ padding: 16, paddingBottom: 24 }}
+      style={[styles.screen, webPanY]}
+      contentContainerStyle={[{ padding: 16, paddingBottom: 24 }, webPanY]}
       refreshControl={
         <RefreshControl
           refreshing={!!isRefetching && !isLoading}
@@ -68,6 +71,7 @@ export default function TasksScreen() {
         <FlatList
           data={hub.tasks}
           keyExtractor={(t) => t.id}
+          contentContainerStyle={webPanY as any}
           scrollEnabled={false}
           ItemSeparatorComponent={() => <View style={styles.sep} />}
           renderItem={({ item }) => (
@@ -88,6 +92,7 @@ export default function TasksScreen() {
         <FlatList
           data={hub.contacts}
           keyExtractor={(c) => c.id}
+          contentContainerStyle={webPanY as any}
           scrollEnabled={false}
           ItemSeparatorComponent={() => <View style={styles.sep} />}
           renderItem={({ item }) => (
@@ -137,6 +142,7 @@ export default function TasksScreen() {
         <FlatList
           data={hub.companies}
           keyExtractor={(c) => c.id}
+          contentContainerStyle={webPanY as any}
           scrollEnabled={false}
           ItemSeparatorComponent={() => <View style={styles.sep} />}
           renderItem={({ item }) => (
@@ -193,8 +199,8 @@ function TaskRow({
   onDelete: () => void;
 }) {
   return (
-    <View style={styles.row}>
-      <TouchableOpacity onPress={onToggle} style={styles.rowIcon}>
+    <View style={[styles.row, webPanY]}>
+      <TouchableOpacity onPress={onToggle} style={[styles.rowIcon, webPanY]}>
         <Ionicons
           name={task.done ? 'checkbox' : 'checkbox-outline'}
           size={18}
