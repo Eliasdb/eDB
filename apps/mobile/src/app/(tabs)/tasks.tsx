@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import {
   FlatList,
   Platform,
@@ -8,24 +8,28 @@ import {
   Text,
   View,
 } from 'react-native';
+
 import {
   useCreateTask,
   useDeleteTask,
   useHub,
   useToggleTask,
 } from '../../lib/api/hooks';
+
 import type { HubPayload } from '../../lib/api/types';
 
-import AddTaskInline from '../components/tasks/AddTaskInline';
-import CompanyRow from '../components/tasks/rows/CompanyRow';
-import ContactRow from '../components/tasks/rows/ContactRow';
-import TaskRow from '../components/tasks/rows/TaskRow';
-import Section, { sectionStyles } from '../components/tasks/Section';
+import AddTaskInline from '@features/tasks/components/AddTaskInline';
+import CompanyRow from '@features/tasks/components/CompanyRow';
+import ContactRow from '@features/tasks/components/ContactRow';
+import TaskRow from '@features/tasks/components/TaskRow';
+
 import {
   CompanySkeletonRow,
   ContactSkeletonRow,
   TaskSkeletonRow,
-} from '../components/tasks/skeletons/Rows';
+} from '@features/tasks/skeletons/Rows';
+
+import { Card, Section } from '@ui';
 
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 
@@ -50,7 +54,6 @@ export default function TasksScreen() {
       }
       keyboardShouldPersistTaps="handled"
     >
-      {/* Loading skeletons */}
       {isLoading ? (
         <>
           <Section title="Tasks">
@@ -73,14 +76,13 @@ export default function TasksScreen() {
           </Section>
         </>
       ) : error ? (
-        <View style={styles.card}>
+        <Card style={{ marginBottom: 16 }}>
           <Text style={{ color: '#d00', fontWeight: '700' }}>
             Couldn’t load hub
           </Text>
-        </View>
+        </Card>
       ) : (
         <>
-          {/* ---- Tasks ---- */}
           <Section title="Tasks">
             <AddTaskInline
               onAdd={(title) => addTask.mutate({ title })}
@@ -91,7 +93,7 @@ export default function TasksScreen() {
               keyExtractor={(t) => t.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={sectionStyles.sep} />}
+              ItemSeparatorComponent={() => <View style={styles.sep} />}
               renderItem={({ item }) => (
                 <TaskRow
                   task={item}
@@ -109,14 +111,13 @@ export default function TasksScreen() {
             />
           </Section>
 
-          {/* ---- Contacts ---- */}
           <Section title="Contacts">
             <FlatList
               data={hub.contacts}
               keyExtractor={(c) => c.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={sectionStyles.sep} />}
+              ItemSeparatorComponent={() => <View style={styles.sep} />}
               renderItem={({ item }) => <ContactRow c={item} />}
               ListEmptyComponent={
                 <Text style={styles.empty}>
@@ -126,14 +127,13 @@ export default function TasksScreen() {
             />
           </Section>
 
-          {/* ---- Companies ---- */}
           <Section title="Companies">
             <FlatList
               data={hub.companies}
               keyExtractor={(c) => c.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={sectionStyles.sep} />}
+              ItemSeparatorComponent={() => <View style={styles.sep} />}
               renderItem={({ item }) => <CompanyRow co={item} />}
               ListEmptyComponent={
                 <Text style={styles.empty}>
@@ -150,15 +150,6 @@ export default function TasksScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#f6f7fb' },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 14,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 10,
-    elevation: 1,
-  },
+  sep: { height: 1, backgroundColor: '#f0f1f4', marginLeft: 46 },
   empty: { color: '#8b9098', paddingVertical: 12 },
 });

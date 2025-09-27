@@ -8,10 +8,20 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "declaration": true
+    "declaration": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@ui": ["lib/ui/index.ts"],
+      "@ui/*": ["lib/ui/*"],
+      "@features/*": ["app/features/*"],
+      "@api/*": ["lib/api/*"],
+      "@voice": ["lib/voice/index.ts"],
+      "@voice/*": ["lib/voice/*"],
+      "@vm/*": ["viewmodels/*"]
+    }
   },
   "files": [],
-  "include": [],
+  "include": ["src"],
   "references": [
     {
       "path": "./tsconfig.app.json"
