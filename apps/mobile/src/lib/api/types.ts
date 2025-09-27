@@ -43,3 +43,17 @@ export type ChatResponse = {
     companies: any[];
   };
 };
+
+// ---- ADMIN / tools ----
+
+export type ToolLogEntry = {
+  id: string;
+  ts: number;
+  name: string;
+  durationMs: number;
+  args?: unknown;
+  result?: unknown;
+  error?: string;
+};
+
+export type ToolLogsPayload = { items: ToolLogEntry[] };

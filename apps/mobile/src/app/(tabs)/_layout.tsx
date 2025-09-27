@@ -183,6 +183,16 @@ export default function TabsLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="admin-logs"
+        options={{
+          title: 'Admin',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="terminal-outline" color={color} size={size} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

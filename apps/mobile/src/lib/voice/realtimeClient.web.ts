@@ -6,7 +6,11 @@ import type { RealtimeConnections, RealtimeOptions } from './types';
 import { buildAuthHeaders, createAudioSink } from './utils';
 
 // ✅ add these:
-import { applyToolEffectToCache, invalidateHub } from '../api/toolEffects';
+import {
+  applyToolEffectToCache,
+  invalidateHub,
+  invalidateToolLogs,
+} from '../api/toolEffects';
 
 export async function connectRealtime(
   getTokenUrl: string,
@@ -67,8 +71,9 @@ export async function connectRealtime(
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
-      console.log('[voice] invalidate hub');
+      console.log('[voice] invalidate hub + logs');
       invalidateHub();
+      invalidateToolLogs(); // 👈 add this
       opts?.onInvalidate?.();
     },
     bearer: opts?.bearer,

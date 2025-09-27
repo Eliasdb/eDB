@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/api/toolEffects.ts
-import { hubKeys } from './hooks';
+import { hubKeys, toolLogKeys } from './hooks';
 import { getQueryClient } from './queryClient';
 import type { HubPayload } from './types';
 
@@ -64,4 +64,9 @@ export function applyToolEffectToCache(name: string, args: any, result?: any) {
 
 export function invalidateHub() {
   getQueryClient().invalidateQueries({ queryKey: hubKeys.all });
+}
+
+export function invalidateToolLogs() {
+  const qc = getQueryClient();
+  qc.invalidateQueries({ queryKey: toolLogKeys.all });
 }
