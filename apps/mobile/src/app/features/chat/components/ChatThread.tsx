@@ -18,13 +18,14 @@ export default function ChatThread({
       renderItem={({ item }) => (
         <MessageBubble text={item.text} from={item.from} />
       )}
-      contentContainerStyle={{ padding: 16, paddingBottom: 16 + 56 }}
+      contentContainerClassName="px-4 pb-[72px] pt-4"
+      // px-4 = 16, pt-4 = 16, pb = 16 + 56 (composer height)
       onContentSizeChange={() =>
         listRef.current?.scrollToEnd({ animated: true })
       }
       onLayout={() => listRef.current?.scrollToEnd({ animated: false })}
       keyboardShouldPersistTaps="handled"
-      ListFooterComponent={<View style={{ height: 4 }} />}
+      ListFooterComponent={<View className="h-1" />}
     />
   );
 }

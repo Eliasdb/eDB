@@ -1,21 +1,42 @@
-// app/_layout.tsx (or wherever your RootLayout is)
+// app/_layout.tsx
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { AppState } from 'react-native';
+import { AppState, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
-import '../../global.css'; // if using Tailwind, make sure this is imported
+import '../../global.css';
 import { getQueryClient } from '../lib/api/queryClient';
+import {
+  ThemePreferenceProvider,
+  useThemePreference,
+} from '../lib/ui/themePreference';
 
 const queryClient = getQueryClient();
 
-// Tie focus to AppState (RN)
 focusManager.setEventListener((handleFocus) => {
-  const sub = AppState.addEventListener('change', (state) => {
-    handleFocus(state === 'active');
-  });
+  const sub = AppState.addEventListener('change', (s) =>
+    handleFocus(s === 'active'),
+  );
   return () => sub.remove();
 });
+
+function RootInner() {
+  const { effective } = useThemePreference(); // "light" | "dark"
+  const isDark = effective === 'dark';
+
+  return (
+    <>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <View
+        className={
+          (isDark ? 'dark ' : '') + 'flex-1 bg-surface dark:bg-surface-dark'
+        }
+      >
+        <Stack screenOptions={{ headerShown: false }} />
+      </View>
+    </>
+  );
+}
 
 export default function RootLayout() {
   return (
@@ -23,8 +44,9 @@ export default function RootLayout() {
       customStyles={{ backdrop: { backgroundColor: 'rgba(0,0,0,0.08)' } }}
     >
       <QueryClientProvider client={queryClient}>
-        <StatusBar style="dark" />
-        <Stack screenOptions={{ headerShown: false }} />
+        <ThemePreferenceProvider>
+          <RootInner />
+        </ThemePreferenceProvider>
       </QueryClientProvider>
     </MenuProvider>
   );

@@ -1,18 +1,25 @@
+// apps/mobile/src/lib/ui/Skeleton.tsx
+import { useColorScheme } from 'nativewind';
 import { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import { Animated, ViewStyle } from 'react-native';
+
+type SkeletonProps = {
+  width?: number | `${number}%` | 'auto'; // ✅ stricter union
+  height?: number | `${number}%` | 'auto';
+  radius?: number;
+  style?: ViewStyle | ViewStyle[];
+  className?: string;
+};
 
 export default function Skeleton({
   width,
   height,
   radius = 6,
   style,
-}: {
-  width?: number | string;
-  height?: number;
-  radius?: number;
-  style?: any;
-}) {
+  className,
+}: SkeletonProps) {
   const opacity = useRef(new Animated.Value(0.3)).current;
+  const { colorScheme } = useColorScheme();
 
   useEffect(() => {
     const loop = Animated.loop(
@@ -35,12 +42,13 @@ export default function Skeleton({
 
   return (
     <Animated.View
+      className={className}
       style={[
         {
           width,
           height,
           borderRadius: radius,
-          backgroundColor: '#e3e6ed',
+          backgroundColor: colorScheme === 'dark' ? '#2d2f36' : '#e3e6ed',
           opacity,
         },
         style,

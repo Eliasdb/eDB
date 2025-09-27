@@ -1,6 +1,5 @@
 // apps/mobile/src/lib/ui/Segmented.tsx
 import { Text, TouchableOpacity, View } from 'react-native';
-import { colors, radius } from './theme';
 
 export function Segmented<T extends string>({
   value,
@@ -12,16 +11,7 @@ export function Segmented<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <View
-      style={{
-        backgroundColor: '#eef2f7',
-        borderRadius: radius.md,
-        padding: 4,
-        flexDirection: 'row',
-        gap: 6,
-        alignSelf: 'flex-start',
-      }}
-    >
+    <View className="bg-muted dark:bg-muted-dark rounded-md p-1 flex-row gap-1.5 self-start">
       {options.map((o) => {
         const on = o.value === value;
         return (
@@ -29,27 +19,16 @@ export function Segmented<T extends string>({
             key={o.value}
             onPress={() => onChange(o.value)}
             activeOpacity={0.9}
-            style={[
-              {
-                paddingHorizontal: 12,
-                paddingVertical: 6,
-                borderRadius: radius.md,
-              },
-              on && {
-                backgroundColor: colors.white,
-                shadowColor: '#000',
-                shadowOpacity: 0.06,
-                shadowRadius: 8,
-                elevation: 1,
-              },
-            ]}
+            className={`px-3 py-1.5 rounded-md ${
+              on ? 'bg-surface dark:bg-surface-dark shadow-sm' : ''
+            }`}
           >
             <Text
-              style={{
-                fontSize: 12,
-                fontWeight: '700',
-                color: on ? colors.text : '#6b7280',
-              }}
+              className={`text-[12px] font-extrabold ${
+                on
+                  ? 'text-text dark:text-text-dark'
+                  : 'text-text-dim dark:text-text-dimDark'
+              }`}
             >
               {o.label}
             </Text>

@@ -1,10 +1,10 @@
+// apps/mobile/src/app/(tabs)/TasksScreen.tsx
 import { useCallback } from 'react';
 import {
   FlatList,
   Platform,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -44,8 +44,8 @@ export default function TasksScreen() {
 
   return (
     <ScrollView
-      style={[styles.screen, webPanY]}
-      contentContainerStyle={[{ padding: 16, paddingBottom: 24 }, webPanY]}
+      className="flex-1 bg-surface dark:bg-surface-dark"
+      contentContainerStyle={{ padding: 16, paddingBottom: 24, ...webPanY }}
       refreshControl={
         <RefreshControl
           refreshing={!!isRefetching && !isLoading}
@@ -53,6 +53,7 @@ export default function TasksScreen() {
         />
       }
       keyboardShouldPersistTaps="handled"
+      style={webPanY}
     >
       {isLoading ? (
         <>
@@ -76,10 +77,8 @@ export default function TasksScreen() {
           </Section>
         </>
       ) : error ? (
-        <Card style={{ marginBottom: 16 }}>
-          <Text style={{ color: '#d00', fontWeight: '700' }}>
-            Couldn’t load hub
-          </Text>
+        <Card className="mb-4">
+          <Text className="text-red-600 font-bold">Couldn’t load hub</Text>
         </Card>
       ) : (
         <>
@@ -93,7 +92,9 @@ export default function TasksScreen() {
               keyExtractor={(t) => t.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={styles.sep} />}
+              ItemSeparatorComponent={() => (
+                <View className="h-px bg-border dark:bg-border-dark ml-[46]" />
+              )}
               renderItem={({ item }) => (
                 <TaskRow
                   task={item}
@@ -104,7 +105,7 @@ export default function TasksScreen() {
                 />
               )}
               ListEmptyComponent={
-                <Text style={styles.empty}>
+                <Text className="text-text-dim dark:text-text-dimDark py-3">
                   No tasks yet — Clara will drop them here.
                 </Text>
               }
@@ -117,10 +118,12 @@ export default function TasksScreen() {
               keyExtractor={(c) => c.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={styles.sep} />}
+              ItemSeparatorComponent={() => (
+                <View className="h-px bg-border dark:bg-border-dark ml-[46]" />
+              )}
               renderItem={({ item }) => <ContactRow c={item} />}
               ListEmptyComponent={
-                <Text style={styles.empty}>
+                <Text className="text-text-dim dark:text-text-dimDark py-3">
                   No contacts yet — Clara will place them here.
                 </Text>
               }
@@ -133,10 +136,12 @@ export default function TasksScreen() {
               keyExtractor={(c) => c.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={styles.sep} />}
+              ItemSeparatorComponent={() => (
+                <View className="h-px bg-border dark:bg-border-dark ml-[46]" />
+              )}
               renderItem={({ item }) => <CompanyRow co={item} />}
               ListEmptyComponent={
-                <Text style={styles.empty}>
+                <Text className="text-text-dim dark:text-text-dimDark py-3">
                   No companies yet — Clara will link them here.
                 </Text>
               }
@@ -147,9 +152,3 @@ export default function TasksScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#f6f7fb' },
-  sep: { height: 1, backgroundColor: '#f0f1f4', marginLeft: 46 },
-  empty: { color: '#8b9098', paddingVertical: 12 },
-});

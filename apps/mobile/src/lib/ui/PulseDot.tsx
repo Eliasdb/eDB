@@ -1,8 +1,18 @@
 // apps/mobile/src/app/components/PulseDot.tsx
 import { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, View } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 
-export default function PulseDot({ on = false, size = 10, color = '#10B981' }) {
+type Props = {
+  on?: boolean;
+  size?: number;
+  color?: string; // pass tokens like your success hex, e.g. '#10B981'
+};
+
+export default function PulseDot({
+  on = false,
+  size = 10,
+  color = '#10B981',
+}: Props) {
   const scale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(1)).current;
 
@@ -49,25 +59,20 @@ export default function PulseDot({ on = false, size = 10, color = '#10B981' }) {
   }, [on, opacity, scale]);
 
   return (
-    <View style={[styles.wrap, { width: size, height: size }]}>
+    <View
+      className="items-center justify-center"
+      style={{ width: size, height: size }}
+    >
       <Animated.View
-        style={[
-          styles.dot,
-          {
-            backgroundColor: color,
-            width: size,
-            height: size,
-            borderRadius: size / 2,
-            transform: [{ scale }],
-            opacity,
-          },
-        ]}
+        style={{
+          backgroundColor: color,
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          transform: [{ scale }],
+          opacity,
+        }}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrap: { alignItems: 'center', justifyContent: 'center' },
-  dot: {},
-});

@@ -2,14 +2,14 @@
 import ChatComposer from '@features/chat/components/ChatComposer';
 import ChatThread from '@features/chat/components/ChatThread';
 import { useConversation } from '@features/chat/hooks/useConversation';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function ChatScreen() {
   const { messages, input, setInput, send, listRef, pending } =
     useConversation();
 
   return (
-    <View style={styles.screen}>
+    <View className="flex-1 bg-surface dark:bg-surface-dark">
       <ChatThread messages={messages} listRef={listRef} />
       <ChatComposer
         value={input}
@@ -20,7 +20,3 @@ export default function ChatScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#f6f7fb' },
-});

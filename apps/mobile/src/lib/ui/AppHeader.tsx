@@ -2,32 +2,21 @@
 import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderUserMenu } from './HeaderUserMenu';
-import { colors } from './theme';
 
 export function AppHeader({ title }: { title: string }) {
   const insets = useSafeAreaInsets();
   const TOOLBAR_H = 56;
-  const H_PAD = 16;
 
   return (
     <View
-      style={{
-        backgroundColor: colors.white,
-        paddingTop: insets.top,
-        borderBottomWidth: Platform.OS === 'web' ? 1 : 0.5,
-        borderBottomColor: '#eee',
-      }}
+      style={{ paddingTop: insets.top }}
+      className={`
+        bg-surface dark:bg-surface-dark
+        ${Platform.OS === 'web' ? 'border-b border-border dark:border-border-dark' : 'border-b-[0.5px] border-border dark:border-border-dark'}
+      `}
     >
-      <View
-        style={{
-          height: TOOLBAR_H,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: H_PAD,
-        }}
-      >
-        <Text style={{ fontSize: 22, fontWeight: '700', color: '#111' }}>
+      <View className="h-[56px] flex-row items-center justify-between px-4">
+        <Text className="text-[22px] font-bold text-text dark:text-text-dark">
           {title}
         </Text>
         <HeaderUserMenu toolbarHeight={TOOLBAR_H} />

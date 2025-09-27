@@ -1,26 +1,43 @@
 // apps/mobile/src/lib/ui/primitives.tsx
-import { Platform, StyleSheet, Text, View, ViewProps } from 'react-native';
-import { colors, radius, spacing } from './theme';
-// apps/mobile/src/lib/ui/primitives.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Switch, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewProps,
+} from 'react-native';
+import { cn } from './cn';
+
+// Theme-aware icon wrapper
+export function Icon({
+  name,
+  size = 20,
+  className,
+}: {
+  name: React.ComponentProps<typeof Ionicons>['name'];
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <Text className={className}>
+      <Ionicons name={name} size={size} />
+    </Text>
+  );
+}
 
 export function Card(props: ViewProps & { inset?: boolean }) {
   const { style, inset, ...rest } = props;
   return (
     <View
-      style={[
-        {
-          backgroundColor: colors.white,
-          borderRadius: radius.lg,
-          padding: inset ? spacing.md : spacing.sm,
-          shadowColor: '#000',
-          shadowOpacity: 0.05,
-          shadowRadius: 10,
-          elevation: 1,
-        },
-        style,
-      ]}
+      className={cn(
+        'bg-white dark:bg-surface-dark rounded-lg shadow-card',
+        inset ? 'p-md' : 'p-sm',
+      )}
+      style={style}
       {...rest}
     />
   );
@@ -29,10 +46,8 @@ export function Card(props: ViewProps & { inset?: boolean }) {
 export function Divider() {
   return (
     <View
-      style={{
-        height: StyleSheet.hairlineWidth,
-        backgroundColor: colors.border,
-      }}
+      className="bg-border dark:bg-border-dark"
+      style={{ height: StyleSheet.hairlineWidth }}
     />
   );
 }
@@ -56,15 +71,8 @@ export function Row(props: ViewProps & { gap?: number; center?: boolean }) {
 
 export function Chip({ label }: { label: string }) {
   return (
-    <View
-      style={{
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: radius.md,
-        backgroundColor: '#eef2ff',
-      }}
-    >
-      <Text style={{ fontSize: 11, color: '#374151', fontWeight: '700' }}>
+    <View className="px-2 py-1 rounded-md bg-[#eef2ff] dark:bg-[#1b1f3a]">
+      <Text className="text-[11px] font-bold text-[#374151] dark:text-[#d1d5db]">
         {label}
       </Text>
     </View>
@@ -74,20 +82,12 @@ export function Chip({ label }: { label: string }) {
 export function Badge({ label, tint }: { label: string; tint: string }) {
   return (
     <View
-      style={{
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: radius.md,
-        backgroundColor: withAlpha(tint, 0.12),
-      }}
+      className="px-2 py-1 rounded-md"
+      style={{ backgroundColor: withAlpha(tint, 0.12) }}
     >
       <Text
-        style={{
-          fontSize: 10,
-          fontWeight: '900',
-          color: tint,
-          letterSpacing: 0.4,
-        }}
+        className="text-[10px] font-extrabold tracking-[0.4px]"
+        style={{ color: tint }}
       >
         {label}
       </Text>
@@ -99,15 +99,8 @@ export function MonoText({ children }: { children: string }) {
   return (
     <Text
       selectable
+      className="text-[12px] text-text dark:text-text-dark bg-gray-100 dark:bg-gray-800 border border-border dark:border-border-dark rounded-md p-2 leading-4"
       style={{
-        fontSize: 12,
-        color: '#1f2937',
-        backgroundColor: '#f3f4f6',
-        borderWidth: 1,
-        borderColor: '#e5e7eb',
-        borderRadius: radius.md,
-        padding: 10,
-        lineHeight: 16,
         fontFamily: Platform.select({
           ios: 'Menlo',
           android: 'monospace',
@@ -127,32 +120,21 @@ export function withAlpha(hex: string, a = 0.12) {
   return `rgba(${parseInt(r, 16)},${parseInt(g, 16)},${parseInt(b, 16)},${a})`;
 }
 
-// ...existing imports/exports above
-
 export function Dot({ ok }: { ok: boolean }) {
   return (
     <View
-      style={{
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        backgroundColor: ok ? '#10b981' : '#ef4444',
-      }}
+      className={cn(
+        'w-[10px] h-[10px] rounded-full',
+        ok ? 'bg-success' : 'bg-danger',
+      )}
     />
   );
 }
 
 export function MonoKV({ label, value }: { label: string; value: any }) {
   return (
-    <View style={{ marginBottom: 10 }}>
-      <Text
-        style={{
-          fontSize: 12,
-          color: '#6b7280',
-          fontWeight: '800',
-          marginBottom: 2,
-        }}
-      >
+    <View className="mb-[10px]">
+      <Text className="text-[12px] text-text-dim dark:text-text-dimDark font-extrabold mb-[2px]">
         {label}
       </Text>
       <MonoText>{pretty(value)}</MonoText>
@@ -162,18 +144,14 @@ export function MonoKV({ label, value }: { label: string; value: any }) {
 
 export function KV({ label, value }: { label: string; value: string }) {
   return (
-    <View style={{ marginBottom: 10 }}>
-      <Text
-        style={{
-          fontSize: 12,
-          color: '#6b7280',
-          fontWeight: '800',
-          marginBottom: 2,
-        }}
-      >
+    <View className="mb-[10px]">
+      <Text className="text-[12px] text-text-dim dark:text-text-dimDark font-extrabold mb-[2px]">
         {label}
       </Text>
-      <Text style={{ fontSize: 14, color: '#111827' }} numberOfLines={4}>
+      <Text
+        className="text-[14px] text-text dark:text-text-dark"
+        numberOfLines={4}
+      >
         {value}
       </Text>
     </View>
@@ -196,18 +174,8 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <View style={{ marginTop: spacing.lg }}>
-      <Text
-        style={{
-          fontSize: 14,
-          color: colors.dim,
-          marginBottom: spacing.xs,
-          marginLeft: 4,
-          fontWeight: '600',
-          textTransform: 'uppercase',
-          letterSpacing: 0.6,
-        }}
-      >
+    <View className="mt-lg">
+      <Text className="text-[14px] text-text-dim dark:text-text-dimDark mb-xs ml-[4px] font-semibold uppercase tracking-[0.6px]">
         {title}
       </Text>
       <Card inset={false}>{children}</Card>
@@ -228,28 +196,28 @@ export function Item({
 }) {
   return (
     <TouchableOpacity
-      style={{
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.md,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderTopColor: colors.border,
-      }}
+      className="px-md py-md flex-row items-center justify-between border-t border-border dark:border-border-dark"
       activeOpacity={onPress ? 0.7 : 1}
       onPress={onPress}
     >
       <Row center gap={12}>
-        <Ionicons name={icon} size={20} color={colors.text} />
-        <Text style={{ fontSize: 16, color: colors.text }}>{label}</Text>
+        <Icon name={icon} className="text-text dark:text-text-dark" />
+        <Text className="text-[16px] text-text dark:text-text-dark">
+          {label}
+        </Text>
       </Row>
       <Row center gap={8}>
         {value ? (
-          <Text style={{ fontSize: 14, color: colors.dim }}>{value}</Text>
+          <Text className="text-[14px] text-text-dim dark:text-text-dimDark">
+            {value}
+          </Text>
         ) : null}
         {onPress ? (
-          <Ionicons name="chevron-forward" size={18} color={colors.dim} />
+          <Icon
+            name="chevron-forward"
+            size={18}
+            className="text-text-dim dark:text-text-dimDark"
+          />
         ) : null}
       </Row>
     </TouchableOpacity>
@@ -268,20 +236,12 @@ export function ItemSwitch({
   onValueChange?: (v: boolean) => void;
 }) {
   return (
-    <View
-      style={{
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.md,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderTopColor: colors.border,
-      }}
-    >
+    <View className="px-md py-md flex-row items-center justify-between border-t border-border dark:border-border-dark">
       <Row center gap={12}>
-        <Ionicons name={icon} size={20} color={colors.text} />
-        <Text style={{ fontSize: 16, color: colors.text }}>{label}</Text>
+        <Icon name={icon} className="text-text dark:text-text-dark" />
+        <Text className="text-[16px] text-text dark:text-text-dark">
+          {label}
+        </Text>
       </Row>
       <Switch value={value} onValueChange={onValueChange} />
     </View>
@@ -301,20 +261,10 @@ export function PrimaryButton({
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: spacing.xs,
-        backgroundColor: colors.primary,
-        borderRadius: radius.pill,
-        height: 44,
-        paddingHorizontal: spacing.md,
-      }}
+      className="flex-row items-center gap-xs bg-primary rounded-pill h-[44px] px-md"
     >
-      <Ionicons name={icon} size={18} color={colors.white} />
-      <Text style={{ color: colors.white, fontWeight: '600', fontSize: 15 }}>
-        {label}
-      </Text>
+      <Icon name={icon} size={18} className="text-white" />
+      <Text className="text-white font-semibold text-[15px]">{label}</Text>
     </TouchableOpacity>
   );
 }
@@ -329,22 +279,20 @@ export function Pill({
   muted?: boolean;
 }) {
   return (
-    <View style={[styles.pill, muted && { backgroundColor: '#f2f3f7' }]}>
-      <Ionicons name={icon} size={12} color="#6c6f7b" />
-      <Text style={styles.pillText}>{text}</Text>
+    <View
+      className={cn(
+        'flex-row items-center gap-1 px-2 py-1 rounded-xl bg-[#eef1ff] dark:bg-[#1b1f3a]',
+        muted && 'bg-gray-100 dark:bg-gray-800',
+      )}
+    >
+      <Icon
+        name={icon}
+        size={12}
+        className="text-[#6c6f7b] dark:text-gray-300"
+      />
+      <Text className="text-[12px] text-[#6c6f7b] dark:text-gray-300">
+        {text}
+      </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    backgroundColor: '#eef1ff',
-  },
-  pillText: { fontSize: 12, color: '#6c6f7b' },
-});

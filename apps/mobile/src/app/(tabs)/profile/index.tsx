@@ -1,41 +1,20 @@
+// apps/mobile/src/app/(features)/profile/index.tsx
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import {
-  Appearance,
-  ScrollView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Avatar from '../../../lib/ui/Avatar';
-import {
-  Card,
-  Item,
-  ItemSwitch,
-  PrimaryButton,
-  Section,
-} from '../../../lib/ui/primitives';
+import { Card, Item, PrimaryButton, Section } from '../../../lib/ui/primitives';
+import { ThemePicker } from '../../../lib/ui/ThemePicker';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const systemScheme = useColorScheme();
-  const [darkMode, setDarkMode] = useState(systemScheme === 'dark');
-
-  useEffect(() => {
-    const sub = Appearance.addChangeListener(({ colorScheme }) => {
-      setDarkMode((prev) => (prev && colorScheme === 'dark' ? true : prev));
-    });
-    return () => sub.remove();
-  }, []);
 
   const name = 'Elias De Bock';
   const email = 'elias@example.com';
 
   return (
-    <View style={styles.screen}>
+    <View className="flex-1 bg-surface dark:bg-surface-dark">
       <ScrollView
         contentContainerStyle={{
           padding: 16,
@@ -43,12 +22,17 @@ export default function ProfileScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
+        {/* Profile card */}
         <Card style={{ alignItems: 'center', gap: 8 }}>
           <Avatar size={96} />
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.email}>{email}</Text>
+          <Text className="text-[20px] font-bold text-text dark:text-text-dark mt-2">
+            {name}
+          </Text>
+          <Text className="text-[14px] text-text-dim dark:text-text-dimDark">
+            {email}
+          </Text>
 
-          <View style={{ flexDirection: 'row', gap: 12, marginTop: 12 }}>
+          <View className="flex-row gap-3 mt-3">
             <PrimaryButton
               label="Change photo"
               icon="camera-outline"
@@ -62,6 +46,7 @@ export default function ProfileScreen() {
           </View>
         </Card>
 
+        {/* Account section */}
         <Section title="Account">
           <Item
             label="Personal details"
@@ -76,15 +61,11 @@ export default function ProfileScreen() {
           <Item label="Connected apps" icon="link-outline" onPress={() => {}} />
         </Section>
 
+        {/* Preferences section */}
         <Section title="Preferences">
-          <ItemSwitch
-            label="Dark mode"
-            icon="moon-outline"
-            value={darkMode}
-            onValueChange={setDarkMode}
-          />
-          <ItemSwitch label="Voice mode" icon="volume-high-outline" />
-          <ItemSwitch label="Notifications" icon="notifications-outline" />
+          <ThemePicker />
+          <Item label="Voice mode" icon="volume-high-outline" />
+          <Item label="Notifications" icon="notifications-outline" />
           <Item
             label="Language"
             value="English (US)"
@@ -96,9 +77,3 @@ export default function ProfileScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#f6f7fb' },
-  name: { fontSize: 20, fontWeight: '700', color: '#111', marginTop: 8 },
-  email: { fontSize: 14, color: '#666' },
-});

@@ -10,7 +10,6 @@ import {
   renderers,
 } from 'react-native-popup-menu';
 import Avatar from './Avatar';
-import { colors, radius } from './theme';
 
 const { Popover } = renderers;
 
@@ -45,28 +44,24 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
       <MenuOptions
         customStyles={{
           optionsContainer: {
-            borderRadius: radius.md,
-            paddingVertical: 6,
+            borderRadius: 12,
+            paddingVertical: 0,
             minWidth: 200,
-            backgroundColor: colors.white,
-            shadowColor: '#000',
-            shadowOpacity: 0.12,
-            shadowRadius: 12,
-            elevation: 4,
           },
-          optionWrapper: { paddingVertical: 12, paddingHorizontal: 14 },
-          optionText: { fontSize: 16 },
         }}
       >
-        <MenuOption onSelect={() => router.push('/profile')}>
-          <Row icon="person-outline" label="Profile" />
-        </MenuOption>
-        <MenuOption onSelect={() => router.push('/help')}>
-          <Row icon="help-circle-outline" label="Help" />
-        </MenuOption>
-        <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
-          <Row icon="log-out-outline" label="Log out" danger />
-        </MenuOption>
+        {/* Wrap in a Themed View */}
+        <View className="bg-surface dark:bg-surface-dark rounded-xl shadow-md">
+          <MenuOption onSelect={() => router.push('/profile')}>
+            <Row icon="person-outline" label="Profile" />
+          </MenuOption>
+          <MenuOption onSelect={() => router.push('/help')}>
+            <Row icon="help-circle-outline" label="Help" />
+          </MenuOption>
+          <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
+            <Row icon="log-out-outline" label="Log out" danger />
+          </MenuOption>
+        </View>
       </MenuOptions>
     </Menu>
   );
@@ -82,14 +77,18 @@ function Row({
   danger?: boolean;
 }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-      <Ionicons name={icon} size={18} color={danger ? '#d00' : '#333'} />
+    <View className="flex-row items-center gap-3 px-3 py-2.5">
+      <Ionicons
+        name={icon}
+        size={18}
+        color={danger ? '#d00' : 'currentColor'}
+      />
       <Text
-        style={{
-          fontSize: 16,
-          color: danger ? '#d00' : '#111',
-          fontWeight: danger ? '600' : '400',
-        }}
+        className={`text-[16px] ${
+          danger
+            ? 'text-danger font-semibold'
+            : 'text-text dark:text-text-dark font-normal'
+        }`}
       >
         {label}
       </Text>

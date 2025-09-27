@@ -1,3 +1,4 @@
+// apps/mobile/src/app/(features)/admin/logs/AdminLogList.tsx
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 import AdminLogCard from './AdminLogCard';
@@ -12,19 +13,19 @@ export default function AdminLogList({
   onRefresh: () => void;
 }) {
   return (
-    <View style={{ flex: 1, backgroundColor: '#f6f7fb' }}>
+    <View className="flex-1 bg-surface dark:bg-surface-dark">
       <FlatList<LogVM>
         data={items}
         keyExtractor={(x) => x.id}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+        ItemSeparatorComponent={() => <View className="h-2" />}
         renderItem={({ item }) => <AdminLogCard vm={item} />}
-        ListFooterComponent={<View style={{ height: 12 }} />}
+        ListFooterComponent={<View className="h-3" />}
         ListEmptyComponent={
-          <View style={{ padding: 16 }}>
-            <Text style={{ color: '#8b9098' }}>
+          <View className="p-4">
+            <Text className="text-text-dim dark:text-text-dimDark">
               No tool calls yet — trigger one and this page will update live.
             </Text>
           </View>

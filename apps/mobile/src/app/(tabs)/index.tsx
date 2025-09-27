@@ -1,6 +1,7 @@
+// apps/mobile/src/app/(tabs)/HomeScreen.tsx
 import { useRealtimeVoice } from '@features/voice/hooks/useRealtimeVoice';
 import { Avatar, MicButton, PulseDot } from '@ui';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error } = useRealtimeVoice();
@@ -8,29 +9,32 @@ export default function HomeScreen() {
 
   return (
     <ScrollView
-      // 👇 let vertical panning scroll even when touching children (RN Web)
-      contentContainerStyle={styles.container}
+      className="flex-1 bg-surface dark:bg-surface-dark"
+      contentContainerStyle={{
+        minHeight: '100%',
+        padding: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
       keyboardShouldPersistTaps="handled"
     >
-      <View style={{ alignItems: 'center' }}>
+      {/* Avatar */}
+      <View className="items-center">
         <Avatar size={320} />
       </View>
 
-      <View className="flex-1 items-center justify-center bg-red-500 dark:bg-black">
-        <Text className="text-xl font-bold text-red-500 dark:text-red-500">
-          Hello Tailwind + NativeWind
-        </Text>
-      </View>
-
-      <Text style={styles.text}>
+      {/* Greeting */}
+      <Text className="text-[22px] font-medium text-text dark:text-text-dark text-center my-6">
         Hi, I’m Clara.{'\n'}What can I do for you today???
       </Text>
 
+      {/* Mic button */}
       <MicButton onPress={onMicPress} loading={loading} active={connected} />
 
-      <View style={styles.statusRow}>
+      {/* Status row */}
+      <View className="mt-3 flex-row items-center gap-2 bg-muted dark:bg-muted-dark px-3 py-1.5 rounded-full self-center">
         <PulseDot on={connected} />
-        <Text style={styles.statusText}>
+        <Text className="text-[13px] font-semibold text-text dark:text-text-dark">
           {loading
             ? 'Connecting…'
             : connected
@@ -39,37 +43,8 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-      {error ? (
-        <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>
-      ) : null}
+      {/* Error */}
+      {error ? <Text className="text-red-600 mt-2">{error}</Text> : null}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    minHeight: '100%',
-    padding: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 22,
-    marginVertical: 24,
-    textAlign: 'center',
-    fontWeight: '500',
-    color: '#333',
-  },
-  statusRow: {
-    marginTop: 10,
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
-    backgroundColor: '#F3F4F6',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
-    alignSelf: 'center',
-  },
-  statusText: { color: '#111827', fontSize: 13, fontWeight: '600' },
-});
