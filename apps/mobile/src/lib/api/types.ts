@@ -1,3 +1,4 @@
+// ---- CRM ----
 export type Task = {
   id: string;
   title: string;
@@ -32,11 +33,10 @@ export type HubPayload = {
 
 // ---- chat ----
 
-// apps/mobile/src/lib/api/types.ts
 export type ChatTurn = { role: 'user' | 'assistant'; content: string };
 
 export type ChatResponse = {
-  reply: string; // <- what the server returns
+  reply: string;
   extraction?: {
     tasks: any[];
     contacts: any[];

@@ -7,7 +7,6 @@ import Fastify from 'fastify';
 import { authPlugin } from './plugins/auth';
 import { openAIPlugin } from './plugins/openai';
 
-import actionsRoutes from '../routes/actions';
 import chatRoutes from '../routes/chat';
 import healthRoutes from '../routes/health';
 import hubRoutes from '../routes/hub';
@@ -15,7 +14,6 @@ import realtimeRoutes from '../routes/realtime';
 import realtimeExecRoutes from '../routes/realtime-exec';
 import realtimeToolsRoutes from '../routes/realtime-tools';
 import rootRoutes from '../routes/root';
-import transcribeRoutes from '../routes/transcribe';
 
 export async function buildApp() {
   const app = Fastify({ logger: true });
@@ -31,10 +29,12 @@ export async function buildApp() {
   // Routes
   await app.register(rootRoutes, { prefix: '/' });
   await app.register(healthRoutes, { prefix: '/' });
+
+  // CRM
   await app.register(hubRoutes, { prefix: '/' });
   await app.register(chatRoutes, { prefix: '/' });
-  await app.register(transcribeRoutes, { prefix: '/' });
-  await app.register(actionsRoutes, { prefix: '/' });
+
+  // Real time
   await app.register(realtimeRoutes, { prefix: '/' });
   await app.register(realtimeToolsRoutes);
   await app.register(realtimeExecRoutes);

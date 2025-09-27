@@ -1,8 +1,9 @@
+// apps/mobile/src/lib/voice/useRealtimeVoice.ts
 import { useCallback, useRef, useState } from 'react';
-import { connectRealtime } from './realtime.web'; // or './realtime' on device
+import { connectRealtime } from './realtimeClient.web';
 
 export function useRealtimeVoice() {
-  const sessionRef = useRef<null | Awaited<ReturnType<typeof connectRealtime>>>(
+  const sessionRef = useRef<Awaited<ReturnType<typeof connectRealtime>> | null>(
     null,
   );
   const [loading, setLoading] = useState(false);
@@ -15,11 +16,16 @@ export function useRealtimeVoice() {
     setError(null);
     try {
       const base = process.env.EXPO_PUBLIC_API_BASE!;
-      const session = await connectRealtime(`${base}/realtime/token`, base);
+      // If you have an auth token for your API, pass it here:
+      const bearer = undefined; // e.g. authStore.token
+      const session = await connectRealtime(`${base}/realtime/token`, base, {
+        bearer,
+      });
       sessionRef.current = session;
       setConnected(true);
     } catch (e: any) {
       setError(e?.message ?? 'Failed to start voice');
+      setConnected(false);
     } finally {
       setLoading(false);
     }

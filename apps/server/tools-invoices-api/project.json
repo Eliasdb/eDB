@@ -36,7 +36,7 @@
     "serve": {
       "executor": "@nxlv/python:run-commands",
       "options": {
-        "command": "poetry run uvicorn tools_invoices_api.main:app --reload --port 8000",
+        "command": "poetry run uvicorn tools_invoices_api.main:app --reload --port 8001",
         "cwd": "{projectRoot}"
       }
     },

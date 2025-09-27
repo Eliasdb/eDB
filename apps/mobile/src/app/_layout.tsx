@@ -1,24 +1,12 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-  focusManager,
-} from '@tanstack/react-query';
+// app/_layout.tsx (or wherever your RootLayout is)
+import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { AppState } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
+import { getQueryClient } from '../lib/api/queryClient';
 
-// (Optional) network awareness on RN:
-let queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnReconnect: true,
-      refetchOnWindowFocus: true, // App foreground on RN
-      gcTime: 5 * 60 * 1000,
-    },
-  },
-});
+const queryClient = getQueryClient();
 
 // Tie focus to AppState (RN)
 focusManager.setEventListener((handleFocus) => {
@@ -27,10 +15,6 @@ focusManager.setEventListener((handleFocus) => {
   });
   return () => sub.remove();
 });
-
-// If you installed @react-native-community/netinfo, uncomment:
-// import NetInfo from '@react-native-community/netinfo';
-// onlineManager.setEventListener((setOnline) => NetInfo.addEventListener((s) => setOnline(!!s.isConnected)));
 
 export default function RootLayout() {
   return (
