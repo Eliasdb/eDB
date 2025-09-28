@@ -22,11 +22,11 @@ export default function HomeScreen() {
     >
       {/* Avatar */}
       <View className="items-center">
-        <Avatar size={320} />
+        <Avatar size={220} />
       </View>
 
       {/* Greeting */}
-      <Text className="text-[22px] font-medium text-text dark:text-text-dark text-center my-6">
+      <Text className="text-[22px] font-medium text-text dark:text-text-dark text-center mb-6">
         {t('home.greeting')}
       </Text>
 

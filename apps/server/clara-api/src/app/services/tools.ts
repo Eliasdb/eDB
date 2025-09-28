@@ -35,11 +35,17 @@ function parsePatch(a: z.infer<typeof UpdateArgs>) {
   return schema.parse(a.patch);
 }
 
+function canonicalize(name: string) {
+  return name.includes('.') ? name : name.replace('_', '.'); // replace first underscore
+}
+
 /** The one executor the voice client calls */
 export async function executeTool(name: string, args: unknown) {
   return withToolLog(name, args, async () => {
     // ⬅️ wrap in logger
-    switch (name) {
+    const canonical = canonicalize(name);
+
+    switch (canonical) {
       case 'hub.list': {
         return store.all();
       }

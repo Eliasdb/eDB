@@ -60,7 +60,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": ".",
-        "command": "pnpm nx run mobile:build:web:dev && pnpm nx run mobile:copy:web:to:assets"
+        "command": "apps/mobile/tools/export-web.dev.sh"
       }
     },
 

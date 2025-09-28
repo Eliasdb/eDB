@@ -1,9 +1,10 @@
-// apps/mobile/src/lib/components/ContactRow.tsx
+// apps/mobile/src/features/crm/components/ContactRow.tsx
 import { Pill } from '@ui';
 import { Image, Text, View } from 'react-native';
 
 export default function ContactRow({
   c,
+  onEdit,
 }: {
   c: {
     id: string;
@@ -13,41 +14,45 @@ export default function ContactRow({
     avatarUrl?: string;
     source?: string;
   };
+  onEdit?: () => void;
 }) {
   return (
-    <View className="flex-row items-center py-2.5 gap-2">
-      <View className="w-[46px] items-center">
+    <View className="flex-row items-center px-2 py-2.5">
+      {/* avatar – align top */}
+      <View className="w-10 items-center pt-0.5">
         {c.avatarUrl ? (
           <Image
             source={{ uri: c.avatarUrl }}
-            className="w-[34px] h-[34px] rounded-full"
+            className="w-8 h-8 rounded-full"
           />
         ) : (
-          <View className="w-[34px] h-[34px] rounded-full bg-muted dark:bg-muted-dark items-center justify-center">
-            <Text className="font-bold text-[13px] text-text dark:text-text-dark">
+          <View className="w-8 h-8 rounded-full bg-muted dark:bg-muted-dark items-center justify-center">
+            <Text className="font-bold text-[12px] text-text dark:text-text-dark">
               {initials(c.name)}
             </Text>
           </View>
         )}
       </View>
 
-      <View className="flex-1">
+      <View className="flex-1 pr-2">
         <Text className="text-[16px] text-text dark:text-text-dark">
           {c.name}
         </Text>
-
         <View className="flex-row flex-wrap gap-2 mt-1">
-          {c.email && <Pill icon="mail-outline" text={c.email} />}
-          {c.phone && <Pill icon="call-outline" text={c.phone} />}
-          {c.source && (
+          {c.email ? <Pill icon="mail-outline" text={c.email} /> : null}
+          {c.phone ? <Pill icon="call-outline" text={c.phone} /> : null}
+          {c.source ? (
             <Pill
               icon="sparkles-outline"
               text={`Added by Clara • ${c.source}`}
               muted
             />
-          )}
+          ) : null}
         </View>
       </View>
+
+      {/* optional edit button space reserved by TaskRow’s actions; omit for now */}
+      <View className="w-0" />
     </View>
   );
 }

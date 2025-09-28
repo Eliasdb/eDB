@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import {
   Menu,
   MenuOption,
@@ -10,15 +10,25 @@ import {
   MenuTrigger,
   renderers,
 } from 'react-native-popup-menu';
-import Avatar from './Avatar';
+import { useThemePreference } from './themePreference';
 
 const { Popover } = renderers;
 
 export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
   const router = useRouter();
   const { t } = useTranslation();
-  const avatarSize = Math.min(32, toolbarHeight - 12);
+  const { effective } = useThemePreference();
+  const dark = effective === 'dark';
   const GAP = 6;
+
+  // Sleek "sliders" icon instead of avatar/kebab
+  const iconName: React.ComponentProps<typeof Ionicons>['name'] =
+    'options-outline';
+
+  // Colors to match your tokens
+  const iconColor = dark ? '#E5E7EB' : '#111827'; // text-dark / text
+  const bg = dark ? '#111827' : '#F3F4F6'; // surface-dark-ish / muted
+  const border = dark ? '#374151' : '#E5E7EB'; // border-dark / border
 
   return (
     <Menu
@@ -30,6 +40,8 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
         anchorStyle: { marginTop: GAP },
       }}
     >
+      {/* IMPORTANT: Don't nest a Pressable here.
+         MenuTrigger itself handles taps on its child area. */}
       <MenuTrigger
         customStyles={{
           triggerWrapper: {
@@ -40,14 +52,24 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           },
         }}
       >
-        {/* Put accessibility props on a child view */}
+        {/* Accessible, styled trigger */}
         <View
           accessible
           accessibilityRole="button"
-          accessibilityLabel={t('menu.open', 'Open user menu')}
-          className="items-center justify-center"
+          accessibilityLabel={t('menu.open', 'Open menu')}
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: 18,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: bg,
+            borderWidth: 1,
+            borderColor: border,
+            ...(Platform.OS === 'web' ? { cursor: 'pointer' as const } : null),
+          }}
         >
-          <Avatar size={avatarSize} />
+          <Ionicons name={iconName} size={18} color={iconColor} />
         </View>
       </MenuTrigger>
 
@@ -56,19 +78,25 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           optionsContainer: {
             borderRadius: 12,
             paddingVertical: 0,
-            minWidth: 200,
+            minWidth: 220,
+            // shadow handled by native; looks good on both themes
           },
         }}
       >
-        <View className="bg-surface dark:bg-surface-dark rounded-xl shadow-md">
+        {/* Themed container */}
+        <View className="bg-surface dark:bg-surface-dark rounded-xl overflow-hidden">
           <MenuOption onSelect={() => router.push('/profile')}>
-            <Row icon="person-outline" label={t('menu.profile')} />
+            <Row icon="person-outline" label={t('menu.profile', 'Profile')} />
           </MenuOption>
           <MenuOption onSelect={() => router.push('/help')}>
-            <Row icon="help-circle-outline" label={t('menu.help')} />
+            <Row icon="help-circle-outline" label={t('menu.help', 'Help')} />
           </MenuOption>
           <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
-            <Row icon="log-out-outline" label={t('menu.logout')} danger />
+            <Row
+              icon="log-out-outline"
+              label={t('menu.logout', 'Log out')}
+              danger
+            />
           </MenuOption>
         </View>
       </MenuOptions>
@@ -86,12 +114,8 @@ function Row({
   danger?: boolean;
 }) {
   return (
-    <View className="flex-row items-center gap-3 px-3 py-2.5">
-      <Ionicons
-        name={icon}
-        size={18}
-        className={danger ? 'text-danger' : 'text-text dark:text-text-dark'}
-      />
+    <View className="flex-row items-center gap-3 px-3 py-2.5 border-t border-border/60 dark:border-border-dark/60 first:border-t-0">
+      <Ionicons name={icon} size={18} color={danger ? '#d00' : undefined} />
       <Text
         className={`text-[16px] ${
           danger
