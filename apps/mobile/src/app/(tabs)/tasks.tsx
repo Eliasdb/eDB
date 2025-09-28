@@ -1,10 +1,11 @@
+// apps/mobile/src/app/(tabs)/TasksScreen.tsx
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Platform,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -34,6 +35,7 @@ import { Card, Section } from '@ui';
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 
 export default function TasksScreen() {
+  const { t } = useTranslation();
   const { data, isLoading, isRefetching, refetch, error } = useHub();
   const toggle = useToggleTask();
   const addTask = useCreateTask();
@@ -44,8 +46,8 @@ export default function TasksScreen() {
 
   return (
     <ScrollView
-      style={[styles.screen, webPanY]}
-      contentContainerStyle={[{ padding: 16, paddingBottom: 24 }, webPanY]}
+      className="flex-1 bg-surface dark:bg-surface-dark"
+      contentContainerStyle={{ padding: 16, paddingBottom: 24, ...webPanY }}
       refreshControl={
         <RefreshControl
           refreshing={!!isRefetching && !isLoading}
@@ -53,37 +55,36 @@ export default function TasksScreen() {
         />
       }
       keyboardShouldPersistTaps="handled"
+      style={webPanY}
     >
       {isLoading ? (
         <>
-          <Section title="Tasks">
+          <Section title={t('crm.tasks')}>
             <AddTaskInline onAdd={() => {}} isSaving />
             {[...Array(3)].map((_, i) => (
               <TaskSkeletonRow key={i} />
             ))}
           </Section>
 
-          <Section title="Contacts">
+          <Section title={t('crm.contacts')}>
             {[...Array(2)].map((_, i) => (
               <ContactSkeletonRow key={i} />
             ))}
           </Section>
 
-          <Section title="Companies">
+          <Section title={t('crm.companies')}>
             {[...Array(2)].map((_, i) => (
               <CompanySkeletonRow key={i} />
             ))}
           </Section>
         </>
       ) : error ? (
-        <Card style={{ marginBottom: 16 }}>
-          <Text style={{ color: '#d00', fontWeight: '700' }}>
-            Couldn’t load hub
-          </Text>
+        <Card className="mb-4">
+          <Text className="text-red-600 font-bold">{t('crm.loadError')}</Text>
         </Card>
       ) : (
         <>
-          <Section title="Tasks">
+          <Section title={t('crm.tasks')}>
             <AddTaskInline
               onAdd={(title) => addTask.mutate({ title })}
               isSaving={addTask.isPending}
@@ -93,7 +94,9 @@ export default function TasksScreen() {
               keyExtractor={(t) => t.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={styles.sep} />}
+              ItemSeparatorComponent={() => (
+                <View className="h-px bg-border dark:bg-border-dark ml-[46]" />
+              )}
               renderItem={({ item }) => (
                 <TaskRow
                   task={item}
@@ -104,40 +107,44 @@ export default function TasksScreen() {
                 />
               )}
               ListEmptyComponent={
-                <Text style={styles.empty}>
-                  No tasks yet — Clara will drop them here.
+                <Text className="text-text-dim dark:text-text-dimDark py-3">
+                  {t('crm.emptyTasks')}
                 </Text>
               }
             />
           </Section>
 
-          <Section title="Contacts">
+          <Section title={t('crm.contacts')}>
             <FlatList
               data={hub.contacts}
               keyExtractor={(c) => c.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={styles.sep} />}
+              ItemSeparatorComponent={() => (
+                <View className="h-px bg-border dark:bg-border-dark ml-[46]" />
+              )}
               renderItem={({ item }) => <ContactRow c={item} />}
               ListEmptyComponent={
-                <Text style={styles.empty}>
-                  No contacts yet — Clara will place them here.
+                <Text className="text-text-dim dark:text-text-dimDark py-3">
+                  {t('crm.emptyContacts')}
                 </Text>
               }
             />
           </Section>
 
-          <Section title="Companies">
+          <Section title={t('crm.companies')}>
             <FlatList
               data={hub.companies}
               keyExtractor={(c) => c.id}
               scrollEnabled={false}
               contentContainerStyle={webPanY}
-              ItemSeparatorComponent={() => <View style={styles.sep} />}
+              ItemSeparatorComponent={() => (
+                <View className="h-px bg-border dark:bg-border-dark ml-[46]" />
+              )}
               renderItem={({ item }) => <CompanyRow co={item} />}
               ListEmptyComponent={
-                <Text style={styles.empty}>
-                  No companies yet — Clara will link them here.
+                <Text className="text-text-dim dark:text-text-dimDark py-3">
+                  {t('crm.emptyCompanies')}
                 </Text>
               }
             />
@@ -147,9 +154,3 @@ export default function TasksScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#f6f7fb' },
-  sep: { height: 1, backgroundColor: '#f0f1f4', marginLeft: 46 },
-  empty: { color: '#8b9098', paddingVertical: 12 },
-});

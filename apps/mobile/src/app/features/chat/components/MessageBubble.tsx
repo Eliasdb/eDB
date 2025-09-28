@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+// apps/mobile/src/lib/components/MessageBubble.tsx
+import { Text, View } from 'react-native';
 
 export default function MessageBubble({
   text,
@@ -8,27 +9,22 @@ export default function MessageBubble({
   from: 'user' | 'clara';
 }) {
   const isUser = from === 'user';
+
   return (
-    <View style={[styles.bubble, isUser ? styles.user : styles.clara]}>
-      <Text style={styles.text}>{text}</Text>
+    <View
+      className={`
+        px-3 py-2 my-1.5 rounded-2xl max-w-[75%]
+        ${isUser ? 'bg-primary self-end' : 'bg-muted dark:bg-muted-dark self-start'}
+      `}
+    >
+      <Text
+        className={`
+          text-[15px]
+          ${isUser ? 'text-white' : 'text-text dark:text-text-dark'}
+        `}
+      >
+        {text}
+      </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bubble: {
-    padding: 12,
-    marginVertical: 6,
-    borderRadius: 16,
-    maxWidth: '75%',
-  },
-  user: {
-    backgroundColor: '#6C63FF',
-    alignSelf: 'flex-end',
-  },
-  clara: {
-    backgroundColor: '#eee',
-    alignSelf: 'flex-start',
-  },
-  text: { color: 'black' },
-});

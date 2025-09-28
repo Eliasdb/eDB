@@ -1,6 +1,7 @@
+// apps/mobile/src/lib/components/TaskRow.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { Pill } from '@ui';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import type { Task } from '../../../../lib/api/types';
 
 export default function TaskRow({
@@ -13,8 +14,9 @@ export default function TaskRow({
   onDelete: () => void;
 }) {
   return (
-    <View style={styles.row}>
-      <TouchableOpacity onPress={onToggle} style={styles.rowIcon}>
+    <View className="flex-row items-center py-2.5 gap-2">
+      {/* Toggle checkbox */}
+      <TouchableOpacity onPress={onToggle} className="w-[30px] items-center">
         <Ionicons
           name={task.done ? 'checkbox' : 'checkbox-outline'}
           size={18}
@@ -22,16 +24,16 @@ export default function TaskRow({
         />
       </TouchableOpacity>
 
-      <View style={styles.rowMain}>
+      {/* Title + meta */}
+      <View className="flex-1">
         <Text
-          style={[
-            styles.title,
-            task.done && { textDecorationLine: 'line-through', opacity: 0.7 },
-          ]}
+          className={`text-[16px] text-text dark:text-text-dark ${
+            task.done ? 'line-through opacity-70' : ''
+          }`}
         >
           {task.title}
         </Text>
-        <View style={styles.metaLine}>
+        <View className="flex-row flex-wrap gap-2 mt-1">
           {task.due && <Pill icon="time-outline" text={task.due} />}
           {task.source && (
             <Pill
@@ -43,23 +45,10 @@ export default function TaskRow({
         </View>
       </View>
 
+      {/* Delete button */}
       <TouchableOpacity onPress={onDelete} hitSlop={10}>
         <Ionicons name="trash-outline" size={18} color="#c23" />
       </TouchableOpacity>
     </View>
   );
 }
-
-export const rowStyles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    gap: 8,
-  },
-  rowIcon: { width: 30, alignItems: 'center' },
-  rowMain: { flex: 1 },
-  title: { fontSize: 16, color: '#1f2328' },
-  metaLine: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
-});
-const styles = rowStyles;

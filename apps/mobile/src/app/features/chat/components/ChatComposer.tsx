@@ -1,6 +1,7 @@
+// apps/mobile/src/lib/components/ChatComposer.tsx
+import { useTranslation } from 'react-i18next';
 import {
   Platform,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -18,61 +19,39 @@ export default function ChatComposer({
   onSend: () => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
+
   return (
-    <View style={styles.inputBar}>
+    <View className="absolute left-0 right-0 bottom-0 flex-row items-center px-3 h-14 bg-surface dark:bg-surface-dark border-t border-border dark:border-border-dark">
       <TextInput
         value={value}
         onChangeText={onChange}
-        placeholder="Type a message…"
+        placeholder={t('chat.placeholder')}
+        placeholderTextColor="#9CA3AF"
         returnKeyType="send"
         onSubmitEditing={onSend}
         blurOnSubmit={false}
         editable={!disabled}
-        style={[styles.input, Platform.OS === 'ios' && styles.inputIOS]}
+        className={`
+          flex-1 h-10 px-3.5 rounded-full text-[16px]
+          bg-muted dark:bg-muted-dark
+          text-text dark:text-text-dark
+          ${Platform.OS === 'ios' ? 'py-2 leading-5' : ''}
+        `}
       />
       <TouchableOpacity
-        style={[styles.sendBtn, disabled && { opacity: 0.7 }]}
-        onPress={onSend}
         disabled={disabled}
+        onPress={onSend}
+        className={`
+          ml-2 h-10 px-4 rounded-full flex-row items-center justify-center
+          bg-primary ${disabled ? 'opacity-70' : ''}
+        `}
+        activeOpacity={0.8}
       >
-        <Text style={{ color: 'white', fontWeight: '600' }}>
-          {disabled ? '…' : 'Send'}
+        <Text className="text-white font-semibold">
+          {disabled ? '…' : t('chat.send')}
         </Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputBar: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#ececf2',
-    height: 56,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    paddingHorizontal: 14,
-    borderRadius: 20,
-    backgroundColor: '#f2f3f7',
-    fontSize: 16,
-  },
-  inputIOS: { lineHeight: 20, paddingVertical: 10 },
-  sendBtn: {
-    marginLeft: 8,
-    height: 40,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    backgroundColor: '#6C63FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

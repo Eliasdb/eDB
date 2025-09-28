@@ -1,5 +1,6 @@
+// apps/mobile/src/lib/components/CompanyRow.tsx
 import { Pill } from '@ui';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 export default function CompanyRow({
   co,
@@ -14,19 +15,25 @@ export default function CompanyRow({
   };
 }) {
   return (
-    <View style={styles.row}>
-      <View style={styles.logoWrap}>
+    <View className="flex-row items-center py-2.5 gap-2">
+      <View className="w-[46px] items-center">
         {co.logoUrl ? (
-          <Image source={{ uri: co.logoUrl }} style={styles.logo} />
+          <Image source={{ uri: co.logoUrl }} className="w-7 h-7 rounded-md" />
         ) : (
-          <View style={[styles.logo, styles.logoFallback]}>
-            <Text style={styles.logoInitials}>{initials(co.name)}</Text>
+          <View className="w-7 h-7 rounded-md bg-muted dark:bg-muted-dark items-center justify-center">
+            <Text className="font-bold text-[12px] text-text dark:text-text-dark">
+              {initials(co.name)}
+            </Text>
           </View>
         )}
       </View>
-      <View style={styles.rowMain}>
-        <Text style={styles.title}>{co.name}</Text>
-        <View style={styles.metaLine}>
+
+      <View className="flex-1">
+        <Text className="text-[16px] text-text dark:text-text-dark">
+          {co.name}
+        </Text>
+
+        <View className="flex-row flex-wrap gap-2 mt-1">
           {co.industry && <Pill icon="briefcase-outline" text={co.industry} />}
           {co.domain && <Pill icon="globe-outline" text={co.domain} />}
           {co.source && (
@@ -51,23 +58,3 @@ function initials(name?: string) {
     .map((p) => p[0]?.toUpperCase() ?? '')
     .join('');
 }
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    gap: 8,
-  },
-  rowMain: { flex: 1 },
-  title: { fontSize: 16, color: '#1f2328' },
-  metaLine: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
-  logoWrap: { width: 46, alignItems: 'center' },
-  logo: { width: 28, height: 28, borderRadius: 6 },
-  logoFallback: {
-    backgroundColor: '#e8ebf7',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoInitials: { fontWeight: '700', color: '#3a3f55', fontSize: 12 },
-});

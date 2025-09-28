@@ -1,6 +1,7 @@
 // apps/mobile/src/lib/ui/HeaderUserMenu.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import {
   Menu,
@@ -10,12 +11,12 @@ import {
   renderers,
 } from 'react-native-popup-menu';
 import Avatar from './Avatar';
-import { colors, radius } from './theme';
 
 const { Popover } = renderers;
 
 export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
   const router = useRouter();
+  const { t } = useTranslation();
   const avatarSize = Math.min(32, toolbarHeight - 12);
   const GAP = 6;
 
@@ -39,34 +40,37 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           },
         }}
       >
-        <Avatar size={avatarSize} />
+        {/* Put accessibility props on a child view */}
+        <View
+          accessible
+          accessibilityRole="button"
+          accessibilityLabel={t('menu.open', 'Open user menu')}
+          className="items-center justify-center"
+        >
+          <Avatar size={avatarSize} />
+        </View>
       </MenuTrigger>
 
       <MenuOptions
         customStyles={{
           optionsContainer: {
-            borderRadius: radius.md,
-            paddingVertical: 6,
+            borderRadius: 12,
+            paddingVertical: 0,
             minWidth: 200,
-            backgroundColor: colors.white,
-            shadowColor: '#000',
-            shadowOpacity: 0.12,
-            shadowRadius: 12,
-            elevation: 4,
           },
-          optionWrapper: { paddingVertical: 12, paddingHorizontal: 14 },
-          optionText: { fontSize: 16 },
         }}
       >
-        <MenuOption onSelect={() => router.push('/profile')}>
-          <Row icon="person-outline" label="Profile" />
-        </MenuOption>
-        <MenuOption onSelect={() => router.push('/help')}>
-          <Row icon="help-circle-outline" label="Help" />
-        </MenuOption>
-        <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
-          <Row icon="log-out-outline" label="Log out" danger />
-        </MenuOption>
+        <View className="bg-surface dark:bg-surface-dark rounded-xl shadow-md">
+          <MenuOption onSelect={() => router.push('/profile')}>
+            <Row icon="person-outline" label={t('menu.profile')} />
+          </MenuOption>
+          <MenuOption onSelect={() => router.push('/help')}>
+            <Row icon="help-circle-outline" label={t('menu.help')} />
+          </MenuOption>
+          <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
+            <Row icon="log-out-outline" label={t('menu.logout')} danger />
+          </MenuOption>
+        </View>
       </MenuOptions>
     </Menu>
   );
@@ -77,19 +81,23 @@ function Row({
   label,
   danger,
 }: {
-  icon: any;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
   label: string;
   danger?: boolean;
 }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-      <Ionicons name={icon} size={18} color={danger ? '#d00' : '#333'} />
+    <View className="flex-row items-center gap-3 px-3 py-2.5">
+      <Ionicons
+        name={icon}
+        size={18}
+        className={danger ? 'text-danger' : 'text-text dark:text-text-dark'}
+      />
       <Text
-        style={{
-          fontSize: 16,
-          color: danger ? '#d00' : '#111',
-          fontWeight: danger ? '600' : '400',
-        }}
+        className={`text-[16px] ${
+          danger
+            ? 'text-danger font-semibold'
+            : 'text-text dark:text-text-dark font-normal'
+        }`}
       >
         {label}
       </Text>

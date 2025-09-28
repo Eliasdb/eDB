@@ -1,11 +1,12 @@
+// apps/mobile/src/app/(features)/profile/personal-details.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -16,8 +17,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function PersonalDetailsScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { t } = useTranslation();
 
-  // demo state (replace with real user data)
+  // demo state
   const [firstName, setFirstName] = useState('Elias');
   const [lastName, setLastName] = useState('De Bock');
   const [email, setEmail] = useState('elias@example.com');
@@ -27,39 +29,45 @@ export default function PersonalDetailsScreen() {
   const [notes, setNotes] = useState('');
 
   const onSave = () => {
-    // TODO: Persist to your backend / CRM
-    // Validate, then:
     router.back();
   };
 
   return (
-    <View style={styles.root}>
-      {/* Safe-area aware header, consistent with app */}
-      <View style={{ paddingTop: insets.top, backgroundColor: '#fff' }}>
-        <View style={styles.headerRow}>
+    <View className="flex-1 bg-surface dark:bg-surface-dark">
+      {/* Header */}
+      <View style={{ paddingTop: insets.top }}>
+        <View className="h-14 flex-row items-center justify-between px-3 border-b border-border dark:border-border-dark bg-surface dark:bg-surface-dark">
           <TouchableOpacity
             onPress={() => router.back()}
-            style={styles.headerBtn}
+            className="h-11 min-w-11 items-center justify-center"
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <Ionicons name="chevron-back" size={24} color="#111" />
+            <Ionicons name="chevron-back" size={24} color="#6B7280" />
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>Personal details</Text>
+          <Text className="text-lg font-bold text-text dark:text-text-dark">
+            {t('personal.title')}
+          </Text>
 
-          <TouchableOpacity onPress={onSave} style={styles.headerBtn}>
-            <Text style={styles.headerAction}>Save</Text>
+          <TouchableOpacity
+            onPress={onSave}
+            className="h-11 min-w-11 items-center justify-center"
+          >
+            <Text className="text-[16px] font-semibold text-primary">
+              {t('personal.save')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
 
+      {/* Form */}
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        className="flex-1"
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={0}
       >
         <ScrollView
-          style={styles.screen}
+          className="flex-1"
           contentContainerStyle={{
             padding: 16,
             paddingBottom: 24 + insets.bottom,
@@ -68,84 +76,90 @@ export default function PersonalDetailsScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Identity */}
-          <Card title="Identity">
-            <Field label="First name">
+          <Card title={t('personal.sections.identity')}>
+            <Field label={t('personal.fields.firstName')}>
               <Input
                 value={firstName}
                 onChangeText={setFirstName}
-                placeholder="First name"
+                placeholder={t('personal.placeholders.firstName')}
               />
             </Field>
-            <Field label="Last name">
+            <Field label={t('personal.fields.lastName')}>
               <Input
                 value={lastName}
                 onChangeText={setLastName}
-                placeholder="Last name"
+                placeholder={t('personal.placeholders.lastName')}
               />
             </Field>
-            <Field label="Email">
+            <Field label={t('personal.fields.email')}>
               <Input
                 value={email}
                 onChangeText={setEmail}
-                placeholder="you@company.com"
+                placeholder={t('personal.placeholders.email')}
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
             </Field>
-            <Field label="Phone">
+            <Field label={t('personal.fields.phone')}>
               <Input
                 value={phone}
                 onChangeText={setPhone}
-                placeholder="+32 ..."
+                placeholder={t('personal.placeholders.phone')}
                 keyboardType="phone-pad"
               />
             </Field>
           </Card>
 
           {/* Work */}
-          <Card title="Work">
-            <Field label="Company">
+          <Card title={t('personal.sections.work')}>
+            <Field label={t('personal.fields.company')}>
               <Input
                 value={company}
                 onChangeText={setCompany}
-                placeholder="Company"
+                placeholder={t('personal.placeholders.company')}
               />
             </Field>
-            <Field label="Role / Title">
-              <Input value={role} onChangeText={setRole} placeholder="Role" />
+            <Field label={t('personal.fields.role')}>
+              <Input
+                value={role}
+                onChangeText={setRole}
+                placeholder={t('personal.placeholders.role')}
+              />
             </Field>
           </Card>
 
           {/* Notes */}
-          <Card title="Notes">
-            <View style={{ gap: 6 }}>
-              <Text style={styles.fieldLabel}>Private notes</Text>
+          <Card title={t('personal.sections.notes')}>
+            <View className="gap-1.5">
+              <Text className="text-[14px] font-semibold text-text-dim dark:text-text-dimDark">
+                {t('personal.fields.privateNotes')}
+              </Text>
               <TextInput
                 value={notes}
                 onChangeText={setNotes}
-                placeholder="Anything Clara should know…"
+                placeholder={t('personal.placeholders.notes')}
                 multiline
-                style={[
-                  styles.input,
-                  { height: 120, textAlignVertical: 'top' },
-                ]}
+                className="bg-muted dark:bg-muted-dark rounded-lg px-3 py-3 text-[16px] text-text dark:text-text-dark border border-border dark:border-border-dark h-[120px] text-top"
               />
             </View>
           </Card>
 
-          {/* Bottom save bar (nice on long forms) */}
-          <View style={styles.saveBarSpacer} />
+          <View className="h-16" />
         </ScrollView>
 
+        {/* Save bar */}
         <View
-          style={[
-            styles.saveBar,
-            { paddingBottom: Math.max(10, insets.bottom) },
-          ]}
+          className="absolute left-0 right-0 bottom-0 bg-surface/95 dark:bg-surface-dark/95 border-t border-border dark:border-border-dark px-4 pt-2"
+          style={{ paddingBottom: Math.max(10, insets.bottom) }}
         >
-          <TouchableOpacity style={styles.saveBtn} onPress={onSave}>
+          <TouchableOpacity
+            className="h-11 rounded-lg bg-primary flex-row items-center justify-center gap-2"
+            onPress={onSave}
+          >
             <Ionicons name="save-outline" size={18} color="#fff" />
-            <Text style={styles.saveBtnText}>Save changes</Text>
+            <Text className="text-white font-bold text-[16px]">
+              {t('personal.saveChanges')}
+            </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -153,7 +167,7 @@ export default function PersonalDetailsScreen() {
   );
 }
 
-/* ---------- Little building blocks ---------- */
+/* ---------- Building blocks ---------- */
 
 function Card({
   title,
@@ -163,9 +177,11 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{title}</Text>
-      <View style={{ gap: 14 }}>{children}</View>
+    <View className="bg-surface dark:bg-surface-dark rounded-lg p-3 mb-4 shadow-sm">
+      <Text className="text-[16px] font-bold text-text dark:text-text-dark mb-2.5">
+        {title}
+      </Text>
+      <View className="gap-3.5">{children}</View>
     </View>
   );
 }
@@ -178,97 +194,25 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <View style={{ gap: 6 }}>
-      <Text style={styles.fieldLabel}>{label}</Text>
+    <View className="gap-1.5">
+      <Text className="text-[14px] font-semibold text-text-dim dark:text-text-dimDark">
+        {label}
+      </Text>
       {children}
     </View>
   );
 }
 
 function Input(props: React.ComponentProps<typeof TextInput>) {
-  return <TextInput {...props} style={[styles.input, props.style]} />;
+  return (
+    <TextInput
+      {...props}
+      className={`
+        bg-muted dark:bg-muted-dark
+        rounded-lg px-3 py-3 text-[16px]
+        text-text dark:text-text-dark
+        border border-border dark:border-border-dark
+      `}
+    />
+  );
 }
-
-/* ---------- Styles ---------- */
-
-const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#f6f7fb' },
-
-  /* Header */
-  headerRow: {
-    height: 56,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    justifyContent: 'space-between',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#eee',
-    backgroundColor: '#fff',
-  },
-  headerBtn: {
-    height: 44,
-    minWidth: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitle: { fontSize: 20, fontWeight: '700', color: '#111' },
-  headerAction: { fontSize: 16, fontWeight: '600', color: '#6C63FF' },
-
-  /* Screen/container */
-  screen: { flex: 1 },
-
-  /* Card */
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 14,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 10,
-    elevation: 1,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#222',
-    marginBottom: 10,
-  },
-
-  /* Field + input */
-  fieldLabel: { fontSize: 14, fontWeight: '600', color: '#444' },
-  input: {
-    backgroundColor: '#f2f3f7',
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#111',
-    borderWidth: 1,
-    borderColor: '#ececf2',
-  },
-
-  /* Save bar */
-  saveBarSpacer: { height: 64 }, // reserve space so last inputs aren't hidden by save bar
-  saveBar: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(255,255,255,0.95)',
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#e8e8ef',
-    paddingHorizontal: 16,
-    paddingTop: 10,
-  },
-  saveBtn: {
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: '#6C63FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  saveBtnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
-});

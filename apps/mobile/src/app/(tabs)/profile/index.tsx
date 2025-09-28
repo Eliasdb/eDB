@@ -1,41 +1,20 @@
+// apps/mobile/src/app/(features)/profile/index.tsx
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import {
-  Appearance,
-  ScrollView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Avatar from '../../../lib/ui/Avatar';
-import {
-  Card,
-  Item,
-  ItemSwitch,
-  PrimaryButton,
-  Section,
-} from '../../../lib/ui/primitives';
+import { LanguagePicker } from '../../../lib/ui/LanguagePicker';
+import { Card, Item, PrimaryButton, Section } from '../../../lib/ui/primitives';
+import { ThemePicker } from '../../../lib/ui/ThemePicker';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const systemScheme = useColorScheme();
-  const [darkMode, setDarkMode] = useState(systemScheme === 'dark');
-
-  useEffect(() => {
-    const sub = Appearance.addChangeListener(({ colorScheme }) => {
-      setDarkMode((prev) => (prev && colorScheme === 'dark' ? true : prev));
-    });
-    return () => sub.remove();
-  }, []);
-
-  const name = 'Elias De Bock';
-  const email = 'elias@example.com';
+  const { t } = useTranslation();
 
   return (
-    <View style={styles.screen}>
+    <View className="flex-1 bg-surface dark:bg-surface-dark">
       <ScrollView
         contentContainerStyle={{
           padding: 16,
@@ -45,60 +24,55 @@ export default function ProfileScreen() {
       >
         <Card style={{ alignItems: 'center', gap: 8 }}>
           <Avatar size={96} />
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.email}>{email}</Text>
+          <Text className="text-[20px] font-bold text-text dark:text-text-dark mt-2">
+            {t('profile.name')}
+          </Text>
+          <Text className="text-[14px] text-text-dim dark:text-text-dimDark">
+            {t('profile.email')}
+          </Text>
 
-          <View style={{ flexDirection: 'row', gap: 12, marginTop: 12 }}>
+          <View className="flex-row gap-3 mt-3">
             <PrimaryButton
-              label="Change photo"
+              label={t('profile.changePhoto')}
               icon="camera-outline"
               onPress={() => {}}
             />
             <PrimaryButton
-              label="Manage voice"
+              label={t('profile.manageVoice')}
               icon="mic-outline"
               onPress={() => {}}
             />
           </View>
         </Card>
 
-        <Section title="Account">
+        <Section title={t('profile.account')}>
           <Item
-            label="Personal details"
+            label={t('profile.personalDetails')}
             icon="person-outline"
             onPress={() => router.push('/profile/personal-details')}
           />
           <Item
-            label="Security"
+            label={t('profile.security')}
             icon="shield-checkmark-outline"
             onPress={() => {}}
           />
-          <Item label="Connected apps" icon="link-outline" onPress={() => {}} />
-        </Section>
-
-        <Section title="Preferences">
-          <ItemSwitch
-            label="Dark mode"
-            icon="moon-outline"
-            value={darkMode}
-            onValueChange={setDarkMode}
-          />
-          <ItemSwitch label="Voice mode" icon="volume-high-outline" />
-          <ItemSwitch label="Notifications" icon="notifications-outline" />
           <Item
-            label="Language"
-            value="English (US)"
-            icon="globe-outline"
+            label={t('profile.connectedApps')}
+            icon="link-outline"
             onPress={() => {}}
           />
+        </Section>
+
+        <Section title={t('profile.preferences')}>
+          <ThemePicker />
+          <Item label={t('settings.voiceMode')} icon="volume-high-outline" />
+          <Item
+            label={t('settings.notifications')}
+            icon="notifications-outline"
+          />
+          <LanguagePicker />
         </Section>
       </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#f6f7fb' },
-  name: { fontSize: 20, fontWeight: '700', color: '#111', marginTop: 8 },
-  email: { fontSize: 14, color: '#666' },
-});
