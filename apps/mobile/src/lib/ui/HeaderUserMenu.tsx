@@ -1,6 +1,7 @@
 // apps/mobile/src/lib/ui/HeaderUserMenu.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import {
   Menu,
@@ -15,6 +16,7 @@ const { Popover } = renderers;
 
 export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
   const router = useRouter();
+  const { t } = useTranslation();
   const avatarSize = Math.min(32, toolbarHeight - 12);
   const GAP = 6;
 
@@ -38,7 +40,15 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           },
         }}
       >
-        <Avatar size={avatarSize} />
+        {/* Put accessibility props on a child view */}
+        <View
+          accessible
+          accessibilityRole="button"
+          accessibilityLabel={t('menu.open', 'Open user menu')}
+          className="items-center justify-center"
+        >
+          <Avatar size={avatarSize} />
+        </View>
       </MenuTrigger>
 
       <MenuOptions
@@ -50,16 +60,15 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           },
         }}
       >
-        {/* Wrap in a Themed View */}
         <View className="bg-surface dark:bg-surface-dark rounded-xl shadow-md">
           <MenuOption onSelect={() => router.push('/profile')}>
-            <Row icon="person-outline" label="Profile" />
+            <Row icon="person-outline" label={t('menu.profile')} />
           </MenuOption>
           <MenuOption onSelect={() => router.push('/help')}>
-            <Row icon="help-circle-outline" label="Help" />
+            <Row icon="help-circle-outline" label={t('menu.help')} />
           </MenuOption>
           <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
-            <Row icon="log-out-outline" label="Log out" danger />
+            <Row icon="log-out-outline" label={t('menu.logout')} danger />
           </MenuOption>
         </View>
       </MenuOptions>
@@ -72,7 +81,7 @@ function Row({
   label,
   danger,
 }: {
-  icon: any;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
   label: string;
   danger?: boolean;
 }) {
@@ -81,7 +90,7 @@ function Row({
       <Ionicons
         name={icon}
         size={18}
-        color={danger ? '#d00' : 'currentColor'}
+        className={danger ? 'text-danger' : 'text-text dark:text-text-dark'}
       />
       <Text
         className={`text-[16px] ${

@@ -1,5 +1,6 @@
 // apps/mobile/src/app/(tabs)/TasksScreen.tsx
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Platform,
@@ -34,6 +35,7 @@ import { Card, Section } from '@ui';
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 
 export default function TasksScreen() {
+  const { t } = useTranslation();
   const { data, isLoading, isRefetching, refetch, error } = useHub();
   const toggle = useToggleTask();
   const addTask = useCreateTask();
@@ -57,20 +59,20 @@ export default function TasksScreen() {
     >
       {isLoading ? (
         <>
-          <Section title="Tasks">
+          <Section title={t('crm.tasks')}>
             <AddTaskInline onAdd={() => {}} isSaving />
             {[...Array(3)].map((_, i) => (
               <TaskSkeletonRow key={i} />
             ))}
           </Section>
 
-          <Section title="Contacts">
+          <Section title={t('crm.contacts')}>
             {[...Array(2)].map((_, i) => (
               <ContactSkeletonRow key={i} />
             ))}
           </Section>
 
-          <Section title="Companies">
+          <Section title={t('crm.companies')}>
             {[...Array(2)].map((_, i) => (
               <CompanySkeletonRow key={i} />
             ))}
@@ -78,11 +80,11 @@ export default function TasksScreen() {
         </>
       ) : error ? (
         <Card className="mb-4">
-          <Text className="text-red-600 font-bold">Couldn’t load hub</Text>
+          <Text className="text-red-600 font-bold">{t('crm.loadError')}</Text>
         </Card>
       ) : (
         <>
-          <Section title="Tasks">
+          <Section title={t('crm.tasks')}>
             <AddTaskInline
               onAdd={(title) => addTask.mutate({ title })}
               isSaving={addTask.isPending}
@@ -106,13 +108,13 @@ export default function TasksScreen() {
               )}
               ListEmptyComponent={
                 <Text className="text-text-dim dark:text-text-dimDark py-3">
-                  No tasks yet — Clara will drop them here.
+                  {t('crm.emptyTasks')}
                 </Text>
               }
             />
           </Section>
 
-          <Section title="Contacts">
+          <Section title={t('crm.contacts')}>
             <FlatList
               data={hub.contacts}
               keyExtractor={(c) => c.id}
@@ -124,13 +126,13 @@ export default function TasksScreen() {
               renderItem={({ item }) => <ContactRow c={item} />}
               ListEmptyComponent={
                 <Text className="text-text-dim dark:text-text-dimDark py-3">
-                  No contacts yet — Clara will place them here.
+                  {t('crm.emptyContacts')}
                 </Text>
               }
             />
           </Section>
 
-          <Section title="Companies">
+          <Section title={t('crm.companies')}>
             <FlatList
               data={hub.companies}
               keyExtractor={(c) => c.id}
@@ -142,7 +144,7 @@ export default function TasksScreen() {
               renderItem={({ item }) => <CompanyRow co={item} />}
               ListEmptyComponent={
                 <Text className="text-text-dim dark:text-text-dimDark py-3">
-                  No companies yet — Clara will link them here.
+                  {t('crm.emptyCompanies')}
                 </Text>
               }
             />

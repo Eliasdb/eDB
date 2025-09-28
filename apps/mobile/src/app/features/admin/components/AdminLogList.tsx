@@ -1,4 +1,5 @@
 // apps/mobile/src/app/(features)/admin/logs/AdminLogList.tsx
+import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 import AdminLogCard from './AdminLogCard';
@@ -12,6 +13,8 @@ export default function AdminLogList({
   refreshing: boolean;
   onRefresh: () => void;
 }) {
+  const { t } = useTranslation();
+
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
       <FlatList<LogVM>
@@ -26,7 +29,7 @@ export default function AdminLogList({
         ListEmptyComponent={
           <View className="p-4">
             <Text className="text-text-dim dark:text-text-dimDark">
-              No tool calls yet — trigger one and this page will update live.
+              {t('admin.logs.empty')}
             </Text>
           </View>
         }

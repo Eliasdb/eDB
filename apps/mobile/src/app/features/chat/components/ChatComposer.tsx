@@ -1,4 +1,5 @@
 // apps/mobile/src/lib/components/ChatComposer.tsx
+import { useTranslation } from 'react-i18next';
 import {
   Platform,
   Text,
@@ -18,12 +19,14 @@ export default function ChatComposer({
   onSend: () => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
+
   return (
     <View className="absolute left-0 right-0 bottom-0 flex-row items-center px-3 h-14 bg-surface dark:bg-surface-dark border-t border-border dark:border-border-dark">
       <TextInput
         value={value}
         onChangeText={onChange}
-        placeholder="Type a message…"
+        placeholder={t('chat.placeholder')}
         placeholderTextColor="#9CA3AF"
         returnKeyType="send"
         onSubmitEditing={onSend}
@@ -46,7 +49,7 @@ export default function ChatComposer({
         activeOpacity={0.8}
       >
         <Text className="text-white font-semibold">
-          {disabled ? '…' : 'Send'}
+          {disabled ? '…' : t('chat.send')}
         </Text>
       </TouchableOpacity>
     </View>

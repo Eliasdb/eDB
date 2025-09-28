@@ -1,5 +1,6 @@
 // apps/mobile/src/app/components/MicButton.tsx
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Pressable, Text } from 'react-native';
 
 type Props = {
@@ -10,6 +11,8 @@ type Props = {
 };
 
 export default function MicButton({ onPress, loading, active, style }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Pressable
       onPress={onPress}
@@ -25,7 +28,7 @@ export default function MicButton({ onPress, loading, active, style }: Props) {
     >
       <MaterialIcons name="mic" size={28} color="white" />
       <Text className="text-white font-semibold text-[16px] ml-2">
-        {loading ? 'Connecting…' : active ? 'Stop' : 'Talk'}
+        {loading ? t('mic.connecting') : active ? t('mic.stop') : t('mic.talk')}
       </Text>
     </Pressable>
   );

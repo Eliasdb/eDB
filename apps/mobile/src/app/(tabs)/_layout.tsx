@@ -3,10 +3,18 @@ import { Ionicons } from '@expo/vector-icons';
 import { AppHeader } from '@ui';
 import { useThemePreference } from '@ui/themePreference';
 import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 export default function TabsLayout() {
   const { effective } = useThemePreference();
   const dark = effective === 'dark';
+  const { t } = useTranslation();
+
+  // palette mapped to your tokens
+  const primary = '#6C63FF';
+  const inactive = dark ? '#9CA3AF' : '#6B7280'; // gray-400 / gray-500
+  const bg = dark ? '#1F2937' : '#FFFFFF'; // surface-dark / surface
+  const border = dark ? '#374151' : '#E5E7EB'; // border-dark / border
 
   return (
     <Tabs
@@ -14,19 +22,19 @@ export default function TabsLayout() {
         header: ({ options }) => (
           <AppHeader title={(options.title as string) ?? ''} />
         ),
-        tabBarActiveTintColor: '#6C63FF', // primary
-        tabBarInactiveTintColor: dark ? '#9CA3AF' : '#6B7280', // gray-400 / gray-500
+        tabBarActiveTintColor: primary,
+        tabBarInactiveTintColor: inactive,
         tabBarStyle: {
-          backgroundColor: dark ? '#1F2937' : '#FFFFFF', // bg-surface / bg-surface-dark
-          borderTopColor: dark ? '#374151' : '#E5E7EB', // border
+          backgroundColor: bg,
+          borderTopColor: border,
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Clara',
-          tabBarLabel: 'Home',
+          title: t('tabs.clara', 'Clara'),
+          tabBarLabel: t('tabs.home', 'Home'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
@@ -35,7 +43,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="chat"
         options={{
-          title: 'Chat',
+          title: t('tabs.chat', 'Chat'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="chatbubble-ellipses-outline"
@@ -48,34 +56,28 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="tasks"
         options={{
-          title: 'Tasks',
+          // renamed here
+          title: t('tabs.crm', 'CRM'),
+          tabBarLabel: t('tabs.crm', 'CRM'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="checkmark-done-outline" size={size} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'Settings',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t('tabs.profile', 'Profile'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-circle-outline" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="admin-logs"
+        name="admin"
         options={{
-          title: 'Admin',
+          title: t('tabs.admin', 'Admin'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="terminal-outline" size={size} color={color} />
           ),

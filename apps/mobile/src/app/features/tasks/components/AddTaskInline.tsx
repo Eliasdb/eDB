@@ -1,6 +1,7 @@
 // apps/mobile/src/lib/components/AddTaskInline.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Keyboard,
   Text,
@@ -16,12 +17,13 @@ export default function AddTaskInline({
   onAdd: (title: string) => void;
   isSaving: boolean;
 }) {
+  const { t } = useTranslation();
   const [text, setText] = useState('');
 
   const submit = () => {
-    const t = text.trim();
-    if (!t) return;
-    onAdd(t);
+    const tTitle = text.trim();
+    if (!tTitle) return;
+    onAdd(tTitle);
     setText('');
     Keyboard.dismiss();
   };
@@ -35,7 +37,7 @@ export default function AddTaskInline({
       <TextInput
         value={text}
         onChangeText={setText}
-        placeholder="Add a task…"
+        placeholder={t('crm.addTaskPlaceholder')}
         placeholderTextColor="#9CA3AF"
         returnKeyType="done"
         onSubmitEditing={submit}
@@ -48,7 +50,7 @@ export default function AddTaskInline({
         className={disabled ? 'opacity-50' : ''}
         activeOpacity={0.7}
       >
-        <Text className="text-primary font-bold">Add</Text>
+        <Text className="text-primary font-bold">{t('crm.addTaskButton')}</Text>
       </TouchableOpacity>
     </View>
   );

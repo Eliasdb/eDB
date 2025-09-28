@@ -209,6 +209,9 @@ importers:
       react-native-incall-manager:
         specifier: ^4.2.1
         version: 4.2.1(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0))
+      react-native-localize:
+        specifier: ^3.5.2
+        version: 3.5.2(@expo/config-plugins@10.1.2)(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
       react-native-safe-area-context:
         specifier: ^5.6.1
         version: 5.6.1(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
@@ -13164,6 +13167,19 @@ packages:
       react: '*'
       react-native: '*'
       react-native-reanimated: '>=3.0.0'
+
+  react-native-localize@3.5.2:
+    resolution: {integrity: sha512-HfQdwv5sRjh4AQ8a97OTjXYcxPNRlBxiQb861c7Ob6mRuNYCPtaJ45QTcZxZr31vAM3THvtOBp1soqWlQFxjnA==}
+    peerDependencies:
+      '@expo/config-plugins': ^9.0.0 || ^10.0.0
+      react: '*'
+      react-native: '*'
+      react-native-macos: '*'
+    peerDependenciesMeta:
+      '@expo/config-plugins':
+        optional: true
+      react-native-macos:
+        optional: true
 
   react-native-popup-menu@0.18.0:
     resolution: {integrity: sha512-XD3gyp/hwL5YWw2J034DerfvbJ6S2YHqAzvqAFRU+UGnFD4JyTqggfm4UyynBD26O1PDoRb45Loil+NZCGfCnA==}
@@ -32089,6 +32105,13 @@ snapshots:
       react-native: 0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0)
       react-native-is-edge-to-edge: 1.2.1(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
       react-native-reanimated: 3.17.5(@babel/core@7.28.4)(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0))(react@19.1.0)
+
+  react-native-localize@3.5.2(@expo/config-plugins@10.1.2)(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-native: 0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(react@19.1.0)
+    optionalDependencies:
+      '@expo/config-plugins': 10.1.2
 
   react-native-popup-menu@0.18.0: {}
 

@@ -1,0 +1,113 @@
+{
+  "home": {
+    "greeting": "Hi, I’m Clara.\nWhat can I do for you today?",
+    "status": {
+      "connecting": "Connecting…",
+      "live": "Live — you can speak",
+      "tap": "Tap to talk"
+    }
+  },
+
+  "menu": {
+    "open": "Open user menu",
+    "profile": "Profile",
+    "help": "Help",
+    "logout": "Log out"
+  },
+
+  "mic": {
+    "connecting": "Connecting…",
+    "stop": "Stop",
+    "talk": "Talk"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Elias De Bock",
+    "email": "elias@example.com",
+    "account": "Account",
+    "preferences": "Preferences",
+    "personalDetails": "Personal details",
+    "security": "Security",
+    "connectedApps": "Connected apps",
+    "changePhoto": "Change photo",
+    "manageVoice": "Manage voice",
+    "language": "Language"
+  },
+  "theme": {
+    "title": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "settings": {
+    "voiceMode": "Voice mode",
+    "notifications": "Notifications"
+  },
+
+  "personal": {
+    "title": "Personal details",
+    "save": "Save",
+    "saveChanges": "Save changes",
+    "sections": {
+      "identity": "Identity",
+      "work": "Work",
+      "notes": "Notes"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company",
+      "role": "Role / Title",
+      "privateNotes": "Private notes"
+    },
+    "placeholders": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "you@company.com",
+      "phone": "+32 ...",
+      "company": "Company",
+      "role": "Role",
+      "notes": "Anything Clara should know…"
+    }
+  },
+
+  "tabs": {
+    "clara": "Clara",
+    "home": "Home",
+    "chat": "Chat",
+    "crm": "CRM",
+    "settings": "Settings",
+    "profile": "Profile",
+    "admin": "Admin"
+  },
+
+  "languages": {
+    "en": "English (US)",
+    "nl": "Dutch (Nederlands)"
+  },
+
+  "crm": {
+    "title": "CRM",
+    "tasks": "Tasks",
+    "contacts": "Contacts",
+    "companies": "Companies",
+    "emptyTasks": "No tasks yet — Clara will drop them here.",
+    "emptyContacts": "No contacts yet — Clara will place them here.",
+    "emptyCompanies": "No companies yet — Clara will link them here.",
+    "loadError": "Couldn’t load hub",
+    "addTaskPlaceholder": "Add a task…",
+    "addTaskButton": "Add"
+  },
+  "chat": {
+    "placeholder": "Type a message…",
+    "send": "Send"
+  },
+
+  "admin": {
+    "logs": {
+      "empty": "No tool calls yet — trigger one and this page will update live."
+    }
+  }
+}

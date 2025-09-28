@@ -2,6 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -16,8 +17,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function PersonalDetailsScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { t } = useTranslation();
 
-  // demo state (replace with real user data)
+  // demo state
   const [firstName, setFirstName] = useState('Elias');
   const [lastName, setLastName] = useState('De Bock');
   const [email, setEmail] = useState('elias@example.com');
@@ -27,7 +29,6 @@ export default function PersonalDetailsScreen() {
   const [notes, setNotes] = useState('');
 
   const onSave = () => {
-    // TODO: Persist to backend
     router.back();
   };
 
@@ -45,14 +46,16 @@ export default function PersonalDetailsScreen() {
           </TouchableOpacity>
 
           <Text className="text-lg font-bold text-text dark:text-text-dark">
-            Personal details
+            {t('personal.title')}
           </Text>
 
           <TouchableOpacity
             onPress={onSave}
             className="h-11 min-w-11 items-center justify-center"
           >
-            <Text className="text-[16px] font-semibold text-primary">Save</Text>
+            <Text className="text-[16px] font-semibold text-primary">
+              {t('personal.save')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -73,68 +76,75 @@ export default function PersonalDetailsScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Identity */}
-          <Card title="Identity">
-            <Field label="First name">
+          <Card title={t('personal.sections.identity')}>
+            <Field label={t('personal.fields.firstName')}>
               <Input
                 value={firstName}
                 onChangeText={setFirstName}
-                placeholder="First name"
+                placeholder={t('personal.placeholders.firstName')}
               />
             </Field>
-            <Field label="Last name">
+            <Field label={t('personal.fields.lastName')}>
               <Input
                 value={lastName}
                 onChangeText={setLastName}
-                placeholder="Last name"
+                placeholder={t('personal.placeholders.lastName')}
               />
             </Field>
-            <Field label="Email">
+            <Field label={t('personal.fields.email')}>
               <Input
                 value={email}
                 onChangeText={setEmail}
-                placeholder="you@company.com"
+                placeholder={t('personal.placeholders.email')}
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
             </Field>
-            <Field label="Phone">
+            <Field label={t('personal.fields.phone')}>
               <Input
                 value={phone}
                 onChangeText={setPhone}
-                placeholder="+32 ..."
+                placeholder={t('personal.placeholders.phone')}
                 keyboardType="phone-pad"
               />
             </Field>
           </Card>
+
           {/* Work */}
-          <Card title="Work">
-            <Field label="Company">
+          <Card title={t('personal.sections.work')}>
+            <Field label={t('personal.fields.company')}>
               <Input
                 value={company}
                 onChangeText={setCompany}
-                placeholder="Company"
+                placeholder={t('personal.placeholders.company')}
               />
             </Field>
-            <Field label="Role / Title">
-              <Input value={role} onChangeText={setRole} placeholder="Role" />
+            <Field label={t('personal.fields.role')}>
+              <Input
+                value={role}
+                onChangeText={setRole}
+                placeholder={t('personal.placeholders.role')}
+              />
             </Field>
           </Card>
+
           {/* Notes */}
-          <Card title="Notes">
+          <Card title={t('personal.sections.notes')}>
             <View className="gap-1.5">
               <Text className="text-[14px] font-semibold text-text-dim dark:text-text-dimDark">
-                Private notes
+                {t('personal.fields.privateNotes')}
               </Text>
               <TextInput
                 value={notes}
                 onChangeText={setNotes}
-                placeholder="Anything Clara should know…"
+                placeholder={t('personal.placeholders.notes')}
                 multiline
                 className="bg-muted dark:bg-muted-dark rounded-lg px-3 py-3 text-[16px] text-text dark:text-text-dark border border-border dark:border-border-dark h-[120px] text-top"
               />
             </View>
           </Card>
-          <View className="h-16" /> {/* spacer */}
+
+          <View className="h-16" />
         </ScrollView>
 
         {/* Save bar */}
@@ -148,7 +158,7 @@ export default function PersonalDetailsScreen() {
           >
             <Ionicons name="save-outline" size={18} color="#fff" />
             <Text className="text-white font-bold text-[16px]">
-              Save changes
+              {t('personal.saveChanges')}
             </Text>
           </TouchableOpacity>
         </View>

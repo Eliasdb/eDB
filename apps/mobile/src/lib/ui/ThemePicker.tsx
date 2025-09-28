@@ -1,18 +1,14 @@
 // apps/mobile/src/lib/ui/ThemePicker.tsx
+import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from './primitives';
 import { useThemePreference } from './themePreference';
 
-const themeOptions: {
-  value: 'system' | 'light' | 'dark';
-  label: string;
-}[] = [
-  { value: 'system', label: 'System' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-];
+type ThemeOption = 'system' | 'light' | 'dark';
+const OPTIONS: ThemeOption[] = ['system', 'light', 'dark'];
 
 export function ThemePicker() {
+  const { t } = useTranslation();
   const { override, setOverride } = useThemePreference();
 
   return (
@@ -24,11 +20,11 @@ export function ThemePicker() {
           className="text-text dark:text-text-dark"
         />
         <Text className="text-[16px] font-semibold text-text dark:text-text-dark">
-          Theme
+          {t('theme.title')}
         </Text>
       </View>
 
-      {themeOptions.map(({ value, label }) => (
+      {OPTIONS.map((value) => (
         <TouchableOpacity
           key={value}
           onPress={() => setOverride(value)}
@@ -36,7 +32,7 @@ export function ThemePicker() {
           activeOpacity={0.7}
         >
           <Text className="text-[15px] text-text dark:text-text-dark">
-            {label}
+            {t(`theme.${value}`)}
           </Text>
           <View
             className={`w-5 h-5 rounded-full border-2 ${

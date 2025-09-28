@@ -1,10 +1,12 @@
 // apps/mobile/src/app/(tabs)/HomeScreen.tsx
 import { useRealtimeVoice } from '@features/voice/hooks/useRealtimeVoice';
 import { Avatar, MicButton, PulseDot } from '@ui';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error } = useRealtimeVoice();
+  const { t } = useTranslation();
   const onMicPress = () => (connected ? stop() : start());
 
   return (
@@ -25,7 +27,7 @@ export default function HomeScreen() {
 
       {/* Greeting */}
       <Text className="text-[22px] font-medium text-text dark:text-text-dark text-center my-6">
-        Hi, I’m Clara.{'\n'}What can I do for you today???
+        {t('home.greeting')}
       </Text>
 
       {/* Mic button */}
@@ -36,10 +38,10 @@ export default function HomeScreen() {
         <PulseDot on={connected} />
         <Text className="text-[13px] font-semibold text-text dark:text-text-dark">
           {loading
-            ? 'Connecting…'
+            ? t('home.status.connecting')
             : connected
-              ? 'Live — you can speak'
-              : 'Tap to talk'}
+              ? t('home.status.live')
+              : t('home.status.tap')}
         </Text>
       </View>
 
