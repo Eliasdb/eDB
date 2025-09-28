@@ -1,8 +1,8 @@
-// apps/mobile/src/lib/components/AdminLogCard.tsx
+// apps/mobile/src/app/(features)/admin/logs/AdminLogCard.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Badge, Card, Chip, Dot, KV, MonoKV, Row, Segmented } from '@ui';
+import { Badge, Card, Dot, KV, MonoKV, Row, Segmented } from '@ui';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 import { buildSummaryRows } from '../../../../lib/viewmodels/toolLogs';
 
@@ -13,45 +13,58 @@ export default function AdminLogCard({ vm }: { vm: LogVM }) {
   const [tab, setTab] = useState<Tab>('summary');
 
   return (
-    <Card style={{ marginHorizontal: 12 }}>
+    <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark px-4 py-3">
+      {/* Header row */}
       <Row center style={{ justifyContent: 'space-between' }}>
-        <Row center style={{ gap: 8, flexShrink: 1 }}>
+        <View className="flex-row items-center gap-2 shrink">
           <Dot ok={vm.ok} />
           <Badge label={vm.verb.toUpperCase()} tint={verbTint(vm.verb)} />
-          {vm.kind ? <Chip label={vm.kind} /> : null}
-          <Text
-            className="text-[16px] font-extrabold text-text dark:text-text-dark flex-shrink"
-            numberOfLines={1}
-          >
-            {vm.subject}
-          </Text>
-        </Row>
-        <Row center style={{ gap: 8 }}>
-          <Text className="text-[12px] text-text-dim dark:text-text-dimDark tabular-nums">
+          {vm.kind ? (
+            <View className="px-2 py-1 rounded-full bg-muted dark:bg-muted-dark">
+              <Text className="text-xs font-semibold text-text-dim dark:text-text-dimDark">
+                {vm.kind}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+
+        <View className="flex-row items-center gap-3">
+          <Text className="text-xs text-text-dim dark:text-text-dimDark tabular-nums">
             {formatMs(vm.durationMs)}
           </Text>
-          <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
+          <Text className="text-xs text-text-dim dark:text-text-dimDark">
             {timeAgo(vm.ts)}
           </Text>
-          <Ionicons
-            name={open ? 'chevron-up' : 'chevron-down'}
-            size={16}
-            color="#9CA3AF" // gray-400, can be replaced with theme
-            onPress={() => setOpen((v) => !v)}
-          />
-        </Row>
+          <TouchableOpacity onPress={() => setOpen((v) => !v)} hitSlop={8}>
+            <Text className="text-text-dim dark:text-text-dimDark">
+              <Ionicons
+                name={open ? 'chevron-up' : 'chevron-down'}
+                size={16}
+                color="currentColor"
+              />
+            </Text>
+          </TouchableOpacity>
+        </View>
       </Row>
 
-      <Text
-        className="mt-0.5 text-[12px] text-text-dim dark:text-text-dimDark"
-        numberOfLines={2}
-      >
-        {vm.subtitle}
-        {vm.error ? ` • ❗ ${vm.error}` : ''}
-      </Text>
+      {/* Full subject inside card */}
+      {vm.subject ? (
+        <Text className="mt-3 text-[18px] font-extrabold text-text dark:text-text-dark">
+          {vm.subject}
+        </Text>
+      ) : null}
 
+      {/* Subline */}
+      {(vm.subtitle || vm.error) && (
+        <Text className="mt-1.5 text-sm text-text-dim dark:text-text-dimDark">
+          {vm.subtitle}
+          {vm.error ? ` • ❗ ${vm.error}` : ''}
+        </Text>
+      )}
+
+      {/* Details */}
       {open && (
-        <View className="mt-2.5 gap-2.5">
+        <View className="mt-4 gap-3">
           <Segmented<'summary' | 'raw'>
             value={tab}
             onChange={setTab}
@@ -60,10 +73,11 @@ export default function AdminLogCard({ vm }: { vm: LogVM }) {
               { value: 'raw', label: 'Raw' },
             ]}
           />
+
           {tab === 'summary' ? (
             <Card
               inset
-              className="bg-muted dark:bg-muted-dark border border-border dark:border-border-dark"
+              className="rounded-lg bg-muted dark:bg-muted-dark border border-border dark:border-border-dark p-3"
             >
               {buildSummaryRows({
                 id: vm.id,
@@ -80,7 +94,7 @@ export default function AdminLogCard({ vm }: { vm: LogVM }) {
           ) : (
             <Card
               inset
-              className="bg-muted dark:bg-muted-dark border border-border dark:border-border-dark"
+              className="rounded-lg bg-muted dark:bg-muted-dark border border-border dark:border-border-dark p-3 gap-3"
             >
               <MonoKV label="Args" value={vm.args} />
               {vm.error ? (
@@ -99,16 +113,16 @@ export default function AdminLogCard({ vm }: { vm: LogVM }) {
 function verbTint(v: LogVM['verb']) {
   switch (v) {
     case 'create':
-      return '#16a34a'; // success
+      return '#16a34a';
     case 'update':
-      return '#2563eb'; // info
+      return '#2563eb';
     case 'delete':
-      return '#ef4444'; // danger
+      return '#ef4444';
     case 'list':
     case 'read':
-      return '#6b7280'; // dim
+      return '#6b7280';
     default:
-      return '#a855f7'; // violet
+      return '#a855f7';
   }
 }
 

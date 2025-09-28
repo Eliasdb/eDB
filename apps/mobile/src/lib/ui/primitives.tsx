@@ -35,7 +35,7 @@ export function Card(props: ViewProps & { inset?: boolean }) {
     <View
       className={cn(
         'bg-white dark:bg-surface-dark rounded-lg shadow-card',
-        inset ? 'p-md' : 'p-sm',
+        inset ? 'p-md' : 'p-0',
       )}
       style={style}
       {...rest}

@@ -22,7 +22,7 @@ export default function ProfileScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <Card style={{ alignItems: 'center', gap: 8 }}>
+        <Card style={{ alignItems: 'center', gap: 8 }} inset>
           <Avatar size={96} />
           <Text className="text-[20px] font-bold text-text dark:text-text-dark mt-2">
             {t('profile.name')}
@@ -54,22 +54,29 @@ export default function ProfileScreen() {
           <Item
             label={t('profile.security')}
             icon="shield-checkmark-outline"
-            onPress={() => {}}
+            onPress={() => router.push('/profile/security')}
           />
+
           <Item
             label={t('profile.connectedApps')}
             icon="link-outline"
-            onPress={() => {}}
+            onPress={() => router.push('/profile/integrations')}
           />
         </Section>
 
         <Section title={t('profile.preferences')}>
-          <ThemePicker />
-          <Item label={t('settings.voiceMode')} icon="volume-high-outline" />
           <Item
             label={t('settings.notifications')}
             icon="notifications-outline"
           />
+          <Item
+            label={t('settings.voiceMode')}
+            icon="volume-high-outline"
+            onPress={() => router.push('/profile/voice-mode')}
+          />
+
+          <ThemePicker />
+
           <LanguagePicker />
         </Section>
       </ScrollView>
