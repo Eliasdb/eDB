@@ -12,6 +12,7 @@
     "@expo/metro-config": "~54.0.5",
     "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.2",
+    "@react-native-community/datetimepicker": "^8.4.5",
     "@react-native/normalize-colors": "^0.81.1",
     "@react-navigation/bottom-tabs": "^7.4.7",
     "@react-navigation/core": "^7.12.4",
@@ -40,11 +41,11 @@
     "react-native-keyboard-controller": "^1.18.5",
     "react-native-popup-menu": "^0.18.0",
     "react-native-reanimated": "^3.17.5",
+    "react-native-safe-area-context": "5.4.0",
     "react-native-svg": "15.12.1",
     "react-native-svg-transformer": "^1.5.0",
     "react-native-web": "~0.21.1",
-    "use-latest-callback": "^0.2.4",
-    "react-native-safe-area-context": "5.4.0"
+    "use-latest-callback": "^0.2.4"
   },
   "devDependencies": {
     "@types/react": "19.1.13",
