@@ -9,11 +9,11 @@ const ExecBody = z.object({
 });
 
 const route: FastifyPluginAsync = async (app) => {
+  // apps/server/clara-api/src/routes/realtime-exec.ts
   app.post('/realtime/execute-tool', async (req, reply) => {
     const { name, args } = ExecBody.parse(await req.body);
-    const canonical = name.replace(/_/g, '.');
     try {
-      const out = await executeTool(canonical, args);
+      const out = await executeTool(name, args);
       return reply.send({ ok: true, output: out });
     } catch (e: any) {
       return reply

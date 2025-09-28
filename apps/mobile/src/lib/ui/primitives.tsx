@@ -1,4 +1,3 @@
-// apps/mobile/src/lib/ui/primitives.tsx
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
@@ -293,6 +292,123 @@ export function Pill({
       <Text className="text-[12px] text-[#6c6f7b] dark:text-gray-300">
         {text}
       </Text>
+    </View>
+  );
+}
+
+/* ---------- NEW: shared CRM bits ---------- */
+
+export function IconButton({
+  icon,
+  onPress,
+  tint = '#6C63FF',
+  className,
+}: {
+  icon: React.ComponentProps<typeof Ionicons>['name'];
+  onPress?: () => void;
+  tint?: string;
+  className?: string;
+}) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      className={cn(
+        'w-9 h-9 rounded-full items-center justify-center bg-muted dark:bg-muted-dark',
+        className,
+      )}
+    >
+      <Ionicons name={icon} size={18} color={tint} />
+    </TouchableOpacity>
+  );
+}
+
+export function AvatarCircle({
+  size = 36,
+  text,
+}: {
+  size?: number;
+  text: string;
+}) {
+  return (
+    <View
+      className="items-center justify-center bg-muted dark:bg-muted-dark rounded-full"
+      style={{ width: size, height: size }}
+    >
+      <Text className="font-bold text-[13px] text-text dark:text-text-dark">
+        {text}
+      </Text>
+    </View>
+  );
+}
+
+export function SectionHeader({
+  title,
+  right,
+}: {
+  title: string;
+  right?: React.ReactNode;
+}) {
+  return (
+    <View className="mt-lg mb-[8px] px-[2px] flex-row items-center justify-between">
+      <Text className="text-[14px] text-text-dim dark:text-text-dimDark font-semibold uppercase tracking-[0.6px]">
+        {title}
+      </Text>
+      {right}
+    </View>
+  );
+}
+
+export function ListCard({ children }: { children: React.ReactNode }) {
+  return (
+    <View className="bg-white dark:bg-surface-dark rounded-2xl shadow-card p-[12px]">
+      {children}
+    </View>
+  );
+}
+
+export function ListContainer({ children }: { children: React.ReactNode }) {
+  return (
+    <View className="bg-white dark:bg-surface-dark rounded-2xl shadow-card p-[10px]">
+      <View className="rounded-xl border border-border dark:border-border-dark bg-muted/30 dark:bg-muted-dark/30 p-[8px]">
+        {children}
+      </View>
+    </View>
+  );
+}
+
+export function ListItem({
+  left,
+  title,
+  meta,
+  right,
+  showTopDivider,
+}: {
+  left?: React.ReactNode;
+  title: React.ReactNode;
+  meta?: React.ReactNode;
+  right?: React.ReactNode;
+  showTopDivider?: boolean;
+}) {
+  return (
+    <View>
+      {showTopDivider && (
+        <View className="h-px bg-border dark:bg-border-dark mx-[8px]" />
+      )}
+      <View className="flex-row items-center gap-3 px-[8px] py-[10px]">
+        {left ? <View className="w-[40px] items-center">{left}</View> : null}
+        <View className="flex-1">
+          {typeof title === 'string' ? (
+            <Text className="text-[16px] text-text dark:text-text-dark">
+              {title}
+            </Text>
+          ) : (
+            title
+          )}
+          {meta ? <View className="mt-1.5">{meta}</View> : null}
+        </View>
+        {right}
+      </View>
     </View>
   );
 }

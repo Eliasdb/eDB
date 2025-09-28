@@ -1,7 +1,7 @@
 // apps/mobile/src/app/components/MicButton.tsx
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 type Props = {
   onPress?: () => void;
@@ -14,22 +14,32 @@ export default function MicButton({ onPress, loading, active, style }: Props) {
   const { t } = useTranslation();
 
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={loading}
-      className={`
-        flex-row items-center rounded-full mt-6 px-6 py-3.5 shadow-md
-        ${active ? 'bg-danger' : 'bg-primary'}
-      `}
-      style={({ pressed }) => [
-        pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-        style,
-      ]}
-    >
-      <MaterialIcons name="mic" size={28} color="white" />
-      <Text className="text-white font-semibold text-[16px] ml-2">
+    <View className="items-center mt-6">
+      <Pressable
+        onPress={onPress}
+        disabled={loading}
+        className={`
+          w-16 h-16 rounded-full items-center justify-center
+          shadow-lg
+          ${active ? 'bg-danger' : 'bg-primary'}
+        `}
+        style={({ pressed }) => [
+          {
+            transform: [{ scale: pressed ? 0.95 : 1 }],
+            shadowColor: active ? '#ef4444' : '#6C63FF',
+            shadowOpacity: active ? 0.5 : 0.35,
+            shadowRadius: active ? 14 : 10,
+            shadowOffset: { width: 0, height: 6 },
+          },
+          style,
+        ]}
+      >
+        <MaterialIcons name="mic" size={32} color="white" />
+      </Pressable>
+
+      <Text className="mt-2 text-[14px] font-semibold text-text dark:text-text-dark">
         {loading ? t('mic.connecting') : active ? t('mic.stop') : t('mic.talk')}
       </Text>
-    </Pressable>
+    </View>
   );
 }

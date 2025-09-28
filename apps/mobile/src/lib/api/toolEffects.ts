@@ -16,15 +16,50 @@ function update(updater: (prev: HubPayload) => HubPayload) {
 const toCanonical = (n: string) => (n.includes('.') ? n : n.replace('_', '.'));
 
 export function applyToolEffectToCache(name: string, args: any, result?: any) {
-  const canonical = toCanonical(name); // <-- not /_/g !
+  const canonical = toCanonical(name);
 
   switch (canonical) {
     case 'hub.create': {
       const { kind, data } = args as { kind: Kind; data: any };
-      const item = result ?? data;
-      update((prev) => ({ ...prev, [kind]: [item, ...prev[kind]] }) as any);
+
+      update((prev) => {
+        const list = (prev[kind] as any[]) ?? [];
+
+        // If server result is present, try to replace an optimistic row
+        if (result) {
+          // replace by id if we have one
+          if (result.id) {
+            const byId = list.findIndex((x) => x.id === result.id);
+            if (byId !== -1) {
+              const next = [...list];
+              next[byId] = { ...list[byId], ...result };
+              return { ...prev, [kind]: next } as any;
+            }
+          }
+
+          // fallback: replace the first optimistic row that matches core fields
+          const guess = list.findIndex(
+            (x) =>
+              !x.id && // optimistic items usually have no id
+              ((x.title && x.title === result.title) ||
+                (x.name && x.name === result.name)),
+          );
+          if (guess !== -1) {
+            const next = [...list];
+            next[guess] = { ...result };
+            return { ...prev, [kind]: next } as any;
+          }
+
+          // otherwise append the server item
+          return { ...prev, [kind]: [...list, result] } as any;
+        }
+
+        // optimistic path (no result yet): append, don’t prepend
+        return { ...prev, [kind]: [...list, data] } as any;
+      });
       return;
     }
+
     case 'hub.update': {
       const { kind, id, patch } = args as {
         kind: Kind;
@@ -36,30 +71,32 @@ export function applyToolEffectToCache(name: string, args: any, result?: any) {
         (prev) =>
           ({
             ...prev,
-            [kind]: prev[kind].map((x: any) =>
+            [kind]: (prev[kind] as any[]).map((x: any) =>
               x.id === id ? { ...x, ...merged, id } : x,
             ),
           }) as any,
       );
       return;
     }
+
     case 'hub.delete': {
       const { kind, id } = args as { kind: Kind; id: string };
       update(
         (prev) =>
           ({
             ...prev,
-            [kind]: prev[kind].filter((x: any) => x.id !== id),
+            [kind]: (prev[kind] as any[]).filter((x: any) => x.id !== id),
           }) as any,
       );
       return;
     }
-    // Optional: during dev, warn if an unexpected tool name comes through
-    default:
+
+    default: {
       if (__DEV__) {
         // eslint-disable-next-line no-console
         console.warn('[toolEffects] unhandled tool:', canonical, args, result);
       }
+    }
   }
 }
 
