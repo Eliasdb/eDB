@@ -42,7 +42,7 @@ export default function TaskRow({ task, onToggle, onDelete, onEdit }: Props) {
   );
 
   return (
-    <View className="flex-row items-start px-3 py-2">
+    <View className="flex-row items-center px-3 py-2">
       {/* Checkbox (left) */}
       <Pressable
         onPress={onToggle}

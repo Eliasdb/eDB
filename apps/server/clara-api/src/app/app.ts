@@ -18,7 +18,13 @@ import toolLogsRoutes from '../routes/tool-logs'; // ✅ correct import
 export async function buildApp() {
   const app = Fastify({ logger: true });
 
-  await app.register(fastifyCors, { origin: true });
+  // apps/server/clara-api/src/app/app.ts
+  await app.register(fastifyCors, {
+    origin: true, // dev: allow any; lock down in prod
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  });
   await app.register(multipart);
 
   await app.register(authPlugin);

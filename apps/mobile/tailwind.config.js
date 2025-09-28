@@ -18,6 +18,9 @@ module.exports = {
           DEFAULT: '#f6f7fb', // light bg
           dark: '#0b0c0f', // dark bg
         },
+
+        'surface-2': { DEFAULT: '#ffffff', dark: '#121419' }, // slightly deeper than surface.dark
+
         white: '#ffffff',
 
         // text

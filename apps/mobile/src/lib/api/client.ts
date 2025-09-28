@@ -18,14 +18,21 @@ export const API_BASE = (
   .replace(/\/$/, '');
 
 // Generic fetch helper
-export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const hasBody = init.body !== undefined && init.body !== null;
+
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'content-type': 'application/json', ...(init?.headers || {}) },
     ...init,
+    headers: {
+      ...(hasBody ? { 'content-type': 'application/json' } : {}),
+      ...(init.headers || {}),
+    },
   });
+
   if (!res.ok) {
     const text = await res.text().catch(() => '');
     throw new Error(`HTTP ${res.status} ${res.statusText} — ${text}`);
   }
+
   return (res.status === 204 ? undefined : await res.json()) as T;
 }
