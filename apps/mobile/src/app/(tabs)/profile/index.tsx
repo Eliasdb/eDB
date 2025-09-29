@@ -1,32 +1,23 @@
 // apps/mobile/src/app/(features)/profile/index.tsx
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Pressable,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Ionicons } from '@expo/vector-icons';
-import { LanguagePicker } from '@ui/widgets/LanguagePicker';
+import {
+  PreferencesPanel,
+  ProfileCard,
+  SettingsPanel,
+} from '@features/profile/components';
 
-import { Avatar, Button, Card } from '@ui/primitives';
-import { Item, ItemSwitch } from '@ui/primitives/primitives';
-import { ThemePicker } from '@ui/widgets/ThemePicker';
+// ⬇️ import your layout helpers
+import { PageContainer, TwoCol } from '@ui/layout';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { t } = useTranslation();
-  const { width } = useWindowDimensions();
-
-  const isWide = width >= 920; // desktop-ish breakpoint
-  const contentPaddingH = isWide ? 24 : 16;
-  const maxWidth = 1100;
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
@@ -34,13 +25,11 @@ export default function ProfileScreen() {
         contentContainerStyle={{
           paddingTop: 16,
           paddingBottom: 24 + insets.bottom,
-          paddingHorizontal: contentPaddingH,
-          alignItems: 'center', // centers the max-width container on web/large screens
         }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ width: '100%', maxWidth }} className="w-full">
+        <PageContainer maxWidth={1100} paddingH={16}>
           {/* Page header */}
           <View className="mb-4 px-1">
             <Text className="text-[20px] font-extrabold text-text dark:text-text-dark">
@@ -54,24 +43,19 @@ export default function ProfileScreen() {
             </Text>
           </View>
 
-          {/* Responsive grid: left column profile card / right column panels */}
-          <View
-            style={{
-              flexDirection: isWide ? 'row' : 'column',
-              gap: isWide ? 16 : 12,
-            }}
+          {/* Layout */}
+          <TwoCol
+            gap={16}
+            breakpoint={920}
+            leftWidth={0.32} // ≈ 340 / 1100
+            rightWidth={0.68}
           >
-            {/* Left column — Profile card */}
-            <View style={{ width: isWide ? 340 : '100%' }}>
-              <ProfileCard
-                name={t('profile.name')}
-                email={t('profile.email')}
-                onChangePhoto={() => {}}
-                onManageVoice={() => router.push('/profile/voice-mode')}
-              />
-            </View>
-
-            {/* Right column — Panels */}
+            <ProfileCard
+              name={t('profile.name')}
+              email={t('profile.email')}
+              onChangePhoto={() => {}}
+              onManageVoice={() => router.push('/profile/voice-mode')}
+            />
             <View style={{ flex: 1, minWidth: 0 }}>
               <SettingsPanel
                 title={t('profile.account')}
@@ -92,7 +76,7 @@ export default function ProfileScreen() {
                     onPress: () => router.push('/profile/integrations'),
                   },
                 ]}
-              />
+              ></SettingsPanel>
 
               <PreferencesPanel
                 title={t('profile.preferences')}
@@ -101,218 +85,9 @@ export default function ProfileScreen() {
                 onPressVoice={() => router.push('/profile/voice-mode')}
               />
             </View>
-          </View>
-        </View>
+          </TwoCol>
+        </PageContainer>
       </ScrollView>
-    </View>
-  );
-}
-
-/* ------------------- Pieces ------------------- */
-
-function ProfileCard({
-  name,
-  email,
-  onChangePhoto,
-  onManageVoice,
-}: {
-  name: string;
-  email: string;
-  onChangePhoto: () => void;
-  onManageVoice: () => void;
-}) {
-  return (
-    <Card inset className="px-4 py-5 rounded-2xl">
-      {/* Avatar with edit overlay */}
-      <View className="items-center">
-        <View className="relative">
-          <Avatar size={104} />
-          <Pressable
-            onPress={onChangePhoto}
-            hitSlop={8}
-            className="
-              absolute right-0 bottom-0 w-9 h-9 rounded-full items-center justify-center
-              bg-muted dark:bg-muted-dark border border-border dark:border-border-dark
-              active:opacity-90
-            "
-          >
-            <Ionicons name="camera-outline" size={16} color="#6C63FF" />
-          </Pressable>
-        </View>
-
-        <Text className="text-[20px] font-bold text-text dark:text-text-dark mt-3">
-          {name}
-        </Text>
-        <Text className="text-[14px] text-text-dim dark:text-text-dimDark">
-          {email}
-        </Text>
-
-        <View className="flex-row gap-3 mt-4">
-          <Button
-            label="Change photo"
-            icon="image-outline"
-            onPress={onChangePhoto}
-          />
-          <Button
-            label="Manage voice"
-            icon="mic-outline"
-            onPress={onManageVoice}
-          />
-        </View>
-      </View>
-    </Card>
-  );
-}
-
-function SettingsPanel({
-  title,
-  items,
-}: {
-  title: string;
-  items: Array<{
-    label: string;
-    icon: React.ComponentProps<typeof Ionicons>['name'];
-    onPress?: () => void;
-  }>;
-}) {
-  return (
-    <Card className="rounded-2xl border border-border dark:border-border-dark overflow-hidden">
-      <PanelHeader title={title} />
-
-      {/* Grouped list */}
-      <View className="px-2 pb-3">
-        <View className="rounded-xl overflow-hidden bg-surface dark:bg-surface-dark border border-border dark:border-border-dark">
-          {items.map((it, i) => (
-            <View
-              key={it.label}
-              className={
-                i > 0 ? 'border-t border-border dark:border-border-dark' : ''
-              }
-            >
-              <Item label={it.label} icon={it.icon} onPress={it.onPress} />
-            </View>
-          ))}
-        </View>
-      </View>
-    </Card>
-  );
-}
-
-function PreferencesPanel({
-  title,
-  notificationItemLabel,
-  voiceItemLabel,
-  onPressVoice,
-}: {
-  title: string;
-  notificationItemLabel: string;
-  voiceItemLabel: string;
-  onPressVoice: () => void;
-}) {
-  const [notificationsOn, setNotificationsOn] = useState(true);
-
-  return (
-    <Card className="mt-3 rounded-2xl border border-border dark:border-border-dark overflow-hidden">
-      <PanelHeader title={title} />
-
-      <View className="px-2 pb-4">
-        <View className="rounded-xl overflow-hidden bg-surface dark:bg-surface-dark border border-border dark:border-border-dark">
-          {/* Notifications toggle */}
-          <ItemSwitch
-            label={notificationItemLabel}
-            icon="notifications-outline"
-            value={notificationsOn}
-            onValueChange={setNotificationsOn}
-          />
-
-          {/* Voice mode link */}
-          <View className="border-t border-border dark:border-border-dark">
-            <Item
-              label={voiceItemLabel}
-              icon="volume-high-outline"
-              onPress={onPressVoice}
-            />
-          </View>
-
-          {/* Accordion: Appearance */}
-          <View className="border-t border-border dark:border-border-dark">
-            <AccordionSection title="Appearance" icon="color-palette-outline">
-              <View className="pt-2">
-                <ThemePicker />
-              </View>
-            </AccordionSection>
-          </View>
-
-          {/* Accordion: Language */}
-          <View className="border-t border-border dark:border-border-dark">
-            <AccordionSection title="Language" icon="language-outline">
-              <View className="pt-2">
-                <LanguagePicker />
-              </View>
-            </AccordionSection>
-          </View>
-        </View>
-      </View>
-    </Card>
-  );
-}
-
-function PanelHeader({ title }: { title: string }) {
-  return (
-    <View className="px-4 pt-4 pb-3">
-      <Text className="text-[16px] font-extrabold text-text dark:text-text-dark">
-        {title}
-      </Text>
-      <Text className="text-[12px] mt-1 text-text-dim dark:text-text-dimDark">
-        Manage and configure related options.
-      </Text>
-    </View>
-  );
-}
-
-/* ------------------- Accordion ------------------- */
-
-/* ------------------- Accordion ------------------- */
-
-function AccordionSection({
-  title,
-  icon,
-  children,
-  defaultOpen = false,
-}: {
-  title: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  children: React.ReactNode;
-  defaultOpen?: boolean;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-
-  return (
-    <View>
-      <Pressable
-        onPress={() => setOpen((v) => !v)}
-        className="px-3 py-3 flex-row items-center justify-between active:opacity-95"
-      >
-        <View className="flex-row items-center gap-2">
-          <Ionicons
-            name={icon}
-            size={18} // ↑ match leading icon size used elsewhere
-            className="text-text-dim dark:text-text-dimDark"
-          />
-          <Text
-            className="text-[16px] font-normal text-text dark:text-text-dark" // ← match Settings item label
-          >
-            {title}
-          </Text>
-        </View>
-        <Ionicons
-          name={open ? 'chevron-up' : 'chevron-down'}
-          size={20} // small bump to balance the row
-          className="text-text-dim dark:text-text-dimDark"
-        />
-      </Pressable>
-
-      {open ? <View className="px-3 pb-3">{children}</View> : null}
     </View>
   );
 }

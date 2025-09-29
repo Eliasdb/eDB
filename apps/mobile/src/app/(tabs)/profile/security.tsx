@@ -1,5 +1,7 @@
+// apps/mobile/src/app/(features)/profile/security.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { PageContainer, TwoCol } from '@ui/layout/ResponsivePage';
+import { PageContainer } from '@ui/layout/ResponsivePage';
+import { Subheader } from '@ui/navigation/Subheader';
 import { Card } from '@ui/primitives/Card';
 import { Item, ItemSwitch, Section } from '@ui/primitives/primitives';
 import { useRouter } from 'expo-router';
@@ -17,24 +19,8 @@ export default function SecurityScreen() {
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      {/* Header with back arrow */}
-      <View style={{ paddingTop: insets.top }}>
-        <View className="h-14 flex-row items-center justify-between px-3 border-b border-border dark:border-border-dark bg-surface dark:bg-surface-dark">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="h-11 min-w-11 items-center justify-center"
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Ionicons name="chevron-back" size={24} color="#6B7280" />
-          </TouchableOpacity>
-
-          <Text className="text-lg font-bold text-text dark:text-text-dark">
-            Security
-          </Text>
-
-          <View className="h-11 min-w-11" />
-        </View>
-      </View>
+      {/* Reusable subheader */}
+      <Subheader title="Security" onBack={() => router.back()} />
 
       <ScrollView
         contentContainerStyle={{
@@ -61,93 +47,87 @@ export default function SecurityScreen() {
             </Text>
           </Card>
 
-          {/* Responsive layout:
-             Left: Authentication + Privacy
-             Right: Sessions
-          */}
-          <TwoCol
-            gap={16}
-            breakpoint={1024}
-            left={
-              <View>
-                <Section title="Authentication">
-                  <Item
-                    label="Change password"
-                    icon="key-outline"
-                    onPress={() =>
-                      router.push('/profile/security/change-password')
-                    }
-                  />
-                  <ItemSwitch
-                    label="Two-factor authentication (2FA)"
-                    icon="shield-checkmark-outline"
-                    value={twoFA}
-                    onValueChange={setTwoFA}
-                  />
-                  <ItemSwitch
-                    label="Passkeys (WebAuthn)"
-                    icon="finger-print-outline"
-                    value={passkeys}
-                    onValueChange={setPasskeys}
-                  />
-                </Section>
+          {/* Two-column content */}
+          <View className="mt-4 flex-row -mx-2 max-lg:flex-col max-lg:mx-0">
+            {/* Left column */}
+            <View className="w-1/2 px-2 max-lg:w-full max-lg:px-0">
+              <Section title="Authentication">
+                <Item
+                  label="Change password"
+                  icon="key-outline"
+                  onPress={() =>
+                    router.push('/profile/security/change-password')
+                  }
+                />
+                <ItemSwitch
+                  label="Two-factor authentication (2FA)"
+                  icon="shield-checkmark-outline"
+                  value={twoFA}
+                  onValueChange={setTwoFA}
+                />
+                <ItemSwitch
+                  label="Passkeys (WebAuthn)"
+                  icon="finger-print-outline"
+                  value={passkeys}
+                  onValueChange={setPasskeys}
+                />
+              </Section>
 
-                <Section title="Privacy & data">
-                  <Item
-                    label="Export my data"
-                    icon="download-outline"
-                    onPress={() => {}}
-                  />
-                  <Item
-                    label="Delete account"
-                    icon="trash-outline"
-                    onPress={() =>
-                      router.push('/profile/security/delete-account')
-                    }
-                  />
-                </Section>
-              </View>
-            }
-            right={
-              <View>
-                <Section title="Active sessions">
-                  <SessionsCard
-                    sessions={[
-                      {
-                        id: 'cur',
-                        device: 'MacBook Pro',
-                        client: 'Safari',
-                        location: 'Ghent, BE',
-                        current: true,
-                      },
-                      {
-                        id: 'ios',
-                        device: 'iPhone 15',
-                        client: 'Clara App',
-                        location: 'Ghent, BE',
-                        lastActive: '2h ago',
-                      },
-                      {
-                        id: 'win',
-                        device: 'Windows',
-                        client: 'Chrome',
-                        location: 'London, UK',
-                        lastActive: '3d ago',
-                      },
-                    ]}
-                    onSignOutOne={(id) => {
-                      // TODO: call backend sign-out for a single session
-                      console.log('sign out', id);
-                    }}
-                    onSignOutOthers={() => {
-                      // TODO: call backend sign-out others
-                      console.log('sign out others');
-                    }}
-                  />
-                </Section>
-              </View>
-            }
-          />
+              <Section title="Privacy & data">
+                <Item
+                  label="Export my data"
+                  icon="download-outline"
+                  onPress={() => {}}
+                />
+                <Item
+                  label="Delete account"
+                  icon="trash-outline"
+                  onPress={() =>
+                    router.push('/profile/security/delete-account')
+                  }
+                />
+              </Section>
+            </View>
+
+            {/* Right column */}
+            <View className="w-1/2 px-2 max-lg:w-full max-lg:px-0">
+              <Section title="Active sessions">
+                <SessionsCard
+                  sessions={[
+                    {
+                      id: 'cur',
+                      device: 'MacBook Pro',
+                      client: 'Safari',
+                      location: 'Ghent, BE',
+                      current: true,
+                    },
+                    {
+                      id: 'ios',
+                      device: 'iPhone 15',
+                      client: 'Clara App',
+                      location: 'Ghent, BE',
+                      lastActive: '2h ago',
+                    },
+                    {
+                      id: 'win',
+                      device: 'Windows',
+                      client: 'Chrome',
+                      location: 'London, UK',
+                      lastActive: '3d ago',
+                    },
+                  ]}
+                  onSignOutOne={(id) => {
+                    // TODO: call backend sign-out for a single session
+                    console.log('sign out', id);
+                  }}
+                  onSignOutOthers={() => {
+                    // TODO: call backend sign-out others
+                    console.log('sign out others');
+                  }}
+                />
+              </Section>
+            </View>
+          </View>
         </PageContainer>
       </ScrollView>
     </View>

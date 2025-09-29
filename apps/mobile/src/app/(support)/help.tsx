@@ -1,9 +1,10 @@
+// apps/mobile/src/app/(features)/profile/help.tsx
 import { Ionicons } from '@expo/vector-icons';
+import { Subheader } from '@ui/navigation/Subheader';
 import { Card } from '@ui/primitives/Card';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Linking,
   Platform,
   ScrollView,
   Text,
@@ -12,6 +13,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CONTACT_LINKS, FAQ_ITEMS, GUIDE_SECTIONS } from './help.config';
 
 export default function HelpScreen() {
   const insets = useSafeAreaInsets();
@@ -23,25 +25,7 @@ export default function HelpScreen() {
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      {/* Header with back */}
-      <View style={{ paddingTop: insets.top }}>
-        <View className="h-14 flex-row items-center justify-between px-3 border-b border-border dark:border-border-dark bg-surface dark:bg-surface-dark">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="h-11 min-w-11 items-center justify-center"
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Ionicons name="chevron-back" size={24} color="#6B7280" />
-          </TouchableOpacity>
-
-          <Text className="text-lg font-bold text-text dark:text-text-dark">
-            Help & Support
-          </Text>
-
-          {/* spacer */}
-          <View className="h-11 min-w-11" />
-        </View>
-      </View>
+      <Subheader title="Help & Support" onBack={() => router.back()} />
 
       <ScrollView
         contentContainerStyle={{
@@ -65,7 +49,7 @@ export default function HelpScreen() {
             </Text>
           </View>
 
-          {/* Grid: left column (guides) / right column (FAQ + contact) */}
+          {/* Grid */}
           <View
             style={{
               flexDirection: isWide ? 'row' : 'column',
@@ -74,64 +58,13 @@ export default function HelpScreen() {
           >
             {/* Left: Guides */}
             <View style={{ flex: 1, minWidth: 0 }}>
-              <SectionCard title="Getting started">
-                <Bullet>
-                  Open the chat tab and start typing—or tap the mic to talk.
-                </Bullet>
-                <Bullet>
-                  Clara can create, update and delete tasks and contacts via
-                  built-in tools.
-                </Bullet>
-                <Bullet>
-                  See everything Clara did in{' '}
-                  <Text className="font-semibold">Admin → Logs</Text>.
-                </Bullet>
-              </SectionCard>
-
-              <SectionCard title="Voice & Realtime">
-                <Bullet>
-                  Choose a voice under{' '}
-                  <Text className="font-semibold">Profile → Voice mode</Text>.
-                </Bullet>
-                <Bullet>
-                  Clara uses OpenAI Realtime with server VAD to detect when you
-                  talk and reply.
-                </Bullet>
-                <Bullet>
-                  If audio is silent on web, ensure the page has playback
-                  permission and volume is up.
-                </Bullet>
-              </SectionCard>
-
-              <SectionCard title="Tools & Permissions">
-                <Bullet>
-                  Tools are listed in{' '}
-                  <Text className="font-semibold">Admin → Capabilities</Text>{' '}
-                  with parameters.
-                </Bullet>
-                <Bullet>
-                  Every execution is logged—duration, inputs, outputs, and any
-                  errors.
-                </Bullet>
-                <Bullet>
-                  Disable integrations you don’t want in{' '}
-                  <Text className="font-semibold">Profile → Integrations</Text>.
-                </Bullet>
-              </SectionCard>
-
-              <SectionCard title="Privacy & data">
-                <Bullet>
-                  Exports and deletion live in{' '}
-                  <Text className="font-semibold">Profile → Security</Text>.
-                </Bullet>
-                <Bullet>
-                  We keep a thin audit trail (tools & outcomes) so you can
-                  review what happened.
-                </Bullet>
-                <Bullet>
-                  Contact us for DSRs (access, rectification, erasure).
-                </Bullet>
-              </SectionCard>
+              {GUIDE_SECTIONS.map((s) => (
+                <SectionCard key={s.title} title={s.title}>
+                  {s.bullets.map((b, i) => (
+                    <Bullet key={i}>{b}</Bullet>
+                  ))}
+                </SectionCard>
+              ))}
             </View>
 
             {/* Right: FAQ + Contact */}
@@ -142,26 +75,7 @@ export default function HelpScreen() {
                   subtitle="Quick answers to the top issues."
                 />
                 <View className="px-2 pb-3">
-                  <Accordion
-                    items={[
-                      {
-                        q: 'Why can’t I hear the voice reply?',
-                        a: 'On the web, browsers may block auto-play until you interact. Click anywhere, ensure your output device and tab volume are enabled, then try again.',
-                      },
-                      {
-                        q: 'How do I change Clara’s voice?',
-                        a: 'Go to Profile → Voice mode and pick a voice. The Realtime session uses that selection for subsequent calls.',
-                      },
-                      {
-                        q: 'Where can I see what Clara did?',
-                        a: 'Open Admin → Logs for a card or terminal view of every tool run—inputs, outputs, timing and any errors.',
-                      },
-                      {
-                        q: 'Can I disable certain tools?',
-                        a: 'Yes—visit Profile → Integrations to turn off platforms you do not want Clara to access.',
-                      },
-                    ]}
-                  />
+                  <Accordion items={FAQ_ITEMS} />
                 </View>
               </Card>
 
@@ -171,25 +85,14 @@ export default function HelpScreen() {
                   subtitle="We usually reply within one business day."
                 />
                 <View className="px-4 pb-4 gap-2">
-                  <PrimaryLink
-                    label="Email support"
-                    icon="mail-outline"
-                    onPress={() =>
-                      Linking.openURL('mailto:support@claralabs.example')
-                    }
-                  />
-                  <PrimaryLink
-                    label="Status page"
-                    icon="pulse-outline"
-                    onPress={() =>
-                      Linking.openURL('https://status.example.com')
-                    }
-                  />
-                  <PrimaryLink
-                    label="Developer docs"
-                    icon="code-slash-outline"
-                    onPress={() => Linking.openURL('https://docs.example.com')}
-                  />
+                  {CONTACT_LINKS.map((link) => (
+                    <PrimaryLink
+                      key={link.label}
+                      label={link.label}
+                      icon={link.icon}
+                      onPress={link.onPress}
+                    />
+                  ))}
                 </View>
               </Card>
             </View>
@@ -200,7 +103,7 @@ export default function HelpScreen() {
   );
 }
 
-/* ----------------- tiny UI bits ----------------- */
+/* ---------------- UI helpers ---------------- */
 
 function SectionCard({
   title,
