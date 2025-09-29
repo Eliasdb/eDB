@@ -1,4 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Card } from '@ui/primitives/Card';
+import { ItemSwitch, Section } from '@ui/primitives/primitives';
 import { useRouter } from 'expo-router';
 import {
   ScrollView,
@@ -8,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Card, ItemSwitch, Section } from '../../../lib/ui/primitives';
 
 export default function IntegrationsScreen() {
   const insets = useSafeAreaInsets();

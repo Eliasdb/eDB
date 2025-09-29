@@ -1,5 +1,5 @@
 // apps/mobile/src/app/(features)/admin/logs/AdminLogList.tsx
-import { Segmented } from '@ui';
+import { Segmented } from '@ui/primitives/Segmented';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, Text, View } from 'react-native';

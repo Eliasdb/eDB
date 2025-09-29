@@ -12,15 +12,11 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Ionicons } from '@expo/vector-icons';
-import Avatar from '../../../lib/ui/Avatar';
-import { LanguagePicker } from '../../../lib/ui/LanguagePicker';
-import {
-  Card,
-  Item,
-  ItemSwitch,
-  PrimaryButton,
-} from '../../../lib/ui/primitives';
-import { ThemePicker } from '../../../lib/ui/ThemePicker';
+import { LanguagePicker } from '@ui/widgets/LanguagePicker';
+
+import { Avatar, Button, Card } from '@ui/primitives';
+import { Item, ItemSwitch } from '@ui/primitives/primitives';
+import { ThemePicker } from '@ui/widgets/ThemePicker';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
@@ -152,12 +148,12 @@ function ProfileCard({
         </Text>
 
         <View className="flex-row gap-3 mt-4">
-          <PrimaryButton
+          <Button
             label="Change photo"
             icon="image-outline"
             onPress={onChangePhoto}
           />
-          <PrimaryButton
+          <Button
             label="Manage voice"
             icon="mic-outline"
             onPress={onManageVoice}
@@ -276,6 +272,8 @@ function PanelHeader({ title }: { title: string }) {
 
 /* ------------------- Accordion ------------------- */
 
+/* ------------------- Accordion ------------------- */
+
 function AccordionSection({
   title,
   icon,
@@ -298,16 +296,18 @@ function AccordionSection({
         <View className="flex-row items-center gap-2">
           <Ionicons
             name={icon}
-            size={16}
+            size={18} // ↑ match leading icon size used elsewhere
             className="text-text-dim dark:text-text-dimDark"
           />
-          <Text className="text-[14px] font-semibold text-text dark:text-text-dark">
+          <Text
+            className="text-[16px] font-normal text-text dark:text-text-dark" // ← match Settings item label
+          >
             {title}
           </Text>
         </View>
         <Ionicons
           name={open ? 'chevron-up' : 'chevron-down'}
-          size={18}
+          size={20} // small bump to balance the row
           className="text-text-dim dark:text-text-dimDark"
         />
       </Pressable>

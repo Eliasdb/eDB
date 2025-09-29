@@ -10,7 +10,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { useThemePreference } from './themePreference'; // ← use your provider
+import { useThemePreference } from '../providers/themePreference'; // ← use your provider
 
 type SheetProps = {
   visible: boolean;
@@ -21,7 +21,7 @@ type SheetProps = {
   disableBackdropClose?: boolean;
 };
 
-export default function Sheet({
+export function Sheet({
   visible,
   onClose,
   children,

@@ -190,6 +190,22 @@ function Row({
   const ok = vm.ok;
   const details = vm.subject || vm.subtitle || vm.name || '(no subject)';
 
+  // dot style (green/red)
+  const Dot = (
+    <Text
+      style={[
+        monoStyle,
+        {
+          display: 'inline',
+          color: ok ? '#16a34a' : '#ef4444',
+          marginRight: 6,
+        },
+      ]}
+    >
+      •
+    </Text>
+  );
+
   if (cfg.twoLine) {
     return (
       <View>
@@ -201,18 +217,7 @@ function Row({
             {timeAgo(vm.ts, true)}
           </Cell>
           <Cell flex mono style={monoStyle} fs={cfg.fsMeta}>
-            <Text
-              style={[
-                monoStyle,
-                {
-                  display: 'inline',
-                  color: ok ? '#16a34a' : '#ef4444',
-                  marginRight: 6,
-                },
-              ]}
-            >
-              •
-            </Text>
+            {Dot}
             {vm.verb.toUpperCase()}
           </Cell>
           <Cell
@@ -244,6 +249,7 @@ function Row({
     );
   }
 
+  // DESKTOP / oneLine
   return (
     <View>
       <View
@@ -254,6 +260,7 @@ function Row({
           {timeAgo(vm.ts)}
         </Cell>
         <Cell w={cfg.W.action} mono style={monoStyle} fs={cfg.fs}>
+          {Dot}
           {vm.verb.toUpperCase()}
         </Cell>
         <Cell w={cfg.W.kind} mono style={monoStyle} fs={cfg.fs} dim={!vm.kind}>

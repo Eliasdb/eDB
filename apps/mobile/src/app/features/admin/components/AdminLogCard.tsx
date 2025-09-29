@@ -1,6 +1,8 @@
 // apps/mobile/src/app/(features)/admin/logs/AdminLogCard.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Badge, Card, Dot, KV, MonoKV, Row, Segmented } from '@ui';
+import { Card } from '@ui/primitives/Card';
+import { Badge, Dot, KV, MonoKV, Row } from '@ui/primitives/primitives';
+import { Segmented } from '@ui/primitives/Segmented';
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';

@@ -1,24 +1,24 @@
 // apps/mobile/src/features/crm/components/AddTaskInline.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable, TextInput, TouchableOpacity } from 'react-native';
 
-export default function AddTaskInline({
-  onAdd,
-  isSaving,
-}: {
+type Props = {
   onAdd: (title: string) => void;
   isSaving: boolean;
-}) {
+  placeholder?: string;
+};
+
+export default function AddTaskInline({ onAdd, isSaving, placeholder }: Props) {
   const { t } = useTranslation();
   const [text, setText] = useState('');
   const [focused, setFocused] = useState(false);
 
   const submit = () => {
-    const tTitle = text.trim();
-    if (!tTitle) return;
-    onAdd(tTitle);
+    const title = text.trim();
+    if (!title) return;
+    onAdd(title);
     setText('');
     Keyboard.dismiss();
   };
@@ -27,6 +27,7 @@ export default function AddTaskInline({
 
   return (
     <Pressable
+      onPress={() => {}}
       className={`
         flex-row items-center px-3 py-2
         border ${focused ? 'border-primary/60' : 'border-border dark:border-border-dark'}
@@ -43,14 +44,16 @@ export default function AddTaskInline({
         />
       </TouchableOpacity>
 
-      {/* Input field */}
+      {/* Input */}
       <TextInput
         value={text}
         onChangeText={setText}
-        placeholder={t('crm.addTaskPlaceholder')}
+        placeholder={placeholder ?? t('crm.addTaskPlaceholder')}
         placeholderTextColor="#9CA3AF"
         returnKeyType="done"
         onSubmitEditing={submit}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         className="flex-1 px-3 py-2 text-[15px] bg-transparent text-text dark:text-text-dark focus:outline-none"
       />
     </Pressable>

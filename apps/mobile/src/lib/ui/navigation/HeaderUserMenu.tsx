@@ -10,7 +10,7 @@ import {
   MenuTrigger,
   renderers,
 } from 'react-native-popup-menu';
-import { useThemePreference } from './themePreference';
+import { useThemePreference } from '../providers/themePreference';
 
 const { Popover } = renderers;
 

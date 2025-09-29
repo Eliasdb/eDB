@@ -5,75 +5,47 @@ module.exports = {
   content: [
     './app/**/*.{tsx,ts}',
     './src/**/*.{tsx,ts}',
-    '../../libs/**/*.{tsx,ts}', // if you share UI
+    '../../libs/**/*.{tsx,ts}',
   ],
   presets: [require('nativewind/preset')],
-  darkMode: 'class', // <- important for RN
+  darkMode: 'class',
   theme: {
     extend: {
-      // 1) Your semantic colors (light + dark “companions”)
       colors: {
-        // surfaces
-        surface: {
-          DEFAULT: '#f6f7fb', // light bg
-          dark: '#0b0c0f', // dark bg
-        },
-
-        'surface-2': { DEFAULT: '#ffffff', dark: '#121419' }, // slightly deeper than surface.dark
-
+        // surfaces, text, border, muted, brand... (keep yours)
+        surface: { DEFAULT: '#f6f7fb', dark: '#0b0c0f' },
+        'surface-2': { DEFAULT: '#ffffff', dark: '#121419' },
         white: '#ffffff',
-
-        // text
         text: {
-          DEFAULT: '#111827', // gray-900
-          dim: '#667085', // zinc-500-ish
-          dark: '#e5e7eb', // gray-200 for dark
-          dimDark: '#98a2b3', // zinc-400-ish
+          DEFAULT: '#111827',
+          dim: '#667085',
+          dark: '#e5e7eb',
+          dimDark: '#98a2b3',
         },
-
-        // borders / shadows
-        border: {
-          DEFAULT: '#e5e7eb',
-          dark: '#1f2937',
-        },
-
-        muted: {
-          DEFAULT: '#e9ecf3', // was too close to surface
-          dark: '#1f2937', // ~gray-800
-        },
-
-        // brand & states
+        border: { DEFAULT: '#e5e7eb', dark: '#1f2937' },
+        muted: { DEFAULT: '#e9ecf3', dark: '#1f2937' },
         primary: '#6C63FF',
         success: '#16a34a',
         warn: '#f59e0b',
         danger: '#ef4444',
         info: '#2563eb',
-      },
 
-      // 2) Map your spacing & radius to Tailwind scales
-      spacing: {
-        xs: '4px',
-        sm: '8px',
-        md: '12px',
-        lg: '16px',
-        xl: '20px',
+        // 👇 NEW: tokens for your “tag” pill (the blue you liked)
+        tag: {
+          DEFAULT: '#eef1ff', // light bg
+          dark: '#1b1f3a', // dark bg (navy/indigo)
+          text: '#6c6f7b', // light text
+          textDark: '#d1d5db', // dark text
+        },
+        control: {
+          DEFAULT: '#e2e8f0', // slate-200 — clearly darker than #f6f7fb
+          dark: '#1f2937', // keep dark the same as muted.dark
+        },
       },
-      borderRadius: {
-        sm: '8px',
-        md: '12px',
-        lg: '14px',
-        pill: '999px',
-      },
-
-      // 3) A reusable “card” shadow
-      boxShadow: {
-        card: '0 2px 10px 0 rgba(0,0,0,0.06)',
-      },
-
-      // (optional) monospace for MonoText on web
-      fontFamily: {
-        mono: ['Menlo', ...fontFamily.mono],
-      },
+      spacing: { xs: '4px', sm: '8px', md: '12px', lg: '16px', xl: '20px' },
+      borderRadius: { sm: '8px', md: '12px', lg: '14px', pill: '999px' },
+      boxShadow: { card: '0 2px 10px 0 rgba(0,0,0,0.06)' },
+      fontFamily: { mono: ['Menlo', ...fontFamily.mono] },
     },
   },
   plugins: [],

@@ -1,52 +1,78 @@
 // apps/mobile/src/app/(tabs)/HomeScreen.tsx
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRealtimeVoice } from '@features/voice/hooks/useRealtimeVoice';
-import { Avatar, MicButton, PulseDot } from '@ui';
+import { Screen } from '@ui/layout';
+import { Avatar, Button, Pill, PulseDot } from '@ui/primitives';
+import AudioGlow from '@ui/visuals/AudioGlow';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 export default function HomeScreen() {
-  const { start, stop, loading, connected, error } = useRealtimeVoice();
+  const { start, stop, loading, connected, error, level, speaking, bands } =
+    useRealtimeVoice();
   const { t } = useTranslation();
   const onMicPress = () => (connected ? stop() : start());
 
   return (
-    <ScrollView
-      className="flex-1 bg-surface dark:bg-surface-dark"
-      contentContainerStyle={{
-        minHeight: '100%',
-        padding: 32,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      keyboardShouldPersistTaps="handled"
-    >
-      {/* Avatar */}
-      <View className="items-center">
+    <Screen>
+      {/* Avatar + Glow */}
+      <View
+        style={{
+          position: 'relative',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <AudioGlow level={level} speaking={speaking} />
         <Avatar size={220} />
       </View>
 
       {/* Greeting */}
-      <Text className="text-[22px] font-medium text-text dark:text-text-dark text-center mb-6">
+      <Text className="mt-4 text-[22px] font-medium text-text dark:text-text-dark text-center">
         {t('home.greeting')}
       </Text>
 
-      {/* Mic button */}
-      <MicButton onPress={onMicPress} loading={loading} active={connected} />
-
-      {/* Status row */}
-      <View className="mt-3 flex-row items-center gap-2 bg-muted dark:bg-muted-dark px-3 py-1.5 rounded-full self-center">
-        <PulseDot on={connected} />
-        <Text className="text-[13px] font-semibold text-text dark:text-text-dark">
-          {loading
-            ? t('home.status.connecting')
-            : connected
-              ? t('home.status.live')
-              : t('home.status.tap')}
-        </Text>
+      {/* Mic (circle) */}
+      <View className="mt-8">
+        <Button
+          shape="circle"
+          size="md" // web => w-16 h-16 (4rem), native => 64px
+          tint={connected ? 'danger' : 'primary'}
+          icon={<MaterialIcons name="mic" size={32} color="#fff" />}
+          onPress={onMicPress}
+          helperText={
+            loading
+              ? t('mic.connecting')
+              : connected
+                ? t('mic.stop')
+                : t('mic.talk')
+          }
+        />
       </View>
+
+      {/* Status pill */}
+      <Pill
+        className="mt-4 self-center"
+        tone="neutral" // or "primary" to match your nav accent
+        variant="soft"
+        size="sm"
+        left={<PulseDot on={connected} />} // aligns properly in the row
+        text={
+          loading
+            ? 'Connecting…'
+            : connected
+              ? speaking
+                ? 'Speaking…'
+                : 'Live — you can speak'
+              : 'Tap to talk'
+        }
+      />
+
+      {/* Equalizer */}
+      {/* <EqualizerBars values={bands} /> */}
 
       {/* Error */}
       {error ? <Text className="text-red-600 mt-2">{error}</Text> : null}
-    </ScrollView>
+    </Screen>
   );
 }

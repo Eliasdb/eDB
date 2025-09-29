@@ -1,11 +1,11 @@
 // apps/mobile/src/lib/voice/realtimeClient.web.ts
+import { attachRemoteLevelMeter } from './audioLevel.web';
 import { makeMessageHandler } from './handlers';
 import { getToken, negotiate } from './signaling';
 import { createExecuteOnce } from './tools';
 import type { RealtimeConnections, RealtimeOptions } from './types';
 import { buildAuthHeaders, createAudioSink } from './utils';
 
-// ✅ add these:
 import {
   applyToolEffectToCache,
   invalidateHub,
@@ -45,6 +45,14 @@ export async function connectRealtime(
     el.play().catch(() => {});
   });
 
+  // 🔊 Attach remote level meter (extracted helper)
+  const detachMeter = attachRemoteLevelMeter(pc, {
+    onLevel: opts?.onLevel,
+    onSpeakingChanged: opts?.onSpeakingChanged,
+    threshold: 0.7, // tweak as desired
+    fftSize: 2048,
+  });
+
   // 6) On open: session tools
   dc.addEventListener('open', async () => {
     const meta = await fetch(`${apiBase}/realtime/tools`).then((r) => r.json());
@@ -57,33 +65,28 @@ export async function connectRealtime(
           tool_choice: 'auto',
           modalities: ['audio', 'text'],
           turn_detection: { type: 'server_vad' },
-          voice: 'sage', // cedar, ash, sage, verse, coral, ballad, marin
+          // voice: 'sage', // cedar, ash, sage, verse, coral, ballad, marin
         },
       }),
     );
   });
 
   // 7) Messages + tool execution
-  // apps/mobile/src/lib/voice/realtimeClient.web.ts
   const executeOnce = createExecuteOnce(apiBase, headers, dc, {
     onToolEffect: (name, args, result) => {
-      console.log('[voice] server tool effect', name, args, result);
       applyToolEffectToCache(name, args, result);
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
-      console.log('[voice] invalidate hub + logs');
       invalidateHub();
-      invalidateToolLogs(); // 👈 add this
+      invalidateToolLogs();
       opts?.onInvalidate?.();
     },
     bearer: opts?.bearer,
   });
 
-  // handler already fires an optimistic update at args.done (pre-server)
   const onMessage = makeMessageHandler(dc, executeOnce, {
     onToolEffect: (name, args) => {
-      console.log('[voice] optimistic tool effect', name, args);
       applyToolEffectToCache(name, args);
     },
   });
@@ -102,6 +105,9 @@ export async function connectRealtime(
     } catch {}
     try {
       pc.close();
+    } catch {}
+    try {
+      detachMeter();
     } catch {}
     stream.getTracks().forEach((tr) => tr.stop());
   };

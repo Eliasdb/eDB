@@ -1,5 +1,6 @@
 // apps/mobile/src/app/(features)/profile/personal-details.tsx
 import { Ionicons } from '@expo/vector-icons';
+import { PageContainer, TwoCol } from '@ui/layout/ResponsivePage';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,6 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { PageContainer, TwoCol } from '../../../lib/ui/ResponsivePage';
 
 export default function PersonalDetailsScreen() {
   const insets = useSafeAreaInsets();

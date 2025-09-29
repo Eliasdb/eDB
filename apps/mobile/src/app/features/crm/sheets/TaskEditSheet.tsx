@@ -1,17 +1,16 @@
 // apps/mobile/src/features/crm/components/TaskEditSheet.tsx
+import type { Task } from '@api/types';
 import { Ionicons } from '@expo/vector-icons';
-import { Pill } from '@ui';
-import DateField from '@ui/DateField'; // ✅ new reusable picker
-import Sheet from '@ui/Sheet';
+import { Pill, Sheet } from '@ui/primitives';
+import DateField from '@ui/widgets/DateField';
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
-import type { Task } from '../../../../lib/api/types';
 
 type Props = {
   visible: boolean;
   task: Task | null;
   onClose: () => void;
-  onSave: (patch: Partial<Task>) => void; // consumer handles id + mutate
+  onSave: (patch: Partial<Task>) => void;
   onDelete?: () => void;
 };
 
@@ -80,7 +79,7 @@ export default function TaskEditSheet({
 
         {!!due && (
           <View className="mt-2">
-            <Pill icon="time-outline" text={due} />
+            <Pill left="time-outline" text={due} />
           </View>
         )}
         {/* Actions */}

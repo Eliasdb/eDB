@@ -11,7 +11,7 @@ type SkeletonProps = {
   className?: string;
 };
 
-export default function Skeleton({
+export function Skeleton({
   width,
   height,
   radius = 6,

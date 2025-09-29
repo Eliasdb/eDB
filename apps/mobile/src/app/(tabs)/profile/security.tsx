@@ -1,10 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
+import { PageContainer, TwoCol } from '@ui/layout/ResponsivePage';
+import { Card } from '@ui/primitives/Card';
+import { Item, ItemSwitch, Section } from '@ui/primitives/primitives';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Card, Item, ItemSwitch, Section } from '../../../lib/ui/primitives';
-import { PageContainer, TwoCol } from '../../../lib/ui/ResponsivePage';
 
 export default function SecurityScreen() {
   const insets = useSafeAreaInsets();

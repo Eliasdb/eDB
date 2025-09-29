@@ -1,4 +1,3 @@
-// apps/mobile/src/app/_layout.tsx
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -7,13 +6,13 @@ import { I18nextProvider } from 'react-i18next';
 import { AppState, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 
-import '../../global.css';
-import { getQueryClient } from '../lib/api/queryClient';
-import { initI18n } from '../lib/i18n'; // <- from the i18n setup we created
 import {
   ThemePreferenceProvider,
   useThemePreference,
-} from '../lib/ui/themePreference';
+} from '@ui/providers/themePreference';
+import '../../global.css';
+import { getQueryClient } from '../lib/api/queryClient';
+import { initI18n } from '../lib/i18n';
 
 const queryClient = getQueryClient();
 
