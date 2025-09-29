@@ -88,7 +88,7 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           <MenuOption onSelect={() => router.push('/profile')}>
             <Row icon="person-outline" label={t('menu.profile', 'Profile')} />
           </MenuOption>
-          <MenuOption onSelect={() => router.push('/help')}>
+          <MenuOption onSelect={() => router.push('/(support)/help')}>
             <Row icon="help-circle-outline" label={t('menu.help', 'Help')} />
           </MenuOption>
           <MenuOption onSelect={() => router.replace('/(tabs)/index')}>

@@ -5,33 +5,28 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-iframe-wrapper',
   template: `
-    <div class="clara-fill">
-      <iframe
-        class="clara-frame"
-        [src]="src"
-        allow="microphone; autoplay"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-      ></iframe>
-    </div>
+    <iframe
+      class="clara-frame"
+      [src]="src"
+      allow="microphone; autoplay"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
   `,
   styles: [
     `
       :host {
         display: block;
         height: 100%;
-      }
-
-      .clara-fill {
-        position: absolute;
-        inset: 5rem 0 0 0; /* top offset for header */
+        width: 100%;
       }
 
       .clara-frame {
-        position: absolute;
-        inset: 0;
+        position: fixed; /* take over the whole viewport */
+        inset: 0; /* top, right, bottom, left = 0 */
         width: 100%;
         height: 100%;
-        border: 0;
+        border: none;
+        z-index: 9999; /* make sure it sits above platform header */
       }
     `,
   ],
