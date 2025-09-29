@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 export function PageContainer({
@@ -6,7 +6,7 @@ export function PageContainer({
   maxWidth = 1100,
   paddingH = 16,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   maxWidth?: number;
   paddingH?: number;
 }) {
@@ -25,26 +25,27 @@ export function PageContainer({
 }
 
 /**
- * Responsive 2-column container. On wide screens it renders side-by-side,
- * on mobile it renders stacked.
+ * Responsive 2-column container.
+ * First child goes left, second child goes right.
  */
 export function TwoCol({
-  left,
-  right,
+  children,
   gap = 8,
   breakpoint = 1024,
   leftWidth = 0.5,
   rightWidth = 0.5,
 }: {
-  left: React.ReactNode;
-  right: React.ReactNode;
+  children: ReactNode[];
   gap?: number;
   breakpoint?: number;
-  leftWidth?: number; // fraction (0–1)
-  rightWidth?: number; // fraction (0–1)
+  leftWidth?: number;
+  rightWidth?: number;
 }) {
   const { width } = useWindowDimensions();
   const isWide = width >= breakpoint;
+
+  // Ensure children is always an array
+  const [left, right] = React.Children.toArray(children);
 
   if (!isWide) {
     return (
@@ -58,7 +59,11 @@ export function TwoCol({
 
   return (
     <View
-      style={{ flexDirection: 'row', marginHorizontal: -gap / 2, marginTop: 8 }}
+      style={{
+        flexDirection: 'row',
+        marginHorizontal: -gap / 2,
+        marginTop: 8,
+      }}
     >
       <View
         style={{ width: `${leftWidth * 100}%`, paddingHorizontal: gap / 2 }}

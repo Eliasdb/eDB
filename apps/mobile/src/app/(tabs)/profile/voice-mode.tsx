@@ -1,5 +1,6 @@
 // apps/mobile/src/app/(features)/profile/voice-mode.tsx
 import { Ionicons } from '@expo/vector-icons';
+import { Subheader } from '@ui/navigation/Subheader';
 import { Card } from '@ui/primitives/Card';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
@@ -70,24 +71,8 @@ export default function VoiceModeScreen() {
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      {/* Custom header with back arrow */}
-      <View style={{ paddingTop: insets.top }}>
-        <View className="h-14 flex-row items-center justify-between px-3 border-b border-border dark:border-border-dark bg-surface dark:bg-surface-dark">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="h-11 min-w-11 items-center justify-center"
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Ionicons name="chevron-back" size={24} color="#6B7280" />
-          </TouchableOpacity>
-
-          <Text className="text-lg font-bold text-text dark:text-text-dark">
-            Voice mode
-          </Text>
-
-          <View className="h-11 min-w-11" />
-        </View>
-      </View>
+      {/* Reusable subheader */}
+      <Subheader title="Voice mode" onBack={() => router.back()} />
 
       <ScrollView
         contentContainerStyle={{
