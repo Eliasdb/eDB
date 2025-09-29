@@ -1,5 +1,9 @@
+// @ui/primitives/Card.tsx
 import React from 'react';
 import { Text, View, ViewProps } from 'react-native';
+
+type Tone = 'raised' | 'flat' | 'muted';
+type Radius = 'all' | 'top-none' | 'bottom-none' | 'none';
 
 type CardProps = ViewProps & {
   /** Title shown in a header row (optional) */
@@ -8,8 +12,28 @@ type CardProps = ViewProps & {
   subtitle?: string;
   /** Right side of the header row (optional) */
   headerRight?: React.ReactNode;
-  /** Add inner padding. Defaults to true. */
+
+  /** Adds inner padding around the body. Default: true */
   inset?: boolean;
+
+  /** Visual tone of the surface. Default: 'raised' */
+  tone?: Tone;
+
+  /** Show a border around the card. Default: true */
+  bordered?: boolean;
+
+  /** Keep subtle shadow on dark theme when tone='raised'. Default: true */
+  shadowOnDark?: boolean;
+
+  /**
+   * Corner radius preset.
+   * - 'all'         -> rounded on all corners (default)
+   * - 'top-none'    -> sharp top, rounded bottom (great for list panes)
+   * - 'bottom-none' -> rounded top, sharp bottom
+   * - 'none'        -> no rounding
+   */
+  radius?: Radius;
+
   /** Extra classNames for the outer and inner wrappers */
   className?: string;
   bodyClassName?: string;
@@ -20,17 +44,52 @@ export function Card({
   subtitle,
   headerRight,
   inset = true,
+  tone = 'raised',
+  bordered = true,
+  shadowOnDark = true,
+  radius = 'all',
   className,
   bodyClassName,
   style,
   children,
   ...rest
 }: CardProps) {
+  // ----- tone -----
+  const toneClasses =
+    tone === 'raised'
+      ? 'bg-surface-2 dark:bg-surface-dark'
+      : tone === 'flat'
+        ? 'bg-surface dark:bg-surface-dark'
+        : 'bg-muted/60 dark:bg-muted-dark/60';
+
+  // ----- border -----
+  const borderClasses = bordered
+    ? 'border border-border dark:border-border-dark'
+    : 'border-0';
+
+  // ----- shadow -----
+  const shadowClasses =
+    tone === 'raised'
+      ? shadowOnDark
+        ? 'shadow-none dark:shadow-card'
+        : 'shadow-none'
+      : 'shadow-none';
+
+  // ----- radius -----
+  const radiusClasses =
+    radius === 'all'
+      ? 'rounded-2xl'
+      : radius === 'top-none'
+        ? 'rounded-b-2xl rounded-t-none'
+        : radius === 'bottom-none'
+          ? 'rounded-t-2xl rounded-b-none'
+          : 'rounded-none';
+
   const outer = [
-    'rounded-2xl',
-    'bg-surface-2 dark:bg-surface-dark',
-    'border border-border dark:border-border-dark',
-    'shadow-none dark:shadow-card',
+    radiusClasses,
+    toneClasses,
+    borderClasses,
+    shadowClasses,
     className || '',
   ]
     .filter(Boolean)
@@ -72,3 +131,5 @@ export function Card({
     </View>
   );
 }
+
+export default Card;

@@ -110,12 +110,16 @@ export default function CRMTabs({
               </Text>
             </Card>
           ) : null}
-
           {/* Tasks */}
           {tab === 'tasks' && (
-            <Card inset className="gap-1.5">
+            <Card
+              tone="flat"
+              bordered={false}
+              inset={false}
+              radius="top-none"
+              className="overflow-hidden"
+            >
               <AddTaskInline onAdd={onAddTask} isSaving={addingTask} />
-
               {isLoading ? (
                 <ListSkeleton
                   rows={3}
@@ -140,10 +144,9 @@ export default function CRMTabs({
               )}
             </Card>
           )}
-
           {/* Contacts */}
           {tab === 'contacts' && (
-            <Card inset className="gap-1.5">
+            <Card tone="flat" inset={false} bodyClassName="gap-1.5">
               {isLoading ? (
                 <ListSkeleton
                   rows={3}
@@ -163,10 +166,9 @@ export default function CRMTabs({
               )}
             </Card>
           )}
-
           {/* Companies */}
           {tab === 'companies' && (
-            <Card inset className="gap-1.5">
+            <Card tone="flat" inset={false} bodyClassName="gap-1.5">
               {isLoading ? (
                 <ListSkeleton
                   rows={3}
