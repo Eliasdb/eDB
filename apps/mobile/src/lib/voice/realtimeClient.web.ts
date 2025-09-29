@@ -57,6 +57,7 @@ export async function connectRealtime(
           tool_choice: 'auto',
           modalities: ['audio', 'text'],
           turn_detection: { type: 'server_vad' },
+          voice: 'sage', // cedar, ash, sage, verse, coral, ballad, marin
         },
       }),
     );
