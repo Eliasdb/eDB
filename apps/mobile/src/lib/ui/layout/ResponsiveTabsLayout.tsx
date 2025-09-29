@@ -1,5 +1,6 @@
 import React from 'react';
-import { Pressable, Text, useWindowDimensions, View } from 'react-native';
+import { Text, useWindowDimensions, View } from 'react-native';
+import TabItem from '../primitives/TabItem';
 
 export type TabKey = string;
 export type TabDef<K extends TabKey> = { key: K; label: string };
@@ -44,7 +45,6 @@ export default function ResponsiveTabsLayout<K extends TabKey>({
         ) : (
           <TopTabs tabs={tabs} value={value} onChange={onChange} />
         )}
-
         <View style={{ flex: 1 }}>{children}</View>
       </View>
     </View>
@@ -74,38 +74,15 @@ function Sidebar<K extends TabKey>({
         </Text>
       ) : null}
 
-      {tabs.map((t) => {
-        const active = t.key === value;
-        return (
-          <Pressable
-            key={t.key}
-            onPress={() => onChange(t.key)}
-            className={`mx-2 my-1 rounded-xl overflow-hidden ${
-              active ? 'bg-muted dark:bg-muted-dark' : ''
-            }`}
-            style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
-          >
-            <View className="flex-row items-center">
-              <View
-                className={`w-1 self-stretch ${
-                  active ? 'bg-primary' : 'bg-transparent'
-                }`}
-              />
-              <View className="flex-1 px-3 py-2.5">
-                <Text
-                  className={`text-[15px] font-semibold ${
-                    active
-                      ? 'text-text dark:text-text-dark'
-                      : 'text-text-dim dark:text-text-dimDark'
-                  }`}
-                >
-                  {t.label}
-                </Text>
-              </View>
-            </View>
-          </Pressable>
-        );
-      })}
+      {tabs.map((t) => (
+        <TabItem
+          key={t.key}
+          label={t.label}
+          active={t.key === value}
+          onPress={() => onChange(t.key)}
+          variant="sidebar"
+        />
+      ))}
 
       {footer ? (
         <View className="mt-auto px-4 py-4 opacity-80">{footer}</View>
@@ -129,29 +106,15 @@ function TopTabs<K extends TabKey>({
       style={{ flexShrink: 0 }}
     >
       <View className="flex-row items-center bg-muted/70 dark:bg-muted-dark/70 rounded-xl p-1">
-        {tabs.map((t) => {
-          const active = t.key === value;
-          return (
-            <Pressable
-              key={t.key}
-              onPress={() => onChange(t.key)}
-              className={`flex-1 items-center py-2 rounded-lg ${
-                active ? 'bg-white dark:bg-surface-dark shadow-card' : ''
-              }`}
-              style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
-            >
-              <Text
-                className={`text-[14px] font-semibold ${
-                  active
-                    ? 'text-text dark:text-text-dark'
-                    : 'text-text-dim dark:text-text-dimDark'
-                }`}
-              >
-                {t.label}
-              </Text>
-            </Pressable>
-          );
-        })}
+        {tabs.map((t) => (
+          <TabItem
+            key={t.key}
+            label={t.label}
+            active={t.key === value}
+            onPress={() => onChange(t.key)}
+            variant="top"
+          />
+        ))}
       </View>
     </View>
   );

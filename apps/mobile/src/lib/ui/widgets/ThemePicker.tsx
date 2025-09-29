@@ -1,8 +1,8 @@
 // apps/mobile/src/lib/ui/ThemePicker.tsx
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Icon } from './primitives';
-import { useThemePreference } from './themePreference';
+import { Icon } from '../primitives/Icon';
+import { useThemePreference } from '../providers';
 
 type ThemeOption = 'system' | 'light' | 'dark';
 const OPTIONS: ThemeOption[] = ['system', 'light', 'dark'];

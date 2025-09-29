@@ -1,10 +1,15 @@
-// apps/mobile/src/app/(tabs)/_layout.tsx
-import { Ionicons } from '@expo/vector-icons';
-import { AppHeader } from '@ui';
-import CustomTabBar from '@ui/CustomTabBar';
-import { useThemePreference } from '@ui/themePreference';
-import { Tabs } from 'expo-router';
+// i18n
 import { useTranslation } from 'react-i18next';
+
+// Icons
+import { Ionicons } from '@expo/vector-icons';
+
+// UI
+import { AppHeader } from '@ui/layout';
+import { NavigationTabBar } from '@ui/navigation';
+import { useThemePreference } from '@ui/providers';
+
+import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
   const { effective } = useThemePreference();
@@ -18,18 +23,17 @@ export default function TabsLayout() {
 
   return (
     <Tabs
-      // 👇 put it here, not in screenOptions
-      tabBar={(props) => <CustomTabBar {...props} />}
+      tabBar={(props) => <NavigationTabBar {...props} />}
       screenOptions={{
         header: ({ options }) => (
           <AppHeader title={(options.title as string) ?? ''} />
         ),
+        // These tints are read by the adapter for active/inactive colors
         tabBarActiveTintColor: primary,
         tabBarInactiveTintColor: inactive,
         tabBarStyle: {
           backgroundColor: bg,
           borderTopColor: border,
-          // don’t hide with height: 0; we’re replacing it via tabBar prop
         },
       }}
     >
@@ -46,6 +50,7 @@ export default function TabsLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="crm"
         options={{
@@ -77,6 +82,7 @@ export default function TabsLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="admin"
         options={{

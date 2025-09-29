@@ -1,5 +1,5 @@
 // apps/mobile/src/features/crm/skeletons/ItemSkeletons.tsx
-import Skeleton from '@ui/Skeleton';
+import { Skeleton } from '@ui/primitives';
 import React from 'react';
 import { View } from 'react-native';
 

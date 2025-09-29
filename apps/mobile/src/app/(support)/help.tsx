@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Card } from '@ui/primitives/Card';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -11,7 +12,6 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Card } from '../../lib/ui/primitives';
 
 export default function HelpScreen() {
   const insets = useSafeAreaInsets();

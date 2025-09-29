@@ -2,7 +2,7 @@
 import AdminLogList from '@features/admin/components/AdminLogList';
 import ClaraCapabilities from '@features/admin/components/ClaraCapabilities';
 import { useToolLogs } from '@features/admin/hooks/useToolLogs';
-import ResponsiveTabsLayout from '@ui/ResponsiveTabsLayout';
+import ResponsiveTabsLayout from '@ui/layout/ResponsiveTabsLayout';
 import { useMemo, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import { entryToVM } from '../../lib/viewmodels/toolLogs';

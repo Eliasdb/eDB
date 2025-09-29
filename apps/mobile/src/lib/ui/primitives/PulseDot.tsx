@@ -8,11 +8,7 @@ type Props = {
   color?: string; // pass tokens like your success hex, e.g. '#10B981'
 };
 
-export default function PulseDot({
-  on = false,
-  size = 10,
-  color = '#10B981',
-}: Props) {
+export function PulseDot({ on = false, size = 10, color = '#10B981' }: Props) {
   const scale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(1)).current;
 

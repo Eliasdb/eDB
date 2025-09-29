@@ -1,6 +1,7 @@
 // apps/mobile/src/app/(features)/admin/logs/ClaraCapabilities.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Badge, Card } from '@ui';
+import { Card } from '@ui/primitives/Card';
+import { Badge } from '@ui/primitives/primitives';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,

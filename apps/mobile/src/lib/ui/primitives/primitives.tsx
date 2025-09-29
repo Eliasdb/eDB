@@ -9,7 +9,8 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import { cn } from './cn';
+import { cn } from '../utils/cn';
+import { Card } from './Card';
 
 // Theme-aware icon wrapper
 export function Icon({
@@ -25,20 +26,6 @@ export function Icon({
     <Text className={className}>
       <Ionicons name={name} size={size} />
     </Text>
-  );
-}
-
-export function Card(props: ViewProps & { inset?: boolean }) {
-  const { style, inset, ...rest } = props;
-  return (
-    <View
-      className={cn(
-        'bg-white dark:bg-surface-dark rounded-lg shadow-card',
-        inset ? 'p-md' : 'p-0',
-      )}
-      style={style}
-      {...rest}
-    />
   );
 }
 
@@ -247,168 +234,12 @@ export function ItemSwitch({
   );
 }
 
-export function PrimaryButton({
-  label,
-  icon,
-  onPress,
-}: {
-  label: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  onPress: () => void;
-}) {
+export function EmptyLine({ text }: { text: string }) {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.8}
-      className="flex-row items-center gap-xs bg-primary rounded-pill h-[44px] px-md"
-    >
-      <Icon name={icon} size={18} className="text-white" />
-      <Text className="text-white font-semibold text-[15px]">{label}</Text>
-    </TouchableOpacity>
-  );
-}
-
-export function Pill({
-  icon,
-  text,
-  muted,
-}: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  text: string;
-  muted?: boolean;
-}) {
-  return (
-    <View
-      className={cn(
-        'flex-row items-center gap-1 px-2 py-1 rounded-xl bg-[#eef1ff] dark:bg-[#1b1f3a]',
-        muted && 'bg-gray-100 dark:bg-gray-800',
-      )}
-    >
-      <Icon
-        name={icon}
-        size={12}
-        className="text-[#6c6f7b] dark:text-gray-300"
-      />
-      <Text className="text-[12px] text-[#6c6f7b] dark:text-gray-300">
+    <View className="min-h-[56px] justify-center py-3 px-4">
+      <Text className="text-[15px] text-text-dim dark:text-text-dimDark">
         {text}
       </Text>
-    </View>
-  );
-}
-
-/* ---------- NEW: shared CRM bits ---------- */
-
-export function IconButton({
-  icon,
-  onPress,
-  tint = '#6C63FF',
-  className,
-}: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  onPress?: () => void;
-  tint?: string;
-  className?: string;
-}) {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.7}
-      className={cn(
-        'w-9 h-9 rounded-full items-center justify-center bg-muted dark:bg-muted-dark',
-        className,
-      )}
-    >
-      <Ionicons name={icon} size={18} color={tint} />
-    </TouchableOpacity>
-  );
-}
-
-export function AvatarCircle({
-  size = 36,
-  text,
-}: {
-  size?: number;
-  text: string;
-}) {
-  return (
-    <View
-      className="items-center justify-center bg-muted dark:bg-muted-dark rounded-full"
-      style={{ width: size, height: size }}
-    >
-      <Text className="font-bold text-[13px] text-text dark:text-text-dark">
-        {text}
-      </Text>
-    </View>
-  );
-}
-
-export function SectionHeader({
-  title,
-  right,
-}: {
-  title: string;
-  right?: React.ReactNode;
-}) {
-  return (
-    <View className="mt-lg mb-[8px] px-[2px] flex-row items-center justify-between">
-      <Text className="text-[14px] text-text-dim dark:text-text-dimDark font-semibold uppercase tracking-[0.6px]">
-        {title}
-      </Text>
-      {right}
-    </View>
-  );
-}
-
-export function ListCard({ children }: { children: React.ReactNode }) {
-  return (
-    <View className="bg-white dark:bg-surface-dark rounded-2xl shadow-card p-[12px]">
-      {children}
-    </View>
-  );
-}
-
-export function ListContainer({ children }: { children: React.ReactNode }) {
-  return (
-    <View className="bg-white dark:bg-surface-dark rounded-2xl shadow-card p-[10px]">
-      <View className="rounded-xl border border-border dark:border-border-dark bg-muted/30 dark:bg-muted-dark/30 p-[8px]">
-        {children}
-      </View>
-    </View>
-  );
-}
-
-export function ListItem({
-  left,
-  title,
-  meta,
-  right,
-  showTopDivider,
-}: {
-  left?: React.ReactNode;
-  title: React.ReactNode;
-  meta?: React.ReactNode;
-  right?: React.ReactNode;
-  showTopDivider?: boolean;
-}) {
-  return (
-    <View>
-      {showTopDivider && (
-        <View className="h-px bg-border dark:bg-border-dark mx-[8px]" />
-      )}
-      <View className="flex-row items-center gap-3 px-[8px] py-[10px]">
-        {left ? <View className="w-[40px] items-center">{left}</View> : null}
-        <View className="flex-1">
-          {typeof title === 'string' ? (
-            <Text className="text-[16px] text-text dark:text-text-dark">
-              {title}
-            </Text>
-          ) : (
-            title
-          )}
-          {meta ? <View className="mt-1.5">{meta}</View> : null}
-        </View>
-        {right}
-      </View>
     </View>
   );
 }

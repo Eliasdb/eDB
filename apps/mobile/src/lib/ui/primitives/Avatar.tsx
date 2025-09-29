@@ -5,7 +5,7 @@ type AvatarProps = {
   size?: number; // optional, default to 160
 };
 
-export default function Avatar({ size = 160 }: AvatarProps) {
+export function Avatar({ size = 160 }: AvatarProps) {
   return (
     <View
       className="items-center justify-center"
