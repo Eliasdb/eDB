@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { PageContainer, TwoCol } from '../../../lib/ui/ResponsivePage';
 
 export default function PersonalDetailsScreen() {
   const insets = useSafeAreaInsets();
@@ -28,9 +29,7 @@ export default function PersonalDetailsScreen() {
   const [role, setRole] = useState('Founder');
   const [notes, setNotes] = useState('');
 
-  const onSave = () => {
-    router.back();
-  };
+  const onSave = () => router.back();
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
@@ -69,80 +68,100 @@ export default function PersonalDetailsScreen() {
         <ScrollView
           className="flex-1"
           contentContainerStyle={{
-            padding: 16,
+            paddingTop: 16,
             paddingBottom: 24 + insets.bottom,
+            alignItems: 'center', // center the PageContainer on wide screens
           }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* Identity */}
-          <Card title={t('personal.sections.identity')}>
-            <Field label={t('personal.fields.firstName')}>
-              <Input
-                value={firstName}
-                onChangeText={setFirstName}
-                placeholder={t('personal.placeholders.firstName')}
-              />
-            </Field>
-            <Field label={t('personal.fields.lastName')}>
-              <Input
-                value={lastName}
-                onChangeText={setLastName}
-                placeholder={t('personal.placeholders.lastName')}
-              />
-            </Field>
-            <Field label={t('personal.fields.email')}>
-              <Input
-                value={email}
-                onChangeText={setEmail}
-                placeholder={t('personal.placeholders.email')}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </Field>
-            <Field label={t('personal.fields.phone')}>
-              <Input
-                value={phone}
-                onChangeText={setPhone}
-                placeholder={t('personal.placeholders.phone')}
-                keyboardType="phone-pad"
-              />
-            </Field>
-          </Card>
+          <PageContainer>
+            {/* Two-column on desktop, stacked on mobile */}
+            <TwoCol
+              gap={16}
+              breakpoint={1024}
+              left={
+                <View>
+                  {/* Identity */}
+                  <Card title={t('personal.sections.identity')}>
+                    <Field label={t('personal.fields.firstName')}>
+                      <Input
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        placeholder={t('personal.placeholders.firstName')}
+                      />
+                    </Field>
+                    <Field label={t('personal.fields.lastName')}>
+                      <Input
+                        value={lastName}
+                        onChangeText={setLastName}
+                        placeholder={t('personal.placeholders.lastName')}
+                      />
+                    </Field>
+                    <Field label={t('personal.fields.email')}>
+                      <Input
+                        value={email}
+                        onChangeText={setEmail}
+                        placeholder={t('personal.placeholders.email')}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                      />
+                    </Field>
+                    <Field label={t('personal.fields.phone')}>
+                      <Input
+                        value={phone}
+                        onChangeText={setPhone}
+                        placeholder={t('personal.placeholders.phone')}
+                        keyboardType="phone-pad"
+                      />
+                    </Field>
+                  </Card>
 
-          {/* Work */}
-          <Card title={t('personal.sections.work')}>
-            <Field label={t('personal.fields.company')}>
-              <Input
-                value={company}
-                onChangeText={setCompany}
-                placeholder={t('personal.placeholders.company')}
-              />
-            </Field>
-            <Field label={t('personal.fields.role')}>
-              <Input
-                value={role}
-                onChangeText={setRole}
-                placeholder={t('personal.placeholders.role')}
-              />
-            </Field>
-          </Card>
-
-          {/* Notes */}
-          <Card title={t('personal.sections.notes')}>
-            <View className="gap-1.5">
-              <Text className="text-[14px] font-semibold text-text-dim dark:text-text-dimDark">
-                {t('personal.fields.privateNotes')}
-              </Text>
-              <TextInput
-                value={notes}
-                onChangeText={setNotes}
-                placeholder={t('personal.placeholders.notes')}
-                multiline
-                className="bg-muted dark:bg-muted-dark rounded-lg px-3 py-3 text-[16px] text-text dark:text-text-dark border border-border dark:border-border-dark h-[120px] text-top"
-              />
-            </View>
-          </Card>
+                  {/* Work */}
+                  <Card title={t('personal.sections.work')}>
+                    <Field label={t('personal.fields.company')}>
+                      <Input
+                        value={company}
+                        onChangeText={setCompany}
+                        placeholder={t('personal.placeholders.company')}
+                      />
+                    </Field>
+                    <Field label={t('personal.fields.role')}>
+                      <Input
+                        value={role}
+                        onChangeText={setRole}
+                        placeholder={t('personal.placeholders.role')}
+                      />
+                    </Field>
+                  </Card>
+                </View>
+              }
+              right={
+                <View>
+                  {/* Notes */}
+                  <Card title={t('personal.sections.notes')}>
+                    <View className="gap-1.5">
+                      <Text className="text-[14px] font-semibold text-text-dim dark:text-text-dimDark">
+                        {t('personal.fields.privateNotes')}
+                      </Text>
+                      <TextInput
+                        value={notes}
+                        onChangeText={setNotes}
+                        placeholder={t('personal.placeholders.notes')}
+                        multiline
+                        className="
+                          bg-muted dark:bg-muted-dark rounded-xl px-3 py-3 text-[16px]
+                          text-text dark:text-text-dark border border-border dark:border-border-dark
+                          h-[220px] text-top
+                        "
+                        placeholderTextColor="#98a2b3"
+                      />
+                    </View>
+                  </Card>
+                </View>
+              }
+            />
+          </PageContainer>
 
           <View className="h-16" />
         </ScrollView>
@@ -153,7 +172,7 @@ export default function PersonalDetailsScreen() {
           style={{ paddingBottom: Math.max(10, insets.bottom) }}
         >
           <TouchableOpacity
-            className="h-11 rounded-lg bg-primary flex-row items-center justify-center gap-2"
+            className="h-11 rounded-pill bg-primary flex-row items-center justify-center gap-2 active:opacity-95"
             onPress={onSave}
           >
             <Ionicons name="save-outline" size={18} color="#fff" />
@@ -177,8 +196,16 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <View className="bg-surface dark:bg-surface-dark rounded-lg p-3 mb-4 shadow-sm">
-      <Text className="text-[16px] font-bold text-text dark:text-text-dark mb-2.5">
+    <View
+      className="
+        rounded-2xl mb-4
+        bg-surface-2 dark:bg-surface-dark
+        border border-border dark:border-border-dark
+        shadow-none dark:shadow-card
+        px-4 py-4
+      "
+    >
+      <Text className="text-[16px] font-extrabold text-text dark:text-text-dark mb-3">
         {title}
       </Text>
       <View className="gap-3.5">{children}</View>
@@ -207,12 +234,13 @@ function Input(props: React.ComponentProps<typeof TextInput>) {
   return (
     <TextInput
       {...props}
-      className={`
+      className="
         bg-muted dark:bg-muted-dark
-        rounded-lg px-3 py-3 text-[16px]
+        rounded-xl px-3 py-3 text-[16px]
         text-text dark:text-text-dark
         border border-border dark:border-border-dark
-      `}
+      "
+      placeholderTextColor="#98a2b3"
     />
   );
 }

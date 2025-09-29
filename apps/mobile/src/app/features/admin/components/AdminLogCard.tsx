@@ -13,7 +13,7 @@ export default function AdminLogCard({ vm }: { vm: LogVM }) {
   const [tab, setTab] = useState<Tab>('summary');
 
   return (
-    <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark px-4 py-3">
+    <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark px-3 py-3">
       {/* Header row */}
       <Row center style={{ justifyContent: 'space-between' }}>
         <View className="flex-row items-center gap-2 shrink">
