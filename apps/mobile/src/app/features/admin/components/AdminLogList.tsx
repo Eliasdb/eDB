@@ -1,9 +1,13 @@
 // apps/mobile/src/app/(features)/admin/logs/AdminLogList.tsx
+import { Segmented } from '@ui';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 import AdminLogCard from './AdminLogCard';
-import ClaraCapabilities from './ClaraCapabilities';
+import AdminLogTerminal from './AdminLogTerminal';
+
+type ViewMode = 'cards' | 'terminal';
 
 export default function AdminLogList({
   items,
@@ -15,6 +19,46 @@ export default function AdminLogList({
   onRefresh: () => void;
 }) {
   const { t } = useTranslation();
+  const [mode, setMode] = useState<ViewMode>('cards');
+
+  const Header = useMemo(
+    () => (
+      <View className="px-4 pt-5 pb-3">
+        <View className="flex-row items-center justify-between">
+          <Text className="text-[18px] font-extrabold text-text dark:text-text-dark">
+            Activity logs
+          </Text>
+          <Segmented<ViewMode>
+            value={mode}
+            onChange={setMode}
+            options={[
+              { value: 'cards', label: 'Cards' },
+              { value: 'terminal', label: 'Terminal' },
+            ]}
+          />
+        </View>
+        <Text className="mt-1 text-[13px] leading-5 text-text-dim dark:text-text-dimDark">
+          Review the actions Clara has taken: creations, updates, deletions and
+          snapshots. Switch to the terminal view for a compact, columnar list.
+        </Text>
+      </View>
+    ),
+    [mode],
+  );
+
+  if (mode === 'terminal') {
+    return (
+      <View className="flex-1 bg-surface dark:bg-surface-dark">
+        {Header}
+        <AdminLogTerminal
+          items={items}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          emptyText={t('admin.logs.empty')}
+        />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
@@ -24,23 +68,7 @@ export default function AdminLogList({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        // 👇 Header: capabilities + intro for logs
-        ListHeaderComponent={
-          <View className="px-4 pt-5 pb-3">
-            <ClaraCapabilities />
-
-            <View className="mt-6">
-              <Text className="text-[18px] font-extrabold text-text dark:text-text-dark">
-                Activity logs
-              </Text>
-              <Text className="mt-1 text-[13px] leading-5 text-text-dim dark:text-text-dimDark">
-                Here you can review the actions Clara has taken — including task
-                creation, updates, deletions, and snapshots. Each entry shows
-                the tool used, duration, and any returned results.
-              </Text>
-            </View>
-          </View>
-        }
+        ListHeaderComponent={Header}
         ListHeaderComponentStyle={{ marginBottom: 12 }}
         ItemSeparatorComponent={() => <View className="h-3" />}
         renderItem={({ item }) => <AdminLogCard vm={item} />}
