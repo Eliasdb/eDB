@@ -14,6 +14,7 @@ import realtimeExecRoutes from '../routes/realtime-exec';
 import realtimeToolsRoutes from '../routes/realtime-tools'; // 👈 add this
 import rootRoutes from '../routes/root';
 import toolLogsRoutes from '../routes/tool-logs'; // ✅ correct import
+import hubspotPlugin from './plugins/hubspot';
 
 export async function buildApp() {
   const app = Fastify({ logger: true });
@@ -29,6 +30,7 @@ export async function buildApp() {
 
   await app.register(authPlugin);
   await app.register(openAIPlugin);
+  await app.register(hubspotPlugin);
 
   // Base
   await app.register(rootRoutes, { prefix: '/' });
