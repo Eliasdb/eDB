@@ -8,6 +8,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 
 export default function AdminLogTerminal({

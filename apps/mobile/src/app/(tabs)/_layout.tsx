@@ -28,7 +28,6 @@ export default function TabsLayout() {
         header: ({ options }) => (
           <AppHeader title={(options.title as string) ?? ''} />
         ),
-        // These tints are read by the adapter for active/inactive colors
         tabBarActiveTintColor: primary,
         tabBarInactiveTintColor: inactive,
         tabBarStyle: {

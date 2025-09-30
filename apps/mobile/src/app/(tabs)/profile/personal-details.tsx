@@ -1,9 +1,4 @@
-// apps/mobile/src/app/(features)/profile/personal-details.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { PageContainer, TwoCol } from '@ui/layout/ResponsivePage';
-import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,7 +9,12 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Subheader, TextAction } from '@ui/navigation/Subheader';
+import { useRouter } from 'expo-router';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { PageContainer, TwoCol } from '@ui/layout';
+import { Subheader, TextAction } from '@ui/navigation';
 import { Card, Field, Input } from '@ui/primitives';
 
 import { makeLeftCards } from '@features/profile/config';

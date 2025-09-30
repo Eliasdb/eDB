@@ -1,6 +1,5 @@
-// apps/mobile/src/lib/api/chat.ts
-import { api } from './client';
-import { ChatResponse, ChatTurn } from './types';
+import { api } from '../core/client';
+import type { ChatResponse, ChatTurn } from '../core/types';
 
 export async function sendChat(turns: ChatTurn[]): Promise<ChatResponse> {
   return api<ChatResponse>('/chat', {

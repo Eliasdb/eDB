@@ -1,9 +1,4 @@
-// apps/mobile/src/app/(features)/profile/voice-mode.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Subheader } from '@ui/navigation/Subheader';
-import { Card } from '@ui/primitives/Card';
-import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -13,6 +8,12 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { useRouter } from 'expo-router';
+import { useMemo, useState } from 'react';
+
+import { Subheader } from '@ui/navigation';
+import { Card } from '@ui/primitives';
 
 type VoiceKey = 'sofia' | 'daniel' | 'ava' | 'liam';
 

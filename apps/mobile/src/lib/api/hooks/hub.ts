@@ -1,13 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createTask, deleteTask, fetchHub, patchTask } from './hub';
-import type { HubPayload, Task } from './types';
-
-export const hubKeys = {
-  all: ['hub'] as const,
-  tasks: () => [...hubKeys.all, 'tasks'] as const,
-  contacts: () => [...hubKeys.all, 'contacts'] as const,
-  companies: () => [...hubKeys.all, 'companies'] as const,
-};
+import { hubKeys } from '../core/keys';
+import type { HubPayload, Task } from '../core/types';
+import { createTask, deleteTask, fetchHub, patchTask } from '../services/hub';
 
 export function useHub() {
   return useQuery({
@@ -17,8 +11,6 @@ export function useHub() {
   });
 }
 
-// --- Mutations with optimistic updates against the 'hub' snapshot
-
 export function useToggleTask() {
   const qc = useQueryClient();
   return useMutation({
@@ -27,15 +19,13 @@ export function useToggleTask() {
     onMutate: async ({ id, next }) => {
       await qc.cancelQueries({ queryKey: hubKeys.all });
       const prev = qc.getQueryData<HubPayload>(hubKeys.all);
-
       if (prev) {
-        const nextHub: HubPayload = {
+        qc.setQueryData(hubKeys.all, {
           ...prev,
           tasks: prev.tasks.map((t) =>
             t.id === id ? { ...t, done: next } : t,
           ),
-        };
-        qc.setQueryData(hubKeys.all, nextHub);
+        } satisfies HubPayload);
       }
       return { prev };
     },
@@ -55,12 +45,8 @@ export function useCreateTask() {
     onMutate: async (payload) => {
       await qc.cancelQueries({ queryKey: hubKeys.all });
       const prev = qc.getQueryData<HubPayload>(hubKeys.all);
-
       if (prev) {
-        const optimistic: Task = {
-          id: `opt-${Date.now()}`,
-          ...payload,
-        };
+        const optimistic: Task = { id: `opt-${Date.now()}`, ...payload };
         qc.setQueryData(hubKeys.all, {
           ...prev,
           tasks: [optimistic, ...prev.tasks],

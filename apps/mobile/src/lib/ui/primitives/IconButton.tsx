@@ -25,7 +25,7 @@ function fgFor(v: Variant, t: keyof typeof tintHex) {
   return v === 'solid' ? '#fff' : tintHex[t];
 }
 
-export default function IconButton({
+export function IconButton({
   name,
   tint = 'primary',
   variant = 'ghost',

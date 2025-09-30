@@ -1,10 +1,12 @@
-// apps/mobile/src/features/crm/components/TaskEditSheet.tsx
-import type { Task } from '@api/types';
 import { Ionicons } from '@expo/vector-icons';
+import { Pressable, Text, TextInput, View } from 'react-native';
+
+import { useEffect, useState } from 'react';
+
 import { Pill, Sheet } from '@ui/primitives';
 import DateField from '@ui/widgets/DateField';
-import React, { useEffect, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+
+import type { Task } from '@api';
 
 type Props = {
   visible: boolean;

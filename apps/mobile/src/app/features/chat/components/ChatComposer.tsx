@@ -1,4 +1,3 @@
-// apps/mobile/src/lib/components/ChatComposer.tsx
 import { useTranslation } from 'react-i18next';
 import {
   Platform,
@@ -8,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-export default function ChatComposer({
+export function ChatComposer({
   value,
   onChange,
   onSend,

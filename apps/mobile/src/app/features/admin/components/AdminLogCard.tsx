@@ -1,16 +1,17 @@
-// apps/mobile/src/app/(features)/admin/logs/AdminLogCard.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Card } from '@ui/primitives/Card';
-import { Badge, Dot, KV, MonoKV, Row } from '@ui/primitives/primitives';
-import { Segmented } from '@ui/primitives/Segmented';
+
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+
+import { Card, Segmented } from '@ui/primitives';
+import { Badge, Dot, KV, MonoKV, Row } from '@ui/primitives/primitives';
+
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 import { buildSummaryRows } from '../../../../lib/viewmodels/toolLogs';
 
 type Tab = 'summary' | 'raw';
 
-export default function AdminLogCard({ vm }: { vm: LogVM }) {
+export function AdminLogCard({ vm }: { vm: LogVM }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>('summary');
 

@@ -19,7 +19,7 @@ type Props<K extends TabKey> = {
   children: React.ReactNode;
 };
 
-export default function ResponsiveTabsLayout<K extends TabKey>({
+export function ResponsiveTabsLayout<K extends TabKey>({
   tabs,
   value,
   onChange,

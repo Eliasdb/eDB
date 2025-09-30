@@ -1,7 +1,7 @@
+import { View } from 'react-native';
+
 import { Group, Panel, SectionHeader } from '@ui/primitives/Panels';
 import { Item } from '@ui/primitives/primitives';
-import React from 'react';
-import { View } from 'react-native';
 
 export function SettingsPanel({
   title,

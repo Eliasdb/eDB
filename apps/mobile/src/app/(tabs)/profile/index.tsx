@@ -1,17 +1,15 @@
-// apps/mobile/src/app/(features)/profile/index.tsx
-import { useRouter } from 'expo-router';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import {
   PreferencesPanel,
   ProfileCard,
   SettingsPanel,
-} from '@features/profile/components';
+} from '@features/profile';
 
-// ⬇️ import your layout helpers
 import { PageContainer, TwoCol } from '@ui/layout';
 
 export default function ProfileScreen() {
@@ -31,12 +29,7 @@ export default function ProfileScreen() {
       >
         <PageContainer maxWidth={1100} paddingH={16}>
           {/* Layout */}
-          <TwoCol
-            gap={16}
-            breakpoint={920}
-            leftWidth={0.32} // ≈ 340 / 1100
-            rightWidth={0.68}
-          >
+          <TwoCol gap={16} breakpoint={920} leftWidth={0.32} rightWidth={0.68}>
             <ProfileCard
               name={t('profile.name')}
               email={t('profile.email')}

@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useCallback, useState } from 'react';
 import { Platform, RefreshControl, ScrollView, Text } from 'react-native';
 
-import ResponsiveTabsLayout from '@ui/layout/ResponsiveTabsLayout';
-import { Card } from '@ui/primitives/Card';
-import EntityRow from '@ui/primitives/EntityRow';
-import { List } from '@ui/primitives/List';
+import { useTranslation } from 'react-i18next';
+
+import { ResponsiveTabsLayout } from '@ui/layout';
+import { Card, EntityRow, List } from '@ui/primitives';
 import { EmptyLine } from '@ui/primitives/primitives';
 
 import AddTaskInline from '@features/crm/components/AddTaskInline';
@@ -23,7 +22,7 @@ import {
   contactToEntityProps,
 } from '@features/crm/mappers/entity';
 
-import type { HubPayload } from '@api/types';
+import type { HubPayload } from '@api';
 
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 

@@ -1,7 +1,6 @@
-// apps/mobile/src/lib/components/MessageBubble.tsx
 import { Text, View } from 'react-native';
 
-export default function MessageBubble({
+export function MessageBubble({
   text,
   from,
 }: {

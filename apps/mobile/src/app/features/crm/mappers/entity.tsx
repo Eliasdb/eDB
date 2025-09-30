@@ -1,14 +1,23 @@
 // apps/mobile/src/features/crm/mappers/entity.ts
 import { DimIcon } from '@ui/primitives/Icon';
+
 import { initials } from '@ui/utils/initials';
 
 export function contactToEntityProps(c: {
-  id: string; name: string; email?: string; phone?: string; avatarUrl?: string; source?: string;
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  avatarUrl?: string;
+  source?: string;
 }) {
   const chips = [
     c.email && { left: <DimIcon name="mail-outline" />, text: c.email },
     c.phone && { left: <DimIcon name="call-outline" />, text: c.phone },
-    c.source && { left: <DimIcon name="sparkles-outline" />, text: `Added by Clara • ${c.source}` },
+    c.source && {
+      left: <DimIcon name="sparkles-outline" />,
+      text: `Added by Clara • ${c.source}`,
+    },
   ].filter(Boolean) as NonNullable<any>;
 
   return {
@@ -21,12 +30,23 @@ export function contactToEntityProps(c: {
 }
 
 export function companyToEntityProps(co: {
-  id: string; name: string; industry?: string; domain?: string; logoUrl?: string; source?: string;
+  id: string;
+  name: string;
+  industry?: string;
+  domain?: string;
+  logoUrl?: string;
+  source?: string;
 }) {
   const chips = [
-    co.industry && { left: <DimIcon name="briefcase-outline" />, text: co.industry },
+    co.industry && {
+      left: <DimIcon name="briefcase-outline" />,
+      text: co.industry,
+    },
     co.domain && { left: <DimIcon name="globe-outline" />, text: co.domain },
-    co.source && { left: <DimIcon name="sparkles-outline" />, text: `Added by Clara • ${co.source}` },
+    co.source && {
+      left: <DimIcon name="sparkles-outline" />,
+      text: `Added by Clara • ${co.source}`,
+    },
   ].filter(Boolean) as NonNullable<any>;
 
   return {

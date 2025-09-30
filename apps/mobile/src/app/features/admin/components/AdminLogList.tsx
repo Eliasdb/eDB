@@ -1,15 +1,17 @@
-// apps/mobile/src/app/(features)/admin/logs/AdminLogList.tsx
-import { Segmented } from '@ui/primitives/Segmented';
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useMemo, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
-import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
-import AdminLogCard from './AdminLogCard';
+
+import { useTranslation } from 'react-i18next';
+
+import { Segmented } from '@ui/primitives';
+import { AdminLogCard } from './AdminLogCard';
 import AdminLogTerminal from './AdminLogTerminal';
+
+import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
 
 type ViewMode = 'cards' | 'terminal';
 
-export default function AdminLogList({
+export function AdminLogList({
   items,
   refreshing,
   onRefresh,

@@ -10,7 +10,7 @@ import {
   applyToolEffectToCache,
   invalidateHub,
   invalidateToolLogs,
-} from '../api/toolEffects';
+} from '@api';
 
 export async function connectRealtime(
   getTokenUrl: string,
@@ -90,6 +90,7 @@ export async function connectRealtime(
       applyToolEffectToCache(name, args);
     },
   });
+
   dc.addEventListener('message', onMessage);
 
   // 8) Offer/Answer

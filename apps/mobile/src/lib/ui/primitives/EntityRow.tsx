@@ -5,7 +5,7 @@ import { Pill } from './Pill';
 type Chip = {
   left?: React.ReactNode; // e.g. <Ionicons .../>
   text: string;
-  tone?: 'default' | 'success' | 'warning' | 'danger';
+  tone?: 'neutral' | 'success' | 'danger' | 'info' | 'primary';
 };
 
 type Props = ViewProps & {
@@ -17,7 +17,7 @@ type Props = ViewProps & {
   right?: React.ReactNode; // optional trailing actions
 };
 
-export default function EntityRow({
+export function EntityRow({
   name,
   avatarUrl,
   initials,
