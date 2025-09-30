@@ -22,6 +22,7 @@ import TaskRow from './TaskRow';
 import { TasksCalendarLite } from './calendar/TasksCalendarLite'; // agenda calendar
 
 import type { HubPayload } from '@api';
+import { BarsCard } from './BarsCard';
 
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 
@@ -132,7 +133,7 @@ export function CRMTabs({
               <Text className="text-[15px] font-extrabold text-text dark:text-text-dark">
                 Weekly Activity
               </Text>
-              {/* <BarsCard data={barsMock} /> */}
+              <BarsCard data={barsMock} />
             </Card>
 
             {/* Row: Donut */}
