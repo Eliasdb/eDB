@@ -27,7 +27,7 @@ type MetaResponse = {
   tools: ToolMeta[];
 };
 
-export default function ClaraCapabilities() {
+export function ClaraCapabilities() {
   const [data, setData] = useState<MetaResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

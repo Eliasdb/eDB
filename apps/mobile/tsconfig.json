@@ -14,6 +14,7 @@
       "@ui": ["lib/ui/index.ts"],
       "@ui/*": ["lib/ui/*"],
       "@features/*": ["app/features/*"],
+      "@api": ["lib/api/index.ts"],
       "@api/*": ["lib/api/*"],
       "@voice": ["lib/voice/index.ts"],
       "@voice/*": ["lib/voice/*"],

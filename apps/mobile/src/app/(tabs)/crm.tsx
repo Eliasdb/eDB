@@ -2,18 +2,13 @@
 import { useTranslation } from 'react-i18next';
 
 // API
-import {
-  useCreateTask,
-  useDeleteTask,
-  useHub,
-  useToggleTask,
-} from '@api/hooks';
+import { useCreateTask, useDeleteTask, useHub, useToggleTask } from '@api';
 
 // React
 import { useCallback, useMemo } from 'react';
 
 // Types
-import type { HubPayload } from '@api/types';
+import type { HubPayload } from '@api';
 
 // UI
 import CRMTabs from '@features/crm/components/CRMTabs';

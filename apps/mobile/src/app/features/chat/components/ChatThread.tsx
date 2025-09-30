@@ -1,9 +1,9 @@
 // apps/mobile/src/lib/components/ChatThread.tsx
+import type { Msg } from '@api';
 import { FlatList, View } from 'react-native';
-import type { Msg } from '../hooks/useConversation';
-import MessageBubble from './MessageBubble';
+import { MessageBubble } from './MessageBubble';
 
-export default function ChatThread({
+export function ChatThread({
   messages,
   listRef,
 }: {

@@ -1,10 +1,11 @@
-// apps/mobile/src/app/(features)/admin/index.tsx
-import AdminLogList from '@features/admin/components/AdminLogList';
-import ClaraCapabilities from '@features/admin/components/ClaraCapabilities';
-import { useToolLogs } from '@features/admin/hooks/useToolLogs';
-import ResponsiveTabsLayout from '@ui/layout/ResponsiveTabsLayout';
-import { useMemo, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
+
+import { useMemo, useState } from 'react';
+
+import { useToolLogs } from '@api';
+import { AdminLogList, ClaraCapabilities } from '@features/admin';
+import { ResponsiveTabsLayout } from '@ui/layout';
+
 import { entryToVM } from '../../lib/viewmodels/toolLogs';
 
 type Tab = 'capabilities' | 'logs';

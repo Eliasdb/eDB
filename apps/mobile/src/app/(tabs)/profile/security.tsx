@@ -1,13 +1,14 @@
-// apps/mobile/src/app/(features)/profile/security.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { PageContainer } from '@ui/layout/ResponsivePage';
-import { Subheader } from '@ui/navigation/Subheader';
-import { Card } from '@ui/primitives/Card';
-import { Item, ItemSwitch, Section } from '@ui/primitives/primitives';
-import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { useRouter } from 'expo-router';
+import { useMemo, useState } from 'react';
+
+import { PageContainer } from '@ui/layout';
+import { Subheader } from '@ui/navigation';
+import { Card } from '@ui/primitives';
+import { Item, ItemSwitch, Section } from '@ui/primitives/primitives';
 
 export default function SecurityScreen() {
   const insets = useSafeAreaInsets();

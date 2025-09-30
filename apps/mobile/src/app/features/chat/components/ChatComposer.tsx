@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-export default function ChatComposer({
+export function ChatComposer({
   value,
   onChange,
   onSend,

@@ -1,11 +1,13 @@
-// apps/mobile/src/app/(tabs)/HomeScreen.tsx
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRealtimeVoice } from '@features/voice/hooks/useRealtimeVoice';
+import { Text, View } from 'react-native';
+
+import { useTranslation } from 'react-i18next';
+
+import { useRealtimeVoice } from '@voice/useRealtimeVoice';
+
 import { Screen } from '@ui/layout';
 import { Avatar, Button, Pill, PulseDot } from '@ui/primitives';
 import AudioGlow from '@ui/visuals/AudioGlow';
-import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking, bands } =
@@ -36,7 +38,7 @@ export default function HomeScreen() {
       <View className="mt-8">
         <Button
           shape="circle"
-          size="md" // web => w-16 h-16 (4rem), native => 64px
+          size="md"
           tint={connected ? 'danger' : 'primary'}
           icon={<MaterialIcons name="mic" size={32} color="#fff" />}
           onPress={onMicPress}
@@ -53,10 +55,10 @@ export default function HomeScreen() {
       {/* Status pill */}
       <Pill
         className="mt-4 self-center"
-        tone="neutral" // or "primary" to match your nav accent
+        tone="neutral"
         variant="soft"
         size="sm"
-        left={<PulseDot on={connected} />} // aligns properly in the row
+        left={<PulseDot on={connected} />}
         text={
           loading
             ? 'Connecting…'

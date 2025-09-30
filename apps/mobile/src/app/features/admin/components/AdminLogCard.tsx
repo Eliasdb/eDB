@@ -10,7 +10,7 @@ import { buildSummaryRows } from '../../../../lib/viewmodels/toolLogs';
 
 type Tab = 'summary' | 'raw';
 
-export default function AdminLogCard({ vm }: { vm: LogVM }) {
+export function AdminLogCard({ vm }: { vm: LogVM }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>('summary');
 

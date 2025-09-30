@@ -1,5 +1,5 @@
-import { api } from './client';
-import type { Company, Contact, HubPayload, Task } from './types';
+import { api } from '../core/client';
+import type { Company, Contact, HubPayload, Task } from '../core/types';
 
 // Queries
 export const fetchHub = () => api<HubPayload>('/hub');
@@ -20,7 +20,6 @@ export const patchTask = (id: string, patch: Partial<Task>) =>
 export const deleteTask = (id: string) =>
   api<void>(`/hub/tasks/${id}`, { method: 'DELETE' });
 
-// Same pattern works for contacts/companies if/when needed
 export const createContact = (body: Omit<Contact, 'id'>) =>
   api<Contact>('/hub/contacts', { method: 'POST', body: JSON.stringify(body) });
 

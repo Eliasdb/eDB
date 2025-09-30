@@ -4,12 +4,12 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
-import AdminLogCard from './AdminLogCard';
+import { AdminLogCard } from './AdminLogCard';
 import AdminLogTerminal from './AdminLogTerminal';
 
 type ViewMode = 'cards' | 'terminal';
 
-export default function AdminLogList({
+export function AdminLogList({
   items,
   refreshing,
   onRefresh,

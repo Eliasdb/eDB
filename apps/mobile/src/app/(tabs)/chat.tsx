@@ -1,8 +1,7 @@
-// apps/mobile/src/app/(tabs)/chat.tsx
-import ChatComposer from '@features/chat/components/ChatComposer';
-import ChatThread from '@features/chat/components/ChatThread';
-import { useConversation } from '@features/chat/hooks/useConversation';
 import { View } from 'react-native';
+
+import { useConversation } from '@api';
+import { ChatComposer, ChatThread } from '@features/chat';
 
 export default function ChatScreen() {
   const { messages, input, setInput, send, listRef, pending } =

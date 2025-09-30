@@ -31,8 +31,7 @@ export type HubPayload = {
   companies: Company[];
 };
 
-// ---- chat ----
-
+// ---- Chat ----
 export type ChatTurn = { role: 'user' | 'assistant'; content: string };
 
 export type ChatResponse = {
@@ -44,8 +43,7 @@ export type ChatResponse = {
   };
 };
 
-// ---- ADMIN / tools ----
-
+// ---- Admin / tools ----
 export type ToolLogEntry = {
   id: string;
   ts: number;

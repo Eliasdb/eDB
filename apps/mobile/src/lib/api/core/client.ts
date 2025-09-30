@@ -14,13 +14,10 @@ export const API_BASE = (
   fromWindow ??
   process.env.EXPO_PUBLIC_API_BASE ??
   'http://127.0.0.1:9101'
-) // last-resort for local dev
-  .replace(/\/$/, '');
+).replace(/\/$/, '');
 
-// Generic fetch helper
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const hasBody = init.body !== undefined && init.body !== null;
-
+  const hasBody = init.body != null;
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
     headers: {

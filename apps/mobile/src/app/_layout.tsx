@@ -6,12 +6,12 @@ import { I18nextProvider } from 'react-i18next';
 import { AppState, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 
+import { getQueryClient } from '@api';
 import {
   ThemePreferenceProvider,
   useThemePreference,
 } from '@ui/providers/themePreference';
 import '../../global.css';
-import { getQueryClient } from '../lib/api/queryClient';
 import { initI18n } from '../lib/i18n';
 
 const queryClient = getQueryClient();
