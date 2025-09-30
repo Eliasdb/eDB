@@ -7,24 +7,23 @@ import {
   View,
 } from 'react-native';
 
-type Size = 'sm' | 'md' | 'lg';
+const AnimatedKnob = Animated.createAnimatedComponent(View);
 
-export type SwitchProps = {
+type Size = 'sm' | 'md' | 'lg';
+type SwitchProps = {
   value?: boolean;
   onValueChange?: (v: boolean) => void;
   disabled?: boolean;
   size?: Size;
-  /** Track colors */
   trackOnClassName?: string;
   trackOffClassName?: string;
-  /** Knob colors */
   knobOnClassName?: string;
   knobOffClassName?: string;
 } & AccessibilityProps;
 
 const SIZES: Record<Size, { w: number; h: number; knob: number; pad: number }> =
   {
-    sm: { w: 40, h: 24, knob: 18, pad: 3 },
+    sm: { w: 40, h: 20, knob: 18, pad: 3 },
     md: { w: 48, h: 28, knob: 22, pad: 3 },
     lg: { w: 56, h: 32, knob: 26, pad: 3 },
   };
@@ -33,7 +32,7 @@ export function Switch({
   value = false,
   onValueChange,
   disabled,
-  size = 'md',
+  size = 'sm',
   trackOnClassName = 'bg-primary',
   trackOffClassName = 'bg-control dark:bg-control-dark',
   knobOnClassName = 'bg-white',
@@ -58,12 +57,12 @@ export function Switch({
     inputRange: [0, 1],
     outputRange: [0, travel],
   });
+
   const trackCN = useMemo(
     () =>
       [
-        'rounded-pill',
-        'border',
-        'border-border dark:border-border-dark',
+        'rounded-pill overflow-hidden', // clip knob + keep pill shape
+        'border border-border dark:border-border-dark',
         value ? trackOnClassName : trackOffClassName,
         disabled ? 'opacity-50' : '',
       ]
@@ -73,7 +72,8 @@ export function Switch({
   );
 
   const knobCN = [
-    'rounded-full shadow-sm',
+    'rounded-full shadow-sm', // add subtle separation
+    'border border-black/5', // optional: outline on light bg
     value ? knobOnClassName : knobOffClassName,
   ].join(' ');
 
@@ -92,13 +92,9 @@ export function Switch({
         className={trackCN}
         style={{ width: w, height: h, padding: pad, justifyContent: 'center' }}
       >
-        <Animated.View
+        <AnimatedKnob
           className={knobCN}
-          style={{
-            width: knob,
-            height: knob,
-            transform: [{ translateX }],
-          }}
+          style={{ width: knob, height: knob, transform: [{ translateX }] }}
         />
       </View>
     </Pressable>

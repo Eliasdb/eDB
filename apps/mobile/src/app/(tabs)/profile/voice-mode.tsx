@@ -100,7 +100,7 @@ export default function VoiceModeScreen() {
           </Card>
 
           {/* Voice selector grid */}
-          <Text className="mt-3 mb-2 text-[12px] uppercase tracking-wide text-text-dim dark:text-text-dimDark">
+          <Text className="mt-8 mb-2 text-[12px] uppercase tracking-wide text-text-dim dark:text-text-dimDark">
             Available voices
           </Text>
 

@@ -160,7 +160,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <View className="mt-12">
+    <View className="mt-8">
       <Text className="text-[14px] text-text-dim dark:text-text-dimDark mb-xs ml-[4px] font-semibold uppercase tracking-[0.6px]">
         {title}
       </Text>

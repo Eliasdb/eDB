@@ -51,7 +51,7 @@ export function PreferencesPanel({
               title={t('theme.title')}
               icon="color-palette-outline"
             >
-              <View className="pt-2">
+              <View>
                 <ThemePicker />
               </View>
             </AccordionSection>
@@ -62,7 +62,7 @@ export function PreferencesPanel({
               title={t('profile.language')}
               icon="language-outline"
             >
-              <View className="pt-2">
+              <View>
                 <LanguagePicker />
               </View>
             </AccordionSection>
