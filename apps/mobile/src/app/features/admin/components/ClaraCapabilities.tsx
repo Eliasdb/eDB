@@ -1,4 +1,6 @@
+// apps/mobile/src/lib/ui/admin/ClaraCapabilities.tsx
 import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   LayoutChangeEvent,
@@ -9,10 +11,11 @@ import {
   View,
 } from 'react-native';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-
-import { Card } from '@ui/primitives';
+import { Card, Segmented } from '@ui/primitives';
 import { Badge } from '@ui/primitives/primitives';
+// If you have an Avatar in your primitives, uncomment this and replace the inline avatar below
+import { Avatar } from '@ui/primitives';
+import { Collapsible } from '../../../../lib/ui/primitives/Collapsible';
 
 type JSONSchema = any;
 
@@ -28,25 +31,30 @@ type MetaResponse = {
   tools: ToolMeta[];
 };
 
+type ToolScope = 'all' | 'internal' | 'external';
+
 export function ClaraCapabilities() {
+  const SCOPE_OPTIONS: { value: ToolScope; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'internal', label: 'Internal' },
+    { value: 'external', label: 'External' },
+  ];
+
+  const [scope, setScope] = useState<ToolScope>('all');
   const [data, setData] = useState<MetaResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // accordion state
-  const [expanded, setExpanded] = useState(false);
-  const [showFullIntro, setShowFullIntro] = useState(false);
-
   const { width } = useWindowDimensions();
   const isWide = width >= 820;
 
-  // equal-height for wide screens (only when expanded)
+  // equal-height for wide screens
   const heightsRef = useRef<number[]>([]);
   const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
   useEffect(() => {
     heightsRef.current = [];
     setMaxHeight(undefined);
-  }, [isWide, expanded, data?.tools?.length]);
+  }, [isWide, data?.tools?.length]);
 
   useEffect(() => {
     let mounted = true;
@@ -88,8 +96,15 @@ export function ClaraCapabilities() {
     });
   }, [tools]);
 
+  const filtered = useMemo(() => {
+    if (scope === 'all') return summarized;
+    if (scope === 'internal')
+      return summarized.filter((t) => isInternalTool(t.name));
+    return summarized.filter((t) => !isInternalTool(t.name));
+  }, [summarized, scope]);
+
   const onCardLayout = (index: number) => (e: LayoutChangeEvent) => {
-    if (!isWide || !expanded) return;
+    if (!isWide) return;
     const h = e.nativeEvent.layout.height;
     heightsRef.current[index] = h;
     const currentMax = Math.max(...heightsRef.current.filter(Boolean));
@@ -98,113 +113,98 @@ export function ClaraCapabilities() {
     }
   };
 
-  const headerRight = (
-    <View className="flex-row items-center gap-2">
-      {summarized.length ? (
-        <View className="px-2 py-1 rounded-full bg-muted dark:bg-muted-dark border border-border dark:border-border-dark">
-          <Text className="text-[12px] font-semibold text-text dark:text-text-dark">
-            {summarized.length} tools
-          </Text>
-        </View>
-      ) : null}
-      <Ionicons
-        name={expanded ? 'chevron-up' : 'chevron-down'}
-        size={18}
-        className="text-text dark:text-text-dark"
-      />
-    </View>
-  );
-
   return (
-    <Card className="mb-4 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl">
-      {/* Accordion header (clickable) */}
-      <Pressable
-        onPress={() => setExpanded((v) => !v)}
-        className="px-4 pt-4 pb-3 active:opacity-90"
-      >
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center gap-2">
-            <Ionicons
-              name="sparkles-outline"
-              size={18}
-              className="text-text dark:text-text-dark"
-            />
+    <View>
+      {/* Header with avatar + title */}
+      <View className="flex-row items-center justify-between mb-3">
+        <View className="flex-row items-center" style={{ gap: 12 }}>
+          {/* Swap this for <Avatar name="Clara" size="md" imageUrl={...} /> when your primitive lands */}
+          <Avatar size={40} />
+          <View>
             <Text className="text-[18px] font-extrabold text-text dark:text-text-dark">
-              Clara capabilities
+              Clara
+            </Text>
+            <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
+              Realtime assistant • Capabilities overview
             </Text>
           </View>
-          {headerRight}
         </View>
 
-        {/* Intro / collapsed summary */}
-        <View className="mt-2">
-          {loading ? (
-            <View className="py-2">
-              <ActivityIndicator />
-            </View>
-          ) : error ? (
-            <Text className="text-danger font-semibold">{error}</Text>
-          ) : data ? (
-            <>
-              <Text
-                className="text-[13px] leading-5 text-text-dim dark:text-text-dimDark"
-                numberOfLines={expanded ? (showFullIntro ? undefined : 3) : 2}
-              >
-                {data.instructions}
-              </Text>
-
-              {/* When collapsed, show a quick glance of tool names */}
-              {!expanded && summarized.length ? (
-                <View className="mt-2 flex-row flex-wrap -m-1">
-                  {summarized.slice(0, 4).map((t) => (
-                    <Chip key={t.name} text={t.name} />
-                  ))}
-                  {summarized.length > 4 ? (
-                    <Chip text={`+${summarized.length - 4} more`} />
-                  ) : null}
-                </View>
-              ) : null}
-
-              {expanded ? (
-                <Text
-                  onPress={() => setShowFullIntro((v) => !v)}
-                  className="text-[12px] font-semibold text-primary mt-1.5"
-                >
-                  {showFullIntro ? 'Show less' : 'Show more'}
-                </Text>
-              ) : null}
-            </>
-          ) : null}
-        </View>
-      </Pressable>
-
-      {/* Body (only when expanded) */}
-      {expanded && summarized.length > 0 ? (
-        <View className="px-3 pb-4">
-          <View className="-m-2 flex-row flex-wrap">
-            {summarized.map((t, i) => (
-              <View
-                key={t.name}
-                style={{ width: isWide ? '50%' : '100%' }}
-                className="p-2"
-              >
-                <ToolCard
-                  icon={t.icon}
-                  title={t.title}
-                  name={t.name}
-                  action={t.action}
-                  description={t.description}
-                  summary={t.summary}
-                  onLayout={onCardLayout(i)}
-                  height={isWide && maxHeight ? maxHeight : undefined}
-                />
-              </View>
-            ))}
+        {summarized.length ? (
+          <View className="px-2 py-1 rounded-full bg-muted dark:bg-muted-dark border border-border dark:border-border-dark">
+            <Text className="text-[12px] font-semibold text-text dark:text-text-dark">
+              {summarized.length} tools
+            </Text>
           </View>
+        ) : null}
+      </View>
+
+      {/* Instructions / “about Clara” */}
+      <Card className="mb-4 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl">
+        {loading ? (
+          <View className="py-1">
+            <ActivityIndicator />
+          </View>
+        ) : error ? (
+          <Text className="text-danger font-semibold">{error}</Text>
+        ) : (
+          <View>
+            {/* Section title */}
+            <Text className="text-[14px] font-extrabold text-text dark:text-text-dark mb-2">
+              Instructions
+            </Text>
+
+            <Text className="text-[13px] leading-5 text-text-dim dark:text-text-dimDark">
+              {data?.instructions ??
+                'You are Clara. When the user asks to create, update, list, or delete tasks, contacts, or companies, call the correct tool immediately, then give a short confirmation. Keep replies concise.'}
+            </Text>
+
+            {/* little hint row */}
+            <View className="mt-2 flex-row flex-wrap -m-1">
+              <HintChip text="Calls tools automatically" />
+              <HintChip text="Short confirmations" />
+              <HintChip text="Concise replies" />
+            </View>
+          </View>
+        )}
+      </Card>
+
+      <View className="mb-3">
+        <Segmented<ToolScope>
+          value={scope}
+          options={SCOPE_OPTIONS}
+          onChange={setScope}
+        />
+      </View>
+
+      {filtered.length > 0 ? (
+        <View className="-m-2 flex-row flex-wrap">
+          {filtered.map((t, i) => (
+            <View
+              key={t.name}
+              style={{ width: isWide ? '50%' : '100%' }}
+              className="p-2"
+            >
+              <ToolCard
+                icon={t.icon}
+                title={t.title}
+                name={t.name}
+                action={t.action}
+                description={t.description}
+                summary={t.summary}
+                onLayout={onCardLayout(i)}
+                height={isWide && maxHeight ? maxHeight : undefined}
+              />
+            </View>
+          ))}
         </View>
       ) : null}
-    </Card>
+    </View>
   );
+}
+
+function isInternalTool(name: string) {
+  return name.startsWith('hub_'); // tweak your rule here
 }
 
 /* -------------------- Tool Card -------------------- */
@@ -229,20 +229,21 @@ function ToolCard({
   height?: number;
 }) {
   const badge = crudBadge(action);
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <View
       onLayout={onLayout}
       style={height ? { height } : undefined}
-      className={`
+      className="
         rounded-xl border border-border dark:border-border-dark
         bg-muted/60 dark:bg-muted-dark/60
         px-4 py-3
-      `}
+      "
     >
       {/* Title row */}
       <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-center" style={{ gap: 8 }}>
           <IconBadge icon={icon} />
           <Text className="text-[16px] font-extrabold text-text dark:text-text-dark">
             {title}
@@ -251,27 +252,51 @@ function ToolCard({
         <Badge label={badge.label} tint={badge.tint} />
       </View>
 
-      {/* Short description */}
+      {/* Short description (always visible) */}
       <Text className="mt-1 text-[13px] leading-5 text-text-dim dark:text-text-dimDark">
         {description}
       </Text>
 
-      {/* Summary */}
-      <View className="mt-3 gap-2">
-        {summary?.kinds?.length ? (
-          <Row label="Kinds" items={summary.kinds} />
-        ) : null}
-        {summary?.required?.length ? (
-          <Row label="Required" items={summary.required} />
-        ) : null}
-        {summary?.variants?.length ? (
-          <Row label="Variants" items={summary.variants} />
-        ) : null}
-        {summary?.fields?.length ? (
-          <Row label="Fields" items={summary.fields} muted />
-        ) : null}
-        <RowMini label="Tool" value={name} />
-      </View>
+      {/* Details toggle */}
+      {summary ? (
+        <>
+          <View className="mt-2 h-px bg-border/70 dark:bg-border-dark/70" />
+          <Pressable
+            onPress={() => setShowDetails((v) => !v)}
+            accessibilityRole="button"
+            accessibilityLabel="Toggle tool details"
+            className="flex-row items-center justify-between active:opacity-90 py-2"
+          >
+            <Text className="text-[12px] font-extrabold text-text dark:text-text-dark">
+              {showDetails ? 'Hide details' : 'Show details'}
+            </Text>
+            <Ionicons
+              name={showDetails ? 'chevron-up' : 'chevron-down'}
+              size={16}
+              className="text-text-dim dark:text-text-dimDark"
+            />
+          </Pressable>
+
+          {/* Collapsible summary */}
+          <Collapsible open={showDetails}>
+            <View className="pt-2" style={{ rowGap: 8 }}>
+              {summary.kinds?.length ? (
+                <Row label="Kinds" items={summary.kinds} />
+              ) : null}
+              {summary.required?.length ? (
+                <Row label="Required" items={summary.required} />
+              ) : null}
+              {summary.variants?.length ? (
+                <Row label="Variants" items={summary.variants} />
+              ) : null}
+              {summary.fields?.length ? (
+                <Row label="Fields" items={summary.fields} muted />
+              ) : null}
+              <RowMini label="Tool" value={name} />
+            </View>
+          </Collapsible>
+        </>
+      ) : null}
     </View>
   );
 }
@@ -356,7 +381,7 @@ function Tag({ text }: { text: string }) {
   );
 }
 
-function Chip({ text }: { text: string }) {
+function HintChip({ text }: { text: string }) {
   return (
     <View className="m-1 px-2 py-1 rounded-md bg-muted dark:bg-muted-dark border border-border dark:border-border-dark">
       <Text className="text-[12px] font-semibold text-text dark:text-text-dark">
@@ -422,13 +447,7 @@ function summarizeParams(schema?: JSONSchema): Summarized | undefined {
 }
 
 /* -------------------- Titles & Actions -------------------- */
-
-// apps/mobile/src/app/(features)/admin/logs/ClaraCapabilities.tsx
-// …keep the rest of your file unchanged…
-
-/* -------------------- Titles & Actions -------------------- */
 function toTitle(name: string) {
-  // hub_list_kind -> "List kind" | hub_create -> "Create"
   const human = name.replace(/^hub_/, '').replace(/_/g, ' ');
   return human
     .split(' ')
@@ -470,12 +489,6 @@ function friendlyHints(name: string, original: string) {
   if (n.includes('delete')) return 'Delete an item by id for a given kind.';
   if (n.includes('list')) return 'Fetch a snapshot of items.';
   return original;
-}
-
-/* -------------------- Utils -------------------- */
-
-function capitalize(s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function pickIcon(name: string): React.ComponentProps<typeof Ionicons>['name'] {

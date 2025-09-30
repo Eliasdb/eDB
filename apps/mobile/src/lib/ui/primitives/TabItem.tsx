@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 type Variant = 'sidebar' | 'top';
@@ -8,8 +8,8 @@ export type TabItemProps = {
   active?: boolean;
   onPress?: () => void;
   variant?: Variant;
-  iconLeft?: React.ReactNode;
-  badge?: React.ReactNode; // e.g. <Text className="...">3</Text>
+  iconLeft?: ReactNode;
+  badge?: ReactNode; // e.g. <Text className="...">3</Text>
   disabled?: boolean;
 };
 

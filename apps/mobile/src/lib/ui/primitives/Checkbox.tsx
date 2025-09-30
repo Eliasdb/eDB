@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, ViewStyle } from 'react-native';
 
 type Tint = 'primary' | 'danger' | 'success' | 'neutral';

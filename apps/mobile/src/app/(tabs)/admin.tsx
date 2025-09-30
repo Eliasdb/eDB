@@ -1,12 +1,11 @@
+import { useMemo, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 
-import { useMemo, useState } from 'react';
-
-import { useToolLogs } from '@api';
 import { AdminLogList, ClaraCapabilities } from '@features/admin';
 import { ResponsiveTabsLayout } from '@ui/layout';
 
-import { entryToVM } from '../../lib/viewmodels/toolLogs';
+import { useToolLogs } from '@api';
+import { entryToVM } from '@api/viewmodels/toolLogs';
 
 type Tab = 'capabilities' | 'logs';
 

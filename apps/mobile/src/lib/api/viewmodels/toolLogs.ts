@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/viewmodels/toolLogs.ts
-import type { ToolLogEntry } from '../api/types';
+import type { ToolLogEntry } from '../core/types';
 
 export type VMVerb = 'create' | 'update' | 'delete' | 'list' | 'read' | 'run';
 export type VMKind = 'tasks' | 'contacts' | 'companies';

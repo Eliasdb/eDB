@@ -1,6 +1,6 @@
-import { connectRealtime } from '@voice';
-import { attachRemoteLevelMeter } from '@voice/audioLevel.web';
 import { useCallback, useRef, useState } from 'react';
+import { attachRemoteLevelMeter } from '../client/audioLevel.web';
+import { connectRealtime } from '../client/realtime.web';
 
 export function useRealtimeVoice() {
   const sessionRef = useRef<Awaited<ReturnType<typeof connectRealtime>> | null>(
@@ -12,7 +12,6 @@ export function useRealtimeVoice() {
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // NEW: visual states
   const [level, setLevel] = useState(0); // 0..1
   const [speaking, setSpeaking] = useState(false);
   const [bands, setBands] = useState<number[]>([0, 0, 0, 0, 0, 0, 0]);

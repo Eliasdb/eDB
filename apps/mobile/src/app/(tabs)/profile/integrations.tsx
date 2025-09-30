@@ -54,7 +54,7 @@ export default function IntegrationsScreen() {
       >
         <PageContainer maxWidth={1100} paddingH={16}>
           {/* Intro / explainer */}
-          <Card className="rounded-2xl px-4 py-4 bg-surface-2 dark:bg-surface-dark border border-border dark:border-border-dark shadow-none dark:shadow-card">
+          <Card className="rounded-2xl bg-surface-2 dark:bg-surface-dark border border-border dark:border-border-dark shadow-none dark:shadow-card">
             <Text className="text-[16px] font-extrabold text-text dark:text-text-dark">
               Connect your tools
             </Text>

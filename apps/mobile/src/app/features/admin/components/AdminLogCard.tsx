@@ -6,8 +6,8 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { Card, Segmented } from '@ui/primitives';
 import { Badge, Dot, KV, MonoKV, Row } from '@ui/primitives/primitives';
 
-import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
-import { buildSummaryRows } from '../../../../lib/viewmodels/toolLogs';
+import type { LogVM } from '@api/viewmodels/toolLogs';
+import { buildSummaryRows } from '@api/viewmodels/toolLogs';
 
 type Tab = 'summary' | 'raw';
 
@@ -16,7 +16,7 @@ export function AdminLogCard({ vm }: { vm: LogVM }) {
   const [tab, setTab] = useState<Tab>('summary');
 
   return (
-    <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark px-3 py-3">
+    <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark">
       {/* Header row */}
       <Row center style={{ justifyContent: 'space-between' }}>
         <View className="flex-row items-center gap-2 shrink">

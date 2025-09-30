@@ -16,7 +16,7 @@ export function ProfileCard({
   onManageVoice: () => void;
 }) {
   return (
-    <Panel className="px-4 py-5">
+    <Panel className="px-4 py-5" frameless>
       <View className="items-center">
         <View className="relative">
           <Avatar size={104} />

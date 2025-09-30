@@ -1,17 +1,10 @@
-// i18n
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// API
-import { useCreateTask, useDeleteTask, useHub, useToggleTask } from '@api';
+import { CRMTabs } from '@features/crm';
 
-// React
-import { useCallback, useMemo } from 'react';
-
-// Types
 import type { HubPayload } from '@api';
-
-// UI
-import CRMTabs from '@features/crm/components/CRMTabs';
+import { useCreateTask, useDeleteTask, useHub, useToggleTask } from '@api';
 
 export default function CRMScreen() {
   const { t } = useTranslation();

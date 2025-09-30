@@ -1,4 +1,3 @@
-// apps/mobile/src/components/Avatar.tsx
 import { Image, View } from 'react-native';
 
 type AvatarProps = {

@@ -1,10 +1,10 @@
 // apps/mobile/src/lib/voice/realtimeClient.web.ts
+import { makeMessageHandler } from '../core/handlers';
+import { getToken, negotiate } from '../core/signaling';
+import { createExecuteOnce } from '../core/tools';
+import type { RealtimeConnections, RealtimeOptions } from '../core/types';
+import { buildAuthHeaders, createAudioSink } from '../core/utils';
 import { attachRemoteLevelMeter } from './audioLevel.web';
-import { makeMessageHandler } from './handlers';
-import { getToken, negotiate } from './signaling';
-import { createExecuteOnce } from './tools';
-import type { RealtimeConnections, RealtimeOptions } from './types';
-import { buildAuthHeaders, createAudioSink } from './utils';
 
 import {
   applyToolEffectToCache,
