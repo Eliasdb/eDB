@@ -24,7 +24,7 @@ export function ThemePicker() {
             {t(`theme.${value}`)}
           </Text>
           <View
-            className={`w-5 h-5 rounded-full border-2 ${
+            className={`w-4 h-4 rounded-full border-2 ${
               override === value
                 ? 'border-primary bg-primary'
                 : 'border-border dark:border-border-dark'
