@@ -87,7 +87,7 @@ export default function PersonalDetailsScreen() {
               <View className="gap-4">
                 {leftCards.map((card) => (
                   <Card key={card.key} title={card.title}>
-                    <View className="gap-3.5">
+                    <View>
                       {card.fields.map((f) => (
                         <Field key={f.key} label={f.label}>
                           <Input

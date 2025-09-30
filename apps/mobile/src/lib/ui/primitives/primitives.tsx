@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Platform,
   StyleSheet,
-  Switch,
   Text,
   TouchableOpacity,
   View,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 import { cn } from '../utils/cn';
 import { Card } from './Card';
+import { Switch } from './Switch';
 
 // Theme-aware icon wrapper
 export function Icon({
@@ -160,7 +160,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <View className="mt-lg">
+    <View className="mt-8">
       <Text className="text-[14px] text-text-dim dark:text-text-dimDark mb-xs ml-[4px] font-semibold uppercase tracking-[0.6px]">
         {title}
       </Text>
@@ -174,15 +174,29 @@ export function Item({
   value,
   icon,
   onPress,
+  border = false, // 👈 new prop
+  borderPosition = 'bottom', // 'top' | 'bottom' | 'y' | 'all'
 }: {
   label: string;
   value?: string;
   icon: React.ComponentProps<typeof Ionicons>['name'];
   onPress?: () => void;
+  border?: boolean;
+  borderPosition?: 'top' | 'bottom' | 'y' | 'all';
 }) {
+  const borderCN = border
+    ? borderPosition === 'all'
+      ? 'border border-border dark:border-border-dark'
+      : borderPosition === 'y'
+        ? 'border-y border-border dark:border-border-dark'
+        : borderPosition === 'top'
+          ? 'border-t border-border dark:border-border-dark'
+          : 'border-b border-border dark:border-border-dark'
+    : '';
+
   return (
     <TouchableOpacity
-      className="px-md py-md flex-row items-center justify-between border-t border-border dark:border-border-dark"
+      className={`px-md py-md flex-row items-center justify-between ${borderCN}`}
       activeOpacity={onPress ? 0.7 : 1}
       onPress={onPress}
     >
@@ -209,27 +223,42 @@ export function Item({
     </TouchableOpacity>
   );
 }
-
 export function ItemSwitch({
   label,
   icon,
   value,
   onValueChange,
+  border = false,
+  borderPosition = 'bottom', // 'top' | 'bottom' | 'y' | 'all'
 }: {
   label: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: React.ComponentProps<typeof Icon>['name'];
   value?: boolean;
   onValueChange?: (v: boolean) => void;
+  border?: boolean;
+  borderPosition?: 'top' | 'bottom' | 'y' | 'all';
 }) {
+  const borderCN = border
+    ? borderPosition === 'all'
+      ? 'border border-border dark:border-border-dark'
+      : borderPosition === 'y'
+        ? 'border-y border-border dark:border-border-dark'
+        : borderPosition === 'top'
+          ? 'border-t border-border dark:border-border-dark'
+          : 'border-b border-border dark:border-border-dark'
+    : '';
+
   return (
-    <View className="px-md py-md flex-row items-center justify-between border-t border-border dark:border-border-dark">
-      <Row center gap={12}>
+    <View
+      className={`px-md py-md flex-row items-center justify-between ${borderCN}`}
+    >
+      <View className="flex-row items-center" style={{ gap: 12 }}>
         <Icon name={icon} className="text-text dark:text-text-dark" />
         <Text className="text-[16px] text-text dark:text-text-dark">
           {label}
         </Text>
-      </Row>
-      <Switch value={value} onValueChange={onValueChange} />
+      </View>
+      <Switch value={!!value} onValueChange={onValueChange} />
     </View>
   );
 }

@@ -2,7 +2,7 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -30,19 +30,6 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
       >
         <PageContainer maxWidth={1100} paddingH={16}>
-          {/* Page header */}
-          <View className="mb-4 px-1">
-            <Text className="text-[20px] font-extrabold text-text dark:text-text-dark">
-              {t('profile.title', { defaultValue: 'Profile' })}
-            </Text>
-            <Text className="mt-1 text-[13px] leading-5 text-text-dim dark:text-text-dimDark">
-              {t('profile.subtitle', {
-                defaultValue:
-                  'Manage your account details, preferences, and connected apps.',
-              })}
-            </Text>
-          </View>
-
           {/* Layout */}
           <TwoCol
             gap={16}

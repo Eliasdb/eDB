@@ -92,11 +92,11 @@ export function AccordionRow({
         bg-surface-2/60 dark:bg-transparent
       "
     >
-      <View className="flex-row items-center gap-2">
+      <View className="flex-row items-center gap-3">
         <Ionicons
           name={icon}
-          size={18}
-          className="text-text-dim dark:text-text-dimDark"
+          size={20}
+          className="text-text dark:text-text-dark"
         />
         <Text className="text-[16px] font-normal text-text dark:text-text-dark">
           {title}
@@ -104,8 +104,8 @@ export function AccordionRow({
       </View>
       <Ionicons
         name={open ? 'chevron-up' : 'chevron-down'}
-        size={20}
-        className="text-text-dim dark:text-text-dimDark"
+        size={18}
+        className="text-text dark:text-text-dark"
       />
     </Pressable>
   );

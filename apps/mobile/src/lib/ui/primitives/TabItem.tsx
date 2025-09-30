@@ -59,7 +59,7 @@ export default function TabItem({
     <Pressable
       onPress={onPress}
       disabled={disabled}
-      className={`flex-1 items-center py-2 rounded-lg ${active ? 'bg-white dark:bg-surface-dark shadow-card' : ''}`}
+      className={`flex-1 items-center py-2 rounded-xl ${active ? 'bg-white dark:bg-surface-dark shadow-card' : ''}`}
       style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
       accessibilityRole="tab"
       accessibilityState={{ selected: !!active, disabled: !!disabled }}
