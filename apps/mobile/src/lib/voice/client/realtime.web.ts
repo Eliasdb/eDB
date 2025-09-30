@@ -56,6 +56,7 @@ export async function connectRealtime(
   // 6) On open: session tools
   dc.addEventListener('open', async () => {
     const meta = await fetch(`${apiBase}/realtime/tools`).then((r) => r.json());
+
     dc.send(
       JSON.stringify({
         type: 'session.update',

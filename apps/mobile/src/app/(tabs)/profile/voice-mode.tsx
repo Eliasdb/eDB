@@ -1,4 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { useMemo, useRef, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -9,57 +11,17 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
-
 import { Subheader } from '@ui/navigation';
 import { Card } from '@ui/primitives';
 
-type VoiceKey = 'sofia' | 'daniel' | 'ava' | 'liam';
-
-const VOICES: Array<{
-  key: VoiceKey;
-  name: string;
-  meta: string; // small descriptor
-  gender: 'female' | 'male';
-  tone: string;
-}> = [
-  {
-    key: 'sofia',
-    name: 'Sofia',
-    meta: 'female, calm',
-    gender: 'female',
-    tone: 'Calm',
-  },
-  {
-    key: 'daniel',
-    name: 'Daniel',
-    meta: 'male, clear',
-    gender: 'male',
-    tone: 'Clear',
-  },
-  {
-    key: 'ava',
-    name: 'Ava',
-    meta: 'female, energetic',
-    gender: 'female',
-    tone: 'Energetic',
-  },
-  {
-    key: 'liam',
-    name: 'Liam',
-    meta: 'male, warm',
-    gender: 'male',
-    tone: 'Warm',
-  },
-];
+import { useVoicePreview } from '@voice/previews/useVoicePreview.web';
+import { VOICES, type VoiceKey } from '@voice/previews/voices';
 
 export default function VoiceModeScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { width } = useWindowDimensions();
 
-  // responsive: center + grid on desktop-ish widths
   const isWide = width >= 900;
   const containerWidth = useMemo(
     () => (isWide ? Math.min(1040, width - 64) : '100%'),
@@ -68,11 +30,40 @@ export default function VoiceModeScreen() {
   const gridCols = isWide ? 2 : 1;
 
   const [selected, setSelected] = useState<VoiceKey>('sofia');
-  const [previewing, setPreviewing] = useState<VoiceKey | null>(null);
+
+  // Your preview hook: static button UX (no label changes)
+  const { ready, busy, play } = useVoicePreview();
+
+  // Local, lightweight “playing” indicator (per voice) with an auto-clear timer
+  const [playingKey, setPlayingKey] = useState<VoiceKey | null>(null);
+  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handlePreview = (key: VoiceKey) => {
+    if (!ready || busy) return; // guarded
+    // click feedback: mark as playing immediately
+    setPlayingKey(key);
+    try {
+      play(key);
+    } finally {
+      // auto revert after a short clip (tweak if your samples are longer)
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+      clearTimerRef.current = setTimeout(() => {
+        setPlayingKey((curr) => (curr === key ? null : curr));
+      }, 2500);
+    }
+  };
+
+  // clear any pending timer on unmount
+  // (not strictly necessary here, but tidy)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useMemo(() => {
+    return () => {
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
+    };
+  }, []);
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      {/* Reusable subheader */}
       <Subheader title="Voice mode" onBack={() => router.back()} />
 
       <ScrollView
@@ -94,9 +85,9 @@ export default function VoiceModeScreen() {
               Choose a voice
             </Text>
             <Text className="mt-1.5 text-[14px] leading-5 text-text-dim dark:text-text-dimDark">
-              Pick a voice that Clara will use when speaking to you. These are
-              mock options for now — switching them won’t change audio yet, but
-              they show how selection will work.
+              Pick a voice that Clara will use when speaking to you. Tap{' '}
+              <Text className="font-semibold">Preview</Text> to hear a short
+              sample. This doesn’t affect your main session.
             </Text>
           </Card>
 
@@ -114,6 +105,8 @@ export default function VoiceModeScreen() {
           >
             {VOICES.map((v) => {
               const active = v.key === selected;
+              const isPlaying = playingKey === v.key;
+
               return (
                 <View
                   key={v.key}
@@ -167,26 +160,40 @@ export default function VoiceModeScreen() {
                         <Tag text={v.gender === 'female' ? 'F' : 'M'} />
                       </View>
 
+                      {/* Static Preview button:
+                          - label is always "Preview" (no layout jump)
+                          - icon swaps to "speaking" while playing for this voice
+                          - disabled while initializing or a request is in-flight */}
                       <TouchableOpacity
-                        onPress={() =>
-                          setPreviewing((curr) =>
-                            curr === v.key ? null : v.key,
-                          )
-                        }
-                        activeOpacity={0.9}
+                        onPress={() => handlePreview(v.key)}
+                        disabled={!ready || busy}
+                        activeOpacity={0.85} // tactile click feedback
                         className="h-9 px-3 rounded-lg bg-surface-2 dark:bg-surface-dark border border-border dark:border-border-dark flex-row items-center gap-2"
                       >
-                        <Ionicons
-                          name={
-                            previewing === v.key
-                              ? 'stop-circle-outline'
-                              : 'play-circle-outline'
-                          }
-                          size={18}
-                          className="text-text dark:text-text-dark"
-                        />
-                        <Text className="text-[13px] font-semibold text-text dark:text-text-dark">
-                          {previewing === v.key ? 'Stop' : 'Preview'}
+                        {/* Reserve icon space to avoid width changes */}
+                        <View
+                          style={{
+                            width: 18,
+                            height: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Ionicons
+                            name={
+                              isPlaying
+                                ? 'volume-high-outline'
+                                : 'play-circle-outline'
+                            }
+                            size={18}
+                            className="text-text dark:text-text-dark"
+                          />
+                        </View>
+                        <Text
+                          className="text-[13px] font-semibold text-text dark:text-text-dark"
+                          style={{ minWidth: 70, textAlign: 'left' }}
+                        >
+                          Preview
                         </Text>
                       </TouchableOpacity>
                     </View>
