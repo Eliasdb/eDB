@@ -40,7 +40,16 @@ function canonicalize(name: string) {
 }
 
 /** The one executor the voice client calls */
-export async function executeTool(name: string, args: unknown) {
+type ExecCtx = { app?: FastifyInstance };
+
+// old:
+// export async function executeTool(name: string, args: unknown) {
+// new:
+export async function executeTool(
+  name: string,
+  args: unknown,
+  ctx: ExecCtx = {},
+) {
   return withToolLog(name, args, async () => {
     // ⬅️ wrap in logger
     const canonical = canonicalize(name);
@@ -73,6 +82,81 @@ export async function executeTool(name: string, args: unknown) {
         const ok = store.remove(a.kind as Kind, a.id);
         return ok ? { ok: true, id: a.id } : { error: 'not_found' };
       }
+
+      // ----- HubSpot tools -----
+      case 'hubspot.upsert_contact': {
+        const HubspotUpsert = z.object({
+          email: z.string().email(),
+          firstname: z.string().optional(),
+          lastname: z.string().optional(),
+          phone: z.string().optional(),
+          company: z.string().optional(),
+        });
+        const a = HubspotUpsert.parse(args);
+        if (!ctx.app) return { error: 'server_missing_app_context' };
+
+        const contact = await ctx.app.hubspot.upsertContactByEmail(a.email, {
+          firstname: a.firstname,
+          lastname: a.lastname,
+          phone: a.phone,
+          company: a.company,
+        });
+        return {
+          ok: true,
+          id: contact.id,
+          summary: `Contact upserted for ${a.email}`,
+        };
+      }
+
+      case 'hubspot.update_deal_stage': {
+        const HubspotDealStage = z.object({
+          dealId: z.string(),
+          stage: z.string(), // e.g. 'appointmentscheduled'
+          pipeline: z.string().optional(),
+        });
+        const a = HubspotDealStage.parse(args);
+        if (!ctx.app) return { error: 'server_missing_app_context' };
+
+        const props: Record<string, any> = { dealstage: a.stage };
+        if (a.pipeline) props.pipeline = a.pipeline;
+
+        const deal = await ctx.app.hubspot.updateDeal(a.dealId, props);
+        return {
+          ok: true,
+          id: deal.id,
+          summary: `Deal ${a.dealId} moved to ${a.stage}`,
+        };
+      }
+
+      case 'hubspot.create_company_and_link': {
+        const HubspotCompanyLink = z.object({
+          name: z.string(),
+          domain: z.string().optional(),
+          contactId: z.string().optional(),
+        });
+        const a = HubspotCompanyLink.parse(args);
+        if (!ctx.app) return { error: 'server_missing_app_context' };
+
+        const company = await ctx.app.hubspot.createCompany({
+          name: a.name,
+          domain: a.domain,
+        });
+        if (a.contactId) {
+          await ctx.app.hubspot.associate(
+            'companies',
+            company.id,
+            'contacts',
+            a.contactId,
+            'company_to_contact',
+          );
+        }
+        return {
+          ok: true,
+          id: company.id,
+          summary: `Company ${a.name} created`,
+        };
+      }
+
       default:
         // Back-compat aliases (optional)
         if (name === 'add_task')
@@ -256,6 +340,65 @@ export function toolSpecsForChat(): OpenAI.Chat.Completions.ChatCompletionTool[]
         },
       },
     },
+
+    // --- HubSpot: upsert contact ---
+    {
+      type: 'function',
+      function: {
+        name: 'hubspot.upsert_contact',
+        description: 'Create or update a HubSpot contact by email',
+        parameters: {
+          type: 'object',
+          properties: {
+            email: { type: 'string' },
+            firstname: { type: 'string' },
+            lastname: { type: 'string' },
+            phone: { type: 'string' },
+            company: { type: 'string' },
+          },
+          required: ['email'],
+          additionalProperties: false,
+        },
+      },
+    },
+    // --- HubSpot: update deal stage ---
+    {
+      type: 'function',
+      function: {
+        name: 'hubspot.update_deal_stage',
+        description:
+          'Move a HubSpot deal to a specific stage (and optional pipeline)',
+        parameters: {
+          type: 'object',
+          properties: {
+            dealId: { type: 'string' },
+            stage: { type: 'string' },
+            pipeline: { type: 'string' },
+          },
+          required: ['dealId', 'stage'],
+          additionalProperties: false,
+        },
+      },
+    },
+    // --- HubSpot: create company & optionally link contact ---
+    {
+      type: 'function',
+      function: {
+        name: 'hubspot.create_company_and_link',
+        description:
+          'Create a company and optionally associate it with an existing contact',
+        parameters: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            domain: { type: 'string' },
+            contactId: { type: 'string' },
+          },
+          required: ['name'],
+          additionalProperties: false,
+        },
+      },
+    },
   ];
 }
 
@@ -286,4 +429,94 @@ export function toolSpecsForRealtime(): Array<{
       description: t.function.description,
       parameters: t.function.parameters,
     }));
+}
+
+// HUBSPOT
+
+import type { FastifyInstance } from 'fastify';
+
+export function registerHubspotTools(app: FastifyInstance) {
+  // 1) Upsert contact by email
+  app.post(
+    '/tools/hubspot.upsert_contact',
+    {
+      schema: {
+        body: z
+          .object({
+            email: z.string().email(),
+            firstname: z.string().optional(),
+            lastname: z.string().optional(),
+            phone: z.string().optional(),
+            company: z.string().optional(),
+          })
+          .strict(),
+      } as any,
+    },
+    async (req, reply) => {
+      const { email, ...rest } = req.body as any;
+      const contact = await app.hubspot.upsertContactByEmail(email, rest);
+      return {
+        ok: true,
+        id: contact.id,
+        summary: `Contact upserted for ${email}`,
+      };
+    },
+  );
+
+  // 2) Update deal stage
+  app.post(
+    '/tools/hubspot.update_deal_stage',
+    {
+      schema: {
+        body: z
+          .object({
+            dealId: z.string(),
+            stage: z.string(), // e.g. 'appointmentscheduled'
+            pipeline: z.string().optional(), // if you want to set/override pipeline
+          })
+          .strict(),
+      } as any,
+    },
+    async (req, reply) => {
+      const { dealId, stage, pipeline } = req.body as any;
+      const props: Record<string, any> = { dealstage: stage };
+      if (pipeline) props.pipeline = pipeline;
+      const deal = await app.hubspot.updateDeal(dealId, props);
+      return {
+        ok: true,
+        id: deal.id,
+        summary: `Deal ${dealId} moved to ${stage}`,
+      };
+    },
+  );
+
+  // 3) Create company + link existing contact (optional)
+  app.post(
+    '/tools/hubspot.create_company_and_link',
+    {
+      schema: {
+        body: z
+          .object({
+            name: z.string(),
+            domain: z.string().optional(),
+            contactId: z.string().optional(),
+          })
+          .strict(),
+      } as any,
+    },
+    async (req, reply) => {
+      const { name, domain, contactId } = req.body as any;
+      const company = await app.hubspot.createCompany({ name, domain });
+      if (contactId) {
+        await app.hubspot.associate(
+          'companies',
+          company.id,
+          'contacts',
+          contactId,
+          'company_to_contact',
+        );
+      }
+      return { ok: true, id: company.id, summary: `Company ${name} created` };
+    },
+  );
 }
