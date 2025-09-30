@@ -1,7 +1,7 @@
-import { View } from 'react-native';
-
 import { Group, Panel, SectionHeader } from '@ui/primitives/Panels';
 import { Item } from '@ui/primitives/primitives';
+import { ComponentProps } from 'react';
+import { View } from 'react-native';
 
 export function SettingsPanel({
   title,
@@ -10,7 +10,7 @@ export function SettingsPanel({
   title: string;
   items: Array<{
     label: string;
-    icon: React.ComponentProps<typeof Item> extends any ? any : never; // keep type looser across versions
+    icon: ComponentProps<typeof Item> extends any ? any : never;
     onPress?: () => void;
   }>;
 }) {

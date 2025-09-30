@@ -1,5 +1,5 @@
 // @ui/primitives/Card.tsx
-import React from 'react';
+import { ReactNode } from 'react';
 import { Text, View, ViewProps } from 'react-native';
 
 type Tone = 'raised' | 'flat' | 'muted';
@@ -11,7 +11,7 @@ type CardProps = ViewProps & {
   /** Small line under the title (optional) */
   subtitle?: string;
   /** Right side of the header row (optional) */
-  headerRight?: React.ReactNode;
+  headerRight?: ReactNode;
 
   /** Adds inner padding around the body. Default: true */
   inset?: boolean;

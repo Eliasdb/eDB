@@ -7,7 +7,7 @@ type Props = {
   color?: string; // base color, default Clara primary
 };
 
-export default function AudioGlow({
+export function AudioGlow({
   level,
   speaking,
   baseRadius = 140,

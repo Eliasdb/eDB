@@ -7,20 +7,16 @@ import { ResponsiveTabsLayout } from '@ui/layout';
 import { Card, EntityRow, List } from '@ui/primitives';
 import { EmptyLine } from '@ui/primitives/primitives';
 
-import AddTaskInline from '@features/crm/components/AddTaskInline';
-import TaskRow from '@features/crm/components/TaskRow';
-import TaskEditSheet from '@features/crm/sheets/TaskEditSheet';
+import { companyToEntityProps, contactToEntityProps } from '../mappers/entity';
+import TaskEditSheet from '../sheets/TaskEditSheet';
 import {
   CompanyItemSkeleton,
   ContactItemSkeleton,
   ListSkeleton,
   TaskItemSkeleton,
-} from '@features/crm/skeletons/ItemSkeletons';
-
-import {
-  companyToEntityProps,
-  contactToEntityProps,
-} from '@features/crm/mappers/entity';
+} from '../skeletons/ItemSkeletons';
+import AddTaskInline from './AddTaskInline';
+import TaskRow from './TaskRow';
 
 import type { HubPayload } from '@api';
 
@@ -44,7 +40,7 @@ type Props = {
   initialTab?: Tab;
 };
 
-export default function CRMTabs({
+export function CRMTabs({
   hub,
   isLoading,
   isRefreshing,

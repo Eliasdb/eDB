@@ -1,5 +1,4 @@
-// apps/mobile/src/lib/ui/primitives/BottomNav.tsx
-import React from 'react';
+import { ReactNode } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -7,12 +6,8 @@ export type BottomNavItem = {
   key: string;
   label: string;
   icon?:
-    | React.ReactNode
-    | ((p: {
-        color: string;
-        size: number;
-        focused: boolean;
-      }) => React.ReactNode);
+    | ReactNode
+    | ((p: { color: string; size: number; focused: boolean }) => ReactNode);
   badge?: number | string | boolean; // falsey to hide; true => dot
   onPress?: () => void;
   onLongPress?: () => void;

@@ -1,13 +1,12 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 
+import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
-
-import { useRealtimeVoice } from '@voice/useRealtimeVoice';
 
 import { Screen } from '@ui/layout';
 import { Avatar, Button, Pill, PulseDot } from '@ui/primitives';
-import AudioGlow from '@ui/visuals/AudioGlow';
+import { AudioGlow } from '@ui/visuals';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking, bands } =

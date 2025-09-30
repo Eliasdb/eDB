@@ -88,7 +88,7 @@ export default function VoiceModeScreen() {
           {/* Intro */}
           <Card
             inset
-            className="rounded-2xl bg-surface-2 dark:bg-surface-dark border border-border dark:border-border-dark shadow-none dark:shadow-card px-4 py-4"
+            className="rounded-2xl bg-surface-2 dark:bg-surface-dark border border-border dark:border-border-dark shadow-none dark:shadow-card"
           >
             <Text className="text-[16px] font-extrabold text-text dark:text-text-dark">
               Choose a voice

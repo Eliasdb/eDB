@@ -1,15 +1,11 @@
-// i18n
+import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+
 import { useTranslation } from 'react-i18next';
 
-// Icons
-import { Ionicons } from '@expo/vector-icons';
-
-// UI
 import { AppHeader } from '@ui/layout';
 import { NavigationTabBar } from '@ui/navigation';
 import { useThemePreference } from '@ui/providers';
-
-import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
   const { effective } = useThemePreference();

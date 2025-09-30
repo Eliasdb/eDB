@@ -1,11 +1,11 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Text, View } from 'react-native';
 
 export type FieldProps = {
   label: string;
   helpText?: string;
   errorText?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 };
 

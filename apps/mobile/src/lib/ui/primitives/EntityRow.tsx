@@ -1,4 +1,3 @@
-import React from 'react';
 import { Image, Text, View, type ViewProps } from 'react-native';
 import { Pill } from './Pill';
 

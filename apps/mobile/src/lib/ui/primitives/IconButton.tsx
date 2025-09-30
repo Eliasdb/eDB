@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { ComponentProps } from 'react';
 import { Button, type ButtonProps } from './Button';
 
 type Tint = NonNullable<ButtonProps['tint']>;
@@ -34,7 +34,7 @@ export function IconButton({
   className,
   ...rest
 }: Omit<ButtonProps, 'label' | 'icon' | 'iconLeft' | 'iconRight' | 'shape'> & {
-  name: React.ComponentProps<typeof Ionicons>['name'];
+  name: ComponentProps<typeof Ionicons>['name'];
   subtleBg?: boolean;
 }) {
   const color = fgFor(variant, tint);

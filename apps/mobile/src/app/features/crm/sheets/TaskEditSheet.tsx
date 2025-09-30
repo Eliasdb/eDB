@@ -4,7 +4,7 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { useEffect, useState } from 'react';
 
 import { Pill, Sheet } from '@ui/primitives';
-import DateField from '@ui/widgets/DateField';
+import { DateField } from '@ui/widgets';
 
 import type { Task } from '@api';
 

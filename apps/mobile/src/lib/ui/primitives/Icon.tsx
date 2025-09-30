@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { ComponentProps } from 'react';
 import { useThemePreference } from '../providers/themePreference';
 
-type IonName = React.ComponentProps<typeof Ionicons>['name'];
+type IonName = ComponentProps<typeof Ionicons>['name'];
 
 export function DimIcon({
   name,

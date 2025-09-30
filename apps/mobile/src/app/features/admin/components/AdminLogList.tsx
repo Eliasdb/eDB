@@ -7,7 +7,7 @@ import { Segmented } from '@ui/primitives';
 import { AdminLogCard } from './AdminLogCard';
 import AdminLogTerminal from './AdminLogTerminal';
 
-import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
+import type { LogVM } from '@api/viewmodels/toolLogs';
 
 type ViewMode = 'cards' | 'terminal';
 

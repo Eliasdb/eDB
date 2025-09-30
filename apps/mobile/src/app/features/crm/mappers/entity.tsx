@@ -1,7 +1,5 @@
-// apps/mobile/src/features/crm/mappers/entity.ts
-import { DimIcon } from '@ui/primitives/Icon';
-
-import { initials } from '@ui/utils/initials';
+import { DimIcon } from '@ui/primitives';
+import { initials } from '@ui/utils';
 
 export function contactToEntityProps(c: {
   id: string;

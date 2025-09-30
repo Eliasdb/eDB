@@ -1,29 +1,33 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import { ComponentProps, ReactNode, useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 
 /** A soft card-like container that stands out on light, stays matte on dark. */
-export function Panel({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
+type PanelProps = {
+  children: ReactNode;
   className?: string;
-}) {
+  frameless?: boolean; // <- new prop
+};
+
+export function Panel({ children, className, frameless }: PanelProps) {
+  // shared shape
+  const baseClasses = ['rounded-2xl overflow-hidden', className ?? ''];
+
+  // normal panel styling
+  const styledClasses = [
+    'bg-surface-2/90 dark:bg-surface-dark/95',
+    'backdrop-blur-sm',
+    'border border-border/60 dark:border-border-dark',
+    Platform.OS !== 'android'
+      ? 'shadow-[0_1px_8px_rgba(0,0,0,0.05)] dark:shadow-none'
+      : '',
+  ];
+
   return (
     <View
-      className={[
-        // light gets subtle fill+blur+hairline; dark keeps existing dark surface
-        'rounded-2xl overflow-hidden',
-        'bg-surface-2/90 dark:bg-surface-dark/95',
-        'backdrop-blur-sm',
-        'border border-border/60 dark:border-border-dark',
-        // feather shadow only on light / non-android
-        Platform.OS !== 'android'
-          ? 'shadow-[0_1px_8px_rgba(0,0,0,0.05)] dark:shadow-none'
-          : '',
-        className ?? '',
-      ].join(' ')}
+      className={[...baseClasses, ...(frameless ? [] : styledClasses)].join(
+        ' ',
+      )}
     >
       {children}
     </View>
@@ -35,7 +39,7 @@ export function Group({
   children,
   className,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   return (
@@ -80,7 +84,7 @@ export function AccordionRow({
   onToggle,
 }: {
   title: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: ComponentProps<typeof Ionicons>['name'];
   open: boolean;
   onToggle: () => void;
 }) {
@@ -119,8 +123,8 @@ export function AccordionSection({
   defaultOpen = false,
 }: {
   title: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  children: React.ReactNode;
+  icon: ComponentProps<typeof Ionicons>['name'];
+  children: ReactNode;
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);

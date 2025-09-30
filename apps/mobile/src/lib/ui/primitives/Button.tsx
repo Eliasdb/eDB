@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/ui/primitives/Button.tsx
-import React from 'react';
+import { ReactNode } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 
 type Tint = 'primary' | 'danger' | 'success' | 'neutral';
@@ -11,9 +11,9 @@ export type ButtonProps = {
   onPress?: () => void;
   label?: string;
   helperText?: string;
-  iconLeft?: React.ReactNode;
-  iconRight?: React.ReactNode;
-  icon?: React.ReactNode;
+  iconLeft?: ReactNode;
+  iconRight?: ReactNode;
+  icon?: ReactNode;
   variant?: Variant; // default 'solid'
   tint?: Tint; // default 'primary'
   shape?: Shape; // default 'pill'

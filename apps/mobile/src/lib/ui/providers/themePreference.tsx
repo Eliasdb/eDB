@@ -1,12 +1,6 @@
 // apps/mobile/src/lib/ui/themePreference.tsx
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { Appearance, ColorSchemeName } from 'react-native';
 
 type SchemeOverride = 'system' | 'light' | 'dark';

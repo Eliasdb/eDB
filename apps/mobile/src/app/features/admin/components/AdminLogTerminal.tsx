@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import type { LogVM } from '../../../../lib/viewmodels/toolLogs';
+import type { LogVM } from '@api/viewmodels/toolLogs';
 
 export default function AdminLogTerminal({
   items,

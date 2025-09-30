@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 
 // Native (iOS/Android)
@@ -30,7 +30,7 @@ function fromISO(v?: string) {
   return new Date(y, m - 1, d);
 }
 
-export default function DateField({
+export function DateField({
   value,
   onChange,
   placeholder = 'YYYY-MM-DD',
