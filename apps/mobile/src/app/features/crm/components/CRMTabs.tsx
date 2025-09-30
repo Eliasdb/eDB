@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Platform, RefreshControl, ScrollView, Text } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
@@ -18,11 +18,14 @@ import {
 import AddTaskInline from './AddTaskInline';
 import TaskRow from './TaskRow';
 
+// 🎯 Charts & Calendar
+import { TasksCalendarLite } from './calendar/TasksCalendarLite'; // agenda calendar
+
 import type { HubPayload } from '@api';
 
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 
-type Tab = 'tasks' | 'contacts' | 'companies';
+type Tab = 'dashboard' | 'tasks' | 'contacts' | 'companies';
 
 type Props = {
   hub: HubPayload;
@@ -50,7 +53,7 @@ export function CRMTabs({
   addingTask,
   onToggleTask,
   onDeleteTask,
-  initialTab = 'tasks',
+  initialTab = 'dashboard',
 }: Props) {
   const { t } = useTranslation();
 
@@ -61,10 +64,29 @@ export function CRMTabs({
 
   const handleRefresh = useCallback(() => onRefresh(), [onRefresh]);
 
+  // --- Mock data for the bar/line demo (visual polish first, wire real later)
+  const barsMock = useMemo(
+    () => [
+      { label: 'Mon', value: 3 },
+      { label: 'Tue', value: 6 },
+      { label: 'Wed', value: 2 },
+      { label: 'Thu', value: 5 },
+      { label: 'Fri', value: 4 },
+      { label: 'Sat', value: 1 },
+      { label: 'Sun', value: 2 },
+    ],
+    [],
+  );
+
+  // --- Real counts for donut + calendar
+  const totalTasks = hub.tasks.length;
+  const doneTasks = hub.tasks.filter((t) => t.done).length;
+
   return (
     <>
       <ResponsiveTabsLayout
         tabs={[
+          { key: 'dashboard', label: 'Dashboard' },
           { key: 'tasks', label: t('crm.tasks', { defaultValue: 'Tasks' }) },
           {
             key: 'contacts',
@@ -84,29 +106,64 @@ export function CRMTabs({
           </Text>
         }
       >
-        <ScrollView
-          className="flex-1 bg-surface dark:bg-surface-dark"
-          contentContainerStyle={{ padding: 16, paddingBottom: 28, ...webPanY }}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={handleRefresh}
-            />
-          }
-          keyboardShouldPersistTaps="handled"
-          style={webPanY}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* error banner */}
-          {error ? (
-            <Card inset className="mb-4">
-              <Text className="text-red-600 font-bold">
-                {t('crm.loadError')}
+        {tab === 'dashboard' ? (
+          <ScrollView
+            className="flex-1 bg-surface dark:bg-surface-dark"
+            contentContainerStyle={{
+              padding: 16,
+              paddingBottom: 28,
+              gap: 16,
+              ...webPanY,
+            }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Optional: error banner */}
+            {error ? (
+              <Card inset className="mb-2">
+                <Text className="text-red-600 font-bold">
+                  {t('crm.loadError', { defaultValue: 'Failed to load data.' })}
+                </Text>
+              </Card>
+            ) : null}
+
+            {/* Row: Bar/Line */}
+            <Card inset tone="flat" className="gap-4">
+              <Text className="text-[15px] font-extrabold text-text dark:text-text-dark">
+                Weekly Activity
               </Text>
+              {/* <BarsCard data={barsMock} /> */}
             </Card>
-          ) : null}
-          {/* Tasks */}
-          {tab === 'tasks' && (
+
+            {/* Row: Donut */}
+            <Card inset tone="flat" className="gap-4">
+              <Text className="text-[15px] font-extrabold text-text dark:text-text-dark">
+                Tasks completion
+              </Text>
+              {/* <DonutTasks  done={doneTasks} total={totalTasks} /> */}
+            </Card>
+
+            <TasksCalendarLite tasks={hub.tasks as any} />
+          </ScrollView>
+        ) : tab === 'tasks' ? (
+          <ScrollView
+            className="flex-1 bg-surface dark:bg-surface-dark"
+            contentContainerStyle={{
+              padding: 16,
+              paddingBottom: 28,
+              ...webPanY,
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+              />
+            }
+            keyboardShouldPersistTaps="handled"
+            style={webPanY}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Tasks */}
             <Card
               tone="flat"
               bordered={false}
@@ -122,7 +179,9 @@ export function CRMTabs({
                   renderRow={() => <TaskItemSkeleton />}
                 />
               ) : hub.tasks.length === 0 ? (
-                <EmptyLine text={t('crm.emptyTasks')} />
+                <EmptyLine
+                  text={t('crm.emptyTasks', { defaultValue: 'No tasks.' })}
+                />
               ) : (
                 <List>
                   {hub.tasks.map((task, i) => (
@@ -138,9 +197,14 @@ export function CRMTabs({
                 </List>
               )}
             </Card>
-          )}
-          {/* Contacts */}
-          {tab === 'contacts' && (
+          </ScrollView>
+        ) : tab === 'contacts' ? (
+          <ScrollView
+            className="flex-1 bg-surface dark:bg-surface-dark"
+            contentContainerStyle={{ padding: 16, paddingBottom: 28 }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
             <Card tone="flat" inset={false} bodyClassName="gap-1.5">
               {isLoading ? (
                 <ListSkeleton
@@ -149,7 +213,11 @@ export function CRMTabs({
                   renderRow={() => <ContactItemSkeleton />}
                 />
               ) : hub.contacts.length === 0 ? (
-                <EmptyLine text={t('crm.emptyContacts')} />
+                <EmptyLine
+                  text={t('crm.emptyContacts', {
+                    defaultValue: 'No contacts.',
+                  })}
+                />
               ) : (
                 <List>
                   {hub.contacts.map((c, i) => (
@@ -160,9 +228,15 @@ export function CRMTabs({
                 </List>
               )}
             </Card>
-          )}
-          {/* Companies */}
-          {tab === 'companies' && (
+          </ScrollView>
+        ) : (
+          // companies
+          <ScrollView
+            className="flex-1 bg-surface dark:bg-surface-dark"
+            contentContainerStyle={{ padding: 16, paddingBottom: 28 }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
             <Card tone="flat" inset={false} bodyClassName="gap-1.5">
               {isLoading ? (
                 <ListSkeleton
@@ -171,7 +245,11 @@ export function CRMTabs({
                   renderRow={() => <CompanyItemSkeleton />}
                 />
               ) : hub.companies.length === 0 ? (
-                <EmptyLine text={t('crm.emptyCompanies')} />
+                <EmptyLine
+                  text={t('crm.emptyCompanies', {
+                    defaultValue: 'No companies.',
+                  })}
+                />
               ) : (
                 <List>
                   {hub.companies.map((co, i) => (
@@ -182,8 +260,8 @@ export function CRMTabs({
                 </List>
               )}
             </Card>
-          )}
-        </ScrollView>
+          </ScrollView>
+        )}
       </ResponsiveTabsLayout>
 
       {/* Edit Sheet (kept inside tabs component) */}

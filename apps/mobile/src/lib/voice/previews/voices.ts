@@ -1,30 +1,38 @@
 // apps/mobile/src/lib/voice/voices.ts
 
-export type VoiceKey = 'sofia' | 'daniel' | 'ava' | 'liam';
+// Add a special key for the provider's default voice (Clara).
+export type VoiceKey = 'providerDefault' | 'sofia' | 'daniel' | 'ava' | 'liam';
 
 export type VoiceItem = {
   key: VoiceKey;
-  name: string; // What the assistant should call itself
+  name: string; // What the assistant should call itself in the preview
   meta: string; // short descriptor for UI
   gender: 'female' | 'male';
   tone: string; // high-level vibe to hint at delivery
 };
 
 /**
- * Map UI keys to actual model voice ids used by your Realtime session.
- * Replace these with the IDs your provider supports (e.g. 'sage', 'verse', ...).
+ * Start with the provider default (Clara) selected.
  */
-export const VOICE_ID_BY_KEY: Record<VoiceKey, string> = {
+export const DEFAULT_VOICE_KEY: VoiceKey = 'providerDefault';
+
+/**
+ * Map UI keys to actual model voice ids used by your Realtime session.
+ * NOTE: We deliberately DO NOT map 'providerDefault' — leaving voice unset
+ * lets the provider choose its current default.
+ */
+export const VOICE_ID_BY_KEY: Partial<Record<VoiceKey, string>> = {
   sofia: 'sage',
   daniel: 'verse',
   ava: 'coral',
   liam: 'ballad',
 };
 
-export function resolveVoiceId(key: VoiceKey): string {
-  return VOICE_ID_BY_KEY[key] ?? 'sage';
+export function resolveVoiceId(key: VoiceKey): string | undefined {
+  return VOICE_ID_BY_KEY[key as keyof typeof VOICE_ID_BY_KEY];
 }
 
+// Your four explicit voices
 export const VOICES: VoiceItem[] = [
   {
     key: 'sofia',
@@ -58,32 +66,35 @@ export const VOICES: VoiceItem[] = [
 
 // Helpers for names/tones
 export function getVoiceName(key: VoiceKey): string {
+  if (key === 'providerDefault') return 'Clara';
   return VOICES.find((v) => v.key === key)?.name ?? 'Your Assistant';
 }
 export function getVoiceTone(key: VoiceKey): string {
+  if (key === 'providerDefault') return 'Natural';
   return VOICES.find((v) => v.key === key)?.tone ?? 'Natural';
 }
 
 /**
  * A tiny, deterministic one-liner per voice.
- * Keeping it quoted avoids the model “getting creative.”
+ * Clara (provider default) explicitly introduces herself as "Clara".
  */
 export function buildPreviewLine(key: VoiceKey): string {
+  if (key === 'providerDefault') return '“Hi, I’m Clara.”';
   const name = getVoiceName(key);
   return `“Hi, I'm ${name}.”`;
 }
 
 /**
- * Preview-specific session instructions to stop the model from
- * role-confusing with the user and to keep the line short.
+ * Preview-specific session instructions to stop role confusion.
+ * Clara is explicitly named in the prompt.
  */
 export function buildPreviewInstructions(key: VoiceKey): string {
-  const name = getVoiceName(key);
+  const name = key === 'providerDefault' ? 'Clara' : getVoiceName(key);
   const tone = getVoiceTone(key);
   return [
-    `You are providing a short voice *preview* for the app in English.`,
+    `You are providing a short voice *preview* in English.`,
     `You are the assistant speaking to the user, not the user.`,
-    `For this preview only, introduce yourself as the voice named "${name}".`,
+    `For this preview only, introduce yourself as ${name}.`,
     `Deliver it in a ${tone.toLowerCase()} tone.`,
     `Speak exactly the quoted line you are given. Do not add anything else.`,
   ].join(' ');
