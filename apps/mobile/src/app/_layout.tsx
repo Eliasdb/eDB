@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { AppState, View } from 'react-native';
+import { AppState, Platform, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 
 import { getQueryClient } from '@api';
@@ -13,6 +13,9 @@ import {
 } from '@ui/providers/themePreference';
 import '../../global.css';
 import { initI18n } from '../lib/i18n';
+
+// 👇 import Skia’s web loader
+import { LoadSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
 
 const queryClient = getQueryClient();
 
@@ -47,16 +50,27 @@ export default function RootLayout() {
 
   useEffect(() => {
     let mounted = true;
+
+    // Preload i18n
     (async () => {
       const inst = await initI18n();
       if (mounted) setI18nInstance(inst);
     })();
+
+    // ✅ Preload Skia CanvasKit once on web
+    if (Platform.OS === 'web') {
+      LoadSkiaWeb({
+        locateFile: (file) =>
+          `https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.40.0/bin/full/${file}`,
+      });
+    }
+
     return () => {
       mounted = false;
     };
   }, []);
 
-  // Optional tiny splash while i18n loads (usually very fast)
+  // Tiny splash while i18n loads
   if (!i18nInstance) {
     return <View className="flex-1 bg-surface dark:bg-surface-dark" />;
   }
