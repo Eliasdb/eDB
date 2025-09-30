@@ -14,11 +14,7 @@ export function LanguagePicker() {
   const current = (i18n.language?.split('-')?.[0] as AppLocale) || 'en';
 
   return (
-    <View className="border-t border-border dark:border-border-dark">
-      <Text className="text-[16px] font-semibold text-text dark:text-text-dark px-md pt-md mb-sm">
-        {t('profile.language')}
-      </Text>
-
+    <View>
       {LANGS.map(({ code }) => (
         <TouchableOpacity
           key={code}

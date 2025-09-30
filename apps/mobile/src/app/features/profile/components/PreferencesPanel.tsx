@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+
 import {
   AccordionSection,
   Group,
@@ -7,8 +11,6 @@ import {
 import { Item, ItemSwitch } from '@ui/primitives/primitives';
 import { LanguagePicker } from '@ui/widgets/LanguagePicker';
 import { ThemePicker } from '@ui/widgets/ThemePicker';
-import React, { useState } from 'react';
-import { View } from 'react-native';
 
 export function PreferencesPanel({
   title,
@@ -22,6 +24,7 @@ export function PreferencesPanel({
   onPressVoice: () => void;
 }) {
   const [notificationsOn, setNotificationsOn] = useState(true);
+  const { t } = useTranslation();
 
   return (
     <Panel className="mt-3">
@@ -44,7 +47,10 @@ export function PreferencesPanel({
           </View>
 
           <View className="border-t border-border/60 dark:border-border-dark">
-            <AccordionSection title="Appearance" icon="color-palette-outline">
+            <AccordionSection
+              title={t('theme.title')}
+              icon="color-palette-outline"
+            >
               <View className="pt-2">
                 <ThemePicker />
               </View>
@@ -52,7 +58,10 @@ export function PreferencesPanel({
           </View>
 
           <View className="border-t border-border/60 dark:border-border-dark">
-            <AccordionSection title="Language" icon="language-outline">
+            <AccordionSection
+              title={t('profile.language')}
+              icon="language-outline"
+            >
               <View className="pt-2">
                 <LanguagePicker />
               </View>

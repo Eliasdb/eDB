@@ -53,6 +53,8 @@ export default function SecurityScreen() {
             <View className="w-1/2 px-2 max-lg:w-full max-lg:px-0">
               <Section title="Authentication">
                 <Item
+                  border
+                  borderPosition="bottom"
                   label="Change password"
                   icon="key-outline"
                   onPress={() =>
@@ -60,6 +62,8 @@ export default function SecurityScreen() {
                   }
                 />
                 <ItemSwitch
+                  border
+                  borderPosition="bottom"
                   label="Two-factor authentication (2FA)"
                   icon="shield-checkmark-outline"
                   value={twoFA}
@@ -75,6 +79,8 @@ export default function SecurityScreen() {
 
               <Section title="Privacy & data">
                 <Item
+                  border
+                  borderPosition="bottom"
                   label="Export my data"
                   icon="download-outline"
                   onPress={() => {}}
@@ -157,7 +163,7 @@ function SessionsCard({
   return (
     <Card
       inset
-      className="rounded-2xl bg-muted/60 dark:bg-muted-dark/60 border border-border dark:border-border-dark px-3.5 py-3"
+      className="rounded-2xl bg-muted/60 dark:bg-muted-dark/60 border border-border dark:border-border-dark"
     >
       {sessions.map((s, i) => (
         <View key={s.id}>
@@ -195,7 +201,7 @@ function SessionRow({
   }, [session.device]);
 
   return (
-    <View className="flex-row items-center justify-between gap-3">
+    <View className="flex-row items-center justify-between gap-3 py-2">
       {/* Left: icon + text */}
       <View className="flex-row items-start gap-3 flex-1">
         <View className="w-8 h-8 rounded-full items-center justify-center bg-surface dark:bg-surface-dark border border-border dark:border-border-dark">
