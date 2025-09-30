@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useCallback, useState } from 'react';
 import { Platform, RefreshControl, ScrollView, Text } from 'react-native';
+
+import { useTranslation } from 'react-i18next';
 
 import { ResponsiveTabsLayout } from '@ui/layout';
 import { Card, EntityRow, List } from '@ui/primitives';

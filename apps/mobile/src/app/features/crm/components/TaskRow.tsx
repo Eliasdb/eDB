@@ -1,11 +1,8 @@
-// apps/mobile/src/features/crm/components/TaskRow.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Pill } from '@ui/primitives';
-import Checkbox from '@ui/primitives/Checkbox';
-import IconButton from '@ui/primitives/IconButton';
-import React from 'react';
 import { Text, View } from 'react-native';
-import type { Task } from '../../../../lib/api/types';
+
+import type { Task } from '@api';
+import { Checkbox, IconButton, Pill } from '@ui/primitives';
 
 type Props = {
   task: Task;

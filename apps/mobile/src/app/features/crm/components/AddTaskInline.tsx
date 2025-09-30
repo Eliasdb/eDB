@@ -1,8 +1,10 @@
 // apps/mobile/src/features/crm/components/AddTaskInline.tsx
+
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable, TextInput, TouchableOpacity } from 'react-native';
+
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   onAdd: (title: string) => void;

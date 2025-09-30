@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+
+import { useTranslation } from 'react-i18next';
 
 import {
   AccordionSection,
@@ -9,8 +10,7 @@ import {
   SectionHeader,
 } from '@ui/primitives/Panels';
 import { Item, ItemSwitch } from '@ui/primitives/primitives';
-import { LanguagePicker } from '@ui/widgets/LanguagePicker';
-import { ThemePicker } from '@ui/widgets/ThemePicker';
+import { LanguagePicker, ThemePicker } from '@ui/widgets';
 
 export function PreferencesPanel({
   title,

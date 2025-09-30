@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Pressable, Text, View } from 'react-native';
+
 import { Avatar, Button } from '@ui/primitives';
 import { Panel } from '@ui/primitives/Panels';
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
 
 export function ProfileCard({
   name,

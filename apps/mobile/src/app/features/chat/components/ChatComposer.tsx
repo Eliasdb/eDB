@@ -1,4 +1,3 @@
-// apps/mobile/src/lib/components/ChatComposer.tsx
 import { useTranslation } from 'react-i18next';
 import {
   Platform,

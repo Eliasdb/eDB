@@ -1,8 +1,4 @@
-// apps/mobile/src/app/(features)/admin/logs/ClaraCapabilities.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Card } from '@ui/primitives/Card';
-import { Badge } from '@ui/primitives/primitives';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   LayoutChangeEvent,
@@ -12,6 +8,11 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import { Card } from '@ui/primitives';
+import { Badge } from '@ui/primitives/primitives';
 
 type JSONSchema = any;
 

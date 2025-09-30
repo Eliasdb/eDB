@@ -1,6 +1,5 @@
-// apps/mobile/src/features/crm/skeletons/ItemSkeletons.tsx
 import { Skeleton } from '@ui/primitives';
-import React from 'react';
+import { ReactNode } from 'react';
 import { View } from 'react-native';
 
 /** Container that matches your List rounding/borders */
@@ -10,7 +9,7 @@ export function ListSkeleton({
   rowHeight = 56,
 }: {
   rows: number;
-  renderRow: (index: number) => React.ReactNode;
+  renderRow: (index: number) => ReactNode;
   rowHeight?: number;
 }) {
   return (

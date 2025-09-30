@@ -26,7 +26,7 @@ const tintColor: Record<Tint, string> = {
   neutral: '#6B7280',
 };
 
-export default function Checkbox({
+export function Checkbox({
   checked,
   onChange,
   size = 'sm',

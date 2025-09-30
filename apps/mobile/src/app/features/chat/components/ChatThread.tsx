@@ -1,5 +1,5 @@
-// apps/mobile/src/lib/components/ChatThread.tsx
 import type { Msg } from '@api';
+
 import { FlatList, View } from 'react-native';
 import { MessageBubble } from './MessageBubble';
 
