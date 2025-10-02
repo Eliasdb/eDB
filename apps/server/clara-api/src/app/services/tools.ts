@@ -177,12 +177,6 @@ export async function executeTool(
   });
 }
 
-// apps/server/clara-api/src/app/services/tools.ts (continued)
-type FnTool = Extract<
-  OpenAI.Chat.Completions.ChatCompletionTool,
-  { type: 'function' }
->;
-
 // apps/server/clara-api/src/app/services/tools.ts
 
 export function toolSpecsForChat(): OpenAI.Chat.Completions.ChatCompletionTool[] {

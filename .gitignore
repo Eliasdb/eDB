@@ -14,6 +14,8 @@ node_modules
 .env.*.local
 .env
 
+# except keep this one tracked
+
 /_archive/
 
 
@@ -141,3 +143,5 @@ cache/
 ios
 
 android
+
+!.env.development

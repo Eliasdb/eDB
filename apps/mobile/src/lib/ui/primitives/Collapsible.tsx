@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/ui/Collapsible.tsx
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Easing,
@@ -16,25 +16,26 @@ export function Collapsible({
   ...rest
 }: ViewProps & { open: boolean; duration?: number }) {
   const [measured, setMeasured] = useState(0);
-  const h = useRef(new Animated.Value(0)).current;
-  const o = useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
-    Animated.parallel([
-      Animated.timing(h, {
-        toValue: open ? measured : 0,
-        duration,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: false,
-      }),
-      Animated.timing(o, {
-        toValue: open ? 1 : 0,
-        duration,
-        easing: Easing.out(Easing.quad),
-        useNativeDriver: true,
-      }),
-    ]).start();
+  // Single progress value 0 → 1
+  const progress = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(progress, {
+      toValue: open ? 1 : 0,
+      duration,
+      easing: Easing.out(Easing.quad),
+      // IMPORTANT: height can't be native-driven, so keep this false
+      useNativeDriver: false,
+    }).start();
   }, [open, measured, duration]);
+
+  // Map progress to height & opacity
+  const height = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, measured || 0],
+  });
+  const opacity = progress; // fades in/out with the same timing
 
   const onLayout = (e: LayoutChangeEvent) => {
     const next = e.nativeEvent.layout.height;
@@ -43,10 +44,10 @@ export function Collapsible({
 
   return (
     <Animated.View
-      style={[{ height: h, opacity: o, overflow: 'hidden' }, style]}
+      style={[{ height, opacity, overflow: 'hidden' }, style]}
       {...rest}
     >
-      {/* measure once inside */}
+      {/* Measure actual content height once */}
       <View onLayout={onLayout}>{children}</View>
     </Animated.View>
   );

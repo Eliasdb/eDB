@@ -3,9 +3,11 @@
     "name": "Clara",
     "slug": "clara",
     "version": "1.0.0",
+    "jsEngine": "hermes",
+
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mobile",
+    "scheme": "clara",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -16,31 +18,30 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "Allow Clara to record meeting notes after sales visits."
+        "NSMicrophoneUsageDescription": "Allow Clara to record meeting notes after sales visits.",
+        "NSCameraUsageDescription": "Camera access is optional for calls."
       },
-      "bundleIdentifier": "com.anonymous.clara"
+      "bundleIdentifier": "com.eliasdebock.clara"
     },
     "android": {
-      "adaptiveIcon": {
-        "edgeToEdgeEnabled": true,
-        "package": "com.anonymous.clara",
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-
+      "package": "com.eliasdebock.clara",
       "permissions": [
         "INTERNET",
         "RECORD_AUDIO",
         "MODIFY_AUDIO_SETTINGS",
         "BLUETOOTH_CONNECT"
-      ]
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
     },
-
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      "./plugins/ios-build-settings",
       [
         "expo-splash-screen",
         {
@@ -50,8 +51,8 @@
           "backgroundColor": "#ffffff"
         }
       ],
-
-      "expo-router"
+      "expo-router",
+      "expo-audio"
     ]
   }
 }

@@ -1,9 +1,9 @@
-// apps/mobile/metro.config.js
 const path = require('path');
-const { withNxMetro } = require('@nx/expo');
 const { getDefaultConfig } = require('@expo/metro-config');
 const { mergeConfig } = require('metro-config');
 const { withNativeWind } = require('nativewind/metro');
+const withStorybook = require('@storybook/react-native/metro/withStorybook');
+// const { withNxMetro } = require('@nx/expo'); // only if you need Nx plugin wrapping
 
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, '../../'); // monorepo root
@@ -40,7 +40,16 @@ const customConfig = {
   watchFolders: [workspaceRoot],
 };
 
-// Merge base + custom, then wrap with Nx, then wrap with NativeWind
+// Merge base + custom
 const merged = mergeConfig(defaultConfig, customConfig);
 
-module.exports = withNativeWind(merged, { input: './global.css' });
+// Wrap with NativeWind (always)
+let finalConfig = withNativeWind(merged, { input: './global.css' });
+
+// If we’re running Storybook, wrap again
+finalConfig = withStorybook(finalConfig, {
+  enabled: process.env.EXPO_PUBLIC_STORYBOOK === '1',
+  configPath: path.resolve(__dirname, './.rnstorybook'),
+});
+
+module.exports = finalConfig;

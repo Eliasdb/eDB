@@ -1,3 +1,6 @@
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
+
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -14,12 +17,10 @@ import {
 import '../../global.css';
 import { initI18n } from '../lib/i18n';
 
-// 👇 import Skia’s web loader
-import { LoadSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
+import { colorScheme } from 'nativewind'; // 👈 from nativewind
 
 const queryClient = getQueryClient();
 
-// Keep RN AppState wired to React Query focus
 focusManager.setEventListener((handleFocus) => {
   const sub = AppState.addEventListener('change', (s) =>
     handleFocus(s === 'active'),
@@ -31,14 +32,15 @@ function RootInner() {
   const { effective } = useThemePreference(); // "light" | "dark"
   const isDark = effective === 'dark';
 
+  // Override NativeWind's color scheme
+  useEffect(() => {
+    colorScheme.set(isDark ? 'dark' : 'light');
+  }, [isDark]);
+
   return (
     <>
       <StatusBar style={isDark ? 'light' : 'dark'} />
-      <View
-        className={
-          (isDark ? 'dark ' : '') + 'flex-1 bg-surface dark:bg-surface-dark'
-        }
-      >
+      <View className="flex-1 bg-surface dark:bg-surface-dark">
         <Stack screenOptions={{ headerShown: false }} />
       </View>
     </>
@@ -51,18 +53,20 @@ export default function RootLayout() {
   useEffect(() => {
     let mounted = true;
 
-    // Preload i18n
     (async () => {
       const inst = await initI18n();
       if (mounted) setI18nInstance(inst);
     })();
 
-    // ✅ Preload Skia CanvasKit once on web
     if (Platform.OS === 'web') {
-      LoadSkiaWeb({
-        locateFile: (file) =>
-          `https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.40.0/bin/full/${file}`,
-      });
+      import('@shopify/react-native-skia/lib/module/web').then(
+        ({ LoadSkiaWeb }) => {
+          LoadSkiaWeb({
+            locateFile: (file) =>
+              `https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.40.0/bin/full/${file}`,
+          });
+        },
+      );
     }
 
     return () => {
@@ -70,7 +74,6 @@ export default function RootLayout() {
     };
   }, []);
 
-  // Tiny splash while i18n loads
   if (!i18nInstance) {
     return <View className="flex-1 bg-surface dark:bg-surface-dark" />;
   }

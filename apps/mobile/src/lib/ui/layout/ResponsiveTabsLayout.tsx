@@ -9,13 +9,9 @@ type Props<K extends TabKey> = {
   tabs: TabDef<K>[];
   value: K;
   onChange: (k: K) => void;
-  /** Width (px) at which we switch to a sidebar (default 820) */
   sidebarBreakpoint?: number;
-  /** Optional sidebar title (shown above the nav on wide screens) */
   sidebarTitle?: string;
-  /** Optional footer content for the sidebar (e.g., a hint) */
   sidebarFooter?: React.ReactNode;
-  /** Page content (renders right of the sidebar or under the top tabs) */
   children: React.ReactNode;
 };
 
@@ -31,6 +27,11 @@ export function ResponsiveTabsLayout<K extends TabKey>({
   const { width } = useWindowDimensions();
   const isWide = width >= sidebarBreakpoint;
 
+  // Prevent raw strings/numbers as children (they must go inside <Text/>)
+  const normalizedChildren = React.Children.toArray(children).filter(
+    (c) => typeof c !== 'string' && typeof c !== 'number',
+  );
+
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
       <View style={{ flex: 1, flexDirection: isWide ? 'row' : 'column' }}>
@@ -45,13 +46,11 @@ export function ResponsiveTabsLayout<K extends TabKey>({
         ) : (
           <TopTabs tabs={tabs} value={value} onChange={onChange} />
         )}
-        <View style={{ flex: 1 }}>{children}</View>
+        <View style={{ flex: 1 }}>{normalizedChildren}</View>
       </View>
     </View>
   );
 }
-
-/* ------------ internal UI pieces ------------ */
 
 function Sidebar<K extends TabKey>({
   tabs,

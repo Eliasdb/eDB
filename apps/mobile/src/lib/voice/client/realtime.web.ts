@@ -4,7 +4,7 @@ import { getToken, negotiate } from '../core/signaling';
 import { createExecuteOnce } from '../core/tools';
 import type { RealtimeConnections, RealtimeOptions } from '../core/types';
 import { buildAuthHeaders, createAudioSink } from '../core/utils';
-import { attachRemoteLevelMeter } from './audioLevel.web';
+import { attachRemoteLevelMeter } from './audioLevel';
 
 import {
   applyToolEffectToCache,
@@ -46,11 +46,10 @@ export async function connectRealtime(
   });
 
   // 🔊 Attach remote level meter (extracted helper)
-  const detachMeter = attachRemoteLevelMeter(pc, {
+  const detachMeter = attachRemoteLevelMeter(pc as any, {
     onLevel: opts?.onLevel,
     onSpeakingChanged: opts?.onSpeakingChanged,
     threshold: 0.7, // tweak as desired
-    fftSize: 2048,
   });
 
   // 6) On open: session tools

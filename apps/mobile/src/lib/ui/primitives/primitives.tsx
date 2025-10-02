@@ -10,24 +10,8 @@ import {
 } from 'react-native';
 import { cn } from '../utils/cn';
 import { Card } from './Card';
+import { Icon } from './Icon';
 import { Switch } from './Switch';
-
-// Theme-aware icon wrapper
-export function Icon({
-  name,
-  size = 20,
-  className,
-}: {
-  name: React.ComponentProps<typeof Ionicons>['name'];
-  size?: number;
-  className?: string;
-}) {
-  return (
-    <Text className={className}>
-      <Ionicons name={name} size={size} />
-    </Text>
-  );
-}
 
 export function Divider() {
   return (

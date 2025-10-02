@@ -22,7 +22,7 @@ import TaskRow from './TaskRow';
 import { TasksCalendarLite } from './calendar/TasksCalendarLite'; // agenda calendar
 
 import type { HubPayload } from '@api';
-import { BarsCard } from './BarsCard';
+import { BarsCard } from '@ui/visuals/BarsCard'; // RN resolves .native/.web automatically
 
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 

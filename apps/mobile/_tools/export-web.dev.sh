@@ -12,9 +12,9 @@ cd apps/mobile
 ###############################################################################
 ENV_USED="none"
 set -a
-if [ -f .env.development ]; then
-  . ./.env.development
-  ENV_USED=".env.development"
+if [ -f .env ]; then
+  . ./.env
+  ENV_USED=".env"
 elif [ -f .env ]; then
   . ./.env
   ENV_USED=".env"
@@ -47,19 +47,19 @@ echo "Expo web output at $OUT"
 ###############################################################################
 # 4) Make asset URLs relative first (so the bundle is path-agnostic)
 ###############################################################################
-node tools/relativize-assets.mjs "$OUT"
+node _tools/relativize-assets.mjs "$OUT"
 
 ###############################################################################
 # 5) Flatten vector-icon fonts out of .pnpm into a regular folder
 ###############################################################################
-node tools/flatten-vector-icons.mjs "$OUT" "$OUT/fonts"
+node _tools/flatten-vector-icons.mjs "$OUT" "$OUT/fonts"
 
 ###############################################################################
 # 6) Inject base href for where Angular serves it from (unchanged)
 #    You can tweak the mount path for dev if needed, e.g. "/assets/clara-dev"
 ###############################################################################
 BASE_PATH="/assets/clara"
-node tools/patch-index.mjs "$OUT/index.html" "$BASE_PATH" "${EXPO_PUBLIC_API_BASE:-}"
+node _tools/patch-index.mjs "$OUT/index.html" "$BASE_PATH" "${EXPO_PUBLIC_API_BASE:-}"
 
 ###############################################################################
 # 7) Copy to Angular assets

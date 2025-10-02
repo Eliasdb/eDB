@@ -18,12 +18,31 @@ type Props = {
   showHeader?: boolean;
 };
 
-function toYMD(d: string | Date) {
-  const dt = typeof d === 'string' ? new Date(d) : d;
+// Replace your helper with this
+function toYMD(input?: string | Date | null) {
+  // fallback to today if input is missing/invalid
+  const fallback = new Date();
+
+  let dt: Date;
+  if (input instanceof Date) {
+    dt = input;
+  } else if (typeof input === 'string') {
+    // Handle "YYYY-MM-DD" safely (avoid platform parsing quirks)
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(input.trim());
+    if (m) {
+      dt = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    } else {
+      const parsed = new Date(input);
+      dt = Number.isNaN(parsed.getTime()) ? fallback : parsed;
+    }
+  } else {
+    dt = fallback;
+  }
+
   const y = dt.getFullYear();
   const m = String(dt.getMonth() + 1).padStart(2, '0');
-  const day = String(dt.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+  const d = String(dt.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }
 
 export function TasksCalendarLite({

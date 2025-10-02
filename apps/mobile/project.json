@@ -60,7 +60,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": ".",
-        "command": "apps/mobile/tools/export-web.dev.sh"
+        "command": "EXPO_PUBLIC_STORYBOOK=1 apps/mobile/_tools/export-web.dev.sh"
       }
     },
 
@@ -68,7 +68,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": ".",
-        "command": "apps/mobile/tools/mobile-staging.sh"
+        "command": "EXPO_PUBLIC_STORYBOOK=1 apps/mobile/_tools/mobile-staging.sh"
       }
     }
   }

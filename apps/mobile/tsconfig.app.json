@@ -25,6 +25,9 @@
     "**/*.jsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "src/lib/i18n/locales/**/*.json"
+    "src/lib/i18n/locales/**/*.json",
+    ".rnstorybook/**/*.ts",
+    ".rnstorybook/**/*.tsx",
+    ".rnstorybook/**/*.d.ts"
   ]
 }
