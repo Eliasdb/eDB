@@ -18,3 +18,13 @@ spec:
                 secretKeyRef:
                   name: openai-secret-staging
                   key: OPENAI_API_KEY
+            - name: HUBSPOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hubspot-secret-staging
+                  key: HUBSPOT_TOKEN
+            - name: HUBSPOT_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: hubspot-secret-staging
+                  key: HUBSPOT_BASE
