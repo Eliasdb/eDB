@@ -3,7 +3,12 @@ import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderUserMenu } from '../navigation/HeaderUserMenu';
 
-export function AppHeader({ title }: { title: string }) {
+type Props = {
+  title: string;
+  onNavigate?: (path: string, opts?: { replace?: boolean }) => void;
+};
+
+export function AppHeader({ title, onNavigate }: Props) {
   const insets = useSafeAreaInsets();
   const TOOLBAR_H = 56;
   const isWeb = Platform.OS === 'web';
@@ -49,7 +54,7 @@ export function AppHeader({ title }: { title: string }) {
         <Text className="text-[22px] font-bold text-text dark:text-text-dark">
           {title}
         </Text>
-        <HeaderUserMenu toolbarHeight={TOOLBAR_H} />
+        <HeaderUserMenu toolbarHeight={TOOLBAR_H} onNavigate={onNavigate} />
       </View>
     </View>
   );

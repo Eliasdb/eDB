@@ -1,13 +1,13 @@
+// apps/mobile/src/app/(tabs)/_layout.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
-
-import { useTranslation } from 'react-i18next';
-
 import { AppHeader } from '@ui/layout';
 import { NavigationTabBar } from '@ui/navigation';
 import { useThemePreference } from '@ui/providers';
+import { Tabs, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 export default function TabsLayout() {
+  const router = useRouter();
   const { effective } = useThemePreference();
   const dark = effective === 'dark';
   const { t } = useTranslation();
@@ -22,16 +22,24 @@ export default function TabsLayout() {
       tabBar={(props) => <NavigationTabBar {...props} />}
       screenOptions={{
         header: ({ options }) => (
-          <AppHeader title={(options.title as string) ?? ''} />
+          <AppHeader
+            title={(options.title as string) ?? ''}
+            onNavigate={(path, opts) =>
+              opts?.replace ? router.replace(path) : router.push(path)
+            }
+          />
         ),
         tabBarActiveTintColor: primary,
         tabBarInactiveTintColor: inactive,
+        // keep; RN Navigation will anchor to bottom. Background extends via BottomNav.
         tabBarStyle: {
           backgroundColor: bg,
           borderTopColor: border,
+          borderTopWidth: 0.5,
         },
       }}
     >
+      {/* your screens unchanged */}
       <Tabs.Screen
         name="chat"
         options={{
@@ -45,7 +53,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         name="crm"
         options={{
@@ -56,7 +63,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         name="index"
         options={{
@@ -67,7 +73,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         name="profile"
         options={{
@@ -77,7 +82,6 @@ export default function TabsLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         name="admin"
         options={{

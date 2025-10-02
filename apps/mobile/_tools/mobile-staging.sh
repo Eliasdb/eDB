@@ -6,7 +6,7 @@ cd apps/mobile
 
 # 1) Load env
 set -a
-[ -f .env.staging ] && . ./.env.staging || true
+[ -f .env.development ] && . ./.env.development || true
 set +a
 
 # 2) Export web

@@ -1,6 +1,5 @@
 // apps/mobile/src/lib/ui/HeaderUserMenu.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import {
@@ -14,21 +13,27 @@ import { useThemePreference } from '../providers/themePreference';
 
 const { Popover } = renderers;
 
-export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
-  const router = useRouter();
+type Props = {
+  toolbarHeight: number;
+  /** Provide this from a routed screen/layout if you want menu items to navigate */
+  onNavigate?: (path: string, opts?: { replace?: boolean }) => void;
+};
+
+export function HeaderUserMenu({ toolbarHeight, onNavigate }: Props) {
   const { t } = useTranslation();
   const { effective } = useThemePreference();
   const dark = effective === 'dark';
   const GAP = 6;
 
-  // Sleek "sliders" icon instead of avatar/kebab
   const iconName: React.ComponentProps<typeof Ionicons>['name'] =
     'options-outline';
 
-  // Colors to match your tokens
-  const iconColor = dark ? '#E5E7EB' : '#111827'; // text-dark / text
-  const bg = dark ? '#111827' : '#F3F4F6'; // surface-dark-ish / muted
-  const border = dark ? '#374151' : '#E5E7EB'; // border-dark / border
+  const iconColor = dark ? '#E5E7EB' : '#111827';
+  const bg = dark ? '#111827' : '#F3F4F6';
+  const border = dark ? '#374151' : '#E5E7EB';
+
+  const goto = (path: string, opts?: { replace?: boolean }) =>
+    onNavigate?.(path, opts);
 
   return (
     <Menu
@@ -40,8 +45,6 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
         anchorStyle: { marginTop: GAP },
       }}
     >
-      {/* IMPORTANT: Don't nest a Pressable here.
-         MenuTrigger itself handles taps on its child area. */}
       <MenuTrigger
         customStyles={{
           triggerWrapper: {
@@ -52,7 +55,6 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
           },
         }}
       >
-        {/* Accessible, styled trigger */}
         <View
           accessible
           accessibilityRole="button"
@@ -79,19 +81,17 @@ export function HeaderUserMenu({ toolbarHeight }: { toolbarHeight: number }) {
             borderRadius: 12,
             paddingVertical: 0,
             minWidth: 220,
-            // shadow handled by native; looks good on both themes
           },
         }}
       >
-        {/* Themed container */}
         <View className="bg-surface dark:bg-surface-dark rounded-xl overflow-hidden">
-          <MenuOption onSelect={() => router.push('/profile')}>
+          <MenuOption onSelect={() => goto('/profile')}>
             <Row icon="person-outline" label={t('menu.profile', 'Profile')} />
           </MenuOption>
-          <MenuOption onSelect={() => router.push('/(support)/help')}>
+          <MenuOption onSelect={() => goto('/(support)/help')}>
             <Row icon="help-circle-outline" label={t('menu.help', 'Help')} />
           </MenuOption>
-          <MenuOption onSelect={() => router.replace('/(tabs)/index')}>
+          <MenuOption onSelect={() => goto('/(tabs)/index', { replace: true })}>
             <Row
               icon="log-out-outline"
               label={t('menu.logout', 'Log out')}

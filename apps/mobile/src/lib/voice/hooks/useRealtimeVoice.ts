@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-import { attachRemoteLevelMeter } from '../client/audioLevel.web';
-import { connectRealtime } from '../client/realtime.web';
+import { attachRemoteLevelMeter } from '../client/audioLevel';
+import { connectRealtime } from '../client/realtime';
 
 export function useRealtimeVoice() {
   const sessionRef = useRef<Awaited<ReturnType<typeof connectRealtime>> | null>(
@@ -31,13 +31,10 @@ export function useRealtimeVoice() {
       setConnected(true);
 
       // Attach the audio level meter to remote track
-      meterCleanupRef.current = attachRemoteLevelMeter(session.pc, {
+      meterCleanupRef.current = attachRemoteLevelMeter(session.pc as any, {
         onLevel: setLevel,
-        onBands: setBands,
         onSpeakingChanged: setSpeaking,
         threshold: 0.05,
-        smoothing: 0.85,
-        falloff: 0.65,
       });
     } catch (e: any) {
       setError(e?.message ?? 'Failed to start voice');

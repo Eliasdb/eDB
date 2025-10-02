@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { ComponentProps, ReactNode, useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
+import { Icon } from './Icon';
 
 /** A soft card-like container that stands out on light, stays matte on dark. */
 type PanelProps = {
@@ -97,11 +98,8 @@ export function AccordionRow({
       "
     >
       <View className="flex-row items-center gap-3">
-        <Ionicons
-          name={icon}
-          size={20}
-          className="text-text dark:text-text-dark"
-        />
+        <Icon name={icon} size={20} className="text-text dark:text-text-dark" />
+
         <Text className="text-[16px] font-normal text-text dark:text-text-dark">
           {title}
         </Text>

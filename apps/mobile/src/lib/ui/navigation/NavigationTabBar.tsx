@@ -4,17 +4,13 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import BottomNav from '../primitives/BottomNav';
 
-export function NavigationTabBar({
-  state,
-  descriptors,
-  navigation,
-}: BottomTabBarProps) {
+export function NavigationTabBar(props: BottomTabBarProps) {
+  const { state, descriptors, navigation } = props;
+
   const items = state.routes.map((route, index) => {
     const { options } = descriptors[route.key];
-
     const label =
       (options.tabBarLabel as string) ?? options.title ?? route.name;
-
     const focused = state.index === index;
 
     const iconRenderer = options.tabBarIcon
@@ -31,7 +27,6 @@ export function NavigationTabBar({
           <Ionicons name="ellipse" size={size} color={color} />
         );
 
-    // Read possibly-missing properties via `as any` for compatibility across versions
     const anyOpts = options as any;
     const badge = anyOpts.tabBarBadge;
     const testID: string | undefined = anyOpts.tabBarTestID ?? undefined;
@@ -64,19 +59,21 @@ export function NavigationTabBar({
     };
   });
 
-  // Pull active/inactive tints off the current screen's options (fallbacks provided)
   const currentOptions = descriptors[state.routes[state.index].key].options;
   const activeTint = (currentOptions as any).tabBarActiveTintColor ?? '#6C63FF';
   const inactiveTint =
     (currentOptions as any).tabBarInactiveTintColor ?? '#6B7280';
 
+  // 👇 Forward the style coming from React Navigation so the bar spans full width & anchors to bottom.
+  const navStyle = (props as any).style;
+
   return (
     <BottomNav
+      style={navStyle} // <-- important
       items={items}
       activeKey={state.routes[state.index].key}
       activeTint={activeTint}
       inactiveTint={inactiveTint}
-      safe
       elevate
       roundedActive
     />

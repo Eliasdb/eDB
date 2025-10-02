@@ -13,7 +13,7 @@
     "paths": {
       "@ui": ["lib/ui/index.ts"],
       "@ui/*": ["lib/ui/*"],
-      "@features/*": ["app/features/*"],
+      "@features/*": ["lib/features/*"],
       "@api": ["lib/api/index.ts"],
       "@api/*": ["lib/api/*"],
       "@voice": ["lib/voice/index.ts"],
