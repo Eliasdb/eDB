@@ -1,14 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
-import { toolLogKeys } from '../core/keys';
-import { fetchToolLogs } from '../services/toolLogs';
+// hooks/useToolLogsInfinite.ts
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { fetchToolLogsPage } from '../services/toolLogs';
 
-export function useToolLogs() {
+export function useToolLogsInfinite(limit = 10) {
+  return useInfiniteQuery({
+    queryKey: ['tool-logs', limit],
+    queryFn: ({ pageParam = 0 }) => fetchToolLogsPage({ pageParam, limit }),
+    initialPageParam: 0,
+    getNextPageParam: (last) => (last.hasMore ? last.nextOffset! : undefined),
+    staleTime: 1_000,
+    refetchOnWindowFocus: false, // we’ll control head polling separately
+  });
+}
+
+export function useToolLogsHead(limit = 10) {
   return useQuery({
-    queryKey: toolLogKeys.all,
-    queryFn: fetchToolLogs,
-    // keep it feeling “live”
+    queryKey: ['tool-logs', 'head', limit],
+    queryFn: () => fetchToolLogsPage({ pageParam: 0, limit }),
     refetchInterval: 3000,
-    refetchOnWindowFocus: true,
-    staleTime: 1000,
+    staleTime: 1_000,
   });
 }

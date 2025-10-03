@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, ScrollView, Text, View } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 
-import { Segmented } from '@ui/primitives';
 import { AdminLogCard } from './AdminLogCard';
 import AdminLogTerminal from './AdminLogTerminal';
 
 import type { LogVM } from '@api/viewmodels/toolLogs';
+import { Segmented } from '../../../ui/primitives';
 
 type ViewMode = 'cards' | 'terminal';
 
@@ -15,13 +15,19 @@ export function AdminLogList({
   items,
   refreshing,
   onRefresh,
+  onEndReached,
+  loadingMore,
+  hasMore,
 }: {
   items: LogVM[];
   refreshing: boolean;
   onRefresh: () => void;
+  onEndReached?: () => void;
+  loadingMore?: boolean;
+  hasMore?: boolean;
 }) {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<ViewMode>('cards');
+  const [mode, setMode] = useState<'cards' | 'terminal'>('cards');
 
   const Header = useMemo(
     () => (
@@ -51,30 +57,40 @@ export function AdminLogList({
   if (mode === 'terminal') {
     return (
       <View className="flex-1 bg-surface dark:bg-surface-dark">
-        {Header}
-        <AdminLogTerminal
-          items={items}
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          emptyText={t('admin.logs.empty')}
-        />
+        <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+          {Header}
+          <AdminLogTerminal emptyText={t('admin.logs.empty')} />
+        </ScrollView>
       </View>
     );
   }
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      <FlatList<LogVM>
+      <FlatList
         data={items}
         keyExtractor={(x) => x.id}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
         ListHeaderComponent={Header}
         ListHeaderComponentStyle={{ marginBottom: 12 }}
         ItemSeparatorComponent={() => <View className="h-3" />}
         renderItem={({ item }) => <AdminLogCard vm={item} />}
-        ListFooterComponent={<View className="h-6" />}
+        ListFooterComponent={
+          loadingMore ? (
+            <View className="p-4">
+              <Text className="text-center text-text-dim dark:text-text-dimDark">
+                Loading more…
+              </Text>
+            </View>
+          ) : !hasMore ? (
+            <View className="p-4">
+              <Text className="text-center text-text-dim dark:text-text-dimDark">
+                No more logs
+              </Text>
+            </View>
+          ) : (
+            <View className="h-6" />
+          )
+        }
         ListEmptyComponent={
           <View className="p-6">
             <Text className="text-text-dim dark:text-text-dimDark text-center">
@@ -85,6 +101,10 @@ export function AdminLogList({
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ paddingBottom: 20 }}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.3}
       />
     </View>
   );

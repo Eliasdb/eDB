@@ -1,6 +1,12 @@
-import { Group, Panel, SectionHeader } from '@ui/primitives/Panels';
-import { Item } from '@ui/primitives/primitives';
-import { ComponentProps } from 'react';
+// apps/mobile/src/app/components/SettingsPanel.tsx
+import type { ItemRowProps } from '@ui/composites/list-rows/item-row';
+import {
+  Panel,
+  PanelGroup,
+  PanelGroupItemRow,
+  PanelSectionHeader,
+} from '@ui/layout/panel';
+import React from 'react';
 import { View } from 'react-native';
 
 export function SettingsPanel({
@@ -10,30 +16,27 @@ export function SettingsPanel({
   title: string;
   items: Array<{
     label: string;
-    icon: ComponentProps<typeof Item> extends any ? any : never;
+    icon: ItemRowProps['icon']; // Ionicons name
     onPress?: () => void;
+    value?: string; // optional trailing value
   }>;
 }) {
   return (
     <Panel>
-      <SectionHeader title={title} />
+      <PanelSectionHeader title={title} />
       <View className="px-2 pb-3">
-        <Group>
+        <PanelGroup>
           {items.map((it, i) => (
-            <View
+            <PanelGroupItemRow
               key={it.label}
-              className={
-                i > 0 ? 'border-t border-border/60 dark:border-border-dark' : ''
-              }
-            >
-              <Item
-                label={it.label}
-                icon={it.icon as any}
-                onPress={it.onPress}
-              />
-            </View>
+              first={i === 0}
+              label={it.label}
+              icon={it.icon}
+              value={it.value}
+              onPress={it.onPress}
+            />
           ))}
-        </Group>
+        </PanelGroup>
       </View>
     </Panel>
   );

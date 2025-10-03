@@ -1,5 +1,5 @@
 // apps/mobile/src/app/(tabs)/admin/capabilities.tsx
-import { ClaraCapabilities } from '@features/admin';
+import ClaraCapabilities from '@features/admin/components/capabilities/capabilities-container';
 import { ScrollView } from 'react-native';
 
 export default function AdminCapabilitiesScreen() {

@@ -1,3 +1,3 @@
-export * from './DateField';
-export * from './LanguagePicker';
-export * from './ThemePicker';
+export * from './date-field/date-field';
+export * from './language-picker/language-picker';
+export * from './theme-picker/theme-picker';

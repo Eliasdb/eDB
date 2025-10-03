@@ -1,23 +1,31 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
+import { useEffect, useState } from 'react';
+import { AppState, Platform, View } from 'react-native';
+
+// Tanstack
+import { getQueryClient } from '@api';
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
+
+// Expo
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+
+// Providers
 import { I18nextProvider } from 'react-i18next';
-import { AppState, Platform, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 
-import { getQueryClient } from '@api';
+// Styling
 import {
   ThemePreferenceProvider,
   useThemePreference,
 } from '@ui/providers/themePreference';
+import { colorScheme } from 'nativewind';
 import '../../global.css';
-import { initI18n } from '../lib/i18n';
 
-import { colorScheme } from 'nativewind'; // 👈 from nativewind
+// i18n
+import { initI18n } from '../lib/i18n';
 
 const queryClient = getQueryClient();
 

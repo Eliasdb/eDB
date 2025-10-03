@@ -1,6 +1,6 @@
 {
   "home": {
-    "greeting": "Hi, I’m Clara.\nWhat can I do for you today?",
+    "greeting": "Hi, I’m Clara.\nWhat can I do for you today??",
     "status": {
       "connecting": "Connecting…",
       "live": "Live — you can speak",

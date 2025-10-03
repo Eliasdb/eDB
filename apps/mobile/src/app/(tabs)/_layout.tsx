@@ -1,7 +1,6 @@
 // apps/mobile/src/app/(tabs)/_layout.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { AppHeader } from '@ui/layout';
-import { NavigationTabBar } from '@ui/navigation';
+import { AppHeader, NavigationTabBar } from '@ui/navigation';
 import { useThemePreference } from '@ui/providers';
 import { Tabs, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
