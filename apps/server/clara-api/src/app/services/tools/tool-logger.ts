@@ -1,5 +1,4 @@
 // Lightweight in-memory tool usage log (no DB).
-// Keeps the last MAX entries in a ring buffer style.
 
 export type ToolLogEntry = {
   id: string;
@@ -41,13 +40,43 @@ export function add(entry: Omit<ToolLogEntry, 'id' | 'ts'>) {
   return e;
 }
 
+/** Return all, newest first (copy). */
 export function all(): ToolLogEntry[] {
-  // newest first
   return [..._logs].reverse();
 }
 
 export function clear() {
   _logs.length = 0;
+}
+
+/** Efficient newest-first pagination without reversing the whole buffer. */
+export function page(opts?: { offset?: number; limit?: number }) {
+  const total = _logs.length;
+  const offset = Math.max(0, Number(opts?.offset ?? 0) || 0);
+  const rawLimit = Number(opts?.limit ?? 10) || 10;
+  const limit = Math.min(Math.max(1, rawLimit), 100); // clamp 1..100
+
+  // newest-first window over the ring buffer
+  const endIndexExclusiveDesc = offset + limit; // in "desc order units"
+  const startIdx = Math.max(total - endIndexExclusiveDesc, 0); // inclusive in _logs[]
+  const endIdx = Math.max(total - offset, 0); // exclusive in _logs[]
+
+  const items: ToolLogEntry[] = [];
+  for (let i = endIdx - 1; i >= startIdx; i--) {
+    items.push(_logs[i]);
+  }
+
+  const nextOffset = endIdx - startIdx < limit ? null : offset + items.length;
+  const hasMore = nextOffset !== null && nextOffset < total;
+
+  return {
+    items,
+    total,
+    offset,
+    limit,
+    nextOffset,
+    hasMore,
+  };
 }
 
 export async function withToolLog<T>(

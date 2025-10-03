@@ -1,9 +1,23 @@
-import { API_BASE } from '../core/client';
-import type { ToolLogsPayload } from '../core/types';
+// apps/mobile/src/app/services/toolLogs.ts
+type Page = {
+  items: any[]; // ToolLogEntry[]
+  total: number;
+  offset: number;
+  limit: number;
+  nextOffset: number | null;
+  hasMore: boolean;
+};
 
-export async function fetchToolLogs(): Promise<ToolLogsPayload['items']> {
-  const r = await fetch(`${API_BASE}/realtime/tool-logs`);
-  if (!r.ok) throw new Error('Failed to fetch tool logs');
-  const json = (await r.json()) as ToolLogsPayload;
-  return json.items;
+export async function fetchToolLogsPage({
+  pageParam = 0,
+  limit = 10,
+}: {
+  pageParam?: number;
+  limit?: number;
+}): Promise<Page> {
+  const res = await fetch(
+    `http://localhost:9101/realtime/tool-logs?offset=${pageParam}&limit=${limit}`,
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
 }

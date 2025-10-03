@@ -8,7 +8,7 @@ const ExecBody = z.object({
 });
 
 const route: FastifyPluginAsync = async (app) => {
-  app.post('/realtime/execute-tool', async (req, reply) => {
+  app.post('/execute-tool', async (req, reply) => {
     const { name, args } = ExecBody.parse(req.body); // body is already parsed
 
     try {

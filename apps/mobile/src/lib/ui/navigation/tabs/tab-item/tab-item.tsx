@@ -1,6 +1,11 @@
-// apps/mobile/src/lib/ui/primitives/TabItem.tsx
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import * as React from 'react';
+import { Pressable, Text, View, useColorScheme } from 'react-native';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 type Variant = 'sidebar' | 'top';
 
@@ -16,31 +21,46 @@ export type TabItemProps = {
 
 function SafeTextOrNode({
   value,
-  className,
   style,
 }: {
   value?: React.ReactNode | string | number;
-  className?: string;
   style?: any;
 }) {
   if (value == null) return null;
   if (typeof value === 'string' || typeof value === 'number') {
-    return (
-      <Text className={className} style={style}>
-        {String(value)}
-      </Text>
-    );
+    return <Text style={style}>{String(value)}</Text>;
   }
   return <View>{value}</View>;
 }
 
-function Badge({ badge }: { badge?: React.ReactNode | string | number }) {
+function Badge({
+  badge,
+  isDark,
+}: {
+  badge?: React.ReactNode | string | number;
+  isDark: boolean;
+}) {
   if (badge == null) return null;
   return (
-    <View className="px-2 py-0.5 rounded-full bg-muted/70 dark:bg-muted-dark/70 border border-border/60 dark:border-border-dark/60">
+    <View
+      style={{
+        paddingHorizontal: 8,
+        paddingVertical: 2,
+        borderRadius: 999,
+        backgroundColor: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)',
+        borderWidth: 1,
+        borderColor: isDark
+          ? 'rgba(148,163,184,0.35)'
+          : 'rgba(148,163,184,0.35)',
+      }}
+    >
       <SafeTextOrNode
         value={badge}
-        className="text-[12px] font-semibold text-text dark:text-text-dark"
+        style={{
+          fontSize: 12,
+          fontWeight: '600',
+          color: isDark ? '#E5E7EB' : '#111827',
+        }}
       />
     </View>
   );
@@ -55,6 +75,35 @@ export default function TabItem({
   badge,
   disabled = false,
 }: TabItemProps) {
+  const isDark = useColorScheme() === 'dark';
+  const colors = {
+    textIdle: isDark ? '#9AA3B2' : '#6B7280',
+    textActive: isDark ? '#E5E7EB' : '#111827',
+    bgIdle: 'transparent',
+    bgActive: isDark ? 'rgba(255,255,255,0.06)' : '#FFFFFF',
+    sideStripe: isDark ? '#6366F1' : '#6366F1',
+  };
+
+  const prog = useSharedValue(active ? 1 : 0);
+  React.useEffect(() => {
+    prog.value = withTiming(active ? 1 : 0, { duration: 160 });
+  }, [active, prog]);
+
+  const containerStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      prog.value,
+      [0, 1],
+      [colors.bgIdle, colors.bgActive],
+    ),
+  }));
+  const textStyle = useAnimatedStyle(() => ({
+    color: interpolateColor(
+      prog.value,
+      [0, 1],
+      [colors.textIdle, colors.textActive],
+    ),
+  }));
+
   if (variant === 'sidebar') {
     return (
       <Pressable
@@ -62,68 +111,94 @@ export default function TabItem({
         disabled={disabled}
         accessibilityRole="tab"
         accessibilityState={{ selected: !!active, disabled: !!disabled }}
-        className={`mx-2 my-1 rounded-xl ${active ? 'bg-muted/60 dark:bg-muted-dark/60' : ''} ${disabled ? 'opacity-50' : ''}`}
         style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
       >
-        <View className="flex-row items-center">
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginHorizontal: 8,
+            marginVertical: 4,
+            borderRadius: 12,
+            overflow: 'hidden',
+          }}
+        >
           <View
-            className={`w-[4px] self-stretch ${active ? 'bg-primary' : 'bg-transparent'}`}
+            style={{
+              width: 4,
+              alignSelf: 'stretch',
+              backgroundColor: active ? colors.sideStripe : 'transparent',
+            }}
           />
-          <View className="flex-1 px-3 py-2.5 flex-row items-center">
+          <Animated.View
+            style={[
+              {
+                flex: 1,
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                borderRadius: 12,
+                flexDirection: 'row',
+                alignItems: 'center',
+              },
+              containerStyle,
+            ]}
+          >
             {iconLeft ? (
               <View style={{ marginRight: 8 }}>
-                <SafeTextOrNode value={iconLeft} className="text-[12px]" />
+                <SafeTextOrNode value={iconLeft} />
               </View>
             ) : null}
-            <Text
-              className={`text-[15px] font-semibold ${
-                active
-                  ? 'text-text dark:text-text-dark'
-                  : 'text-text-dim dark:text-text-dimDark'
-              }`}
+            <Animated.Text
+              style={[{ fontSize: 15, fontWeight: '700' }, textStyle]}
             >
               {label}
-            </Text>
-            <View style={{ marginLeft: 'auto' }}>
-              <Badge badge={badge} />
-            </View>
-          </View>
+            </Animated.Text>
+            {badge ? (
+              <View style={{ marginLeft: 'auto' }}>
+                <Badge badge={badge} isDark={isDark} />
+              </View>
+            ) : null}
+          </Animated.View>
         </View>
       </Pressable>
     );
   }
 
-  // variant === 'top'
+  // top variant
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled}
       accessibilityRole="tab"
       accessibilityState={{ selected: !!active, disabled: !!disabled }}
-      className={`flex-1 items-center py-2 rounded-xl ${active ? 'bg-white dark:bg-surface-dark' : ''} ${disabled ? 'opacity-50' : ''}`}
       style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
     >
-      <View className="flex-row items-center">
+      <Animated.View
+        style={[
+          {
+            alignItems: 'center',
+            paddingVertical: 8,
+            paddingHorizontal: 10,
+            borderRadius: 10,
+            flexDirection: 'row',
+          },
+          containerStyle,
+        ]}
+      >
         {iconLeft ? (
           <View style={{ marginRight: 8 }}>
-            <SafeTextOrNode value={iconLeft} className="text-[12px]" />
+            <SafeTextOrNode value={iconLeft} />
           </View>
         ) : null}
-        <Text
-          className={`text-[14px] font-extrabold ${
-            active
-              ? 'text-text dark:text-text-dark'
-              : 'text-text-dim dark:text-text-dimDark'
-          }`}
-        >
+        <Animated.Text style={[{ fontSize: 14, fontWeight: '800' }, textStyle]}>
           {label}
-        </Text>
+        </Animated.Text>
         {badge ? (
           <View style={{ marginLeft: 8 }}>
-            <Badge badge={badge} />
+            <Badge badge={badge} isDark={isDark} />
           </View>
         ) : null}
-      </View>
+      </Animated.View>
     </Pressable>
   );
 }

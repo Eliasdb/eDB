@@ -13,7 +13,7 @@ const tabIcon =
   );
 
 const meta: Meta<typeof BottomNav> = {
-  title: 'Navigation/BottomNav',
+  title: 'Navigation/ Bottom Nav',
   component: BottomNav,
   args: {
     activeTint: '#6C63FF',

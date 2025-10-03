@@ -1,5 +1,4 @@
 // apps/mobile/src/lib/ui/admin/ClaraCapabilities.tsx
-import { Segmented } from '@ui/primitives';
 import React, { useMemo, useRef, useState } from 'react';
 import {
   LayoutChangeEvent,
@@ -8,22 +7,27 @@ import {
   View,
 } from 'react-native';
 
+import { Segmented } from '@ui/primitives';
+import { CLARA_HINTS, CLARA_INSTRUCTIONS } from '../../config/constants';
 import { useToolsMeta } from '../../hooks/useToolsMeta';
 import { CapabilitiesHeader } from './capabilities-header';
 import { InstructionsCard } from './instructions-card';
-import type { Summarized } from './tool-card';
 import { ToolGrid } from './tool-grid';
 
+/* ----------------------------------------------------------------------------
+ * Types & helpers (kept here for self-containment)
+ * --------------------------------------------------------------------------*/
 type ToolScope = 'all' | 'internal' | 'external';
-
-const SCOPE_OPTIONS: { value: ToolScope; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'internal', label: 'Internal' },
-  { value: 'external', label: 'External' },
-];
-
-/* -------------------- helpers (mapping/summarizing) -------------------- */
 type JSONSchema = any;
+
+export type CrudAction = 'create' | 'read' | 'update' | 'delete' | 'other';
+
+export type Summarized = {
+  kinds?: string[];
+  required?: string[];
+  fields?: string[];
+  variants?: string[];
+};
 
 function toTitle(name: string) {
   const human = name.replace(/^hub_/, '').replace(/_/g, ' ');
@@ -32,9 +36,6 @@ function toTitle(name: string) {
     .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
     .join(' ');
 }
-
-export type CrudAction = 'create' | 'read' | 'update' | 'delete' | 'other';
-
 function actionFromName(name: string): CrudAction {
   const n = name.toLowerCase();
   if (n.includes('create')) return 'create';
@@ -43,7 +44,6 @@ function actionFromName(name: string): CrudAction {
   if (n.includes('list') || n.includes('read')) return 'read';
   return 'other';
 }
-
 function friendlyHints(name: string, original: string) {
   const n = name.toLowerCase();
   if (n.includes('list_kind')) return 'List all items for a specific kind.';
@@ -53,7 +53,6 @@ function friendlyHints(name: string, original: string) {
   if (n.includes('list')) return 'Fetch a snapshot of items.';
   return original;
 }
-
 function pickIcon(
   name: string,
 ):
@@ -75,7 +74,6 @@ function pickIcon(
   if (n.includes('hub')) return 'grid-outline';
   return 'construct-outline';
 }
-
 function summarizeParams(schema?: JSONSchema): Summarized | undefined {
   if (!schema || typeof schema !== 'object') return;
 
@@ -119,37 +117,44 @@ function summarizeParams(schema?: JSONSchema): Summarized | undefined {
   if (!out.kinds && !out.required && !out.fields && !out.variants) return;
   return out;
 }
-
 function isInternalTool(name: string) {
   return name.startsWith('hub_');
 }
 
-/* ------------------------------- container ------------------------------ */
+/* ----------------------------------------------------------------------------
+ * Component
+ * --------------------------------------------------------------------------*/
 
-export function ClaraCapabilities() {
-  const { data, loading, error } = useToolsMeta();
+const SCOPE_OPTIONS: { value: ToolScope; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'internal', label: 'Internal' },
+  { value: 'external', label: 'External' },
+];
+
+export default function ClaraCapabilities() {
+  const { data } = useToolsMeta();
   const { width } = useWindowDimensions();
   const isWide = width >= 820;
 
   const tools = data?.tools ?? [];
 
+  // Map tools → view models
   const summarized = useMemo(() => {
     if (!tools.length) return [];
-    return tools.map((t) => {
-      const friendly = toTitle(t.name);
-      const action = actionFromName(t.name);
-      return {
-        icon: pickIcon(t.name),
-        name: t.name,
-        title: friendly,
-        action,
-        description: friendlyHints(t.name, t.description),
-        summary: summarizeParams(t.parameters),
-      };
-    });
+    return tools.map((t) => ({
+      icon: pickIcon(t.name),
+      name: t.name,
+      title: toTitle(t.name),
+      action: actionFromName(t.name),
+      description: friendlyHints(t.name, t.description),
+      summary: summarizeParams(t.parameters),
+    }));
   }, [tools]);
 
+  // Segmented state
   const [scope, setScope] = useState<ToolScope>('all');
+
+  // Filtered list per scope
   const filtered = useMemo(() => {
     if (scope === 'all') return summarized;
     if (scope === 'internal')
@@ -157,14 +162,14 @@ export function ClaraCapabilities() {
     return summarized.filter((t) => !isInternalTool(t.name));
   }, [summarized, scope]);
 
-  // Equal height management for 2-up grid
+  // Equal-height for 2-up grid (only if you pass twoUp=true)
   const heightsRef = useRef<number[]>([]);
   const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
 
   React.useEffect(() => {
     heightsRef.current = [];
     setMaxHeight(undefined);
-  }, [isWide, data?.tools?.length]);
+  }, [isWide, filtered.length]);
 
   const onCardLayoutAt = (i: number) => (e: LayoutChangeEvent) => {
     if (!isWide) return;
@@ -176,15 +181,81 @@ export function ClaraCapabilities() {
     }
   };
 
+  // ------------------- Explicit conditional returns (like AdminLogList) -------------------
+
+  if (scope === 'all') {
+    return (
+      <View>
+        <CapabilitiesHeader total={summarized.length} />
+        <InstructionsCard
+          instructions={CLARA_INSTRUCTIONS}
+          hints={CLARA_HINTS}
+        />
+
+        <View className="mb-3">
+          <Segmented<ToolScope>
+            value={scope}
+            options={SCOPE_OPTIONS}
+            onChange={setScope}
+          />
+        </View>
+
+        {summarized.length > 0 ? (
+          <ToolGrid
+            items={summarized}
+            twoUp={false}
+            onCardLayoutAt={onCardLayoutAt}
+            equalHeight={isWide ? maxHeight : undefined}
+          />
+        ) : (
+          <Text className="text-text-dim dark:text-text-dimDark">
+            No tools found.
+          </Text>
+        )}
+      </View>
+    );
+  }
+
+  if (scope === 'internal') {
+    const items = filtered;
+    return (
+      <View>
+        <CapabilitiesHeader total={summarized.length} />
+        <InstructionsCard
+          instructions={CLARA_INSTRUCTIONS}
+          hints={CLARA_HINTS}
+        />
+
+        <View className="mb-3">
+          <Segmented<ToolScope>
+            value={scope}
+            options={SCOPE_OPTIONS}
+            onChange={setScope}
+          />
+        </View>
+
+        {items.length > 0 ? (
+          <ToolGrid
+            items={items}
+            twoUp={false}
+            onCardLayoutAt={onCardLayoutAt}
+            equalHeight={isWide ? maxHeight : undefined}
+          />
+        ) : (
+          <Text className="text-text-dim dark:text-text-dimDark">
+            No internal tools.
+          </Text>
+        )}
+      </View>
+    );
+  }
+
+  // scope === 'external'
+  const items = filtered;
   return (
     <View>
       <CapabilitiesHeader total={summarized.length} />
-
-      <InstructionsCard
-        loading={loading}
-        error={error}
-        instructions={data?.instructions}
-      />
+      <InstructionsCard instructions={CLARA_INSTRUCTIONS} hints={CLARA_HINTS} />
 
       <View className="mb-3">
         <Segmented<ToolScope>
@@ -194,20 +265,18 @@ export function ClaraCapabilities() {
         />
       </View>
 
-      {filtered.length > 0 ? (
+      {items.length > 0 ? (
         <ToolGrid
-          items={filtered}
+          items={items}
           twoUp={false}
           onCardLayoutAt={onCardLayoutAt}
           equalHeight={isWide ? maxHeight : undefined}
         />
       ) : (
         <Text className="text-text-dim dark:text-text-dimDark">
-          No tools found.
+          No external tools.
         </Text>
       )}
     </View>
   );
 }
-
-export default ClaraCapabilities;

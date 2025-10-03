@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ToggleRow } from './toggle-row';
 
 const meta: Meta<typeof ToggleRow> = {
-  title: 'Composites/List Rows/ToggleRow',
+  title: 'Composites/List Rows/Toggle Row',
   component: ToggleRow,
   args: {
     label: 'Notifications',

@@ -12,22 +12,22 @@ import type { ExecCtx, ToolModule } from '../registry';
 
 const uid = (p: string) =>
   `${p}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
-const CreateArgs = z.object({ kindSchema, data: z.any() });
+const CreateArgs = z.object({ kind: kindSchema, data: z.any() });
 const UpdateArgs = z.object({
-  kindSchema,
+  kind: kindSchema,
   id: z.string().min(1),
   patch: z.any(),
 });
-const DeleteArgs = z.object({ kindSchema, id: z.string().min(1) });
-const ListArgs = z.object({ kindSchema });
+const DeleteArgs = z.object({ kind: kindSchema, id: z.string().min(1) });
+const ListArgs = z.object({ kind: kindSchema });
 
 function parseCreate(a: z.infer<typeof CreateArgs>) {
-  const schema = bodySchemaByKind[a.kindSchema];
+  const schema = bodySchemaByKind[a.kind];
   const parsed = schema.parse(a.data);
-  return parsed.id ? parsed : { ...parsed, id: uid(a.kindSchema.slice(0, 2)) };
+  return parsed.id ? parsed : { ...parsed, id: uid(a.kind.slice(0, 2)) };
 }
 function parsePatch(a: z.infer<typeof UpdateArgs>) {
-  const schema = patchSchemaByKind[a.kindSchema];
+  const schema = patchSchemaByKind[a.kind];
   return schema.parse(a.patch);
 }
 
@@ -204,30 +204,29 @@ export const crmModule: ToolModule = {
       switch (localName) {
         case 'list':
           return store.all();
-
         case 'list_kind':
-          return store.list(ListArgs.parse(args).kindSchema);
+          return store.list(ListArgs.parse(args).kind);
 
         case 'create': {
           const a = CreateArgs.parse(args);
           const withId = parseCreate(a);
-          store.add(a.kindSchema as Kind, withId);
-          return store.get(a.kindSchema as Kind, withId.id);
+          store.add(a.kind as Kind, withId);
+          return store.get(a.kind as Kind, withId.id);
         }
 
         case 'update': {
           const a = UpdateArgs.parse(args);
           const patch = parsePatch(a);
-          const existing = store.get(a.kindSchema as Kind, a.id);
+          const existing = store.get(a.kind as Kind, a.id);
           if (!existing) return { error: 'not_found' };
           const updated = { ...existing, ...patch, id: a.id };
-          store.update(a.kindSchema as Kind, a.id, updated);
+          store.update(a.kind as Kind, a.id, updated);
           return updated;
         }
 
         case 'delete': {
           const a = DeleteArgs.parse(args);
-          const ok = store.remove(a.kindSchema as Kind, a.id);
+          const ok = store.remove(a.kind as Kind, a.id);
           return ok ? { ok: true, id: a.id } : { error: 'not_found' };
         }
 

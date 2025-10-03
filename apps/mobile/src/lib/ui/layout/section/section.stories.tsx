@@ -9,6 +9,10 @@ const meta: Meta<typeof Section> = {
   args: {
     title: 'Profile',
   },
+  argTypes: {
+    // children can't be serialized → render it, don't control it
+    children: { control: false },
+  },
   decorators: [
     (Story) => (
       <View style={{ flex: 1, padding: 16, backgroundColor: 'transparent' }}>
@@ -30,21 +34,20 @@ export default meta;
 type Story = StoryObj<typeof Section>;
 
 export const Basic: Story = {
-  args: {
-    children: (
+  render: (args) => (
+    <Section {...args}>
       <View style={{ padding: 12, gap: 8 }}>
         <Text className="text-[14px] text-text dark:text-text-dark">
           This is a basic section body. Put any content here.
         </Text>
       </View>
-    ),
-  },
+    </Section>
+  ),
 };
 
 export const WithFormishContent: Story = {
-  args: {
-    title: 'Account',
-    children: (
+  render: (args) => (
+    <Section {...args} title="Account">
       <View style={{ padding: 12, gap: 12 }}>
         <Text className="text-[14px] text-text dark:text-text-dark">Email</Text>
         <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
@@ -58,14 +61,13 @@ export const WithFormishContent: Story = {
           Updated 2 days ago
         </Text>
       </View>
-    ),
-  },
+    </Section>
+  ),
 };
 
 export const DenseContent: Story = {
-  args: {
-    title: 'Billing',
-    children: (
+  render: (args) => (
+    <Section {...args} title="Billing">
       <View style={{ padding: 12 }}>
         <Text className="text-[14px] text-text dark:text-text-dark">
           Current plan: Pro
@@ -74,6 +76,6 @@ export const DenseContent: Story = {
           Renews on 2025-11-20
         </Text>
       </View>
-    ),
-  },
+    </Section>
+  ),
 };

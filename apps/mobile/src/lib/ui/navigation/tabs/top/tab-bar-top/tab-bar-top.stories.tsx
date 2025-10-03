@@ -13,7 +13,7 @@ const sampleTabs: TabDef<K>[] = [
 ];
 
 const meta: Meta<typeof TabBarTop<K>> = {
-  title: 'Navigation/TabBarTop',
+  title: 'Navigation/Tab Bar Top',
   component: TabBarTop,
   args: {
     tabs: sampleTabs,

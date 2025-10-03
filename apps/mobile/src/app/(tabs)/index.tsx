@@ -11,7 +11,9 @@ import { AudioGlow } from '@ui/visuals';
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking, bands } =
     useRealtimeVoice();
+
   const { t } = useTranslation();
+
   const onMicPress = () => (connected ? stop() : start());
 
   return (

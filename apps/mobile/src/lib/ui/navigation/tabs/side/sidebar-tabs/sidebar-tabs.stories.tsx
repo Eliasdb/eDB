@@ -13,7 +13,7 @@ const sampleTabs: { key: K; label: string }[] = [
 ];
 
 const meta: Meta<typeof SidebarTabs<K>> = {
-  title: 'Navigation/SidebarTabs',
+  title: 'Navigation/Sidebar Tabs',
   component: SidebarTabs,
   args: {
     tabs: sampleTabs,

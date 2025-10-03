@@ -3,21 +3,12 @@ import {
   Animated, // <-- import the type
   Platform,
   LayoutAnimation as RNLayoutAnimation,
-  UIManager,
   View,
   type LayoutAnimationConfig,
   type StyleProp,
   type ViewProps,
   type ViewStyle,
 } from 'react-native';
-
-// Enable LayoutAnimation on Android
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 type Props = ViewProps & {
   open: boolean;

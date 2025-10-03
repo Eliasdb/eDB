@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 
 const route: FastifyPluginAsync = async (app) => {
-  app.post('/realtime/token', async (_req, reply) => {
+  app.post('/token', async (_req, reply) => {
     // For OpenAI Realtime you typically mint a short-lived token on server.
     // If you're proxying directly, you can also return the target URL here.
     if (!app.hasOpenAI) return reply.send({ enabled: false });
