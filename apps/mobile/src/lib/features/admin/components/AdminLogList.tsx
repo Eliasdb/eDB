@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 
@@ -67,9 +67,9 @@ export function AdminLogList({
       <FlatList<LogVM>
         data={items}
         keyExtractor={(x) => x.id}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+        // refreshControl={
+        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        // }
         ListHeaderComponent={Header}
         ListHeaderComponentStyle={{ marginBottom: 12 }}
         ItemSeparatorComponent={() => <View className="h-3" />}

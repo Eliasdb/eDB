@@ -1,11 +1,11 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 
 import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
-import { MaterialIcons } from '@expo/vector-icons';
 import { Screen } from '@ui/layout';
-import { Avatar, Button, Pill, PulseDot } from '@ui/primitives';
+import { Avatar, Button, Dot, Pill } from '@ui/primitives';
 import { AudioGlow } from '@ui/visuals';
 
 export default function HomeScreen() {
@@ -49,8 +49,6 @@ export default function HomeScreen() {
                 : t('mic.talk')
           }
         />
-
-        {/* <MicButton active={connected} loading={loading} onPress={onMicPress} /> */}
       </View>
 
       {/* Status pill */}
@@ -59,7 +57,7 @@ export default function HomeScreen() {
         tone="neutral"
         variant="soft"
         size="sm"
-        left={<PulseDot on={connected} />}
+        left={<Dot on={connected} />}
         text={
           loading
             ? 'Connecting…'

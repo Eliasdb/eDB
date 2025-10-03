@@ -1,7 +1,7 @@
 // apps/mobile/src/app/(features)/profile/help.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Subheader } from '@ui/navigation/Subheader';
-import { Card } from '@ui/primitives/Card';
+import { Subheader } from '@ui/navigation';
+import { Card } from '@ui/primitives';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {

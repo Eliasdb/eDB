@@ -8,7 +8,8 @@ import { useMemo, useState } from 'react';
 import { PageContainer } from '@ui/layout';
 import { Subheader } from '@ui/navigation';
 import { Card } from '@ui/primitives';
-import { Item, ItemSwitch, Section } from '@ui/primitives/primitives';
+import { Section } from '@ui/primitives/primitives';
+import { ItemRow, ToggleRow } from '../../../lib/ui/composites/list-rows';
 
 export default function SecurityScreen() {
   const insets = useSafeAreaInsets();
@@ -53,7 +54,7 @@ export default function SecurityScreen() {
             {/* Left column */}
             <View className="w-1/2 px-2 max-lg:w-full max-lg:px-0">
               <Section title="Authentication">
-                <Item
+                <ItemRow
                   border
                   borderPosition="bottom"
                   label="Change password"
@@ -62,7 +63,7 @@ export default function SecurityScreen() {
                     router.push('/profile/security/change-password')
                   }
                 />
-                <ItemSwitch
+                <ToggleRow
                   border
                   borderPosition="bottom"
                   label="Two-factor authentication (2FA)"
@@ -70,7 +71,7 @@ export default function SecurityScreen() {
                   value={twoFA}
                   onValueChange={setTwoFA}
                 />
-                <ItemSwitch
+                <ToggleRow
                   label="Passkeys (WebAuthn)"
                   icon="finger-print-outline"
                   value={passkeys}
@@ -79,14 +80,14 @@ export default function SecurityScreen() {
               </Section>
 
               <Section title="Privacy & data">
-                <Item
+                <ItemRow
                   border
                   borderPosition="bottom"
                   label="Export my data"
                   icon="download-outline"
                   onPress={() => {}}
                 />
-                <Item
+                <ItemRow
                   label="Delete account"
                   icon="trash-outline"
                   onPress={() =>

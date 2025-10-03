@@ -3,10 +3,10 @@ import { Platform, RefreshControl, ScrollView, Text } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 
+import TaskRow from '@ui/composites/list-rows/task-row/task-row';
 import { ResponsiveTabsLayout } from '@ui/layout';
-import { Card, EntityRow, List } from '@ui/primitives';
+import { Card, List } from '@ui/primitives';
 import { EmptyLine } from '@ui/primitives/primitives';
-
 import { companyToEntityProps, contactToEntityProps } from '../mappers/entity';
 import TaskEditSheet from '../sheets/TaskEditSheet';
 import {
@@ -16,13 +16,13 @@ import {
   TaskItemSkeleton,
 } from '../skeletons/ItemSkeletons';
 import AddTaskInline from './AddTaskInline';
-import TaskRow from './TaskRow';
 
 // 🎯 Charts & Calendar
 import { TasksCalendarLite } from './calendar/TasksCalendarLite'; // agenda calendar
 
 import type { HubPayload } from '@api';
 import { BarsCard } from '@ui/visuals/BarsCard'; // RN resolves .native/.web automatically
+import { EntityRow } from '../../../ui/composites/list-rows';
 
 const webPanY = Platform.OS === 'web' ? ({ touchAction: 'pan-y' } as any) : {};
 

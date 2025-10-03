@@ -1,3 +1,2 @@
-export * from './HeaderUserMenu';
-export * from './NavigationTabBar';
-export * from './Subheader';
+export * from './headers';
+export * from './tabs';

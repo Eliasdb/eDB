@@ -3,8 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { Card, Segmented } from '@ui/primitives';
-import { Badge, Dot, KV, MonoKV, Row } from '@ui/primitives/primitives';
+import { Badge, Card, Dot, Segmented } from '@ui/primitives';
+import { KV, MonoKV, Row } from '@ui/primitives/primitives';
 
 import type { LogVM } from '@api/viewmodels/toolLogs';
 import { buildSummaryRows } from '@api/viewmodels/toolLogs';
@@ -19,7 +19,7 @@ export function AdminLogCard({ vm }: { vm: LogVM }) {
     <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark">
       {/* Header row */}
       <Row center style={{ justifyContent: 'space-between' }}>
-        <View className="flex-row items-center gap-2 shrink">
+        <View className="flex-row items-center gap-3 shrink">
           <Dot ok={vm.ok} />
           <Badge label={vm.verb.toUpperCase()} tint={verbTint(vm.verb)} />
           {vm.kind ? (

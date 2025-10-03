@@ -2,7 +2,6 @@
 import React, { useMemo } from 'react';
 import {
   Platform,
-  RefreshControl,
   ScrollView,
   Text,
   View,
@@ -146,10 +145,10 @@ export default function AdminLogTerminal({
             nestedScrollEnabled
             directionalLockEnabled
             style={cfg.bodyHeight ? { maxHeight: cfg.bodyHeight } : { flex: 1 }}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            showsVerticalScrollIndicator={true}
+            // refreshControl={
+            //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            // }
+            // showsVerticalScrollIndicator={true}
           >
             {items.length === 0 ? (
               <View className="px-3 py-3">

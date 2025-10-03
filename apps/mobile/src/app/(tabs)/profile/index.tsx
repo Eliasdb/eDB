@@ -17,8 +17,6 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const ENABLED = __DEV__ && process.env.EXPO_PUBLIC_STORYBOOK === '1';
-
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
       <ScrollView
@@ -57,15 +55,11 @@ export default function ProfileScreen() {
                     icon: 'link-outline',
                     onPress: () => router.push('/profile/integrations'),
                   },
-                  ...(ENABLED
-                    ? [
-                        {
-                          label: 'Developer',
-                          icon: 'code-slash-outline',
-                          onPress: () => router.push('/storybook'),
-                        },
-                      ]
-                    : []),
+                  {
+                    label: 'Developer',
+                    icon: 'code-slash-outline',
+                    onPress: () => router.push('/storybook'),
+                  },
                 ]}
               ></SettingsPanel>
 

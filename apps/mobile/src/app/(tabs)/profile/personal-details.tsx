@@ -1,12 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+// apps/mobile/src/app/(profile)/personal-details.tsx
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRouter } from 'expo-router';
@@ -15,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { PageContainer, TwoCol } from '@ui/layout';
 import { Subheader, TextAction } from '@ui/navigation';
-import { Card, Field, Input } from '@ui/primitives';
+import { Button, Card, Field, Input } from '@ui/primitives';
 
 import { makeLeftCards } from '@features/profile/config';
 
@@ -55,6 +48,11 @@ export default function PersonalDetailsScreen() {
       }),
     [t, firstName, lastName, email, phone, company, role],
   );
+
+  // near top of the component
+  const BASE_PAD = 12; // equal padding inside the bar
+  const SAFE_CUSHION = 36; // how much of the safe area we *ignore*
+  const spacer = Math.max(insets.bottom - SAFE_CUSHION, 0); // only extra beyond cushion
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
@@ -126,19 +124,25 @@ export default function PersonalDetailsScreen() {
         </ScrollView>
 
         {/* Save bar */}
-        <View
-          className="absolute left-0 right-0 bottom-0 bg-surface/95 dark:bg-surface-dark/95 border-t border-border dark:border-border-dark px-4 pt-2"
-          style={{ paddingBottom: Math.max(10, insets.bottom) }}
-        >
-          <TouchableOpacity
-            className="h-11 rounded-pill bg-primary flex-row items-center justify-center gap-2 active:opacity-95"
-            onPress={onSave}
+        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+          {/* Bar */}
+          <View
+            className="bg-surface/95 dark:bg-surface-dark/95 border-t border-border dark:border-border-dark px-4"
+            style={{ paddingTop: BASE_PAD, paddingBottom: BASE_PAD }} // equal padding
           >
-            <Ionicons name="save-outline" size={18} color="#fff" />
-            <Text className="text-white font-bold text-[16px]">
-              {t('personal.saveChanges')}
-            </Text>
-          </TouchableOpacity>
+            <Button
+              label={t('personal.saveChanges')}
+              iconLeft="save-outline"
+              variant="solid"
+              tint="primary"
+              size="md"
+              fullWidth
+              onPress={onSave}
+            />
+          </View>
+
+          {/* Only a *small* spacer — lets the bar sit lower */}
+          <View style={{ height: spacer }} />
         </View>
       </KeyboardAvoidingView>
     </View>

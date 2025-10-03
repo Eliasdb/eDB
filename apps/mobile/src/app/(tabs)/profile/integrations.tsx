@@ -7,13 +7,14 @@ import { useMemo, useState } from 'react';
 import { PageContainer } from '@ui/layout';
 import { Subheader } from '@ui/navigation';
 import { Card } from '@ui/primitives';
-import { ItemSwitch, Section } from '@ui/primitives/primitives';
+import { Section } from '@ui/primitives/primitives';
 
 import {
   getIntegrationSections,
   wideColumnLayout,
   type IntegrationSection,
 } from '@features/profile/config';
+import { ToggleRow } from '../../../lib/ui/composites/list-rows';
 
 export default function IntegrationsScreen() {
   const insets = useSafeAreaInsets();
@@ -75,7 +76,7 @@ export default function IntegrationsScreen() {
                   return (
                     <Section key={s.key} title={s.title}>
                       {s.items.map((it) => (
-                        <ItemSwitch
+                        <ToggleRow
                           key={it.key}
                           label={it.label}
                           icon={it.icon}
@@ -95,7 +96,7 @@ export default function IntegrationsScreen() {
                   return (
                     <Section key={s.key} title={s.title}>
                       {s.items.map((it) => (
-                        <ItemSwitch
+                        <ToggleRow
                           key={it.key}
                           label={it.label}
                           icon={it.icon}
@@ -114,7 +115,7 @@ export default function IntegrationsScreen() {
               {sections.map((s) => (
                 <Section key={s.key} title={s.title}>
                   {s.items.map((it) => (
-                    <ItemSwitch
+                    <ToggleRow
                       key={it.key}
                       label={it.label}
                       icon={it.icon}
