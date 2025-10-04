@@ -13,9 +13,8 @@ import {
 import type { LogVM } from '@api/viewmodels/toolLogs';
 import { entryToVM } from '@api/viewmodels/toolLogs';
 
-// ---- fetcher (newest-first) ----
 type Page = {
-  items: any[]; // server ToolLogEntry[]
+  items: any[];
   total: number;
   offset: number;
   limit: number;
@@ -25,23 +24,19 @@ type Page = {
 
 async function fetchToolLogsPage(offset = 0, limit = 10): Promise<Page> {
   const res = await fetch(
-    `http://localhost:9101/realtime/tool-logs?offset=${offset}&limit=${limit}`,
+    `https://api.staging.eliasdebock.com/realtime/tool-logs?offset=${offset}&limit=${limit}`,
   );
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
-/* ------------------------------------------------------------------------- */
-
 type Mode = 'standalone' | 'embedded';
 
 export default function AdminLogTerminal({
-  header, // ⬅ your big “Activity logs” header element
   emptyText = 'No logs yet',
   mode = 'embedded',
   pageSize = 10,
 }: {
-  header?: React.ReactElement | null;
   emptyText?: string;
   mode?: Mode;
   pageSize?: number;
@@ -49,13 +44,12 @@ export default function AdminLogTerminal({
   const { width } = useWindowDimensions();
   const isNarrow = width < 420;
 
-  // ---- infinite query lives HERE ----
   const {
     data,
     isLoading,
     isRefetching,
-    refetch, // used only for pull-to-refresh
-    fetchNextPage, // called only from onEndReached
+    refetch,
+    fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
@@ -63,34 +57,41 @@ export default function AdminLogTerminal({
     initialPageParam: 0,
     queryFn: ({ pageParam = 0 }) => fetchToolLogsPage(pageParam, pageSize),
     getNextPageParam: (last) => (last.hasMore ? last.nextOffset! : undefined),
-
-    // 👇 DO NOT refetch automatically
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     refetchOnMount: false,
-
-    // cache & consider fresh for a while so no background re-fetches
-    staleTime: 5 * 60 * 1000, // 5 min
-    gcTime: 30 * 60 * 1000, // 30 min cache
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
     retry: 0,
   });
-
-  const loadingMoreRef = React.useRef(false);
-  const handleEndReached = React.useCallback(() => {
-    if (loadingMoreRef.current) return;
-    if (!hasNextPage || isFetchingNextPage) return;
-    loadingMoreRef.current = true;
-    fetchNextPage().finally(() => {
-      // small micro delay to debounce flurries of events on iOS
-      setTimeout(() => (loadingMoreRef.current = false), 100);
-    });
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const flatItems: LogVM[] = useMemo(() => {
     const pages = data?.pages ?? [];
     return pages.flatMap((p) => p.items).map(entryToVM);
   }, [data]);
 
+  /* ---------- guard onEndReached ---------- */
+  const loadingMoreRef = React.useRef(false);
+  const allowEndReachedRef = React.useRef(false);
+  const listLayoutHRef = React.useRef(0);
+  const contentHRef = React.useRef(0);
+
+  const tryFetchNext = React.useCallback(() => {
+    if (loadingMoreRef.current) return;
+    if (!hasNextPage || isFetchingNextPage) return;
+    loadingMoreRef.current = true;
+    fetchNextPage().finally(() => {
+      setTimeout(() => (loadingMoreRef.current = false), 80);
+    });
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const onEndReachedGuarded = React.useCallback(() => {
+    if (!allowEndReachedRef.current) return;
+    if (contentHRef.current <= listLayoutHRef.current) return;
+    tryFetchNext();
+  }, [tryFetchNext]);
+
+  /* ---------- styles/config ---------- */
   const mono = useMemo(
     () =>
       (Platform.select({
@@ -140,6 +141,71 @@ export default function AdminLogTerminal({
     <View className="h-px bg-border dark:bg-border-dark opacity-60" />
   );
 
+  // ⬇️ This is the *table* header that should stay together with rows
+  const TableHeader = () => (
+    <View style={{ paddingHorizontal: 12, paddingTop: cfg.headerPy }}>
+      {isNarrow ? (
+        <View
+          className="flex-row items-center"
+          style={{ paddingVertical: cfg.headerPy }}
+        >
+          <Cell w={cfg.W.time} mono dim fs={cfg.fs}>
+            {cfg.labels.when}
+          </Cell>
+          <Cell flex mono dim fs={cfg.fs}>
+            {cfg.labels.action}
+          </Cell>
+          <Cell w={cfg.W.ms} mono dim fs={cfg.fs} right>
+            {cfg.labels.ms}
+          </Cell>
+        </View>
+      ) : (
+        <View
+          className="flex-row items-center"
+          style={{ paddingVertical: cfg.headerPy }}
+        >
+          <Cell w={cfg.W.time} mono dim fs={cfg.fs}>
+            {cfg.labels.when}
+          </Cell>
+          <Cell w={cfg.W.action} mono dim fs={cfg.fs}>
+            {cfg.labels.action}
+          </Cell>
+          <Cell w={cfg.W.kind} mono dim fs={cfg.fs}>
+            {cfg.labels.kind}
+          </Cell>
+          <Cell w={cfg.W.ms} mono dim fs={cfg.fs}>
+            {cfg.labels.ms}
+          </Cell>
+          <Cell mono dim fs={cfg.fs}>
+            {cfg.labels.details}
+          </Cell>
+        </View>
+      )}
+      <Divider />
+    </View>
+  );
+
+  const footer = isFetchingNextPage ? (
+    <View className="p-3">
+      <ActivityIndicator />
+    </View>
+  ) : data && !hasNextPage ? (
+    <View className="p-3">
+      <Text className="text-center text-text-dim dark:text-text-dimDark">
+        No more logs
+      </Text>
+    </View>
+  ) : contentHRef.current <= listLayoutHRef.current ? (
+    <View className="p-3 items-center">
+      <Text
+        onPress={tryFetchNext}
+        className="text-[13px] font-semibold text-primary"
+      >
+        Load older
+      </Text>
+    </View>
+  ) : null;
+
   return (
     <View
       style={{
@@ -151,56 +217,14 @@ export default function AdminLogTerminal({
     >
       <View
         className="overflow-hidden bg-surface-2 dark:bg-surface-dark border border-border dark:border-border-dark"
-        style={{ borderRadius: cfg.radius }}
+        style={{ borderRadius: cfg.radius, flex: 1 }} // ✅ give the card height
       >
-        {/* Table header (fixed part of the “terminal” chrome) */}
-        <View style={{ paddingHorizontal: 12, paddingTop: cfg.headerPy }}>
-          {isNarrow ? (
-            <View
-              className="flex-row items-center"
-              style={{ paddingVertical: cfg.headerPy }}
-            >
-              <Cell w={cfg.W.time} mono dim fs={cfg.fs}>
-                {cfg.labels.when}
-              </Cell>
-              <Cell flex mono dim fs={cfg.fs}>
-                {cfg.labels.action}
-              </Cell>
-              <Cell w={cfg.W.ms} mono dim fs={cfg.fs} right>
-                {cfg.labels.ms}
-              </Cell>
-            </View>
-          ) : (
-            <View
-              className="flex-row items-center"
-              style={{ paddingVertical: cfg.headerPy }}
-            >
-              <Cell w={cfg.W.time} mono dim fs={cfg.fs}>
-                {cfg.labels.when}
-              </Cell>
-              <Cell w={cfg.W.action} mono dim fs={cfg.fs}>
-                {cfg.labels.action}
-              </Cell>
-              <Cell w={cfg.W.kind} mono dim fs={cfg.fs}>
-                {cfg.labels.kind}
-              </Cell>
-              <Cell w={cfg.W.ms} mono dim fs={cfg.fs}>
-                {cfg.labels.ms}
-              </Cell>
-              <Cell mono dim fs={cfg.fs}>
-                {cfg.labels.details}
-              </Cell>
-            </View>
-          )}
-          <Divider />
-        </View>
-
-        {/* Body as FlatList (sole vertical scroller). Header goes here. */}
+        {/* Single FlatList: table header + rows together */}
         <FlatList
+          style={{ flex: 1 }} // ✅ let the list fill the card
           data={flatItems}
           keyExtractor={(x) => x.id}
-          ListHeaderComponent={header ?? null}
-          ListHeaderComponentStyle={{ marginBottom: 12 }}
+          ListHeaderComponent={TableHeader}
           renderItem={({ item, index }) => (
             <Row
               vm={item}
@@ -218,29 +242,28 @@ export default function AdminLogTerminal({
               </View>
             )
           }
-          ListFooterComponent={
-            isFetchingNextPage ? (
-              <View className="p-3">
-                <ActivityIndicator />
-              </View>
-            ) : data && !hasNextPage ? (
-              <View className="p-3">
-                <Text className="text-center text-text-dim dark:text-text-dimDark">
-                  No more logs
-                </Text>
-              </View>
-            ) : null
-          }
+          ListFooterComponent={footer}
           contentContainerStyle={{ paddingBottom: 24 }}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.2}
-          // This resets RN's "end reached" lock when momentum starts,
-          // ensuring you can load more on subsequent scrolls
+          onScrollBeginDrag={() => {
+            allowEndReachedRef.current = true;
+          }}
           onMomentumScrollBegin={() => {
+            allowEndReachedRef.current = true;
             loadingMoreRef.current = false;
           }}
+          onEndReached={onEndReachedGuarded}
+          onEndReachedThreshold={0.2}
+          onLayout={(e) => {
+            listLayoutHRef.current = e.nativeEvent.layout.height;
+          }}
+          onContentSizeChange={(_, h) => {
+            contentHRef.current = h;
+          }}
           refreshing={!!isRefetching && !isLoading}
-          onRefresh={() => refetch()} // manual only
+          onRefresh={() => {
+            allowEndReachedRef.current = false;
+            refetch();
+          }}
           initialNumToRender={10}
           windowSize={10}
           removeClippedSubviews
@@ -251,7 +274,7 @@ export default function AdminLogTerminal({
   );
 }
 
-/* -------------------- Row / Cell / utils (unchanged) -------------------- */
+/* -------------------- Row / Cell / utils -------------------- */
 function Row({
   vm,
   monoStyle,
