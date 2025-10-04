@@ -1,20 +1,10 @@
-// apps/mobile/src/app/(tabs)/admin/capabilities.tsx
-import ClaraCapabilities from '@features/admin/components/capabilities/capabilities-container';
-import { ScrollView } from 'react-native';
+import { ClaraCapabilitiesContainer } from '@features/admin';
+import { Screen } from '@ui/layout';
 
 export default function AdminCapabilitiesScreen() {
   return (
-    <ScrollView
-      className="flex-1"
-      contentContainerStyle={{
-        paddingHorizontal: 16,
-        paddingTop: 20,
-        paddingBottom: 20,
-      }}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-    >
-      <ClaraCapabilities />
-    </ScrollView>
+    <Screen center={false} padding={16} showsVerticalScrollIndicator={false}>
+      <ClaraCapabilitiesContainer />
+    </Screen>
   );
 }

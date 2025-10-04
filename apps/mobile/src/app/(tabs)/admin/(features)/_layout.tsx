@@ -1,4 +1,3 @@
-// apps/mobile/src/app/(tabs)/admin/(shell)/_layout.tsx
 import { ResponsiveTabsLayout } from '@ui/layout';
 import { Slot, usePathname, useRouter } from 'expo-router';
 import { Text } from 'react-native';
@@ -27,7 +26,7 @@ export default function AdminShellLayout() {
         </Text>
       }
     >
-      <Slot /> {/* active child screen renders here */}
+      <Slot />
     </ResponsiveTabsLayout>
   );
 }

@@ -1,4 +1,3 @@
-// apps/mobile/src/app/(features)/profile/help.config.ts
 import { Ionicons } from '@expo/vector-icons';
 
 export type GuideSection = {

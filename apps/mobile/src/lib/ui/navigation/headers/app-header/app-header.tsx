@@ -1,4 +1,3 @@
-// apps/mobile/src/lib/ui/AppHeader.tsx
 import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderUserMenu } from '../../headers/header-user-menu/header-user-menu';

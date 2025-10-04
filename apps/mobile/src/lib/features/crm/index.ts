@@ -1,2 +1,2 @@
-export * from './components/AddTaskInline';
-export * from './components/CRMTabs';
+export * from './components';
+export * from './skeletons/item-skeletons';

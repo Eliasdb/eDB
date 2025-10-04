@@ -13,7 +13,7 @@ type Props = {
   showDividerTop?: boolean;
 };
 
-export default function TaskRow({
+export function TaskRow({
   task,
   onToggle,
   onDelete,

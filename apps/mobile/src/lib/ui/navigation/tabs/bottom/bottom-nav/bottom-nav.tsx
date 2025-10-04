@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/ui/primitives/BottomNav.tsx
-import React, { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import {
   Animated,
   Easing,

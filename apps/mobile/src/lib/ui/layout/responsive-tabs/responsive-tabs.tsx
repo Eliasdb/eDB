@@ -1,5 +1,4 @@
-// ui/navigation/ResponsiveTabsLayout.tsx
-import React from 'react';
+import { Children, ReactNode } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import type { TabDef, TabKey } from '../../navigation';
 import { SidebarTabs, TabBarTop } from '../../navigation';
@@ -18,13 +17,13 @@ export function ResponsiveTabsLayout<K extends TabKey>({
   onChange: (k: K) => void;
   sidebarBreakpoint?: number;
   sidebarTitle?: string;
-  sidebarFooter?: React.ReactNode;
-  children: React.ReactNode;
+  sidebarFooter?: ReactNode;
+  children: ReactNode;
 }) {
   const { width } = useWindowDimensions();
   const isWide = width >= sidebarBreakpoint;
 
-  const normalizedChildren = React.Children.toArray(children).filter(
+  const normalizedChildren = Children.toArray(children).filter(
     (c) => typeof c !== 'string' && typeof c !== 'number',
   );
 

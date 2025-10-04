@@ -1,5 +1,4 @@
 // apps/mobile/src/lib/ui/navigation/TabBarTop.tsx
-import * as React from 'react';
 import { Pressable, View, useColorScheme } from 'react-native';
 import Animated, {
   Easing,
@@ -11,6 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TabDef, TabKey } from '../../tab.types';
 
 type Metrics = Record<string, { x: number; w: number; textW: number }>;
@@ -36,13 +36,13 @@ export function TabBarTop<K extends TabKey>({
   };
 
   // layout metrics
-  const [m, setM] = React.useState<Metrics>({});
-  const setTabLayout = React.useCallback(
+  const [m, setM] = useState<Metrics>({});
+  const setTabLayout = useCallback(
     (key: string, x: number, w: number) =>
       setM((s) => ({ ...s, [key]: { ...(s[key] ?? { textW: 0 }), x, w } })),
     [],
   );
-  const setTextWidth = React.useCallback(
+  const setTextWidth = useCallback(
     (key: string, textW: number) =>
       setM((s) => ({ ...s, [key]: { ...(s[key] ?? { x: 0, w: 0 }), textW } })),
     [],
@@ -51,9 +51,9 @@ export function TabBarTop<K extends TabKey>({
   // underline shared values
   const leftSV = useSharedValue(0);
   const widthSV = useSharedValue(0);
-  const cur = React.useRef({ left: 0, w: 0 });
+  const cur = useRef({ left: 0, w: 0 });
 
-  const animateTo = React.useCallback(
+  const animateTo = useCallback(
     (toLeft: number, toW: number) => {
       const { left: fromLeft, w: fromW } = cur.current;
       const stretchLeft = Math.min(fromLeft, toLeft);
@@ -80,7 +80,7 @@ export function TabBarTop<K extends TabKey>({
     [leftSV, widthSV],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const k = String(value);
     const mm = m[k];
     if (!mm) return;
@@ -177,7 +177,7 @@ function TopTabItem({
 }) {
   // local animated progress 0→1 (kept in a child component; no hooks inside map)
   const prog = useSharedValue(active ? 1 : 0);
-  React.useEffect(() => {
+  useEffect(() => {
     prog.value = withTiming(active ? 1 : 0, { duration: 180 });
   }, [active, prog]);
 

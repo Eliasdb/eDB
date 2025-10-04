@@ -1,5 +1,6 @@
 // apps/mobile/src/lib/ui/HeaderUserMenu.tsx
 import { Ionicons } from '@expo/vector-icons';
+import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import {
@@ -25,8 +26,7 @@ export function HeaderUserMenu({ toolbarHeight, onNavigate }: Props) {
   const dark = effective === 'dark';
   const GAP = 6;
 
-  const iconName: React.ComponentProps<typeof Ionicons>['name'] =
-    'options-outline';
+  const iconName: ComponentProps<typeof Ionicons>['name'] = 'options-outline';
 
   const iconColor = dark ? '#E5E7EB' : '#111827';
   const bg = dark ? '#111827' : '#F3F4F6';
@@ -109,7 +109,7 @@ function Row({
   label,
   danger,
 }: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: ComponentProps<typeof Ionicons>['name'];
   label: string;
   danger?: boolean;
 }) {

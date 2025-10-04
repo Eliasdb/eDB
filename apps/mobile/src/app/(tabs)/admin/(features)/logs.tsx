@@ -1,6 +1,5 @@
-// apps/mobile/src/app/(tabs)/admin/logs.tsx
-import { AdminLogList } from '@features/admin';
+import { AdminLogsContainer } from '@features/admin';
 
 export default function AdminLogsScreen() {
-  return <AdminLogList />;
+  return <AdminLogsContainer />;
 }

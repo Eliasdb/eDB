@@ -1,4 +1,3 @@
-// apps/mobile/src/app/(tabs)/admin/_layout.tsx
 import { Stack } from 'expo-router';
 
 export default function AdminRootLayout() {

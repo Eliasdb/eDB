@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/Subheader.tsx
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { ReactNode } from 'react';
 import {
   Platform,
   StyleProp,
@@ -18,13 +18,13 @@ type Props = ViewProps & {
   /** Show a default back button if provided. */
   onBack?: () => void;
   /** Right-side content (e.g., Save button). */
-  right?: React.ReactNode;
+  right?: ReactNode;
   /** Add subtle bottom border. Default: true */
   bordered?: boolean;
   /** Slight translucent bg + blur. Default: true */
   translucent?: boolean;
   /** Custom center node instead of plain text title. */
-  center?: React.ReactNode;
+  center?: ReactNode;
   /**
    * Apply top safe-area padding. Default: false.
    * Turn this on ONLY when this header is the very first element under the notch.
@@ -37,7 +37,7 @@ type Props = ViewProps & {
   containerStyle?: StyleProp<ViewStyle>;
 };
 
-export function Subheader({
+export function SubHeader({
   title,
   onBack,
   right,
@@ -151,20 +151,3 @@ export function TextAction({
     </TouchableOpacity>
   );
 }
-
-/* ---------- Usage examples ----------
-
-1) Header is top-most under the notch:
-<Subheader title="Profile" onBack={router.back} respectSafeAreaTop />
-
-2) Nested under your AppHeader (which already handles safe-area):
-<Subheader title="Personal details" onBack={router.back} />
-
-3) With a Save action:
-<Subheader
-  title="Personal details"
-  onBack={router.back}
-  right={<TextAction label="Save" onPress={onSave} />}
-/>
-
-------------------------------------- */

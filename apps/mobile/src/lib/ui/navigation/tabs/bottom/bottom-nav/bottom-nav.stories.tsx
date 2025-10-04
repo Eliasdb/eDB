@@ -1,7 +1,7 @@
 // apps/mobile/src/lib/ui/primitives/bottom-nav.stories.tsx
 import { Ionicons } from '@expo/vector-icons';
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 import BottomNav, { type BottomNavItem } from './bottom-nav';
 

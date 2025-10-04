@@ -1,3 +1,3 @@
-export * from './components/ChatComposer';
-export * from './components/ChatThread';
-export * from './components/MessageBubble';
+export * from './components/chat-composer';
+export * from './components/chat-thread';
+export * from './components/message-bubble';

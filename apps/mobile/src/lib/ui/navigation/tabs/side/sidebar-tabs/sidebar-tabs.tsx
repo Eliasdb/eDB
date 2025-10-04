@@ -1,5 +1,5 @@
 // ui/navigation/SidebarTabs.tsx
-import React from 'react';
+import { ReactNode } from 'react';
 import { Text, View } from 'react-native';
 import TabItem from '../../tab-item/tab-item';
 import type { TabDef, TabKey } from '../../tab.types';
@@ -15,7 +15,7 @@ export function SidebarTabs<K extends TabKey>({
   value: K;
   onChange: (k: K) => void;
   title?: string;
-  footer?: React.ReactNode;
+  footer?: ReactNode;
 }) {
   return (
     <View className="w-[240px] border-r border-border dark:border-border-dark pt-6">

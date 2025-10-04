@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { Text } from 'react-native';
 
 import { ListRow } from './list-row';

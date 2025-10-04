@@ -1,12 +1,13 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
-
+// Hooks
 import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
+// UI
+import { MaterialIcons } from '@expo/vector-icons';
 import { Screen } from '@ui/layout';
 import { Avatar, Button, Dot, Pill } from '@ui/primitives';
-import { AudioGlow } from '@ui/visuals';
+import AudioGlowLight from '@ui/visuals/AudioGlowLight';
+import { Text, View } from 'react-native';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking, bands } =
@@ -26,7 +27,7 @@ export default function HomeScreen() {
           justifyContent: 'center',
         }}
       >
-        <AudioGlow level={level} speaking={speaking} />
+        <AudioGlowLight level={level} speaking={speaking} />
         <Avatar size={220} />
       </View>
 

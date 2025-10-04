@@ -1,7 +1,6 @@
 // apps/mobile/src/lib/ui/navigation/NavigationTabBar.tsx
 import { Ionicons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React from 'react';
 import BottomNav from '../bottom-nav/bottom-nav';
 
 export function NavigationTabBar(props: BottomTabBarProps) {

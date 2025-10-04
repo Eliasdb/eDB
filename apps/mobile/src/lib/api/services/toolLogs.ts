@@ -14,7 +14,7 @@ export async function fetchToolLogsPage({
   pageParam?: number;
   limit?: number;
 }): Promise<Page> {
-  const url = `https://api.staging.eliasdebock.com/realtime/tool-logs?offset=${pageParam}&limit=${limit}`;
+  const url = `https://api.staging.eliasdebock.com/clara/realtime/tool-logs?offset=${pageParam}&limit=${limit}`;
   console.log('[LOGS] FETCH start', { url });
 
   const t0 = Date.now();

@@ -1,9 +1,10 @@
-// apps/mobile/src/app/(tabs)/_layout.tsx
+import { Tabs, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+
+// UI
 import { Ionicons } from '@expo/vector-icons';
 import { AppHeader, NavigationTabBar } from '@ui/navigation';
 import { useThemePreference } from '@ui/providers';
-import { Tabs, useRouter } from 'expo-router';
-import { useTranslation } from 'react-i18next';
 
 export default function TabsLayout() {
   const router = useRouter();

@@ -1,6 +1,5 @@
 // apps/mobile/src/lib/ui/primitives/button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { View } from 'react-native';
 import { Button, type ButtonProps } from './button';
 

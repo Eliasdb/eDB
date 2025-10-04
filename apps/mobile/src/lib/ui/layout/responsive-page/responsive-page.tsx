@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { Children, ReactNode } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 export function PageContainer({
@@ -45,7 +45,7 @@ export function TwoCol({
   const isWide = width >= breakpoint;
 
   // Ensure children is always an array
-  const [left, right] = React.Children.toArray(children);
+  const [left, right] = Children.toArray(children);
 
   if (!isWide) {
     return (
