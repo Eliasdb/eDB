@@ -1,6 +1,6 @@
-// apps/mobile/src/features/crm/components/TasksCalendarLite.tsx
 import { useThemePreference } from '@ui/providers/themePreference';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+
 import { Platform, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 

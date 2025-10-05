@@ -2,7 +2,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Switch } from '@ui/primitives/forms';
 import { ListRow } from '@ui/primitives/lists';
-import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 type SharedProps = {

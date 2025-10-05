@@ -1,8 +1,6 @@
-// Hooks
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// UI
 import { Ionicons } from '@expo/vector-icons';
 import { Keyboard, Pressable, TextInput, TouchableOpacity } from 'react-native';
 

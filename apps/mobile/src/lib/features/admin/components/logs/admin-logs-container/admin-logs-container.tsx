@@ -1,4 +1,3 @@
-// apps/mobile/src/app/(features)/admin/logs/AdminLogList.tsx
 import { useToolLogsInfinite } from '@api/hooks/useToolLogs';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

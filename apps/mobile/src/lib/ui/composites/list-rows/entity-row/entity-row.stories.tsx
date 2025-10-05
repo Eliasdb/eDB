@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { View } from 'react-native';
 import { IconButton } from '../../../primitives';
 import { EntityRow } from './entity-row';

@@ -1,5 +1,8 @@
 // feature-local types shared across capability screens
 
+export type IoniconName =
+  keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+
 export type CrudAction = 'create' | 'read' | 'update' | 'delete' | 'other';
 
 export type Summarized = {
@@ -44,9 +47,10 @@ export type ToolModule = {
   /** human label for the tab */
   label: string;
   /** tab icon */
-  tabIcon: 'grid-outline' | 'business-outline' | 'cloud-outline';
+  tabIcon: IoniconName; // e.g. 'cube-outline'
+  intro: string; // scope intro copy
+
   /** raw tool metas for this vendor/scope */
   tools: ToolMeta[];
   /** optional instruction block you may want elsewhere */
-  instructions?: string;
 };

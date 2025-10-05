@@ -1,6 +1,5 @@
 // apps/mobile/src/lib/ui/admin/components/InstructionsCard.tsx
 import { Card, Pill } from '@ui/primitives';
-import React from 'react';
 import { Text, View } from 'react-native';
 
 export function InstructionsCard({

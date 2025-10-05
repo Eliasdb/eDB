@@ -1,9 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
-
 import { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
 
+import { Ionicons } from '@expo/vector-icons';
 import { Badge, Card, Dot, KV, MonoKV, Segmented } from '@ui/primitives';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import type { LogVM } from '@api/viewmodels/toolLogs';
 import { buildSummaryRows } from '@api/viewmodels/toolLogs';

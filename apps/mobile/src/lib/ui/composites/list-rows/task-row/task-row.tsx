@@ -1,8 +1,8 @@
-// @ui/composites/task-row/task-row.tsx
-import type { Task } from '@api';
 import { Ionicons } from '@expo/vector-icons';
 import { Checkbox, IconButton, ListRow, Pill } from '@ui/primitives';
 import { Text, View } from 'react-native';
+
+import type { Task } from '@api';
 
 type Props = {
   task: Task;

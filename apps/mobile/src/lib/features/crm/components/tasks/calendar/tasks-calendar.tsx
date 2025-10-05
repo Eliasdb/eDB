@@ -1,6 +1,7 @@
 // apps/mobile/src/features/crm/components/TasksCalendar.tsx
 import { useThemePreference } from '@ui/providers/themePreference';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
 import { Platform, Text, View } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 

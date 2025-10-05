@@ -53,10 +53,10 @@ const tools: ToolMeta[] = [
 const mod: ToolModule = {
   key: 'hubspot',
   label: 'HubSpot',
-  tabIcon: 'business-outline',
+  tabIcon: 'briefcase-outline',
   tools,
-  instructions:
-    'When the request references HubSpot data (contacts, deals, companies), use these tools.',
+  intro:
+    'Actions that talk to HubSpot — create contacts/companies and move deals between stages.',
 };
 
 export default mod;

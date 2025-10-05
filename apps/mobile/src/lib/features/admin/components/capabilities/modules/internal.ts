@@ -142,10 +142,10 @@ const tools: ToolMeta[] = [
 const mod: ToolModule = {
   key: 'internal',
   label: 'Internal',
-  tabIcon: 'grid-outline',
+  tabIcon: 'cube-outline',
   tools,
-  instructions:
-    'Use internal Hub tools to manage the local snapshot of tasks, contacts, and companies.',
+  intro:
+    'Built-in Clara tools for your demo hub (tasks, contacts, companies). Great for prototyping end-to-end flows.',
 };
 
 export default mod;

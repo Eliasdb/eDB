@@ -1,8 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
-import { AppHeader } from '@ui/navigation';
 import { useThemePreference } from '@ui/providers';
 import { Tabs, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+
+import { Ionicons } from '@expo/vector-icons';
+import { AppHeader } from '@ui/navigation';
 import { NavigationTabBar } from '../../lib/ui/navigation';
 
 export default function TabsLayout() {

@@ -1,11 +1,13 @@
-import { Ionicons } from '@expo/vector-icons';
 import { ComponentProps, useState } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
 import { useThemeColors } from '../../../hooks/useThemeColors';
-import { CrudAction, Summarized } from '../../../types';
+
+import { Ionicons } from '@expo/vector-icons';
+import { Platform, Pressable, Text, View } from 'react-native';
 
 import { Collapsible } from '@ui/layout';
 import { Badge, Card } from '@ui/primitives';
+
+import { CrudAction, Summarized } from '../../../types';
 
 export function ToolCard({
   icon,

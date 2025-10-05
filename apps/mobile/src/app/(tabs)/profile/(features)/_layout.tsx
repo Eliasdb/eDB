@@ -13,13 +13,14 @@ export default function FeaturesLayout() {
           <SubHeader
             title={(options.title as string) ?? t('profile.title', 'Profile')}
             onBack={() => navigation.goBack()}
+            translucent // keeps your subtle blur / 95% bg
+            bordered // or false if you don’t want the hairline
           />
         ),
         headerShown: true,
-        // Make it look like your inline version:
-        headerTransparent: true, // no opaque bar behind
-        headerShadowVisible: false, // remove the thin bottom separator
-        // contentStyle: { backgroundColor: 'transparent' }, // optional
+        headerTransparent: false, // <-- key: do NOT overlay content
+        headerShadowVisible: false, // hide native shadow line
+        headerStyle: { backgroundColor: 'transparent' }, // maintain your styling
       }}
     >
       <Stack.Screen

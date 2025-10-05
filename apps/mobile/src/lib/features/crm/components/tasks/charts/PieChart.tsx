@@ -1,4 +1,3 @@
-// PieCard.tsx
 import { View } from 'react-native';
 import { Pie, PolarChart } from 'victory-native';
 

@@ -109,7 +109,19 @@ function toCapabilityItem(t: ToolModule['tools'][number]): CapabilityItem {
 }
 
 /* ── Public API for screens ───────────────────────────────────────────────── */
+/** Segmented control options (ready to render) */
+export const SCOPE_OPTIONS = MODULES.map((m) => ({
+  value: m.key as ToolScope,
+  label: m.label,
+  iconName: m.tabIcon,
+}));
 
+/** Intros keyed by scope */
+export const SCOPE_INTRO_BY_SCOPE = Object.fromEntries(
+  MODULES.map((m) => [m.key, m.intro]),
+) as Record<ToolScope, string>;
+
+/** Existing exports untouched (tabs/groups/items) */
 export const CAPABILITY_TABS = MODULES.map((m) => ({
   key: m.key,
   label: m.label,

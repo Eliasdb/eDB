@@ -1,6 +1,5 @@
 // apps/mobile/src/lib/ui/admin/components/CapabilitiesHeader.tsx
 import { Avatar } from '@ui/primitives';
-import React from 'react';
 import { Text, View } from 'react-native';
 
 export function CapabilitiesHeader({ total }: { total: number }) {

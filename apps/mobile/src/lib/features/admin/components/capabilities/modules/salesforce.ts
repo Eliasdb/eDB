@@ -39,8 +39,8 @@ const mod: ToolModule = {
   label: 'Salesforce',
   tabIcon: 'cloud-outline',
   tools,
-  instructions:
-    'Use Salesforce tools when the user asks for SFDC leads or opportunities.',
+  intro:
+    'Salesforce operations such as creating or updating objects and syncing records.',
 };
 
 export default mod;

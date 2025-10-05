@@ -1,11 +1,10 @@
-// apps/mobile/src/app/(tabs)/home/index.tsx
 import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@ui/layout';
 import { Avatar, Button, Dot, Pill } from '@ui/primitives';
+import { AudioGlow } from '@ui/visuals';
 import { Text, View } from 'react-native';
-import { AudioGlow } from '../../lib/ui/visuals/AudioGlow';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking } =

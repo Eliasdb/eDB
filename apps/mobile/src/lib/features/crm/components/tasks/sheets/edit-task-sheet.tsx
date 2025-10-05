@@ -1,7 +1,5 @@
-// Hooks
 import { useEffect, useState } from 'react';
 
-// UI
 import { Ionicons } from '@expo/vector-icons';
 import { Pill, Sheet } from '@ui/primitives';
 import { DateField } from '@ui/widgets';

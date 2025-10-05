@@ -4,7 +4,7 @@ import {
   VOICES,
   type VoiceKey,
 } from '@voice/previews/voices';
-import type { VoiceCard } from '../types';
+import type { VoiceCard } from '../types/voice-mode.types';
 
 export function getDefaultVoiceCard(): VoiceCard {
   return {
