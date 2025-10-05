@@ -1,5 +1,6 @@
-import { ResponsiveTabsLayout } from '@ui/layout';
 import { Slot, usePathname, useRouter } from 'expo-router';
+
+import { ResponsiveTabsLayout } from '@ui/layout';
 import { Text } from 'react-native';
 
 type Tab = 'capabilities' | 'logs';

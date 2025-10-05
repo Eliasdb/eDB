@@ -1,9 +1,7 @@
-// Hooks
 import { useCreateTask, useDeleteTask, useHub, useToggleTask } from '@api';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// UI
 import {
   AddTaskRow,
   EditTaskSheet,

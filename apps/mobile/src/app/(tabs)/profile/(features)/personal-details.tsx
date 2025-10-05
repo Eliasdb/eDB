@@ -1,14 +1,13 @@
-// apps/mobile/src/app/(profile)/personal-details.tsx
-import { Ionicons } from '@expo/vector-icons';
-
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Ionicons } from '@expo/vector-icons';
+import { PageContainer, Screen, TwoCol } from '@ui/layout';
+import { Button, Card, Field, Input } from '@ui/primitives';
 import { Text, View } from 'react-native';
 
 import { makeLeftCards } from '@features/profile/config';
-import { PageContainer, Screen, TwoCol } from '@ui/layout';
-import { Button, Card, Field, Input } from '@ui/primitives';
 
 export default function PersonalDetailsScreen() {
   const router = useRouter();

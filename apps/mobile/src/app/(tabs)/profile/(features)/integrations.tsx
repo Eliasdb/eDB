@@ -1,13 +1,13 @@
-// apps/mobile/src/app/(tabs)/profile/(features)/integrations.tsx
 import { useMemo, useState } from 'react';
 
-import { IntroCard } from '@features/profile/components/IntroCard';
+import { IntroCard } from '@features/profile';
+import { SettingsRow } from '@ui/composites';
+import { PageContainer, Screen, Section, TwoCol } from '@ui/layout';
+
 import {
   getIntegrationSections,
   type IntegrationSection,
 } from '@features/profile/config';
-import { SettingsRow } from '@ui/composites/list-rows/settings-row/settings-row';
-import { PageContainer, Screen, Section, TwoCol } from '@ui/layout';
 
 export default function IntegrationsScreen() {
   const sections = useMemo<IntegrationSection[]>(

@@ -1,9 +1,7 @@
-// Hooks
 import { Slot, usePathname, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// UI
 import { ResponsiveTabsLayout } from '@ui/layout';
 import { Text, View } from 'react-native';
 

@@ -1,8 +1,6 @@
-// apps/mobile/src/app/(features)/crm/companies.tsx
 import { useHub } from '@api';
 import { useTranslation } from 'react-i18next';
 
-// UI
 import { CompanyItemSkeleton, ListSkeleton } from '@features/crm';
 import { EntityRow } from '@ui/composites';
 import { Screen } from '@ui/layout';

@@ -1,12 +1,11 @@
-// apps/mobile/src/app/(tabs)/profile/(features)/security.tsx
-import { IntroCard } from '@features/profile/components/IntroCard';
-import { SessionsCard } from '@features/profile/components/security/SessionsCard';
-import { getMockSessions } from '@features/profile/config/security';
-import { getSecuritySections } from '@features/profile/config/security-sections';
-import { SettingsRow } from '@ui/composites/list-rows/settings-row/settings-row';
-import { PageContainer, Screen, Section, TwoCol } from '@ui/layout';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+
+import { IntroCard, SessionsCard } from '@features/profile/components';
+import { SettingsRow } from '@ui/composites';
+import { PageContainer, Screen, Section, TwoCol } from '@ui/layout';
+
+import { getMockSessions, getSecuritySections } from '@features/profile/config';
 
 export default function SecurityScreen() {
   const router = useRouter();

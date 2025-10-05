@@ -1,9 +1,7 @@
-// Hooks
 import { useHub } from '@api';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// UI
 import { TasksCalendarLite } from '@features/crm/components';
 import { Screen } from '@ui/layout';
 import { Card } from '@ui/primitives';
