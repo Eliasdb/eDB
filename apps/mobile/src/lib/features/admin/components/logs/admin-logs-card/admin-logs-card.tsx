@@ -16,14 +16,7 @@ export function AdminLogsCard({ vm }: { vm: LogVM }) {
 
   return (
     <Card className="mx-4 mb-3 rounded-xl border border-border dark:border-border-dark">
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 8,
-          justifyContent: 'space-between',
-        }}
-      >
+      <View className="flex-row items-center justify-between gap-2">
         <View className="flex-row items-center gap-3 shrink">
           <Dot ok={vm.ok} />
           <Badge label={vm.verb.toUpperCase()} tint={verbTint(vm.verb)} />
@@ -57,7 +50,7 @@ export function AdminLogsCard({ vm }: { vm: LogVM }) {
 
       {/* Full subject inside card */}
       {vm.subject ? (
-        <Text className="mt-3 text-[18px] font-extrabold text-text dark:text-text-dark">
+        <Text className="mt-3 text-[16px] font-extrabold text-text dark:text-text-dark">
           {vm.subject}
         </Text>
       ) : null}

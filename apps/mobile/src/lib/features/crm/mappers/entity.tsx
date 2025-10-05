@@ -1,7 +1,8 @@
-import { DimIcon } from '@ui/primitives';
-import { initials } from '@ui/utils';
+// apps/mobile/src/features/crm/mappers/entity.ts
+import type { EntityMetaItem, EntityTag } from '@ui/composites';
+import { initials as toInitials } from '@ui/utils';
 
-export function contactToEntityProps(c: {
+export function contactToEntityRowProps(c: {
   id: string;
   name: string;
   email?: string;
@@ -9,25 +10,37 @@ export function contactToEntityProps(c: {
   avatarUrl?: string;
   source?: string;
 }) {
-  const chips = [
-    c.email && { left: <DimIcon name="mail-outline" />, text: c.email },
-    c.phone && { left: <DimIcon name="call-outline" />, text: c.phone },
-    c.source && {
-      left: <DimIcon name="sparkles-outline" />,
+  const tags: EntityTag[] = [];
+  if (c.source) {
+    tags.push({
       text: `Added by Clara • ${c.source}`,
-    },
-  ].filter(Boolean) as NonNullable<any>;
+      tone: 'primary',
+      leftIcon: 'sparkles-outline',
+    });
+  }
+
+  const meta: EntityMetaItem[] = [];
+  // ⛔ do NOT push email to meta; it goes as subtitle
+  if (c.phone)
+    meta.push({
+      label: 'Phone',
+      value: c.phone,
+      icon: 'call-outline',
+      pill: true,
+    });
 
   return {
-    name: c.name,
+    title: c.name,
+    subtitle: c.email, // shown under name in the header
     avatarUrl: c.avatarUrl,
-    initials: initials(c.name),
+    initials: toInitials(c.name),
     avatarShape: 'circle' as const,
-    chips,
+    tags,
+    meta,
   };
 }
 
-export function companyToEntityProps(co: {
+export function companyToEntityRowProps(co: {
   id: string;
   name: string;
   industry?: string;
@@ -35,23 +48,37 @@ export function companyToEntityProps(co: {
   logoUrl?: string;
   source?: string;
 }) {
-  const chips = [
-    co.industry && {
-      left: <DimIcon name="briefcase-outline" />,
+  const tags: EntityTag[] = [];
+  if (co.industry)
+    tags.push({
       text: co.industry,
-    },
-    co.domain && { left: <DimIcon name="globe-outline" />, text: co.domain },
-    co.source && {
-      left: <DimIcon name="sparkles-outline" />,
+      tone: 'neutral',
+      leftIcon: 'briefcase-outline',
+    });
+  if (co.source) {
+    tags.push({
       text: `Added by Clara • ${co.source}`,
-    },
-  ].filter(Boolean) as NonNullable<any>;
+      tone: 'primary',
+      leftIcon: 'sparkles-outline',
+    });
+  }
+
+  const meta: EntityMetaItem[] = [];
+  if (co.domain)
+    meta.push({
+      label: 'Domain',
+      value: co.domain,
+      icon: 'globe-outline',
+      pill: true,
+    });
 
   return {
-    name: co.name,
+    title: co.name,
+    subtitle: co.industry,
     avatarUrl: co.logoUrl,
-    initials: initials(co.name),
+    initials: toInitials(co.name),
     avatarShape: 'rounded' as const,
-    chips,
+    tags,
+    meta,
   };
 }

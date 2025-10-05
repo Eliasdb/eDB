@@ -1,0 +1,72 @@
+import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+
+import {
+  PreferencesPanel,
+  ProfileCard,
+  SettingsPanel,
+} from '@features/profile';
+import { PageContainer, Screen, TwoCol } from '@ui/layout';
+import { View } from 'react-native';
+
+export default function ProfileScreen() {
+  const router = useRouter();
+  const { t } = useTranslation();
+
+  return (
+    <Screen
+      center={false}
+      padding={{ h: 16, top: 16, bottom: 24 }}
+      safeBottom
+      showsVerticalScrollIndicator={false}
+    >
+      <PageContainer maxWidth={1100} paddingH={16}>
+        <TwoCol columns={2} widths={[0.32, 0.68]} gap={16} breakpoint={920}>
+          {/* Left column */}
+          <ProfileCard
+            name={t('profile.name')}
+            email={t('profile.email')}
+            onChangePhoto={() => {}}
+            onManageVoice={() => router.push('/profile/voice-mode')}
+          />
+
+          {/* Right column (grouped) */}
+          <View className="flex-1 min-w-0">
+            <SettingsPanel
+              title={t('profile.account')}
+              items={[
+                {
+                  label: t('profile.personalDetails'),
+                  icon: 'person-outline',
+                  onPress: () => router.push('/profile/personal-details'),
+                },
+                {
+                  label: t('profile.security'),
+                  icon: 'shield-checkmark-outline',
+                  onPress: () => router.push('/profile/security'),
+                },
+                {
+                  label: t('profile.connectedApps'),
+                  icon: 'link-outline',
+                  onPress: () => router.push('/profile/integrations'),
+                },
+                {
+                  label: 'Developer',
+                  icon: 'code-slash-outline',
+                  onPress: () => router.push('/storybook'),
+                },
+              ]}
+            />
+
+            <PreferencesPanel
+              title={t('profile.preferences')}
+              notificationItemLabel={t('settings.notifications')}
+              voiceItemLabel={t('settings.voiceMode')}
+              onPressVoice={() => router.push('/profile/voice-mode')}
+            />
+          </View>
+        </TwoCol>
+      </PageContainer>
+    </Screen>
+  );
+}

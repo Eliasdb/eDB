@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { TasksCalendarLite } from '@features/crm/components';
 import { Screen } from '@ui/layout';
 import { Card } from '@ui/primitives';
-import { BarsCard } from '@ui/visuals/BarsCard';
 import { Text } from 'react-native';
 
 export default function CRMDashboard() {
@@ -49,7 +48,7 @@ export default function CRMDashboard() {
         <Text className="text-[15px] font-extrabold text-text dark:text-text-dark">
           Weekly Activity
         </Text>
-        <BarsCard data={barsMock} />
+        {/* <BarsCard data={barsMock} /> */}
       </Card>
 
       {/* Donut placeholder */}

@@ -1,16 +1,15 @@
-// Hooks
+// apps/mobile/src/app/(features)/crm/companies.tsx
 import { useHub } from '@api';
 import { useTranslation } from 'react-i18next';
 
 // UI
-import { EntityRow } from '@ui/composites/list-rows';
+import { CompanyItemSkeleton, ListSkeleton } from '@features/crm';
+import { EntityRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Card, EmptyLine, List } from '@ui/primitives';
-// Skeletons
-import { CompanyItemSkeleton, ListSkeleton } from '@features/crm';
 
-// Helpers
-import { companyToEntityProps } from '@features/crm/mappers/entity';
+// Mappers
+import { companyToEntityRowProps } from '@features/crm/mappers/entity';
 
 export default function CompaniesScreen() {
   const { t } = useTranslation();
@@ -39,7 +38,7 @@ export default function CompaniesScreen() {
           <List>
             {hub.companies.map((co, i) => (
               <List.Item key={co.id} first={i === 0}>
-                <EntityRow {...companyToEntityProps(co)} />
+                <EntityRow {...companyToEntityRowProps(co)} />
               </List.Item>
             ))}
           </List>

@@ -1,21 +1,16 @@
 // apps/mobile/src/app/(profile)/personal-details.tsx
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Text, View } from 'react-native';
 
-// Ui
-import { PageContainer, TwoCol } from '@ui/layout';
-import { SubHeader, TextAction } from '@ui/navigation';
+import { makeLeftCards } from '@features/profile/config';
+import { PageContainer, Screen, TwoCol } from '@ui/layout';
 import { Button, Card, Field, Input } from '@ui/primitives';
 
-// Data
-import { makeLeftCards } from '@features/profile/config';
-
 export default function PersonalDetailsScreen() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -28,9 +23,17 @@ export default function PersonalDetailsScreen() {
   const [role, setRole] = useState('Founder');
   const [notes, setNotes] = useState('');
 
+  const dirty =
+    firstName !== 'Elias' ||
+    lastName !== 'De Bock' ||
+    email !== 'elias@example.com' ||
+    phone !== '' ||
+    company !== 'Clara Labs' ||
+    role !== 'Founder' ||
+    notes !== '';
+
   const onSave = () => router.back();
 
-  // Build left-column cards from shared config
   const leftCards = useMemo(
     () =>
       makeLeftCards({
@@ -51,102 +54,157 @@ export default function PersonalDetailsScreen() {
     [t, firstName, lastName, email, phone, company, role],
   );
 
-  // near top of the component
-  const BASE_PAD = 12; // equal padding inside the bar
-  const SAFE_CUSHION = 36; // how much of the safe area we *ignore*
-  const spacer = Math.max(insets.bottom - SAFE_CUSHION, 0); // only extra beyond cushion
+  const BASE_PAD = 12;
 
   return (
-    <View className="flex-1 bg-surface dark:bg-surface-dark">
-      {/* Header */}
-      <SubHeader
-        title={t('personal.title')}
-        onBack={() => router.back()}
-        right={<TextAction label={t('personal.save')} onPress={onSave} />}
-      />
-
-      {/* Form */}
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={0}
-      >
-        <ScrollView
-          className="flex-1"
-          contentContainerStyle={{
-            paddingTop: 16,
-            paddingBottom: 24 + insets.bottom,
-            alignItems: 'center',
-          }}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <PageContainer>
-            <TwoCol gap={16} breakpoint={1024}>
-              {/* LEFT COLUMN */}
-              <View className="gap-4">
-                {leftCards.map((card) => (
-                  <Card key={card.key} title={card.title}>
-                    <View>
-                      {card.fields.map((f) => (
-                        <Field key={f.key} label={f.label}>
-                          <Input
-                            value={f.value}
-                            onChangeText={f.onChangeText}
-                            placeholder={f.placeholder}
-                            {...f.inputProps}
-                          />
-                        </Field>
-                      ))}
-                    </View>
-                  </Card>
-                ))}
+    <>
+      <Screen center={false} padding={{ h: 8, top: 16, bottom: 24 }} safeBottom>
+        <PageContainer>
+          {/* Summary */}
+          <Card className="mb-4 rounded-2xl border border-border dark:border-border-dark bg-muted/50 dark:bg-muted-dark/40 overflow-hidden">
+            <View className="flex-row items-center justify-between px-4 py-4">
+              <View className="flex-row items-center gap-4">
+                <View className="w-12 h-12 rounded-full bg-primary/12 border border-primary/20 items-center justify-center ">
+                  <Text className="text-[16px] font-extrabold text-primary ">
+                    {firstName?.[0]}
+                    {lastName?.[0]}
+                  </Text>
+                </View>
+                <View>
+                  <Text className="text-[18px] font-extrabold text-text dark:text-text-dark leading-6 max-w-[12rem]">
+                    {firstName} {lastName}
+                  </Text>
+                  <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
+                    {role || '—'} · {company || '—'}
+                  </Text>
+                </View>
               </View>
+            </View>
+          </Card>
 
-              {/* RIGHT COLUMN */}
-              <View className="gap-4">
-                <Card title={t('personal.sections.notes')}>
-                  <View className="gap-1.5">
-                    <Field label={t('personal.fields.privateNotes')}>
-                      <Input
-                        value={notes}
-                        onChangeText={setNotes}
-                        placeholder={t('personal.placeholders.notes')}
-                        multiline
-                        className="h-[220px] text-top"
-                      />
-                    </Field>
+          {/* Main grid */}
+          <TwoCol gap={16} breakpoint={1024}>
+            <View className="gap-4">
+              {leftCards.map((card) => (
+                <Card
+                  key={card.key}
+                  title={card.title}
+                  className="bg-transparent"
+                  bordered={false}
+                >
+                  <View className="px-4 pb-4">
+                    {card.fields.map((f) => (
+                      <Field key={f.key} label={f.label}>
+                        <Input
+                          value={f.value}
+                          onChangeText={f.onChangeText}
+                          placeholder={f.placeholder}
+                          {...f.inputProps}
+                        />
+                        {f.key === 'email' ? (
+                          <Text className="mt-1 text-[11px] text-text-dim dark:text-text-dimDark">
+                            {t(
+                              'personal.hints.email',
+                              'For security notices only.',
+                            )}
+                          </Text>
+                        ) : f.key === 'phone' ? (
+                          <Text className="mt-1 text-[11px] text-text-dim dark:text-text-dimDark">
+                            {t(
+                              'personal.hints.phone',
+                              'Optional for verification.',
+                            )}
+                          </Text>
+                        ) : null}
+                      </Field>
+                    ))}
                   </View>
                 </Card>
-              </View>
-            </TwoCol>
-          </PageContainer>
+              ))}
+            </View>
 
-          <View className="h-16" />
-        </ScrollView>
+            <View className="gap-4">
+              <Card
+                title={t('personal.sections.notes')}
+                className="bg-transparent"
+                bordered={false}
+              >
+                <View className="gap-1.5 px-4 pb-4">
+                  <Field label={t('personal.fields.privateNotes')}>
+                    <Input
+                      value={notes}
+                      onChangeText={setNotes}
+                      placeholder={t('personal.placeholders.notes')}
+                      multiline
+                      className="h-[220px] text-top"
+                    />
+                  </Field>
+                </View>
+              </Card>
 
-        {/* Save bar */}
-        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-          {/* Bar */}
-          <View
-            className="bg-surface/95 dark:bg-surface-dark/95 border-t border-border dark:border-border-dark px-4"
-            style={{ paddingTop: BASE_PAD, paddingBottom: BASE_PAD }} // equal padding
-          >
-            <Button
-              label={t('personal.saveChanges')}
-              iconLeft="save-outline"
-              variant="solid"
-              tint="primary"
-              size="md"
-              fullWidth
-              onPress={onSave}
-            />
+              <Card className="rounded-xl border border-border dark:border-border-dark">
+                <View className="px-4 py-3 flex-row items-start gap-2">
+                  <Text className="mt-[2px]">
+                    <Ionicons
+                      name="shield-checkmark-outline"
+                      size={16}
+                      color="#6C63FF"
+                    />
+                  </Text>
+                  <View className="flex-1">
+                    <Text className="text-[14px] font-semibold text-text dark:text-text-dark">
+                      {t('personal.privacy.title', 'Your privacy')}
+                    </Text>
+                    <Text className="text-[12px] mt-1 leading-5 text-text-dim dark:text-text-dimDark">
+                      {t(
+                        'personal.privacy.body',
+                        'Details are stored securely and never shared without consent.',
+                      )}
+                    </Text>
+                  </View>
+                </View>
+              </Card>
+            </View>
+          </TwoCol>
+        </PageContainer>
+      </Screen>
+
+      <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+        <View
+          className="bg-surface/95 dark:bg-surface-dark/95 border-t border-border dark:border-border-dark px-4"
+          style={{
+            paddingTop: BASE_PAD,
+            paddingBottom: BASE_PAD,
+            shadowColor: '#000',
+            shadowOpacity: 0.06,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: -2 },
+            elevation: 6,
+          }}
+        >
+          <View className="mb-2 flex-row items-center justify-between">
+            <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
+              {dirty
+                ? t('personal.unsaved', 'You have unsaved changes')
+                : 'Up to date'}
+            </Text>
+            {!dirty ? (
+              <Ionicons name="checkmark-circle" size={16} color="#10b981" />
+            ) : null}
           </View>
 
-          {/* Only a *small* spacer — lets the bar sit lower */}
-          <View style={{ height: spacer }} />
+          <Button
+            label={t('personal.saveChanges')}
+            iconLeft="save-outline"
+            variant="solid"
+            tint="primary"
+            size="md"
+            fullWidth
+            disabled={!dirty}
+            onPress={onSave}
+          />
         </View>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </>
   );
 }

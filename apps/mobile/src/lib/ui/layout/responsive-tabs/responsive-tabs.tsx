@@ -11,6 +11,7 @@ export function ResponsiveTabsLayout<K extends TabKey>({
   sidebarTitle,
   sidebarFooter,
   children,
+  tabIdPrefix, // 👈 NEW
 }: {
   tabs: TabDef<K>[];
   value: K;
@@ -19,6 +20,7 @@ export function ResponsiveTabsLayout<K extends TabKey>({
   sidebarTitle?: string;
   sidebarFooter?: ReactNode;
   children: ReactNode;
+  tabIdPrefix?: string; // 👈 NEW
 }) {
   const { width } = useWindowDimensions();
   const isWide = width >= sidebarBreakpoint;
@@ -37,9 +39,15 @@ export function ResponsiveTabsLayout<K extends TabKey>({
             onChange={onChange}
             title={sidebarTitle}
             footer={sidebarFooter}
+            idPrefix={tabIdPrefix} // 👈 add this prop and wire it in SidebarTabs too
           />
         ) : (
-          <TabBarTop tabs={tabs} value={value} onChange={onChange} />
+          <TabBarTop
+            tabs={tabs}
+            value={value}
+            onChange={onChange}
+            idPrefix={tabIdPrefix} // 👈 pass through
+          />
         )}
         <View style={{ flex: 1 }}>{normalizedChildren}</View>
       </View>

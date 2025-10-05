@@ -32,7 +32,7 @@ export async function openAudioSession(route: Route = 'speaker') {
   });
 
   // Give CoreAudio a breath so WebRTC doesn’t race the session change.
-  await new Promise((r) => setTimeout(r, 150));
+  await new Promise((r) => setTimeout(r, 200));
 }
 
 export async function closeAudioSession() {

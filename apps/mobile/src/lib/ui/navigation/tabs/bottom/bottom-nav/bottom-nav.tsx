@@ -81,7 +81,7 @@ export default function BottomNav({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: 8,
+            gap: 0,
           }}
         >
           {items.map((it) => (
@@ -204,7 +204,7 @@ function AnimatedTabItem({
       <Animated.View
         style={{
           transform: [{ scale: Animated.multiply(pressScale, popScale) }],
-          paddingHorizontal: 14,
+          paddingHorizontal: 11,
           paddingVertical: 8,
           borderRadius: 16,
           alignItems: 'center',

@@ -1,11 +1,11 @@
 // @ui/primitives/lists/list-row.tsx
-import { ReactNode } from 'react';
+import React from 'react';
 import { View, ViewProps } from 'react-native';
 
 export type ListRowProps = ViewProps & {
-  left?: ReactNode;
-  body?: ReactNode;
-  right?: ReactNode;
+  left?: React.ReactNode;
+  body?: React.ReactNode;
+  right?: React.ReactNode;
   compact?: boolean; // tighter padding for dense lists
   showDividerTop?: boolean;
 

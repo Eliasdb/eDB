@@ -31,7 +31,7 @@ export function ToolCard({
       <Card className="rounded-2xl">
         {/* Title row */}
         <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center" style={{ gap: 8 }}>
+          <View className="flex-row items-center gap-2">
             <View
               className="w-7 h-7 rounded-full items-center justify-center"
               style={{ borderColor: border, borderWidth: 1 }}
@@ -39,7 +39,7 @@ export function ToolCard({
               <Ionicons name={icon} size={15} color={iconColor} />
             </View>
             <Text
-              className="text-[16px] font-extrabold"
+              className="text-[14px] font-extrabold max-w-[15rem]"
               style={{ color: text }}
             >
               {title}

@@ -3,14 +3,13 @@ import { useHub } from '@api';
 import { useTranslation } from 'react-i18next';
 
 // UI
-import { EntityRow } from '@ui/composites/list-rows';
+import { ContactItemSkeleton, ListSkeleton } from '@features/crm';
+import { EntityRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Card, EmptyLine, List } from '@ui/primitives';
-// Skeletons
-import { ContactItemSkeleton, ListSkeleton } from '@features/crm';
 
-// Helpers
-import { contactToEntityProps } from '@features/crm/mappers/entity';
+// Mappers
+import { contactToEntityRowProps } from '@features/crm/mappers/entity';
 
 export default function ContactsScreen() {
   const { t } = useTranslation();
@@ -39,7 +38,7 @@ export default function ContactsScreen() {
           <List>
             {hub.contacts.map((c, i) => (
               <List.Item key={c.id} first={i === 0}>
-                <EntityRow {...contactToEntityProps(c)} />
+                <EntityRow {...contactToEntityRowProps(c)} />
               </List.Item>
             ))}
           </List>

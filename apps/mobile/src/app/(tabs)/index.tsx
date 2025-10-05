@@ -1,82 +1,73 @@
-// Hooks
+// apps/mobile/src/app/(tabs)/home/index.tsx
 import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
-// UI
-import { MaterialIcons } from '@expo/vector-icons';
 import { Screen } from '@ui/layout';
 import { Avatar, Button, Dot, Pill } from '@ui/primitives';
-import AudioGlowLight from '@ui/visuals/AudioGlowLight';
 import { Text, View } from 'react-native';
+import { AudioGlow } from '../../lib/ui/visuals/AudioGlow';
 
 export default function HomeScreen() {
-  const { start, stop, loading, connected, error, level, speaking, bands } =
+  const { start, stop, loading, connected, error, level, speaking } =
     useRealtimeVoice();
-
   const { t } = useTranslation();
 
   const onMicPress = () => (connected ? stop() : start());
 
+  const statusText = loading
+    ? t('mic.connecting', 'Connecting…')
+    : connected
+      ? speaking
+        ? t('home.speaking', 'Speaking…')
+        : t('home.live', 'Live — you can speak')
+      : t('home.tapToTalk', 'Tap to talk');
+
   return (
     <Screen>
-      {/* Avatar + Glow */}
-      <View
-        style={{
-          position: 'relative',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <AudioGlowLight level={level} speaking={speaking} />
+      {/* Glow + Avatar */}
+      <View className="relative items-center justify-center">
+        <AudioGlow level={level} speaking={speaking} />
         <Avatar size={220} />
       </View>
 
       {/* Greeting */}
-      <Text className="mt-4 text-[22px] font-medium text-text dark:text-text-dark text-center">
+      <Text className="mt-4 mb-8 text-center text-[22px] font-medium text-text dark:text-text-dark">
         {t('home.greeting')}
       </Text>
 
-      {/* Mic (circle) */}
-      <View className="mt-8">
-        <Button
-          shape="circle"
-          size="md"
-          tint={connected ? 'danger' : 'primary'}
-          icon={<MaterialIcons name="mic" size={32} color="#fff" />}
-          onPress={onMicPress}
-          helperText={
-            loading
-              ? t('mic.connecting')
-              : connected
-                ? t('mic.stop')
-                : t('mic.talk')
-          }
-        />
-      </View>
+      {/* Mic button */}
+      <Button
+        className="mt-8 self-center"
+        shape="circle"
+        tint={connected ? 'danger' : 'primary'}
+        size="md"
+        icon="mic"
+        testID="micButton"
+        accessibilityLabel="Mic button"
+        onPress={onMicPress}
+        helperText={
+          loading
+            ? t('mic.connecting')
+            : connected
+              ? t('mic.stop')
+              : t('mic.talk')
+        }
+      />
 
-      {/* Status pill */}
+      {/* Status */}
       <Pill
         className="mt-4 self-center"
         tone="neutral"
         variant="soft"
         size="sm"
         left={<Dot on={connected} />}
-        text={
-          loading
-            ? 'Connecting…'
-            : connected
-              ? speaking
-                ? 'Speaking…'
-                : 'Live — you can speak'
-              : 'Tap to talk'
-        }
+        text={statusText}
       />
 
-      {/* Equalizer */}
-      {/* <EqualizerBars values={bands} /> */}
-
       {/* Error */}
-      {error ? <Text className="text-red-600 mt-2">{error}</Text> : null}
+      {error ? (
+        <Text className="mt-2 text-center text-red-600">{error}</Text>
+      ) : null}
     </Screen>
   );
 }

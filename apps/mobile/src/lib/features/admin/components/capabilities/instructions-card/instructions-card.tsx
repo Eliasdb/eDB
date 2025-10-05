@@ -17,7 +17,7 @@ export function InstructionsCard({
   return (
     <Card className="mb-4 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl">
       <View>
-        <Text className="text-[14px] font-extrabold text-text dark:text-text-dark mb-2">
+        <Text className="text-[16px] font-extrabold text-text dark:text-text-dark mb-2">
           Instructions
         </Text>
 

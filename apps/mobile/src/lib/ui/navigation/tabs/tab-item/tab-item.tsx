@@ -17,6 +17,7 @@ export type TabItemProps = {
   iconLeft?: ReactNode | string | number;
   badge?: ReactNode | string | number;
   disabled?: boolean;
+  idPrefix?: string; // 👈 ADD
 };
 
 function SafeTextOrNode({
@@ -74,6 +75,7 @@ export default function TabItem({
   iconLeft,
   badge,
   disabled = false,
+  idPrefix, // 👈 ADD
 }: TabItemProps) {
   const isDark = useColorScheme() === 'dark';
   const colors = {
@@ -108,6 +110,8 @@ export default function TabItem({
     return (
       <Pressable
         onPress={onPress}
+        testID={idPrefix}
+        accessibilityLabel={idPrefix}
         disabled={disabled}
         accessibilityRole="tab"
         accessibilityState={{ selected: !!active, disabled: !!disabled }}
@@ -172,6 +176,8 @@ export default function TabItem({
       accessibilityRole="tab"
       accessibilityState={{ selected: !!active, disabled: !!disabled }}
       style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
+      testID={idPrefix}
+      accessibilityLabel={idPrefix}
     >
       <Animated.View
         style={[

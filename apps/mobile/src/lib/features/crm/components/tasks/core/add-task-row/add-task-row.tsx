@@ -30,6 +30,7 @@ export function AddTaskRow({ onAdd, isSaving, placeholder }: Props) {
   return (
     <Pressable
       onPress={() => {}}
+      accessible={false} // 👈 important so the TextInput is the target
       className={`
         flex-row items-center px-3 py-2
         border ${focused ? 'border-primary/60' : 'border-border dark:border-border-dark'}
@@ -56,6 +57,8 @@ export function AddTaskRow({ onAdd, isSaving, placeholder }: Props) {
         onSubmitEditing={submit}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        testID="task-input" // ✅ iOS
+        accessibilityLabel="task-input"
         className="flex-1 px-3 py-2 text-[15px] bg-transparent text-text dark:text-text-dark focus:outline-none"
       />
     </Pressable>

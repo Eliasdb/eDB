@@ -1,6 +1,5 @@
-// feature-local types that multiple components share
+// feature-local types shared across capability screens
 
-// Feature: capabilities
 export type CrudAction = 'create' | 'read' | 'update' | 'delete' | 'other';
 
 export type Summarized = {
@@ -10,10 +9,10 @@ export type Summarized = {
   variants?: string[];
 };
 
-export type ToolScope = 'all' | 'internal' | 'external';
+export type ToolScope = 'internal' | 'hubspot' | 'salesforce' | 'all';
 export type JSONSchema = any;
 
-/* ---------- types ---------- */
+/* ---------- display types ---------- */
 export type CapabilityItem = {
   icon:
     | 'add-circle-outline'
@@ -28,17 +27,26 @@ export type CapabilityItem = {
   name: string;
   action: CrudAction;
   description: string;
-  summary?: {
-    kinds?: string[];
-    required?: string[];
-    fields?: string[];
-    variants?: string[];
-  };
+  summary?: Summarized;
 };
 
+/* ---------- tool meta & module shape ---------- */
 export type ToolMeta = {
   type: 'function';
   name: string;
   description: string;
   parameters?: JSONSchema;
+};
+
+export type ToolModule = {
+  /** unique key used for tabs / scoping */
+  key: ToolScope;
+  /** human label for the tab */
+  label: string;
+  /** tab icon */
+  tabIcon: 'grid-outline' | 'business-outline' | 'cloud-outline';
+  /** raw tool metas for this vendor/scope */
+  tools: ToolMeta[];
+  /** optional instruction block you may want elsewhere */
+  instructions?: string;
 };

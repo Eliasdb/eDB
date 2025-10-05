@@ -15,9 +15,9 @@ export function SettingsPanel({
   title: string;
   items: Array<{
     label: string;
-    icon: ItemRowProps['icon']; // Ionicons name
+    icon: ItemRowProps['icon'];
     onPress?: () => void;
-    value?: string; // optional trailing value
+    value?: string;
   }>;
 }) {
   return (

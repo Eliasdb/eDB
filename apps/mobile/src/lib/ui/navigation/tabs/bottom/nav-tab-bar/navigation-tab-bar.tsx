@@ -28,8 +28,8 @@ export function NavigationTabBar(props: BottomTabBarProps) {
 
     const anyOpts = options as any;
     const badge = anyOpts.tabBarBadge;
-    const testID: string | undefined = anyOpts.tabBarTestID ?? undefined;
-
+    const testID: string | undefined =
+      anyOpts.tabBarTestID ?? anyOpts.tabBarAccessibilityLabel ?? undefined;
     return {
       key: route.key,
       label: String(label),

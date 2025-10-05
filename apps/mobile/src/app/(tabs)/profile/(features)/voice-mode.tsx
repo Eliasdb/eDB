@@ -15,7 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // UI
 import { Ionicons } from '@expo/vector-icons';
-import { SubHeader } from '@ui/navigation';
 import { Card } from '@ui/primitives';
 
 import {
@@ -83,8 +82,6 @@ export default function VoiceModeScreen() {
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      <SubHeader title="Voice mode" onBack={() => router.back()} />
-
       <ScrollView
         contentContainerStyle={{
           alignItems: isWide ? 'center' : undefined,

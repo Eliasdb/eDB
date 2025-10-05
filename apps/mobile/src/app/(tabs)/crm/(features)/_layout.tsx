@@ -57,6 +57,7 @@ export default function CRMLayout() {
             Manage tasks, contacts, and companies.
           </Text>
         }
+        tabIdPrefix="crm-tab-"
       >
         <Slot />
       </ResponsiveTabsLayout>

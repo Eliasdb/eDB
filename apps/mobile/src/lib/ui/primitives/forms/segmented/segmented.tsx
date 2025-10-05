@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { Pressable, Text, useColorScheme, View, ViewStyle } from 'react-native';
 import Reanimated, {
@@ -9,7 +10,12 @@ import Reanimated, {
   withTiming,
 } from 'react-native-reanimated';
 
-export type SegmentedOption<T extends string> = { value: T; label: string };
+export type SegmentedOption<T extends string> = {
+  value: T;
+  label: string;
+  /** Optional icon shown to the left of label (only for callers that want it) */
+  iconName?: React.ComponentProps<typeof Ionicons>['name'];
+};
 
 type Props<T extends string> = {
   value: T;
@@ -20,11 +26,9 @@ type Props<T extends string> = {
 };
 
 /**
- * Reanimated top-tab segmented control.
- * - Compact tabs
- * - Underline animates by stretching across tabs, then springs to the word width
- * - Word-aligned underline (centered under text)
- * - Dark-mode aware
+ * Reanimated segmented control
+ * - Optional per-tab icon support (kept fully backward compatible)
+ * - Underline aligns to the *content* width (icon + text when present)
  */
 export function Segmented<T extends string>({
   value,
@@ -43,7 +47,7 @@ export function Segmented<T extends string>({
 
   // per-tab layout metrics
   const [metrics, setMetrics] = React.useState<
-    Record<string, { x: number; w: number; textW: number }>
+    Record<string, { x: number; w: number; contentW: number }>
   >({});
 
   // animated left/width of the underline
@@ -53,12 +57,11 @@ export function Segmented<T extends string>({
   // remember current numeric values
   const curRef = React.useRef({ left: 0, w: 0 });
 
-  // run the stretch → settle animation
+  // stretch → settle animation
   const animateTo = React.useCallback(
     (toLeft: number, toW: number) => {
       const { left: fromLeft, w: fromW } = curRef.current;
 
-      // compute “cover both words” stretch box
       const stretchLeft = Math.min(fromLeft, toLeft);
       const stretchRight = Math.max(fromLeft + fromW, toLeft + toW);
       const stretchW = stretchRight - stretchLeft;
@@ -84,22 +87,20 @@ export function Segmented<T extends string>({
     [leftSV, widthSV],
   );
 
-  // whenever selection or measurements are ready, animate to the target
+  // align underline to the measured content (icon + text if present)
   React.useEffect(() => {
     const m = metrics[String(value)];
     if (!m) return;
 
-    const toLeft = m.x + (m.w - m.textW) / 2;
-    const toW = m.textW;
+    const toLeft = m.x + (m.w - m.contentW) / 2;
+    const toW = m.contentW;
 
-    // first mount: set directly (no animation)
     if (curRef.current.w === 0 && curRef.current.left === 0) {
       leftSV.value = toLeft;
       widthSV.value = toW;
       curRef.current = { left: toLeft, w: toW };
       return;
     }
-
     animateTo(toLeft, toW);
   }, [value, metrics, animateTo, leftSV, widthSV]);
 
@@ -127,6 +128,8 @@ export function Segmented<T extends string>({
       <View style={{ flexDirection: 'row', gap: 10 }}>
         {options.map((o) => {
           const selected = o.value === value;
+          const tint = selected ? colors.active : colors.idleText;
+
           return (
             <Pressable
               key={o.value}
@@ -137,7 +140,11 @@ export function Segmented<T extends string>({
                 const { x, width } = e.nativeEvent.layout;
                 setMetrics((s) => ({
                   ...s,
-                  [o.value]: { ...(s[o.value] ?? { textW: 0 }), x, w: width },
+                  [o.value]: {
+                    ...(s[o.value] ?? { contentW: 0 }),
+                    x,
+                    w: width,
+                  },
                 }));
               }}
               style={({ pressed }) => [
@@ -149,22 +156,34 @@ export function Segmented<T extends string>({
                 },
               ]}
             >
-              <Text
+              {/* Measure the whole label row (icon + text) for underline width */}
+              <View
                 onLayout={(e) => {
-                  const textW = e.nativeEvent.layout.width;
+                  const contentW = e.nativeEvent.layout.width;
                   setMetrics((s) => ({
                     ...s,
-                    [o.value]: { ...(s[o.value] ?? { x: 0, w: 0 }), textW },
+                    [o.value]: { ...(s[o.value] ?? { x: 0, w: 0 }), contentW },
                   }));
                 }}
                 style={{
-                  fontSize: 14,
-                  fontWeight: selected ? '800' : '700',
-                  color: selected ? colors.active : colors.idleText,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: o.iconName ? 6 : 0,
                 }}
               >
-                {o.label}
-              </Text>
+                {o.iconName ? (
+                  <Ionicons name={o.iconName} size={14} color={tint} />
+                ) : null}
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: selected ? '600' : '500',
+                    color: tint,
+                  }}
+                >
+                  {o.label}
+                </Text>
+              </View>
             </Pressable>
           );
         })}
@@ -176,6 +195,7 @@ export function Segmented<T extends string>({
           style={[
             {
               position: 'absolute',
+              top: -4,
               height: 3,
               borderRadius: 3,
               backgroundColor: colors.active,
