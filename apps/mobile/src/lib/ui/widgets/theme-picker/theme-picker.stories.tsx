@@ -1,7 +1,6 @@
 // apps/mobile/src/lib/ui/ThemePicker.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { View } from 'react-native';
 import { ThemePicker } from './theme-picker';
 
 /**
@@ -12,13 +11,7 @@ import { ThemePicker } from './theme-picker';
 const meta: Meta<typeof ThemePicker> = {
   title: 'Widgets/ThemePicker',
   component: ThemePicker,
-  decorators: [
-    (Story) => (
-      <View style={{ flex: 1, padding: 16, backgroundColor: 'transparent' }}>
-        <Story />
-      </View>
-    ),
-  ],
+  decorators: [(Story) => <Story />],
   parameters: {
     docs: {
       description: {

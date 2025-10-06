@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { StickySaveBar } from '@ui/composites';
 import { PageContainer, Screen, TwoCol } from '@ui/layout';
 import { Card } from '@ui/primitives';
 
@@ -13,6 +12,7 @@ import {
 } from '@features/profile/components';
 
 import { usePersonalDetailsForm } from '@features/profile/hooks/usePersonalDetailsForm';
+import ResponsiveSaveBar from './res';
 
 export default function PersonalDetailsScreen() {
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function PersonalDetailsScreen() {
                 className={c.className}
                 noHeaderXPadding
               >
-                <View className="px-4 pb-4">
+                <View className="pb-4">
                   {c.fields.map((f) => (
                     <ProfileFieldRenderer key={f.key} field={f} />
                   ))}
@@ -54,7 +54,7 @@ export default function PersonalDetailsScreen() {
         <View className="h-16" />
       </Screen>
 
-      <StickySaveBar
+      <ResponsiveSaveBar
         dirty={dirty}
         onSave={() => router.back()}
         label={t('personal.saveChanges')}
@@ -62,6 +62,8 @@ export default function PersonalDetailsScreen() {
         upToDateText="Up to date"
         pad={12}
         safeBottom={false}
+        variant="floating" // 👈 shows the pill on ALL platforms
+        maxWidth={1100} // keep aligned with PageContainer
       />
     </>
   );

@@ -6,7 +6,7 @@ const config: Config = {
   preset: 'jest-expo',
 
   // JSDOM is fine for @testing-library/react-native
-  testEnvironment: 'jsdom',
+  // testEnvironment: 'jsdom',
 
   // Keep your per-project setup AFTER env
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],

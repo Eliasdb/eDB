@@ -2,8 +2,8 @@
 import { useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 
-import { Segmented } from '@ui/primitives';
-import { ToolGrid } from '../../capabilities';
+import { Segmented } from '@ui/navigation';
+import { ToolGrid } from '../../capabilities/tool-grid/tool-grid';
 import { CapabilitiesHeader } from '../capabilities-header/capabilities-header';
 import { InstructionsCard } from '../instructions-card/instructions-card';
 
@@ -41,7 +41,7 @@ export function ClaraCapabilitiesContainer() {
       <CapabilitiesHeader total={total} />
       <InstructionsCard instructions={CLARA_INSTRUCTIONS} hints={CLARA_HINTS} />
 
-      <View className="mt-2 mb-8 px-1">
+      <View className="mt-4 mb-8 px-1">
         <Text className="text-[16px] font-extrabold text-text dark:text-text-dark">
           Tools
         </Text>

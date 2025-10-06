@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { Segmented } from './segmented';
 
 const meta: Meta<typeof Segmented> = {
-  title: 'Primitives/Segmented (single)',
+  title: 'Navigation/Segmented',
   component: Segmented,
 };
 export default meta;

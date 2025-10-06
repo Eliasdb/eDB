@@ -16,7 +16,11 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import { CONTACT_LINKS, FAQ_ITEMS, GUIDE_SECTIONS } from './help.config';
+import {
+  CONTACT_LINKS,
+  FAQ_ITEMS,
+  GUIDE_SECTIONS,
+} from '@features/support/config/help.config';
 
 export default function HelpScreen() {
   const insets = useSafeAreaInsets();

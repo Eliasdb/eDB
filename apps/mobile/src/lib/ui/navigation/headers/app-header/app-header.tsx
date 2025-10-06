@@ -78,7 +78,8 @@ export function AppHeader({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          paddingHorizontal: 16,
+          paddingLeft: 16,
+          paddingRight: 8,
           gap: 12,
         }}
       >

@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Divider } from './divider';
 
 const meta: Meta<typeof Divider> = {
-  title: 'Primitives/Divider',
+  title: 'Primitives/Display/Divider',
   component: Divider,
   decorators: [
     (Story) => (

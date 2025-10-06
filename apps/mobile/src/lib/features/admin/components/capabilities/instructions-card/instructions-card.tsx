@@ -14,7 +14,7 @@ export function InstructionsCard({
   hints?: readonly string[];
 }) {
   return (
-    <Card className="mb-4 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl">
+    <Card className="my-4 mb-6 bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-2xl">
       <View>
         <Text className="text-[16px] font-extrabold text-text dark:text-text-dark mb-2">
           Instructions

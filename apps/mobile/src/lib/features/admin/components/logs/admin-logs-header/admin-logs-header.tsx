@@ -1,5 +1,5 @@
 // apps/mobile/src/app/(features)/admin/logs/AdminLogsHeader.tsx
-import { Segmented } from '@ui/primitives';
+import { Segmented } from '@ui/navigation';
 import { Text, View } from 'react-native';
 
 type ViewMode = 'cards' | 'terminal';
@@ -17,14 +17,16 @@ export function AdminLogsHeader({
         <Text className="text-[18px] font-extrabold text-text dark:text-text-dark">
           Activity logs
         </Text>
-        <Segmented<ViewMode>
-          value={mode}
-          onChange={onChange}
-          options={[
-            { value: 'cards', label: 'Cards' },
-            { value: 'terminal', label: 'Terminal' },
-          ]}
-        />
+        <View className="mb-4">
+          <Segmented<ViewMode>
+            value={mode}
+            onChange={onChange}
+            options={[
+              { value: 'cards', label: 'Cards' },
+              { value: 'terminal', label: 'Terminal' },
+            ]}
+          />
+        </View>
       </View>
       <Text className="mt-1 text-[13px] leading-5 text-text-dim dark:text-text-dimDark">
         Review the actions Clara has taken: creations, updates, deletions and

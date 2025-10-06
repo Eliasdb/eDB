@@ -2,9 +2,10 @@ import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@ui/layout';
-import { Avatar, Button, Dot, Pill } from '@ui/primitives';
-import { AudioGlow } from '@ui/visuals';
+import { Avatar, Dot, Pill } from '@ui/primitives';
+import { AudioGlowAdaptive } from '@ui/visuals';
 import { Text, View } from 'react-native';
+import MicButtonLarge from './VoiceButton';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking } =
@@ -25,7 +26,7 @@ export default function HomeScreen() {
     <Screen>
       {/* Glow + Avatar */}
       <View className="relative items-center justify-center">
-        <AudioGlow level={level} speaking={speaking} />
+        <AudioGlowAdaptive level={level} speaking={speaking} />
         <Avatar size={220} />
       </View>
 
@@ -35,24 +36,13 @@ export default function HomeScreen() {
       </Text>
 
       {/* Mic button */}
-      <Button
-        className="mt-8 self-center"
-        shape="circle"
-        tint={connected ? 'danger' : 'primary'}
-        size="md"
-        icon="mic"
-        testID="micButton"
-        accessibilityLabel="Mic button"
+      <MicButtonLarge
+        level={level}
+        connected={connected}
+        speaking={speaking}
+        loading={loading}
         onPress={onMicPress}
-        helperText={
-          loading
-            ? t('mic.connecting')
-            : connected
-              ? t('mic.stop')
-              : t('mic.talk')
-        }
       />
-
       {/* Status */}
       <Pill
         className="mt-4 self-center"

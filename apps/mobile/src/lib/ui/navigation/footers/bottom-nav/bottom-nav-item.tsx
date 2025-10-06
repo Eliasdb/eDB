@@ -1,16 +1,7 @@
-// apps/mobile/src/lib/ui/primitives/BottomNav.tsx
-import { ReactNode, useEffect, useRef } from 'react';
-import {
-  Animated,
-  Easing,
-  Platform,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { ReactNode, useEffect, useRef } from 'react';
+import { Animated, Easing, Pressable, Text } from 'react-native';
 
-export type BottomNavItem = {
+export type BottomNavItemModel = {
   key: string;
   label: string;
   icon?:
@@ -22,84 +13,17 @@ export type BottomNavItem = {
   testID?: string;
 };
 
-export type BottomNavProps = {
-  items: BottomNavItem[];
-  activeKey: string;
+export type BottomNavItemProps = {
+  item: BottomNavItemModel;
+  active: boolean;
   onChange?: (key: string) => void;
-  activeTint?: string;
-  inactiveTint?: string;
-  iconSize?: number;
-  elevate?: boolean;
-  roundedActive?: boolean;
+  activeTint: string;
+  inactiveTint: string;
+  iconSize: number;
+  roundedActive: boolean;
 };
 
-export default function BottomNav({
-  items,
-  activeKey,
-  onChange,
-  activeTint = '#6C63FF',
-  inactiveTint = '#6B7280',
-  iconSize = 24,
-  elevate = true,
-  roundedActive = true,
-}: BottomNavProps) {
-  const insets = useSafeAreaInsets();
-  const padBottom = Math.max(insets.bottom, 6);
-
-  return (
-    <View
-      style={[
-        { alignSelf: 'stretch', width: '100%', backgroundColor: undefined },
-      ]}
-    >
-      <View
-        className="bg-white dark:bg-surface-dark border-t border-border dark:border-border-dark"
-        style={{
-          paddingHorizontal: 12,
-          paddingTop: 8,
-          paddingBottom: padBottom + 8,
-          ...(Platform.OS === 'android' && elevate ? { elevation: 10 } : null),
-          ...(Platform.OS !== 'android' && elevate
-            ? {
-                shadowColor: '#000',
-                shadowOpacity: 0.08,
-                shadowRadius: 12,
-                shadowOffset: { width: 0, height: -2 },
-              }
-            : null),
-        }}
-      >
-        {/* fixed-height track centers pills */}
-        <View
-          style={{
-            height: 56,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 0,
-          }}
-        >
-          {items.map((it) => (
-            <AnimatedTabItem
-              key={it.key}
-              item={it}
-              active={activeKey === it.key}
-              onChange={onChange}
-              activeTint={activeTint}
-              inactiveTint={inactiveTint}
-              iconSize={iconSize}
-              roundedActive={roundedActive}
-            />
-          ))}
-        </View>
-      </View>
-    </View>
-  );
-}
-
-/* ---------------- Animated Tab Item ---------------- */
-
-function AnimatedTabItem({
+export function BottomNavItem({
   item,
   active,
   onChange,
@@ -107,32 +31,21 @@ function AnimatedTabItem({
   inactiveTint,
   iconSize,
   roundedActive,
-}: {
-  item: BottomNavItem;
-  active: boolean;
-  onChange?: (key: string) => void;
-  activeTint: string;
-  inactiveTint: string;
-  iconSize: number;
-  roundedActive: boolean;
-}) {
-  // focus progress (0 -> 1)
+}: BottomNavItemProps) {
   const focusP = useRef(new Animated.Value(active ? 1 : 0)).current;
-  // press scale & icon lift
   const pressScale = useRef(new Animated.Value(1)).current;
   const iconLift = useRef(new Animated.Value(0)).current;
 
-  // animate focus changes (route switches)
   useEffect(() => {
     Animated.timing(focusP, {
       toValue: active ? 1 : 0,
       duration: 180,
       easing: Easing.out(Easing.quad),
-      useNativeDriver: true, // we only drive transforms/opacity with this value
+      useNativeDriver: true,
     }).start();
   }, [active, focusP]);
 
-  const onPressIn = () => {
+  const onPressIn = () =>
     Animated.parallel([
       Animated.spring(pressScale, {
         toValue: 0.96,
@@ -148,8 +61,8 @@ function AnimatedTabItem({
         useNativeDriver: true,
       }),
     ]).start();
-  };
-  const onPressOut = () => {
+
+  const onPressOut = () =>
     Animated.parallel([
       Animated.spring(pressScale, {
         toValue: 1,
@@ -165,21 +78,15 @@ function AnimatedTabItem({
         useNativeDriver: true,
       }),
     ]).start();
-  };
 
-  // scale the whole pill slightly when focused (nice pop)
   const popScale = focusP.interpolate({
     inputRange: [0, 1],
     outputRange: [1, 1.04],
   });
-
-  // tint overlay opacity (since backgroundColor can't use native driver)
   const tintOpacity = focusP.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 0.12],
   });
-
-  // active vs inactive label color (instant; icons are handled by RN’s renderer)
   const labelColor = active ? activeTint : inactiveTint;
 
   return (
@@ -207,7 +114,6 @@ function AnimatedTabItem({
           overflow: 'hidden',
         }}
       >
-        {/* tinted background as an animated overlay (opacity-only so it’s native-driver friendly) */}
         {roundedActive ? (
           <Animated.View
             pointerEvents="none"
@@ -221,7 +127,6 @@ function AnimatedTabItem({
           />
         ) : null}
 
-        {/* icon */}
         <Animated.View
           style={{ marginBottom: 4, transform: [{ translateY: iconLift }] }}
         >
@@ -230,7 +135,6 @@ function AnimatedTabItem({
             : item.icon}
         </Animated.View>
 
-        {/* label */}
         <Text
           allowFontScaling={false}
           numberOfLines={1}

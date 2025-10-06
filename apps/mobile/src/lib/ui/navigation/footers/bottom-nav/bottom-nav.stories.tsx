@@ -1,30 +1,31 @@
-// apps/mobile/src/lib/ui/primitives/bottom-nav.stories.tsx
 import { Ionicons } from '@expo/vector-icons';
-import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
-import { View } from 'react-native';
-import BottomNav, { type BottomNavItem } from './bottom-nav';
+import type { Decorator, Meta, StoryObj } from '@storybook/react';
+import { colorScheme } from 'nativewind';
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import BottomNav from './bottom-nav';
+import type { BottomNavItemModel as BottomNavItem } from './bottom-nav-item';
 
-// Small helper so icons respect the provided color/size/focused
+/* ---------------- helpers ---------------- */
+
 const tabIcon =
   (name: React.ComponentProps<typeof Ionicons>['name']) =>
   ({ color, size }: { color: string; size: number; focused: boolean }) => (
     <Ionicons name={name} size={size} color={color} />
   );
 
-const meta: Meta<typeof BottomNav> = {
-  title: 'Navigation/ Bottom Nav',
-  component: BottomNav,
-  args: {
-    activeTint: '#6C63FF',
-    inactiveTint: '#6B7280',
-    iconSize: 22,
-    elevate: true,
-    roundedActive: true,
-  },
-  decorators: [
-    (Story) => (
-      // phone frame-ish
+// Force NativeWind’s theme for a single story (light/dark)
+const forceTheme =
+  (mode: 'light' | 'dark'): Decorator =>
+  (Story) => {
+    useEffect(() => {
+      const prev = colorScheme.get();
+      colorScheme.set(mode);
+      return () => colorScheme.set(prev ?? 'light');
+    }, []);
+
+    const bg = mode === 'dark' ? '#0b0c0f' : '#f9fafb';
+    return (
       <View
         style={{
           height: 640,
@@ -33,17 +34,48 @@ const meta: Meta<typeof BottomNav> = {
           overflow: 'hidden',
           borderWidth: 1,
           borderColor: '#e5e7eb',
-          backgroundColor: '#f9fafb',
+          backgroundColor: bg,
           justifyContent: 'flex-end',
         }}
       >
-        {/* content area */}
         <View style={{ flex: 1 }} />
-        {/* nav */}
         <Story />
       </View>
-    ),
-  ],
+    );
+  };
+
+// “Phone frame” wrapper only (no theme forcing)
+const phoneFrame: Decorator = (Story) => (
+  <View
+    style={{
+      height: 640,
+      width: 360,
+      borderRadius: 24,
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: '#e5e7eb',
+      backgroundColor: '#f9fafb',
+      justifyContent: 'flex-end',
+    }}
+  >
+    <View style={{ flex: 1 }} />
+    <Story />
+  </View>
+);
+
+/* ---------------- meta ---------------- */
+
+const meta: Meta<typeof BottomNav> = {
+  title: 'Navigation/Footers/Bottom Nav',
+  component: BottomNav,
+  args: {
+    activeTint: '#6C63FF',
+    inactiveTint: '#6B7280',
+    iconSize: 22,
+    elevate: true,
+    roundedActive: true,
+  },
+  decorators: [phoneFrame],
   parameters: {
     docs: {
       description: {
@@ -57,7 +89,7 @@ export default meta;
 
 type Story = StoryObj<typeof BottomNav>;
 
-/* ---------------- Basic ---------------- */
+/* ---------------- stories ---------------- */
 
 export const Basic: Story = {
   render: (args) => {
@@ -84,24 +116,24 @@ export const Basic: Story = {
   },
 };
 
-/* ---------------- With badges ---------------- */
-
 export const WithBadges: Story = {
   render: (args) => {
     const [active, setActive] = useState('tasks');
-    const BadgeIcon =
+
+    // Simple badge wrapper (dot or number)
+    const withBadge =
       (
         name: React.ComponentProps<typeof Ionicons>['name'],
         badge?: number | string | boolean,
       ) =>
       ({ color, size }: { color: string; size: number; focused: boolean }) => (
-        <View style={{}}>
+        <View>
           <Ionicons name={name} size={size} color={color} />
           {badge ? (
             <View
               style={{
                 position: 'absolute',
-                right: -8,
+                right: -6,
                 top: -4,
                 minWidth: 16,
                 height: 16,
@@ -113,12 +145,16 @@ export const WithBadges: Story = {
               }}
             >
               {typeof badge === 'boolean' ? null : (
-                <Ionicons
-                  // a tiny text-like glyph; simple & visible on RN without extra Text
-                  name="ellipse"
-                  size={0.01}
-                  color="transparent"
-                />
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: '700',
+                    color: 'white',
+                    includeFontPadding: false as any,
+                  }}
+                >
+                  {String(badge)}
+                </Text>
               )}
             </View>
           ) : null}
@@ -130,13 +166,13 @@ export const WithBadges: Story = {
       {
         key: 'tasks',
         label: 'Tasks',
-        icon: BadgeIcon('checkbox-outline', 3),
+        icon: withBadge('checkbox-outline', 3),
         badge: 3,
       },
       {
         key: 'crm',
         label: 'CRM',
-        icon: BadgeIcon('briefcase-outline', true), // dot-only
+        icon: withBadge('briefcase-outline', true),
         badge: true,
       },
       {
@@ -158,10 +194,8 @@ export const WithBadges: Story = {
   },
 };
 
-/* ---------------- Dark mode preview ---------------- */
-
 export const DarkMode: Story = {
-  parameters: { backgrounds: { default: 'dark' } },
+  decorators: [forceTheme('dark')],
   render: (args) => {
     const [active, setActive] = useState('chat');
     const items: BottomNavItem[] = [
@@ -176,17 +210,14 @@ export const DarkMode: Story = {
       { key: 'settings', label: 'Settings', icon: tabIcon('settings-outline') },
     ];
     return (
-      <View style={{ backgroundColor: '#0b0c0f' }}>
-        <BottomNav
-          {...args}
-          items={items}
-          activeKey={active}
-          onChange={setActive}
-          // nudge tints for dark bg if you like
-          activeTint="#8B85FF"
-          inactiveTint="#a3a3a3"
-        />
-      </View>
+      <BottomNav
+        {...args}
+        items={items}
+        activeKey={active}
+        onChange={setActive}
+        activeTint="#8B85FF"
+        inactiveTint="#A3A3A3"
+      />
     );
   },
 };

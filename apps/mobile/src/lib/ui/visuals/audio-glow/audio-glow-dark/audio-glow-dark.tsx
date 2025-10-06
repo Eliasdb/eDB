@@ -10,7 +10,7 @@ import {
 } from '@shopify/react-native-skia';
 import React from 'react';
 import { Platform, View } from 'react-native';
-import { useThemePreference } from '../providers';
+import { useThemePreference } from '../../../providers';
 
 type Props = {
   level: number; // 0..1 RMS-ish
@@ -19,7 +19,7 @@ type Props = {
   color?: string; // API compat (web fallback only)
 };
 
-export function AudioGlow({
+export function AudioGlowDark({
   level,
   speaking,
   baseRadius = 140,

@@ -7,15 +7,18 @@ import {
   SettingsPanel,
 } from '@features/profile';
 import { PageContainer, Screen, TwoCol } from '@ui/layout';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { t } = useTranslation();
 
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 1024;
+
   return (
     <Screen
-      center={false}
+      center={isDesktop}
       padding={{ h: 4, top: 16, bottom: 24 }}
       safeBottom
       showsVerticalScrollIndicator={false}
