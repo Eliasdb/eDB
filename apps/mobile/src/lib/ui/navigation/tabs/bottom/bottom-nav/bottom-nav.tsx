@@ -5,10 +5,8 @@ import {
   Easing,
   Platform,
   Pressable,
-  StyleProp,
   Text,
   View,
-  ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -33,7 +31,6 @@ export type BottomNavProps = {
   iconSize?: number;
   elevate?: boolean;
   roundedActive?: boolean;
-  style?: StyleProp<ViewStyle>; // style from navigator (absolute bottom, width, etc.)
 };
 
 export default function BottomNav({
@@ -45,7 +42,6 @@ export default function BottomNav({
   iconSize = 24,
   elevate = true,
   roundedActive = true,
-  style,
 }: BottomNavProps) {
   const insets = useSafeAreaInsets();
   const padBottom = Math.max(insets.bottom, 6);
@@ -53,7 +49,6 @@ export default function BottomNav({
   return (
     <View
       style={[
-        style,
         { alignSelf: 'stretch', width: '100%', backgroundColor: undefined },
       ]}
     >

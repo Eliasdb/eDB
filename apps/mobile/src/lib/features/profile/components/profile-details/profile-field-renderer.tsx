@@ -5,7 +5,6 @@ import type { FieldDef } from '../../types/profile-details.types';
 
 export function ProfileFieldRenderer({ field }: { field: FieldDef }) {
   const isTextarea = field.type === 'textarea';
-
   return (
     <Field key={field.key} label={field.label}>
       <Input

@@ -1,37 +1,23 @@
-import { useThemePreference } from '@ui/providers';
+// apps/mobile/src/app/(tabs)/_layout.tsx
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { Ionicons } from '@expo/vector-icons';
 import { AppHeader } from '@ui/navigation';
 import { NavigationTabBar } from '../../lib/ui/navigation';
 
 export default function TabsLayout() {
   const router = useRouter();
-  const { effective } = useThemePreference();
-  const dark = effective === 'dark';
   const { t } = useTranslation();
-
-  const primary = '#6C63FF';
-  const inactive = dark ? '#9CA3AF' : '#6B7280';
-  const bg = dark ? '#1F2937' : '#FFFFFF';
-  const border = dark ? '#374151' : '#E5E7EB';
-
   const go = (path: string, opts?: { replace?: boolean }) =>
     opts?.replace ? router.replace(path) : router.push(path);
 
   return (
     <Tabs
+      // our custom bar handles theming inside
       tabBar={(props) => <NavigationTabBar {...props} />}
-      screenOptions={{
-        tabBarActiveTintColor: primary,
-        tabBarInactiveTintColor: inactive,
-        tabBarStyle: {
-          backgroundColor: bg,
-          borderTopColor: border,
-          borderTopWidth: 0.5,
-        },
-      }}
+      screenOptions={{ lazy: false }}
+      detachInactiveScreens
     >
       <Tabs.Screen
         name="chat"

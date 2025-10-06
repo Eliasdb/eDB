@@ -7,11 +7,7 @@ import { LanguagePicker } from './language-picker';
 // Mock i18n context for Storybook
 // If you already provide an I18nextProvider globally in preview.js, you can drop this
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <View style={{ flex: 1, padding: 16, backgroundColor: 'white' }}>
-      {children}
-    </View>
-  );
+  return <View style={{ flex: 1, padding: 16 }}>{children}</View>;
 };
 
 const meta: Meta<typeof LanguagePicker> = {

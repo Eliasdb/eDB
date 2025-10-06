@@ -6,6 +6,7 @@ import AccordionRow, { AccordionRowProps } from './accordion-row';
 const meta: Meta<typeof AccordionRow> = {
   title: 'Composites/List Rows/Accordion Row',
   component: AccordionRow,
+  tags: ['autodocs'],
   args: {
     label: 'Settings',
     icon: 'settings-outline',
@@ -17,12 +18,19 @@ const meta: Meta<typeof AccordionRow> = {
   },
   decorators: [
     (Story) => (
-      <View style={{ padding: 16, backgroundColor: 'white', flex: 1 }}>
+      <View className="bg-surface" style={{ padding: 16, flex: 1 }}>
         <Story />
       </View>
     ),
   ],
   parameters: {
+    parameters: {
+      notes: `
+     # Here I can add some markdown
+     mmmmmmmmm
+     Put a full new line between each element.
+    `,
+    },
     docs: {
       description: {
         component:

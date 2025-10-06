@@ -24,7 +24,7 @@ export default function SecurityScreen() {
   return (
     <Screen
       center={false}
-      padding={{ h: 16, top: 16, bottom: 24 }}
+      padding={{ h: 4, top: 16, bottom: 24 }}
       safeBottom
       showsVerticalScrollIndicator={false}
     >

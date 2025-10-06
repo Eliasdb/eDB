@@ -22,7 +22,7 @@ export default function PersonalDetailsScreen() {
 
   return (
     <>
-      <Screen center={false} padding={{ h: 8, top: 16, bottom: 24 }} safeBottom>
+      <Screen center={false} padding={{ h: 0, top: 16, bottom: 24 }} safeBottom>
         <PageContainer>
           {/* Summary up top */}
           <ProfileSummaryCard
@@ -40,6 +40,7 @@ export default function PersonalDetailsScreen() {
                 title={c.title}
                 bordered={c.bordered}
                 className={c.className}
+                noHeaderXPadding
               >
                 <View className="px-4 pb-4">
                   {c.fields.map((f) => (

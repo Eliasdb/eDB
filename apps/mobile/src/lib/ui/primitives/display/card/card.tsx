@@ -16,6 +16,8 @@ type CardProps = ViewProps & {
   radius?: Radius;
   className?: string;
   bodyClassName?: string;
+  /** 🔥 remove horizontal padding for header (title/subtitle/headerRight) */
+  noHeaderXPadding?: boolean;
   children?: React.ReactNode;
 };
 
@@ -28,6 +30,7 @@ export function Card({
   bordered = true,
   shadowOnDark = true,
   radius = 'all',
+  noHeaderXPadding = false, // new flag
   className,
   bodyClassName,
   style,
@@ -73,7 +76,7 @@ export function Card({
 
   const bodyPad = inset ? 'px-4 py-4' : 'px-0 py-0';
 
-  // ✅ Normalize top-level children: wrap any string/number in <Text>
+  // ✅ Normalize children (wrap plain text)
   const normalizedChildren = React.Children.toArray(children).map((ch, i) => {
     if (typeof ch === 'string' || typeof ch === 'number') {
       return <Text key={`card_txt_${i}`}>{ch}</Text>;
@@ -84,7 +87,11 @@ export function Card({
   return (
     <View className={outer} style={style} {...rest}>
       {(title || subtitle || headerRight) && (
-        <View className={`px-4 pt-4 ${inset ? 'pb-2' : 'pb-3'}`}>
+        <View
+          className={[
+            noHeaderXPadding ? 'pt-4 pb-2' : 'px-4 pt-4 pb-2', // 🔥 remove only px
+          ].join(' ')}
+        >
           <View className="flex-row items-center justify-between">
             <View className="flex-1 min-w-0">
               {title ? (

@@ -67,6 +67,7 @@
     "@babel/preset-flow": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
+    "@storybook/addon-docs": "9.1.4",
     "@storybook/addon-ondevice-actions": "9.1.4",
     "@storybook/addon-ondevice-backgrounds": "9.1.4",
     "@storybook/addon-ondevice-controls": "9.1.4",

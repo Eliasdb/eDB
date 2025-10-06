@@ -4,8 +4,8 @@ import { Text, View } from 'react-native';
 
 import { Segmented } from '@ui/primitives';
 import { ToolGrid } from '../../capabilities';
-import { CapabilitiesHeader } from '../../capabilities/capabilities-header/capabilities-header';
-import { InstructionsCard } from '../../capabilities/instructions-card/instructions-card';
+import { CapabilitiesHeader } from '../capabilities-header/capabilities-header';
+import { InstructionsCard } from '../instructions-card/instructions-card';
 
 import type { ToolScope } from '../../../types';
 import {

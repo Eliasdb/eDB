@@ -58,21 +58,12 @@ export function NavigationTabBar(props: BottomTabBarProps) {
     };
   });
 
-  const currentOptions = descriptors[state.routes[state.index].key].options;
-  const activeTint = (currentOptions as any).tabBarActiveTintColor ?? '#6C63FF';
-  const inactiveTint =
-    (currentOptions as any).tabBarInactiveTintColor ?? '#6B7280';
-
   // 👇 Forward the style coming from React Navigation so the bar spans full width & anchors to bottom.
-  const navStyle = (props as any).style;
 
   return (
     <BottomNav
-      style={navStyle} // <-- important
       items={items}
       activeKey={state.routes[state.index].key}
-      activeTint={activeTint}
-      inactiveTint={inactiveTint}
       elevate
       roundedActive
     />

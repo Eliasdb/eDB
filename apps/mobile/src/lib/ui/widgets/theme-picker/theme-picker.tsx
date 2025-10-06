@@ -1,17 +1,18 @@
 // apps/mobile/src/lib/ui/ThemePicker.tsx
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useThemePreference } from '../../providers';
 
-type ThemeOption = 'system' | 'light' | 'dark';
+// ⬇️ Use the new hook (export type ThemeOverride from your hook file)
+import { useThemeOverride } from './uset';
+export type ThemeOption = 'system' | 'light' | 'dark';
+
 const OPTIONS: ThemeOption[] = ['system', 'light', 'dark'];
 
 export function ThemePicker() {
   const { t } = useTranslation();
-  const { override, setOverride } = useThemePreference();
+  const { override, setOverride } = useThemeOverride(); // { override: 'system'|'light'|'dark' }
 
   return (
-    // no header/title here anymore
     <View>
       {OPTIONS.map((value) => (
         <TouchableOpacity

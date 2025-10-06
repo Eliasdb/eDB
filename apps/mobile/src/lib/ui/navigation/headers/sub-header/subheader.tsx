@@ -72,7 +72,7 @@ export function SubHeader({
     >
       <View
         style={[{ height }, style]}
-        className="flex-row items-center justify-between px-3"
+        className="flex-row items-center justify-between px-2"
         {...rest}
       >
         {/* Left: Back */}
