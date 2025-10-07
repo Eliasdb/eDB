@@ -1,38 +1,53 @@
-// app/(tabs)/crm/_layout.tsx
-import { Slot, usePathname, useRouter } from 'expo-router';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+// app/(tabs)/crm/(features)/_layout.tsx
+import { Stack } from 'expo-router';
+import { useCrmDir } from '../../../../lib/nav/crmDirection';
 
-import { ResponsiveTabsLayout } from '@ui/layout';
-import { Text } from 'react-native';
-
-import { buildCrmTabs, getActiveCrmTab, tabToPath } from '@features/crm/config';
-
-export default function CRMLayout() {
-  const { t } = useTranslation();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  // derive active tab from current pathname
-  const active = useMemo(() => getActiveCrmTab(pathname), [pathname]);
-  const tabs = useMemo(() => buildCrmTabs(t), [t]);
+export default function CRMFeaturesStack() {
+  const dir = useCrmDir((s) => s.dir);
+  const slide = dir === 'forward' ? 'slide_from_right' : 'slide_from_left';
 
   return (
-    <ResponsiveTabsLayout
-      tabs={tabs}
-      value={active}
-      onChange={(k) => router.replace(tabToPath[k])}
-      sidebarTitle={t('crm.title', { defaultValue: 'CRM' })}
-      sidebarFooter={
-        <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
-          {t('crm.sidebar.footer', {
-            defaultValue: 'Manage tasks, contacts, and companies.',
-          })}
-        </Text>
-      }
-      tabIdPrefix="crm-tab-"
-    >
-      <Slot />
-    </ResponsiveTabsLayout>
+    <Stack screenOptions={{ headerShown: false }}>
+      {/* List pages */}
+      <Stack.Screen name="dashboard/index" options={{ animation: slide }} />
+      <Stack.Screen name="tasks/index" options={{ animation: slide }} />
+      <Stack.Screen name="contacts/index" options={{ animation: slide }} />
+      <Stack.Screen name="companies/index" options={{ animation: slide }} />
+
+      {/* Details (formSheet) */}
+      <Stack.Screen
+        name="contacts/[id]"
+        options={{
+          presentation: 'formSheet',
+          animation: 'slide_from_bottom',
+          sheetAllowedDetents: [0.5, 1],
+          sheetGrabberVisible: true,
+          sheetCornerRadius: 24,
+          sheetExpandsWhenScrolledToEdge: false,
+        }}
+      />
+      <Stack.Screen
+        name="companies/[id]"
+        options={{
+          presentation: 'formSheet',
+          animation: 'slide_from_bottom',
+          sheetAllowedDetents: [0.4, 1],
+          sheetGrabberVisible: true,
+          sheetCornerRadius: 24,
+          sheetExpandsWhenScrolledToEdge: false,
+        }}
+      />
+      <Stack.Screen
+        name="tasks/[id]"
+        options={{
+          presentation: 'formSheet',
+          animation: 'slide_from_bottom',
+          sheetAllowedDetents: [0.5, 1],
+          sheetGrabberVisible: true,
+          sheetCornerRadius: 24,
+          sheetExpandsWhenScrolledToEdge: false,
+        }}
+      />
+    </Stack>
   );
 }

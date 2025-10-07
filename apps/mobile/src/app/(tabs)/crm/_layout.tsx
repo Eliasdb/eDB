@@ -1,25 +1,41 @@
-// apps/mobile/src/app/(tabs)/crm/_layout.tsx
-import { Stack } from 'expo-router';
+// app/(tabs)/crm/_layout.tsx
+import { ResponsiveTabsLayout } from '@ui/layout';
+import { Slot, usePathname, useRouter } from 'expo-router';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Text } from 'react-native';
+
+import { buildCrmTabs, getActiveCrmTab, tabToPath } from '@features/crm/config';
+import { useCrmDir } from '../../../lib/nav/crmDirection'; // 👈 import store
 
 export default function CRMLayout() {
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        presentation: 'card',
-        animation: 'slide_from_right',      // default for this stack
-        gestureEnabled: true,
-        fullScreenGestureEnabled: true,
-        contentStyle: { backgroundColor: 'transparent' },
-      }}
-    >
-      {/* keep index (overviews) snappy/no animation */}
-      <Stack.Screen name="(features)/companies/index" options={{ animation: 'none' }} />
-      <Stack.Screen name="(features)/contacts/index" options={{ animation: 'none' }} />
+  const { t } = useTranslation();
+  const router = useRouter();
+  const pathname = usePathname();
+  const setNext = useCrmDir((s) => s.setNext);
 
-      {/* details inherit slide_from_right */}
-      <Stack.Screen name="(features)/companies/[id]" />
-      <Stack.Screen name="(features)/contacts/[id]" />
-    </Stack>
+  const active = useMemo(() => getActiveCrmTab(pathname), [pathname]);
+  const tabs = useMemo(() => buildCrmTabs(t), [t]);
+
+  return (
+    <ResponsiveTabsLayout
+      tabs={tabs}
+      value={active}
+      onChange={(next) => {
+        setNext(active, next); // 👈 store direction
+        router.push(tabToPath[next]); // push, not replace, for animation
+      }}
+      sidebarTitle={t('crm.title', { defaultValue: 'CRM' })}
+      sidebarFooter={
+        <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
+          {t('crm.sidebar.footer', {
+            defaultValue: 'Manage tasks, contacts, and companies.',
+          })}
+        </Text>
+      }
+      tabIdPrefix="crm-tab-"
+    >
+      <Slot />
+    </ResponsiveTabsLayout>
   );
 }
