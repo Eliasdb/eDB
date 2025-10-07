@@ -4,9 +4,9 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 // ⬇️ Use the new hook (export type ThemeOverride from your hook file)
 import { useThemeOverride } from './uset';
-export type ThemeOption = 'system' | 'light' | 'dark';
+export type ThemeOption = 'light' | 'dark';
 
-const OPTIONS: ThemeOption[] = ['system', 'light', 'dark'];
+const OPTIONS: ThemeOption[] = ['light', 'dark'];
 
 export function ThemePicker() {
   const { t } = useTranslation();

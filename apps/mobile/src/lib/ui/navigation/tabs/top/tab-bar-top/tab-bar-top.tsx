@@ -2,9 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, View, useColorScheme } from 'react-native';
 import Animated, {
-  Easing,
   interpolateColor,
-  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -26,17 +24,17 @@ export function TabBarTop<K extends TabKey>({
   idPrefix?: string;
 }) {
   const isDark = useColorScheme() === 'dark';
+
   const c = {
-    border: isDark ? '#2A2F3A' : '#E5E7EB',
-    idleText: isDark ? '#9AA3B2' : '#6B7280',
-    activeText: isDark ? '#C7D2FE' : '#4F46E5',
-    idleBg: 'transparent',
-    activeBg: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-    indicator: isDark ? '#8B9DFF' : '#6366F1',
-    barBg: isDark ? 'rgba(28,32,38,0.7)' : 'rgba(243,244,246,0.7)',
+    railBg: isDark ? 'rgba(24,27,33,0.75)' : 'rgba(248,250,252,0.75)',
+    railBorder: isDark ? 'rgba(148,163,184,0.12)' : 'rgba(15,23,42,0.08)',
+    thumbBg: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+    textIdle: isDark ? '#96A0AE' : '#6B7280',
+    textActive: isDark ? '#D7DCFF' : '#4F46E5',
+    pageBorder: isDark ? '#2A2F3A' : '#E5E7EB',
   };
 
-  // measure per-tab
+  // Layout metrics for each tab
   const [m, setM] = useState<Metrics>({});
   const setTabLayout = useCallback(
     (key: string, x: number, w: number) =>
@@ -49,17 +47,36 @@ export function TabBarTop<K extends TabKey>({
     [],
   );
 
-  // keep scrollX so chips can still be scrollable
   const MAX_INLINE = 3;
   const hasScroll = tabs.length > MAX_INLINE;
   const twoWide = !hasScroll && tabs.length === 2;
 
-  const scrollX = useSharedValue(0);
-  const onScroll = useAnimatedScrollHandler({
-    onScroll: (e) => {
-      scrollX.value = e.contentOffset.x;
-    },
-  });
+  // Thumb animation (works for both modes)
+  const activeX = useSharedValue(0);
+  const activeW = useSharedValue(0);
+  useEffect(() => {
+    const k = String(value);
+    const mm = m[k];
+    if (!mm) return;
+    activeX.value = withSpring(mm.x, {
+      damping: 18,
+      stiffness: 220,
+      mass: 0.9,
+    });
+    activeW.value = withSpring(mm.w, {
+      damping: 18,
+      stiffness: 220,
+      mass: 0.9,
+    });
+  }, [value, m, activeX, activeW]);
+
+  const thumbStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: activeX.value }],
+    width: Math.max(0, activeW.value),
+  }));
+
+  const railPad = 6;
+  const railRadius = 14;
 
   return (
     <View
@@ -67,65 +84,101 @@ export function TabBarTop<K extends TabKey>({
       style={{
         width: '100%',
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingTop: 10,
+        paddingBottom: 8,
         borderBottomWidth: 1,
-        borderBottomColor: c.border,
+        borderBottomColor: c.pageBorder,
         flexShrink: 0,
       }}
     >
       <View
         style={{
-          backgroundColor: c.barBg,
-          borderRadius: 14,
-          padding: 4,
-          overflow: 'hidden', // clip chip underlines to the rail
+          backgroundColor: c.railBg,
+          borderRadius: railRadius,
+          padding: railPad,
+          borderWidth: 1,
+          borderColor: c.railBorder,
+          overflow: 'hidden',
         }}
       >
         {hasScroll ? (
+          // SCROLLABLE segmented control (thumb inside scroll content)
           <Animated.ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ alignItems: 'center' }}
+            contentContainerStyle={{
+              alignItems: 'center',
+              paddingHorizontal: 2,
+            }}
             scrollEventThrottle={16}
-            onScroll={onScroll}
           >
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View
+              style={{ position: 'relative', flexDirection: 'row', gap: 8 }}
+            >
+              {/* sliding thumb lives inside the scrolled content */}
+              <Animated.View
+                style={[
+                  {
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    borderRadius: 10,
+                    backgroundColor: c.thumbBg,
+                  },
+                  thumbStyle,
+                ]}
+              />
               {tabs.map((t) => (
-                <TopTabItem
+                <ChipTab
                   key={String(t.key)}
                   k={String(t.key)}
                   label={t.label}
                   active={t.key === value}
-                  colors={c}
                   onPress={() => onChange(t.key)}
                   onTabLayout={setTabLayout}
                   onTextLayout={setTextWidth}
                   a11yId={idPrefix ? `${idPrefix}${String(t.key)}` : undefined}
-                  itemStyle={{ minWidth: 110 }}
-                  chipFullWidth={true}
-                  textW={m[String(t.key)]?.textW ?? 0}
+                  itemStyle={{ paddingHorizontal: 6, minWidth: 110 }}
+                  fullWidth={false}
+                  colors={{ idle: c.textIdle, active: c.textActive }}
                 />
               ))}
             </View>
           </Animated.ScrollView>
         ) : (
-          <View style={{ flexDirection: 'row', gap: 10 }}>
-            {tabs.map((t) => (
-              <TopTabItem
-                key={String(t.key)}
-                k={String(t.key)}
-                label={t.label}
-                active={t.key === value}
-                colors={c}
-                onPress={() => onChange(t.key)}
-                onTabLayout={setTabLayout}
-                onTextLayout={setTextWidth}
-                a11yId={idPrefix ? `${idPrefix}${String(t.key)}` : undefined}
-                itemStyle={{ flex: 1 }} // equal columns
-                chipFullWidth={twoWide}
-                textW={m[String(t.key)]?.textW ?? 0}
-              />
-            ))}
+          // NON-SCROLL: equal columns, same thumb approach
+          <View style={{ position: 'relative' }}>
+            <Animated.View
+              style={[
+                {
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  borderRadius: 10,
+                  backgroundColor: c.thumbBg,
+                },
+                thumbStyle,
+              ]}
+            />
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              {tabs.map((t) => (
+                <ChipTab
+                  key={String(t.key)}
+                  k={String(t.key)}
+                  label={t.label}
+                  active={t.key === value}
+                  onPress={() => onChange(t.key)}
+                  onTabLayout={setTabLayout}
+                  onTextLayout={setTextWidth}
+                  a11yId={idPrefix ? `${idPrefix}${String(t.key)}` : undefined}
+                  itemStyle={{ flex: 1 }}
+                  fullWidth={twoWide}
+                  colors={{ idle: c.textIdle, active: c.textActive }}
+                />
+              ))}
+            </View>
           </View>
         )}
       </View>
@@ -133,70 +186,36 @@ export function TabBarTop<K extends TabKey>({
   );
 }
 
-function TopTabItem({
+function ChipTab({
   k,
   label,
   active,
-  colors,
   onPress,
   onTabLayout,
   onTextLayout,
   a11yId,
   itemStyle,
-  chipFullWidth,
-  textW,
+  fullWidth,
+  colors,
 }: {
   k: string;
   label: string;
   active: boolean;
-  colors: {
-    idleText: string;
-    activeText: string;
-    idleBg: string;
-    activeBg: string;
-  };
   onPress: () => void;
   onTabLayout: (key: string, x: number, w: number) => void;
   onTextLayout: (key: string, textW: number) => void;
   a11yId?: string;
   itemStyle?: any;
-  chipFullWidth?: boolean;
-  textW: number;
+  fullWidth?: boolean;
+  colors: { idle: string; active: string };
 }) {
-  // 0→1 active progress
   const prog = useSharedValue(active ? 1 : 0);
   useEffect(() => {
-    prog.value = withTiming(active ? 1 : 0, { duration: 180 });
+    prog.value = withTiming(active ? 1 : 0, { duration: 160 });
   }, [active, prog]);
 
-  // bg + text color interpolation
-  const tabStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      prog.value,
-      [0, 1],
-      [colors.idleBg, colors.activeBg],
-    ),
-  }));
   const textStyle = useAnimatedStyle(() => ({
-    color: interpolateColor(
-      prog.value,
-      [0, 1],
-      [colors.idleText, colors.activeText],
-    ),
-  }));
-
-  // local underline lives INSIDE the chip → cannot overflow borders
-  const underlineW = useSharedValue(0);
-  useEffect(() => {
-    const target = active ? Math.max(0, textW) : 0;
-    // stretch in fast, settle with spring
-    underlineW.value = active
-      ? withSpring(target, { damping: 18, stiffness: 180, mass: 0.8 })
-      : withTiming(0, { duration: 120, easing: Easing.out(Easing.cubic) });
-  }, [active, textW, underlineW]);
-
-  const underlineStyle = useAnimatedStyle(() => ({
-    width: Math.max(0, Math.round(underlineW.value)),
+    color: interpolateColor(prog.value, [0, 1], [colors.idle, colors.active]),
   }));
 
   return (
@@ -210,52 +229,31 @@ function TopTabItem({
         const { x, width } = e.nativeEvent.layout;
         onTabLayout(k, x, width);
       }}
-      style={[{ alignItems: 'center', justifyContent: 'center' }, itemStyle]}
+      style={[
+        {
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        itemStyle,
+      ]}
     >
-      <Animated.View
+      <Animated.Text
+        onLayout={(e) => onTextLayout(k, e.nativeEvent.layout.width)}
         style={[
           {
-            paddingVertical: 6,
-            paddingHorizontal: 10,
+            paddingVertical: 8,
+            paddingHorizontal: 12,
             borderRadius: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: chipFullWidth ? '100%' : undefined, // two tabs = full column
+            fontSize: 14,
+            fontWeight: '700',
+            textAlign: 'center',
+            width: fullWidth ? '100%' : undefined,
           },
-          tabStyle,
+          textStyle,
         ]}
       >
-        <Animated.Text
-          onLayout={(e) => onTextLayout(k, e.nativeEvent.layout.width)}
-          style={[
-            { fontSize: 14, fontWeight: '700', textAlign: 'center' },
-            textStyle,
-          ]}
-        >
-          {label}
-        </Animated.Text>
-
-        {/* Per-chip underline (non-absolute) */}
-        <View
-          style={{
-            height: 6,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Animated.View
-            style={[
-              {
-                height: 3,
-                borderRadius: 3,
-                backgroundColor:
-                  colors.activeText === '#C7D2FE' ? '#8B9DFF' : '#6366F1',
-              },
-              underlineStyle,
-            ]}
-          />
-        </View>
-      </Animated.View>
+        {label}
+      </Animated.Text>
     </Pressable>
   );
 }

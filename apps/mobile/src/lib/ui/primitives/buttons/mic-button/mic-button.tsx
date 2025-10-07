@@ -14,7 +14,7 @@ type Props = {
   subtle?: boolean; // force the calmer look even on light
 };
 
-export default function MicButtonLarge({
+export function MicButton({
   connected,
   speaking,
   loading,

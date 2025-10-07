@@ -2,10 +2,10 @@ import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@ui/layout';
-import { Avatar, Dot, Pill } from '@ui/primitives';
+import { Avatar, Dot, MicButton, Pill } from '@ui/primitives';
 import { AudioGlowAdaptive } from '@ui/visuals';
 import { Text, View } from 'react-native';
-import MicButtonLarge from './VoiceButton';
+import { GoToSkeletonPlaygroundButton } from './btnt';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking } =
@@ -35,8 +35,10 @@ export default function HomeScreen() {
         {t('home.greeting')}
       </Text>
 
+      <GoToSkeletonPlaygroundButton />
+
       {/* Mic button */}
-      <MicButtonLarge
+      <MicButton
         level={level}
         connected={connected}
         speaking={speaking}

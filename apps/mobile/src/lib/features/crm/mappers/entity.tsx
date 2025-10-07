@@ -49,12 +49,6 @@ export function companyToEntityRowProps(co: {
   source?: string;
 }) {
   const tags: EntityTag[] = [];
-  if (co.industry)
-    tags.push({
-      text: co.industry,
-      tone: 'neutral',
-      leftIcon: 'briefcase-outline',
-    });
   if (co.source) {
     tags.push({
       text: `Added by Clara • ${co.source}`,

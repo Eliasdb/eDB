@@ -49,7 +49,7 @@ export async function connectRealtime(
   const detachMeter = attachRemoteLevelMeter(pc as any, {
     onLevel: opts?.onLevel,
     onSpeakingChanged: opts?.onSpeakingChanged,
-    threshold: 0.7, // tweak as desired
+    threshold: 0.1, // tweak as desired
   });
 
   // 6) On open: session tools

@@ -7,6 +7,7 @@ import {
   Text,
   View,
   ViewProps,
+  useColorScheme,
 } from 'react-native';
 
 export type EntityTag = {
@@ -84,10 +85,44 @@ export function EntityRow({
   // Safety: don’t re-show subtitle value in meta (e.g., email)
   const filteredMeta = meta.filter((m) => m.value !== subtitle);
 
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
+  const neutralIcon = isDark ? '#A1A1AA' : '#64748B';
+
+  const pillContainer = {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6, // balanced across iOS/Android
+    borderRadius: 999,
+    backgroundColor: 'rgba(100,116,139,0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(100,116,139,0.25)',
+    minHeight: 28, // ensures consistent pill height
+  } as const;
+
+  const pillValueBase = {
+    fontSize: 13,
+    fontWeight: '300' as const,
+    lineHeight: 16,
+    ...(Platform.OS === 'android'
+      ? { includeFontPadding: false, textAlignVertical: 'center' as const }
+      : null),
+  };
+
+  const pillLabelBase = {
+    fontSize: 12,
+    lineHeight: 14,
+    ...(Platform.OS === 'android'
+      ? { includeFontPadding: false, textAlignVertical: 'center' as const }
+      : null),
+  };
+
   return (
     <Pressable
       onPress={onPress}
-      className="p-8"
+      className="p-4"
       android_ripple={{ color: 'rgba(0,0,0,0.06)' }}
       style={({ pressed }) => [
         {
@@ -126,13 +161,7 @@ export function EntityRow({
               style={{ width: 48, height: 48, ...shapeStyle }}
             />
           ) : (
-            <Text
-              style={{
-                fontWeight: '800',
-                color: '#111827',
-                fontSize: 14,
-              }}
-            >
+            <Text className="text-text text-sm font-medium dark:text-text-dark">
               {initials || ''}
             </Text>
           )}
@@ -142,12 +171,7 @@ export function EntityRow({
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text
             numberOfLines={1}
-            style={{
-              color: '#E5E7EB',
-              fontSize: 18,
-              fontWeight: '800',
-            }}
-            className="text-text dark:text-text-dark"
+            className="text-text text-lg font-semibold dark:text-text-dark"
           >
             {title}
           </Text>
@@ -155,11 +179,7 @@ export function EntityRow({
           {!!subtitle && (
             <Text
               numberOfLines={1}
-              style={{
-                marginTop: 2,
-                color: '#9CA3AF',
-                fontSize: 13,
-              }}
+              style={{ fontSize: 13 }}
               className="text-text-dim dark:text-text-dimDark"
             >
               {subtitle}
@@ -190,6 +210,7 @@ export function EntityRow({
                       backgroundColor: tone.bg,
                       borderWidth: 1,
                       borderColor: tone.border,
+                      minHeight: 28,
                     }}
                   >
                     {t.leftIcon ? (
@@ -197,10 +218,17 @@ export function EntityRow({
                     ) : null}
                     <Text
                       style={{
-                        color: tone.text,
                         fontSize: 12,
                         fontWeight: '600',
+                        lineHeight: 14,
+                        ...(Platform.OS === 'android'
+                          ? {
+                              includeFontPadding: false,
+                              textAlignVertical: 'center' as const,
+                            }
+                          : null),
                       }}
+                      className="text-text dark:text-text-dark"
                     >
                       {t.text}
                     </Text>
@@ -214,7 +242,7 @@ export function EntityRow({
         {/* Trailing */}
         <View style={{ marginLeft: 8 }}>
           {trailing ?? (
-            <Ionicons name="chevron-forward" size={18} color="#9CA3AF" />
+            <Ionicons name="chevron-forward" size={18} color={neutralIcon} />
           )}
         </View>
       </View>
@@ -225,34 +253,21 @@ export function EntityRow({
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {filteredMeta.map((m, i) =>
               m.pill ? (
-                <View
-                  key={`${m.value}-${i}`}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 8,
-                    paddingHorizontal: 10,
-                    paddingVertical: 6,
-                    borderRadius: 999,
-                    backgroundColor: 'rgba(100,116,139,0.15)',
-                    borderWidth: 1,
-                    borderColor: 'rgba(100,116,139,0.25)',
-                  }}
-                >
+                <View key={`${m.value}-${i}`} style={pillContainer}>
                   {m.icon ? (
-                    <Ionicons name={m.icon} size={14} color="#A1A1AA" />
+                    <Ionicons name={m.icon} size={14} color={neutralIcon} />
                   ) : null}
                   {m.label ? (
-                    <Text style={{ color: '#A1A1AA', fontSize: 12 }}>
+                    <Text
+                      style={pillLabelBase}
+                      className="text-text-dim dark:text-text-dimDark"
+                    >
                       {m.label}
                     </Text>
                   ) : null}
                   <Text
-                    style={{
-                      color: '#E5E7EB',
-                      fontSize: 13,
-                      fontWeight: '600',
-                    }}
+                    style={pillValueBase}
+                    className="text-text dark:text-text-dark"
                   >
                     {m.value}
                   </Text>
@@ -263,14 +278,20 @@ export function EntityRow({
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
                 >
                   {m.icon ? (
-                    <Ionicons name={m.icon} size={14} color="#A1A1AA" />
+                    <Ionicons name={m.icon} size={14} color={neutralIcon} />
                   ) : null}
                   {m.label ? (
-                    <Text style={{ color: '#A1A1AA', fontSize: 12 }}>
+                    <Text
+                      style={pillLabelBase}
+                      className="text-text-dim dark:text-text-dimDark"
+                    >
                       {m.label}:
                     </Text>
                   ) : null}
-                  <Text style={{ color: '#E5E7EB', fontSize: 13 }}>
+                  <Text
+                    style={pillValueBase}
+                    className="text-text dark:text-text-dark"
+                  >
                     {m.value}
                   </Text>
                 </View>

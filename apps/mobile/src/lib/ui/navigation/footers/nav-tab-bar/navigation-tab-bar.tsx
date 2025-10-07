@@ -65,7 +65,6 @@ export function NavigationTabBar(props: BottomTabBarProps) {
       items={items}
       activeKey={state.routes[state.index].key}
       elevate
-      roundedActive
     />
   );
 }
