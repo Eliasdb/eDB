@@ -23,7 +23,7 @@ export default function CRMLayout() {
       value={active}
       onChange={(next) => {
         setNext(active, next); // 👈 store direction
-        router.push(tabToPath[next]); // push, not replace, for animation
+        router.replace(tabToPath[next]); // push, not replace, for animation
       }}
       sidebarTitle={t('crm.title', { defaultValue: 'CRM' })}
       sidebarFooter={
