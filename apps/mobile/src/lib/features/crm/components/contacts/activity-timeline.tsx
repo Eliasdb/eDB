@@ -70,11 +70,9 @@ function ActivityRow({ a }: { a: Activity }) {
           ? 'mail-outline'
           : a.type === 'meeting'
             ? 'people-outline'
-            : a.type === 'task'
-              ? 'checkmark-done-outline'
-              : a.type === 'status'
-                ? 'flag-outline'
-                : 'sparkles-outline';
+            : a.type === 'status'
+              ? 'flag-outline'
+              : 'sparkles-outline'; // system
 
   const toneColor =
     a.type === 'note'
@@ -85,17 +83,14 @@ function ActivityRow({ a }: { a: Activity }) {
           ? '#0EA5E9'
           : a.type === 'meeting'
             ? '#F59E0B'
-            : a.type === 'task'
-              ? '#8B5CF6'
-              : a.type === 'status'
-                ? '#E11D48'
-                : '#6C63FF';
+            : a.type === 'status'
+              ? '#E11D48'
+              : '#6C63FF';
 
   return (
     <View className="px-4 py-3">
-      {/* Top row */}
       <View className="flex-row items-start gap-3">
-        {/* Icon bubble with vertical rail */}
+        {/* Icon bubble */}
         <View style={{ alignItems: 'center' }}>
           <View
             style={{
@@ -119,7 +114,6 @@ function ActivityRow({ a }: { a: Activity }) {
             {a.summary}
           </Text>
 
-          {/* Meta */}
           <View className="flex-row items-center gap-6 mt-2">
             <Pill
               text={capitalize(a.type)}
@@ -129,27 +123,7 @@ function ActivityRow({ a }: { a: Activity }) {
             />
             <Text className="text-text-dim dark:text-text-dimDark text-[12px]">
               {fmtWhen(a.at)}
-              {a.by ? ` • ${a.by}` : ''}
             </Text>
-          </View>
-
-          {/* Optional payload chips */}
-          <View className="flex-row flex-wrap gap-2 mt-2">
-            {a.payload?.outcome ? (
-              <MiniChip left="checkmark-outline" label={a.payload.outcome} />
-            ) : null}
-            {a.payload?.durationMin ? (
-              <MiniChip
-                left="time-outline"
-                label={`${a.payload.durationMin} min`}
-              />
-            ) : null}
-            {a.payload?.followUpAt ? (
-              <MiniChip
-                left="calendar-outline"
-                label={`Follow-up ${fmtShort(a.payload.followUpAt)}`}
-              />
-            ) : null}
           </View>
         </View>
       </View>

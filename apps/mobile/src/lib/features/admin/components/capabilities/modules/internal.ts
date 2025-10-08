@@ -1,3 +1,4 @@
+// app/.../internal-tools.ts (replace your current file)
 import type { ToolMeta, ToolModule } from '../../../types';
 
 /* ── Shared enums used in parameters ─────────────────────────────────────── */
@@ -5,7 +6,7 @@ const KIND_ENUM = {
   enum: ['tasks', 'contacts', 'companies', 'activities'] as const,
 };
 
-/* ── JSON Schemas for create/patch payloads ──────────────────────────────── */
+/* ── JSON Schemas for create/patch payloads (LEAN, aligned) ─────────────── */
 const taskCreate = {
   type: 'object',
   properties: {
@@ -13,71 +14,10 @@ const taskCreate = {
     title: { type: 'string' },
     due: { type: 'string' },
     done: { type: 'boolean' },
-    source: { type: 'string' },
+    companyId: { type: 'string' },
+    contactId: { type: 'string' },
   },
   required: ['title'],
-  additionalProperties: false,
-};
-
-const contactCreate = {
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    name: { type: 'string' },
-    email: { type: 'string' },
-    phone: { type: 'string' },
-    avatarUrl: { type: 'string' },
-    source: { type: 'string' },
-  },
-  required: ['name'],
-  additionalProperties: false,
-};
-
-const companyCreate = {
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    name: { type: 'string' },
-    industry: { type: 'string' },
-    domain: { type: 'string' },
-    logoUrl: { type: 'string' },
-    source: { type: 'string' },
-  },
-  required: ['name'],
-  additionalProperties: false,
-};
-
-const activityCreate = {
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    contactId: { type: 'string' }, // required
-    type: {
-      enum: ['note', 'call', 'email', 'meeting', 'task', 'status', 'system'],
-    },
-    at: { type: 'string' }, // ISO
-    by: { type: 'string' },
-    summary: { type: 'string' },
-    payload: {
-      type: 'object',
-      properties: {
-        durationMin: { type: 'number' },
-        outcome: { type: 'string' },
-        followUpAt: { type: 'string' },
-        attachments: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: { name: { type: 'string' }, url: { type: 'string' } },
-            required: ['name', 'url'],
-            additionalProperties: false,
-          },
-        },
-      },
-      additionalProperties: false,
-    },
-  },
-  required: ['contactId', 'type', 'summary', 'at'],
   additionalProperties: false,
 };
 
@@ -87,8 +27,24 @@ const taskPatch = {
     title: { type: 'string' },
     due: { type: 'string' },
     done: { type: 'boolean' },
-    source: { type: 'string' },
+    companyId: { type: 'string' },
+    contactId: { type: 'string' },
   },
+  additionalProperties: false,
+};
+
+const contactCreate = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    name: { type: 'string' },
+    title: { type: 'string' },
+    email: { type: 'string' },
+    phone: { type: 'string' },
+    avatarUrl: { type: 'string' },
+    companyId: { type: 'string' },
+  },
+  required: ['name'],
   additionalProperties: false,
 };
 
@@ -96,11 +52,25 @@ const contactPatch = {
   type: 'object',
   properties: {
     name: { type: 'string' },
+    title: { type: 'string' },
     email: { type: 'string' },
     phone: { type: 'string' },
     avatarUrl: { type: 'string' },
-    source: { type: 'string' },
+    companyId: { type: 'string' },
   },
+  additionalProperties: false,
+};
+
+const companyCreate = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    name: { type: 'string' },
+    domain: { type: 'string' },
+    logoUrl: { type: 'string' },
+    stage: { enum: ['lead', 'prospect', 'customer', 'inactive'] },
+  },
+  required: ['name'],
   additionalProperties: false,
 };
 
@@ -108,42 +78,35 @@ const companyPatch = {
   type: 'object',
   properties: {
     name: { type: 'string' },
-    industry: { type: 'string' },
     domain: { type: 'string' },
     logoUrl: { type: 'string' },
-    source: { type: 'string' },
+    stage: { enum: ['lead', 'prospect', 'customer', 'inactive'] },
   },
+  additionalProperties: false,
+};
+
+const activityCreate = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    type: { enum: ['note', 'call', 'email', 'meeting', 'status', 'system'] },
+    at: { type: 'string' }, // ISO
+    summary: { type: 'string' },
+    companyId: { type: 'string' },
+    contactId: { type: 'string' },
+  },
+  required: ['type', 'summary', 'at'],
   additionalProperties: false,
 };
 
 const activityPatch = {
   type: 'object',
   properties: {
-    contactId: { type: 'string' },
-    type: {
-      enum: ['note', 'call', 'email', 'meeting', 'task', 'status', 'system'],
-    },
+    type: { enum: ['note', 'call', 'email', 'meeting', 'status', 'system'] },
     at: { type: 'string' },
-    by: { type: 'string' },
     summary: { type: 'string' },
-    payload: {
-      type: 'object',
-      properties: {
-        durationMin: { type: 'number' },
-        outcome: { type: 'string' },
-        followUpAt: { type: 'string' },
-        attachments: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: { name: { type: 'string' }, url: { type: 'string' } },
-            required: ['name', 'url'],
-            additionalProperties: false,
-          },
-        },
-      },
-      additionalProperties: false,
-    },
+    companyId: { type: 'string' },
+    contactId: { type: 'string' },
   },
   additionalProperties: false,
 };
@@ -172,7 +135,6 @@ const tools: ToolMeta[] = [
       additionalProperties: false,
     },
   },
-  // Optional: convenience tool that always filters by contact
   {
     type: 'function',
     name: 'hub_activities_for_contact',
@@ -184,6 +146,21 @@ const tools: ToolMeta[] = [
       additionalProperties: false,
     },
   },
+
+  /* ✅ New: overview tool to match /hub/companies/:id/overview */
+  {
+    type: 'function',
+    name: 'hub_company_overview',
+    description:
+      'Return a single-company overview: company, contacts, activities, tasks, and stats',
+    parameters: {
+      type: 'object',
+      properties: { companyId: { type: 'string' } },
+      required: ['companyId'],
+      additionalProperties: false,
+    },
+  },
+
   {
     type: 'function',
     name: 'hub_create',
