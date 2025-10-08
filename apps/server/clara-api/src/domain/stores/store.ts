@@ -1,3 +1,4 @@
+// domain/stores/store.ts
 import {
   Activity,
   Company,
@@ -12,10 +13,11 @@ const mem = {
   tasks: new Map<string, Task>(),
   contacts: new Map<string, Contact>(),
   companies: new Map<string, Company>(),
-  activities: new Map<string, Activity>(), // 👈 new collection
+  activities: new Map<string, Activity>(),
 };
 
 export const store = {
+  /* ========== CRUD ========== */
   list<K extends Kind>(kind: K): Model[K][] {
     return [...mem[kind].values()] as Model[K][];
   },
@@ -25,8 +27,9 @@ export const store = {
   },
 
   add<K extends Kind>(kind: K, item: Model[K]): string {
-    mem[kind].set(item.id, item as any);
-    return item.id;
+    // assume id already assigned upstream (route assigns uid if missing)
+    mem[kind].set((item as any).id, item as any);
+    return (item as any).id;
   },
 
   update<K extends Kind>(kind: K, id: string, patch: Patch[K]): boolean {
@@ -46,7 +49,7 @@ export const store = {
       tasks: this.list('tasks'),
       contacts: this.list('contacts'),
       companies: this.list('companies'),
-      activities: this.list('activities'), // 👈 include activities
+      activities: this.list('activities'),
     };
   },
 
@@ -54,6 +57,33 @@ export const store = {
     mem.tasks.clear();
     mem.contacts.clear();
     mem.companies.clear();
-    mem.activities.clear(); // 👈
+    mem.activities.clear();
+  },
+
+  /* ========== Relationship helpers (for Company screen) ========== */
+  contactsByCompany(companyId: string) {
+    return this.list('contacts').filter((c) => c.companyId === companyId);
+  },
+
+  activitiesByCompany(companyId: string) {
+    const contactIds = new Set(
+      this.contactsByCompany(companyId).map((c) => c.id),
+    );
+    return this.list('activities').filter((a) => {
+      const byCompany = a.companyId === companyId;
+      const byContact = a.contactId ? contactIds.has(a.contactId) : false;
+      return byCompany || byContact;
+    });
+  },
+
+  tasksByCompany(companyId: string) {
+    const contactIds = new Set(
+      this.contactsByCompany(companyId).map((c) => c.id),
+    );
+    return this.list('tasks').filter((t) => {
+      const byCompany = t.companyId === companyId;
+      const byContact = t.contactId ? contactIds.has(t.contactId) : false;
+      return byCompany || byContact;
+    });
   },
 };

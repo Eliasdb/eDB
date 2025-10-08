@@ -25,7 +25,7 @@ echo "Loaded env file: ${ENV_USED}"
 ###############################################################################
 # 2) Export web
 ###############################################################################
-npx expo export --platform web --output-dir dist
+EXPO_PUBLIC_STORYBOOK=1 npx expo export --platform web --output-dir dist
 
 ###############################################################################
 # 3) Find output dir

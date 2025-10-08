@@ -23,7 +23,9 @@ module.exports = function (api) {
         },
       ],
 
-      ...(isSB ? ['@babel/plugin-transform-class-static-block'] : []),
+      '@babel/plugin-transform-class-static-block',
+
+      // ...(isSB ? ['@babel/plugin-transform-class-static-block'] : []),
 
       // keep reanimated last if you use it
       'react-native-reanimated/plugin',

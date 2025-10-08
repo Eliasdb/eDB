@@ -94,6 +94,42 @@ const route: FastifyPluginAsync = async (app) => {
       return reply.send(acts);
     },
   );
+
+  // ✅ Company Overview for the single company screen
+  app.get<{ Params: { id: string } }>(
+    '/hub/companies/:id/overview',
+    async (req, reply) => {
+      const id = z.string().min(1).parse(req.params.id);
+      const company = store.get('companies', id);
+      if (!company) return reply.code(404).send({ message: 'Not found' });
+
+      const contacts = store.contactsByCompany(id);
+
+      const activities = store
+        .activitiesByCompany(id)
+        .sort((a, b) => (a.at < b.at ? 1 : -1)); // newest first
+
+      const tasks = store
+        .tasksByCompany(id)
+        .sort((a, b) => String(a.due ?? '').localeCompare(String(b.due ?? '')));
+
+      const lastActivityAt = activities[0]?.at ?? null;
+      const nextTask = tasks.find((t) => !t.done && t.due);
+      const openTasks = tasks.filter((t) => !t.done).length;
+
+      return reply.send({
+        company,
+        contacts,
+        activities,
+        tasks,
+        stats: {
+          lastActivityAt,
+          nextTaskDue: nextTask?.due ?? null,
+          openTasks,
+        },
+      });
+    },
+  );
 };
 
 export default route;
