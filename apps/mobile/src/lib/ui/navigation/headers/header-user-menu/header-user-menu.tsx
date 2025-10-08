@@ -1,7 +1,8 @@
-// apps/mobile/src/lib/ui/HeaderUserMenu.tsx
+// apps/mobile/src/lib/ui/headers/header-user-menu/header-user-menu.tsx
 import { Ionicons } from '@expo/vector-icons';
+import { ComponentProps, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
+import { Platform, Text, View, useColorScheme } from 'react-native';
 import {
   Menu,
   MenuOption,
@@ -9,98 +10,147 @@ import {
   MenuTrigger,
   renderers,
 } from 'react-native-popup-menu';
-import { useThemePreference } from '../../../providers/themePreference';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { Popover } = renderers;
 
 type Props = {
   toolbarHeight: number;
-  /** Provide this from a routed screen/layout if you want menu items to navigate */
   onNavigate?: (path: string, opts?: { replace?: boolean }) => void;
 };
 
 export function HeaderUserMenu({ toolbarHeight, onNavigate }: Props) {
   const { t } = useTranslation();
-  const { effective } = useThemePreference();
-  const dark = effective === 'dark';
-  const GAP = 6;
+  const isDark = useColorScheme() === 'dark';
+  const insets = useSafeAreaInsets();
+  const GAP = 8;
 
-  const iconName: React.ComponentProps<typeof Ionicons>['name'] =
-    'options-outline';
+  const triggerBg = isDark ? '#131b2f' : '#F3F4F6';
+  const triggerBorder = isDark ? '#334155' : '#E5E7EB';
+  const triggerIcon = isDark ? '#E5E7EB' : '#111827';
+  const menuBg = isDark ? '#030405' : '#FFFFFF';
 
-  const iconColor = dark ? '#E5E7EB' : '#111827';
-  const bg = dark ? '#111827' : '#F3F4F6';
-  const border = dark ? '#374151' : '#E5E7EB';
+  // header background used to mask the arrow (fallback)
+  const headerBg = useMemo(
+    () => (isDark ? 'rgba(17,24,39,0.95)' : 'rgba(255,255,255,0.85)'),
+    [isDark],
+  );
 
   const goto = (path: string, opts?: { replace?: boolean }) =>
     onNavigate?.(path, opts);
 
   return (
-    <Menu
-      renderer={Popover}
-      rendererProps={{
-        placement: 'bottom',
-        preferredPlacement: 'bottom',
-        showArrow: false as any,
-        anchorStyle: { marginTop: GAP },
-      }}
-    >
-      <MenuTrigger
-        customStyles={{
-          triggerWrapper: {
-            width: toolbarHeight,
-            height: toolbarHeight,
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
+    <View style={{ position: 'relative' }}>
+      {/* Fallback mask to cover stubborn caret */}
+
+      <Menu
+        renderer={Popover}
+        rendererProps={{
+          placement: 'bottom',
+          preferredPlacement: 'bottom',
+          // Try all knobs; different versions honor different ones
+          arrow: false,
+          showArrow: false as any,
+          arrowColor: menuBg,
+          arrowStyle: { opacity: 0 },
+          arrowSize: { width: 0, height: 0 },
+          anchorStyle: { marginTop: GAP },
         }}
       >
-        <View
-          accessible
-          accessibilityRole="button"
-          accessibilityLabel={t('menu.open', 'Open menu')}
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: bg,
-            borderWidth: 1,
-            borderColor: border,
-            ...(Platform.OS === 'web' ? { cursor: 'pointer' as const } : null),
+        <MenuTrigger
+          customStyles={{
+            triggerWrapper: {
+              width: toolbarHeight,
+              height: toolbarHeight,
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          }}
+          // accessibilityLabel={t('menu.open', 'Open menu')}
+        >
+          <View
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: 10, // squircle
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: triggerBg,
+              borderWidth: 1,
+              borderColor: triggerBorder,
+              ...(Platform.OS === 'web'
+                ? { cursor: 'pointer' as const }
+                : null),
+            }}
+          >
+            <Ionicons name="options-outline" size={18} color={triggerIcon} />
+          </View>
+        </MenuTrigger>
+
+        <MenuOptions
+          customStyles={{
+            optionsContainer: {
+              borderRadius: 12,
+              paddingVertical: 0,
+              minWidth: 220,
+              backgroundColor: menuBg,
+              overflow: 'hidden',
+              borderWidth: Platform.OS === 'web' ? 1 : 0.5,
+              borderColor: isDark ? '#334155' : '#E5E7EB',
+            },
           }}
         >
-          <Ionicons name={iconName} size={18} color={iconColor} />
-        </View>
-      </MenuTrigger>
-
-      <MenuOptions
-        customStyles={{
-          optionsContainer: {
-            borderRadius: 12,
-            paddingVertical: 0,
-            minWidth: 220,
-          },
-        }}
-      >
-        <View className="bg-surface dark:bg-surface-dark rounded-xl overflow-hidden">
-          <MenuOption onSelect={() => goto('/profile')}>
+          <MenuOption
+            onSelect={() => goto('/profile')}
+            customStyles={{
+              optionWrapper: { paddingHorizontal: 12, paddingVertical: 10 },
+            }}
+          >
             <Row icon="person-outline" label={t('menu.profile', 'Profile')} />
           </MenuOption>
-          <MenuOption onSelect={() => goto('/(support)/help')}>
+
+          <Divider isDark={isDark} />
+
+          <MenuOption
+            onSelect={() => goto('/(support)/help')}
+            customStyles={{
+              optionWrapper: { paddingHorizontal: 12, paddingVertical: 10 },
+            }}
+          >
             <Row icon="help-circle-outline" label={t('menu.help', 'Help')} />
           </MenuOption>
-          <MenuOption onSelect={() => goto('/(tabs)/index', { replace: true })}>
+
+          <Divider isDark={isDark} />
+
+          <MenuOption
+            onSelect={() => goto('/(tabs)/index', { replace: true })}
+            customStyles={{
+              optionWrapper: { paddingHorizontal: 12, paddingVertical: 10 },
+            }}
+          >
             <Row
               icon="log-out-outline"
               label={t('menu.logout', 'Log out')}
               danger
             />
           </MenuOption>
-        </View>
-      </MenuOptions>
-    </Menu>
+        </MenuOptions>
+      </Menu>
+    </View>
+  );
+}
+
+function Divider({ isDark }: { isDark: boolean }) {
+  return (
+    <View
+      style={{
+        height: 1,
+        backgroundColor: isDark
+          ? 'rgba(51,65,85,0.6)'
+          : 'rgba(229,231,235,0.85)',
+        marginHorizontal: 12,
+      }}
+    />
   );
 }
 
@@ -109,19 +159,22 @@ function Row({
   label,
   danger,
 }: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: ComponentProps<typeof Ionicons>['name'];
   label: string;
   danger?: boolean;
 }) {
+  const isDark = useColorScheme() === 'dark';
+  const iconColor = danger ? '#EF4444' : isDark ? '#A3A3A3' : '#111827';
+
   return (
-    <View className="flex-row items-center gap-3 px-3 py-2.5 border-t border-border/60 dark:border-border-dark/60 first:border-t-0">
-      <Ionicons name={icon} size={18} color={danger ? '#d00' : undefined} />
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+      <Ionicons name={icon} size={18} color={iconColor} />
       <Text
-        className={`text-[16px] ${
-          danger
-            ? 'text-danger font-semibold'
-            : 'text-text dark:text-text-dark font-normal'
-        }`}
+        style={{
+          fontSize: 16,
+          color: danger ? '#EF4444' : isDark ? '#E5E7EB' : '#111827',
+          fontWeight: danger ? ('600' as const) : ('400' as const),
+        }}
       >
         {label}
       </Text>

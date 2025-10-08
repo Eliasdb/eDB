@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Switch } from '@ui/primitives/forms';
 import { ListRow } from '@ui/primitives/lists';
-import React from 'react';
 import { Text, View } from 'react-native';
 
 export type ToggleRowProps = {

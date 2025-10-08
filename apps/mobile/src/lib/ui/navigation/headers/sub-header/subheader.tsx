@@ -1,14 +1,18 @@
 // apps/mobile/src/lib/ui/Subheader.tsx
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   Platform,
+  PlatformColor,
   StyleProp,
+  StyleSheet,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
   ViewProps,
   ViewStyle,
+  type ColorValue,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -18,17 +22,16 @@ type Props = ViewProps & {
   /** Show a default back button if provided. */
   onBack?: () => void;
   /** Right-side content (e.g., Save button). */
-  right?: React.ReactNode;
+  right?: ReactNode;
   /** Add subtle bottom border. Default: true */
   bordered?: boolean;
-  /** Slight translucent bg + blur. Default: true */
+  /** Slight translucent bg. Default: true */
   translucent?: boolean;
   /** Custom center node instead of plain text title. */
-  center?: React.ReactNode;
+  center?: ReactNode;
   /**
    * Apply top safe-area padding. Default: false.
    * Turn this on ONLY when this header is the very first element under the notch.
-   * Leave off if it already sits under another header that handles safe-area.
    */
   respectSafeAreaTop?: boolean;
   /** Fixed toolbar height (content row). Default: 56 */
@@ -37,7 +40,7 @@ type Props = ViewProps & {
   containerStyle?: StyleProp<ViewStyle>;
 };
 
-export function Subheader({
+export function SubHeader({
   title,
   onBack,
   right,
@@ -52,27 +55,36 @@ export function Subheader({
 }: Props) {
   const insets = useSafeAreaInsets();
   const topPad = respectSafeAreaTop ? insets.top : 0;
+  const scheme = useColorScheme();
+  const dark = scheme === 'dark';
 
-  // Compose border classes per platform (hairline on native)
-  const borderClasses = bordered
-    ? Platform.OS === 'web'
-      ? 'border-b border-border/70 dark:border-border-dark/70'
-      : 'border-b-[0.5px] border-border dark:border-border-dark'
-    : '';
+  const hairline = StyleSheet.hairlineWidth;
 
-  // Compose background + blur
-  const bgClasses = translucent
-    ? 'bg-surface/95 dark:bg-surface-dark/95 backdrop-blur-sm'
+  // ---- Safe separator color across platforms (no PlatformColor calls on web) ----
+  let separator: ColorValue;
+  if (Platform.OS === 'ios' && typeof PlatformColor === 'function') {
+    separator = PlatformColor('separator') as unknown as ColorValue;
+  } else if (Platform.OS === 'android') {
+    separator = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
+  } else {
+    // web & everything else
+    separator = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  }
+
+  const borderStyle: ViewStyle | undefined =
+    bordered && hairline > 0
+      ? { borderBottomWidth: hairline, borderBottomColor: separator }
+      : undefined;
+
+  const bgClass = translucent
+    ? 'bg-surface/95 dark:bg-surface-dark/95'
     : 'bg-surface dark:bg-surface-dark';
 
   return (
-    <View
-      style={[{ paddingTop: topPad }, containerStyle]}
-      className={[bgClasses, borderClasses].join(' ')}
-    >
+    <View style={[{ paddingTop: topPad }, containerStyle]} className={bgClass}>
       <View
-        style={[{ height }, style]}
-        className="flex-row items-center justify-between px-3"
+        style={[{ height }, borderStyle, style]}
+        className="flex-row items-center justify-between px-2"
         {...rest}
       >
         {/* Left: Back */}
@@ -86,7 +98,6 @@ export function Subheader({
             <Text
               numberOfLines={1}
               className="text-[18px] font-bold text-text dark:text-text-dark"
-              // Platform fine-tune (optional)
               style={
                 Platform.select({
                   ios: { letterSpacing: 0.2 },
@@ -112,6 +123,9 @@ export function Subheader({
 /* ---------- Reusable bits ---------- */
 
 export function BackButton({ onPress }: { onPress: () => void }) {
+  const scheme = useColorScheme();
+  const dim = scheme === 'dark' ? '#A3A3A3' : '#6B7280';
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -122,7 +136,7 @@ export function BackButton({ onPress }: { onPress: () => void }) {
       className="h-11 w-11 items-center justify-center rounded-full"
       style={Platform.OS === 'web' ? ({ cursor: 'pointer' } as any) : undefined}
     >
-      <Ionicons name="chevron-back" size={24} color="#6B7280" />
+      <Ionicons name="chevron-back" size={24} color={dim} />
     </TouchableOpacity>
   );
 }
@@ -152,19 +166,4 @@ export function TextAction({
   );
 }
 
-/* ---------- Usage examples ----------
-
-1) Header is top-most under the notch:
-<Subheader title="Profile" onBack={router.back} respectSafeAreaTop />
-
-2) Nested under your AppHeader (which already handles safe-area):
-<Subheader title="Personal details" onBack={router.back} />
-
-3) With a Save action:
-<Subheader
-  title="Personal details"
-  onBack={router.back}
-  right={<TextAction label="Save" onPress={onSave} />}
-/>
-
-------------------------------------- */
+export default SubHeader;

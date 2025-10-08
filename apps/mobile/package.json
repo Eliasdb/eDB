@@ -21,6 +21,7 @@
     "@react-navigation/native": "^7.1.17",
     "@react-navigation/native-stack": "^7.3.26",
     "@shopify/react-native-skia": "^2.2.12",
+    "@tanstack/query-core": "5.90.2",
     "@tanstack/react-query": "^5.90.2",
     "@testing-library/react-native": "^12.5.0",
     "expo": "~54.0.12",
@@ -55,7 +56,8 @@
     "react-native-web": "~0.21.1",
     "react-native-webrtc": "^124.0.6",
     "use-latest-callback": "^0.2.4",
-    "victory-native": "^41.20.1"
+    "victory-native": "^41.20.1",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
@@ -66,6 +68,7 @@
     "@babel/preset-flow": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
+    "@storybook/addon-docs": "9.1.4",
     "@storybook/addon-ondevice-actions": "9.1.4",
     "@storybook/addon-ondevice-backgrounds": "9.1.4",
     "@storybook/addon-ondevice-controls": "9.1.4",

@@ -1,3 +1,3 @@
-// apps/mobile/src/lib/ui/primitives/lists/index.ts
+export * from './empty-line/empty-line';
 export * from './list-row/list-row';
 export * from './list/list';

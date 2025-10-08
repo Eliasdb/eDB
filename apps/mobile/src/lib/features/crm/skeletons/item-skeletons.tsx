@@ -1,0 +1,94 @@
+import { Skeleton } from '@ui/primitives';
+import { ReactNode } from 'react';
+import { View } from 'react-native';
+
+/** Container that matches your List rounding/borders */
+export function ListSkeleton({
+  rows,
+  renderRow,
+  rowHeight = 56,
+}: {
+  rows: number;
+  renderRow: (index: number) => ReactNode;
+  rowHeight?: number;
+}) {
+  return (
+    <View className="rounded-xl overflow-hidden">
+      {Array.from({ length: rows }).map((_, i) => (
+        <View
+          key={i}
+          className={
+            i > 0 ? 'border-t border-border dark:border-border-dark' : ''
+          }
+          style={{ height: rowHeight }}
+        >
+          {renderRow(i)}
+        </View>
+      ))}
+    </View>
+  );
+}
+
+/** Tasks: checkbox • title line • (chip) • action pills */
+export function TaskItemSkeleton() {
+  return (
+    <View className="flex-row items-center p-4 py-3">
+      {/* checkbox */}
+      <View className="w-8 items-center">
+        <Skeleton width={18} height={18} radius={4} />
+      </View>
+
+      {/* title + optional chip */}
+      <View className="flex-1">
+        <Skeleton width="80%" height={14} radius={6} />
+      </View>
+
+      {/* actions */}
+      <View className="flex-row items-center gap-2">
+        <Skeleton width={32} height={32} radius={16} />
+        <Skeleton width={32} height={32} radius={16} />
+      </View>
+    </View>
+  );
+}
+
+// /** Contacts: avatar • name line • chip row */
+// export function ContactItemSkeleton() {
+//   return (
+//     <>
+//       <View className="flex-row items-center px-2 py-2.5 gap-4">
+//         <View className="w-10 items-center">
+//           <Skeleton width={48} height={48} radius={100} />
+//         </View>
+//         <View className="flex-1 pr-2">
+//           <Skeleton width="60%" height={16} radius={6} />
+//           <View className="flex-row gap-2 mt-2">
+//             <Skeleton width={80} height={22} radius={24} />
+//           </View>
+//         </View>
+//       </View>
+//       <View className="flex-1 flex-row pr-2 gap-4">
+//         <Skeleton width="60%" height={30} radius={24} />
+//         <Skeleton width="20%" height={30} radius={24} />
+//       </View>
+//     </>
+//   );
+// }
+
+/** Companies: square logo • name line • chip row */
+// export function CompanyItemSkeleton() {
+//   return (
+//     <View className="flex-row items-center px-2 py-2.5">
+//       <View className="w-10 items-center">
+//         <Skeleton width={32} height={32} radius={8} />
+//       </View>
+//       <View className="flex-1 pr-2">
+//         <Skeleton width="55%" height={16} radius={6} />
+//         <View className="flex-row gap-2 mt-2">
+//           <Skeleton width={110} height={22} radius={12} />
+//           <Skeleton width={90} height={22} radius={12} />
+//         </View>
+//       </View>
+//     </View>
+//   );
+// }

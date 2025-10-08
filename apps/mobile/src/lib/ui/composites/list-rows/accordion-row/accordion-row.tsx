@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { ListRow } from '@ui/primitives/lists';
-import React from 'react';
+import { ComponentProps } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 export type AccordionRowProps = {
   label: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: ComponentProps<typeof Ionicons>['name'];
   open?: boolean;
   onToggle?: () => void;
 

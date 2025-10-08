@@ -1,13 +1,17 @@
-// apps/mobile/src/app/(tabs)/admin/(shell)/_layout.tsx
 import { ResponsiveTabsLayout } from '@ui/layout';
-import { Slot, usePathname, useRouter } from 'expo-router';
+import { Stack, usePathname, useRouter } from 'expo-router';
 import { Text } from 'react-native';
+import { useAdminDir } from '../../../../lib/nav/adminDirection';
 
 type Tab = 'capabilities' | 'logs';
 
 export default function AdminShellLayout() {
   const pathname = usePathname();
   const router = useRouter();
+  const setNext = useAdminDir((s) => s.setNext);
+  const dir = useAdminDir((s) => s.dir);
+  const slide = dir === 'forward' ? 'slide_from_right' : 'slide_from_left';
+
   const current: Tab = pathname?.includes('/admin/logs')
     ? 'logs'
     : 'capabilities';
@@ -19,7 +23,10 @@ export default function AdminShellLayout() {
         { key: 'logs', label: 'Logs' },
       ]}
       value={current}
-      onChange={(k) => router.replace(`/(tabs)/admin/${k}`)}
+      onChange={(next) => {
+        setNext(current, next); // set direction for animation
+        router.replace(`/(tabs)/admin/${next}`); // push so Stack animates
+      }}
       sidebarTitle="Admin"
       sidebarFooter={
         <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
@@ -27,7 +34,13 @@ export default function AdminShellLayout() {
         </Text>
       }
     >
-      <Slot /> {/* active child screen renders here */}
+      {/* 🔽 Put the Stack here, and reference files by simple names */}
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="capabilities" options={{ animation: slide }} />
+        <Stack.Screen name="logs" options={{ animation: 'fade' }} />
+        {/* or also direction-aware: options={{ animation: slide }} */}
+      </Stack>
+      {/* <Slot/> is NOT needed when you mount a Stack here */}
     </ResponsiveTabsLayout>
   );
 }

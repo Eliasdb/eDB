@@ -1,7 +1,6 @@
-// @ui/composites/task-row/task-row.tsx
+// apps/mobile/src/ui/composites/TaskRow.tsx
 import type { Task } from '@api';
-import { Ionicons } from '@expo/vector-icons';
-import { Checkbox, IconButton, ListRow, Pill } from '@ui/primitives';
+import { Checkbox, IconButton, ListRow } from '@ui/primitives';
 import { Text, View } from 'react-native';
 
 type Props = {
@@ -13,7 +12,7 @@ type Props = {
   showDividerTop?: boolean;
 };
 
-export default function TaskRow({
+export function TaskRow({
   task,
   onToggle,
   onDelete,
@@ -42,34 +41,6 @@ export default function TaskRow({
       >
         {task.title}
       </Text>
-      {(task.due || task.source) && (
-        <View className="flex-row flex-wrap gap-2 mt-1">
-          {task.due ? (
-            <Pill
-              left={<Ionicons name="time-outline" size={14} color="#6B7280" />}
-              text={task.due}
-              tone="primary"
-              preset="tag"
-              size="sm"
-              textWeight="regular"
-              textSize={11.5}
-            />
-          ) : null}
-          {task.source ? (
-            <Pill
-              left={
-                <Ionicons name="sparkles-outline" size={14} color="#6B7280" />
-              }
-              text={`Added by Clara • ${task.source}`}
-              tone="neutral"
-              size="sm"
-              preset="tag"
-              textWeight="regular"
-              textSize={11.5}
-            />
-          ) : null}
-        </View>
-      )}
     </View>
   );
 

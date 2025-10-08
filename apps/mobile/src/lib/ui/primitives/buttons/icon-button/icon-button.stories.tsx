@@ -1,7 +1,6 @@
 // apps/mobile/src/lib/ui/primitives/icon-button.stories.tsx
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { Text, View } from 'react-native';
 import { IconButton } from './icon-button';
 

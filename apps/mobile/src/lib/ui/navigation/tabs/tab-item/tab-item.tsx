@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Pressable, Text, View, useColorScheme } from 'react-native';
 import Animated, {
   interpolateColor,
@@ -14,16 +14,17 @@ export type TabItemProps = {
   active?: boolean;
   onPress?: () => void;
   variant?: Variant;
-  iconLeft?: React.ReactNode | string | number;
-  badge?: React.ReactNode | string | number;
+  iconLeft?: ReactNode | string | number;
+  badge?: ReactNode | string | number;
   disabled?: boolean;
+  idPrefix?: string; // 👈 ADD
 };
 
 function SafeTextOrNode({
   value,
   style,
 }: {
-  value?: React.ReactNode | string | number;
+  value?: ReactNode | string | number;
   style?: any;
 }) {
   if (value == null) return null;
@@ -37,7 +38,7 @@ function Badge({
   badge,
   isDark,
 }: {
-  badge?: React.ReactNode | string | number;
+  badge?: ReactNode | string | number;
   isDark: boolean;
 }) {
   if (badge == null) return null;
@@ -74,6 +75,7 @@ export default function TabItem({
   iconLeft,
   badge,
   disabled = false,
+  idPrefix, // 👈 ADD
 }: TabItemProps) {
   const isDark = useColorScheme() === 'dark';
   const colors = {
@@ -85,7 +87,7 @@ export default function TabItem({
   };
 
   const prog = useSharedValue(active ? 1 : 0);
-  React.useEffect(() => {
+  useEffect(() => {
     prog.value = withTiming(active ? 1 : 0, { duration: 160 });
   }, [active, prog]);
 
@@ -108,6 +110,8 @@ export default function TabItem({
     return (
       <Pressable
         onPress={onPress}
+        testID={idPrefix}
+        accessibilityLabel={idPrefix}
         disabled={disabled}
         accessibilityRole="tab"
         accessibilityState={{ selected: !!active, disabled: !!disabled }}
@@ -172,6 +176,8 @@ export default function TabItem({
       accessibilityRole="tab"
       accessibilityState={{ selected: !!active, disabled: !!disabled }}
       style={({ pressed }) => (pressed ? { opacity: 0.95 } : undefined)}
+      testID={idPrefix}
+      accessibilityLabel={idPrefix}
     >
       <Animated.View
         style={[

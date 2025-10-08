@@ -4,11 +4,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Subheader, TextAction } from './subheader';
+import { SubHeader, TextAction } from './subheader';
 
-const meta: Meta<typeof Subheader> = {
+const meta: Meta<typeof SubHeader> = {
   title: 'Navigation/Headers/Sub Header',
-  component: Subheader,
+  component: SubHeader,
   args: {
     title: 'Subpage',
     bordered: true,
@@ -29,7 +29,7 @@ const meta: Meta<typeof Subheader> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof Subheader>;
+type Story = StoryObj<typeof SubHeader>;
 
 export const Default: Story = {
   args: {
@@ -39,7 +39,7 @@ export const Default: Story = {
 
 export const WithRightAction: Story = {
   render: (args) => (
-    <Subheader
+    <SubHeader
       {...args}
       onBack={() => action('onBack')()}
       right={<TextAction label="Save" onPress={() => action('Save')()} />}
@@ -49,7 +49,7 @@ export const WithRightAction: Story = {
 
 export const CustomCenterNode: Story = {
   render: (args) => (
-    <Subheader
+    <SubHeader
       {...args}
       onBack={() => action('onBack')()}
       center={

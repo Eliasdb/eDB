@@ -1,10 +1,10 @@
 import { Card } from '@ui/primitives';
-import React from 'react';
+import { ReactNode } from 'react';
 import { Text, View, type ViewProps } from 'react-native';
 
 export type SectionProps = ViewProps & {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export function Section({ title, children, style, ...rest }: SectionProps) {

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
-  Animated, // <-- import the type
+  Animated,
   Platform,
   LayoutAnimation as RNLayoutAnimation,
   View,

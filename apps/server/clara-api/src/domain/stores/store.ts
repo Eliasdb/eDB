@@ -1,10 +1,18 @@
-// store.ts
-import { Company, Contact, Kind, Model, Patch, Task } from '../types/crm.types';
+import {
+  Activity,
+  Company,
+  Contact,
+  Kind,
+  Model,
+  Patch,
+  Task,
+} from '../types/crm.types';
 
 const mem = {
   tasks: new Map<string, Task>(),
   contacts: new Map<string, Contact>(),
   companies: new Map<string, Company>(),
+  activities: new Map<string, Activity>(), // 👈 new collection
 };
 
 export const store = {
@@ -21,7 +29,6 @@ export const store = {
     return item.id;
   },
 
-  // ✅ accept patch, merge with existing
   update<K extends Kind>(kind: K, id: string, patch: Patch[K]): boolean {
     const cur = mem[kind].get(id) as Model[K] | undefined;
     if (!cur) return false;
@@ -30,8 +37,8 @@ export const store = {
     return true;
   },
 
-  remove<K extends Kind>(kind: K, name: string): boolean {
-    return mem[kind].delete(name);
+  remove<K extends Kind>(kind: K, id: string): boolean {
+    return mem[kind].delete(id);
   },
 
   all() {
@@ -39,6 +46,7 @@ export const store = {
       tasks: this.list('tasks'),
       contacts: this.list('contacts'),
       companies: this.list('companies'),
+      activities: this.list('activities'), // 👈 include activities
     };
   },
 
@@ -46,5 +54,6 @@ export const store = {
     mem.tasks.clear();
     mem.contacts.clear();
     mem.companies.clear();
+    mem.activities.clear(); // 👈
   },
 };

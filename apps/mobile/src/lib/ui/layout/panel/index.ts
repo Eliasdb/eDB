@@ -1,5 +1,5 @@
 export {
-  Panel, // 👈 add this
+  Panel,
   PanelGroup,
   PanelGroupItem,
   PanelGroupItemAccordionRow,

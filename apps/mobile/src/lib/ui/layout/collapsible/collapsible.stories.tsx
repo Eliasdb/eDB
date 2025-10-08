@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/collapsible.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Collapsible } from './collapsible';
 

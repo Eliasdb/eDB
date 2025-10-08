@@ -90,5 +90,5 @@ export function invalidateHub() {
 
 export function invalidateToolLogs() {
   const qc = getQueryClient();
-  qc.invalidateQueries({ queryKey: toolLogKeys.all });
+  qc.invalidateQueries({ queryKey: toolLogKeys.all, exact: false });
 }

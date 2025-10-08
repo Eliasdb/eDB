@@ -18,6 +18,7 @@ node_modules
 
 /_archive/
 
+.maestro
 
 apps/**/*-account.json
 secret

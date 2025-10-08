@@ -2,7 +2,7 @@
 import { View } from 'react-native';
 
 type ListProps = {
-  inset?: boolean; // adds rounded bg + border (Card-like)
+  inset?: boolean;
   children: React.ReactNode;
   className?: string;
 };
@@ -22,7 +22,7 @@ export function List({ inset, children, className }: ListProps) {
 
 type ItemProps = {
   children: React.ReactNode;
-  first?: boolean; // if you need to suppress top border for the first row
+  first?: boolean;
   className?: string;
 };
 List.Item = function Item({ children, first, className }: ItemProps) {
@@ -32,5 +32,23 @@ List.Item = function Item({ children, first, className }: ItemProps) {
     >
       {children}
     </View>
+  );
+};
+
+// Optional convenience for placeholders
+type PlaceholderProps = {
+  rows: number;
+  renderRow: (index: number) => React.ReactNode;
+};
+List.Placeholder = function Placeholder({ rows, renderRow }: PlaceholderProps) {
+  return (
+    <>
+      {Array.from({ length: rows }).map((_, i) => (
+        <List.Item key={i} first={i === 0}>
+          {/* prevent interactions while loading */}
+          <View pointerEvents="none">{renderRow(i)}</View>
+        </List.Item>
+      ))}
+    </>
   );
 };

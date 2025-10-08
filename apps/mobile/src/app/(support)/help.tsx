@@ -1,9 +1,12 @@
-// apps/mobile/src/app/(features)/profile/help.tsx
-import { Ionicons } from '@expo/vector-icons';
-import { Subheader } from '@ui/navigation';
-import { Card } from '@ui/primitives';
+// Hooks
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+// UI
+import { Ionicons } from '@expo/vector-icons';
+import { Card } from '@ui/primitives';
+
 import {
   Platform,
   ScrollView,
@@ -12,8 +15,12 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { CONTACT_LINKS, FAQ_ITEMS, GUIDE_SECTIONS } from './help.config';
+
+import {
+  CONTACT_LINKS,
+  FAQ_ITEMS,
+  GUIDE_SECTIONS,
+} from '@features/support/config/help.config';
 
 export default function HelpScreen() {
   const insets = useSafeAreaInsets();
@@ -25,8 +32,6 @@ export default function HelpScreen() {
 
   return (
     <View className="flex-1 bg-surface dark:bg-surface-dark">
-      <Subheader title="Help & Support" onBack={() => router.back()} />
-
       <ScrollView
         contentContainerStyle={{
           paddingTop: 16,

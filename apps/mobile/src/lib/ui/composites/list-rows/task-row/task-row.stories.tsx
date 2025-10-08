@@ -1,6 +1,6 @@
 import { Task } from '@api';
 import type { Meta, StoryObj } from '@storybook/react';
-import TaskRow from './task-row';
+import { TaskRow } from './task-row';
 
 const meta: Meta<typeof TaskRow> = {
   title: 'Composites/List Rows/Task Row',
