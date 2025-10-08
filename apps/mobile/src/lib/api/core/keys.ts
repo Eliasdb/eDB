@@ -3,6 +3,8 @@ export const hubKeys = {
   tasks: () => [...hubKeys.all, 'tasks'] as const,
   contacts: () => [...hubKeys.all, 'contacts'] as const,
   companies: () => [...hubKeys.all, 'companies'] as const,
+  activities: (contactId?: string) =>
+    ['activities', contactId ?? 'all'] as const, // 👈
 };
 
 // core/keys.ts

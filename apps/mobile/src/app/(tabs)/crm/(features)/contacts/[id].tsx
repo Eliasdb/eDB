@@ -11,6 +11,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { ActivityTimeline } from '../../../../../lib/features/crm/components/contacts/activity-timeline';
 
 export default function ContactDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -154,6 +155,9 @@ export default function ContactDetail() {
               )}
             </List>
           </Card>
+          <View className="mt-3">
+            {id ? <ActivityTimeline contactId={id} /> : null}
+          </View>
         </View>
       </ScrollView>
     </Screen>

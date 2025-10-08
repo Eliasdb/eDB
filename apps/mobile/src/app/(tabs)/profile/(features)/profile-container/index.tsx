@@ -30,7 +30,7 @@ export default function ProfileScreen() {
             name={t('profile.name')}
             email={t('profile.email')}
             onChangePhoto={() => {}}
-            onManageVoice={() => router.push('/profile/voice-mode')}
+            onManageVoice={() => router.push('./voice-mode')}
           />
 
           {/* Right column (grouped) */}
@@ -41,17 +41,20 @@ export default function ProfileScreen() {
                 {
                   label: t('profile.personalDetails'),
                   icon: 'person-outline',
-                  onPress: () => router.push('/profile/personal-details'),
+                  onPress: () =>
+                    router.push('/(tabs)/profile/(features)/personal-details'),
                 },
                 {
                   label: t('profile.security'),
                   icon: 'shield-checkmark-outline',
-                  onPress: () => router.push('/profile/security'),
+                  onPress: () =>
+                    router.push('/(tabs)/profile/(features)/security'),
                 },
                 {
                   label: t('profile.connectedApps'),
                   icon: 'link-outline',
-                  onPress: () => router.push('/profile/integrations'),
+                  onPress: () =>
+                    router.push('/(tabs)/profile/(features)/integrations'),
                 },
                 {
                   label: 'Developer',

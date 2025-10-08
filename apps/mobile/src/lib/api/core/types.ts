@@ -25,10 +25,28 @@ export type Company = {
   source?: string;
 };
 
+/** 👇 NEW */
+export type Activity = {
+  id: string;
+  contactId: string;
+  type: 'note' | 'call' | 'email' | 'meeting' | 'task' | 'status' | 'system';
+  at: string; // ISO timestamp
+  by?: string;
+  summary: string;
+  payload?: {
+    durationMin?: number;
+    outcome?: string;
+    followUpAt?: string; // ISO
+    attachments?: { name: string; url: string }[];
+  };
+};
+
 export type HubPayload = {
   tasks: Task[];
   contacts: Contact[];
   companies: Company[];
+  /** 👇 Optional, only if your /hub includes activities */
+  activities?: Activity[];
 };
 
 // ---- Chat ----

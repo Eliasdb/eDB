@@ -25,7 +25,7 @@ export default function AdminShellLayout() {
       value={current}
       onChange={(next) => {
         setNext(current, next); // set direction for animation
-        router.push(`/(tabs)/admin/${next}`); // push so Stack animates
+        router.replace(`/(tabs)/admin/${next}`); // push so Stack animates
       }}
       sidebarTitle="Admin"
       sidebarFooter={

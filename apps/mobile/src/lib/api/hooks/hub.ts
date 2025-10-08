@@ -1,7 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { hubKeys } from '../core/keys';
-import type { HubPayload, Task } from '../core/types';
-import { createTask, deleteTask, fetchHub, patchTask } from '../services/hub';
+import type { Activity, HubPayload, Task } from '../core/types';
+import {
+  createTask,
+  deleteTask,
+  fetchActivities,
+  fetchHub,
+  patchTask,
+} from '../services/hub';
 
 export function useHub() {
   return useQuery({
@@ -84,5 +90,16 @@ export function useDeleteTask() {
     onSettled: () => {
       qc.invalidateQueries({ queryKey: hubKeys.all });
     },
+  });
+}
+
+export function useContactActivities(contactId?: string) {
+  return useQuery({
+    enabled: !!contactId,
+    queryKey: hubKeys.activities(contactId),
+    queryFn: () => fetchActivities(contactId),
+    select: (rows: Activity[]) =>
+      [...rows].sort((a, b) => b.at.localeCompare(a.at)), // newest first
+    staleTime: 10_000,
   });
 }

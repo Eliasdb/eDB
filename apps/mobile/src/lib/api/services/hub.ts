@@ -1,11 +1,23 @@
 import { api } from '../core/client';
-import type { Company, Contact, HubPayload, Task } from '../core/types';
+import type {
+  Activity,
+  Company,
+  Contact,
+  HubPayload,
+  Task,
+} from '../core/types';
 
 // Queries
 export const fetchHub = () => api<HubPayload>('/hub');
 export const fetchTasks = () => api<Task[]>('/hub/tasks');
 export const fetchContacts = () => api<Contact[]>('/hub/contacts');
 export const fetchCompanies = () => api<Company[]>('/hub/companies');
+export const fetchActivities = (contactId?: string) =>
+  api<Activity[]>(
+    contactId
+      ? `/hub/activities?contactId=${encodeURIComponent(contactId)}`
+      : '/hub/activities',
+  );
 
 // Mutations (CRUD)
 export const createTask = (body: Omit<Task, 'id'>) =>
