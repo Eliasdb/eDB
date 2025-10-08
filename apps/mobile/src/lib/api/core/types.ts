@@ -1,3 +1,5 @@
+// core/types.ts
+
 // ---- CRM ----
 export type Task = {
   id: string;
@@ -5,48 +7,61 @@ export type Task = {
   due?: string;
   done?: boolean;
   source?: string;
+  companyId?: string;
+  contactId?: string;
 };
 
 export type Contact = {
   id: string;
   name: string;
+  title?: string;
   email?: string;
   phone?: string;
   avatarUrl?: string;
   source?: string;
+  companyId?: string;
 };
+
+export type CompanyStage = 'lead' | 'prospect' | 'customer' | 'inactive';
 
 export type Company = {
   id: string;
   name: string;
-  industry?: string;
   domain?: string;
   logoUrl?: string;
-  source?: string;
+  industry?: string; // optional: keeps old UI happy
+  source?: string; // optional
+  stage?: CompanyStage;
 };
 
-/** 👇 NEW */
+/** Server-aligned Activity (lean) */
 export type Activity = {
   id: string;
-  contactId: string;
-  type: 'note' | 'call' | 'email' | 'meeting' | 'task' | 'status' | 'system';
+  type: 'note' | 'call' | 'email' | 'meeting' | 'status' | 'system';
   at: string; // ISO timestamp
-  by?: string;
   summary: string;
-  payload?: {
-    durationMin?: number;
-    outcome?: string;
-    followUpAt?: string; // ISO
-    attachments?: { name: string; url: string }[];
-  };
+  companyId?: string;
+  contactId?: string;
 };
 
 export type HubPayload = {
   tasks: Task[];
   contacts: Contact[];
   companies: Company[];
-  /** 👇 Optional, only if your /hub includes activities */
   activities?: Activity[];
+};
+
+/** ✅ Overview payload for single-company screen */
+export type CompanyOverview = {
+  company: Company;
+  contacts: Contact[];
+  activities: Activity[];
+  tasks: Task[];
+  stats: {
+    lastActivityAt: string | null;
+    nextTaskDue: string | null;
+    openTasks: number;
+  };
 };
 
 // ---- Chat ----

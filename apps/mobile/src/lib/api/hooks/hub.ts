@@ -5,6 +5,7 @@ import {
   createTask,
   deleteTask,
   fetchActivities,
+  fetchCompanyOverview,
   fetchHub,
   patchTask,
 } from '../services/hub';
@@ -93,13 +94,23 @@ export function useDeleteTask() {
   });
 }
 
+/** ✅ Focused hook for the single-company screen */
+export function useCompanyOverview(id?: string) {
+  return useQuery({
+    enabled: !!id,
+    queryKey: id ? hubKeys.companyOverview(id) : ['__noop__'],
+    queryFn: () => fetchCompanyOverview(id as string),
+    staleTime: 10_000,
+  });
+}
+
 export function useContactActivities(contactId?: string) {
   return useQuery({
     enabled: !!contactId,
     queryKey: hubKeys.activities(contactId),
     queryFn: () => fetchActivities(contactId),
     select: (rows: Activity[]) =>
-      [...rows].sort((a, b) => b.at.localeCompare(a.at)), // newest first
+      [...rows].sort((a, b) => b.at.localeCompare(a.at)),
     staleTime: 10_000,
   });
 }

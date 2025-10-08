@@ -1,7 +1,9 @@
+// services/hub.ts
 import { api } from '../core/client';
 import type {
   Activity,
   Company,
+  CompanyOverview,
   Contact,
   HubPayload,
   Task,
@@ -19,7 +21,11 @@ export const fetchActivities = (contactId?: string) =>
       : '/hub/activities',
   );
 
-// Mutations (CRUD)
+// ✅ Company overview
+export const fetchCompanyOverview = (id: string) =>
+  api<CompanyOverview>(`/hub/companies/${id}/overview`);
+
+// Mutations (CRUD) …
 export const createTask = (body: Omit<Task, 'id'>) =>
   api<Task>('/hub/tasks', { method: 'POST', body: JSON.stringify(body) });
 

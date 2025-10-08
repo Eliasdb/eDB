@@ -1,4 +1,5 @@
-import { useHub } from '@api';
+// CompanyDetail.tsx
+import { useCompanyOverview } from '@api';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@ui/layout';
 import { Card, List } from '@ui/primitives';
@@ -14,8 +15,9 @@ import {
 
 export default function CompanyDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data, isLoading } = useHub();
-  const company = data?.companies.find((c) => c.id === id);
+  const { data, isLoading } = useCompanyOverview(id);
+
+  const company = data?.company;
 
   if (!company && !isLoading) {
     return (
@@ -32,7 +34,7 @@ export default function CompanyDetail() {
   return (
     <Screen center={false} padding={0} showsVerticalScrollIndicator={false}>
       <ScrollView contentContainerStyle={{ paddingBottom: 28 }}>
-        {/* Top bar: Back to overview */}
+        {/* Top bar */}
         <View className="px-4 pt-3 pb-2">
           <View className="flex-row items-center justify-between">
             <Link href="/(tabs)/crm/(features)/companies" asChild>
@@ -94,17 +96,13 @@ export default function CompanyDetail() {
                 >
                   {company?.name ?? ' '}
                 </Text>
-                {!!company?.industry && (
-                  <Text
-                    className="text-text-dim dark:text-text-dimDark text-[13px]"
-                    numberOfLines={1}
-                  >
-                    {company.industry}
-                  </Text>
+                {!!company?.stage && (
+                  <View className="mt-1">
+                    <Tag tone="primary" text={company.stage} />
+                  </View>
                 )}
               </View>
 
-              {/* Actions (with extra right padding so they don't touch the edge) */}
               <View className="flex-row items-center gap-2 pr-1.5">
                 {!!company?.domain && (
                   <IconButtonLike
@@ -121,54 +119,175 @@ export default function CompanyDetail() {
               </View>
             </View>
 
-            {!!company?.source && (
+            {!!company?.domain && (
               <View className="flex-row flex-wrap gap-2 mt-3">
                 <Tag
-                  tone="primary"
-                  icon="sparkles-outline"
-                  text={`Added by Clara • ${company.source}`}
+                  tone="neutral"
+                  icon="globe-outline"
+                  text={company.domain}
                 />
               </View>
             )}
           </Card>
         </View>
 
-        {/* Info */}
+        {/* Quick stats */}
         <View className="px-4 mt-3">
           <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
             <List>
-              {!!company?.domain && (
-                <List.Item first>
-                  <Row
-                    icon="globe-outline"
-                    label="Domain"
-                    value={company.domain}
-                  />
-                </List.Item>
-              )}
-              {!!company?.industry && (
-                <List.Item>
-                  <Row
-                    icon="briefcase-outline"
-                    label="Industry"
-                    value={company.industry}
-                  />
-                </List.Item>
-              )}
-              {!!company?.source && (
-                <List.Item>
-                  <Row
-                    icon="sparkles-outline"
-                    label="Source"
-                    value={company.source}
-                  />
-                </List.Item>
-              )}
+              <List.Item first>
+                <Row
+                  icon="time-outline"
+                  label="Last activity"
+                  value={data?.stats.lastActivityAt ?? '—'}
+                />
+              </List.Item>
+              <List.Item>
+                <Row
+                  icon="flash-outline"
+                  label="Open tasks"
+                  value={String(data?.stats.openTasks ?? 0)}
+                />
+              </List.Item>
+              <List.Item>
+                <Row
+                  icon="calendar-outline"
+                  label="Next due task"
+                  value={data?.stats.nextTaskDue ?? '—'}
+                />
+              </List.Item>
             </List>
+          </Card>
+        </View>
+
+        {/* Contacts */}
+        <Section title="Contacts" />
+        <View className="px-4 mt-2">
+          <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
+            {data?.contacts?.length ? (
+              <List>
+                {data.contacts.map((c, idx) => (
+                  <List.Item key={c.id} first={idx === 0}>
+                    <View className="flex-row items-center gap-3 px-4 py-3">
+                      <View className="w-5 items-center">
+                        <Ionicons
+                          name="person-outline"
+                          size={16}
+                          color="#94A3B8"
+                        />
+                      </View>
+                      <View className="flex-1">
+                        <Text className="text-text dark:text-text-dark text-[15px] font-medium">
+                          {c.name}
+                        </Text>
+                        <Text className="text-text-dim dark:text-text-dimDark text-[12px]">
+                          {c.title ?? c.email ?? '—'}
+                        </Text>
+                      </View>
+                    </View>
+                  </List.Item>
+                ))}
+              </List>
+            ) : (
+              <Empty hint="No contacts yet" />
+            )}
+          </Card>
+        </View>
+
+        {/* Activities (Timeline) */}
+        <Section title="Timeline" />
+        <View className="px-4 mt-2">
+          <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
+            {data?.activities?.length ? (
+              <List>
+                {data.activities.map((a, idx) => (
+                  <List.Item key={a.id} first={idx === 0}>
+                    <View className="flex-row items-center gap-3 px-4 py-3">
+                      <View className="w-5 items-center">
+                        <Ionicons
+                          name="chatbubble-ellipses-outline"
+                          size={16}
+                          color="#94A3B8"
+                        />
+                      </View>
+                      <View className="flex-1">
+                        <Text className="text-text dark:text-text-dark text-[15px] font-medium">
+                          {a.summary}
+                        </Text>
+                        <Text className="text-text-dim dark:text-text-dimDark text-[12px]">
+                          {a.type} • {a.at}
+                        </Text>
+                      </View>
+                    </View>
+                  </List.Item>
+                ))}
+              </List>
+            ) : (
+              <Empty hint="No activity yet" />
+            )}
+          </Card>
+        </View>
+
+        {/* Tasks */}
+        <Section title="Tasks" />
+        <View className="px-4 mt-2">
+          <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
+            {data?.tasks?.length ? (
+              <List>
+                {data.tasks.map((t, idx) => (
+                  <List.Item key={t.id} first={idx === 0}>
+                    <View className="flex-row items-center gap-3 px-4 py-3">
+                      <View className="w-5 items-center">
+                        <Ionicons
+                          name={
+                            t.done
+                              ? 'checkmark-circle-outline'
+                              : 'ellipse-outline'
+                          }
+                          size={16}
+                          color="#94A3B8"
+                        />
+                      </View>
+                      <View className="flex-1">
+                        <Text className="text-text dark:text-text-dark text-[15px] font-medium">
+                          {t.title}
+                        </Text>
+                        <Text className="text-text-dim dark:text-text-dimDark text-[12px]">
+                          {t.due ?? 'No due date'}
+                        </Text>
+                      </View>
+                    </View>
+                  </List.Item>
+                ))}
+              </List>
+            ) : (
+              <Empty hint="No tasks yet" />
+            )}
           </Card>
         </View>
       </ScrollView>
     </Screen>
+  );
+}
+
+/* — Small helpers (unchanged style from your snippet) — */
+function Section({ title }: { title: string }) {
+  return (
+    <View className="px-4 mt-5">
+      <Text className="text-text dark:text-text-dark text-[13px] font-semibold uppercase tracking-wide opacity-80">
+        {title}
+      </Text>
+    </View>
+  );
+}
+
+function Empty({ hint }: { hint: string }) {
+  return (
+    <View className="px-4 py-6 items-center">
+      <Text className="text-text-dim dark:text-text-dimDark text-[13px]">
+        {hint}
+      </Text>
+    </View>
   );
 }
 
@@ -207,7 +326,7 @@ function Row({
 }: {
   icon: React.ComponentProps<typeof Ionicons>['name'];
   label: string;
-  value?: string;
+  value?: string | number | null;
 }) {
   return (
     <View className="flex-row items-center gap-10 px-4 py-3">

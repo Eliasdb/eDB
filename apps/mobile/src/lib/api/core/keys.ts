@@ -4,7 +4,9 @@ export const hubKeys = {
   contacts: () => [...hubKeys.all, 'contacts'] as const,
   companies: () => [...hubKeys.all, 'companies'] as const,
   activities: (contactId?: string) =>
-    ['activities', contactId ?? 'all'] as const, // 👈
+    ['hub', 'activities', contactId ?? 'all'] as const,
+  companyOverview: (companyId: string) =>
+    ['hub', 'company-overview', companyId] as const,
 };
 
 // core/keys.ts
