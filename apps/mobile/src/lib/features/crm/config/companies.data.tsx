@@ -1,5 +1,5 @@
 // libs/ui/composites/company/company-sections.config.ts
-import { TwoLineRow } from '@ui/composites/list-rows/info-rows/info-rows';
+import { TwoLineRow } from '@ui/composites';
 import React from 'react';
 
 export type SectionKey = 'contacts' | 'activities' | 'tasks';

@@ -1,13 +1,14 @@
 // apps/mobile/src/app/(tabs)/crm/(features)/companies/[id].tsx
 import { useCompanyOverview } from '@api';
-import { KeyValueRow } from '@ui/composites/list-rows/info-rows/info-rows';
-import { Screen } from '@ui/layout';
-import { EntityHero } from '@ui/layout/hero/entity-hero';
-import { Card, IconButton, List } from '@ui/primitives';
 import { Link, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+
+import { CompanySections } from '@features/crm/components';
+import { Screen } from '@ui/layout';
+import { Card, EntityHero, IconButton } from '@ui/primitives';
 import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
-import { CompanySections } from '../../../../../lib/features/crm/components/companies/CompanySections.comp';
+
+// ⬇️ import the new config
+import CompanyQuickStats from '@features/crm/components/companies/company-quick-stats';
 
 export default function CompanyDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -46,58 +47,40 @@ export default function CompanyDetail() {
             title={company?.name ?? ' '}
             subtitle={company?.industry ?? undefined}
             avatarUrl={company?.logoUrl ?? null}
-            initials={company?.name?.slice(0, 2)?.toUpperCase()}
-            avatarRadius={12} // square corners for companies
+            initials={company?.initials}
+            avatarRadius={12}
             badges={
               company?.stage ? [{ label: company.stage, tint: '#6C63FF' }] : []
             }
-            actions={
-              <>
-                {!!company?.domain && (
-                  <IconButton
-                    name="globe-outline"
-                    tint="neutral"
-                    onPress={() => Linking.openURL(`https://${company.domain}`)}
-                  />
-                )}
+          >
+            <EntityHero.Actions>
+              {company?.domain ? (
                 <IconButton
-                  name="create-outline"
+                  name="globe-outline"
                   tint="neutral"
-                  onPress={() => {}}
+                  variant="ghost"
+                  size="xs"
+                  shape="rounded"
+                  cornerRadius={10}
+                  onPress={() => Linking.openURL(`https://${company.domain}`)}
+                  accessibilityLabel="Open website"
                 />
-              </>
-            }
-          />
+              ) : null}
+              <IconButton
+                name="create-outline"
+                tint="neutral"
+                variant="ghost"
+                size="xs"
+                shape="rounded"
+                cornerRadius={10}
+                onPress={() => {}}
+              />
+            </EntityHero.Actions>
+          </EntityHero>
         </View>
 
         {/* Quick stats */}
-        <View className="px-4 mt-3">
-          <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
-            <List>
-              <List.Item first>
-                <KeyValueRow
-                  icon="time-outline"
-                  label="Last activity"
-                  value={data?.stats.lastActivityAt ?? '—'}
-                />
-              </List.Item>
-              <List.Item>
-                <KeyValueRow
-                  icon="flash-outline"
-                  label="Open tasks"
-                  value={String(data?.stats.openTasks ?? 0)}
-                />
-              </List.Item>
-              <List.Item>
-                <KeyValueRow
-                  icon="calendar-outline"
-                  label="Next due task"
-                  value={data?.stats.nextTaskDue ?? '—'}
-                />
-              </List.Item>
-            </List>
-          </Card>
-        </View>
+        <CompanyQuickStats data={data} loading={isLoading} />
 
         {/* Sections (Contacts, Timeline, Tasks) */}
         <CompanySections data={data} />

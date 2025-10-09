@@ -1,10 +1,13 @@
-// libs/ui/composites/company/company-sections.tsx
-import type { CompanyOverview } from '@api/core/types'; // adjust path as needed
+import { Section } from '@ui/layout';
 import { EmptyLine, List } from '@ui/primitives';
-import React from 'react';
 import { View } from 'react-native';
-import { Section } from '../../../../ui/layout';
-import { companySectionsConfig, type SectionKey } from './CompanySections';
+
+import {
+  companySectionsConfig,
+  type SectionKey,
+} from '../../config/companies.data';
+
+import type { CompanyOverview } from '@api/core/types';
 
 export function CompanySections({ data }: { data?: CompanyOverview }) {
   // Normalize just the array bits we need

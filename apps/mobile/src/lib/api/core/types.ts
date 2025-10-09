@@ -28,6 +28,7 @@ export type Company = {
   id: string;
   name: string;
   domain?: string;
+  initials?: string;
   logoUrl?: string;
   industry?: string; // optional: keeps old UI happy
   source?: string; // optional

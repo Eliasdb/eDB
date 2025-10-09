@@ -1,9 +1,9 @@
 // libs/ui/composites/activity/activities-overview.tsx
 import type { Activity } from '@api/core/types';
-import { TwoLineRow } from '@ui/composites/list-rows/info-rows/info-rows';
 import { Card, EmptyLine, List } from '@ui/primitives';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { TwoLineRow } from '../list-rows/crm/info-row/info-row';
 
 type IconName = React.ComponentProps<
   typeof import('@expo/vector-icons').Ionicons

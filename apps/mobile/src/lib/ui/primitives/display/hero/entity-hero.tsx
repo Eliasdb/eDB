@@ -1,20 +1,49 @@
-// libs/ui/composites/hero/entity-hero.tsx
-import { Badge, Card } from '@ui/primitives';
-import React from 'react';
+import { Badge, Card, IconButton } from '@ui/primitives';
+import * as React from 'react';
 import { Image, Text, View } from 'react-native';
+
+type IonName = React.ComponentProps<
+  typeof import('@expo/vector-icons').Ionicons
+>['name'];
+
+type HeroAction = {
+  name: IonName;
+  onPress: () => void;
+  tint?: 'primary' | 'danger' | 'success' | 'neutral';
+  variant?: 'ghost' | 'outline' | 'solid';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  rounded?: boolean;
+  radius?: number;
+  a11yLabel?: string;
+};
 
 export type EntityHeroProps = {
   title: string;
-  subtitle?: React.ReactNode; // e.g. email, "Title · Company"
+  subtitle?: React.ReactNode;
   avatarUrl?: string | null;
-  initials?: string; // used if no avatarUrl
+  initials?: string;
   badges?: { label: string; tint: string }[];
-  actions?: React.ReactNode; // right-side actions (IconButtons)
-  avatarSize?: number; // default 56
-  avatarRadius?: number; // default 12
+  actions?: HeroAction[]; // legacy prop, ignored if slot present
+  avatarSize?: number;
+  avatarRadius?: number;
   className?: string;
   bodyClassName?: string;
+  children?: React.ReactNode; // for slots
 };
+
+/* ---------- Slot types & helpers ---------- */
+
+type ActionsSlotProps = { children?: React.ReactNode };
+const ActionsSlot: React.FC<ActionsSlotProps> = ({ children }) => (
+  <>{children}</>
+);
+
+// Narrow a ReactNode to our ActionsSlot element
+function isActionsSlot(
+  node: React.ReactNode,
+): node is React.ReactElement<ActionsSlotProps> {
+  return React.isValidElement(node) && node.type === ActionsSlot;
+}
 
 export function EntityHero({
   title,
@@ -27,7 +56,11 @@ export function EntityHero({
   avatarRadius = 12,
   className,
   bodyClassName,
+  children,
 }: EntityHeroProps) {
+  const slots = React.Children.toArray(children);
+  const actionsEl = slots.find(isActionsSlot); // typed as ReactElement<ActionsSlotProps> | undefined
+
   return (
     <Card
       inset={false}
@@ -40,7 +73,7 @@ export function EntityHero({
       bodyClassName={['p-4', bodyClassName ?? ''].join(' ')}
     >
       <View className="flex-row items-center gap-3 pl-1.5 py-1.5">
-        {/* Avatar / initials */}
+        {/* Avatar */}
         <View
           style={{
             width: avatarSize,
@@ -68,7 +101,7 @@ export function EntityHero({
           )}
         </View>
 
-        {/* Title + subtitle + badges */}
+        {/* Texts */}
         <View className="flex-1">
           <Text
             className="text-text dark:text-text-dark text-lg font-semibold"
@@ -100,10 +133,28 @@ export function EntityHero({
         </View>
 
         {/* Actions */}
-        {actions ? (
-          <View className="flex-row items-center gap-2 pr-1.5">{actions}</View>
-        ) : null}
+        <View className="flex-row items-center gap-1 pr-1.5">
+          {actionsEl
+            ? actionsEl.props.children
+            : (actions ?? []).map((a, idx) => (
+                <IconButton
+                  key={`${a.name}-${idx}`}
+                  name={a.name}
+                  tint={a.tint ?? 'neutral'}
+                  variant={a.variant ?? 'ghost'}
+                  size={a.size ?? 'xs'}
+                  shape={a.rounded ? 'rounded' : 'circle'}
+                  cornerRadius={a.rounded ? (a.radius ?? 10) : undefined}
+                  accessibilityLabel={a.a11yLabel}
+                  onPress={a.onPress}
+                />
+              ))}
+        </View>
       </View>
     </Card>
   );
 }
+
+// Attach slot for ergonomic API
+EntityHero.Actions = ActionsSlot;
+export type { HeroAction as EntityHeroAction };

@@ -1,3 +1,4 @@
+// @ui/panels/Panel.tsx
 /* -----------------------------------------------------------------------------
  * Panel (outer container)
  * ---------------------------------------------------------------------------*/
@@ -5,17 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 
-// ⬇️ Your row primitives (the new ones you posted)
-import {
-  ItemRow,
-  type ItemRowProps,
-} from '../../composites/list-rows/item-row';
-
-import AccordionRow from '../../composites/list-rows/accordion-row/accordion-row';
-import {
-  ToggleRow,
-  type ToggleRowProps,
-} from '../../composites/list-rows/toggle-row';
+// ✅ Use the unified SettingsRow (now includes kind="accordion")
+import { SettingsRow, type SettingsRowProps } from '@ui/composites';
 
 /** Outer panel container */
 export function Panel({
@@ -93,28 +85,35 @@ export function PanelGroupItem({
   );
 }
 
-/** Convenience wrapper for ItemRow with built-in divider handling */
-export function PanelGroupItemRow(props: ItemRowProps & { first?: boolean }) {
-  const { first, ...rest } = props;
-  return (
-    <PanelGroupItem first={first}>
-      <ItemRow {...rest} />
-    </PanelGroupItem>
-  );
-}
-
-/** Convenience wrapper for ToggleRow with built-in divider handling */
-export function PanelGroupItemSwitch(
-  props: ToggleRowProps & { first?: boolean },
+/** Convenience wrapper for a SettingsRow (kind="item") with built-in divider handling */
+export function PanelGroupItemRow(
+  props: Omit<SettingsRowProps, 'kind'> & { first?: boolean },
 ) {
   const { first, ...rest } = props;
   return (
     <PanelGroupItem first={first}>
-      <ToggleRow {...rest} />
+      <SettingsRow kind="item" {...rest} />
     </PanelGroupItem>
   );
 }
 
+/** Convenience wrapper for a SettingsRow (kind="toggle") with built-in divider handling */
+export function PanelGroupItemSwitch(
+  props: Omit<SettingsRowProps, 'kind'> & {
+    first?: boolean;
+    value: boolean;
+    onValueChange: (v: boolean) => void;
+  },
+) {
+  const { first, ...rest } = props;
+  return (
+    <PanelGroupItem first={first}>
+      <SettingsRow kind="toggle" {...rest} />
+    </PanelGroupItem>
+  );
+}
+
+/** Accordion row using SettingsRow(kind="accordion") */
 export function PanelGroupItemAccordionRow({
   label,
   icon,
@@ -131,11 +130,15 @@ export function PanelGroupItemAccordionRow({
   const [open, setOpen] = useState(defaultOpen);
   return (
     <PanelGroupItem first={first}>
-      <AccordionRow
+      <SettingsRow
+        kind="accordion"
         label={label}
         icon={icon}
         open={open}
         onToggle={() => setOpen((v) => !v)}
+        // optional: pass borders/compact if you use them elsewhere
+        // border
+        // borderPosition="y"
       />
       {open ? <View className="px-3 pb-3">{children}</View> : null}
     </PanelGroupItem>

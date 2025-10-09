@@ -1,12 +1,10 @@
-// apps/mobile/src/app/(tabs)/crm/(features)/contacts/[id].tsx
 import { useContactActivities, useHub } from '@api';
-import { ActivitiesOverview } from '@ui/composites/activity-overview/activities-overview';
-import { KeyValueRow } from '@ui/composites/list-rows/info-rows/info-rows';
-import { Screen } from '@ui/layout';
-import { EntityHero } from '@ui/layout/hero/entity-hero';
-import { Button, Card, IconButton, List } from '@ui/primitives';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+
+import { ActivitiesOverview, KeyValueRow } from '@ui/composites';
+import { Screen } from '@ui/layout';
+import { Button, Card, EntityHero, IconButton, List } from '@ui/primitives';
 import { Linking, ScrollView, Text, View } from 'react-native';
 
 export default function ContactDetail() {
@@ -44,50 +42,49 @@ export default function ContactDetail() {
         <View className="px-4 pt-4">
           <EntityHero
             title={contact?.name ?? ' '}
-            subtitle={contact?.email ?? undefined} // email only in header
+            subtitle={contact?.email ?? undefined}
             avatarUrl={contact?.avatarUrl ?? null}
             initials={contact?.name
               ?.split(' ')
               .map((p) => p[0])
               .join('')}
             avatarSize={56}
-            avatarRadius={28} // round avatar for people
-            actions={
-              <View className="flex-row items-center gap-1">
-                {!!contact?.email && (
-                  <IconButton
-                    name="mail-outline"
-                    tint="neutral"
-                    variant="ghost"
-                    size="xs"
-                    shape="rounded"
-                    cornerRadius={10}
-                    onPress={() => Linking.openURL(`mailto:${contact.email}`)}
-                  />
-                )}
-                {!!contact?.phone && (
-                  <IconButton
-                    name="call-outline"
-                    tint="neutral"
-                    variant="ghost"
-                    size="xs"
-                    shape="rounded"
-                    cornerRadius={10}
-                    onPress={() => Linking.openURL(`tel:${contact.phone}`)}
-                  />
-                )}
+            avatarRadius={28}
+          >
+            <EntityHero.Actions>
+              {contact?.email ? (
                 <IconButton
-                  name="create-outline"
+                  name="mail-outline"
                   tint="neutral"
                   variant="ghost"
                   size="xs"
                   shape="rounded"
                   cornerRadius={10}
-                  onPress={() => {}}
+                  onPress={() => Linking.openURL(`mailto:${contact.email}`)}
                 />
-              </View>
-            }
-          />
+              ) : null}
+              {contact?.phone ? (
+                <IconButton
+                  name="call-outline"
+                  tint="neutral"
+                  variant="ghost"
+                  size="xs"
+                  shape="rounded"
+                  cornerRadius={10}
+                  onPress={() => Linking.openURL(`tel:${contact.phone}`)}
+                />
+              ) : null}
+              <IconButton
+                name="create-outline"
+                tint="neutral"
+                variant="ghost"
+                size="xs"
+                shape="rounded"
+                cornerRadius={10}
+                onPress={() => {}}
+              />
+            </EntityHero.Actions>
+          </EntityHero>
         </View>
 
         {/* Info */}
