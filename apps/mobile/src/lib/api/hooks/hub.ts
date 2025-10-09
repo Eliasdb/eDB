@@ -6,6 +6,7 @@ import {
   deleteTask,
   fetchActivities,
   fetchCompanyOverview,
+  fetchContactOverview,
   fetchHub,
   patchTask,
 } from '../services/hub';
@@ -130,6 +131,15 @@ export function useContactActivities(contactId?: string) {
     queryFn: () => fetchActivities(contactId),
     select: (rows: Activity[]) =>
       [...rows].sort((a, b) => b.at.localeCompare(a.at)),
+    staleTime: 10_000,
+  });
+}
+
+export function useContactOverview(id?: string) {
+  return useQuery({
+    enabled: !!id,
+    queryKey: id ? [...hubKeys.contact, 'overview', id] : ['__noop__'],
+    queryFn: () => fetchContactOverview(id as string),
     staleTime: 10_000,
   });
 }

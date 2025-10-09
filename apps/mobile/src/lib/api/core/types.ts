@@ -65,6 +65,13 @@ export type CompanyOverview = {
   };
 };
 
+export type ContactOverview = {
+  contact: Contact & { initials?: string };
+  company?: Company & { initials?: string };
+  activities: Activity[];
+  stats: { lastActivityAt: string | null };
+};
+
 // ---- Chat ----
 export type ChatTurn = { role: 'user' | 'assistant'; content: string };
 

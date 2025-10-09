@@ -147,6 +147,48 @@ const route: FastifyPluginAsync = async (app) => {
       return reply.send(payload);
     },
   );
+
+  // ✅ Contact Overview for the single-contact screen
+  app.get<{ Params: { id: string } }>(
+    '/hub/contacts/:id/overview',
+    async (req, reply) => {
+      const id = z.string().min(1).parse(req.params.id);
+      const contact = store.get('contacts', id);
+      if (!contact) return reply.code(404).send({ message: 'Not found' });
+
+      // add initials at runtime (don’t mutate store)
+      const contactWithInitials = {
+        ...contact,
+        initials: initialsFromName(contact.name),
+      };
+
+      const company = contact.companyId
+        ? store.get('companies', contact.companyId)
+        : undefined;
+
+      const companyWithInitials = company
+        ? { ...company, initials: companyInitials(company.name) }
+        : undefined;
+
+      const activities = store
+        .list('activities')
+        .filter((a) => a.contactId === id)
+        .sort((a, b) => (a.at < b.at ? 1 : -1)); // newest first
+
+      const lastActivityAt = activities[0]?.at ?? null;
+
+      const payload = {
+        contact: contactWithInitials,
+        company: companyWithInitials,
+        activities,
+        stats: {
+          lastActivityAt,
+        },
+      };
+
+      return reply.send(payload);
+    },
+  );
 };
 
 export default route;

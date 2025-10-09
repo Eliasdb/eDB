@@ -1,3 +1,4 @@
+// libs/ui/composites/company/company-sections.comp.tsx
 import { Section } from '@ui/layout';
 import { EmptyLine, List } from '@ui/primitives';
 import { View } from 'react-native';
@@ -9,7 +10,14 @@ import {
 
 import type { CompanyOverview } from '@api/core/types';
 
-export function CompanySections({ data }: { data?: CompanyOverview }) {
+export function CompanySections({
+  data,
+  only,
+}: {
+  data?: CompanyOverview;
+  /** Optional: restrict which sections to render */
+  only?: readonly SectionKey[];
+}) {
   // Normalize just the array bits we need
   const arrays: Record<SectionKey, any[]> = {
     contacts: data?.contacts ?? [],
@@ -17,9 +25,13 @@ export function CompanySections({ data }: { data?: CompanyOverview }) {
     tasks: data?.tasks ?? [],
   };
 
+  const cfg = only
+    ? companySectionsConfig.filter((c) => only.includes(c.key))
+    : companySectionsConfig;
+
   return (
     <>
-      {companySectionsConfig.map((sec) => {
+      {cfg.map((sec) => {
         const items = arrays[sec.key];
         return (
           <View key={sec.title} className="px-4">
@@ -45,3 +57,5 @@ export function CompanySections({ data }: { data?: CompanyOverview }) {
     </>
   );
 }
+
+export default CompanySections;

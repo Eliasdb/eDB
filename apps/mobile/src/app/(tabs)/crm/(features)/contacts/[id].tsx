@@ -1,27 +1,20 @@
-import { useContactActivities, useHub } from '@api';
-import { useLocalSearchParams } from 'expo-router';
-import { useMemo } from 'react';
-
+// apps/mobile/src/app/(tabs)/crm/(features)/contacts/[id].tsx
+import { useContactOverview } from '@api';
 import { ActivitiesOverview, KeyValueRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Button, Card, EntityHero, IconButton, List } from '@ui/primitives';
+import { useLocalSearchParams } from 'expo-router';
+import React from 'react';
 import { Linking, ScrollView, Text, View } from 'react-native';
 
 export default function ContactDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data, isLoading } = useHub();
+  const { data, isLoading } = useContactOverview(id);
 
-  const contact = data?.contacts.find((c) => c.id === id);
-  const companiesById = useMemo(
-    () =>
-      Object.fromEntries((data?.companies ?? []).map((c: any) => [c.id, c])),
-    [data?.companies],
-  );
-  const company = contact?.companyId ? companiesById[contact.companyId] : null;
-
-  // Activities via hook (already sorted desc by `at`)
-  const { data: activities = [], isLoading: isLoadingActivities } =
-    useContactActivities(id);
+  const contact = data?.contact;
+  const company = data?.company;
+  const activities = data?.activities ?? [];
+  const isLoadingActivities = isLoading && !data;
 
   if (!contact && !isLoading) {
     return (
@@ -44,10 +37,7 @@ export default function ContactDetail() {
             title={contact?.name ?? ' '}
             subtitle={contact?.email ?? undefined}
             avatarUrl={contact?.avatarUrl ?? null}
-            initials={contact?.name
-              ?.split(' ')
-              .map((p) => p[0])
-              .join('')}
+            initials={contact?.initials}
             avatarSize={56}
             avatarRadius={28}
           >
@@ -133,7 +123,7 @@ export default function ContactDetail() {
             </List>
           </Card>
 
-          {/* Timeline with "Add note" action — now using <Button /> with soft primary look */}
+          {/* Timeline */}
           <View className="mt-3">
             <ActivitiesOverview
               title="Timeline"
@@ -147,7 +137,6 @@ export default function ContactDetail() {
                   size="xs"
                   label="Add note"
                   iconLeft="add-outline"
-                  // keep your soft primary background + border colors
                   style={{
                     backgroundColor: 'rgba(108,99,255,0.12)',
                     borderColor: 'rgba(108,99,255,0.26)',
