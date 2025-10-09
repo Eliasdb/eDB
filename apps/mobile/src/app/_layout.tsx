@@ -1,8 +1,10 @@
-import 'react-native-gesture-handler';
+// app/_layout.tsx (updated)
+import 'react-native-gesture-handler'; // must be first
 import 'react-native-reanimated';
 
 import { useEffect, useState } from 'react';
 import { AppState, Platform, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 👈 add this
 
 // Tanstack
 import { getQueryClient } from '@api';
@@ -25,6 +27,7 @@ import { colorScheme } from 'nativewind';
 import '../../global.css';
 
 // i18n
+import React from 'react';
 import { initI18n } from '../lib/i18n';
 
 const queryClient = getQueryClient();
@@ -87,16 +90,19 @@ export default function RootLayout() {
   }
 
   return (
-    <MenuProvider
-      customStyles={{ backdrop: { backgroundColor: 'rgba(0,0,0,0.08)' } }}
-    >
-      <I18nextProvider i18n={i18nInstance}>
-        <QueryClientProvider client={queryClient}>
-          <ThemePreferenceProvider>
-            <RootInner />
-          </ThemePreferenceProvider>
-        </QueryClientProvider>
-      </I18nextProvider>
-    </MenuProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* 👈 wrap everything */}
+      <MenuProvider
+        customStyles={{ backdrop: { backgroundColor: 'rgba(0,0,0,0.08)' } }}
+      >
+        <I18nextProvider i18n={i18nInstance}>
+          <QueryClientProvider client={queryClient}>
+            <ThemePreferenceProvider>
+              <RootInner />
+            </ThemePreferenceProvider>
+          </QueryClientProvider>
+        </I18nextProvider>
+      </MenuProvider>
+    </GestureHandlerRootView>
   );
 }
