@@ -2,11 +2,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Switch } from '@ui/primitives/forms';
 import { ListRow } from '@ui/primitives/lists';
+import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+
+type IconName = React.ComponentProps<typeof Ionicons>['name'];
 
 type SharedProps = {
   label: string;
-  icon: React.ComponentProps<typeof Ionicons>['name'];
+  icon: IconName;
 
   // borders / layout
   border?: boolean;
@@ -23,7 +26,6 @@ type ToggleKind = SharedProps & {
   kind: 'toggle';
   value: boolean;
   onValueChange: (v: boolean) => void;
-  // optional right value text not applicable here
 };
 
 type ItemKind = SharedProps & {
@@ -32,7 +34,13 @@ type ItemKind = SharedProps & {
   onPress?: () => void;
 };
 
-export type SettingsRowProps = ToggleKind | ItemKind;
+type AccordionKind = SharedProps & {
+  kind: 'accordion';
+  open?: boolean;
+  onToggle?: () => void;
+};
+
+export type SettingsRowProps = ToggleKind | ItemKind | AccordionKind;
 
 function borderClass(
   border?: boolean,
@@ -73,10 +81,14 @@ export function SettingsRow(props: SettingsRowProps) {
     <Text className="text-[16px] text-text dark:text-text-dark">{label}</Text>
   );
 
-  const right =
-    props.kind === 'toggle' ? (
+  let right: React.ReactNode = null;
+
+  if (props.kind === 'toggle') {
+    right = (
       <Switch value={!!props.value} onValueChange={props.onValueChange} />
-    ) : (
+    );
+  } else if (props.kind === 'item') {
+    right = (
       <View className="flex-row items-center gap-2">
         {props.value ? (
           <Text className="text-[14px] text-text-dim dark:text-text-dimDark">
@@ -88,6 +100,16 @@ export function SettingsRow(props: SettingsRowProps) {
         ) : null}
       </View>
     );
+  } else {
+    // accordion
+    right = (
+      <Ionicons
+        name={props.open ? 'chevron-up' : 'chevron-down'}
+        size={18}
+        color="#6B7280"
+      />
+    );
+  }
 
   const row = (
     <ListRow
@@ -100,11 +122,15 @@ export function SettingsRow(props: SettingsRowProps) {
       leftInline={leftInline}
       leftGap={leftGap}
       accessibilityRole={
-        props.kind === 'item' && props.onPress ? 'button' : 'none'
+        (props.kind === 'item' && props.onPress) ||
+        (props.kind === 'accordion' && props.onToggle)
+          ? 'button'
+          : 'none'
       }
     />
   );
 
+  // Clickable wrappers
   if (props.kind === 'item' && props.onPress) {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={props.onPress}>
@@ -112,20 +138,15 @@ export function SettingsRow(props: SettingsRowProps) {
       </TouchableOpacity>
     );
   }
+  if (props.kind === 'accordion' && props.onToggle) {
+    return (
+      <TouchableOpacity activeOpacity={0.85} onPress={props.onToggle}>
+        {row}
+      </TouchableOpacity>
+    );
+  }
 
   return row;
-}
-
-/* ---- Back-compat thin wrappers (optional, keeps existing imports working) ---- */
-
-export type ToggleRowProps = Omit<ToggleKind, 'kind'>;
-export function ToggleRow(p: ToggleRowProps) {
-  return <SettingsRow kind="toggle" {...p} />;
-}
-
-export type ItemRowProps = Omit<ItemKind, 'kind'>;
-export function ItemRow(p: ItemRowProps) {
-  return <SettingsRow kind="item" {...p} />;
 }
 
 export default SettingsRow;

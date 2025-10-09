@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TaskRow } from './task-row';
 
 const meta: Meta<typeof TaskRow> = {
-  title: 'Composites/List Rows/Task Row',
+  title: 'Composites/List Rows/CRM/Task Row',
   component: TaskRow,
   args: {
     onToggle: () => alert('Toggle clicked'),

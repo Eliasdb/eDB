@@ -7,6 +7,7 @@ export const hubKeys = {
     ['hub', 'activities', contactId ?? 'all'] as const,
   companyOverview: (companyId: string) =>
     ['hub', 'company-overview', companyId] as const,
+  contact: ['hub', 'contact'] as const,
 };
 
 // core/keys.ts

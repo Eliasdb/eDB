@@ -1,22 +1,20 @@
-import { useHub } from '@api';
-import { Ionicons } from '@expo/vector-icons';
+// apps/mobile/src/app/(tabs)/crm/(features)/contacts/[id].tsx
+import { useContactOverview } from '@api';
+import { ActivitiesOverview, KeyValueRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
-import { Card, List } from '@ui/primitives';
+import { Button, Card, EntityHero, IconButton, List } from '@ui/primitives';
 import { useLocalSearchParams } from 'expo-router';
-import {
-  Image,
-  Linking,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
-import { ActivityTimeline } from '../../../../../lib/features/crm/components/contacts/activity-timeline';
+import React from 'react';
+import { Linking, ScrollView, Text, View } from 'react-native';
 
 export default function ContactDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data, isLoading } = useHub();
-  const contact = data?.contacts.find((c) => c.id === id);
+  const { data, isLoading } = useContactOverview(id);
+
+  const contact = data?.contact;
+  const company = data?.company;
+  const activities = data?.activities ?? [];
+  const isLoadingActivities = isLoading && !data;
 
   if (!contact && !isLoading) {
     return (
@@ -35,219 +33,125 @@ export default function ContactDetail() {
       <ScrollView contentContainerStyle={{ paddingBottom: 28 }}>
         {/* Hero */}
         <View className="px-4 pt-4">
-          <Card
-            inset={false}
-            tone="flat"
-            bordered={false}
-            className="shadow-card bg-surface-2 dark:bg-surface-2-dark"
-            bodyClassName="p-4"
+          <EntityHero
+            title={contact?.name ?? ' '}
+            subtitle={contact?.email ?? undefined}
+            avatarUrl={contact?.avatarUrl ?? null}
+            initials={contact?.initials}
+            avatarSize={56}
+            avatarRadius={28}
           >
-            <View className="flex-row items-center gap-3">
-              <View
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 28,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'rgba(148,163,184,0.18)',
-                  overflow: 'hidden',
-                }}
-              >
-                {contact?.avatarUrl ? (
-                  <Image
-                    source={{ uri: contact.avatarUrl }}
-                    style={{ width: 56, height: 56, borderRadius: 28 }}
-                  />
-                ) : (
-                  <Text className="text-text dark:text-text-dark text-[15px] font-semibold">
-                    {contact?.name
-                      ?.split(' ')
-                      ?.map((p) => p[0])
-                      .join('')}
-                  </Text>
-                )}
-              </View>
-
-              <View className="flex-1">
-                <Text
-                  className="text-text dark:text-text-dark text-lg font-semibold"
-                  numberOfLines={1}
-                >
-                  {contact?.name ?? ' '}
-                </Text>
-                {!!contact?.email && (
-                  <Text
-                    className="text-text-dim dark:text-text-dimDark text-[13px]"
-                    numberOfLines={1}
-                  >
-                    {contact.email}
-                  </Text>
-                )}
-              </View>
-
-              {/* actions */}
-              <View className="flex-row items-center gap-1">
-                {!!contact?.email && (
-                  <IconButtonLike
-                    icon="mail-outline"
-                    a11y="Send email"
-                    onPress={() => Linking.openURL(`mailto:${contact.email}`)}
-                  />
-                )}
-                {!!contact?.phone && (
-                  <IconButtonLike
-                    icon="call-outline"
-                    a11y="Call"
-                    onPress={() => Linking.openURL(`tel:${contact.phone}`)}
-                  />
-                )}
-                <IconButtonLike
-                  icon="create-outline"
-                  a11y="Edit contact"
-                  onPress={() => {}}
+            <EntityHero.Actions>
+              {contact?.email ? (
+                <IconButton
+                  name="mail-outline"
+                  tint="neutral"
+                  variant="ghost"
+                  size="xs"
+                  shape="rounded"
+                  cornerRadius={10}
+                  onPress={() => Linking.openURL(`mailto:${contact.email}`)}
                 />
-              </View>
-            </View>
-
-            {!!contact?.source && (
-              <View className="flex-row flex-wrap gap-2 mt-3">
-                <Tag
-                  tone="primary"
-                  icon="sparkles-outline"
-                  text={`Added by Clara • ${contact.source}`}
+              ) : null}
+              {contact?.phone ? (
+                <IconButton
+                  name="call-outline"
+                  tint="neutral"
+                  variant="ghost"
+                  size="xs"
+                  shape="rounded"
+                  cornerRadius={10}
+                  onPress={() => Linking.openURL(`tel:${contact.phone}`)}
                 />
-              </View>
-            )}
-          </Card>
+              ) : null}
+              <IconButton
+                name="create-outline"
+                tint="neutral"
+                variant="ghost"
+                size="xs"
+                shape="rounded"
+                cornerRadius={10}
+                onPress={() => {}}
+              />
+            </EntityHero.Actions>
+          </EntityHero>
         </View>
 
         {/* Info */}
         <View className="px-4 mt-3">
           <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
             <List>
-              {!!contact?.email && (
-                <List.Item first>
-                  <Row
-                    icon="mail-outline"
-                    label="Email"
-                    value={contact.email}
-                  />
-                </List.Item>
-              )}
               {!!contact?.phone && (
-                <List.Item>
-                  <Row
+                <List.Item first>
+                  <KeyValueRow
                     icon="call-outline"
                     label="Phone"
                     value={contact.phone}
                   />
                 </List.Item>
               )}
+
               {!!contact?.source && (
-                <List.Item>
-                  <Row
+                <List.Item first={!contact?.phone}>
+                  <KeyValueRow
                     icon="sparkles-outline"
                     label="Source"
                     value={contact.source}
                   />
                 </List.Item>
               )}
+
+              {!!contact?.title && (
+                <List.Item>
+                  <KeyValueRow
+                    icon="briefcase-outline"
+                    label="Title"
+                    value={contact.title}
+                  />
+                </List.Item>
+              )}
+
+              {!!company && (
+                <List.Item>
+                  <KeyValueRow
+                    icon="business-outline"
+                    label="Company"
+                    value={company.name}
+                  />
+                </List.Item>
+              )}
             </List>
           </Card>
+
+          {/* Timeline */}
           <View className="mt-3">
-            {id ? <ActivityTimeline contactId={id} /> : null}
+            <ActivitiesOverview
+              title="Timeline"
+              activities={activities}
+              emptyText={isLoadingActivities ? 'Loading …' : 'No activity yet'}
+              headerActions={
+                <Button
+                  variant="outline"
+                  tint="primary"
+                  shape="rounded"
+                  size="xs"
+                  label="Add note"
+                  iconLeft="add-outline"
+                  style={{
+                    backgroundColor: 'rgba(108,99,255,0.12)',
+                    borderColor: 'rgba(108,99,255,0.26)',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                  }}
+                  onPress={() => {
+                    /* open add-note sheet/modal */
+                  }}
+                />
+              }
+            />
           </View>
         </View>
       </ScrollView>
     </Screen>
-  );
-}
-
-function IconButtonLike({
-  icon,
-  a11y,
-  onPress,
-}: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  a11y: string;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      accessibilityLabel={a11y}
-      onPress={onPress}
-      className="items-center justify-center"
-      style={{
-        width: 36,
-        height: 36,
-        borderRadius: 10,
-        backgroundColor: 'rgba(100,116,139,0.14)',
-        borderWidth: 1,
-        borderColor: 'rgba(100,116,139,0.22)',
-      }}
-    >
-      <Ionicons name={icon} size={16} color="#94A3B8" />
-    </Pressable>
-  );
-}
-
-function Row({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentProps<typeof Ionicons>['name'];
-  label: string;
-  value?: string;
-}) {
-  return (
-    <View className="flex-row items-center gap-10 px-4 py-3">
-      <View className="w-5 items-center">
-        <Ionicons name={icon} size={16} color="#94A3B8" />
-      </View>
-      <View className="flex-1">
-        <Text className="text-text-dim dark:text-text-dimDark text-[12px]">
-          {label}
-        </Text>
-        <Text className="text-text dark:text-text-dark text-[15px] font-medium">
-          {value ?? '—'}
-        </Text>
-      </View>
-    </View>
-  );
-}
-
-function Tag({
-  tone = 'primary',
-  icon,
-  text,
-}: {
-  tone?: 'primary' | 'neutral';
-  icon?: React.ComponentProps<typeof Ionicons>['name'];
-  text: string;
-}) {
-  const bg =
-    tone === 'primary' ? 'rgba(108,99,255,0.12)' : 'rgba(148,163,184,0.15)';
-  const border =
-    tone === 'primary' ? 'rgba(108,99,255,0.26)' : 'rgba(148,163,184,0.25)';
-  const color = tone === 'primary' ? '#6C63FF' : '#94A3B8';
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        paddingHorizontal: 10,
-        paddingVertical: 6,
-        borderRadius: 999,
-        backgroundColor: bg,
-        borderWidth: 1,
-        borderColor: border,
-      }}
-    >
-      {icon ? <Ionicons name={icon} size={14} color={color} /> : null}
-      <Text style={{ color, fontSize: 12, fontWeight: '600' }}>{text}</Text>
-    </View>
   );
 }

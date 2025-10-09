@@ -3,12 +3,13 @@ import { useHub } from '@api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { contactToEntityRowProps } from '@features/crm/mappers/entity';
+import { ContactItemSkeleton } from '@features/crm/skeletons';
 import { EntityRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Card, EmptyLine, List } from '@ui/primitives';
 import { Link } from 'expo-router';
-import { ContactItemSkeleton } from '../../../../../lib/features/crm/skeletons/contact-row-skeleton';
+
+import { contactToEntityRowProps } from '@features/crm/mappers/entity';
 
 export default function ContactsScreen() {
   const { t } = useTranslation();

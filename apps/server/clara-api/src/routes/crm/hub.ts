@@ -2,12 +2,15 @@
 import { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
 import { store } from '../../domain/stores/store';
+import { type CompanyOverviewDto } from '../../domain/types/company-overview.dto';
 import {
   bodySchemaByKind,
   kindSchema,
   patchSchemaByKind,
   uid,
 } from '../../domain/types/crm.types';
+import { companyInitials } from '../../domain/utils/company-initials';
+import { initialsFromName } from '../../domain/utils/contact-initials';
 
 const route: FastifyPluginAsync = async (app) => {
   // Snapshot everything
@@ -103,7 +106,16 @@ const route: FastifyPluginAsync = async (app) => {
       const company = store.get('companies', id);
       if (!company) return reply.code(404).send({ message: 'Not found' });
 
-      const contacts = store.contactsByCompany(id);
+      const companyWithInitials = {
+        ...company,
+        initials: companyInitials(company.name),
+      };
+
+      // 🔹 Add initials here (NOT in the store)
+      const contacts = store.contactsByCompany(id).map((c) => ({
+        ...c,
+        initials: initialsFromName(c.name),
+      }));
 
       const activities = store
         .activitiesByCompany(id)
@@ -117,8 +129,8 @@ const route: FastifyPluginAsync = async (app) => {
       const nextTask = tasks.find((t) => !t.done && t.due);
       const openTasks = tasks.filter((t) => !t.done).length;
 
-      return reply.send({
-        company,
+      const payload: CompanyOverviewDto = {
+        company: companyWithInitials,
         contacts,
         activities,
         tasks,
@@ -127,7 +139,54 @@ const route: FastifyPluginAsync = async (app) => {
           nextTaskDue: nextTask?.due ?? null,
           openTasks,
         },
-      });
+      };
+
+      // Optional runtime guard (helps during dev)
+      // CompanyOverviewSchema.parse(payload);
+
+      return reply.send(payload);
+    },
+  );
+
+  // ✅ Contact Overview for the single-contact screen
+  app.get<{ Params: { id: string } }>(
+    '/hub/contacts/:id/overview',
+    async (req, reply) => {
+      const id = z.string().min(1).parse(req.params.id);
+      const contact = store.get('contacts', id);
+      if (!contact) return reply.code(404).send({ message: 'Not found' });
+
+      // add initials at runtime (don’t mutate store)
+      const contactWithInitials = {
+        ...contact,
+        initials: initialsFromName(contact.name),
+      };
+
+      const company = contact.companyId
+        ? store.get('companies', contact.companyId)
+        : undefined;
+
+      const companyWithInitials = company
+        ? { ...company, initials: companyInitials(company.name) }
+        : undefined;
+
+      const activities = store
+        .list('activities')
+        .filter((a) => a.contactId === id)
+        .sort((a, b) => (a.at < b.at ? 1 : -1)); // newest first
+
+      const lastActivityAt = activities[0]?.at ?? null;
+
+      const payload = {
+        contact: contactWithInitials,
+        company: companyWithInitials,
+        activities,
+        stats: {
+          lastActivityAt,
+        },
+      };
+
+      return reply.send(payload);
     },
   );
 };

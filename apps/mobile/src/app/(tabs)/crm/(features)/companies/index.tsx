@@ -3,11 +3,12 @@ import { useHub } from '@api';
 import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { companyToEntityRowProps } from '@features/crm/mappers/entity';
-import { CompanyItemSkeleton } from '@features/crm/skeletons/company-row-skeleton';
+import { CompanyItemSkeleton } from '@features/crm/skeletons';
 import { EntityRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Card, EmptyLine, List } from '@ui/primitives';
+
+import { companyToEntityRowProps } from '@features/crm/mappers/entity';
 
 export default function CompaniesScreen() {
   const { t } = useTranslation();

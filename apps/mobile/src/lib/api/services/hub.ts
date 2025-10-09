@@ -5,6 +5,7 @@ import type {
   Company,
   CompanyOverview,
   Contact,
+  ContactOverview,
   HubPayload,
   Task,
 } from '../core/types';
@@ -20,6 +21,9 @@ export const fetchActivities = (contactId?: string) =>
       ? `/hub/activities?contactId=${encodeURIComponent(contactId)}`
       : '/hub/activities',
   );
+
+export const fetchContactOverview = (id: string) =>
+  api<ContactOverview>(`/hub/contacts/${id}/overview`);
 
 // ✅ Company overview
 export const fetchCompanyOverview = (id: string) =>

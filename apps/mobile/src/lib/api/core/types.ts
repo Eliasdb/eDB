@@ -28,6 +28,7 @@ export type Company = {
   id: string;
   name: string;
   domain?: string;
+  initials?: string;
   logoUrl?: string;
   industry?: string; // optional: keeps old UI happy
   source?: string; // optional
@@ -62,6 +63,13 @@ export type CompanyOverview = {
     nextTaskDue: string | null;
     openTasks: number;
   };
+};
+
+export type ContactOverview = {
+  contact: Contact & { initials?: string };
+  company?: Company & { initials?: string };
+  activities: Activity[];
+  stats: { lastActivityAt: string | null };
 };
 
 // ---- Chat ----
