@@ -1,4 +1,3 @@
-// app/api/tools/hub/module.ts (path as in your project)
 import type OpenAI from 'openai';
 import { z } from 'zod';
 import { store } from '../../../../domain/stores/store';

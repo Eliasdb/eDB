@@ -21,7 +21,7 @@ export default function ContactDetail() {
       <Screen center padding={16}>
         <Card inset bodyClassName="items-center py-10">
           <Text className="text-text dark:text-text-dark text-base font-semibold">
-            Contact not found
+            Contact not found...
           </Text>
         </Card>
       </Screen>
