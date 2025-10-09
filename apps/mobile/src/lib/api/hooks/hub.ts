@@ -49,21 +49,40 @@ export function useCreateTask() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (payload: Omit<Task, 'id'>) => createTask(payload),
+
     onMutate: async (payload) => {
       await qc.cancelQueries({ queryKey: hubKeys.all });
       const prev = qc.getQueryData<HubPayload>(hubKeys.all);
+      const optimistic: Task = { id: `opt-${Date.now()}`, ...payload };
+
       if (prev) {
-        const optimistic: Task = { id: `opt-${Date.now()}`, ...payload };
+        // 👇 append so it matches server insertion order
         qc.setQueryData(hubKeys.all, {
           ...prev,
-          tasks: [optimistic, ...prev.tasks],
+          tasks: [...prev.tasks, optimistic],
         } as HubPayload);
       }
-      return { prev };
+      return { prev, optimisticId: optimistic.id };
     },
+
     onError: (_e, _v, ctx) => {
       if (ctx?.prev) qc.setQueryData(hubKeys.all, ctx.prev);
     },
+
+    onSuccess: (serverTask, _payload, ctx) => {
+      // 👇 replace the optimistic item in-place (no jump)
+      const prev = qc.getQueryData<HubPayload>(hubKeys.all);
+      if (prev && ctx?.optimisticId) {
+        qc.setQueryData(hubKeys.all, {
+          ...prev,
+          tasks: prev.tasks.map((t) =>
+            t.id === ctx.optimisticId ? serverTask : t,
+          ),
+        } as HubPayload);
+      }
+    },
+
+    // You can keep this, but it's optional now since onSuccess reconciles the cache.
     onSettled: () => {
       qc.invalidateQueries({ queryKey: hubKeys.all });
     },
