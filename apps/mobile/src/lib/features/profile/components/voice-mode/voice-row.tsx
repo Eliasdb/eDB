@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@ui/primitives';
 import { Pressable, Text, View } from 'react-native';
-import { VoiceCard } from '../../types';
+import { VoiceCard } from '../../types/voice-mode.types';
 
 export function VoiceRow({
   voice,

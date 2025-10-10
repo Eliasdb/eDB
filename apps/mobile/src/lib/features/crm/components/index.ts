@@ -5,7 +5,8 @@ export * from './tasks/core/add-task-row/add-task-row';
 export * from './tasks/sheets/edit-task-sheet';
 
 // Companies Screen components
-export * from './companies/company-sections';
+export * from './companies/company-activity-overview/company-activity-overview';
+export * from './companies/company-quick-stats/company-quick-stats';
+export * from './companies/company-sections/company-sections';
 
 // Contacts Screen components
-export * from './contacts/activity-timeline';

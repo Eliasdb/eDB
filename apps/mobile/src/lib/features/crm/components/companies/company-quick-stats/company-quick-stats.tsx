@@ -1,12 +1,12 @@
+import { KeyValueRow } from '@ui/composites';
+import { Card, List } from '@ui/primitives';
+import { View } from 'react-native';
+
 import type { CompanyOverview } from '@api/core/types';
 import {
   companyStatsConfig,
   type StatRow,
 } from '@features/crm/config/company-stats.config';
-import { KeyValueRow } from '@ui/composites';
-import { Card, List } from '@ui/primitives';
-import * as React from 'react';
-import { View } from 'react-native';
 
 export function CompanyQuickStats({
   data,

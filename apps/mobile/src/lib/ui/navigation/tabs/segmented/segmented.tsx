@@ -1,3 +1,4 @@
+// libs/ui/navigation/segmented.tsx (or wherever you keep it)
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { Pressable, Text, useColorScheme, View, ViewStyle } from 'react-native';
@@ -13,7 +14,6 @@ import Reanimated, {
 export type SegmentedOption<T extends string> = {
   value: T;
   label: string;
-  /** Optional icon shown to the left of label (only for callers that want it) */
   iconName?: React.ComponentProps<typeof Ionicons>['name'];
 };
 
@@ -23,45 +23,70 @@ type Props<T extends string> = {
   onChange: (v: T) => void;
   style?: ViewStyle;
   accentColor?: string;
+  /** visual hierarchy: default "primary"; use "secondary" for the lower-level control */
+  variant?: 'primary' | 'secondary';
+  /** compact size for the secondary look */
+  size?: 'md' | 'sm';
 };
 
-/**
- * Reanimated segmented control
- * - Optional per-tab icon support (kept fully backward compatible)
- * - Underline aligns to the *content* width (icon + text when present)
- */
 export function Segmented<T extends string>({
   value,
   options,
   onChange,
   style,
   accentColor,
+  variant = 'primary',
+  size = 'md',
 }: Props<T>) {
   const isDark = useColorScheme() === 'dark';
-  const colors = {
-    border: isDark ? '#2A2F3A' : '#E5E7EB',
-    idleText: isDark ? '#9AA3B2' : '#6B7280',
-    active: accentColor ?? (isDark ? '#8B9DFF' : '#6366F1'),
-    hoverBg: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.05)',
-  };
 
-  // per-tab layout metrics
+  // design tokens that shift with variant/size
+  const tokens = React.useMemo(() => {
+    const active = accentColor ?? (isDark ? '#8B9DFF' : '#6366F1');
+    const idleText = isDark ? '#9AA3B2' : '#6B7280';
+    const borderPrimary = isDark ? '#2A2F3A' : '#E5E7EB';
+    const borderSecondary = isDark
+      ? 'rgba(255,255,255,0.06)'
+      : 'rgba(0,0,0,0.06)';
+
+    const isSecondary = variant === 'secondary';
+    const isSm = size === 'sm';
+
+    return {
+      active,
+      idleText,
+      border: isSecondary ? borderSecondary : borderPrimary,
+      hoverBg: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.05)',
+      padH: isSm ? 6 : 10,
+      padV: isSm ? 4 : 6,
+      gap: isSm ? 6 : 10,
+      underlineH: isSm ? 2 : 3,
+      underlineTop: isSm ? -3 : -4,
+      fontSize: isSm ? 13 : 14,
+      fontWeightActive: isSm ? ('600' as const) : ('600' as const),
+      fontWeightIdle: isSm ? ('500' as const) : ('500' as const),
+      iconSize: isSm ? 12 : 14,
+      // reduce overall top padding & border emphasis for secondary
+      containerPadTop: isSecondary ? 0 : 2,
+      containerGap: isSecondary ? (isSm ? 4 : 6) : 6,
+      showBottomBorder: true, // keep underline baseline
+      borderOpacity: isSecondary ? 0.7 : 1,
+    };
+  }, [accentColor, isDark, size, variant]);
+
+  // layout metrics per tab
   const [metrics, setMetrics] = React.useState<
     Record<string, { x: number; w: number; contentW: number }>
   >({});
 
-  // animated left/width of the underline
+  // animated underline
   const leftSV = useSharedValue(0);
   const widthSV = useSharedValue(0);
-
-  // remember current numeric values
   const curRef = React.useRef({ left: 0, w: 0 });
 
-  // stretch → settle animation
   const animateTo = React.useCallback(
     (toLeft: number, toW: number) => {
       const { left: fromLeft, w: fromW } = curRef.current;
-
       const stretchLeft = Math.min(fromLeft, toLeft);
       const stretchRight = Math.max(fromLeft + fromW, toLeft + toW);
       const stretchW = stretchRight - stretchLeft;
@@ -73,7 +98,6 @@ export function Segmented<T extends string>({
         }),
         withSpring(toLeft, { damping: 18, stiffness: 180, mass: 0.8 }),
       );
-
       widthSV.value = withSequence(
         withTiming(stretchW, {
           duration: 140,
@@ -81,17 +105,14 @@ export function Segmented<T extends string>({
         }),
         withSpring(toW, { damping: 18, stiffness: 180, mass: 0.8 }),
       );
-
       curRef.current = { left: toLeft, w: toW };
     },
     [leftSV, widthSV],
   );
 
-  // align underline to the measured content (icon + text if present)
   React.useEffect(() => {
     const m = metrics[String(value)];
     if (!m) return;
-
     const toLeft = m.x + (m.w - m.contentW) / 2;
     const toW = m.contentW;
 
@@ -115,20 +136,21 @@ export function Segmented<T extends string>({
         {
           alignSelf: 'stretch',
           paddingHorizontal: 6,
-          paddingTop: 2,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.border,
-          gap: 6,
+          paddingTop: tokens.containerPadTop,
+          borderBottomWidth: tokens.showBottomBorder ? 1 : 0,
+          borderBottomColor: tokens.border,
+          gap: tokens.containerGap,
+          opacity: tokens.borderOpacity,
         },
         style,
       ]}
       accessibilityRole="tablist"
     >
       {/* tabs */}
-      <View style={{ flexDirection: 'row', gap: 10 }}>
+      <View style={{ flexDirection: 'row', gap: tokens.gap }}>
         {options.map((o) => {
           const selected = o.value === value;
-          const tint = selected ? colors.active : colors.idleText;
+          const tint = selected ? tokens.active : tokens.idleText;
 
           return (
             <Pressable
@@ -149,14 +171,13 @@ export function Segmented<T extends string>({
               }}
               style={({ pressed }) => [
                 {
-                  paddingHorizontal: 10,
-                  paddingVertical: 6,
+                  paddingHorizontal: tokens.padH,
+                  paddingVertical: tokens.padV,
                   borderRadius: 8,
-                  backgroundColor: pressed ? colors.hoverBg : 'transparent',
+                  backgroundColor: pressed ? tokens.hoverBg : 'transparent',
                 },
               ]}
             >
-              {/* Measure the whole label row (icon + text) for underline width */}
               <View
                 onLayout={(e) => {
                   const contentW = e.nativeEvent.layout.width;
@@ -172,12 +193,18 @@ export function Segmented<T extends string>({
                 }}
               >
                 {o.iconName ? (
-                  <Ionicons name={o.iconName} size={14} color={tint} />
+                  <Ionicons
+                    name={o.iconName}
+                    size={tokens.iconSize}
+                    color={tint}
+                  />
                 ) : null}
                 <Text
                   style={{
-                    fontSize: 14,
-                    fontWeight: selected ? '600' : '500',
+                    fontSize: tokens.fontSize,
+                    fontWeight: selected
+                      ? tokens.fontWeightActive
+                      : tokens.fontWeightIdle,
                     color: tint,
                   }}
                 >
@@ -190,15 +217,15 @@ export function Segmented<T extends string>({
       </View>
 
       {/* underline */}
-      <View style={{ height: 6 }}>
+      <View style={{ height: tokens.underlineH + 4 }}>
         <Reanimated.View
           style={[
             {
               position: 'absolute',
-              top: -4,
-              height: 3,
-              borderRadius: 3,
-              backgroundColor: colors.active,
+              top: tokens.underlineTop,
+              height: tokens.underlineH,
+              borderRadius: tokens.underlineH,
+              backgroundColor: tokens.active,
             },
             indicatorStyle,
           ]}

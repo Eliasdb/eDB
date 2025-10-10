@@ -2,7 +2,7 @@
 import { ResponsiveGrid } from '@ui/layout/responsive-grid/ResponsiveGrid';
 import type { VoiceKey } from '@voice/previews/voices';
 import { Text, View } from 'react-native';
-import { VoiceCard } from '../../types';
+import { VoiceCard } from '../../types/voice-mode.types';
 import { VoiceRow } from './voice-row';
 
 export function VoiceGrid({

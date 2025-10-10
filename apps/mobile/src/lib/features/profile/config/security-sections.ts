@@ -1,5 +1,5 @@
 // apps/mobile/src/features/profile/config/security-sections.ts
-import type { SettingsRowProps } from '@ui/composites/list-rows/settings-row/settings-row';
+import type { SettingsRowProps } from '@ui/composites';
 
 export type SecuritySection = {
   key: string;

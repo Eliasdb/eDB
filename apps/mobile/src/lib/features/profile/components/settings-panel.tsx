@@ -1,3 +1,5 @@
+// SettingsPanel.tsx
+import { Ionicons } from '@expo/vector-icons';
 import {
   Panel,
   PanelGroup,
@@ -6,7 +8,7 @@ import {
 } from '@ui/layout/panel';
 import { View } from 'react-native';
 
-import type { ItemRowProps } from '@ui/composites/list-rows/item-row';
+type IconName = React.ComponentProps<typeof Ionicons>['name'];
 
 export function SettingsPanel({
   title,
@@ -15,7 +17,7 @@ export function SettingsPanel({
   title: string;
   items: Array<{
     label: string;
-    icon: ItemRowProps['icon'];
+    icon: IconName;
     onPress?: () => void;
     value?: string;
   }>;

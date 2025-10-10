@@ -1,15 +1,17 @@
 // apps/mobile/src/app/(tabs)/crm/(features)/companies/[id].tsx
 import { useCompanyOverview } from '@api';
 import { Link, useLocalSearchParams } from 'expo-router';
-import * as React from 'react';
+import { useState } from 'react';
 
-import CompanySections from '@features/crm/components/companies//company-sections';
-import CompanyQuickStats from '@features/crm/components/companies/company-quick-stats';
-
+import {
+  CompanyActivityOverview,
+  CompanyQuickStats,
+  CompanySections,
+} from '@features/crm/components';
 import { Screen } from '@ui/layout';
+import { Segmented } from '@ui/navigation';
 import { Card, EntityHero, IconButton } from '@ui/primitives';
 import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
-import { Segmented } from '../../../../../lib/ui/navigation';
 
 type TabKey = 'main' | 'overview';
 
@@ -18,7 +20,7 @@ export default function CompanyDetail() {
   const { data, isLoading } = useCompanyOverview(id);
   const company = data?.company;
 
-  const [tab, setTab] = React.useState<TabKey>('main');
+  const [tab, setTab] = useState<TabKey>('main');
 
   if (!company && !isLoading) {
     return (
@@ -103,15 +105,14 @@ export default function CompanyDetail() {
         {/* Tab content */}
         {tab === 'main' ? (
           <>
-            {/* Quick stats */}
             <CompanyQuickStats data={data} loading={isLoading} />
-
-            {/* Contacts + Tasks */}
             <CompanySections data={data} only={['contacts', 'tasks']} />
           </>
         ) : (
-          // Overview: just the timeline (activities)
-          <CompanySections data={data} only={['activities']} />
+          <CompanyActivityOverview
+            activities={data?.activities}
+            loading={isLoading}
+          />
         )}
       </ScrollView>
     </Screen>

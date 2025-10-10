@@ -143,3 +143,137 @@ export function useContactOverview(id?: string) {
     staleTime: 10_000,
   });
 }
+
+// api/hooks.ts (where your other hooks live)
+import { createActivity } from '../services/hub';
+
+// api/hooks.ts (or hooks/hub.ts)
+
+export function useCreateActivity({
+  contactId,
+  companyId,
+}: { contactId?: string; companyId?: string } = {}) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: Omit<Activity, 'id'>) => createActivity(payload),
+
+    onMutate: async (payload) => {
+      const cid = payload.companyId ?? companyId;
+      const pid = payload.contactId ?? contactId;
+
+      // --- Cancel potentially affected queries
+      if (pid) {
+        await qc.cancelQueries({ queryKey: hubKeys.activities(pid) });
+        await qc.cancelQueries({
+          queryKey: [...hubKeys.contact, 'overview', pid],
+        });
+      }
+      if (cid) {
+        await qc.cancelQueries({ queryKey: hubKeys.companyOverview(cid) });
+      }
+
+      // --- Snapshot previous
+      const prevActs = pid
+        ? qc.getQueryData<Activity[]>(hubKeys.activities(pid))
+        : undefined;
+      const prevContactOverview = pid
+        ? qc.getQueryData<any>([...hubKeys.contact, 'overview', pid])
+        : undefined;
+      const prevCompanyOverview = cid
+        ? qc.getQueryData<any>(hubKeys.companyOverview(cid))
+        : undefined;
+
+      // --- Optimistic item
+      const optimistic: Activity = {
+        id: `opt-${Date.now()}`,
+        ...payload,
+      };
+
+      // Optimistically update activities(contact) list (if queried)
+      if (pid) {
+        if (prevActs) {
+          qc.setQueryData<Activity[]>(hubKeys.activities(pid), [
+            optimistic,
+            ...prevActs,
+          ]);
+        } else {
+          qc.setQueryData<Activity[]>(hubKeys.activities(pid), [optimistic]);
+        }
+      }
+
+      // Optimistically update contact overview cache (what your Contact screen uses)
+      if (prevContactOverview) {
+        qc.setQueryData([...hubKeys.contact, 'overview', pid!], {
+          ...prevContactOverview,
+          activities: [optimistic, ...(prevContactOverview.activities ?? [])],
+        });
+      }
+
+      // Optimistically update company overview (for company timeline + stats)
+      if (prevCompanyOverview) {
+        qc.setQueryData(hubKeys.companyOverview(cid!), {
+          ...prevCompanyOverview,
+          activities: [optimistic, ...(prevCompanyOverview.activities ?? [])],
+          stats: {
+            ...(prevCompanyOverview.stats ?? {}),
+            lastActivityAt:
+              (prevCompanyOverview.activities?.[0]?.at ?? '') < optimistic.at
+                ? optimistic.at
+                : (prevCompanyOverview.stats?.lastActivityAt ?? optimistic.at),
+          },
+        });
+      }
+
+      return {
+        pid,
+        cid,
+        prevActs,
+        prevContactOverview,
+        prevCompanyOverview,
+      };
+    },
+
+    onError: (_e, _vars, ctx) => {
+      if (!ctx) return;
+      const { pid, cid, prevActs, prevContactOverview, prevCompanyOverview } =
+        ctx;
+
+      if (pid && prevActs) {
+        qc.setQueryData(hubKeys.activities(pid), prevActs);
+      }
+      if (pid && prevContactOverview) {
+        qc.setQueryData(
+          [...hubKeys.contact, 'overview', pid],
+          prevContactOverview,
+        );
+      }
+      if (cid && prevCompanyOverview) {
+        qc.setQueryData(hubKeys.companyOverview(cid), prevCompanyOverview);
+      }
+    },
+
+    onSettled: (_data, _err, vars, ctx) => {
+      const pid = vars.contactId ?? ctx?.pid ?? contactId;
+      const cid = vars.companyId ?? ctx?.cid ?? companyId;
+
+      // ✅ Invalidate everything that could be showing these activities
+      if (pid) {
+        qc.invalidateQueries({
+          queryKey: hubKeys.activities(pid),
+          exact: true,
+        });
+        qc.invalidateQueries({
+          queryKey: [...hubKeys.contact, 'overview', pid],
+          exact: true,
+        });
+      }
+      if (cid) {
+        qc.invalidateQueries({
+          queryKey: hubKeys.companyOverview(cid),
+          exact: true,
+        });
+      }
+    },
+  });
+}

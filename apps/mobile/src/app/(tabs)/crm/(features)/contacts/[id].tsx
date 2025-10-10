@@ -1,11 +1,14 @@
 // apps/mobile/src/app/(tabs)/crm/(features)/contacts/[id].tsx
 import { useContactOverview } from '@api';
-import { ActivitiesOverview, KeyValueRow } from '@ui/composites';
+import { useCreateActivity } from '@api/hooks/hub'; // ⬅️ import the new hook
+import { useLocalSearchParams } from 'expo-router';
+import * as React from 'react';
+import { Linking, ScrollView, Text, View } from 'react-native';
+
+import { ActivityTimeline, KeyValueRow } from '@ui/composites';
+import { ActivityComposer } from '@ui/composites/activity-composer';
 import { Screen } from '@ui/layout';
 import { Button, Card, EntityHero, IconButton, List } from '@ui/primitives';
-import { useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { Linking, ScrollView, Text, View } from 'react-native';
 
 export default function ContactDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -15,6 +18,12 @@ export default function ContactDetail() {
   const company = data?.company;
   const activities = data?.activities ?? [];
   const isLoadingActivities = isLoading && !data;
+
+  const [adding, setAdding] = React.useState(false);
+  const createMutation = useCreateActivity({
+    contactId: contact?.id,
+    companyId: company?.id,
+  });
 
   if (!contact && !isLoading) {
     return (
@@ -71,7 +80,8 @@ export default function ContactDetail() {
                 size="xs"
                 shape="rounded"
                 cornerRadius={10}
-                onPress={() => {}}
+                onPress={() => setAdding(true)}
+                accessibilityLabel="Add activity"
               />
             </EntityHero.Actions>
           </EntityHero>
@@ -123,30 +133,47 @@ export default function ContactDetail() {
             </List>
           </Card>
 
-          {/* Timeline */}
+          {/* Inline add activity composer */}
+          {adding ? (
+            <View className="mt-3">
+              <ActivityComposer
+                contactId={contact?.id}
+                companyId={company?.id}
+                onCancel={() => setAdding(false)}
+                submitting={createMutation.isPending}
+                onSubmit={(payload) => {
+                  createMutation.mutate(payload, {
+                    onSuccess: () => setAdding(false),
+                  });
+                }}
+              />
+            </View>
+          ) : null}
+
+          {/* Timeline (re-uses ActivityTimeline) */}
           <View className="mt-3">
-            <ActivitiesOverview
+            <ActivityTimeline
               title="Timeline"
               activities={activities}
-              emptyText={isLoadingActivities ? 'Loading …' : 'No activity yet'}
+              loading={isLoadingActivities}
               headerActions={
-                <Button
-                  variant="outline"
-                  tint="primary"
-                  shape="rounded"
-                  size="xs"
-                  label="Add note"
-                  iconLeft="add-outline"
-                  style={{
-                    backgroundColor: 'rgba(108,99,255,0.12)',
-                    borderColor: 'rgba(108,99,255,0.26)',
-                    borderWidth: 1,
-                    borderRadius: 10,
-                  }}
-                  onPress={() => {
-                    /* open add-note sheet/modal */
-                  }}
-                />
+                !adding ? (
+                  <Button
+                    variant="outline"
+                    tint="primary"
+                    shape="rounded"
+                    size="xs"
+                    label="Add note"
+                    iconLeft="add-outline"
+                    style={{
+                      backgroundColor: 'rgba(108,99,255,0.12)',
+                      borderColor: 'rgba(108,99,255,0.26)',
+                      borderWidth: 1,
+                      borderRadius: 10,
+                    }}
+                    onPress={() => setAdding(true)}
+                  />
+                ) : undefined
               }
             />
           </View>

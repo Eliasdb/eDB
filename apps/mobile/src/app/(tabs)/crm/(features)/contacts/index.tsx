@@ -49,7 +49,6 @@ export default function ContactsScreen() {
             {hub?.contacts.map((c, i) => (
               <List.Item key={c.id} first={i === 0}>
                 <Link
-                  // relative to app/(tabs)/crm/(features)/contacts
                   href={{
                     pathname: '/(tabs)/crm/(features)/contacts/[id]',
                     params: { id: c.id },

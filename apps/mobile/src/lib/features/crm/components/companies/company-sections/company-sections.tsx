@@ -1,4 +1,3 @@
-// libs/ui/composites/company/company-sections.comp.tsx
 import { Section } from '@ui/layout';
 import { EmptyLine, List } from '@ui/primitives';
 import { View } from 'react-native';
@@ -6,7 +5,7 @@ import { View } from 'react-native';
 import {
   companySectionsConfig,
   type SectionKey,
-} from '../../config/companies.data';
+} from '../../../config/companies.data';
 
 import type { CompanyOverview } from '@api/core/types';
 
