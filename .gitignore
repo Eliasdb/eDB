@@ -88,6 +88,7 @@ _archive
 !styles.css
 
 *.css.map
+
 service-account.json
 
 # IDE - VSCode

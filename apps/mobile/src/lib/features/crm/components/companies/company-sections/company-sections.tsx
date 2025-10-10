@@ -34,7 +34,7 @@ export function CompanySections({
         const items = arrays[sec.key];
         return (
           <View key={sec.title} className="px-4">
-            <Section title={sec.title}>
+            <Section title={sec.title} flushTop>
               {items.length ? (
                 <List>
                   {items.map((item: any, idx: number) => (

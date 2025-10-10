@@ -1,26 +1,33 @@
 // apps/mobile/src/app/(tabs)/crm/(features)/companies/[id].tsx
 import { useCompanyOverview } from '@api';
 import { Link, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 
-import {
-  CompanyActivityOverview,
-  CompanyQuickStats,
-  CompanySections,
-} from '@features/crm/components';
+import { CompanyActivityOverview } from '@features/crm/components';
+import { IntroHeader } from '@ui/composites/intro-header/intro-header';
 import { Screen } from '@ui/layout';
 import { Segmented } from '@ui/navigation';
 import { Card, EntityHero, IconButton } from '@ui/primitives';
-import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
+import ResearchCollection from './ResearchCollection';
+import SnapshotCollection from './SnapshotCollection';
+import TasksCollection from './TasksCollection';
+import WorkCollection from './WorkCollection';
 
-type TabKey = 'main' | 'overview';
+type TabKey = 'snapshot' | 'research' | 'work' | 'tasks' | 'overview';
 
 export default function CompanyDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data, isLoading } = useCompanyOverview(id);
   const company = data?.company;
 
-  const [tab, setTab] = useState<TabKey>('main');
+  const [tab, setTab] = useState<TabKey>('snapshot');
+
+  const aboutText = useMemo(() => {
+    const n = company?.name ?? 'This company';
+    const industry = company?.industry || 'No industry';
+    return `${n} — ${industry}.`;
+  }, [company?.name, company?.industry]);
 
   if (!company && !isLoading) {
     return (
@@ -49,66 +56,83 @@ export default function CompanyDetail() {
         </View>
 
         {/* Hero */}
-        <View className="px-4">
+        <View className="px-0 pb-4">
           <EntityHero
             title={company?.name ?? ' '}
-            subtitle={company?.industry ?? undefined}
             avatarUrl={company?.logoUrl ?? null}
             initials={company?.initials}
             avatarRadius={12}
-            badges={
-              company?.stage ? [{ label: company.stage, tint: '#6C63FF' }] : []
-            }
-          >
-            <EntityHero.Actions>
-              {company?.domain ? (
-                <IconButton
-                  name="globe-outline"
-                  tint="neutral"
-                  variant="ghost"
-                  size="xs"
-                  shape="rounded"
-                  cornerRadius={10}
-                  onPress={() => Linking.openURL(`https://${company.domain}`)}
-                  accessibilityLabel="Open website"
-                />
-              ) : null}
-              <IconButton
-                name="create-outline"
-                tint="neutral"
-                variant="ghost"
-                size="xs"
-                shape="rounded"
-                cornerRadius={10}
-                onPress={() => {}}
-              />
-            </EntityHero.Actions>
-          </EntityHero>
+            industry={company?.industry ?? undefined}
+            stage={company?.stage ?? undefined}
+          />
         </View>
 
         {/* Tabs */}
-        <View className="px-4 mt-2">
+        <View className="px-2 sm:px-0 mt-0">
           <Segmented<TabKey>
             value={tab}
             onChange={setTab}
             options={[
-              { value: 'main', label: 'Main', iconName: 'grid-outline' },
+              {
+                value: 'snapshot',
+                label: 'Snapshot',
+                iconName: 'grid-outline',
+              },
+              {
+                value: 'research',
+                label: 'Research',
+                iconName: 'document-text-outline',
+              },
+              { value: 'work', label: 'Contacts', iconName: 'people-outline' },
+              {
+                value: 'tasks',
+                label: 'Tasks',
+                iconName: 'checkmark-done-outline',
+              },
               {
                 value: 'overview',
-                label: 'Overview',
+                label: 'Activity',
                 iconName: 'list-outline',
               },
             ]}
           />
         </View>
 
-        {/* Tab content */}
-        {tab === 'main' ? (
+        {/* SNAPSHOT (formerly Profile/Main) */}
+        {tab === 'snapshot' && (
           <>
-            <CompanyQuickStats data={data} loading={isLoading} />
-            <CompanySections data={data} only={['contacts', 'tasks']} />
+            <IntroHeader
+              text="Snapshot — the essentials at a glance."
+              variant="secondary"
+            />
+            <View style={{ height: 16 }} />
+            <SnapshotCollection data={data} loading={isLoading} />
           </>
-        ) : (
+        )}
+
+        {/* RESEARCH */}
+        {tab === 'research' && (
+          <ResearchCollection
+            name={company?.name}
+            data={(data as any)?.research}
+            loading={isLoading}
+            onScan={() => {}}
+            onOpenArticle={() => {}}
+          />
+        )}
+
+        {/* CONTACTS */}
+        {tab === 'work' && <WorkCollection data={data} loading={isLoading} />}
+
+        {/* TASKS */}
+        {tab === 'tasks' && (
+          <View className="px-0 mt-0">
+            <TasksCollection data={data} loading={isLoading} />
+          </View>
+        )}
+
+        {/* ACTIVITY */}
+        {tab === 'overview' && (
           <CompanyActivityOverview
             activities={data?.activities}
             loading={isLoading}

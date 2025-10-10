@@ -3,12 +3,12 @@ import { useContactOverview } from '@api';
 import { useCreateActivity } from '@api/hooks/hub'; // ⬅️ import the new hook
 import { useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
-import { Linking, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import { ActivityTimeline, KeyValueRow } from '@ui/composites';
 import { ActivityComposer } from '@ui/composites/activity-composer';
 import { Screen } from '@ui/layout';
-import { Button, Card, EntityHero, IconButton, List } from '@ui/primitives';
+import { Button, Card, EntityHero, List } from '@ui/primitives';
 
 export default function ContactDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -41,50 +41,15 @@ export default function ContactDetail() {
     <Screen center={false} padding={0}>
       <ScrollView contentContainerStyle={{ paddingBottom: 28 }}>
         {/* Hero */}
-        <View className="px-4 pt-4">
+        <View className="px-4 py-4">
           <EntityHero
             title={contact?.name ?? ' '}
-            subtitle={contact?.email ?? undefined}
+            // subtitle={contact?.email ?? undefined}
             avatarUrl={contact?.avatarUrl ?? null}
             initials={contact?.initials}
-            avatarSize={56}
+            // avatarSize={56}
             avatarRadius={28}
-          >
-            <EntityHero.Actions>
-              {contact?.email ? (
-                <IconButton
-                  name="mail-outline"
-                  tint="neutral"
-                  variant="ghost"
-                  size="xs"
-                  shape="rounded"
-                  cornerRadius={10}
-                  onPress={() => Linking.openURL(`mailto:${contact.email}`)}
-                />
-              ) : null}
-              {contact?.phone ? (
-                <IconButton
-                  name="call-outline"
-                  tint="neutral"
-                  variant="ghost"
-                  size="xs"
-                  shape="rounded"
-                  cornerRadius={10}
-                  onPress={() => Linking.openURL(`tel:${contact.phone}`)}
-                />
-              ) : null}
-              <IconButton
-                name="create-outline"
-                tint="neutral"
-                variant="ghost"
-                size="xs"
-                shape="rounded"
-                cornerRadius={10}
-                onPress={() => setAdding(true)}
-                accessibilityLabel="Add activity"
-              />
-            </EntityHero.Actions>
-          </EntityHero>
+          ></EntityHero>
         </View>
 
         {/* Info */}

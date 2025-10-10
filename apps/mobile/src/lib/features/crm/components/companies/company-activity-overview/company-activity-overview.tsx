@@ -1,12 +1,17 @@
 // libs/ui/composites/activity/company-activity-overview.tsx
 import * as React from 'react';
-import { Text, useColorScheme, View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 import type { Activity } from '@api/core/types';
-import { ActivityEventRow, ActivityTimeline } from '@ui/composites';
+import {
+  ActivityEventRow,
+  ActivityTimeline,
+  IntroHeader,
+} from '@ui/composites';
+import { Section } from '@ui/layout'; // ← use the shared Section
 import { ScreenToggle } from '@ui/navigation';
-import { Card, EmptyLine, List } from '@ui/primitives';
+import { EmptyLine, List } from '@ui/primitives';
 
 /* ----------------------------- helpers & types ---------------------------- */
 
@@ -107,42 +112,55 @@ export function CompanyActivityOverview({
 
   const isDark = useColorScheme() === 'dark';
   const neutral = isDark ? '#9AA3B2' : '#6B7280';
+  // const segmentedBorder = isDark ? '#2A2F3A' : '#E5E7EB'; // same as Segmented primary
+  const segmentedBorder = isDark
+    ? 'rgba(255,255,255,0.06)'
+    : 'rgba(0,0,0,0.06)';
+
+  const CONTENT_TOP_SPACING = 24; // distance from header to content
+
+  // build optional header actions (slot)
+  const headerActions = (
+    <ScreenToggle<ViewMode>
+      value={mode}
+      onChange={setMode}
+      size="sm"
+      gap={6}
+      options={[
+        { value: 'list', icon: 'reorder-two-outline', ariaLabel: 'List view' },
+        {
+          value: 'calendar',
+          icon: 'calendar-outline',
+          ariaLabel: 'Calendar view',
+        },
+      ]}
+    />
+  );
 
   return (
     <View>
-      {/* Top-right icon toggle (list ↔ calendar) */}
-      <View className="px-4 mt-2 mb-1 flex-row items-center justify-between">
-        <View style={{ height: 36 }} />
-        <ScreenToggle<ViewMode>
-          value={mode}
-          onChange={setMode}
-          size="lg"
-          options={[
-            {
-              value: 'list',
-              icon: 'reorder-two-outline',
-              ariaLabel: 'List view',
-            },
-            {
-              value: 'calendar',
-              icon: 'calendar-outline',
-              ariaLabel: 'Calendar view',
-            },
-          ]}
-        />
-      </View>
+      {/* Intro + toggle row */}
+      <IntroHeader
+        text="Emails, meetings, calls & notes by day."
+        right={headerActions}
+        variant="secondary"
+      />
+
+      {/* consistent spacing under header for both modes */}
+      <View style={{ height: CONTENT_TOP_SPACING }} />
 
       {mode === 'list' ? (
+        // Timeline list view
         <ActivityTimeline
-          title="Overview"
+          title="Timeline"
           activities={activities}
           loading={loading}
         />
       ) : (
         <>
-          {/* Calendar */}
-          <View className="px-4">
-            <Card inset={false} bodyClassName="p-0 overflow-hidden">
+          {/* Calendar section */}
+          <Section title="Calendar" flushTop titleGap={20}>
+            <View className="p-0 overflow-hidden">
               <Calendar
                 markingType="multi-dot"
                 markedDates={marked as any}
@@ -154,39 +172,36 @@ export function CompanyActivityOverview({
                   dayTextColor: isDark ? '#E5E7EB' : '#111827',
                   todayTextColor: '#6C63FF',
                   arrowColor: '#6C63FF',
+                  textDayFontSize: 11,
+                  textDayHeaderFontSize: 10,
+                  textMonthFontSize: 15,
                 }}
-                style={{ paddingVertical: 6 }}
+                style={{ paddingVertical: 2 }}
               />
-            </Card>
-          </View>
-
-          {/* Selected day detail list */}
-          <View className="px-4 mt-3">
-            <Text className="text-[12px] text-text-dim dark:text-text-dimDark ml-[2px] uppercase tracking-wide">
-              {selected ? `Events • ${selected}` : 'Events'}
-            </Text>
-            <Card inset={false} bodyClassName="p-0 overflow-hidden">
-              {selectedRows.length === 0 ? (
-                <EmptyLine text="Pick a day to see its events" />
-              ) : (
-                <List>
-                  {selectedRows
-                    .slice()
-                    .sort((a, b) => (a.at < b.at ? 1 : -1))
-                    .map((a, idx) => (
-                      <List.Item key={a.id} first={idx === 0}>
-                        <ActivityEventRow
-                          summary={a.summary}
-                          type={a.type}
-                          at={a.at}
-                          tint={typeColor[a.type]}
-                        />
-                      </List.Item>
-                    ))}
-                </List>
-              )}
-            </Card>
-          </View>
+            </View>
+          </Section>
+          {/* Events section */}
+          <Section title={selected ? `Events • ${selected}` : 'Events'}>
+            {selectedRows.length === 0 ? (
+              <EmptyLine text="Pick a day to see its events" />
+            ) : (
+              <List>
+                {selectedRows
+                  .slice()
+                  .sort((a, b) => (a.at < b.at ? 1 : -1))
+                  .map((a, idx) => (
+                    <List.Item key={a.id} first={idx === 0}>
+                      <ActivityEventRow
+                        summary={a.summary}
+                        type={a.type}
+                        at={a.at}
+                        tint={typeColor[a.type]}
+                      />
+                    </List.Item>
+                  ))}
+              </List>
+            )}
+          </Section>
         </>
       )}
     </View>

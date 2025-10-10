@@ -11,9 +11,7 @@ const GROUP_PAD_X = 10;
 const RAIL_LEFT = 16;
 const DOT_SIZE = 8;
 const DOT_GAP_FROM_RAIL = 8;
-const CHIP_RIGHT = 10;
-const CHIP_TOP = 8;
-const CHIP_SIZE = 28;
+
 const TEXT_OFFSET_FROM_RAIL = DOT_GAP_FROM_RAIL + DOT_SIZE + 16;
 
 /* Defaults */
@@ -108,8 +106,8 @@ export function ActivityTimeline({
   emptyText = 'No activity yet',
 }: ActivityTimelineProps) {
   return (
-    <View className="px-4">
-      <View className="mt-8 mb-2 flex-row items-center justify-between">
+    <View className="px-0">
+      <View className="mb-2 flex-row items-center justify-between">
         <Text className="text-[12px] text-text-dim dark:text-text-dimDark ml-[4px] uppercase tracking-wide">
           {title}
         </Text>
@@ -180,6 +178,14 @@ export function ActivityTimeline({
   );
 }
 
+// layout constants
+const CHIP_RIGHT = 10;
+const CHIP_TOP = 8; // (kept if you use it elsewhere)
+const CHIP_BOTTOM = 8; // NEW
+const CHIP_SIZE = 28;
+
+// …
+
 /* Row (assumes wrapper paddingLeft: RAIL_LEFT) */
 function Row({
   icon,
@@ -199,7 +205,8 @@ function Row({
       style={{
         position: 'relative',
         paddingTop: 12,
-        paddingBottom: 14,
+        // bump bottom padding so the bottom-right chip has room
+        paddingBottom: Math.max(14, CHIP_BOTTOM + 10),
         paddingRight: CHIP_RIGHT + 10,
         paddingLeft: TEXT_OFFSET_FROM_RAIL,
       }}
@@ -216,12 +223,13 @@ function Row({
           backgroundColor: color,
         }}
       />
-      {/* top-right chip */}
+
+      {/* bottom-right chip (moved from top-right) */}
       <View
         style={{
           position: 'absolute',
           right: CHIP_RIGHT,
-          top: CHIP_TOP,
+          bottom: CHIP_BOTTOM, // ← was top: CHIP_TOP
           width: CHIP_SIZE,
           height: CHIP_SIZE,
           borderRadius: 8,

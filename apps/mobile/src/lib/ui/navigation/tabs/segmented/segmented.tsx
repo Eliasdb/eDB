@@ -1,7 +1,15 @@
-// libs/ui/navigation/segmented.tsx (or wherever you keep it)
+// libs/ui/navigation/segmented.tsx
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
-import { Pressable, Text, useColorScheme, View, ViewStyle } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  useColorScheme,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Reanimated, {
   Easing,
   useAnimatedStyle,
@@ -23,10 +31,8 @@ type Props<T extends string> = {
   onChange: (v: T) => void;
   style?: ViewStyle;
   accentColor?: string;
-  /** visual hierarchy: default "primary"; use "secondary" for the lower-level control */
   variant?: 'primary' | 'secondary';
-  /** compact size for the secondary look */
-  size?: 'md' | 'sm';
+  size?: 'sm' | 'md';
 };
 
 export function Segmented<T extends string>({
@@ -40,7 +46,7 @@ export function Segmented<T extends string>({
 }: Props<T>) {
   const isDark = useColorScheme() === 'dark';
 
-  // design tokens that shift with variant/size
+  // --- tokens ---
   const tokens = React.useMemo(() => {
     const active = accentColor ?? (isDark ? '#8B9DFF' : '#6366F1');
     const idleText = isDark ? '#9AA3B2' : '#6B7280';
@@ -52,6 +58,10 @@ export function Segmented<T extends string>({
     const isSecondary = variant === 'secondary';
     const isSm = size === 'sm';
 
+    // native-only offset (lower underline)
+    const baseTop = isSm ? -3 : -4;
+    const nativeBump = Platform.select({ ios: 5, android: 5, default: 0 }); // +2 vs previous → sits lower
+
     return {
       active,
       idleText,
@@ -61,25 +71,38 @@ export function Segmented<T extends string>({
       padV: isSm ? 4 : 6,
       gap: isSm ? 6 : 10,
       underlineH: isSm ? 2 : 3,
-      underlineTop: isSm ? -3 : -4,
+      underlineTop: baseTop + (nativeBump ?? 0),
       fontSize: isSm ? 13 : 14,
-      fontWeightActive: isSm ? ('600' as const) : ('600' as const),
-      fontWeightIdle: isSm ? ('500' as const) : ('500' as const),
+      fontWeightActive: '600' as const,
+      fontWeightIdle: '500' as const,
       iconSize: isSm ? 12 : 14,
-      // reduce overall top padding & border emphasis for secondary
       containerPadTop: isSecondary ? 0 : 2,
       containerGap: isSecondary ? (isSm ? 4 : 6) : 6,
-      showBottomBorder: true, // keep underline baseline
+      showBottomBorder: true,
       borderOpacity: isSecondary ? 0.7 : 1,
+      underlineContainerH: (isSm ? 2 : 3) + (Platform.OS === 'web' ? 6 : 10), // a touch taller on native
     };
   }, [accentColor, isDark, size, variant]);
 
-  // layout metrics per tab
+  // --- layout metrics per tab ---
   const [metrics, setMetrics] = React.useState<
     Record<string, { x: number; w: number; contentW: number }>
   >({});
 
-  // animated underline
+  // track total content width to clamp scroll
+  const contentW = React.useMemo(() => {
+    let maxRight = 0;
+    for (const k in metrics) {
+      const m = metrics[k];
+      maxRight = Math.max(maxRight, m.x + m.w);
+    }
+    return maxRight;
+  }, [metrics]);
+
+  // viewport width for centering
+  const [viewportW, setViewportW] = React.useState(0);
+
+  // --- underline animation ---
   const leftSV = useSharedValue(0);
   const widthSV = useSharedValue(0);
   const curRef = React.useRef({ left: 0, w: 0 });
@@ -130,6 +153,32 @@ export function Segmented<T extends string>({
     width: widthSV.value,
   }));
 
+  // --- auto-scroll to selected tab ---
+  const scrollRef = React.useRef<ScrollView>(null);
+  const scrollToSelected = React.useCallback(() => {
+    const m = metrics[String(value)];
+    if (!m || viewportW === 0 || contentW === 0) return;
+
+    const centerOfTab = m.x + m.w / 2;
+    const target = centerOfTab - viewportW / 2;
+    const maxX = Math.max(0, contentW - viewportW);
+    const clamped = Math.max(0, Math.min(target, maxX));
+
+    scrollRef.current?.scrollTo({ x: clamped, y: 0, animated: true });
+  }, [metrics, value, viewportW, contentW]);
+
+  React.useEffect(() => {
+    scrollToSelected();
+  }, [value, viewportW, contentW, scrollToSelected]);
+
+  // Keep viewport width up to date
+  const onScrollViewLayout = React.useCallback(
+    (e: any) => {
+      setViewportW(e.nativeEvent.layout.width);
+    },
+    [setViewportW],
+  );
+
   return (
     <View
       style={[
@@ -146,91 +195,110 @@ export function Segmented<T extends string>({
       ]}
       accessibilityRole="tablist"
     >
-      {/* tabs */}
-      <View style={{ flexDirection: 'row', gap: tokens.gap }}>
-        {options.map((o) => {
-          const selected = o.value === value;
-          const tint = selected ? tokens.active : tokens.idleText;
+      <ScrollView
+        ref={scrollRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        contentContainerStyle={{ paddingRight: 6 }}
+        onLayout={onScrollViewLayout}
+      >
+        <View style={{ flexDirection: 'column' }}>
+          {/* tabs */}
+          <View style={{ flexDirection: 'row', gap: tokens.gap }}>
+            {options.map((o) => {
+              const selected = o.value === value;
+              const tint = selected ? tokens.active : tokens.idleText;
 
-          return (
-            <Pressable
-              key={o.value}
-              onPress={() => onChange(o.value)}
-              accessibilityRole="tab"
-              accessibilityState={{ selected }}
-              onLayout={(e) => {
-                const { x, width } = e.nativeEvent.layout;
-                setMetrics((s) => ({
-                  ...s,
-                  [o.value]: {
-                    ...(s[o.value] ?? { contentW: 0 }),
-                    x,
-                    w: width,
-                  },
-                }));
-              }}
-              style={({ pressed }) => [
-                {
-                  paddingHorizontal: tokens.padH,
-                  paddingVertical: tokens.padV,
-                  borderRadius: 8,
-                  backgroundColor: pressed ? tokens.hoverBg : 'transparent',
-                },
-              ]}
-            >
-              <View
-                onLayout={(e) => {
-                  const contentW = e.nativeEvent.layout.width;
-                  setMetrics((s) => ({
-                    ...s,
-                    [o.value]: { ...(s[o.value] ?? { x: 0, w: 0 }), contentW },
-                  }));
-                }}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: o.iconName ? 6 : 0,
-                }}
-              >
-                {o.iconName ? (
-                  <Ionicons
-                    name={o.iconName}
-                    size={tokens.iconSize}
-                    color={tint}
-                  />
-                ) : null}
-                <Text
-                  style={{
-                    fontSize: tokens.fontSize,
-                    fontWeight: selected
-                      ? tokens.fontWeightActive
-                      : tokens.fontWeightIdle,
-                    color: tint,
+              return (
+                <Pressable
+                  key={o.value}
+                  onPress={() => onChange(o.value)}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected }}
+                  onLayout={(e) => {
+                    const { x, width } = e.nativeEvent.layout;
+                    setMetrics((s) => ({
+                      ...s,
+                      [o.value]: {
+                        ...(s[o.value] ?? { contentW: 0 }),
+                        x,
+                        w: width,
+                      },
+                    }));
                   }}
+                  style={({ pressed }) => ({
+                    paddingHorizontal: tokens.padH,
+                    paddingVertical: tokens.padV,
+                    borderRadius: 8,
+                    backgroundColor: pressed ? tokens.hoverBg : 'transparent',
+                  })}
                 >
-                  {o.label}
-                </Text>
-              </View>
-            </Pressable>
-          );
-        })}
-      </View>
+                  <View
+                    onLayout={(e) => {
+                      const contentW = e.nativeEvent.layout.width;
+                      setMetrics((s) => ({
+                        ...s,
+                        [o.value]: {
+                          ...(s[o.value] ?? { x: 0, w: 0 }),
+                          contentW,
+                        },
+                      }));
+                    }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: o.iconName ? 6 : 0,
+                    }}
+                  >
+                    {o.iconName ? (
+                      <Ionicons
+                        name={o.iconName}
+                        size={tokens.iconSize}
+                        color={tint}
+                      />
+                    ) : null}
+                    <Text
+                      style={{
+                        fontSize: tokens.fontSize,
+                        fontWeight: selected
+                          ? tokens.fontWeightActive
+                          : tokens.fontWeightIdle,
+                        color: tint,
+                      }}
+                    >
+                      {o.label}
+                    </Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
 
-      {/* underline */}
-      <View style={{ height: tokens.underlineH + 4 }}>
-        <Reanimated.View
-          style={[
-            {
-              position: 'absolute',
-              top: tokens.underlineTop,
-              height: tokens.underlineH,
-              borderRadius: tokens.underlineH,
-              backgroundColor: tokens.active,
-            },
-            indicatorStyle,
-          ]}
-        />
-      </View>
+          {/* underline */}
+          <View
+            style={{
+              height: tokens.underlineContainerH,
+              position: 'relative',
+            }}
+          >
+            <Reanimated.View
+              style={[
+                {
+                  position: 'absolute',
+                  top: tokens.underlineTop,
+                  height: tokens.underlineH,
+                  borderRadius: tokens.underlineH,
+                  backgroundColor: tokens.active,
+                },
+                indicatorStyle,
+              ]}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
+
+export default Segmented;

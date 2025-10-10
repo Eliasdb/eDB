@@ -1,3 +1,4 @@
+// libs/ui/navigation/screen-toggle.tsx
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { Pressable, View, ViewStyle, useColorScheme } from 'react-native';
@@ -7,7 +8,6 @@ type IconName = React.ComponentProps<typeof Ionicons>['name'];
 export type ScreenToggleOption<T extends string> = {
   value: T;
   icon: IconName;
-  /** Optional accessibility label */
   ariaLabel?: string;
 };
 
@@ -15,17 +15,13 @@ export type ScreenToggleProps<T extends string> = {
   value: T;
   options: ScreenToggleOption<T>[];
   onChange: (v: T) => void;
-  /** sm = 30, md = 34, lg = 36 (default) */
   size?: 'sm' | 'md' | 'lg';
-  /** Horizontal spacing between chips (default 8) */
   gap?: number;
-  /** Optional container style override */
   style?: ViewStyle;
-  /** Override active color (fallbacks to platform dark/light defaults) */
   activeColor?: string;
 };
 
-const szMap = { sm: 30, md: 34, lg: 36 } as const;
+const szMap = { sm: 28, md: 34, lg: 38 } as const;
 
 function withAlpha(hex: string, a: number) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -34,16 +30,11 @@ function withAlpha(hex: string, a: number) {
   return `rgba(${r},${g},${b},${a})`;
 }
 
-/**
- * ScreenToggle — a tiny icon-only toggle row.
- * - Not opinionated about layout; just pass it a place to live.
- * - External state: caller controls `value` + `onChange`.
- */
 export function ScreenToggle<T extends string>({
   value,
   options,
   onChange,
-  size = 'lg',
+  size = 'md',
   gap = 8,
   style,
   activeColor,
@@ -51,15 +42,20 @@ export function ScreenToggle<T extends string>({
   const isDark = useColorScheme() === 'dark';
   const box = szMap[size];
   const active = activeColor ?? (isDark ? '#A5B4FC' : '#6366F1');
-  const idle = isDark ? '#9AA3B2' : '#6B7280';
+
+  const idleIcon = isDark ? '#9AA3B2' : '#6B7280';
+  // Use a stronger border color on native so it actually shows
   const idleBorder = isDark
-    ? 'rgba(148,163,184,0.28)'
-    : 'rgba(148,163,184,0.25)';
+    ? 'rgba(148,163,184,0.50)'
+    : 'rgba(148,163,184,0.42)';
+  const selectedBorder = withAlpha(active, isDark ? 0.65 : 0.55);
+  const hoverBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
 
   return (
     <View style={[{ flexDirection: 'row', gap }, style]}>
       {options.map((o) => {
         const selected = o.value === value;
+
         return (
           <Pressable
             key={String(o.value)}
@@ -67,28 +63,40 @@ export function ScreenToggle<T extends string>({
             accessibilityRole="button"
             accessibilityLabel={o.ariaLabel}
             accessibilityState={{ selected }}
+            hitSlop={8}
             style={({ pressed }) => ({
               width: box,
               height: box,
-              borderRadius: Math.round(box * 0.28),
+              borderRadius: Math.round(box * 0.45),
               alignItems: 'center',
               justifyContent: 'center',
-              borderWidth: 1,
-              borderColor: selected
-                ? withAlpha(active, isDark ? 0.45 : 0.35)
-                : idleBorder,
-              backgroundColor: pressed
-                ? isDark
-                  ? 'rgba(255,255,255,0.06)'
-                  : 'rgba(0,0,0,0.04)'
-                : 'transparent',
+              // keep Pressable bg for pressed effect only
+              backgroundColor: pressed ? hoverBg : 'transparent',
             })}
           >
-            <Ionicons
-              name={o.icon}
-              size={Math.round(box * 0.5)}
-              color={selected ? active : idle}
-            />
+            {/* Draw the visible border on an inner View (chip) */}
+            <View
+              style={{
+                width: box,
+                height: box,
+                borderRadius: Math.round(box * 0.45),
+                alignItems: 'center',
+                justifyContent: 'center',
+                // ✅ solid, visible border on iOS/Android
+                borderStyle: 'solid',
+                borderWidth: 1, // 1dp so it renders reliably
+                borderColor: selected ? selectedBorder : idleBorder,
+                backgroundColor: selected
+                  ? withAlpha(active, isDark ? 0.18 : 0.16)
+                  : 'transparent',
+              }}
+            >
+              <Ionicons
+                name={o.icon}
+                size={Math.round(box * 0.5)}
+                color={selected ? active : idleIcon}
+              />
+            </View>
           </Pressable>
         );
       })}
