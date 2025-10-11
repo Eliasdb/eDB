@@ -1,4 +1,5 @@
 // apps/mobile/src/lib/voice/realtimeClient.web.ts
+import { invalidateAfterTool } from '../../api/core/cache';
 import { makeMessageHandler } from '../core/handlers';
 import { getToken, negotiate } from '../core/signaling';
 import { createExecuteOnce } from '../core/tools';
@@ -75,6 +76,8 @@ export async function connectRealtime(
   const executeOnce = createExecuteOnce(apiBase, headers, dc, {
     onToolEffect: (name, args, result) => {
       applyToolEffectToCache(name, args, result);
+      invalidateAfterTool(name, args, result); // ✅ precise invalidation
+
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {

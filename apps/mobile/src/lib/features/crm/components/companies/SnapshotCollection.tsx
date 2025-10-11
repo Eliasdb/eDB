@@ -4,7 +4,7 @@ import { Linking, Pressable, View } from 'react-native';
 
 import type { CompanyOverview } from '@api/core/types';
 import { KeyValueRow } from '@ui/composites';
-import { Section } from '@ui/layout';
+import { Section, TwoCol } from '@ui/layout';
 import { Card, List } from '@ui/primitives';
 import CompanyQuickStats from '../../../../../lib/features/crm/components/companies/company-quick-stats/company-quick-stats'; // ← reuse the accurate stats
 
@@ -51,24 +51,49 @@ export default function SnapshotCollection({
   data,
   loading,
 }: SnapshotCollectionProps) {
-  const basics = {
-    hq: (data as any)?.hq ?? null,
-    employees: (data as any)?.employees ?? null,
-    owner: (data as any)?.owner ?? null,
+  const c = data?.company;
+
+  // formatters
+  const formatHq = (hq?: any | null) => {
+    if (!hq) return '—';
+    const parts = [
+      hq.line1,
+      hq.line2,
+      hq.postalCode,
+      hq.city,
+      hq.region,
+      hq.country,
+    ]
+      .filter(Boolean)
+      .map(String);
+    return parts.length ? parts.join(', ') : '—';
   };
 
-  const contacts = {
-    domain: data?.company?.domain ?? (data as any)?.domain ?? null,
-    email: (data as any)?.primaryEmail ?? null,
-    phone: (data as any)?.phone ?? null,
-  };
+  const websiteLabel =
+    c?.domain ??
+    (c?.website
+      ? (() => {
+          try {
+            return new URL(c.website).hostname;
+          } catch {
+            return c.website;
+          }
+        })()
+      : null);
+
+  const websiteHref =
+    c?.website ?? (websiteLabel ? `https://${websiteLabel}` : null);
 
   return (
-    <View style={{ paddingHorizontal: 16 }}>
-      {/* 1) QUICK STATS FIRST (accurate via config getters) */}
+    <TwoCol
+      columns={2}
+      gap={16}
+      stackGap={16}
+      breakpoint={1024}
+      widths={[0.44, 0.56]}
+    >
       <CompanyQuickStats data={data} loading={loading} className="mt-0" />
 
-      {/* 2) COMPANY DETAILS */}
       <Section title="Company" titleGap={14}>
         <Card inset={false} bodyClassName="p-0 overflow-hidden">
           {/* BASICS */}
@@ -76,7 +101,7 @@ export default function SnapshotCollection({
             <KeyValueRow
               icon="information-circle-outline"
               label="Basics"
-              value="" // just a label row; empty value renders as divider header feel
+              value=""
             />
           </View>
           <List>
@@ -84,21 +109,23 @@ export default function SnapshotCollection({
               <KeyValueRow
                 icon="business-outline"
                 label="HQ"
-                value={loading ? null : (basics.hq ?? '—')}
+                value={loading ? null : formatHq(c?.hq)}
               />
             </List.Item>
             <List.Item>
               <KeyValueRow
                 icon="people-outline"
                 label="Employees"
-                value={loading ? null : (basics.employees ?? '—')}
+                value={
+                  loading ? null : (c?.employees ?? c?.employeesRange ?? '—')
+                }
               />
             </List.Item>
             <List.Item>
               <KeyValueRow
                 icon="person-circle-outline"
                 label="Owner"
-                value={loading ? null : (basics.owner ?? '—')}
+                value={loading ? null : (c?.ownerContactId ?? '—')}
               />
             </List.Item>
           </List>
@@ -112,29 +139,29 @@ export default function SnapshotCollection({
               <RowLink
                 icon="link-outline"
                 label="Website"
-                value={loading ? null : (contacts.domain ?? '—')}
-                href={contacts.domain ? `https://${contacts.domain}` : null}
+                value={loading ? null : (websiteLabel ?? '—')}
+                href={websiteHref}
               />
             </List.Item>
             <List.Item>
               <RowLink
                 icon="mail-outline"
                 label="Primary email"
-                value={loading ? null : (contacts.email ?? '—')}
-                href={contacts.email ? `mailto:${contacts.email}` : null}
+                value={loading ? null : (c?.primaryEmail ?? '—')}
+                href={c?.primaryEmail ? `mailto:${c.primaryEmail}` : null}
               />
             </List.Item>
             <List.Item>
               <RowLink
                 icon="call-outline"
                 label="Phone"
-                value={loading ? null : (contacts.phone ?? '—')}
-                href={contacts.phone ? `tel:${contacts.phone}` : null}
+                value={loading ? null : (c?.phone ?? '—')}
+                href={c?.phone ? `tel:${c.phone}` : null}
               />
             </List.Item>
           </List>
         </Card>
       </Section>
-    </View>
+    </TwoCol>
   );
 }

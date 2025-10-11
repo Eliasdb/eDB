@@ -1,15 +1,10 @@
-import { useCompanyOverview } from '@api';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { useCompanyOverview } from '../../../../../../lib/api/hooks/crm/useCompanyOverview';
 import TasksCollection from '../../../../../../lib/features/crm/components/companies/TasksCollection';
 
 export default function TasksPage() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data, isLoading } = useCompanyOverview(id);
-  return (
-    <View className="px-0 mt-0">
-      <TasksCollection data={data} loading={isLoading} />
-    </View>
-  );
+  return <TasksCollection data={data} loading={isLoading} />;
 }

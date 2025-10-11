@@ -106,7 +106,7 @@ export function ActivityTimeline({
   emptyText = 'No activity yet',
 }: ActivityTimelineProps) {
   return (
-    <View className="px-0">
+    <View className="px-4">
       <View className="mb-2 flex-row items-center justify-between">
         <Text className="text-[12px] text-text-dim dark:text-text-dimDark ml-[4px] uppercase tracking-wide">
           {title}

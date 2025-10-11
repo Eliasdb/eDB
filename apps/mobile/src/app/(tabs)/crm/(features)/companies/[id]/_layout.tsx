@@ -1,10 +1,10 @@
 // app/(tabs)/crm/(features)/companies/[id]/_layout.tsx
-import { useCompanyOverview } from '@api';
 import { Screen } from '@ui/layout';
 import { Segmented } from '@ui/navigation';
 import { EntityHero, IconButton } from '@ui/primitives';
 import { router, Slot, useLocalSearchParams, usePathname } from 'expo-router';
 import { Platform, ScrollView, Text, View } from 'react-native';
+import { useCompanyOverview } from '../../../../../../lib/api/hooks/crm/useCompanyOverview';
 
 type TabKey = 'snapshot' | 'research' | 'work' | 'tasks' | 'overview';
 

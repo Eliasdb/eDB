@@ -9,7 +9,7 @@ import {
   ActivityTimeline,
   IntroHeader,
 } from '@ui/composites';
-import { Section } from '@ui/layout'; // ← use the shared Section
+import { Section, TwoCol } from '@ui/layout';
 import { ScreenToggle } from '@ui/navigation';
 import { EmptyLine, List } from '@ui/primitives';
 
@@ -41,7 +41,29 @@ const withAlpha = (hex: string, a: number) => {
   return `rgba(${r},${g},${b},${a})`;
 };
 
-const yyyyMMdd = (iso: string) => new Date(iso).toISOString().slice(0, 10);
+/** Tolerant converter to YYYY-MM-DD from various PG/ISO strings. */
+const yyyyMMdd = (iso?: string | null): string | null => {
+  if (!iso) return null;
+
+  // already YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
+
+  let s = iso.trim();
+
+  // Replace single space with 'T' (PG style: "YYYY-MM-DD HH:mm:ss.sss+00")
+  if (s.includes(' ')) s = s.replace(' ', 'T');
+
+  // If timezone like +00 or -03 (no minutes), add :00
+  if (/[+-]\d{2}$/.test(s)) s = s + ':00';
+
+  // If no timezone marker at all, assume Z
+  if (!/[zZ]|[+\-]\d{2}:\d{2}$/.test(s)) s = s + 'Z';
+
+  const d = new Date(s);
+  if (!isFinite(d.getTime())) return null;
+
+  return d.toISOString().slice(0, 10);
+};
 
 function groupBy<T, K extends string | number>(rows: T[], key: (t: T) => K) {
   return rows.reduce(
@@ -67,15 +89,29 @@ export function CompanyActivityOverview({
 }: CompanyActivityOverviewProps) {
   const [mode, setMode] = React.useState<ViewMode>('list');
 
-  const datesGrouped = React.useMemo(
-    () => groupBy(activities, (a) => yyyyMMdd(a.at)),
+  // Drop activities with invalid/missing dates to avoid RangeError
+  const safeActivities = React.useMemo(
+    () => (activities ?? []).filter((a) => !!yyyyMMdd(a.at)),
     [activities],
   );
-  const firstDate = React.useMemo(
-    () => Object.keys(datesGrouped).sort()[0],
-    [datesGrouped],
+
+  const datesGrouped = React.useMemo(
+    () => groupBy(safeActivities, (a) => yyyyMMdd(a.at) as string),
+    [safeActivities],
   );
+
+  const firstDate = React.useMemo(() => {
+    const keys = Object.keys(datesGrouped).sort();
+    return keys.length ? keys[0] : undefined;
+  }, [datesGrouped]);
+
   const [selected, setSelected] = React.useState<string | undefined>(firstDate);
+
+  // Keep selection in sync with data changes
+  React.useEffect(() => {
+    if (firstDate && !selected) setSelected(firstDate);
+    if (!firstDate) setSelected(undefined);
+  }, [firstDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const marked = React.useMemo(() => {
     const out: Record<
@@ -112,14 +148,12 @@ export function CompanyActivityOverview({
 
   const isDark = useColorScheme() === 'dark';
   const neutral = isDark ? '#9AA3B2' : '#6B7280';
-  // const segmentedBorder = isDark ? '#2A2F3A' : '#E5E7EB'; // same as Segmented primary
   const segmentedBorder = isDark
     ? 'rgba(255,255,255,0.06)'
     : 'rgba(0,0,0,0.06)';
 
-  const CONTENT_TOP_SPACING = 24; // distance from header to content
+  const CONTENT_TOP_SPACING = 24;
 
-  // build optional header actions (slot)
   const headerActions = (
     <ScreenToggle<ViewMode>
       value={mode}
@@ -144,20 +178,25 @@ export function CompanyActivityOverview({
         text="Emails, meetings, calls & notes by day."
         right={headerActions}
         variant="secondary"
+        // you can use segmentedBorder if you need styling in IntroHeader
       />
 
-      {/* consistent spacing under header for both modes */}
       <View style={{ height: CONTENT_TOP_SPACING }} />
 
       {mode === 'list' ? (
-        // Timeline list view
         <ActivityTimeline
           title="Timeline"
           activities={activities}
           loading={loading}
         />
       ) : (
-        <>
+        <TwoCol
+          columns={2}
+          gap={16}
+          stackGap={16}
+          breakpoint={1024}
+          widths={[0.44, 0.56]}
+        >
           {/* Calendar section */}
           <Section title="Calendar" flushTop titleGap={20}>
             <View className="p-0 overflow-hidden">
@@ -180,6 +219,7 @@ export function CompanyActivityOverview({
               />
             </View>
           </Section>
+
           {/* Events section */}
           <Section title={selected ? `Events • ${selected}` : 'Events'}>
             {selectedRows.length === 0 ? (
@@ -202,7 +242,7 @@ export function CompanyActivityOverview({
               </List>
             )}
           </Section>
-        </>
+        </TwoCol>
       )}
     </View>
   );

@@ -5,8 +5,8 @@ export const activityCreate = {
     type: { enum: ['note', 'call', 'email', 'meeting', 'status', 'system'] },
     at: { type: 'string' }, // ISO
     summary: { type: 'string' },
-    companyId: { type: 'string' },
-    contactId: { type: 'string' },
+    contactId: { type: ['string', 'null'] },
+    companyId: { type: ['string', 'null'] },
   },
   required: ['type', 'summary', 'at'],
   additionalProperties: false,
@@ -18,8 +18,8 @@ export const activityPatch = {
     type: { enum: ['note', 'call', 'email', 'meeting', 'status', 'system'] },
     at: { type: 'string' },
     summary: { type: 'string' },
-    companyId: { type: 'string' },
-    contactId: { type: 'string' },
+    companyId: { type: ['string', 'null'] }, // <- allow null
+    contactId: { type: ['string', 'null'] }, // <- allow null
   },
   additionalProperties: false,
 };

@@ -1,6 +1,7 @@
 // apps/mobile/src/features/crm/mappers/entity.ts
 import type { EntityMetaItem, EntityTag } from '@ui/composites';
 import { initials as toInitials } from '@ui/utils';
+import { Company } from '../../../api/core/types';
 
 export function contactToEntityRowProps(c: {
   id: string;
@@ -40,14 +41,34 @@ export function contactToEntityRowProps(c: {
   };
 }
 
-export function companyToEntityRowProps(co: {
-  id: string;
-  name: string;
-  industry?: string;
-  domain?: string;
-  logoUrl?: string;
-  source?: string;
-}) {
+// features/crm/mappers/entity.ts
+// features/crm/mappers/entity.ts
+
+function domainFromWebsite(website?: string | null) {
+  if (!website) return undefined;
+  try {
+    return new URL(website).hostname;
+  } catch {
+    return website.replace(/^https?:\/\//i, '');
+  }
+}
+
+function toneForStage(stage?: Company['stage']): EntityTag['tone'] {
+  if (!stage) return undefined;
+  switch (stage) {
+    case 'customer':
+      return 'success';
+    case 'inactive':
+      return 'neutral';
+    case 'lead':
+    case 'prospect':
+      return 'info'; // <- use "info" instead of "secondary"
+    default:
+      return 'info';
+  }
+}
+
+export function companyToEntityRowProps(co: Company) {
   const tags: EntityTag[] = [];
   if (co.source) {
     tags.push({
@@ -56,19 +77,28 @@ export function companyToEntityRowProps(co: {
       leftIcon: 'sparkles-outline',
     });
   }
+  if (co.stage) {
+    tags.push({
+      text: co.stage,
+      tone: toneForStage(co.stage),
+      leftIcon: 'flag-outline',
+    });
+  }
 
   const meta: EntityMetaItem[] = [];
-  if (co.domain)
+  const domain = co.domain ?? domainFromWebsite(co.website);
+  if (domain) {
     meta.push({
       label: 'Domain',
-      value: co.domain,
+      value: domain,
       icon: 'globe-outline',
       pill: true,
     });
+  }
 
   return {
     title: co.name,
-    subtitle: co.industry,
+    subtitle: co.industry ?? undefined,
     avatarUrl: co.logoUrl,
     initials: toInitials(co.name),
     avatarShape: 'rounded' as const,

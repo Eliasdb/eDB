@@ -21,7 +21,11 @@ export function Section({
   ...rest
 }: SectionProps) {
   return (
-    <View style={[{ marginTop: flushTop ? 0 : 32 }, style]} {...rest}>
+    <View
+      style={[{ marginTop: flushTop ? 0 : 32 }, style]}
+      {...rest}
+      className="px-4"
+    >
       <Text
         className="text-[12px] text-text-dim dark:text-text-dimDark ml-[4px] uppercase tracking-wide"
         style={{ marginBottom: titleGap }}

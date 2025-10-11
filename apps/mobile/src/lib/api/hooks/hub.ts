@@ -5,7 +5,6 @@ import {
   createTask,
   deleteTask,
   fetchActivities,
-  fetchCompanyOverview,
   fetchContactOverview,
   fetchHub,
   patchTask,
@@ -111,16 +110,6 @@ export function useDeleteTask() {
     onSettled: () => {
       qc.invalidateQueries({ queryKey: hubKeys.all });
     },
-  });
-}
-
-/** ✅ Focused hook for the single-company screen */
-export function useCompanyOverview(id?: string) {
-  return useQuery({
-    enabled: !!id,
-    queryKey: id ? hubKeys.companyOverview(id) : ['__noop__'],
-    queryFn: () => fetchCompanyOverview(id as string),
-    staleTime: 10_000,
   });
 }
 
