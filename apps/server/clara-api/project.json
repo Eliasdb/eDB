@@ -58,10 +58,8 @@
       "continuous": true,
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build"],
       "options": {
-        "buildTarget": "clara-api:build",
-        "runBuildTargetDependencies": false
+        "buildTarget": "clara-api:build:development"
       },
       "configurations": {
         "development": { "buildTarget": "clara-api:build:development" },

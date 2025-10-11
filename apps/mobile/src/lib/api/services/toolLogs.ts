@@ -7,6 +7,10 @@ type Page = {
   hasMore: boolean;
 };
 
+export const API_BASE = (
+  process.env.EXPO_PUBLIC_API_BASE ?? 'http://127.0.0.1:9101'
+).replace(/\/$/, '');
+
 export async function fetchToolLogsPage({
   pageParam = 0,
   limit = 10,
@@ -14,7 +18,7 @@ export async function fetchToolLogsPage({
   pageParam?: number;
   limit?: number;
 }): Promise<Page> {
-  const url = `https://api.staging.eliasdebock.com/clara/realtime/tool-logs?offset=${pageParam}&limit=${limit}`;
+  const url = `${API_BASE}/realtime/tool-logs?offset=${pageParam}&limit=${limit}`;
   console.log('[LOGS] FETCH start', { url });
 
   const t0 = Date.now();

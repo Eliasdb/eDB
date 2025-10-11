@@ -1,21 +1,28 @@
-// apps/mobile/src/app/(tabs)/crm/(features)/companies/index.tsx
-import { useHub } from '@api';
+import { useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { companyToEntityRowProps } from '@features/crm/mappers/entity';
+import { CompanyItemSkeleton } from '@features/crm/skeletons';
 import { EntityRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Card, EmptyLine, List } from '@ui/primitives';
 
-import { CompanyItemSkeleton } from '@features/crm/skeletons';
-
-import { companyToEntityRowProps } from '@features/crm/mappers/entity';
+import { companyKeys } from '@api/core/keys';
+import { useCompanies } from '@api/hooks/crm/useCompanies';
+import { fetchCompanyOverview } from '@api/services';
 
 export default function CompaniesScreen() {
   const { t } = useTranslation();
-  const { data, isLoading } = useHub();
+  const qc = useQueryClient();
+  const { data: companies, isLoading } = useCompanies();
 
-  const hub = data;
+  const prefetch = (id: string) =>
+    qc.prefetchQuery({
+      queryKey: companyKeys.overview(id),
+      queryFn: () => fetchCompanyOverview(id),
+      staleTime: 15_000,
+    });
 
   return (
     <Screen
@@ -32,25 +39,30 @@ export default function CompaniesScreen() {
               renderRow={() => <CompanyItemSkeleton />}
             />
           </List>
-        ) : hub?.companies.length === 0 ? (
+        ) : !companies || companies.length === 0 ? (
           <EmptyLine
             text={t('crm.emptyCompanies', { defaultValue: 'No companies.' })}
           />
         ) : (
           <List inset>
-            {hub?.companies.map((co, i) => (
-              <List.Item key={co.id} first={i === 0}>
-                <Link
-                  href={{
-                    pathname: '/(tabs)/crm/(features)/companies/[id]',
-                    params: { id: co.id },
-                  }}
-                  asChild
-                >
-                  <EntityRow {...companyToEntityRowProps(co)} />
-                </Link>
-              </List.Item>
-            ))}
+            {companies
+              .slice()
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((co, i) => (
+                <List.Item key={co.id} first={i === 0}>
+                  <Link
+                    href={{
+                      pathname: '/(tabs)/crm/(features)/companies/[id]',
+                      params: { id: co.id },
+                    }}
+                    // nice perf on native + web
+                    onPressIn={() => prefetch(co.id)}
+                    asChild
+                  >
+                    <EntityRow {...companyToEntityRowProps(co)} />
+                  </Link>
+                </List.Item>
+              ))}
           </List>
         )}
       </Card>

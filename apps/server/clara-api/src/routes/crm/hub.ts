@@ -1,7 +1,7 @@
 // http/routes/crm.route.ts
 import { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
-import { store } from '../../domain/stores/store';
+import { store } from '../../domain/stores';
 import { type CompanyOverviewDto } from '../../domain/types/company-overview.dto';
 import {
   bodySchemaByKind,
@@ -14,14 +14,17 @@ import { initialsFromName } from '../../domain/utils/contact-initials';
 
 const route: FastifyPluginAsync = async (app) => {
   // Snapshot everything
-  app.get('/hub', async (_req, reply) => reply.send(store.all()));
+  app.get('/hub', async (_req, reply) => {
+    const all = await store.all();
+    return reply.send(all);
+  });
 
   // Generic list (optional filter by contactId for activities)
   app.get<{ Params: { kind: string }; Querystring: { contactId?: string } }>(
     '/hub/:kind',
     async (req, reply) => {
       const kind = kindSchema.parse(req.params.kind);
-      const list = store.list(kind);
+      const list = await store.list(kind);
 
       if (kind === 'activities' && req.query.contactId) {
         const contactId = z.string().min(1).parse(req.query.contactId);
@@ -39,7 +42,7 @@ const route: FastifyPluginAsync = async (app) => {
     async (req, reply) => {
       const kind = kindSchema.parse(req.params.kind);
       const id = z.string().min(1).parse(req.params.id);
-      const item = store.get(kind, id);
+      const item = await store.get(kind, id);
       if (!item) return reply.code(404).send({ message: 'Not found' });
       return reply.send(item);
     },
@@ -55,7 +58,7 @@ const route: FastifyPluginAsync = async (app) => {
       const withId = parsed.id
         ? parsed
         : { ...parsed, id: uid(kind.slice(0, 2)) };
-      store.add(kind, withId);
+      await store.add(kind, withId);
       return reply.code(201).send(withId);
     },
   );
@@ -68,9 +71,10 @@ const route: FastifyPluginAsync = async (app) => {
       const id = z.string().min(1).parse(req.params.id);
       const patchSchema = patchSchemaByKind[kind];
       const patch = patchSchema.parse(req.body);
-      const ok = store.update(kind, id, patch);
+      const ok = await store.update(kind, id, patch);
       if (!ok) return reply.code(404).send({ message: 'Not found' });
-      return reply.send(store.get(kind, id));
+      const updated = await store.get(kind, id);
+      return reply.send(updated);
     },
   );
 
@@ -80,30 +84,30 @@ const route: FastifyPluginAsync = async (app) => {
     async (req, reply) => {
       const kind = kindSchema.parse(req.params.kind);
       const id = z.string().min(1).parse(req.params.id);
-      const ok = store.remove(kind, id);
+      const ok = await store.remove(kind, id);
       if (!ok) return reply.code(404).send({ message: 'Not found' });
       return reply.code(204).send();
     },
   );
 
-  // Convenience: activities for a contact
+  // Activities for a contact
   app.get<{ Params: { id: string } }>(
     '/hub/contacts/:id/activities',
     async (req, reply) => {
       const contactId = z.string().min(1).parse(req.params.id);
-      const acts = store
-        .list('activities')
-        .filter((a) => a.contactId === contactId);
+      const acts = (await store.list('activities')).filter(
+        (a) => a.contactId === contactId,
+      );
       return reply.send(acts);
     },
   );
 
-  // ✅ Company Overview for the single company screen
+  // Company Overview
   app.get<{ Params: { id: string } }>(
     '/hub/companies/:id/overview',
     async (req, reply) => {
       const id = z.string().min(1).parse(req.params.id);
-      const company = store.get('companies', id);
+      const company = await store.get('companies', id);
       if (!company) return reply.code(404).send({ message: 'Not found' });
 
       const companyWithInitials = {
@@ -111,19 +115,18 @@ const route: FastifyPluginAsync = async (app) => {
         initials: companyInitials(company.name),
       };
 
-      // 🔹 Add initials here (NOT in the store)
-      const contacts = store.contactsByCompany(id).map((c) => ({
+      const contacts = (await store.contactsByCompany(id)).map((c) => ({
         ...c,
         initials: initialsFromName(c.name),
       }));
 
-      const activities = store
-        .activitiesByCompany(id)
-        .sort((a, b) => (a.at < b.at ? 1 : -1)); // newest first
+      const activities = (await store.activitiesByCompany(id)).sort((a, b) =>
+        a.at < b.at ? 1 : -1,
+      );
 
-      const tasks = store
-        .tasksByCompany(id)
-        .sort((a, b) => String(a.due ?? '').localeCompare(String(b.due ?? '')));
+      const tasks = (await store.tasksByCompany(id)).sort((a, b) =>
+        String(a.due ?? '').localeCompare(String(b.due ?? '')),
+      );
 
       const lastActivityAt = activities[0]?.at ?? null;
       const nextTask = tasks.find((t) => !t.done && t.due);
@@ -141,39 +144,34 @@ const route: FastifyPluginAsync = async (app) => {
         },
       };
 
-      // Optional runtime guard (helps during dev)
-      // CompanyOverviewSchema.parse(payload);
-
       return reply.send(payload);
     },
   );
 
-  // ✅ Contact Overview for the single-contact screen
+  // Contact Overview
   app.get<{ Params: { id: string } }>(
     '/hub/contacts/:id/overview',
     async (req, reply) => {
       const id = z.string().min(1).parse(req.params.id);
-      const contact = store.get('contacts', id);
+      const contact = await store.get('contacts', id);
       if (!contact) return reply.code(404).send({ message: 'Not found' });
 
-      // add initials at runtime (don’t mutate store)
       const contactWithInitials = {
         ...contact,
         initials: initialsFromName(contact.name),
       };
 
       const company = contact.companyId
-        ? store.get('companies', contact.companyId)
+        ? await store.get('companies', contact.companyId)
         : undefined;
 
       const companyWithInitials = company
         ? { ...company, initials: companyInitials(company.name) }
         : undefined;
 
-      const activities = store
-        .list('activities')
+      const activities = (await store.list('activities'))
         .filter((a) => a.contactId === id)
-        .sort((a, b) => (a.at < b.at ? 1 : -1)); // newest first
+        .sort((a, b) => (a.at < b.at ? 1 : -1));
 
       const lastActivityAt = activities[0]?.at ?? null;
 
@@ -181,9 +179,7 @@ const route: FastifyPluginAsync = async (app) => {
         contact: contactWithInitials,
         company: companyWithInitials,
         activities,
-        stats: {
-          lastActivityAt,
-        },
+        stats: { lastActivityAt },
       };
 
       return reply.send(payload);

@@ -8,17 +8,21 @@
 import type { FastifyPluginAsync } from 'fastify';
 import type OpenAI from 'openai';
 import { allSpecsForChat, executeToolRouted } from '../../app/services/tools';
-import { store } from '../../domain/stores/store';
+import { store } from '../../domain/stores';
 
 const route: FastifyPluginAsync = async (app) => {
   app.post<{
     Body: { messages: { role: 'user' | 'assistant'; content: string }[] };
   }>('/chat', async (req, reply) => {
     const openai: OpenAI | undefined = (app as any).openai;
+
+    // Always include a live hub snapshot in the response when we early-return
+    const hubSnapshot = await store.all();
+
     if (!openai) {
       return reply.send({
         reply: "Clara isn't connected to the model yet.",
-        hub: store.all(),
+        hub: hubSnapshot,
       });
     }
 
@@ -34,11 +38,13 @@ Call tools when asked or when it's an obvious follow-up. Keep replies concise af
 
     let messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       { role: 'system', content: system },
-      { role: 'system', content: JSON.stringify({ hub: store.all() }) },
+      { role: 'system', content: JSON.stringify({ hub: hubSnapshot }) },
       ...req.body.messages.map((m) => ({ role: m.role, content: m.content })),
     ];
 
-    for (let step = 0; step < 4; step++) {
+    const MAX_STEPS = 4;
+
+    for (let step = 0; step < MAX_STEPS; step++) {
       const resp = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages,
@@ -49,11 +55,10 @@ Call tools when asked or when it's an obvious follow-up. Keep replies concise af
 
       const msg = resp.choices[0].message;
 
+      // If model chose tools, execute them and feed results back
       if (msg.tool_calls?.length) {
-        // 1) add the assistant message that contains the tool calls
         messages = [...messages, msg as any];
 
-        // 2) execute each tool and append tool results
         for (const call of msg.tool_calls) {
           if (call.type !== 'function') continue;
 
@@ -74,7 +79,7 @@ Call tools when asked or when it's an obvious follow-up. Keep replies concise af
           } as any);
         }
 
-        // loop again so the model can read tool outputs and answer
+        // loop so model can read tool outputs and answer
         continue;
       }
 
@@ -88,12 +93,16 @@ Call tools when asked or when it's an obvious follow-up. Keep replies concise af
                 .join('')
             : '';
 
-      return reply.send({ reply: text, hub: store.all() });
+      return reply.send({
+        reply: text,
+        hub: await store.all(), // fresh snapshot after potential tool updates
+      });
     }
 
+    // Fallback after steps exhausted
     return reply.send({
       reply: "Okay, I've updated what I could.",
-      hub: store.all(),
+      hub: await store.all(),
     });
   });
 };

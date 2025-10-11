@@ -1,8 +1,18 @@
-import fastifyCors from '@fastify/cors';
-import multipart from '@fastify/multipart';
+import 'dotenv/config';
+console.log('🛢 STORE =', process.env.STORE, {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  db: process.env.DB_NAME,
+  user: process.env.DB_USER,
+});
+
 import Fastify from 'fastify';
 
+import fastifyCors from '@fastify/cors';
+import multipart from '@fastify/multipart';
+
 import { authPlugin } from './plugins/auth';
+import errorsPlugin from './plugins/errors';
 import hubspotPlugin from './plugins/hubspot';
 import { openAIPlugin } from './plugins/openai';
 
@@ -13,6 +23,7 @@ import realtimeRoutes from '../routes/realtime';
 
 export async function buildApp() {
   const app = Fastify({ logger: true });
+  console.log('🔥 Using store:', process.env.STORE);
 
   // 🔌 Plugins
   await app.register(fastifyCors, {
@@ -25,6 +36,7 @@ export async function buildApp() {
   await app.register(authPlugin);
   await app.register(openAIPlugin);
   await app.register(hubspotPlugin);
+  await app.register(errorsPlugin);
 
   // 🌐 Core
   await app.register(coreRoutes);

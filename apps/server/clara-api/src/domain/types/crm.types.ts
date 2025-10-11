@@ -4,7 +4,7 @@ import z from 'zod';
 export const ActivitySchema = z.object({
   id: z.string().min(1).optional(),
   type: z.enum(['note', 'call', 'email', 'meeting', 'status', 'system']),
-  at: z.string().datetime(),
+  at: z.string().datetime({ offset: true }), // ✅ allow +01:00, etc.
   summary: z.string().min(1),
   // link to either/both; optional to keep input flexible
   companyId: z.string().optional(),
@@ -42,12 +42,11 @@ export const CompanyStageEnum = z.enum([
 export const CompanySchema = z.object({
   id: z.string().min(1).optional(),
   name: z.string().min(1),
-  domain: z.string().optional(),
-  logoUrl: z.string().url().optional(),
-  stage: CompanyStageEnum.optional(), // small pill in header
+  website: z.string().url().optional().nullable(),
+  stage: CompanyStageEnum.optional().nullable(),
 });
-export const CompanyPatchSchema = CompanySchema.omit({ id: true }).partial();
 
+export const CompanyPatchSchema = CompanySchema.omit({ id: true }).partial();
 export type Company = z.infer<typeof CompanySchema>;
 export type CompanyInput = z.input<typeof CompanySchema>;
 export type CompanyPatch = z.infer<typeof CompanyPatchSchema>;
@@ -58,8 +57,9 @@ export const ContactSchema = z.object({
   name: z.string().min(1),
   title: z.string().optional(),
   email: z.string().email().optional(),
+  phone: z.string().optional().nullable(), // ✅ match DB column
   companyId: z.string().optional(),
-  avatarUrl: z.string().url().optional(),
+  avatarUrl: z.string().url().optional(), // UI-only; not persisted today
 });
 export const ContactPatchSchema = ContactSchema.omit({ id: true }).partial();
 

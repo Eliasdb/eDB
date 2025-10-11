@@ -15,6 +15,7 @@ import {
 } from '@api';
 
 import { Platform } from 'react-native';
+import { invalidateAfterTool } from '../../api/core/cache';
 import { closeAudioSession, openAudioSession } from './audioSession';
 
 const TAG = 'realtime.native';
@@ -98,6 +99,8 @@ export async function connectRealtime(
   const executeOnce = createExecuteOnce(apiBase, headers, dc as any, {
     onToolEffect: (name, args, result) => {
       applyToolEffectToCache(name, args, result);
+      invalidateAfterTool(name, args, result); // ✅ precise invalidation
+
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
