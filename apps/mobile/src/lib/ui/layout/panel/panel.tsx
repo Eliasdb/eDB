@@ -86,8 +86,9 @@ export function PanelGroupItem({
 }
 
 /** Convenience wrapper for a SettingsRow (kind="item") with built-in divider handling */
+type ItemRowProps = Extract<SettingsRowProps, { kind: 'item' }>;
 export function PanelGroupItemRow(
-  props: Omit<SettingsRowProps, 'kind'> & { first?: boolean },
+  props: Omit<ItemRowProps, 'kind'> & { first?: boolean },
 ) {
   const { first, ...rest } = props;
   return (
@@ -98,12 +99,9 @@ export function PanelGroupItemRow(
 }
 
 /** Convenience wrapper for a SettingsRow (kind="toggle") with built-in divider handling */
+type ToggleRowProps = Extract<SettingsRowProps, { kind: 'toggle' }>;
 export function PanelGroupItemSwitch(
-  props: Omit<SettingsRowProps, 'kind'> & {
-    first?: boolean;
-    value: boolean;
-    onValueChange: (v: boolean) => void;
-  },
+  props: Omit<ToggleRowProps, 'kind'> & { first?: boolean },
 ) {
   const { first, ...rest } = props;
   return (

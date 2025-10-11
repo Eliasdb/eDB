@@ -1,4 +1,3 @@
-import { Skeleton } from '@ui/primitives';
 import { ReactNode } from 'react';
 import { View } from 'react-native';
 
@@ -30,27 +29,27 @@ export function ListSkeleton({
 }
 
 /** Tasks: checkbox • title line • (chip) • action pills */
-export function TaskItemSkeleton() {
-  return (
-    <View className="flex-row items-center p-4 py-3">
-      {/* checkbox */}
-      <View className="w-8 items-center">
-        <Skeleton width={18} height={18} radius={4} />
-      </View>
+// export function TaskItemSkeleton() {
+//   return (
+//     <View className="flex-row items-center p-4 py-3">
+//       {/* checkbox */}
+//       <View className="w-8 items-center">
+//         <Skeleton width={18} height={18} radius={4} />
+//       </View>
 
-      {/* title + optional chip */}
-      <View className="flex-1">
-        <Skeleton width="80%" height={14} radius={6} />
-      </View>
+//       {/* title + optional chip */}
+//       <View className="flex-1">
+//         <Skeleton width="80%" height={14} radius={6} />
+//       </View>
 
-      {/* actions */}
-      <View className="flex-row items-center gap-2">
-        <Skeleton width={32} height={32} radius={16} />
-        <Skeleton width={32} height={32} radius={16} />
-      </View>
-    </View>
-  );
-}
+//       {/* actions */}
+//       <View className="flex-row items-center gap-2">
+//         <Skeleton width={32} height={32} radius={16} />
+//         <Skeleton width={32} height={32} radius={16} />
+//       </View>
+//     </View>
+//   );
+// }
 
 // /** Contacts: avatar • name line • chip row */
 // export function ContactItemSkeleton() {

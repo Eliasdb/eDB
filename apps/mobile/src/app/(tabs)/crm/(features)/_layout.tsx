@@ -8,24 +8,13 @@ export default function CRMFeaturesStack() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      {/* List pages */}
+      {/* list pages */}
       <Stack.Screen name="dashboard/index" options={{ animation: slide }} />
       <Stack.Screen name="tasks/index" options={{ animation: slide }} />
       <Stack.Screen name="contacts/index" options={{ animation: slide }} />
       <Stack.Screen name="companies/index" options={{ animation: slide }} />
 
-      {/* Details (formSheet) */}
-      <Stack.Screen
-        name="contacts/[id]"
-        options={{
-          presentation: 'formSheet',
-          animation: 'slide_from_bottom',
-          sheetAllowedDetents: [0.5, 1],
-          sheetGrabberVisible: true,
-          sheetCornerRadius: 24,
-          sheetExpandsWhenScrolledToEdge: false,
-        }}
-      />
+      {/* details as sheet; children under [id]/_layout inherit this presentation */}
       <Stack.Screen
         name="companies/[id]"
         options={{
@@ -34,18 +23,7 @@ export default function CRMFeaturesStack() {
           sheetAllowedDetents: [0.4, 1],
           sheetGrabberVisible: true,
           sheetCornerRadius: 24,
-          sheetExpandsWhenScrolledToEdge: false,
-        }}
-      />
-      <Stack.Screen
-        name="tasks/[id]"
-        options={{
-          presentation: 'formSheet',
-          animation: 'slide_from_bottom',
-          sheetAllowedDetents: [0.5, 1],
-          sheetGrabberVisible: true,
-          sheetCornerRadius: 24,
-          sheetExpandsWhenScrolledToEdge: false,
+          sheetExpandsWhenScrolledToEdge: true,
         }}
       />
     </Stack>

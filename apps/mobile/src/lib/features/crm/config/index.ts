@@ -8,11 +8,21 @@ export const tabToPath: Record<CrmTabKey, string> = {
   companies: '/(tabs)/crm/companies',
 };
 
+// Normalize: remove trailing slashes and group segments like /(tabs) /(features)
+function normalize(pathname: string) {
+  const p = (pathname || '').replace(/\/+$/, '');
+  return p.replace(/\/\([^/]+\)/g, '').toLowerCase();
+}
+
 // Pure function (testable): path -> active tab
 export function getActiveCrmTab(pathname: string): CrmTabKey {
-  if (pathname.endsWith('/tasks')) return 'tasks';
-  if (pathname.endsWith('/contacts')) return 'contacts';
-  if (pathname.endsWith('/companies')) return 'companies';
+  const p = normalize(pathname);
+
+  // Match deep paths first so detail pages stay on the correct tab
+  if (p.includes('/crm/companies')) return 'companies';
+  if (p.includes('/crm/contacts')) return 'contacts';
+  if (p.includes('/crm/tasks')) return 'tasks';
+
   return 'dashboard';
 }
 

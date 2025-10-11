@@ -1,9 +1,9 @@
-// libs/ui/primitives/icon-button.tsx (or wherever your IconButton lives)
+// libs/ui/primitives/icon-button.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { ComponentProps } from 'react';
+import { Platform, View } from 'react-native';
 import { Button, type ButtonProps } from '../button/button';
 
-type Tint = NonNullable<ButtonProps['tint']>;
 type Variant = NonNullable<ButtonProps['variant']>;
 type Size = NonNullable<ButtonProps['size']>;
 
@@ -32,25 +32,25 @@ export function IconButton({
   variant = 'ghost',
   size = 'xs',
   subtleBg = true,
-  shape = 'circle', // NEW: default stays circle
-  cornerRadius, // NEW: override border radius for non-circle shapes
+  shape = 'circle',
+  cornerRadius,
   className,
   style,
   ...rest
 }: Omit<ButtonProps, 'label' | 'icon' | 'iconLeft' | 'iconRight'> & {
   name: ComponentProps<typeof Ionicons>['name'];
-  /** Keep ghost look but with soft bg */
   subtleBg?: boolean;
-  /** Circle | rounded | square (forwarded to Button if it supports it) */
   shape?: NonNullable<ButtonProps['shape']>;
-  /** Optional explicit radius (px) for non-circle shapes */
   cornerRadius?: number;
 }) {
   const color = fgFor(variant, tint);
   const iconSize = iconSizeMap[size];
+  const isCircle = shape === 'circle';
+  const isWeb = Platform.OS === 'web';
 
-  const boxSizeClass =
-    size === 'xs'
+  // Only use fixed box for circles OR on web. Avoid it on native + non-circle.
+  const boxSizeClass = isCircle
+    ? size === 'xs'
       ? 'w-9 h-9'
       : size === 'sm'
         ? 'w-11 h-11'
@@ -58,9 +58,11 @@ export function IconButton({
           ? 'w-16 h-16'
           : size === 'lg'
             ? 'w-20 h-20'
-            : 'w-24 h-24';
+            : 'w-24 h-24'
+    : isWeb
+      ? '' // non-circle web sizing handled by base Button classes
+      : ''; // native non-circle → no fixed width/height (prevents clipping)
 
-  // solid soft bg + no shadow for ghost
   const ghostBgClass =
     variant === 'ghost' && subtleBg
       ? 'bg-control dark:bg-control-dark shadow-none'
@@ -68,31 +70,89 @@ export function IconButton({
         ? 'shadow-none'
         : '';
 
-  // When using non-circle shapes, allow custom corner radius
   const radiusStyle =
-    shape !== 'circle' && typeof cornerRadius === 'number'
+    !isCircle && typeof cornerRadius === 'number'
       ? { borderRadius: cornerRadius }
       : undefined;
 
   const focusRingWeb = 'focus:outline-none focus:ring-1 focus:ring-primary/40';
 
+  const ion = (
+    <Ionicons
+      name={name}
+      size={iconSize}
+      color={color}
+      allowFontScaling={false}
+      style={{ textAlign: 'center', lineHeight: iconSize }}
+    />
+  );
+
+  const spacer = <View style={{ width: iconSize, height: iconSize }} />;
+
+  if (isCircle) {
+    // Circle path: fixed square is OK everywhere
+    return (
+      <Button
+        shape="circle"
+        tint={tint}
+        variant={variant}
+        size={size}
+        className={[
+          'relative',
+          boxSizeClass,
+          ghostBgClass,
+          'items-center justify-center',
+          focusRingWeb,
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        style={{
+          ...(variant === 'ghost'
+            ? { shadowOpacity: 0, shadowRadius: 0, elevation: 0 }
+            : null),
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style,
+        }}
+        icon={ion}
+        {...rest}
+      />
+    );
+  }
+
+  // Non-circle: DO NOT force fixed w/h on native; let Button's padding expand width.
+  // Keep padding on native so the inner row isn't wider than the wrapper.
   return (
     <Button
-      shape={shape} // ← forward shape
+      shape={shape}
       tint={tint}
       variant={variant}
       size={size}
-      className={[boxSizeClass, ghostBgClass, focusRingWeb, className]
+      label=""
+      iconLeft={ion}
+      iconRight={spacer}
+      className={[
+        'relative',
+        boxSizeClass, // empty on native non-circle
+        ghostBgClass,
+        'items-center justify-center',
+        // On web, you can still cancel px if you want a tight square:
+        isWeb ? '!px-0' : '',
+        focusRingWeb,
+        className,
+      ]
         .filter(Boolean)
         .join(' ')}
       style={{
         ...(variant === 'ghost'
           ? { shadowOpacity: 0, shadowRadius: 0, elevation: 0 }
           : null),
+        alignItems: 'center',
+        justifyContent: 'center',
         ...radiusStyle,
         ...style,
       }}
-      icon={<Ionicons name={name} size={iconSize} color={color} />}
       {...rest}
     />
   );

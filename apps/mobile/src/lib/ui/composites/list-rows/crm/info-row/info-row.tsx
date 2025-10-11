@@ -38,15 +38,18 @@ export function TwoLineRow({
   primary,
   secondary,
 }: {
-  icon: IconName;
+  icon?: IconName; // <- optional now
   primary: string | React.ReactNode;
   secondary?: string | React.ReactNode;
 }) {
   return (
-    <View className="flex-row items-center gap-3 px-4 py-3">
-      <View className="w-5 items-center">
-        <Ionicons name={icon} size={16} color="#94A3B8" />
-      </View>
+    <View className="flex-row items-center px-4 py-3">
+      {icon ? (
+        <View className="w-5 items-center mr-3">
+          <Ionicons name={icon} size={16} color="#94A3B8" />
+        </View>
+      ) : null}
+
       <View className="flex-1">
         {typeof primary === 'string' ? (
           <Text className="text-text dark:text-text-dark text-[15px] font-medium">

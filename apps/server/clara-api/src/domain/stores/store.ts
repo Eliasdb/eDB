@@ -1,4 +1,4 @@
-// domain/stores/store.ts
+// domain/stores/memory.store.ts
 import {
   Activity,
   Company,
@@ -8,6 +8,7 @@ import {
   Patch,
   Task,
 } from '../types/crm.types';
+import { IStore } from './types';
 
 const mem = {
   tasks: new Map<string, Task>(),
@@ -16,74 +17,61 @@ const mem = {
   activities: new Map<string, Activity>(),
 };
 
-export const store = {
-  /* ========== CRUD ========== */
-  list<K extends Kind>(kind: K): Model[K][] {
+export const memoryStore: IStore = {
+  async list<K extends Kind>(kind: K) {
     return [...mem[kind].values()] as Model[K][];
   },
-
-  get<K extends Kind>(kind: K, id: string): Model[K] | undefined {
+  async get<K extends Kind>(kind: K, id: string) {
     return mem[kind].get(id) as Model[K] | undefined;
   },
-
-  add<K extends Kind>(kind: K, item: Model[K]): string {
-    // assume id already assigned upstream (route assigns uid if missing)
+  async add<K extends Kind>(kind: K, item: Model[K]) {
     mem[kind].set((item as any).id, item as any);
     return (item as any).id;
   },
-
-  update<K extends Kind>(kind: K, id: string, patch: Patch[K]): boolean {
+  async update<K extends Kind>(kind: K, id: string, patch: Patch[K]) {
     const cur = mem[kind].get(id) as Model[K] | undefined;
     if (!cur) return false;
-    const next = { ...cur, ...patch, id } as Model[K];
-    mem[kind].set(id, next as any);
+    mem[kind].set(id, { ...cur, ...patch, id } as any);
     return true;
   },
-
-  remove<K extends Kind>(kind: K, id: string): boolean {
+  async remove<K extends Kind>(kind: K, id: string) {
     return mem[kind].delete(id);
   },
 
-  all() {
+  async all() {
     return {
-      tasks: this.list('tasks'),
-      contacts: this.list('contacts'),
-      companies: this.list('companies'),
-      activities: this.list('activities'),
+      tasks: await this.list('tasks'),
+      contacts: await this.list('contacts'),
+      companies: await this.list('companies'),
+      activities: await this.list('activities'),
     };
   },
 
-  clearAll() {
-    mem.tasks.clear();
-    mem.contacts.clear();
-    mem.companies.clear();
-    mem.activities.clear();
-  },
-
-  /* ========== Relationship helpers (for Company screen) ========== */
-  contactsByCompany(companyId: string) {
-    return this.list('contacts').filter((c) => c.companyId === companyId);
-  },
-
-  activitiesByCompany(companyId: string) {
-    const contactIds = new Set(
-      this.contactsByCompany(companyId).map((c) => c.id),
+  async contactsByCompany(companyId: string) {
+    return (await this.list('contacts')).filter(
+      (c) => c.companyId === companyId,
     );
-    return this.list('activities').filter((a) => {
-      const byCompany = a.companyId === companyId;
-      const byContact = a.contactId ? contactIds.has(a.contactId) : false;
-      return byCompany || byContact;
-    });
   },
 
-  tasksByCompany(companyId: string) {
+  async activitiesByCompany(companyId: string) {
     const contactIds = new Set(
-      this.contactsByCompany(companyId).map((c) => c.id),
+      (await this.contactsByCompany(companyId)).map((c) => c.id),
     );
-    return this.list('tasks').filter((t) => {
-      const byCompany = t.companyId === companyId;
-      const byContact = t.contactId ? contactIds.has(t.contactId) : false;
-      return byCompany || byContact;
-    });
+    return (await this.list('activities')).filter(
+      (a) =>
+        a.companyId === companyId ||
+        (a.contactId && contactIds.has(a.contactId)),
+    );
+  },
+
+  async tasksByCompany(companyId: string) {
+    const contactIds = new Set(
+      (await this.contactsByCompany(companyId)).map((c) => c.id),
+    );
+    return (await this.list('tasks')).filter(
+      (t) =>
+        t.companyId === companyId ||
+        (t.contactId && contactIds.has(t.contactId)),
+    );
   },
 };

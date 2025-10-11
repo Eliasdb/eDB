@@ -1,14 +1,52 @@
-// core/types.ts
-
 // ---- CRM ----
+export type CompanyStage = 'lead' | 'prospect' | 'customer' | 'inactive';
+
+export type CompanyHQ = {
+  line1?: string | null;
+  line2?: string | null;
+  city?: string | null;
+  region?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  // allow extra keys
+  [k: string]: any;
+};
+
+export type Company = {
+  id: string;
+  name: string;
+
+  // NEW fields coming from the backend
+  website?: string | null; // full url, e.g. https://acme.com
+  stage?: CompanyStage | null;
+  industry?: string | null;
+  description?: string | null;
+  hq?: CompanyHQ | null;
+  employees?: number | null;
+  employeesRange?: string | null;
+  ownerContactId?: string | null;
+  primaryEmail?: string | null;
+  phone?: string | null;
+
+  // existing/legacy UI helpers
+  domain?: string; // derive from website for display
+  initials?: string;
+  logoUrl?: string;
+  source?: string;
+
+  // optional meta (server returns these)
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type Task = {
   id: string;
   title: string;
   due?: string;
   done?: boolean;
   source?: string;
-  companyId?: string;
-  contactId?: string;
+  companyId?: string | null;
+  contactId?: string | null;
 };
 
 export type Contact = {
@@ -19,30 +57,16 @@ export type Contact = {
   phone?: string;
   avatarUrl?: string;
   source?: string;
-  companyId?: string;
+  companyId?: string | null;
 };
 
-export type CompanyStage = 'lead' | 'prospect' | 'customer' | 'inactive';
-
-export type Company = {
-  id: string;
-  name: string;
-  domain?: string;
-  initials?: string;
-  logoUrl?: string;
-  industry?: string; // optional: keeps old UI happy
-  source?: string; // optional
-  stage?: CompanyStage;
-};
-
-/** Server-aligned Activity (lean) */
 export type Activity = {
   id: string;
   type: 'note' | 'call' | 'email' | 'meeting' | 'status' | 'system';
-  at: string; // ISO timestamp
+  at: string; // ISO
   summary: string;
-  companyId?: string;
-  contactId?: string;
+  companyId?: string | null;
+  contactId?: string | null;
 };
 
 export type HubPayload = {
@@ -52,9 +76,8 @@ export type HubPayload = {
   activities?: Activity[];
 };
 
-/** ✅ Overview payload for single-company screen */
 export type CompanyOverview = {
-  company: Company;
+  company: Company; // now includes the new fields
   contacts: Contact[];
   activities: Activity[];
   tasks: Task[];
@@ -71,28 +94,3 @@ export type ContactOverview = {
   activities: Activity[];
   stats: { lastActivityAt: string | null };
 };
-
-// ---- Chat ----
-export type ChatTurn = { role: 'user' | 'assistant'; content: string };
-
-export type ChatResponse = {
-  reply: string;
-  extraction?: {
-    tasks: any[];
-    contacts: any[];
-    companies: any[];
-  };
-};
-
-// ---- Admin / tools ----
-export type ToolLogEntry = {
-  id: string;
-  ts: number;
-  name: string;
-  durationMs: number;
-  args?: unknown;
-  result?: unknown;
-  error?: string;
-};
-
-export type ToolLogsPayload = { items: ToolLogEntry[] };

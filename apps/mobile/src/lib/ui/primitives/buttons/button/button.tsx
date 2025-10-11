@@ -70,7 +70,7 @@ const webPillHeightClass: Record<Size, string> = {
   xl: 'h-14',
 };
 const webPillPad: Record<WebDensity, Record<Size, string>> = {
-  compact: { xs: 'px-2', sm: 'px-2.5', md: 'px-3', lg: 'px-4', xl: 'px-4' },
+  compact: { xs: 'pl-2', sm: 'px-2.5', md: 'px-3', lg: 'px-4', xl: 'px-4' },
   comfortable: { xs: 'px-2.5', sm: 'px-3', md: 'px-4', lg: 'px-5', xl: 'px-6' },
 };
 

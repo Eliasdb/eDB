@@ -22,6 +22,12 @@ export const fetchActivities = (contactId?: string) =>
       : '/hub/activities',
   );
 
+export const createActivity = (body: Omit<Activity, 'id'>) =>
+  api<Activity>('/hub/activities', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
 export const fetchContactOverview = (id: string) =>
   api<ContactOverview>(`/hub/contacts/${id}/overview`);
 

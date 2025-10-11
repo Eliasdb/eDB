@@ -1,14 +1,15 @@
 // app/(tabs)/crm/(features)/tasks/[id].tsx
-import type { Task } from '@api';
 import { useDeleteTask, useHub } from '@api';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { Screen } from '@ui/layout';
 import { Pill } from '@ui/primitives';
 import { DateField } from '@ui/widgets';
+import { Pressable, Text, TextInput, View } from 'react-native';
+
+import type { Task } from '@api';
 
 export default function TaskEditRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
