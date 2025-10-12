@@ -1,11 +1,3 @@
-import 'dotenv/config';
-console.log('🛢 STORE =', process.env.STORE, {
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  db: process.env.DB_NAME,
-  user: process.env.DB_USER,
-});
-
 import Fastify from 'fastify';
 
 import fastifyCors from '@fastify/cors';

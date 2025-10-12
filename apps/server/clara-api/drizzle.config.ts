@@ -1,4 +1,8 @@
-import 'dotenv/config';
+// drizzle.config.ts
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('dotenv').config();
+}
 
 export default {
   schema: './src/domain/db/schema.ts', // we'll create this
