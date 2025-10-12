@@ -970,6 +970,9 @@ importers:
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
+      drizzle-orm:
+        specifier: ^0.44.6
+        version: 0.44.6(@types/pg@8.15.5)(pg@8.16.3)
       fastify:
         specifier: ^5.6.1
         version: 5.6.1
@@ -988,6 +991,10 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
+    devDependencies:
+      drizzle-kit:
+        specifier: ^0.31.5
+        version: 0.31.5
 
   apps/server/webshop-api:
     devDependencies:

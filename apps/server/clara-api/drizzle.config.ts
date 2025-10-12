@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
 }
 export default {
-  schema: './src/domain/db/schema.ts', // we'll create this
+  schema: './src/infra/db/schema.ts', // we'll create this
   out: './drizzle', // where drizzle puts migrations/snapshots...
   dialect: 'postgresql',
   dbCredentials: {
