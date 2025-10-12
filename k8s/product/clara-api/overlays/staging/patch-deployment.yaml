@@ -13,8 +13,7 @@ spec:
           envFrom:
             - secretRef:
                 name: clara-api-db
-            - configMapRef:
-                name: clara-api-config
+
           env:
             - name: NODE_ENV
               value: 'staging'
