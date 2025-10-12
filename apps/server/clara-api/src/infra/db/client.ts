@@ -1,5 +1,5 @@
 // drizzle.config.ts
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('dotenv').config();
 }
