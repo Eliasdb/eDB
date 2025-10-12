@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import { Ionicons } from '@expo/vector-icons';
+import { Segmented } from '@ui/navigation';
 import { Badge, Card, Dot, KV, MonoKV } from '@ui/primitives';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import type { LogVM } from '@api/viewmodels/toolLogs';
-import { buildSummaryRows } from '@api/viewmodels/toolLogs';
-import { Segmented } from '../../../../../ui/navigation';
+import type { LogVM } from '@data-access/observability/tool-logs';
+import { buildSummaryRows } from '@data-access/observability/tool-logs';
 
 type Tab = 'summary' | 'raw';
 

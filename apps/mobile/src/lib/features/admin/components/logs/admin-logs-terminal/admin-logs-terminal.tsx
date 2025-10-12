@@ -11,8 +11,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import type { LogVM } from '@api/viewmodels/toolLogs';
-import { entryToVM } from '@api/viewmodels/toolLogs';
+import { LogVM, entryToVM } from '@data-access/observability/tool-logs';
 
 type Page = {
   items: any[];

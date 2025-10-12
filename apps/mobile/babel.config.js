@@ -16,7 +16,7 @@ module.exports = function (api) {
           alias: {
             '@ui': './src/lib/ui',
             '@features': './src/lib/features',
-            '@api': './src/lib/api',
+            '@data-access': './src/lib/data-access',
             '@voice': './src/lib/voice',
             '@vm': './src/viewmodels',
           },

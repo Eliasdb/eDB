@@ -1,14 +1,16 @@
-import { useToolLogsInfinite } from '@api/hooks/useToolLogs';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import {
+  LogVM,
+  entryToVM,
+  useToolLogsInfinite,
+} from '@data-access/observability/tool-logs';
 
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { AdminLogsCard } from '../admin-logs-card/admin-logs-card';
 import { AdminLogsHeader } from '../admin-logs-header/admin-logs-header';
 import AdminLogsTerminal from '../admin-logs-terminal/admin-logs-terminal';
-
-import type { LogVM } from '@api/viewmodels/toolLogs';
-import { entryToVM } from '@api/viewmodels/toolLogs';
 
 type ViewMode = 'cards' | 'terminal';
 const PAGE_SIZE = 10;

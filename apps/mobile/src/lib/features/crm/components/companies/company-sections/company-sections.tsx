@@ -7,7 +7,7 @@ import {
   type SectionKey,
 } from '../../../config/companies.data';
 
-import type { CompanyOverview } from '@api/core/types';
+import type { CompanyOverview } from '@data-access/crm/companies/types';
 
 export function CompanySections({
   data,

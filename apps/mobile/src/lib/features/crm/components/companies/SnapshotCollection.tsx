@@ -2,11 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Linking, Pressable, View } from 'react-native';
 
-import type { CompanyOverview } from '@api/core/types';
+import type { CompanyOverview } from '@data-access/crm/companies/types';
+import CompanyQuickStats from '@features/crm/components/companies/company-quick-stats/company-quick-stats'; // ← reuse the accurate stats
 import { KeyValueRow } from '@ui/composites';
 import { Section, TwoCol } from '@ui/layout';
 import { Card, List } from '@ui/primitives';
-import CompanyQuickStats from '../../../../../lib/features/crm/components/companies/company-quick-stats/company-quick-stats'; // ← reuse the accurate stats
 
 export type SnapshotCollectionProps = {
   data?: CompanyOverview;

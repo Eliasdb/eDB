@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 import { View } from 'react-native';
 
-import type { Activity } from '@api/core/types';
+import type { Activity } from '@data-access/crm/activities';
 import { Button } from '@ui/primitives';
 import {
   ActivityTimeline,

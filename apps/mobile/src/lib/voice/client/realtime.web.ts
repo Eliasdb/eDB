@@ -1,5 +1,4 @@
 // apps/mobile/src/lib/voice/realtimeClient.web.ts
-import { invalidateAfterTool } from '../../api/core/cache';
 import { makeMessageHandler } from '../core/handlers';
 import { getToken, negotiate } from '../core/signaling';
 import { createExecuteOnce } from '../core/tools';
@@ -11,7 +10,8 @@ import {
   applyToolEffectToCache,
   invalidateHub,
   invalidateToolLogs,
-} from '@api';
+} from '@data-access';
+import { invalidateAfterTool } from '@data-access/core/cache';
 
 export async function connectRealtime(
   getTokenUrl: string,

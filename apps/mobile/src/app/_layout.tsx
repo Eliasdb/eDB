@@ -4,10 +4,10 @@ import 'react-native-reanimated';
 
 import { useEffect, useState } from 'react';
 import { AppState, Platform, View } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 👈 add this
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Tanstack
-import { getQueryClient } from '@api';
+import { getQueryClient } from '@data-access';
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 
 // Expo

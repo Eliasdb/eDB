@@ -1,9 +1,8 @@
 // libs/ui/composites/activity/company-activity-overview.tsx
-import * as React from 'react';
 import { useColorScheme, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-import type { Activity } from '@api/core/types';
+import type { Activity } from '@data-access/crm/activities';
 import {
   ActivityEventRow,
   ActivityTimeline,
@@ -12,6 +11,7 @@ import {
 import { Section, TwoCol } from '@ui/layout';
 import { ScreenToggle } from '@ui/navigation';
 import { EmptyLine, List } from '@ui/primitives';
+import { useEffect, useMemo, useState } from 'react';
 
 /* ----------------------------- helpers & types ---------------------------- */
 
@@ -87,33 +87,33 @@ export function CompanyActivityOverview({
   activities = [],
   loading,
 }: CompanyActivityOverviewProps) {
-  const [mode, setMode] = React.useState<ViewMode>('list');
+  const [mode, setMode] = useState<ViewMode>('list');
 
   // Drop activities with invalid/missing dates to avoid RangeError
-  const safeActivities = React.useMemo(
+  const safeActivities = useMemo(
     () => (activities ?? []).filter((a) => !!yyyyMMdd(a.at)),
     [activities],
   );
 
-  const datesGrouped = React.useMemo(
+  const datesGrouped = useMemo(
     () => groupBy(safeActivities, (a) => yyyyMMdd(a.at) as string),
     [safeActivities],
   );
 
-  const firstDate = React.useMemo(() => {
+  const firstDate = useMemo(() => {
     const keys = Object.keys(datesGrouped).sort();
     return keys.length ? keys[0] : undefined;
   }, [datesGrouped]);
 
-  const [selected, setSelected] = React.useState<string | undefined>(firstDate);
+  const [selected, setSelected] = useState<string | undefined>(firstDate);
 
   // Keep selection in sync with data changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (firstDate && !selected) setSelected(firstDate);
     if (!firstDate) setSelected(undefined);
   }, [firstDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const marked = React.useMemo(() => {
+  const marked = useMemo(() => {
     const out: Record<
       string,
       {
@@ -141,7 +141,7 @@ export function CompanyActivityOverview({
     return out;
   }, [datesGrouped, selected]);
 
-  const selectedRows = React.useMemo(
+  const selectedRows = useMemo(
     () => (selected ? (datesGrouped[selected] ?? []) : []),
     [datesGrouped, selected],
   );

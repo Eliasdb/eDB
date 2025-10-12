@@ -1,4 +1,4 @@
-import { Task } from '@api';
+import type { Task } from '@data-access/crm/tasks';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TaskRow } from './task-row';
 

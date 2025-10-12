@@ -1,4 +1,4 @@
-import type { Activity } from '@api/core/types';
+import type { Activity } from '@data-access/crm/activities';
 import { Ionicons } from '@expo/vector-icons';
 import { TwoLineRow } from '@ui/composites';
 import { Card, EmptyLine, List } from '@ui/primitives';

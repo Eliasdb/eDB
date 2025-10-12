@@ -1,8 +1,9 @@
 // app/(tabs)/crm/_layout.tsx
-import { ResponsiveTabsLayout } from '@ui/layout';
 import { Slot, usePathname, useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { ResponsiveTabsLayout } from '@ui/layout';
 import { Text } from 'react-native';
 
 import { buildCrmTabs, getActiveCrmTab, tabToPath } from '@features/crm/config';

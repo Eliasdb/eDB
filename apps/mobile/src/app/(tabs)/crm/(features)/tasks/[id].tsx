@@ -1,52 +1,50 @@
 // app/(tabs)/crm/(features)/tasks/[id].tsx
-import { useDeleteTask, useHub } from '@api';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { Screen } from '@ui/layout';
 import { Pill } from '@ui/primitives';
 import { DateField } from '@ui/widgets';
-import { Pressable, Text, TextInput, View } from 'react-native';
 
-import type { Task } from '@api';
+// 🆕 data-access imports
+import type { Task } from '@data-access/crm/tasks';
+import { useDeleteTask, usePatchTask } from '@data-access/crm/tasks';
+import { useTask } from '@data-access/crm/tasks/queries';
 
 export default function TaskEditRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { data } = useHub();
-  const del = useDeleteTask();
 
-  const task = useMemo(
-    () => data?.tasks.find((t) => t.id === id),
-    [data?.tasks, id],
-  );
+  // fetch a single task
+  const { data: task } = useTask(id);
 
   // If item vanished (deleted / invalid id), close the sheet
   useEffect(() => {
-    if (!task) {
+    if (!task && id) {
       const t = setTimeout(() => router.back(), 0);
       return () => clearTimeout(t);
     }
-  }, [task, router]);
+  }, [task, id, router]);
 
   if (!task) return null;
 
+  // mutations bound to this task
+  const del = useDeleteTask();
+  const patch = usePatchTask(task.id);
+
   return (
     <Screen center={false} padding={0}>
-      {/* Give the content some breathing room inside the native sheet */}
       <View style={{ padding: 16 }}>
         <EditBody
           initial={task}
           onClose={() => router.back()}
-          onSave={(patch) => {
-            // TODO hook up to your updateTask mutation
-            // updateTask.mutate({ id: task.id, ...patch })
-            router.back();
+          onSave={(patchBody) => {
+            patch.mutate(patchBody, { onSuccess: () => router.back() });
           }}
           onDelete={() => {
-            del.mutate(task.id);
-            router.back();
+            del.mutate(task.id, { onSuccess: () => router.back() });
           }}
         />
       </View>
@@ -68,10 +66,11 @@ function EditBody({
   const [title, setTitle] = useState(initial.title ?? '');
   const [due, setDue] = useState(initial.due ?? '');
 
+  // reset form when the task changes (e.g., navigating between tasks)
   useEffect(() => {
     setTitle(initial.title ?? '');
     setDue(initial.due ?? '');
-  }, [initial.id]);
+  }, [initial.id, initial.title, initial.due]);
 
   const canSave = title.trim().length > 0;
   const handleSave = () =>

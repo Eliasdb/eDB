@@ -2,7 +2,7 @@ import { KeyValueRow } from '@ui/composites';
 import { Card, List } from '@ui/primitives';
 import { View } from 'react-native';
 
-import type { CompanyOverview } from '@api/core/types';
+import type { CompanyOverview } from '@data-access/crm/companies/types';
 import {
   companyStatsConfig,
   type StatRow,

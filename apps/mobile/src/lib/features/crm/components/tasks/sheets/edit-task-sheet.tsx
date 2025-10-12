@@ -5,7 +5,7 @@ import { Pill, Sheet } from '@ui/primitives';
 import { DateField } from '@ui/widgets';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
-import type { Task } from '@api';
+import type { Task } from '@data-access/crm/tasks';
 
 type Props = {
   visible: boolean;

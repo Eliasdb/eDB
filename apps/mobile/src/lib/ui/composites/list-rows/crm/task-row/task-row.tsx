@@ -1,5 +1,5 @@
 // apps/mobile/src/ui/composites/TaskRow.tsx
-import type { Task } from '@api';
+import type { Task } from '@data-access/crm/tasks';
 import { Checkbox, IconButton, ListRow } from '@ui/primitives';
 import { Text, View } from 'react-native';
 

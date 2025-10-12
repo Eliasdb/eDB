@@ -4,19 +4,21 @@ import { mediaDevices, RTCPeerConnection } from 'react-native-webrtc';
 import { makeMessageHandler } from '../core/makeMessageHandler.native';
 import { getToken, negotiate } from '../core/signaling';
 import { createExecuteOnce } from '../core/tools';
-import type { RealtimeConnections, RealtimeOptions } from '../core/types';
 import { buildAuthHeaders } from '../core/utils';
 import { attachRemoteLevelMeter } from './audioLevel';
+
+import { closeAudioSession, openAudioSession } from './audioSession';
 
 import {
   applyToolEffectToCache,
   invalidateHub,
   invalidateToolLogs,
-} from '@api';
+} from '@data-access';
+import { invalidateAfterTool } from '@data-access/core/cache';
 
 import { Platform } from 'react-native';
-import { invalidateAfterTool } from '../../api/core/cache';
-import { closeAudioSession, openAudioSession } from './audioSession';
+
+import type { RealtimeConnections, RealtimeOptions } from '../core/types';
 
 const TAG = 'realtime.native';
 

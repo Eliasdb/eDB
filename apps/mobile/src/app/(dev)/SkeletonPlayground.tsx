@@ -9,12 +9,12 @@ import {
   View,
 } from 'react-native';
 
+import { Contact } from '@data-access/crm/contacts';
 import { contactToEntityRowProps } from '@features/crm/mappers/entity';
 import { ContactItemSkeleton } from '@features/crm/skeletons/contact-row-skeleton';
 import { EntityRow, TaskRow } from '@ui/composites';
 import { Screen } from '@ui/layout';
 import { Card, List } from '@ui/primitives';
-import { Contact } from '../../lib/api';
 import { CompanyItemSkeleton } from '../../lib/features/crm/skeletons/company-row-skeleton';
 import { TaskItemSkeleton } from '../../lib/features/crm/skeletons/task-row-skeleton';
 

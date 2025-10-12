@@ -4,7 +4,7 @@ import { Tabs, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { AppHeader } from '@ui/navigation';
-import { NavigationTabBar } from '../../lib/ui/navigation/footers/nav-tab-bar/navigation-tab-bar';
+import { NavigationTabBar } from '@ui/navigation/footers/nav-tab-bar/navigation-tab-bar';
 
 export default function TabsLayout() {
   const router = useRouter();

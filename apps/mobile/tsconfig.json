@@ -15,8 +15,8 @@
       "@ui": ["lib/ui/index.ts"],
       "@ui/*": ["lib/ui/*"],
       "@features/*": ["lib/features/*"],
-      "@api": ["lib/api/index.ts"],
-      "@api/*": ["lib/api/*"],
+      "@data-access": ["lib/data-access/index.ts"],
+      "@data-access/*": ["lib/data-access/*"],
       "@voice": ["lib/voice/index.ts"],
       "@voice/*": ["lib/voice/*"],
       "@vm/*": ["viewmodels/*"]

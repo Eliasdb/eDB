@@ -3,7 +3,7 @@ import { Card, EmptyLine, List } from '@ui/primitives';
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import type { CompanyOverview } from '@api/core/types';
+import type { CompanyOverview } from '@data-access/crm/companies/types';
 
 /* ----------------------------- helpers ----------------------------- */
 
