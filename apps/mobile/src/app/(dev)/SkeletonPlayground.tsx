@@ -26,7 +26,7 @@ export default function SkeletonPlayground() {
   const [rows, setRows] = useState(6);
   const [showSkeleton, setShowSkeleton] = useState(true);
 
-  // For debug readout only
+  // For debug readout only...
   const [measuredRowHeight, setMeasuredRowHeight] = useState<number | null>(
     null,
   );
