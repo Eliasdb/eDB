@@ -10,6 +10,11 @@ spec:
         - name: clara-api
           # Image Updater will rewrite this tag automatically
           image: eliasdb/clara-api:pr-0-staging
+          envFrom:
+            - secretRef:
+                name: clara-api-db
+            - configMapRef:
+                name: clara-api-config
           env:
             - name: NODE_ENV
               value: 'staging'
