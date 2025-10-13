@@ -58,6 +58,9 @@
       ],
       "@eDB/shared-env": ["libs/utils/util-environment/src/index"],
       "@eDB/util-navigation": ["libs/utils/util-navigation/src/index.ts"],
+      "@edb/clara/feature-admin": [
+        "libs/client/edb-clara/features/feature-admin/src/index.ts"
+      ],
       "@edb/client-auth": ["libs/client/edb/data-access/client-auth/src/index"],
       "@edb/client-books": [
         "libs/client/edb/data-access/client-books/src/index.ts"

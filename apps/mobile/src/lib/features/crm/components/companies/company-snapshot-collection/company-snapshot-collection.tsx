@@ -1,19 +1,16 @@
 import { Section, TwoCol } from '@ui/layout';
-import { CompanyDetailsList } from './company-details-list';
-import CompanyQuickStats from './company-quick-stats/company-quick-stats';
+import { CompanyDetailsList } from '../company-details-list';
+import CompanyQuickStats from '../company-quick-stats/company-quick-stats';
 
 import type { CompanyOverview } from '@data-access/crm/companies/types';
-import { companyDetailsConfig } from '../../config/company-details.config';
+import { companyDetailsConfig } from './company-snapshot-collection.config';
 
 export type SnapshotCollectionProps = {
   data?: CompanyOverview;
   loading?: boolean;
 };
 
-export default function SnapshotCollection({
-  data,
-  loading,
-}: SnapshotCollectionProps) {
+export function SnapshotCollection({ data, loading }: SnapshotCollectionProps) {
   return (
     <TwoCol
       columns={2}

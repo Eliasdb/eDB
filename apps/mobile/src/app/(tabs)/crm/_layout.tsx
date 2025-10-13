@@ -1,37 +1,37 @@
 // app/(tabs)/crm/_layout.tsx
-import { Slot, usePathname, useRouter } from 'expo-router';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-
 import { ResponsiveTabsLayout } from '@ui/layout';
+import { Slot, usePathname, useRouter } from 'expo-router';
 import { Text } from 'react-native';
 
-import { buildCrmTabs, getActiveCrmTab, tabToPath } from '@features/crm/config';
-import { useCrmDir } from '../../../lib/nav/crmDirection'; // 👈 import store
+import {
+  CRM_LAYOUT_CONFIG,
+  CrmTabKey,
+  getActiveCrmTab,
+  pathForCrmTab,
+} from '@features/crm/config/crm-layout.config';
+
+import { useCrmDir } from '../../../lib/nav/crmDirection';
 
 export default function CRMLayout() {
-  const { t } = useTranslation();
-  const router = useRouter();
   const pathname = usePathname();
+  const router = useRouter();
   const setNext = useCrmDir((s) => s.setNext);
+  const dir = useCrmDir((s) => s.dir);
 
-  const active = useMemo(() => getActiveCrmTab(pathname), [pathname]);
-  const tabs = useMemo(() => buildCrmTabs(t), [t]);
+  const current = getActiveCrmTab(pathname);
 
   return (
-    <ResponsiveTabsLayout
-      tabs={tabs}
-      value={active}
+    <ResponsiveTabsLayout<CrmTabKey>
+      tabs={CRM_LAYOUT_CONFIG.tabs.map((t) => ({ key: t.key, label: t.label }))}
+      value={current}
       onChange={(next) => {
-        setNext(active, next); // 👈 store direction
-        router.replace(tabToPath[next]); // push, not replace, for animation
+        setNext(current, next);
+        router.replace(pathForCrmTab(next));
       }}
-      sidebarTitle={t('crm.title', { defaultValue: 'CRM' })}
+      sidebarTitle={CRM_LAYOUT_CONFIG.sidebarTitle}
       sidebarFooter={
         <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
-          {t('crm.sidebar.footer', {
-            defaultValue: 'Manage tasks, contacts, and companies.',
-          })}
+          {CRM_LAYOUT_CONFIG.sidebarFooter}
         </Text>
       }
       tabIdPrefix="crm-tab-"

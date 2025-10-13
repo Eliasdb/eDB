@@ -3,10 +3,7 @@ import { KeyValueRow } from '@ui/composites';
 import { List } from '@ui/primitives';
 
 import type { CompanyOverview } from '@data-access/crm/companies/types';
-import {
-  companyStatsConfig,
-  type StatRow,
-} from '@features/crm/config/company-stats.config';
+import { companyStatsConfig, type StatRow } from './company-quick-stats.config';
 
 export function CompanyQuickStats({
   data,

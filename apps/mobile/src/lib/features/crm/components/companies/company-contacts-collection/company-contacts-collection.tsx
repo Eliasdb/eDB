@@ -1,19 +1,19 @@
 // features/crm/components/companies/WorkCollection.tsx
 import type { CompanyOverview } from '@data-access/crm/companies/types';
-import {
-  getContactsGlanceItems,
-  mapContactToView,
-} from '@features/crm/config/contacts.config';
 import { IntroHeader } from '@ui/composites/intro-header/intro-header';
 import RecordRow from '@ui/composites/record-row';
 import StatsRowCard from '@ui/composites/stats-row-card';
 import { Section } from '@ui/layout';
 import { EmptyLine, List } from '@ui/primitives';
 import { Text as RNText } from 'react-native';
+import {
+  getContactsGlanceItems,
+  mapContactToView,
+} from './company-contacts-collection.config';
 
 export type WorkCollectionProps = { data?: CompanyOverview; loading?: boolean };
 
-export default function WorkCollection({ data, loading }: WorkCollectionProps) {
+export function WorkCollection({ data, loading }: WorkCollectionProps) {
   const rows = (data?.contacts ?? []).map(mapContactToView);
   const glanceItems = getContactsGlanceItems(data);
 

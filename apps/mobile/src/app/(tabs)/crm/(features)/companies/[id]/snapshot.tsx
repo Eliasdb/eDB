@@ -1,7 +1,7 @@
 import { useCompanyOverview } from '@data-access/crm/companies';
 import { useLocalSearchParams } from 'expo-router';
 
-import SnapshotCollection from '@features/crm/components/companies/SnapshotCollection';
+import { SnapshotCollection } from '@features/crm/components';
 import { IntroHeader } from '@ui/composites/intro-header/intro-header';
 
 import { View } from 'react-native';

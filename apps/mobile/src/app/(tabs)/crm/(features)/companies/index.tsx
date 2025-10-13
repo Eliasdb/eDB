@@ -45,23 +45,20 @@ export default function CompaniesScreen() {
           />
         ) : (
           <List inset>
-            {companies
-              .slice()
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((co, i) => (
-                <List.Item key={co.id} first={i === 0}>
-                  <Link
-                    href={{
-                      pathname: '/(tabs)/crm/(features)/companies/[id]',
-                      params: { id: co.id },
-                    }}
-                    onPressIn={() => handlePressIn(co.id)}
-                    asChild
-                  >
-                    <EntityRow {...companyToEntityRowProps(co)} />
-                  </Link>
-                </List.Item>
-              ))}
+            {companies.map((co, i) => (
+              <List.Item key={co.id} first={i === 0}>
+                <Link
+                  href={{
+                    pathname: '/(tabs)/crm/(features)/companies/[id]',
+                    params: { id: co.id },
+                  }}
+                  onPressIn={() => handlePressIn(co.id)}
+                  asChild
+                >
+                  <EntityRow {...companyToEntityRowProps(co)} />
+                </Link>
+              </List.Item>
+            ))}
           </List>
         )}
       </Card>

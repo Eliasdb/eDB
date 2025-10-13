@@ -56,7 +56,7 @@ function RowBullet({ text }: { text: string }) {
   );
 }
 
-export default function ResearchCollection({
+export function ResearchCollection({
   name = 'This company',
   data,
   loading,

@@ -9,17 +9,14 @@ import type { CompanyOverview } from '@data-access/crm/companies/types';
 import {
   getTasksGlanceItems,
   mapTaskToView,
-} from '@features/crm/config/tasks.config';
+} from './company-tasks-collection.config';
 
 export type TasksCollectionProps = {
   data?: CompanyOverview;
   loading?: boolean;
 };
 
-export default function TasksCollection({
-  data,
-  loading,
-}: TasksCollectionProps) {
+export function TasksCollection({ data, loading }: TasksCollectionProps) {
   const tasks: any[] = data?.tasks ?? [];
 
   // ✅ Render in server order.

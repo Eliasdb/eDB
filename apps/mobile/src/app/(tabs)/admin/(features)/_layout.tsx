@@ -1,46 +1,55 @@
-import { ResponsiveTabsLayout } from '@ui/layout';
+// app/(tabs)/admin/_layout.tsx
 import { Stack, usePathname, useRouter } from 'expo-router';
-import { Text } from 'react-native';
 import { useAdminDir } from '../../../../lib/nav/adminDirection';
 
-type Tab = 'capabilities' | 'logs';
+import { ResponsiveTabsLayout } from '@ui/layout';
+import { Text } from 'react-native';
+
+import {
+  ADMIN_LAYOUT_CONFIG,
+  AdminTabKey,
+  animationForScreen,
+  NavDir,
+  pathForTab,
+  tabFromPathname,
+} from '@features/admin/config/admin-layout.config';
 
 export default function AdminShellLayout() {
   const pathname = usePathname();
   const router = useRouter();
-  const setNext = useAdminDir((s) => s.setNext);
-  const dir = useAdminDir((s) => s.dir);
-  const slide = dir === 'forward' ? 'slide_from_right' : 'slide_from_left';
 
-  const current: Tab = pathname?.includes('/admin/logs')
-    ? 'logs'
-    : 'capabilities';
+  const setNext = useAdminDir((s) => s.setNext);
+  const dir = useAdminDir((s) => s.dir) as NavDir; // optional cast
+
+  const current: AdminTabKey = tabFromPathname(pathname);
 
   return (
-    <ResponsiveTabsLayout<Tab>
-      tabs={[
-        { key: 'capabilities', label: 'Capabilities' },
-        { key: 'logs', label: 'Logs' },
-      ]}
+    <ResponsiveTabsLayout<AdminTabKey>
+      tabs={ADMIN_LAYOUT_CONFIG.tabs.map((t) => ({
+        key: t.key,
+        label: t.label,
+      }))}
       value={current}
       onChange={(next) => {
-        setNext(current, next); // set direction for animation
-        router.replace(`/(tabs)/admin/${next}`); // push so Stack animates
+        setNext(current, next);
+        router.replace(pathForTab(next));
       }}
-      sidebarTitle="Admin"
+      sidebarTitle={ADMIN_LAYOUT_CONFIG.sidebarTitle}
       sidebarFooter={
         <Text className="text-[12px] text-text-dim dark:text-text-dimDark">
-          Review tools and audit activity.
+          {ADMIN_LAYOUT_CONFIG.sidebarFooter}
         </Text>
       }
     >
-      {/* 🔽 Put the Stack here, and reference files by simple names */}
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="capabilities" options={{ animation: slide }} />
-        <Stack.Screen name="logs" options={{ animation: 'fade' }} />
-        {/* or also direction-aware: options={{ animation: slide }} */}
+        {ADMIN_LAYOUT_CONFIG.tabs.map((t) => (
+          <Stack.Screen
+            key={t.key}
+            name={t.key}
+            options={{ animation: animationForScreen(dir, current, t.key) }}
+          />
+        ))}
       </Stack>
-      {/* <Slot/> is NOT needed when you mount a Stack here */}
     </ResponsiveTabsLayout>
   );
 }
