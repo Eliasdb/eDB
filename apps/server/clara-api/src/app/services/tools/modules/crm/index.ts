@@ -227,8 +227,11 @@ export const crmModule: ToolModule = {
 
         case 'delete': {
           const a = DeleteArgs.parse(args);
+          const prev = await store.get(a.kind as Kind, a.id); // <- grab before removing
           const ok = await store.remove(a.kind as Kind, a.id);
-          return ok ? { ok: true, id: a.id } : { error: 'not_found' };
+          return ok
+            ? { ok: true, id: a.id, prev } // <- include prev so client can invalidate precisely
+            : { error: 'not_found' };
         }
 
         default:

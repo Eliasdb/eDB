@@ -1,4 +1,5 @@
 import z from 'zod';
+import { toISOWithOffset } from '../../app/services/tools/modules/crm/datetime';
 
 /* ========== Reusable pieces ========== */
 export const PhoneSchema = z
@@ -38,7 +39,10 @@ export const EmployeeRangeEnum = z.enum([
 export const ActivitySchema = z.object({
   id: z.string().min(1).optional(),
   type: z.enum(['note', 'call', 'email', 'meeting', 'status', 'system']),
-  at: z.string().datetime({ offset: true }),
+  at: z.preprocess(
+    (v) => (typeof v === 'string' ? toISOWithOffset(v) : v),
+    z.string().datetime({ offset: true }),
+  ),
   summary: z.string().min(1),
   companyId: z.string().optional().nullable(), // <-- make nullable
   contactId: z.string().optional().nullable(), // <-- make nullable
@@ -116,6 +120,7 @@ export type CompanyInput = z.input<typeof CompanySchema>;
 export type CompanyPatch = z.infer<typeof CompanyPatchSchema>;
 
 /* ========== Contact (list item) ========== */
+// domain/types/crm.types (where ContactSchema lives)
 export const ContactSchema = z.object({
   id: z.string().min(1).optional(),
   name: z.string().min(1),
@@ -124,7 +129,12 @@ export const ContactSchema = z.object({
   phone: PhoneSchema,
   companyId: z.string().optional(),
   avatarUrl: z.string().url().optional(),
+
+  // 👇 add these to match your drizzle schema
+  createdAt: z.string().optional().nullable(),
+  updatedAt: z.string().optional().nullable(),
 });
+
 export const ContactPatchSchema = ContactSchema.omit({ id: true }).partial();
 export type Contact = z.infer<typeof ContactSchema>;
 export type ContactInput = z.input<typeof ContactSchema>;

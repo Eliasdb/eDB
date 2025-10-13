@@ -1,6 +1,6 @@
+// features/crm/components/companies/company-quick-stats/company-quick-stats.tsx
 import { KeyValueRow } from '@ui/composites';
-import { Card, List } from '@ui/primitives';
-import { View } from 'react-native';
+import { List } from '@ui/primitives';
 
 import type { CompanyOverview } from '@data-access/crm/companies/types';
 import {
@@ -12,33 +12,27 @@ export function CompanyQuickStats({
   data,
   loading = false,
   config = companyStatsConfig,
-  className,
 }: {
   data?: CompanyOverview;
   loading?: boolean;
   /** allow per-screen override */
   config?: readonly StatRow[];
-  className?: string;
 }) {
   return (
-    <View className={['px-4 mt-3', className ?? ''].join(' ')}>
-      <Card tone="flat" inset={false} bodyClassName="p-0 overflow-hidden">
-        <List>
-          {config.map((row, idx) => {
-            const val = loading ? null : row.getValue(data);
-            return (
-              <List.Item key={row.label} first={idx === 0}>
-                <KeyValueRow
-                  icon={row.icon}
-                  label={row.label}
-                  value={val ?? row.empty ?? '—'}
-                />
-              </List.Item>
-            );
-          })}
-        </List>
-      </Card>
-    </View>
+    <List>
+      {config.map((row, idx) => {
+        const val = loading ? null : row.getValue(data);
+        return (
+          <List.Item key={row.label} first={idx === 0}>
+            <KeyValueRow
+              icon={row.icon}
+              label={row.label}
+              value={val ?? row.empty ?? '—'}
+            />
+          </List.Item>
+        );
+      })}
+    </List>
   );
 }
 

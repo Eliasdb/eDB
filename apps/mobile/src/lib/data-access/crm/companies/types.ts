@@ -1,5 +1,3 @@
-// companies/types.ts
-
 /** Pipeline stage of a company in CRM. */
 export type CompanyStage = 'lead' | 'prospect' | 'customer' | 'inactive';
 
@@ -63,6 +61,12 @@ export type ContactSummary = {
   phone?: string;
   avatarUrl?: string;
   companyId?: string | null;
+
+  /** Optional timestamps so UI can show "• 5m" safely */
+  createdAt?: string;
+  updatedAt?: string;
+  /** If backend computes a per-contact last activity */
+  lastActivityAt?: string | null;
 };
 
 export type TaskSummary = {
@@ -84,8 +88,15 @@ export type ActivitySummary = {
 };
 
 export type CompanyStats = {
+  /** Latest activity across the whole company timeline */
   lastActivityAt: string | null;
+  /** Latest "touch" related to contacts (created/updated/etc.) */
+  lastContactActivityAt: string | null;
+  /** Number of related contacts */
+  contactsCount: number;
+  /** Next upcoming task due date (if any) */
   nextTaskDue: string | null;
+  /** Count of open (not done) tasks */
   openTasks: number;
 };
 
@@ -93,7 +104,9 @@ export type CompanyStats = {
 export type CompanyOverview = {
   company: Company;
   contacts: ContactSummary[];
-  activities: ActivitySummary[];
+  activities: ActivitySummary[]; // keep for compatibility with existing screens
+  /** Optional: new canonical name if you adopt it */
+  timeline?: ActivitySummary[];
   tasks: TaskSummary[];
   stats: CompanyStats;
 };

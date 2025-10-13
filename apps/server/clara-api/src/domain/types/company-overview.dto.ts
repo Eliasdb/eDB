@@ -14,10 +14,18 @@ export const ContactWithInitialsSchema = ContactSchema.extend({
 export const CompanyOverviewSchema = z.object({
   company: CompanySchema,
   contacts: z.array(ContactWithInitialsSchema),
-  activities: z.array(ActivitySchema),
+
+  // ✅ rename to avoid confusion with the Activities entity
+  timeline: z.array(ActivitySchema),
+
+  // (optional) temporary compat during migration; remove once clients switch
+  activities: z.array(ActivitySchema).optional(),
+
   tasks: z.array(TaskSchema),
   stats: z.object({
-    lastActivityAt: z.string().nullable(),
+    contactsCount: z.number(),
+    lastActivityAt: z.string().nullable(), // overall (any activity for the company)
+    lastContactActivityAt: z.string().nullable(), // 👈 only activities tied to company contacts
     nextTaskDue: z.string().nullable(),
     openTasks: z.number(),
   }),

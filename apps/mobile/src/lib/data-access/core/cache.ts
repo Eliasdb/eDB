@@ -46,6 +46,7 @@ export function invalidateAfterTool(name: string, args: any, result?: any) {
       if (kind === 'contacts') invalidateCompany(qc, data.companyId);
       break;
     }
+
     case 'hub.update': {
       const { kind, id, patch } = args as {
         kind: Kind;
@@ -65,11 +66,30 @@ export function invalidateAfterTool(name: string, args: any, result?: any) {
       }
       break;
     }
+
     case 'hub.delete': {
-      const { kind, id } = args as { kind: Kind; id: string };
+      const { kind } = args as { kind: Kind; id: string };
+      const prev = result?.prev ?? {}; // 👈 comes from server change
       invLists(kind);
-      if (kind === 'companies') invalidateCompany(qc, id);
-      if (kind === 'contacts') invContact(id);
+
+      if (kind === 'companies') {
+        invalidateCompany(qc, prev.id); // overview page of the deleted company
+      }
+
+      if (kind === 'contacts') {
+        invContact(prev.id);
+        invalidateCompany(qc, prev.companyId);
+      }
+
+      if (kind === 'tasks') {
+        invalidateCompany(qc, prev.companyId);
+        invContact(prev.contactId);
+      }
+
+      if (kind === 'activities') {
+        invalidateCompany(qc, prev.companyId);
+        invContact(prev.contactId);
+      }
       break;
     }
   }

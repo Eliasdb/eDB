@@ -9,11 +9,7 @@ import { attachRemoteLevelMeter } from './audioLevel';
 
 import { closeAudioSession, openAudioSession } from './audioSession';
 
-import {
-  applyToolEffectToCache,
-  invalidateHub,
-  invalidateToolLogs,
-} from '@data-access';
+import { invalidateToolLogs } from '@data-access';
 import { invalidateAfterTool } from '@data-access/core/cache';
 
 import { Platform } from 'react-native';
@@ -100,13 +96,10 @@ export async function connectRealtime(
   // 7) Messages + tool execution
   const executeOnce = createExecuteOnce(apiBase, headers, dc as any, {
     onToolEffect: (name, args, result) => {
-      applyToolEffectToCache(name, args, result);
       invalidateAfterTool(name, args, result); // ✅ precise invalidation
-
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
-      invalidateHub();
       invalidateToolLogs();
       opts?.onInvalidate?.();
     },
@@ -114,9 +107,7 @@ export async function connectRealtime(
   });
 
   const onMessage = makeMessageHandler(dc as any, executeOnce, {
-    onToolEffect: (name, args) => {
-      applyToolEffectToCache(name, args);
-    },
+    onToolEffect: (name, args) => {},
   });
 
   (dc as any).onmessage = onMessage as any;

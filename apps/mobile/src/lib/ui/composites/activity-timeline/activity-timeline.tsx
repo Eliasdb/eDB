@@ -1,8 +1,8 @@
 import type { Activity } from '@data-access/crm/activities';
 import { Ionicons } from '@expo/vector-icons';
-import { TwoLineRow } from '@ui/composites';
 import { Card, EmptyLine, List } from '@ui/primitives';
 import { Pressable, Text, View } from 'react-native';
+import { TwoLineRow } from '../list-rows';
 
 type IconName = React.ComponentProps<typeof Ionicons>['name'];
 

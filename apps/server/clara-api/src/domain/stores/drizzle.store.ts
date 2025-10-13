@@ -1,5 +1,12 @@
-import { sql } from 'drizzle-orm';
+// apps/server/clara-api/src/domain/stores/index.ts
+import { and, asc, desc, eq, inArray, isNotNull, or } from 'drizzle-orm';
 import { db } from '../../infra/db/client';
+import {
+  activities as activitiesTbl,
+  contacts as contactsTbl,
+  tasks as tasksTbl,
+} from '../../infra/db/schema';
+
 import {
   deleteActivity,
   getActivity,
@@ -29,6 +36,7 @@ import {
   listTasks,
   patchTask,
 } from '../repos/tasks.repo';
+
 import type {
   Activity,
   Contact,
@@ -126,23 +134,53 @@ export const store: IStore = {
     return (await contactsForCompany(companyId)) as Contact[];
   },
 
+  // ✅ Query builder version → camelCase fields
   async activitiesByCompany(companyId: string) {
-    const res = await db.execute<Activity>(sql`
-    select a.* from activities a
-    where a.company_id = ${companyId}
-       or (a.contact_id is not null and a.contact_id in (select id from contacts where company_id = ${companyId}))
-    order by a.at desc
-  `);
-    return (res as any).rows as Activity[]; // <-- unwrap rows
+    // subquery of contact ids for this company
+    const contactIdsSubq = db
+      .select({ id: contactsTbl.id })
+      .from(contactsTbl)
+      .where(eq(contactsTbl.companyId, companyId));
+
+    const rows = await db
+      .select()
+      .from(activitiesTbl)
+      .where(
+        or(
+          eq(activitiesTbl.companyId, companyId),
+          and(
+            isNotNull(activitiesTbl.contactId),
+            inArray(activitiesTbl.contactId, contactIdsSubq),
+          ),
+        ),
+      )
+      .orderBy(desc(activitiesTbl.at));
+
+    return rows as Activity[];
   },
 
+  // ✅ Query builder version → camelCase fields
   async tasksByCompany(companyId: string) {
-    const res = await db.execute<Task>(sql`
-    select t.* from tasks t
-    where t.company_id = ${companyId}
-       or (t.contact_id is not null and t.contact_id in (select id from contacts where company_id = ${companyId}))
-    order by coalesce(t.due::text, '') asc
-  `);
-    return (res as any).rows as Task[]; // <-- unwrap rows
+    const contactIdsSubq = db
+      .select({ id: contactsTbl.id })
+      .from(contactsTbl)
+      .where(eq(contactsTbl.companyId, companyId));
+
+    const rows = await db
+      .select()
+      .from(tasksTbl)
+      .where(
+        or(
+          eq(tasksTbl.companyId, companyId),
+          and(
+            isNotNull(tasksTbl.contactId),
+            inArray(tasksTbl.contactId, contactIdsSubq),
+          ),
+        ),
+      )
+      // mimic "coalesce(due, '') asc" → due asc NULLS LAST, then createdAt
+      .orderBy(asc(tasksTbl.due), asc(tasksTbl.createdAt));
+
+    return rows as Task[];
   },
 };

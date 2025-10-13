@@ -6,11 +6,7 @@ import type { RealtimeConnections, RealtimeOptions } from '../core/types';
 import { buildAuthHeaders, createAudioSink } from '../core/utils';
 import { attachRemoteLevelMeter } from './audioLevel';
 
-import {
-  applyToolEffectToCache,
-  invalidateHub,
-  invalidateToolLogs,
-} from '@data-access';
+import { invalidateToolLogs } from '@data-access';
 import { invalidateAfterTool } from '@data-access/core/cache';
 
 export async function connectRealtime(
@@ -75,13 +71,10 @@ export async function connectRealtime(
   // 7) Messages + tool execution
   const executeOnce = createExecuteOnce(apiBase, headers, dc, {
     onToolEffect: (name, args, result) => {
-      applyToolEffectToCache(name, args, result);
       invalidateAfterTool(name, args, result); // ✅ precise invalidation
-
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
-      invalidateHub();
       invalidateToolLogs();
       opts?.onInvalidate?.();
     },
@@ -90,7 +83,7 @@ export async function connectRealtime(
 
   const onMessage = makeMessageHandler(dc, executeOnce, {
     onToolEffect: (name, args) => {
-      applyToolEffectToCache(name, args);
+      invalidateAfterTool(name, args); // ✅ precise invalidation
     },
   });
 
