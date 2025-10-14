@@ -1,6 +1,13 @@
 // libs/ui/navigation/segmented.tsx
 import { Ionicons } from '@expo/vector-icons';
-import * as React from 'react';
+import {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   Platform,
   Pressable,
@@ -22,7 +29,7 @@ import Reanimated, {
 export type SegmentedOption<T extends string> = {
   value: T;
   label: string;
-  iconName?: React.ComponentProps<typeof Ionicons>['name'];
+  iconName?: ComponentProps<typeof Ionicons>['name'];
 };
 
 type Props<T extends string> = {
@@ -47,7 +54,7 @@ export function Segmented<T extends string>({
   const isDark = useColorScheme() === 'dark';
 
   // --- tokens ---
-  const tokens = React.useMemo(() => {
+  const tokens = useMemo(() => {
     const active = accentColor ?? (isDark ? '#8B9DFF' : '#6366F1');
     const idleText = isDark ? '#9AA3B2' : '#6B7280';
     const borderPrimary = isDark ? '#2A2F3A' : '#E5E7EB';
@@ -85,12 +92,12 @@ export function Segmented<T extends string>({
   }, [accentColor, isDark, size, variant]);
 
   // --- layout metrics per tab ---
-  const [metrics, setMetrics] = React.useState<
+  const [metrics, setMetrics] = useState<
     Record<string, { x: number; w: number; contentW: number }>
   >({});
 
   // track total content width to clamp scroll
-  const contentW = React.useMemo(() => {
+  const contentW = useMemo(() => {
     let maxRight = 0;
     for (const k in metrics) {
       const m = metrics[k];
@@ -100,14 +107,14 @@ export function Segmented<T extends string>({
   }, [metrics]);
 
   // viewport width for centering
-  const [viewportW, setViewportW] = React.useState(0);
+  const [viewportW, setViewportW] = useState(0);
 
   // --- underline animation ---
   const leftSV = useSharedValue(0);
   const widthSV = useSharedValue(0);
-  const curRef = React.useRef({ left: 0, w: 0 });
+  const curRef = useRef({ left: 0, w: 0 });
 
-  const animateTo = React.useCallback(
+  const animateTo = useCallback(
     (toLeft: number, toW: number) => {
       const { left: fromLeft, w: fromW } = curRef.current;
       const stretchLeft = Math.min(fromLeft, toLeft);
@@ -133,7 +140,7 @@ export function Segmented<T extends string>({
     [leftSV, widthSV],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const m = metrics[String(value)];
     if (!m) return;
     const toLeft = m.x + (m.w - m.contentW) / 2;
@@ -154,8 +161,8 @@ export function Segmented<T extends string>({
   }));
 
   // --- auto-scroll to selected tab ---
-  const scrollRef = React.useRef<ScrollView>(null);
-  const scrollToSelected = React.useCallback(() => {
+  const scrollRef = useRef<ScrollView>(null);
+  const scrollToSelected = useCallback(() => {
     const m = metrics[String(value)];
     if (!m || viewportW === 0 || contentW === 0) return;
 
@@ -167,12 +174,12 @@ export function Segmented<T extends string>({
     scrollRef.current?.scrollTo({ x: clamped, y: 0, animated: true });
   }, [metrics, value, viewportW, contentW]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     scrollToSelected();
   }, [value, viewportW, contentW, scrollToSelected]);
 
   // Keep viewport width up to date
-  const onScrollViewLayout = React.useCallback(
+  const onScrollViewLayout = useCallback(
     (e: any) => {
       setViewportW(e.nativeEvent.layout.width);
     },

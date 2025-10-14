@@ -1,7 +1,6 @@
 // apps/mobile/src/lib/ui/subheader.stories.tsx
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SubHeader, TextAction } from './subheader';

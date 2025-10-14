@@ -1,4 +1,4 @@
-import type { Activity } from '@data-access/crm/activities';
+import type { Activity } from '@edb-clara/client-crm';
 import { ActivityTimeline, IntroHeader, ScreenToggle } from '@edb/shared-ui-rn';
 import { useState } from 'react';
 import { View } from 'react-native';

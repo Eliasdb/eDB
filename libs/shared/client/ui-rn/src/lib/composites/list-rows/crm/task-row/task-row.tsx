@@ -1,5 +1,5 @@
 // apps/mobile/src/ui/composites/TaskRow.tsx
-import type { Task } from '@data-access/crm/tasks';
+import type { Task } from '@edb-clara/client-crm';
 import { Text, View } from 'react-native';
 import { Checkbox, IconButton, ListRow } from '../../../../primitives';
 

@@ -1,6 +1,6 @@
 // libs/ui/navigation/icon-segmented.tsx
 import { Ionicons } from '@expo/vector-icons';
-import * as React from 'react';
+import { ComponentProps } from 'react';
 import {
   Platform,
   Pressable,
@@ -12,7 +12,7 @@ import {
 
 export type IconTab<T extends string> = {
   value: T;
-  iconName: React.ComponentProps<typeof Ionicons>['name'];
+  iconName: ComponentProps<typeof Ionicons>['name'];
   /**
    * VoiceOver / TalkBack label. (Shown visually on web if showLabels)
    */

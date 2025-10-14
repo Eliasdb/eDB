@@ -10,9 +10,11 @@ import {
 } from '@edb-clara/feature-crm';
 import { Card, EmptyLine, EntityRow, List, Screen } from '@edb/shared-ui-rn';
 
-import { contactKeys } from '@data-access/crm/contacts/keys';
-import { useContacts } from '@data-access/crm/contacts/queries';
-import { fetchContactOverview } from '@data-access/crm/contacts/service';
+import {
+  contactKeys,
+  fetchContactOverview,
+  useContacts,
+} from '@edb-clara/client-crm';
 
 export default function ContactsScreen() {
   const { t } = useTranslation();

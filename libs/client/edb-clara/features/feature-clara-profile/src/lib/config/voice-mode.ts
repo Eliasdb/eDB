@@ -1,9 +1,5 @@
 // features/profile/config/voices.ts
-import {
-  DEFAULT_VOICE_KEY,
-  VOICES,
-  type VoiceKey,
-} from '@voice/previews/voices';
+import { DEFAULT_VOICE_KEY, VOICES, type VoiceKey } from '@edb-clara/realtime';
 import type { VoiceCard } from '../types/voice-mode.types';
 
 export function getDefaultVoiceCard(): VoiceCard {

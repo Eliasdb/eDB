@@ -1,4 +1,4 @@
-import type { Task } from '@data-access/crm/tasks';
+import type { Task } from '@edb-clara/client-crm';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TaskRow } from './task-row';
 

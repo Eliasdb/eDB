@@ -1,4 +1,4 @@
-import type { Activity } from '@data-access/crm/activities';
+import type { Activity } from '@edb-clara/client-crm';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 import { Card, EmptyLine, List } from '../../primitives';

@@ -7,9 +7,8 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { DateField, Pill, Screen } from '@edb/shared-ui-rn';
 
 // 🆕 data-access imports
-import type { Task } from '@data-access/crm/tasks';
-import { useDeleteTask, usePatchTask } from '@data-access/crm/tasks';
-import { useTask } from '@data-access/crm/tasks/queries';
+import type { Task } from '@edb-clara/client-crm';
+import { useDeleteTask, usePatchTask, useTask } from '@edb-clara/client-crm';
 
 export default function TaskEditRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();

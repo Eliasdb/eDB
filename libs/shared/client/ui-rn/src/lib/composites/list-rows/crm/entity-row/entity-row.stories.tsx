@@ -2,7 +2,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { View } from 'react-native';
 import { EntityRow, type EntityMetaItem, type EntityTag } from './entity-row';
 

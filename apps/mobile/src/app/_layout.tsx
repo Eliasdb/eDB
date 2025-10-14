@@ -7,7 +7,7 @@ import { AppState, Platform, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Tanstack
-import { getQueryClient } from '@data-access';
+import { getQueryClient } from '@edb-clara/client-crm';
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 
 // Expo
@@ -24,8 +24,7 @@ import { colorScheme } from 'nativewind';
 import '../../global.css';
 
 // i18n
-import React from 'react';
-import { initI18n } from '../lib/i18n';
+import { initI18n } from '@edb-clara/i18n';
 
 const queryClient = getQueryClient();
 

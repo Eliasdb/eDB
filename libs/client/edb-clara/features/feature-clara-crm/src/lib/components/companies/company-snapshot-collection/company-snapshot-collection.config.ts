@@ -1,5 +1,5 @@
 // features/crm/config/company-details.config.ts
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 
 type IconName = React.ComponentProps<
   typeof import('@expo/vector-icons').Ionicons

@@ -1,11 +1,11 @@
 // libs/ui/layout/intro-header.tsx
-import * as React from 'react';
+import { ReactNode } from 'react';
 import { Text, useColorScheme, View, ViewStyle } from 'react-native';
 
 export type IntroHeaderProps = {
   text: string;
   /** optional actions slot (kept for Activity screen parity) */
-  right?: React.ReactNode;
+  right?: ReactNode;
   style?: ViewStyle;
   /** border emphasis */
   variant?: 'primary' | 'secondary';

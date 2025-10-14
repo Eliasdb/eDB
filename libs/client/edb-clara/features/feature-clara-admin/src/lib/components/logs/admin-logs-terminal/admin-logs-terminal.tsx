@@ -11,7 +11,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import { LogVM, entryToVM } from '@data-access/observability/tool-logs';
+import { LogVM, entryToVM } from '@edb-clara/client-admin';
 
 type Page = {
   items: any[];

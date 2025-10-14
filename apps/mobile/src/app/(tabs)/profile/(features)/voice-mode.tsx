@@ -1,4 +1,4 @@
-import { useVoicePreview } from '@voice/previews/useVoicePreview.web';
+import { useVoicePreview } from '@edb-clara/realtime';
 import { useMemo, useRef, useState } from 'react';
 
 import { IntroCard, VoiceGrid, VoiceRow } from '@edb-clara/feature-profile';
@@ -9,7 +9,7 @@ import {
   getDefaultVoiceCard,
   getOtherVoiceCards,
 } from '@edb-clara/feature-profile';
-import { DEFAULT_VOICE_KEY, type VoiceKey } from '@voice/previews/voices';
+import { DEFAULT_VOICE_KEY, type VoiceKey } from '@edb-clara/realtime';
 
 export default function VoiceModeScreen() {
   const [selected, setSelected] = useState<VoiceKey>(DEFAULT_VOICE_KEY);

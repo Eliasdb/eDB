@@ -1,4 +1,4 @@
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 import { FieldRow, LinkFieldRow, List } from '@edb/shared-ui-rn';
 import type { DetailRow } from './company-snapshot-collection/company-snapshot-collection.config';
 

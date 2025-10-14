@@ -4,8 +4,8 @@ import { Badge, Card, Dot, KV, MonoKV, Segmented } from '@edb/shared-ui-rn';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import type { LogVM } from '@data-access/observability/tool-logs';
-import { buildSummaryRows } from '@data-access/observability/tool-logs';
+import type { LogVM } from '@edb-clara/client-admin';
+import { buildSummaryRows } from '@edb-clara/client-admin';
 
 type Tab = 'summary' | 'raw';
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {
   useCompanies,
   usePrefetchCompanyOverview,
-} from '@data-access/crm/companies';
+} from '@edb-clara/client-crm';
 
 import {
   CompanyItemSkeleton,

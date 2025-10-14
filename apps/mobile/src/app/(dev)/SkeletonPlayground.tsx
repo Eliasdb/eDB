@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 
-import { Contact } from '@data-access/crm/contacts';
+import { Contact } from '@edb-clara/client-crm';
 import {
   CompanyItemSkeleton,
   ContactItemSkeleton,

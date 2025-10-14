@@ -1,4 +1,4 @@
-import type { Activity } from '@data-access/crm/activities';
+import type { Activity } from '@edb-clara/client-crm';
 import {
   ActivityEventRow,
   EmptyLine,

@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, Text } from 'react-native';
 
 export type BottomNavItemModel = {

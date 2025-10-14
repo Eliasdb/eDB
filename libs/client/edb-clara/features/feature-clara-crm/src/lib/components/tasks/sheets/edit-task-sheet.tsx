@@ -4,7 +4,7 @@ import { DateField, Pill, Sheet } from '@edb/shared-ui-rn';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
-import type { Task } from '@data-access/crm/tasks';
+import type { Task } from '@edb-clara/client-crm';
 
 type Props = {
   visible: boolean;

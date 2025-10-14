@@ -1,7 +1,7 @@
 // apps/mobile/src/features/crm/mappers/entity.ts
+import { Company } from '@edb-clara/client-crm';
 import type { EntityMetaItem, EntityTag } from '@edb/shared-ui-rn';
 import { initials as toInitials } from '@edb/shared-ui-rn';
-import { Company } from '../../../../../../../../apps/mobile/src/lib/data-access/crm/companies/types';
 
 export function contactToEntityRowProps(c: {
   id: string;

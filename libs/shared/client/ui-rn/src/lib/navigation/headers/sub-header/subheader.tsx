@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/Subheader.tsx
 import { Ionicons } from '@expo/vector-icons';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
   Platform,
   PlatformColor,

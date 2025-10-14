@@ -1,4 +1,4 @@
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 
 /* --- tiny time label --- */
 export const relFuture = (iso?: string | null) => {

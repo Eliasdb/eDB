@@ -1,10 +1,10 @@
 // @ui/composites/settings-row.tsx
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { ListRow, Switch } from '../../../../primitives';
 
-type IconName = React.ComponentProps<typeof Ionicons>['name'];
+type IconName = ComponentProps<typeof Ionicons>['name'];
 
 type SharedProps = {
   label: string;
@@ -80,7 +80,7 @@ export function SettingsRow(props: SettingsRowProps) {
     <Text className="text-[16px] text-text dark:text-text-dark">{label}</Text>
   );
 
-  let right: React.ReactNode = null;
+  let right: ReactNode = null;
 
   if (props.kind === 'toggle') {
     right = (

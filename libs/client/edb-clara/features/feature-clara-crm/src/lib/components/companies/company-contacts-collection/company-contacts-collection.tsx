@@ -1,5 +1,5 @@
 // features/crm/components/companies/WorkCollection.tsx
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 import {
   EmptyLine,
   IntroHeader,

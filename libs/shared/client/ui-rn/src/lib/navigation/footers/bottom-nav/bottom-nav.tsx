@@ -1,4 +1,3 @@
-import React from 'react';
 import { Platform, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomNavItem, BottomNavItemModel } from './bottom-nav-item';

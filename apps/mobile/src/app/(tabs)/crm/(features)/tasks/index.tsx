@@ -9,6 +9,7 @@ import {
   ListSkeleton,
   TaskItemSkeleton,
 } from '@edb-clara/feature-crm';
+
 import {
   Card,
   EmptyLine,
@@ -23,10 +24,9 @@ import {
 import {
   useCreateTask,
   useDeleteTask,
+  useTasks,
   useToggleTask,
-} from '@data-access/crm/tasks';
-
-import { useTasks } from '@data-access/crm/tasks/queries';
+} from '@edb-clara/client-crm';
 
 export default function TasksScreen() {
   const { t } = useTranslation();

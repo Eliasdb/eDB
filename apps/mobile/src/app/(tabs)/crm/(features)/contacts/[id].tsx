@@ -1,6 +1,5 @@
 // apps/mobile/src/app/(tabs)/crm/(features)/contacts/[id].tsx
-import { useCreateActivity } from '@data-access/crm/activities';
-import { useContactOverview } from '@data-access/crm/contacts';
+import { useContactOverview, useCreateActivity } from '@edb-clara/client-crm';
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 

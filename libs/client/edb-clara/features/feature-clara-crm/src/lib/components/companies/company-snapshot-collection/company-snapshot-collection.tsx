@@ -2,7 +2,7 @@ import { Section, TwoCol } from '@edb/shared-ui-rn';
 import { CompanyDetailsList } from '../company-details-list';
 import CompanyQuickStats from '../company-quick-stats/company-quick-stats';
 
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 import { companyDetailsConfig } from './company-snapshot-collection.config';
 
 export type SnapshotCollectionProps = {

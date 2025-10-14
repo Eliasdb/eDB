@@ -1,11 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  LogVM,
-  entryToVM,
-  useToolLogsInfinite,
-} from '@data-access/observability/tool-logs';
+import { LogVM, entryToVM, useToolLogsInfinite } from '@edb-clara/client-admin';
 
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { AdminLogsCard } from '../admin-logs-card/admin-logs-card';

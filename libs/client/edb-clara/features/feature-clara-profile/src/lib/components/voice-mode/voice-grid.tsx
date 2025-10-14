@@ -1,6 +1,6 @@
 // features/profile/components/voice-mode/VoiceGrid.tsx
+import type { VoiceKey } from '@edb-clara/realtime';
 import { ResponsiveGrid } from '@edb/shared-ui-rn';
-import type { VoiceKey } from '@voice/previews/voices';
 import { Text, View } from 'react-native';
 import { VoiceCard } from '../../types/voice-mode.types';
 import { VoiceRow } from './voice-row';

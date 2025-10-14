@@ -1,4 +1,4 @@
-import { useCompanyOverview } from '@data-access/crm/companies';
+import { useCompanyOverview } from '@edb-clara/client-crm';
 import { useLocalSearchParams } from 'expo-router';
 
 import { ResearchCollection } from '@edb-clara/feature-crm';

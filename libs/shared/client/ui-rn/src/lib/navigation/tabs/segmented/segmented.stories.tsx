@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import * as React from 'react';
+import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Segmented } from './segmented';
 
@@ -13,7 +13,7 @@ type Story = StoryObj<typeof Segmented>;
 
 export const TabsBasic: Story = {
   render: () => {
-    const [tab, setTab] = React.useState<'overview' | 'details' | 'activity'>(
+    const [tab, setTab] = useState<'overview' | 'details' | 'activity'>(
       'overview',
     );
 

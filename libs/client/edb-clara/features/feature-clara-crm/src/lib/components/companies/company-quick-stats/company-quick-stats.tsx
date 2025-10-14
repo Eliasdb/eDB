@@ -1,7 +1,7 @@
 // features/crm/components/companies/company-quick-stats/company-quick-stats.tsx
 import { KeyValueRow, List } from '@edb/shared-ui-rn';
 
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 import { companyStatsConfig, type StatRow } from './company-quick-stats.config';
 
 export function CompanyQuickStats({

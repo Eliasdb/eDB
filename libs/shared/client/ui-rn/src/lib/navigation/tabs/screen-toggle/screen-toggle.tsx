@@ -1,6 +1,5 @@
 // libs/ui/navigation/screen-toggle.tsx
 import { Ionicons } from '@expo/vector-icons';
-import * as React from 'react';
 import { Pressable, View, ViewStyle, useColorScheme } from 'react-native';
 
 type IconName = React.ComponentProps<typeof Ionicons>['name'];

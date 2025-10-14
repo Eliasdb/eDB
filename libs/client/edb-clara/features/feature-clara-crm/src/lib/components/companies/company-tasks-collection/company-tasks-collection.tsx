@@ -9,7 +9,7 @@ import {
 } from '@edb/shared-ui-rn';
 import { Text as RNText, View } from 'react-native';
 
-import type { CompanyOverview } from '@data-access/crm/companies/types';
+import type { CompanyOverview } from '@edb-clara/client-crm';
 import {
   getTasksGlanceItems,
   mapTaskToView,

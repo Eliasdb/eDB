@@ -61,6 +61,11 @@ export default function ProfileScreen() {
                   icon: 'code-slash-outline',
                   onPress: () => router.push('/storybook'),
                 },
+                {
+                  label: 'Skeletons',
+                  icon: 'code-slash-outline',
+                  onPress: () => router.push('/(dev)/SkeletonPlayground'),
+                },
               ]}
             />
 

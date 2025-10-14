@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
 import { colorScheme } from 'nativewind';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import BottomNav from './bottom-nav';
 import type { BottomNavItemModel as BottomNavItem } from './bottom-nav-item';

@@ -1,7 +1,6 @@
 // libs/ui/primitives/info-rows.stories.tsx
 import { Ionicons } from '@expo/vector-icons';
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import { Text, View } from 'react-native';
 import { KeyValueRow, TwoLineRow } from './info-row';
 

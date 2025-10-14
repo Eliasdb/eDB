@@ -3,8 +3,8 @@ import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 import { View } from 'react-native';
 
-import type { Activity } from '@data-access/crm/activities';
-import { Button } from '@ui/primitives';
+import type { Activity } from '@edb-clara/client-crm';
+import { Button } from '../../primitives';
 import {
   ActivityTimeline,
   type ActivityTimelineProps,

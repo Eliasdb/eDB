@@ -1,0 +1,9 @@
+{
+  "name": "client-clara-crm",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/client/edb-clara/data-access/client-clara-crm/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project client-clara-crm --web",
+  "targets": {}
+}

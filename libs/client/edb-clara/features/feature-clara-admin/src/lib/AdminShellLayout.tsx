@@ -12,7 +12,7 @@ import {
 } from './config/admin-layout.config';
 
 // NOTE: keep the hook in your app/store; import from your existing path
-import { useAdminDir } from '../../../../../../../apps/mobile/src/lib/nav/adminDirection';
+import { useAdminDir } from '../lib/hooks/useAdminDir';
 
 export default function AdminShellLayout() {
   const pathname = usePathname();

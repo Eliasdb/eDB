@@ -1,4 +1,5 @@
 // libs/ui/composites/record-row.tsx
+import { ReactNode } from 'react';
 import {
   Pressable,
   Text,
@@ -8,13 +9,13 @@ import {
 
 export type RecordRowProps = {
   /** Primary line (bold). Accepts string or custom node. */
-  title: string | React.ReactNode;
+  title: string | ReactNode;
   /** Secondary line (dim). Omit to hide the line. */
-  secondary?: string | React.ReactNode;
+  secondary?: string | ReactNode;
   /** Right-side slot (badge, time, etc.). */
-  right?: React.ReactNode;
+  right?: ReactNode;
   /** Optional leading slot (avatar, icon). */
-  leading?: React.ReactNode;
+  leading?: ReactNode;
   /** Optional tap handler (Pressable if provided). */
   onPress?: (e: GestureResponderEvent) => void;
   /** Extra padding / styling hooks */

@@ -2,7 +2,7 @@
 import { action } from '@storybook/addon-actions';
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
 import { colorScheme } from 'nativewind';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppHeader } from './app-header';

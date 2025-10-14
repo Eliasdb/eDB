@@ -1,10 +1,7 @@
 // apps/mobile/src/lib/ui/LanguagePicker.tsx
+import { AppLocale, setLocale } from '@edb-clara/i18n';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
-import {
-  AppLocale,
-  setLocale,
-} from '../../../../../../../../apps/mobile/src/lib/i18n';
 
 const LANGS: { code: AppLocale }[] = [{ code: 'en' }, { code: 'nl' }];
 

@@ -1,4 +1,4 @@
-import { useRealtimeVoice } from '@voice';
+import { useRealtimeVoice } from '@edb-clara/realtime';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -9,7 +9,6 @@ import {
   Pill,
   Screen,
 } from '@edb/shared-ui-rn';
-import { GoToSkeletonPlaygroundButton } from '@features/btnt';
 
 import { Text, View } from 'react-native';
 
@@ -40,8 +39,6 @@ export default function HomeScreen() {
       <Text className="mt-4 mb-8 text-center text-[22px] font-medium text-text dark:text-text-dark">
         {t('home.greeting')}
       </Text>
-
-      <GoToSkeletonPlaygroundButton />
 
       {/* Mic button */}
       <MicButton

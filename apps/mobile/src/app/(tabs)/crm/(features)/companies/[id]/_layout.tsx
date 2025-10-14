@@ -1,48 +1,63 @@
-import { useCompanyOverview } from '@data-access/crm/companies';
-import { Slot, useLocalSearchParams, usePathname } from 'expo-router';
+// app/(tabs)/crm/(features)/companies/[id]/_layout.tsx
+import { useCompanyOverview } from '@edb-clara/client-crm';
+import { router, Slot, useLocalSearchParams, usePathname } from 'expo-router';
 
 import { EntityHero, IconButton, Screen, Segmented } from '@edb/shared-ui-rn';
-import { ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View } from 'react-native';
 
-import {
-  COMPANY_DETAIL_TABS,
-  activeTabFromPathname,
-  closeToList,
-  pathForCompanyTab,
-  type TabKey,
-} from '@edb-clara/feature-crm';
+type TabKey = 'snapshot' | 'research' | 'work' | 'tasks' | 'overview';
+
+const TABS: { value: TabKey; label: string; iconName: any }[] = [
+  { value: 'snapshot', label: 'Snapshot', iconName: 'grid-outline' },
+  { value: 'research', label: 'Research', iconName: 'document-text-outline' },
+  { value: 'work', label: 'Contacts', iconName: 'people-outline' },
+  { value: 'tasks', label: 'Tasks', iconName: 'checkmark-done-outline' },
+  { value: 'overview', label: 'Activity', iconName: 'list-outline' },
+];
 
 export default function CompanyDetailLayout() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data } = useCompanyOverview(id);
-  const pathname = usePathname();
 
-  const current = activeTabFromPathname(pathname);
+  const last = (usePathname()?.split('/').pop() as TabKey) ?? 'snapshot';
 
-  const go = (next: TabKey) => {
-    if (!id) return;
-    // replace to keep a single history entry inside the sheet
-    // (use push if you explicitly want back/forward within tabs)
-    window.requestAnimationFrame(() => {
-      // rAF keeps the transition smooth when switching quickly
-      location.assign(pathForCompanyTab(String(id), next));
+  const go = (next: TabKey) =>
+    router.replace({
+      pathname: '/(tabs)/crm/(features)/companies/[id]/' + next,
+      params: { id },
     });
-  };
 
+  const COMPANIES_LIST = '/(tabs)/crm/(features)/companies';
+
+  function handleClose() {
+    if (Platform.OS === 'web') {
+      // Avoid browser history weirdness after refresh/deep links
+      router.replace(COMPANIES_LIST);
+      return;
+    }
+
+    // Native (works with pageSheet): pop if possible, else hard replace
+    if (router.canGoBack()) {
+      router.back(); // ✅ gives you the pageSheet slide-down animation
+    } else {
+      router.replace(COMPANIES_LIST);
+    }
+  }
   return (
     <Screen center={false} padding={0} showsVerticalScrollIndicator={false}>
       <ScrollView contentContainerStyle={{ paddingBottom: 28 }}>
-        {/* Header */}
+        {/* Top bar */}
         <View className="px-4 pt-3 pb-2">
           <View className="flex-row items-center justify-between">
+            {/* ⬇️ Put the handler directly on IconButton (no outer Pressable) */}
             <IconButton
               name="chevron-back"
               size="xs"
               tint="neutral"
-              onPress={closeToList}
+              onPress={handleClose}
               accessibilityLabel="Close"
             />
-            <Text className="opacity-60 text-xs">Company</Text>
+            <Text>Back</Text>
           </View>
         </View>
 
@@ -60,17 +75,10 @@ export default function CompanyDetailLayout() {
 
         {/* Tabs */}
         <View className="px-2 sm:px-0 mt-0">
-          <Segmented<TabKey>
-            value={current}
-            onChange={go}
-            options={COMPANY_DETAIL_TABS.map((t) => ({
-              value: t.value,
-              label: t.label,
-            }))}
-          />
+          <Segmented<TabKey> value={last} onChange={go} options={TABS} />
         </View>
 
-        {/* Body (child routes render here) */}
+        {/* Body */}
         <Slot />
       </ScrollView>
     </Screen>
