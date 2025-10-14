@@ -1,5 +1,5 @@
 // app/(tabs)/crm/_layout.tsx
-import { ResponsiveTabsLayout } from '@ui/layout';
+import { ResponsiveTabsLayout } from '@edb/shared-ui-rn';
 import { Slot, usePathname, useRouter } from 'expo-router';
 import { Text } from 'react-native';
 
@@ -8,7 +8,7 @@ import {
   CrmTabKey,
   getActiveCrmTab,
   pathForCrmTab,
-} from '@features/crm/config/crm-layout.config';
+} from '@edb-clara/feature-crm';
 
 import { useCrmDir } from '../../../lib/nav/crmDirection';
 

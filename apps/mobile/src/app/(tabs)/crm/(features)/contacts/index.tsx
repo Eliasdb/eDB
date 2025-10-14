@@ -4,11 +4,11 @@ import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { contactToEntityRowProps } from '@features/crm/mappers/entity';
-import { ContactItemSkeleton } from '@features/crm/skeletons';
-import { EntityRow } from '@ui/composites';
-import { Screen } from '@ui/layout';
-import { Card, EmptyLine, List } from '@ui/primitives';
+import {
+  ContactItemSkeleton,
+  contactToEntityRowProps,
+} from '@edb-clara/feature-crm';
+import { Card, EmptyLine, EntityRow, List, Screen } from '@edb/shared-ui-rn';
 
 import { contactKeys } from '@data-access/crm/contacts/keys';
 import { useContacts } from '@data-access/crm/contacts/queries';

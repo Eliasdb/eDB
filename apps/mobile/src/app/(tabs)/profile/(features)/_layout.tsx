@@ -1,5 +1,5 @@
 // app/(tabs)/profile/(features)/_layout.tsx
-import { SubHeader } from '@ui/navigation';
+import { SubHeader } from '@edb/shared-ui-rn';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 

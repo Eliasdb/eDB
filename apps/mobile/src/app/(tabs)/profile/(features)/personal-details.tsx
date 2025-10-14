@@ -3,15 +3,14 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { PageContainer, Screen, TwoCol } from '@ui/layout';
-import { Card } from '@ui/primitives';
+import { Card, PageContainer, Screen, TwoCol } from '@edb/shared-ui-rn';
 
 import {
   ProfileFieldRenderer,
   ProfileSummaryCard,
-} from '@features/profile/components';
+} from '@edb-clara/feature-profile';
 
-import { usePersonalDetailsForm } from '@features/profile/hooks/usePersonalDetailsForm';
+import { usePersonalDetailsForm } from '@edb-clara/feature-profile';
 import ResponsiveSaveBar from './res';
 
 export default function PersonalDetailsScreen() {

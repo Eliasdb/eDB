@@ -1,10 +1,16 @@
 import { useRealtimeVoice } from '@voice';
 import { useTranslation } from 'react-i18next';
 
+import {
+  AudioGlowAdaptive,
+  Avatar,
+  Dot,
+  MicButton,
+  Pill,
+  Screen,
+} from '@edb/shared-ui-rn';
 import { GoToSkeletonPlaygroundButton } from '@features/btnt';
-import { Screen } from '@ui/layout';
-import { Avatar, Dot, MicButton, Pill } from '@ui/primitives';
-import { AudioGlowAdaptive } from '@ui/visuals';
+
 import { Text, View } from 'react-native';
 
 export default function HomeScreen() {

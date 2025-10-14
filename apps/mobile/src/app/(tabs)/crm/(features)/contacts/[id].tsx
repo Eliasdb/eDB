@@ -4,10 +4,17 @@ import { useContactOverview } from '@data-access/crm/contacts';
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
-import { ActivityTimeline, KeyValueRow } from '@ui/composites';
-import { ActivityComposer } from '@ui/composites/activity-composer';
-import { Screen } from '@ui/layout';
-import { Button, Card, EntityHero, List } from '@ui/primitives';
+import {
+  ActivityComposer,
+  ActivityTimeline,
+  Button,
+  Card,
+  EntityHero,
+  KeyValueRow,
+  List,
+  Screen,
+} from '@edb/shared-ui-rn';
+
 import { ScrollView, Text, View } from 'react-native';
 
 export default function ContactDetail() {

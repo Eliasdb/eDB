@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/ui/composites/ResponsiveSaveBar.tsx
-import { StickySaveBar } from '@ui/composites';
+import { StickySaveBar } from '@edb/shared-ui-rn';
 import { useColorScheme } from 'nativewind';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {

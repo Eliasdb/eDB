@@ -4,12 +4,20 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl } from 'react-native';
 
-import { AddTaskRow, ListSkeleton, TaskItemSkeleton } from '@features/crm';
-import { TaskRow } from '@ui/composites';
-import { Screen } from '@ui/layout';
-import { Card, EmptyLine, List } from '@ui/primitives';
-import SwipeableItem from '@ui/primitives/SwipeableItem';
-import { showContextMenu } from '@ui/primitives/showContextMenu';
+import {
+  AddTaskRow,
+  ListSkeleton,
+  TaskItemSkeleton,
+} from '@edb-clara/feature-crm';
+import {
+  Card,
+  EmptyLine,
+  List,
+  Screen,
+  showContextMenu,
+  SwipeableItem,
+  TaskRow,
+} from '@edb/shared-ui-rn';
 
 // 🆕 data-access imports
 import {
@@ -17,6 +25,7 @@ import {
   useDeleteTask,
   useToggleTask,
 } from '@data-access/crm/tasks';
+
 import { useTasks } from '@data-access/crm/tasks/queries';
 
 export default function TasksScreen() {

@@ -1,7 +1,7 @@
 import { useCompanyOverview } from '@data-access/crm/companies';
 import { useLocalSearchParams } from 'expo-router';
 
-import { ResearchCollection } from '@features/crm/components';
+import { ResearchCollection } from '@edb-clara/feature-crm';
 
 export default function ResearchPage() {
   const { id } = useLocalSearchParams<{ id: string }>();

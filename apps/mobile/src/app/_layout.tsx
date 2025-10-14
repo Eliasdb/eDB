@@ -19,10 +19,7 @@ import { I18nextProvider } from 'react-i18next';
 import { MenuProvider } from 'react-native-popup-menu';
 
 // Styling
-import {
-  ThemePreferenceProvider,
-  useThemePreference,
-} from '@ui/providers/themePreference';
+import { ThemePreferenceProvider, useThemePreference } from '@edb/shared-ui-rn';
 import { colorScheme } from 'nativewind';
 import '../../global.css';
 

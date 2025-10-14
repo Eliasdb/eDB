@@ -1,5 +1,5 @@
 // app/(support)/_layout.tsx
-import { AppHeader } from '@ui/navigation';
+import { AppHeader } from '@edb/shared-ui-rn';
 import { Stack, useRouter } from 'expo-router';
 
 export default function SupportLayout() {

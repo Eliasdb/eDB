@@ -4,9 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
-import { Screen } from '@ui/layout';
-import { Pill } from '@ui/primitives';
-import { DateField } from '@ui/widgets';
+import { DateField, Pill, Screen } from '@edb/shared-ui-rn';
 
 // 🆕 data-access imports
 import type { Task } from '@data-access/crm/tasks';

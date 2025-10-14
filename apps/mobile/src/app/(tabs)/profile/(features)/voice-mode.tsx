@@ -1,14 +1,14 @@
 import { useVoicePreview } from '@voice/previews/useVoicePreview.web';
 import { useMemo, useRef, useState } from 'react';
 
-import { IntroCard, VoiceGrid, VoiceRow } from '@features/profile';
-import { PageContainer, Screen } from '@ui/layout';
+import { IntroCard, VoiceGrid, VoiceRow } from '@edb-clara/feature-profile';
+import { PageContainer, Screen } from '@edb/shared-ui-rn';
 import { Text } from 'react-native';
 
 import {
   getDefaultVoiceCard,
   getOtherVoiceCards,
-} from '@features/profile/config';
+} from '@edb-clara/feature-profile';
 import { DEFAULT_VOICE_KEY, type VoiceKey } from '@voice/previews/voices';
 
 export default function VoiceModeScreen() {

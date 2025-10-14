@@ -1,9 +1,7 @@
 import { useCompanyOverview } from '@data-access/crm/companies';
 import { Slot, useLocalSearchParams, usePathname } from 'expo-router';
 
-import { Screen } from '@ui/layout';
-import { Segmented } from '@ui/navigation';
-import { EntityHero, IconButton } from '@ui/primitives';
+import { EntityHero, IconButton, Screen, Segmented } from '@edb/shared-ui-rn';
 import { ScrollView, Text, View } from 'react-native';
 
 import {
@@ -12,7 +10,7 @@ import {
   closeToList,
   pathForCompanyTab,
   type TabKey,
-} from '@features/crm/config/company-details-layout.config';
+} from '@edb-clara/feature-crm';
 
 export default function CompanyDetailLayout() {
   const { id } = useLocalSearchParams<{ id: string }>();

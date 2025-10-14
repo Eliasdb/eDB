@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // UI
+import { Card } from '@edb/shared-ui-rn';
 import { Ionicons } from '@expo/vector-icons';
-import { Card } from '@ui/primitives';
 
 import {
   Platform,

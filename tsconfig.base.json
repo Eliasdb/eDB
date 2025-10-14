@@ -15,6 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@data-access": ["apps/mobile/src/lib/data-access/index.ts"],
+      "@data-access/*": ["apps/mobile/src/lib/data-access/*"],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -58,8 +60,17 @@
       ],
       "@eDB/shared-env": ["libs/utils/util-environment/src/index"],
       "@eDB/util-navigation": ["libs/utils/util-navigation/src/index.ts"],
-      "@edb/clara/feature-admin": [
-        "libs/client/edb-clara/features/feature-admin/src/index.ts"
+      "@edb-clara/feature-admin": [
+        "libs/client/edb-clara/features/feature-clara-admin/src/index.ts"
+      ],
+      "@edb-clara/feature-chat": [
+        "libs/client/edb-clara/features/feature-clara-chat/src/index.ts"
+      ],
+      "@edb-clara/feature-crm": [
+        "libs/client/edb-clara/features/feature-clara-crm/src/index.ts"
+      ],
+      "@edb-clara/feature-profile": [
+        "libs/client/edb-clara/features/feature-clara-profile/src/index.ts"
       ],
       "@edb/client-auth": ["libs/client/edb/data-access/client-auth/src/index"],
       "@edb/client-books": [
@@ -99,8 +110,15 @@
       ],
       "@edb/shared-types": ["libs/types/webshop/src/index.ts"],
       "@edb/shared-ui": ["libs/shared/client/ui/src/index.ts"],
+      "@edb/shared-ui-rn": ["libs/shared/client/ui-rn/src/index.ts"],
       "@edb/util-common": ["libs/utils/util-common/src/index"],
-      "@edb/util-user-params": ["libs/utils/util-user-params/src/index"]
+      "@edb/util-user-params": ["libs/utils/util-user-params/src/index"],
+      "@features/*": ["apps/mobile/src/lib/features/*"],
+      "@ui": ["apps/mobile/src/lib/ui/index.ts"],
+      "@ui/*": ["apps/mobile/src/lib/ui/*"],
+      "@vm/*": ["apps/mobile/src/viewmodels/*"],
+      "@voice": ["apps/mobile/src/lib/voice/index.ts"],
+      "@voice/*": ["apps/mobile/src/lib/voice/*"]
     }
   },
   "exclude": ["tmp"]

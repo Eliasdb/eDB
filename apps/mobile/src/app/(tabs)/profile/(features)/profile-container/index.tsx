@@ -5,8 +5,8 @@ import {
   PreferencesPanel,
   ProfileCard,
   SettingsPanel,
-} from '@features/profile';
-import { PageContainer, Screen, TwoCol } from '@ui/layout';
+} from '@edb-clara/feature-profile';
+import { PageContainer, Screen, TwoCol } from '@edb/shared-ui-rn';
 import { useWindowDimensions, View } from 'react-native';
 
 export default function ProfileScreen() {

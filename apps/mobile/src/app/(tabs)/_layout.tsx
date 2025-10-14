@@ -3,8 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Tabs, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { AppHeader } from '@ui/navigation';
-import { NavigationTabBar } from '@ui/navigation/footers/nav-tab-bar/navigation-tab-bar';
+import { AppHeader, NavigationTabBar } from '@edb/shared-ui-rn';
 
 export default function TabsLayout() {
   const router = useRouter();

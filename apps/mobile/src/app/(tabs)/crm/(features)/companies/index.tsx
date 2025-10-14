@@ -8,11 +8,12 @@ import {
   usePrefetchCompanyOverview,
 } from '@data-access/crm/companies';
 
-import { companyToEntityRowProps } from '@features/crm/mappers/entity';
-import { CompanyItemSkeleton } from '@features/crm/skeletons';
-import { EntityRow } from '@ui/composites';
-import { Screen } from '@ui/layout';
-import { Card, EmptyLine, List } from '@ui/primitives';
+import {
+  CompanyItemSkeleton,
+  companyToEntityRowProps,
+} from '@edb-clara/feature-crm';
+
+import { Card, EmptyLine, EntityRow, List, Screen } from '@edb/shared-ui-rn';
 
 export default function CompaniesScreen() {
   const { t } = useTranslation();

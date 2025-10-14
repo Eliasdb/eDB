@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Screen } from '@ui/layout';
-import { Card } from '@ui/primitives';
+import { Card, Screen } from '@edb/shared-ui-rn';
 import { Text } from 'react-native';
 
 export default function CRMDashboard() {

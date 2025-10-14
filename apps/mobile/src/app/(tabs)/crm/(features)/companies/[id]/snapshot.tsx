@@ -1,8 +1,8 @@
 import { useCompanyOverview } from '@data-access/crm/companies';
 import { useLocalSearchParams } from 'expo-router';
 
-import { SnapshotCollection } from '@features/crm/components';
-import { IntroHeader } from '@ui/composites/intro-header/intro-header';
+import { SnapshotCollection } from '@edb-clara/feature-crm';
+import { IntroHeader } from '@edb/shared-ui-rn';
 
 import { View } from 'react-native';
 
