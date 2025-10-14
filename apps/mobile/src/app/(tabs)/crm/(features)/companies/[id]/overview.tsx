@@ -1,7 +1,7 @@
-import { CompanyActivityOverview } from '@features/crm/components';
+import { useCompanyOverview } from '@edb-clara/client-crm';
 import { useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { useCompanyOverview } from '../../../../../../lib/api/hooks/crm/useCompanyOverview';
+
+import { CompanyActivityOverview } from '@edb-clara/feature-crm';
 
 export default function ActivityPage() {
   const { id } = useLocalSearchParams<{ id: string }>();

@@ -1,29 +1,41 @@
 // apps/mobile/src/app/(tabs)/contacts/ContactsScreen.tsx
-import { useHub } from '@api';
+import { useQueryClient } from '@tanstack/react-query';
+import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ContactItemSkeleton } from '@features/crm/skeletons';
-import { EntityRow } from '@ui/composites';
-import { Screen } from '@ui/layout';
-import { Card, EmptyLine, List } from '@ui/primitives';
-import { Link } from 'expo-router';
+import {
+  ContactItemSkeleton,
+  contactToEntityRowProps,
+} from '@edb-clara/feature-crm';
+import { Card, EmptyLine, EntityRow, List, Screen } from '@edb/shared-ui-rn';
 
-import { contactToEntityRowProps } from '@features/crm/mappers/entity';
+import {
+  contactKeys,
+  fetchContactOverview,
+  useContacts,
+} from '@edb-clara/client-crm';
 
 export default function ContactsScreen() {
   const { t } = useTranslation();
-  const { data, isLoading } = useHub();
+  const qc = useQueryClient();
 
-  // 🕒 fake delay for testing skeleton phase
+  const { data: contacts, isLoading } = useContacts();
+
+  // (optional) keep your fake skeleton delay for nicer UX while wiring
   const [fakeLoading, setFakeLoading] = useState(true);
   useEffect(() => {
-    const timer = setTimeout(() => setFakeLoading(false), 1500);
+    const timer = setTimeout(() => setFakeLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
-
   const loading = isLoading || fakeLoading;
-  const hub = data;
+
+  const prefetch = (id: string) =>
+    qc.prefetchQuery({
+      queryKey: contactKeys.overview(id),
+      queryFn: () => fetchContactOverview(id),
+      staleTime: 15_000,
+    });
 
   return (
     <Screen
@@ -40,25 +52,29 @@ export default function ContactsScreen() {
               renderRow={() => <ContactItemSkeleton />}
             />
           </List>
-        ) : hub?.contacts.length === 0 ? (
+        ) : !contacts || contacts.length === 0 ? (
           <EmptyLine
             text={t('crm.emptyContacts', { defaultValue: 'No contacts.' })}
           />
         ) : (
           <List inset>
-            {hub?.contacts.map((c, i) => (
-              <List.Item key={c.id} first={i === 0}>
-                <Link
-                  href={{
-                    pathname: '/(tabs)/crm/(features)/contacts/[id]',
-                    params: { id: c.id },
-                  }}
-                  asChild
-                >
-                  <EntityRow {...contactToEntityRowProps(c)} />
-                </Link>
-              </List.Item>
-            ))}
+            {contacts
+              .slice()
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((c, i) => (
+                <List.Item key={c.id} first={i === 0}>
+                  <Link
+                    href={{
+                      pathname: '/(tabs)/crm/(features)/contacts/[id]',
+                      params: { id: c.id },
+                    }}
+                    onPressIn={() => prefetch(c.id)}
+                    asChild
+                  >
+                    <EntityRow {...contactToEntityRowProps(c)} />
+                  </Link>
+                </List.Item>
+              ))}
           </List>
         )}
       </Card>

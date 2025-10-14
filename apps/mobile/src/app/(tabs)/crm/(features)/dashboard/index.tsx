@@ -1,21 +1,13 @@
-import { useHub } from '@api';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { TasksCalendarLite } from '@features/crm/components';
-import { Screen } from '@ui/layout';
-import { Card } from '@ui/primitives';
+import { Card, Screen } from '@edb/shared-ui-rn';
 import { Text } from 'react-native';
 
 export default function CRMDashboard() {
   const { t } = useTranslation();
-  const { data, error } = useHub();
 
   // ✅ safe fallback when data hasn’t arrived yet
-  const hub = data ?? { tasks: [], contacts: [], companies: [] };
-
-  const totalTasks = hub.tasks.length;
-  const doneTasks = hub.tasks.filter((x) => x.done).length;
 
   const barsMock = useMemo(
     () => [
@@ -33,13 +25,6 @@ export default function CRMDashboard() {
   return (
     <Screen padding={16} center={false}>
       {/* Optional: error banner */}
-      {error ? (
-        <Card inset className="mb-2">
-          <Text className="text-red-600 font-bold">
-            {t('crm.loadError', { defaultValue: 'Failed to load data.' })}
-          </Text>
-        </Card>
-      ) : null}
 
       {/* Bar/Line demo */}
       <Card inset tone="flat" className="gap-4">
@@ -50,7 +35,7 @@ export default function CRMDashboard() {
       </Card>
 
       {/* Donut placeholder */}
-      <Card inset tone="flat" className="gap-1">
+      {/* <Card inset tone="flat" className="gap-1">
         <Text className="text-[15px] font-extrabold text-text dark:text-text-dark">
           Tasks completion
         </Text>
@@ -58,10 +43,10 @@ export default function CRMDashboard() {
           {doneTasks}/{totalTasks} {t('crm.tasks', { defaultValue: 'tasks' })}{' '}
           {t('crm.done', { defaultValue: 'done' })}
         </Text>
-      </Card>
+      </Card> */}
 
       {/* Agenda calendar (handles empty array fine) */}
-      <TasksCalendarLite tasks={hub.tasks as any} />
+      {/* <TasksCalendarLite tasks={hub.tasks as any} /> */}
     </Screen>
   );
 }

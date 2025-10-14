@@ -1,11 +1,16 @@
-import { useRealtimeVoice } from '@voice';
+import { useRealtimeVoice } from '@edb-clara/realtime';
 import { useTranslation } from 'react-i18next';
 
-import { Screen } from '@ui/layout';
-import { Avatar, Dot, MicButton, Pill } from '@ui/primitives';
-import { AudioGlowAdaptive } from '@ui/visuals';
+import {
+  AudioGlowAdaptive,
+  Avatar,
+  Dot,
+  MicButton,
+  Pill,
+  Screen,
+} from '@edb/shared-ui-rn';
+
 import { Text, View } from 'react-native';
-import { GoToSkeletonPlaygroundButton } from '../../lib/features/btnt';
 
 export default function HomeScreen() {
   const { start, stop, loading, connected, error, level, speaking } =
@@ -34,8 +39,6 @@ export default function HomeScreen() {
       <Text className="mt-4 mb-8 text-center text-[22px] font-medium text-text dark:text-text-dark">
         {t('home.greeting')}
       </Text>
-
-      <GoToSkeletonPlaygroundButton />
 
       {/* Mic button */}
       <MicButton

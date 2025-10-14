@@ -4,10 +4,10 @@ import 'react-native-reanimated';
 
 import { useEffect, useState } from 'react';
 import { AppState, Platform, View } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler'; // 👈 add this
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Tanstack
-import { getQueryClient } from '@api';
+import { getQueryClient } from '@edb-clara/client-crm';
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 
 // Expo
@@ -19,16 +19,12 @@ import { I18nextProvider } from 'react-i18next';
 import { MenuProvider } from 'react-native-popup-menu';
 
 // Styling
-import {
-  ThemePreferenceProvider,
-  useThemePreference,
-} from '@ui/providers/themePreference';
+import { ThemePreferenceProvider, useThemePreference } from '@edb/shared-ui-rn';
 import { colorScheme } from 'nativewind';
 import '../../global.css';
 
 // i18n
-import React from 'react';
-import { initI18n } from '../lib/i18n';
+import { initI18n } from '@edb-clara/i18n';
 
 const queryClient = getQueryClient();
 

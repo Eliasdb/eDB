@@ -15,7 +15,7 @@ import realtimeRoutes from '../routes/realtime';
 
 export async function buildApp() {
   const app = Fastify({ logger: true });
-  console.log('🔥 Using store:', process.env.STORE);
+  console.log('🔥 Using store???????:', process.env.STORE);
 
   // 🔌 Plugins
   await app.register(fastifyCors, {

@@ -16,9 +16,15 @@ module.exports = function (api) {
           alias: {
             '@ui': './src/lib/ui',
             '@features': './src/lib/features',
-            '@api': './src/lib/api',
+            '@data-access': './src/lib/data-access',
             '@voice': './src/lib/voice',
             '@vm': './src/viewmodels',
+            // '@edb-clara/feature-admin':
+            //   '../../libs/client/edb-clara/features/feature-admin/src',
+            // '@edb-clara/feature-chat':
+            //   '../../libs/client/edb-clara/features/feature-chat/src',
+            //      '@edb-clara/feature-crm':
+            //   '../../libs/client/edb-clara/features/feature-chat/src',
           },
         },
       ],

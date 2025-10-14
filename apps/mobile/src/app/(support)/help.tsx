@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // UI
+import { Card } from '@edb/shared-ui-rn';
 import { Ionicons } from '@expo/vector-icons';
-import { Card } from '@ui/primitives';
 
 import {
   Platform,
@@ -16,11 +16,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import {
-  CONTACT_LINKS,
-  FAQ_ITEMS,
-  GUIDE_SECTIONS,
-} from '@features/support/config/help.config';
+import { CONTACT_LINKS, FAQ_ITEMS, GUIDE_SECTIONS } from './help.config';
 
 export default function HelpScreen() {
   const insets = useSafeAreaInsets();

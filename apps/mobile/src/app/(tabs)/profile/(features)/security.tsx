@@ -1,11 +1,19 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
-import { IntroCard, SessionsCard } from '@features/profile/components';
-import { SettingsRow } from '@ui/composites';
-import { PageContainer, Screen, Section, TwoCol } from '@ui/layout';
+import { IntroCard, SessionsCard } from '@edb-clara/feature-profile';
+import {
+  PageContainer,
+  Screen,
+  Section,
+  SettingsRow,
+  TwoCol,
+} from '@edb/shared-ui-rn';
 
-import { getMockSessions, getSecuritySections } from '@features/profile/config';
+import {
+  getMockSessions,
+  getSecuritySections,
+} from '@edb-clara/feature-profile';
 
 export default function SecurityScreen() {
   const router = useRouter();

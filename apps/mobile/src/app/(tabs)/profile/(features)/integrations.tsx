@@ -1,13 +1,18 @@
 import { useMemo, useState } from 'react';
 
-import { IntroCard } from '@features/profile';
-import { SettingsRow } from '@ui/composites';
-import { PageContainer, Screen, Section, TwoCol } from '@ui/layout';
+import { IntroCard } from '@edb-clara/feature-profile';
+import {
+  PageContainer,
+  Screen,
+  Section,
+  SettingsRow,
+  TwoCol,
+} from '@edb/shared-ui-rn';
 
 import {
   getIntegrationSections,
   type IntegrationSection,
-} from '@features/profile/config';
+} from '@edb-clara/feature-profile';
 
 export default function IntegrationsScreen() {
   const sections = useMemo<IntegrationSection[]>(

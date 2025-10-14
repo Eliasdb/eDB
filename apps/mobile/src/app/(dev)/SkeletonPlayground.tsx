@@ -9,14 +9,14 @@ import {
   View,
 } from 'react-native';
 
-import { contactToEntityRowProps } from '@features/crm/mappers/entity';
-import { ContactItemSkeleton } from '@features/crm/skeletons/contact-row-skeleton';
-import { EntityRow, TaskRow } from '@ui/composites';
-import { Screen } from '@ui/layout';
-import { Card, List } from '@ui/primitives';
-import { Contact } from '../../lib/api';
-import { CompanyItemSkeleton } from '../../lib/features/crm/skeletons/company-row-skeleton';
-import { TaskItemSkeleton } from '../../lib/features/crm/skeletons/task-row-skeleton';
+import { Contact } from '@edb-clara/client-crm';
+import {
+  CompanyItemSkeleton,
+  ContactItemSkeleton,
+  contactToEntityRowProps,
+  TaskItemSkeleton,
+} from '@edb-clara/feature-crm';
+import { Card, EntityRow, List, Screen, TaskRow } from '@edb/shared-ui-rn';
 
 type Mode = 'companies' | 'contacts' | 'tasks';
 

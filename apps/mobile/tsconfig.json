@@ -9,18 +9,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "composite": true,
-    "declaration": true,
-    "baseUrl": "./src",
-    "paths": {
-      "@ui": ["lib/ui/index.ts"],
-      "@ui/*": ["lib/ui/*"],
-      "@features/*": ["lib/features/*"],
-      "@api": ["lib/api/index.ts"],
-      "@api/*": ["lib/api/*"],
-      "@voice": ["lib/voice/index.ts"],
-      "@voice/*": ["lib/voice/*"],
-      "@vm/*": ["viewmodels/*"]
-    }
+    "declaration": true
   },
   "files": [],
   "include": ["src", "nativewind-env.d.ts"],

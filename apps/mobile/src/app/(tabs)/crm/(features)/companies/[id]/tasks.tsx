@@ -1,7 +1,7 @@
+import { useCompanyOverview } from '@edb-clara/client-crm';
 import { useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { useCompanyOverview } from '../../../../../../lib/api/hooks/crm/useCompanyOverview';
-import TasksCollection from '../../../../../../lib/features/crm/components/companies/TasksCollection';
+
+import { TasksCollection } from '@edb-clara/feature-crm';
 
 export default function TasksPage() {
   const { id } = useLocalSearchParams<{ id: string }>();

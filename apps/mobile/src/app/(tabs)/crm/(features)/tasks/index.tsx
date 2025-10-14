@@ -1,35 +1,51 @@
 // app/(tabs)/crm/(features)/tasks/index.tsx
-import { useCreateTask, useDeleteTask, useHub, useToggleTask } from '@api';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { AddTaskRow, ListSkeleton, TaskItemSkeleton } from '@features/crm';
-
-import { TaskRow } from '@ui/composites';
-import { Screen } from '@ui/layout';
-import { Card, EmptyLine, List } from '@ui/primitives';
-import SwipeableItem from '@ui/primitives/SwipeableItem';
-import { showContextMenu } from '@ui/primitives/showContextMenu';
-
 import { RefreshControl } from 'react-native';
+
+import {
+  AddTaskRow,
+  ListSkeleton,
+  TaskItemSkeleton,
+} from '@edb-clara/feature-crm';
+
+import {
+  Card,
+  EmptyLine,
+  List,
+  Screen,
+  showContextMenu,
+  SwipeableItem,
+  TaskRow,
+} from '@edb/shared-ui-rn';
+
+// 🆕 data-access imports
+import {
+  useCreateTask,
+  useDeleteTask,
+  useTasks,
+  useToggleTask,
+} from '@edb-clara/client-crm';
 
 export default function TasksScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data, isLoading, refetch } = useHub();
+
+  // fetch list via React Query
+  const { data: tasks = [], isLoading, refetch } = useTasks();
+
+  // mutations
   const add = useCreateTask();
   const toggle = useToggleTask();
-  const del = useDeleteTask();
+  const del = useDeleteTask(); // not used; see inline usage
 
-  const hub = data ?? { tasks: [], contacts: [], companies: [] };
-
-  /** 👇 local-only spinner state for pull-to-refresh */
+  /** local-only spinner state for pull-to-refresh */
   const [isRefreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(async () => {
     try {
       setRefreshing(true);
-      await refetch(); // keep data fresh
+      await refetch();
     } finally {
       setRefreshing(false);
     }
@@ -63,13 +79,13 @@ export default function TasksScreen() {
             rowHeight={56}
             renderRow={() => <TaskItemSkeleton />}
           />
-        ) : hub.tasks.length === 0 ? (
+        ) : tasks.length === 0 ? (
           <EmptyLine
             text={t('crm.emptyTasks', { defaultValue: 'No tasks.' })}
           />
         ) : (
           <List>
-            {hub.tasks.map((task, i) => (
+            {tasks.map((task, i) => (
               <List.Item key={task.id} first={i === 0}>
                 <SwipeableItem
                   onDelete={() => del.mutate(task.id)}

@@ -15,6 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@data-access": ["apps/mobile/src/lib/data-access/index.ts"],
+      "@data-access/*": ["apps/mobile/src/lib/data-access/*"],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -29,36 +31,62 @@
         "libs/utils/util-book-params/src/index.ts"
       ],
       "@eDB/client-admin": [
-        "libs/client/mfe-edb-admin/data-access/client-admin/src/index"
+        "libs/client/mfe-edb-admin/data-access/client-admin/src/index.ts"
       ],
       "@eDB/client-catalog": [
-        "libs/client/edb/data-access/client-catalog/src/index"
+        "libs/client/edb/data-access/client-catalog/src/index.ts"
       ],
       "@eDB/client-dashboard": [
-        "libs/client/edb/data-access/client-dashboard/src/index"
+        "libs/client/edb/data-access/client-dashboard/src/index.ts"
       ],
       "@eDB/client-profile": [
-        "libs/client/edb/data-access/client-profile/src/index"
+        "libs/client/edb/data-access/client-profile/src/index.ts"
       ],
-      "@eDB/feature-404": ["libs/client/edb/features/feature-404/src/index"],
+      "@eDB/feature-404": ["libs/client/edb/features/feature-404/src/index.ts"],
       "@eDB/feature-admin-dashboard": [
-        "libs/client/mfe-edb-admin/features/feature-admin-dashboard/src/index"
+        "libs/client/mfe-edb-admin/features/feature-admin-dashboard/src/index.ts"
       ],
       "@eDB/feature-catalog": [
-        "libs/client/edb/features/feature-catalog/src/index"
+        "libs/client/edb/features/feature-catalog/src/index.ts"
       ],
       "@eDB/feature-dashboard": [
-        "libs/client/edb/features/feature-dashboard/src/index"
+        "libs/client/edb/features/feature-dashboard/src/index.ts"
       ],
-      "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index"],
-      "@eDB/feature-profile": ["libs/eDB/features/feature-profile/src/index"],
-      "@eDB/feature-register": ["libs/eDB/features/feature-register/src/index"],
+      "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index.ts"],
+      "@eDB/feature-profile": [
+        "libs/eDB/features/feature-profile/src/index.ts"
+      ],
+      "@eDB/feature-register": [
+        "libs/eDB/features/feature-register/src/index.ts"
+      ],
       "@eDB/feature-shell": [
         "libs/client/edb/features/feature-shell/src/index.ts"
       ],
-      "@eDB/shared-env": ["libs/utils/util-environment/src/index"],
+      "@eDB/shared-env": ["libs/utils/util-environment/src/index.ts"],
       "@eDB/util-navigation": ["libs/utils/util-navigation/src/index.ts"],
-      "@edb/client-auth": ["libs/client/edb/data-access/client-auth/src/index"],
+      "@edb-clara/client-admin": [
+        "libs/client/edb-clara/data-access/client-clara-admin/src/index.ts"
+      ],
+      "@edb-clara/client-crm": [
+        "libs/client/edb-clara/data-access/client-clara-crm/src/index.ts"
+      ],
+      "@edb-clara/feature-admin": [
+        "libs/client/edb-clara/features/feature-clara-admin/src/index.ts"
+      ],
+      "@edb-clara/feature-chat": [
+        "libs/client/edb-clara/features/feature-clara-chat/src/index.ts"
+      ],
+      "@edb-clara/feature-crm": [
+        "libs/client/edb-clara/features/feature-clara-crm/src/index.ts"
+      ],
+      "@edb-clara/feature-profile": [
+        "libs/client/edb-clara/features/feature-clara-profile/src/index.ts"
+      ],
+      "@edb-clara/i18n": ["libs/client/edb-clara/i18n/src/index.ts"],
+      "@edb-clara/realtime": ["libs/client/edb-clara/real-time/src/index.ts"],
+      "@edb/client-auth": [
+        "libs/client/edb/data-access/client-auth/src/index.ts"
+      ],
       "@edb/client-books": [
         "libs/client/edb/data-access/client-books/src/index.ts"
       ],
@@ -96,8 +124,15 @@
       ],
       "@edb/shared-types": ["libs/types/webshop/src/index.ts"],
       "@edb/shared-ui": ["libs/shared/client/ui/src/index.ts"],
-      "@edb/util-common": ["libs/utils/util-common/src/index"],
-      "@edb/util-user-params": ["libs/utils/util-user-params/src/index"]
+      "@edb/shared-ui-rn": ["libs/shared/client/ui-rn/src/index.ts"],
+      "@edb/util-common": ["libs/utils/util-common/src/index.ts"],
+      "@edb/util-user-params": ["libs/utils/util-user-params/src/index.ts"],
+      "@features/*": ["apps/mobile/src/lib/features/*"],
+      "@ui": ["apps/mobile/src/lib/ui/index.ts"],
+      "@ui/*": ["apps/mobile/src/lib/ui/*"],
+      "@vm/*": ["apps/mobile/src/viewmodels/*"],
+      "@voice": ["apps/mobile/src/lib/voice/index.ts"],
+      "@voice/*": ["apps/mobile/src/lib/voice/*"]
     }
   },
   "exclude": ["tmp"]

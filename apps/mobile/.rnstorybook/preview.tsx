@@ -1,9 +1,8 @@
 // apps/mobile/.rnstorybook/preview.tsx
+import { useThemeOverride } from '@edb/shared-ui-rn';
 import { withBackgrounds } from '@storybook/addon-ondevice-backgrounds';
 import type { Preview } from '@storybook/react';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useThemeOverride } from '../src/lib/ui/widgets/theme-picker/uset';
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
