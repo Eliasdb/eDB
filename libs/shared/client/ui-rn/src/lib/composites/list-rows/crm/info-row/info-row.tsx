@@ -1,6 +1,5 @@
 // libs/ui/primitives/info-rows.tsx
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
 import { Linking, Pressable, Text, View } from 'react-native';
 
 type IconName = React.ComponentProps<typeof Ionicons>['name'];

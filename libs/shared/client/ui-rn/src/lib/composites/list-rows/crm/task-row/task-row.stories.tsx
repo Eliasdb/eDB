@@ -1,6 +1,6 @@
-import type { Task } from '@edb-clara/client-crm';
+// libs/ui/composites/list-rows/task-row.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import { TaskRow } from './task-row';
+import { TaskRow, type TaskLike } from './task-row';
 
 const meta: Meta<typeof TaskRow> = {
   title: 'Composites/List Rows/CRM/Task Row',
@@ -11,16 +11,18 @@ const meta: Meta<typeof TaskRow> = {
     onEdit: () => alert('Edit clicked'),
   },
 };
-
 export default meta;
+
 type Story = StoryObj<typeof TaskRow>;
 
-const baseTask: Task = {
+// Minimal domain-agnostic shape the UI expects
+const baseTask: TaskLike = {
   id: '1',
   title: 'Write Storybook stories',
   done: false,
-  due: undefined,
-  source: undefined,
+  // optional fields are fine to omit:
+  // due: '2025-10-15',
+  // source: 'Voice assistant',
 };
 
 export const Default: Story = {

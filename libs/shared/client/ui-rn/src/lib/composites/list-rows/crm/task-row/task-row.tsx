@@ -1,10 +1,18 @@
 // apps/mobile/src/ui/composites/TaskRow.tsx
-import type { Task } from '@edb-clara/client-crm';
 import { Text, View } from 'react-native';
 import { Checkbox, IconButton, ListRow } from '../../../../primitives';
 
-type Props = {
-  task: Task;
+// Minimal, UI-focused shape (allows extra fields some callers use)
+export type TaskLike = {
+  title: string;
+  done?: boolean;
+  id?: string; // optional so stories / lists can pass it without errors
+  due?: string;
+  source?: string;
+};
+
+type Props<T extends TaskLike = TaskLike> = {
+  task: T;
   onToggle: () => void;
   onDelete: () => void;
   onEdit?: () => void;
@@ -12,17 +20,17 @@ type Props = {
   showDividerTop?: boolean;
 };
 
-export function TaskRow({
+export function TaskRow<T extends TaskLike>({
   task,
   onToggle,
   onDelete,
   onEdit,
   compact,
   showDividerTop,
-}: Props) {
+}: Props<T>) {
   const left = (
     <Checkbox
-      checked={task.done}
+      checked={!!task.done}
       onChange={onToggle}
       size="sm"
       tintChecked="success"
@@ -41,6 +49,13 @@ export function TaskRow({
       >
         {task.title}
       </Text>
+      {/* If you ever want to show due/source subtly, uncomment:
+      {(task.due || task.source) && (
+        <Text className="text-[12px] text-text-dim dark:text-text-dimDark mt-0.5">
+          {[task.due, task.source].filter(Boolean).join(' • ')}
+        </Text>
+      )}
+      */}
     </View>
   );
 

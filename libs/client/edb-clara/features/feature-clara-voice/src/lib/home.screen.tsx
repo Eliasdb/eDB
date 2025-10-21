@@ -1,0 +1,78 @@
+import { useRealtimeVoice } from '@edb-clara/realtime';
+import { useTranslation } from 'react-i18next';
+
+import {
+  AudioGlowAdaptive,
+  Avatar,
+  Dot,
+  MicButton,
+  Pill,
+  Screen,
+} from '@edb/shared-ui-rn';
+
+import { invalidateToolLogs } from '@edb-clara/client-admin';
+import { invalidateAfterTool } from '@edb-clara/client-crm';
+import { Text, View } from 'react-native';
+
+export function HomeScreen() {
+  const { start, stop, connected, loading, level, speaking, error } =
+    useRealtimeVoice({
+      onToolEffect: (name, args, result) => {
+        // CRM specific invalidation
+        invalidateAfterTool(name, args, result);
+      },
+      onInvalidate: () => {
+        // Admin log invalidation
+        invalidateToolLogs();
+      },
+    });
+  const { t } = useTranslation();
+
+  const onMicPress = () => (connected ? stop() : start());
+
+  const statusText = loading
+    ? t('mic.connecting', 'Connecting…')
+    : connected
+      ? speaking
+        ? t('home.speaking', 'Speaking…')
+        : t('home.live', 'Live — you can speak')
+      : t('home.tapToTalk', 'Tap to talk');
+
+  return (
+    <Screen>
+      {/* Glow + Avatar */}
+      <View className="relative items-center justify-center">
+        <AudioGlowAdaptive level={level} speaking={speaking} />
+        <Avatar size={220} />
+      </View>
+
+      {/* Greeting */}
+      <Text className="mt-4 mb-8 text-center text-[22px] font-medium text-text dark:text-text-dark">
+        {t('home.greeting')}
+      </Text>
+
+      {/* Mic button */}
+      <MicButton
+        level={level}
+        connected={connected}
+        speaking={speaking}
+        loading={loading}
+        onPress={onMicPress}
+      />
+      {/* Status */}
+      <Pill
+        className="mt-4 self-center"
+        tone="neutral"
+        variant="soft"
+        size="sm"
+        left={<Dot on={connected} />}
+        text={statusText}
+      />
+
+      {/* Error */}
+      {error ? (
+        <Text className="mt-2 text-center text-red-600">{error}</Text>
+      ) : null}
+    </Screen>
+  );
+}

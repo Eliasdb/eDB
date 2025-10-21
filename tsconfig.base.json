@@ -82,6 +82,9 @@
       "@edb-clara/feature-profile": [
         "libs/client/edb-clara/features/feature-clara-profile/src/index.ts"
       ],
+      "@edb-clara/feature-voice": [
+        "libs/client/edb-clara/features/feature-clara-voice/src/index.ts"
+      ],
       "@edb-clara/i18n": ["libs/client/edb-clara/i18n/src/index.ts"],
       "@edb-clara/realtime": ["libs/client/edb-clara/real-time/src/index.ts"],
       "@edb/client-auth": [

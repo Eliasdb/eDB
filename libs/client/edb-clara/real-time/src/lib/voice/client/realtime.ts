@@ -1,4 +1,5 @@
 // apps/mobile/src/lib/voice/realtimeClient.native.ts
+import { Platform } from 'react-native';
 import { mediaDevices, RTCPeerConnection } from 'react-native-webrtc';
 
 import { makeMessageHandler } from '../core/makeMessageHandler.native';
@@ -6,13 +7,7 @@ import { getToken, negotiate } from '../core/signaling';
 import { createExecuteOnce } from '../core/tools';
 import { buildAuthHeaders } from '../core/utils';
 import { attachRemoteLevelMeter } from './audioLevel';
-
 import { closeAudioSession, openAudioSession } from './audioSession';
-
-import { invalidateToolLogs } from '@edb-clara/client-admin';
-import { invalidateAfterTool } from '@edb-clara/client-crm';
-
-import { Platform } from 'react-native';
 
 import type { RealtimeConnections, RealtimeOptions } from '../core/types';
 
@@ -21,25 +16,22 @@ const TAG = 'realtime.native';
 export async function connectRealtime(
   getTokenUrl: string,
   apiBase: string,
-  opts?: RealtimeOptions,
+  opts?: RealtimeOptions, // contains onToolEffect / onInvalidate / bearer / onLevel / onSpeakingChanged
 ): Promise<RealtimeConnections> {
   const headers = buildAuthHeaders(opts?.bearer);
 
-  // 0) Ensure OS is in voice-chat mode BEFORE WebRTC
-  await openAudioSession('speaker'); // or 'earpiece' if you want earpiece routing
+  // Ensure OS audio session is active before WebRTC
+  await openAudioSession('speaker');
 
-  // 1) Token
   const t = await getToken(getTokenUrl);
 
-  // 2) PeerConnection
   const pc = new RTCPeerConnection({
     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
   });
 
-  // 3) Data channel
   const dc = pc.createDataChannel('oai-events');
 
-  // 4) Mic capture (AEC/NS/AGC now map correctly through OS)
+  // Mic
   const stream = await mediaDevices.getUserMedia({
     audio: Platform.select({
       ios: {
@@ -49,17 +41,17 @@ export async function connectRealtime(
         channelCount: 1,
         sampleRate: 48000,
       } as any,
-      default: true, // Android & others: simple flag
+      default: true,
     }),
     video: false,
   });
   stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
-  // 5) Remote audio (RN plays via system audio automatically)
+  // Remote audio: handled by RN automatically
   (pc as any).ontrack = () => {};
   (pc as any).onaddstream = () => {};
 
-  // 🔊 Level meter
+  // 🔊 Level meter to consumer
   const detachMeter = attachRemoteLevelMeter(pc as any, {
     onLevel: opts?.onLevel,
     onSpeakingChanged: opts?.onSpeakingChanged,
@@ -67,13 +59,12 @@ export async function connectRealtime(
     intervalMs: 250,
   });
 
-  // 6) On open: send session.update (same as web)
+  // Session tooling on open
   (dc as any).onopen = async () => {
     try {
       const meta = await fetch(`${apiBase}/realtime/tools`).then((r) =>
         r.json(),
       );
-
       const sessionUpdate = {
         type: 'session.update',
         session: {
@@ -81,11 +72,9 @@ export async function connectRealtime(
           tools: meta.tools,
           tool_choice: 'auto',
           modalities: ['audio', 'text'],
-          turn_detection: { type: 'server_vad' }, // same as web
-          // voice: 'sage',
+          turn_detection: { type: 'server_vad' },
         },
       };
-
       console.log(TAG, '→ session.update', sessionUpdate);
       dc.send(JSON.stringify(sessionUpdate));
     } catch (e) {
@@ -93,29 +82,27 @@ export async function connectRealtime(
     }
   };
 
-  // 7) Messages + tool execution
+  // Tool execution pipeline — delegate effects/invalidation to adapters provided by the app
   const executeOnce = createExecuteOnce(apiBase, headers, dc as any, {
     onToolEffect: (name, args, result) => {
-      invalidateAfterTool(name, args, result); // ✅ precise invalidation
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
-      invalidateToolLogs();
       opts?.onInvalidate?.();
     },
     bearer: opts?.bearer,
   });
 
   const onMessage = makeMessageHandler(dc as any, executeOnce, {
-    onToolEffect: (name, args) => {},
+    onToolEffect: (name, args) => {
+      // Additional per-message hooks can go here if you need
+    },
   });
 
   (dc as any).onmessage = onMessage as any;
 
-  // 8) Offer/Answer
   await negotiate(pc as any, t);
 
-  // 9) Close helper
   const close = () => {
     try {
       (dc as any).onmessage = undefined;
@@ -133,7 +120,6 @@ export async function connectRealtime(
     try {
       stream.getTracks().forEach((tr) => tr.stop());
     } catch {}
-    // ✅ Reset OS audio back to passive
     closeAudioSession().catch(() => {});
   };
 
