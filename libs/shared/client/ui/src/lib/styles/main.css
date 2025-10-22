@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import '@carbon/styles/css/styles.css';
+@import '~ng-zorro-antd/ng-zorro-antd.min.css';
 
 :root {
   --cds-ui-01: yellow;

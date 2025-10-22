@@ -1,0 +1,219 @@
+<section class="pt-[10rem] min-h-[calc(100vh-5rem)] bg-slate-950 text-slate-50 pb-24">
+  <div class="mx-auto max-w-7xl space-y-12 px-6 pt-12">
+    <!-- Hero & Assistant Feed -->
+    <article class="rounded-3xl border border-slate-900 bg-slate-900/40 p-8 shadow-xl shadow-slate-950/40">
+      <div class="flex flex-col gap-10 lg:flex-row lg:items-start">
+        <div class="flex-1 space-y-6">
+          <div class="space-y-3">
+            <span
+              class="inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-200">
+              Izmir Voice Station
+            </span>
+            <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+              Curate every kebab & pizza order in seconds.
+            </h1>
+            <p class="max-w-3xl text-sm leading-relaxed text-slate-300 sm:text-base">
+              Izmir listens to the cashier, narrows the catalog instantly, and
+              keeps prep time, spice level, and dietary notes front and center
+              before a ticket hits the kitchen rail.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <ui-nz-button [type]="'primary'" (buttonClick)="rushMode.set(true)">
+              Start rush order
+            </ui-nz-button>
+            <ui-nz-button [type]="'default'" (buttonClick)="clearOrder()" [disabled]="orderRows().length === 0">
+              Clear active order
+            </ui-nz-button>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div class="rounded-2xl border border-slate-900 bg-slate-950/70 px-5 py-4">
+              <p class="text-xs uppercase tracking-wide text-slate-400">
+                Active order items
+              </p>
+              <p class="mt-2 text-2xl font-semibold text-white">
+                {{ orderRows().length }}
+              </p>
+            </div>
+            <div class="rounded-2xl border border-slate-900 bg-slate-950/70 px-5 py-4">
+              <p class="text-xs uppercase tracking-wide text-slate-400">
+                Estimated total
+              </p>
+              <p class="mt-2 text-2xl font-semibold text-white">
+                {{ formatCurrency(orderTotal()) }}
+              </p>
+            </div>
+            <div class="rounded-2xl border border-slate-900 bg-slate-950/70 px-5 py-4">
+              <p class="text-xs uppercase tracking-wide text-slate-400">
+                Service Mode
+              </p>
+              <p class="mt-2 text-sm font-semibold text-emerald-300">
+                {{ serviceModeLabel() }}
+              </p>
+              <p class="mt-1 text-xs text-slate-400">
+                {{ rushMode() ? 'Rush window ≤12 min' : 'Standard cadence' }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="w-full max-w-md space-y-4 rounded-3xl border border-slate-900 bg-slate-950/80 p-6">
+          <header
+            class="flex flex-col gap-1 border-b border-slate-800 pb-4 text-xs uppercase tracking-wide text-slate-500">
+            <span>Assistant log</span>
+            <span class="text-emerald-300">
+              {{ serviceModeLabel() }} • {{ rushMode() ? 'Rush mode' : 'Live' }}
+            </span>
+          </header>
+          <div class="space-y-3">
+            @for (event of agentTimeline; track event.id) {
+            <article
+              class="rounded-2xl border border-slate-900 bg-slate-950 px-4 py-3 shadow-inner shadow-slate-950/40">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-500">
+                {{ event.speaker }}
+              </p>
+              <p class="mt-2 text-sm leading-relaxed text-slate-200">
+                {{ event.text }}
+              </p>
+            </article>
+            }
+          </div>
+          <footer class="flex flex-wrap gap-2 text-xs text-slate-400">
+            <span class="rounded-full bg-slate-900/70 px-3 py-1">
+              Listening • TR & EN
+            </span>
+            <span class="rounded-full bg-slate-900/70 px-3 py-1">
+              Prep target ≤ 12 min
+            </span>
+            <span class="rounded-full bg-slate-900/70 px-3 py-1">
+              Hands-free confirmation
+            </span>
+          </footer>
+        </aside>
+      </div>
+    </article>
+
+    <!-- Filters + Order Summary -->
+    <div class="grid gap-6 lg:grid-cols-[minmax(280px,340px),minmax(0,1fr)] lg:items-start">
+
+
+      <ui-nz-card [title]="'Active Order'" [extra]="formatCurrency(orderTotal())" [hoverable]="true">
+        @if (orderRows().length) {
+        <div class="space-y-4">
+          <ui-nz-table [columns]="orderColumns" [data]="orderRows()" [bordered]="false" [size]="'small'"></ui-nz-table>
+
+          <div class="flex flex-wrap gap-2 text-xs text-slate-400">
+            <span class="rounded-full bg-slate-900/70 px-3 py-1">
+              {{ prioritizeSpicy() ? 'Spicy focus' : 'Balanced spice' }}
+            </span>
+            <span class="rounded-full bg-slate-900/70 px-3 py-1">
+              {{ rushMode() ? 'Rush window ≤12 min' : 'Standard cadence' }}
+            </span>
+            <span class="rounded-full bg-slate-900/70 px-3 py-1">
+              {{ vegetarianOnly() ? 'Veg-only' : 'Full catalog' }}
+            </span>
+          </div>
+
+          <div class="flex gap-2">
+            <ui-nz-button [type]="'primary'" (buttonClick)="clearOrder()">
+              Send to kitchen
+            </ui-nz-button>
+            <ui-nz-button [type]="'default'" (buttonClick)="clearOrder()">
+              Cancel
+            </ui-nz-button>
+          </div>
+        </div>
+        } @else {
+        <p class="rounded-2xl bg-slate-950/70 px-4 py-6 text-sm text-slate-400">
+          No items yet. Build the plate and Izmir will narrate each addition for a quick confirmation.
+        </p>
+        }
+      </ui-nz-card>
+    </div>
+
+    <!-- Catalog -->
+    <section class="space-y-6 rounded-3xl border border-slate-900 bg-slate-900/50 p-6 shadow-xl shadow-slate-950/20">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="lg:flex-1">
+          <ui-nz-tabs [tabs]="tabs" [selectedIndex]="selectedTabIndex()" (selectedIndexChange)="updateTab($event)"
+            [animated]="true"></ui-nz-tabs>
+        </div>
+        <div class="text-xs uppercase tracking-wide text-slate-400">
+          {{ serviceModeLabel() }}
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-lg font-semibold text-white">
+          {{ selectedTab().label }}
+        </h2>
+        <p class="text-sm text-slate-400">
+          {{ selectedTab().description }}
+        </p>
+      </div>
+
+      @if (filteredMenu().length) {
+      <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        @for (item of filteredMenu(); track item.id) {
+        <ui-nz-card [title]="item.name" [extra]="formatCurrency(item.price)" [hoverable]="true">
+          <div class="space-y-4 text-sm text-slate-200">
+            <p class="text-slate-300">
+              {{ item.description }}
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              @for (tag of item.tags; track tag) {
+              <span
+                class="rounded-full bg-slate-950/70 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-200">
+                {{ tag }}
+              </span>
+              }
+              @if (item.spicy) {
+              <span
+                class="rounded-full bg-rose-500/20 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-rose-200">
+                Spicy
+              </span>
+              }
+              @if (item.vegetarian) {
+              <span
+                class="rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
+                Vegetarian
+              </span>
+              }
+            </div>
+            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
+              <span>Ready in {{ item.readyInMinutes }} min</span>
+              <span>{{ serviceModeLabel() }}</span>
+            </div>
+            <div class="flex gap-2">
+              <ui-nz-button [type]="'primary'" (buttonClick)="addToOrder(item)">
+                Add to order
+              </ui-nz-button>
+              @if (hasInOrder(item.id)) {
+              <ui-nz-button [type]="'default'" (buttonClick)="removeFromOrder(item.id)">
+                Remove
+              </ui-nz-button>
+              }
+            </div>
+          </div>
+        </ui-nz-card>
+        }
+      </div>
+      } @else {
+      <div
+        class="flex min-h-[240px] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-800 bg-slate-900/50 p-10 text-center">
+        <p class="text-base font-semibold text-slate-200">
+          No dishes match this combo.
+        </p>
+        <p class="max-w-md text-sm text-slate-400">
+          Relax the rush timer or dietary filters to reopen more Izmir pairings.
+        </p>
+        <ui-nz-button [type]="'default'" (buttonClick)="resetFilters()">
+          Reset filters
+        </ui-nz-button>
+      </div>
+      }
+    </section>
+  </div>
+</section>

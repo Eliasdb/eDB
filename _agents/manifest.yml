@@ -1,0 +1,80 @@
+# _agents/manifest.yml
+version: 1
+cwd: _agents # agent runs commands from this folder
+
+env:
+  PG_CONTAINER: { default: edb-postgres }
+  PG_SUPERUSER: { default: postgres }
+  PG_SUPERPASSWORD: { default: postgres }
+  COLOR: { default: '1' } # colored output
+  SPINNER: { default: '1' } # show spinner during steps
+
+commands:
+  - name: db.create
+    description: Create/update a Postgres role & database; optionally enable extensions.
+    script: scripts/db/create.sh
+    args:
+      - { name: db, required: true } # --db <name>
+      - { name: user, required: true } # --user <name>
+      - { name: pass, required: true, secret: true } # --pass <pass>
+      - { name: ext, required: false, repeatable: true } # --ext <ext> (repeat)
+    returns:
+      stdout:
+        parse: line
+        keys:
+          - name: DATABASE_URL
+            pattern: '^DATABASE_URL=(.+)$'
+    exit_codes:
+      '0': success
+      '2': usage_error
+      '3': refused_or_guard
+    examples:
+      - cmd: db.create --db foo_dev --user foo_user --pass secret --ext uuid-ossp
+
+  - name: db.drop
+    description: Drop a database and its role (idempotent).
+    script: scripts/db/drop.sh
+    dangerous: true
+    args:
+      - { name: db, required: true } # --db <name>
+      - { name: user, required: true } # --user <name>
+      - { name: yes, flag: true } # --yes
+    exit_codes:
+      '0': success
+      '3': refused_or_guard
+    examples:
+      - cmd: db.drop --db foo_dev --user foo_user --yes
+
+  - name: db.verify
+    description: Connectivity & readiness check (exists, SELECT 1, optional extensions).
+    script: scripts/db/verify.sh
+    args:
+      - { name: db, required: true } # --db <name>
+      - { name: ext, required: false, repeatable: true } # --ext <ext>
+    returns:
+      stdout:
+        parse: line
+        keys:
+          - name: VERIFY_OK
+            pattern: '^VERIFY_OK=1$'
+    exit_codes:
+      '0': success
+      '2': usage_error
+      '4': not_found
+    examples:
+      - cmd: db.verify --db foo_dev
+      - cmd: db.verify --db foo_dev --ext uuid-ossp --ext pgcrypto
+
+  - name: db.list
+    description: Overview of databases and/or roles.
+    script: scripts/db/list.sh
+    args:
+      - { name: what, required: false } # dbs | roles | both (default both)
+      - { name: like, required: false } # substring filter (client-side)
+    exit_codes:
+      '0': success
+      '2': usage_error
+    examples:
+      - cmd: db.list
+      - cmd: db.list --what dbs
+      - cmd: db.list --what roles --like user

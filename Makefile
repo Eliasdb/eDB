@@ -1,77 +1,30 @@
-SHELL := /bin/bash
-ITERM_APP ?= iTerm2
-ITERM := _dev-env/script/iterm_tab.sh   # ./scripts/iterm_tab.sh <appName> "<tab title>" <command...>
+# Location: ./Makefile
+.SHELLFLAGS := -eu -o pipefail -c
 
-# point compose at your infra file (and optional env file)
-COMPOSE := docker compose -f _dev-env/docker-compose.yml
-# If you keep infra vars in infra/.env, uncomment:
-# COMPOSE := docker compose -f infra/docker-compose.yml --env-file infra/.env
+# ---------- Vars ----------
+DEVENV := _dev-env
+AGENTS := _agents
+EXT ?= uuid-ossp
 
-.PHONY: dev-nx dev-infra dev-all \
-        platform-app platform-api webshop-api admin-api invoices-api \
-        rabbitmq meilisearch postgres keycloak pgadmin \
-        infra-up infra-down infra-logs infra-restart
+# ---------- Phony ----------
+.PHONY: dev-all dev-infra dev-nx \
+        agent-db-create agent-db-drop agent-db-verify agent-db-list \
+        create-db drop-db
 
+# ---------- Infra / Nx (delegates to _dev-env/Makefile) ----------
+dev-all dev-infra dev-nx:
+	@$(MAKE) -C $(DEVENV) $@
 
-# ── Individual Nx tabs ─────────────────────────────────────────
-platform-app:
-	$(ITERM) $(ITERM_APP) "Platform + Admin App"   nx run eDB:serve --devRemotes=mfe-edb-admin
+# ---------- Agent DB helpers (manifest-style scripts) ----------
+agent-db-create:
+	@bash $(AGENTS)/scripts/db/create.sh --db "$(name)" --user "$(user)" --pass "$(pass)" --ext "$(EXT)"
 
-platform-api:
-	$(ITERM) $(ITERM_APP) "Platform API"           nx serve platform-api
+agent-db-drop:
+	@bash $(AGENTS)/scripts/db/drop.sh --db "$(name)" --user "$(user)" --yes
 
-webshop-api:
-	$(ITERM) $(ITERM_APP) "Webshop API"            nx serve webshop-api
+agent-db-verify:
+	@bash _agents/scripts/db/verify.sh --db "$(name)" $(foreach e,$(exts),--ext $(e)) || test $$? -eq 4
 
-admin-api:
-	$(ITERM) $(ITERM_APP) "Admin API"              nx serve admin-api
-
-invoices-api:
-	$(ITERM) $(ITERM_APP) "Invoices API"           nx serve tools-invoices-api
-
-# ── Infra via docker compose (same tabs) ───────────────────────
-rabbitmq:
-	$(COMPOSE) up -d rabbitmq
-	$(ITERM) $(ITERM_APP) "RabbitMQ"               $(COMPOSE) logs -f rabbitmq
-
-meilisearch:
-	$(COMPOSE) up -d meilisearch
-	$(ITERM) $(ITERM_APP) "Meilisearch"            $(COMPOSE) logs -f meilisearch
-
-postgres:
-	$(COMPOSE) up -d postgres
-	$(ITERM) $(ITERM_APP) "Postgres"               $(COMPOSE) logs -f postgres
-
-keycloak:
-	$(COMPOSE) up -d keycloak
-	$(ITERM) $(ITERM_APP) "Keycloak"               $(COMPOSE) logs -f keycloak
-
-pgadmin:
-	$(COMPOSE) up -d pgadmin
-	$(ITERM) $(ITERM_APP) "pgAdmin"                $(COMPOSE) logs -f pgadmin
-
-
-# bring all infra up in background + open one tab per service with live logs
-dev-infra:
-	$(COMPOSE) up -d postgres keycloak meilisearch rabbitmq pgadmin
-# 	$(ITERM) $(ITERM_APP) "PG"                     $(COMPOSE) logs -f postgres
-# 	$(ITERM) $(ITERM_APP) "Keycloak"               $(COMPOSE) logs -f keycloak
-# 	$(ITERM) $(ITERM_APP) "Meili"                  $(COMPOSE) logs -f meilisearch
-# 	$(ITERM) $(ITERM_APP) "RabbitMQ"               $(COMPOSE) logs -f rabbitmq
-
-# convenience controls
-infra-up:
-	$(COMPOSE) up -d
-
-infra-logs:
-	$(COMPOSE) logs -f
-
-infra-restart:
-	$(COMPOSE) restart
-
-infra-down:
-	$(COMPOSE) down
-
-# ── Grouped commands ──────────────────────────────────────────
-dev-nx: platform-app platform-api webshop-api admin-api invoices-api
-dev-all: dev-infra dev-nx
+.PHONY: 
+agent-db-list:
+	@bash _agents/scripts/db/list.sh $(if $(what),--what $(what)) $(if $(like),--like "$(like)")

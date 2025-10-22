@@ -36,7 +36,11 @@
         "port": 4400,
         "configDir": "libs/shared/client/ui/.storybook",
         "browserTarget": "ui:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+          "libs/shared/client/ui/src/lib/styles/main.css"
+        ]
       }
     },
     "build-storybook": {
@@ -46,7 +50,11 @@
         "outputDir": "dist/storybook/ui",
         "configDir": "libs/shared/client/ui/.storybook",
         "browserTarget": "ui:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+          "libs/shared/client/ui/src/lib/styles/main.css"
+        ]
       }
     },
     "test-storybook": {

@@ -51,6 +51,13 @@ export const routes: Route[] = [
           import('@edb/feature-crm').then((m) => m.featureCRMRoutes),
       },
       {
+        path: 'izmir',
+        loadChildren: () =>
+          import('@eDB/feature-izmir').then(
+            (m) => m.featureIzmirRoutes,
+          ),
+      },
+      {
         path: 'erp',
         loadChildren: () =>
           import('@edb/feature-erp').then((m) => m.featureERPRoutes),
