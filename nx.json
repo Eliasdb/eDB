@@ -129,7 +129,6 @@
         "ciTargetName": "e2e-ci"
       }
     },
-
     {
       "plugin": "@nx/storybook/plugin",
       "options": {

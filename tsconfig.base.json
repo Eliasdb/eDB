@@ -17,7 +17,6 @@
     "paths": {
       "@data-access": ["apps/mobile/src/lib/data-access/index.ts"],
       "@data-access/*": ["apps/mobile/src/lib/data-access/*"],
-
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -91,6 +90,18 @@
       ],
       "@edb-clara/i18n": ["libs/client/edb-clara/i18n/src/index.ts"],
       "@edb-clara/realtime": ["libs/client/edb-clara/real-time/src/index.ts"],
+      "@edb-workbench/api/contracts": [
+        "libs/server/workbench-api/contracts/src/index.ts"
+      ],
+      "@edb-workbench/api/feature-health": [
+        "libs/server/workbench-api/features/feature-health/src/index.ts"
+      ],
+      "@edb-workbench/api/feature-todos": [
+        "libs/server/workbench-api/features/feature-todos/src/index.ts"
+      ],
+      "@edb-workbench/api/openapi": [
+        "libs/server/workbench-api/openapi/src/index.ts"
+      ],
       "@edb/client-auth": [
         "libs/client/edb/data-access/client-auth/src/index.ts"
       ],
