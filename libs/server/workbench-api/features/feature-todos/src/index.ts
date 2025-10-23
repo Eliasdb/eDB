@@ -1,1 +1,1 @@
-export * from './lib/feature-todos';
+export { registerTodosRoutes } from './lib/routes';

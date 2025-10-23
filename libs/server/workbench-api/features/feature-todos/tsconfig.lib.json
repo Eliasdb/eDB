@@ -2,7 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../../dist/out-tsc",
+    "target": "ES2019",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "declaration": true,
+    "esModuleInterop": true,
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],

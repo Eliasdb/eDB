@@ -1,6 +1,12 @@
-// explicit, tree-shakeable exports
-export { HealthResponseSchema } from './lib/health.contract';
-export type { HealthResponse } from './lib/health.contract';
+// expose the namespace (values/schemas)…
+export * as Todos from './lib/todos.contract';
 
-// (optional) also expose a namespace if you like using Health.*
-export * as Todos from './lib/todos.contract'; // ⬅️ export the new domain
+// …and ALSO re-export the types so you can import them directly
+export type {
+  TodoT,
+  CreateTodoInputT,
+  UpdateTodoInputT,
+  GetTodoParamsT,
+  DeleteTodoParams,   // if you need it
+  ListTodosQueryT,
+} from './lib/todos.contract';
