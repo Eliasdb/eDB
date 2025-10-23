@@ -17,9 +17,7 @@
     "paths": {
       "@data-access": ["apps/mobile/src/lib/data-access/index.ts"],
       "@data-access/*": ["apps/mobile/src/lib/data-access/*"],
-      "@eDB/feature-izmir": [
-        "libs/client/edb/features/feature-izmir/src/index.ts"
-      ],
+
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -54,6 +52,9 @@
       ],
       "@eDB/feature-dashboard": [
         "libs/client/edb/features/feature-dashboard/src/index.ts"
+      ],
+      "@eDB/feature-izmir": [
+        "libs/client/edb/features/feature-izmir/src/index.ts"
       ],
       "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index.ts"],
       "@eDB/feature-profile": [

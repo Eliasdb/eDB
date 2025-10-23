@@ -1,1 +1,16 @@
-{}
+{
+  "ignore_dirs": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    ".angular",
+    ".nx",
+    "coverage",
+    ".git",
+    "ios/build",
+    "android/build",
+    ".storybook-static",
+    "tmp"
+  ]
+}

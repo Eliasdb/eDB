@@ -6,33 +6,38 @@ ITERM := script/iterm_tab.sh   # ./script/iterm_tab.sh <appName> "<tab title>" <
 
 # Compose config (infra stack)
 COMPOSE := docker compose -f docker-compose.yml
-# If you ever move env vars to a separate file:
-# COMPOSE := docker compose -f docker-compose.yml --env-file .env
 
-.PHONY: dev-nx dev-infra dev-all \
-        platform-app platform-api webshop-api admin-api invoices-api \
+.PHONY: dev-nx dev-nx-core dev-infra dev-all \
+        platform-app platform-api admin-api \
+        webshop-api invoices-api \
         rabbitmq meilisearch postgres keycloak pgadmin \
         infra-up infra-down infra-logs infra-restart create-db drop-db
 
-
 # ── Individual Nx tabs ─────────────────────────────────────────
+
 platform-app:
-	$(ITERM) $(ITERM_APP) "Platform + Admin App"   nx run eDB:serve --devRemotes=mfe-edb-admin
+	CHOKIDAR_USEPOLLING=1 \
+	WATCHPACK_POLLING=true \
+	$(ITERM) $(ITERM_APP) "Platform + Admin App" \
+	  nx run eDB:serve --devRemotes=mfe-edb-admin --poll=1500
 
+
+# Guarded .NET targets: set polling ONLY here
 platform-api:
-	$(ITERM) $(ITERM_APP) "Platform API"           nx serve platform-api
-
-webshop-api:
-	$(ITERM) $(ITERM_APP) "Webshop API"            nx serve webshop-api
+	$(ITERM) $(ITERM_APP) "Platform API"           DOTNET_USE_POLLING_FILE_WATCHER=1 nx serve platform-api
 
 admin-api:
-	$(ITERM) $(ITERM_APP) "Admin API"              nx serve admin-api
+	$(ITERM) $(ITERM_APP) "Admin API"              DOTNET_USE_POLLING_FILE_WATCHER=1 nx serve admin-api
+
+# Other services (no polling)
+webshop-api:
+	$(ITERM) $(ITERM_APP) "Webshop API"            nx serve webshop-api
 
 invoices-api:
 	$(ITERM) $(ITERM_APP) "Invoices API"           nx serve tools-invoices-api
 
-
 # ── Infra via docker compose ───────────────────────────────────
+
 rabbitmq:
 	$(COMPOSE) up -d rabbitmq
 	$(ITERM) $(ITERM_APP) "RabbitMQ"               $(COMPOSE) logs -f rabbitmq
@@ -53,8 +58,8 @@ pgadmin:
 	$(COMPOSE) up -d pgadmin
 	$(ITERM) $(ITERM_APP) "pgAdmin"                $(COMPOSE) logs -f pgadmin
 
-
 # ── Combined dev targets ───────────────────────────────────────
+
 dev-infra:
 	$(COMPOSE) up -d postgres keycloak meilisearch rabbitmq pgadmin
 
@@ -70,6 +75,11 @@ infra-restart:
 infra-down:
 	$(COMPOSE) down
 
-# ── Nx grouped commands ────────────────────────────────────────
-dev-nx: platform-app platform-api webshop-api admin-api invoices-api
-dev-all: dev-infra dev-nx
+# Core dev set: app + ONLY the two guarded APIs
+dev-nx-core: platform-app platform-api admin-api
+
+# Full original set (if you ever need it)
+dev-nx: platform-app platform-api admin-api webshop-api invoices-api
+
+# Default all-in dev: infra + core (guarded)
+dev-all: dev-infra dev-nx-core

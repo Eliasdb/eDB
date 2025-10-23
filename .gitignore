@@ -5,7 +5,7 @@ node_modules
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
-.nx
+
 .angular/
 
 .cache
@@ -115,8 +115,7 @@ Thumbs.db
 
 obj
 
-.nx/cache
-.nx/workspace-data
+
 
 .angular
 
