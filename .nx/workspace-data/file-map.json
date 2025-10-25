@@ -266,716 +266,632 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "k8s/product/clara-api/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "docs/EDB_FEATURE_GUIDE.md",
-        "hash": "3932899817183384495"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/security/kustomization.yaml",
-        "hash": "2876872923869753210"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst",
-        "hash": "4947151712813284206"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/pom.xml",
-        "hash": "16999675452909022483"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/business/platform-client-prod.yaml",
-        "hash": "497903588383583784"
-      },
-      {
-        "file": "tsconfig.json",
-        "hash": "13354667176562422547"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "14857385984490378817"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/common/resources/img/favicon.ico",
-        "hash": "15025369607889895835"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-success-sign.png",
-        "hash": "15459865558077081439"
-      },
-      {
-        "file": ".github/workflows/postmerge-deployment.prod.yaml",
-        "hash": "650492880942626335"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/security/cert-manager-issuers-staging.yaml",
-        "hash": "16398564851269873521"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/networking/ingress-prod.yaml",
-        "hash": "13999522873633303135"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-bg-light.png",
-        "hash": "13945994767599594679"
-      },
-      {
-        "file": "k8s/argocd/projects/messaging.yaml",
-        "hash": "5163666910853611980"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/business/admin-api-prod.yaml",
-        "hash": "16443050420692809330"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/client.ingress.staging.yaml",
-        "hash": "991693324918934754"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/observability/loki-promtail-prod.yaml",
-        "hash": "3565384513876344369"
-      },
-      {
-        "file": "k8s/product/webshop-api/overlays/prod/patch.yaml",
-        "hash": "17553112731219581995"
-      },
-      {
-        "file": "k8s/product/platform-api/overlays/prod/patch.yaml",
-        "hash": "8492580543035640684"
-      },
-      {
-        "file": "k8s/platform/identity/keycloak/overlays/prod/kustomization.yaml",
-        "hash": "10076352225659432378"
-      },
-      {
-        "file": "babel.config.json",
-        "hash": "419334961819951668"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/search/meilisearch-staging.yaml",
-        "hash": "2843489823546658008"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "5407418692668764289"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/observability/prometheus-stack-prod.yaml",
-        "hash": "5635830735215307324"
-      },
-      {
-        "file": "k8s/product/webshop-api/overlays/prod/kustomization.yaml",
-        "hash": "4203260679648583450"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/maven-archiver/pom.properties",
-        "hash": "13586210154828388959"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/networking/kustomization.yaml",
-        "hash": "8578424156571445375"
-      },
-      {
-        "file": "docker/webshop-api/Dockerfile.staging",
-        "hash": "1990838346705512978"
-      },
-      {
-        "file": "k8s/product/tools-invoices-api/overlays/prod/kustomization.yaml",
-        "hash": "7054391939247717510"
-      },
-      {
-        "file": "vitest.workspace.ts",
-        "hash": "14023491222425291751"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/business/platform-api-staging.yaml",
-        "hash": "15418184008228812335"
-      },
-      {
-        "file": "k8s/product/platform-client/base/kustomization.yaml",
-        "hash": "13447959327813070461"
-      },
-      {
-        "file": "k8s/product/platform-client/overlays/prod/patch-env.yaml",
-        "hash": "6039850604766276474"
-      },
-      {
-        "file": "docker/edb/nginx/nginx.conf",
-        "hash": "15339255723691436734"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/messaging/rabbitmq-prod.yaml",
-        "hash": "686557461114922051"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/business/admin-api-staging.yaml",
-        "hash": "13769004021796104726"
-      },
-      {
-        "file": "_dev-env/script/iterm_tab.sh",
-        "hash": "432607939417740305"
-      },
-      {
-        "file": "k8s/product/platform-api/base/service.yaml",
-        "hash": "8946053012460124780"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/overlays/staging/kustomization.yaml",
-        "hash": "16206387331781557815"
-      },
-      {
-        "file": "k8s/platform/networking/ingress-nginx/namespace.yaml",
-        "hash": "8366795687544334164"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-warning-sign.png",
-        "hash": "9209463769991887916"
-      },
-      {
-        "file": "docker/mfe-edb-admin/Dockerfile.staging",
-        "hash": "8374877559746967426"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-warning-arrow-down.png",
-        "hash": "1503001992704865959"
-      },
-      {
-        "file": "docker/webshop-api/entrypoint.sh",
-        "hash": "6579209722027721857"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-success-arrow-down.png",
-        "hash": "3486365729874459939"
-      },
-      {
-        "file": "2e7b910e-a28c-4c43-a0eb-918d67d22e15.png",
-        "hash": "15795576537640286414"
-      },
-      {
-        "file": "k8s/product/tools-invoices-api/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpSetupResource.java",
-        "hash": "15056517802183991364"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/business/webshop-api-prod.yaml",
-        "hash": "7250566624985419827"
-      },
-      {
-        "file": "tailwind.config.js",
-        "hash": "12844019641284862346"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-logo.png",
-        "hash": "17851688076475461561"
-      },
-      {
-        "file": "k8s/platform/networking/ingress-nginx/values-staging.yaml",
-        "hash": "3322715086516527931"
-      },
-      {
-        "file": ".config/dotnet-tools.json",
-        "hash": "11838792263928579418"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/business/platform-client-staging.yaml",
-        "hash": "16107396448619294608"
-      },
-      {
-        "file": "k8s/platform/identity/keycloak/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "docker/tools-invoices-api/Dockerfile.prod",
-        "hash": "7785277802955338027"
-      },
-      {
-        "file": "docs/MOBILE_APP_GUIDE.md",
-        "hash": "6931059224249920332"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/base/deployment.yaml",
-        "hash": "8388564957568323812"
-      },
-      {
-        "file": "k8s/argocd/projects/networking.yaml",
-        "hash": "17532154934973354832"
-      },
-      {
-        "file": "k8s/product/tools-invoices-api/base/service.yaml",
-        "hash": "12326186618665191061"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/certs/staging.certificate.prometheus.yaml",
-        "hash": "4447408027732734427"
-      },
-      {
-        "file": "k8s/product/platform-client/base/service.yaml",
-        "hash": "16379973194691709808"
-      },
-      {
-        "file": "k8s/product/webshop-api/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "docker/keycloak/Dockerfile.staging",
-        "hash": "12303168746199384819"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/messaging/kustomization.yaml",
-        "hash": "11348654939834462609"
-      },
-      {
-        "file": "k8s/platform/observability/grafana/values-prod.yaml",
-        "hash": "16133672395893187913"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/observability/kustomization.yaml",
-        "hash": "1606953868310264307"
-      },
-      {
-        "file": "k8s/product/admin-client/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "k8s/product/webshop-api/base/deployment.yaml",
-        "hash": "15441882712891421201"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/business/kustomization.yaml",
-        "hash": "15977107867089690567"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/messaging/rabbitmq-staging.yaml",
-        "hash": "11730553828248102043"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/overlays/staging/kustomization.yaml",
-        "hash": "2643940688983469671"
-      },
-      {
-        "file": "package.json",
-        "hash": "4610047813132670582"
-      },
-      {
-        "file": "_dev-env/docker-compose.yml",
-        "hash": "13602964879091660307"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/welcome/index.ftl",
-        "hash": "942698846919835028"
-      },
-      {
-        "file": ".prettierrc",
-        "hash": "16267754514737964994"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/favicon-32x32.png",
-        "hash": "10721991861793233565"
-      },
-      {
-        "file": "postcss.config.js",
-        "hash": "8055263870272897227"
-      },
-      {
-        "file": "pnpm-workspace.yaml",
-        "hash": "11631957661797827706"
-      },
-      {
         "file": "k8s/argocd/staging/apps/security/cert-manager-staging.yaml",
         "hash": "4824815270374708345"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/observability/grafana-prod.yaml",
-        "hash": "1319042997744317735"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/theme.properties",
-        "hash": "6772252567431287043"
-      },
-      {
-        "file": "k8s/product/clara-api/overlays/staging/patch-deployment.yaml",
-        "hash": "17357184639780418724"
-      },
-      {
-        "file": "k8s/product/platform-api/overlays/prod/kustomization.yaml",
-        "hash": "14590909167284284829"
-      },
-      {
-        "file": "k8s/product/admin-api/overlays/prod/patch.yaml",
-        "hash": "2559007609350697565"
-      },
-      {
-        "file": "docker/webshop-api/entrypoint.prod.sh",
-        "hash": "10706753286111197701"
-      },
-      {
-        "file": "docker/mfe-edb-admin/Dockerfile.dev",
-        "hash": "9364661962905646076"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-bg-accented.png",
-        "hash": "9163604506036696539"
-      },
-      {
-        "file": "docker/platform-api/Dockerfile.prod",
-        "hash": "9440291152235353578"
-      },
-      {
-        "file": "k8s/product/clara-api/overlays/staging/kustomization.yaml",
-        "hash": "13896629390781889770"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/android-chrome-512x512.png",
-        "hash": "3560418089409557648"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/apple-touch-icon.png",
-        "hash": "5475271751981107666"
-      },
-      {
-        "file": "k8s/argocd/projects/data.yaml",
-        "hash": "8039614576161980116"
-      },
-      {
-        "file": "k8s/platform/data/redis/overlays/staging/kustomization.yaml",
-        "hash": "8905345062865386151"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/resources/META-INF/services/org.keycloak.services.resource.RealmResourceProviderFactory",
-        "hash": "16375097380609586133"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/identity/kustomization.yaml",
-        "hash": "17537843242557840622"
-      },
-      {
-        "file": "docker/clara-api/Dockerfile.staging",
-        "hash": "2186742383266580445"
-      },
-      {
-        "file": "migrations.json",
-        "hash": "12052160344734285579"
-      },
-      {
-        "file": "k8s/platform/data/redis/base/service.yaml",
-        "hash": "3167486143997189833"
-      },
-      {
-        "file": "_dev-env/Makefile",
-        "hash": "8242852435257835739"
-      },
-      {
-        "file": "k8s/platform/observability/grafana/dashboards/edb-main.json",
-        "hash": "3828321999145066326"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/search/kustomization.yaml",
-        "hash": "12913683086350867494"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/common/resources/lib/pficon/pficon.css",
-        "hash": "9583716868204215805"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/README.md",
-        "hash": "179139576081501949"
-      },
-      {
-        "file": "k8s/platform/data/postgres/staging/postgres-deployment.staging.yaml",
-        "hash": "13802131194420611448"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/search/kustomization.yaml",
-        "hash": "11220064864983766713"
-      },
-      {
-        "file": "_agents/manifest.yml",
-        "hash": "12128812457821535647"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/business/webshop-api-staging.yaml",
-        "hash": "17396405365110083501"
-      },
-      {
-        "file": "docker/platform-api/Dockerfile.staging",
-        "hash": "14178845856738623051"
-      },
-      {
-        "file": "k8s/product/admin-client/base/service.yaml",
-        "hash": "3053111919019230314"
-      },
-      {
-        "file": "k8s/platform/observability/prometheus/values-staging.yaml",
-        "hash": "3711599605157785560"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/register.ftl",
-        "hash": "12273455032188803950"
-      },
-      {
-        "file": "k8s/platform/observability/grafana/dashboards/edb-logs.json",
-        "hash": "131501400867248350"
-      },
-      {
-        "file": "nx.json",
-        "hash": "13611242830833535689"
-      },
-      {
-        "file": "docker/mfe-edb-admin/nginx/nginx.admin.conf",
-        "hash": "11444052777467901121"
-      },
-      {
-        "file": "k8s/product/admin-client/base/deployment.yaml",
-        "hash": "12381968371926338021"
-      },
-      {
-        "file": ".dockerignore",
-        "hash": "6214472955782460302"
-      },
-      {
-        "file": "k8s/platform/identity/keycloak/base/service.yaml",
-        "hash": "6029021382105415538"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/overlays/staging/patch-env.yaml",
-        "hash": "14006493891463119452"
-      },
-      {
-        "file": "k8s/platform/data/redis/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "openapitools.json",
-        "hash": "7214245126380783037"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/kustomization.yaml",
-        "hash": "736808354287594586"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/business/tools-invoices-api-prod.yaml",
-        "hash": "1992464534492168641"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-bg.png",
-        "hash": "8179705968965254913"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/favicon-16x16.png",
-        "hash": "11541858057285069888"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/client.ingress.prod.yaml",
-        "hash": "467287015809957246"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/overlays/staging/patch-env.yaml",
-        "hash": "918631378393752118"
-      },
-      {
-        "file": "k8s/product/admin-api/base/service.yaml",
-        "hash": "914460384331092909"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/site.webmanifest",
-        "hash": "11205980641497128048"
-      },
-      {
-        "file": "k8s/platform/identity/keycloak/overlays/staging/kustomization.yaml",
-        "hash": "2795909816737203770"
-      },
-      {
-        "file": "k8s/product/clara-api/base/deployment.yaml",
-        "hash": "5703805280480760275"
-      },
-      {
-        "file": ".npmrc",
-        "hash": "18235286178484777668"
-      },
-      {
-        "file": "k8s/product/platform-client/overlays/staging/patch-env.yaml",
-        "hash": "18159828101417060121"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-error-sign.png",
-        "hash": "2729419663571975297"
-      },
-      {
-        "file": ".github/workflows/admin-ci.production.yml",
-        "hash": "4221555054967057082"
-      },
-      {
-        "file": "k8s/platform/observability/grafana/dashboards/kustomization.yaml",
-        "hash": "10063951002149514373"
-      },
-      {
-        "file": "k8s/product/admin-api/base/deployment.yaml",
-        "hash": "9604471590152299725"
-      },
-      {
-        "file": "docker/edb/Dockerfile.dev",
-        "hash": "3315131845274882784"
-      },
-      {
-        "file": "docker/edb/Dockerfile.staging",
-        "hash": "13204327064922668489"
-      },
-      {
-        "file": "k8s/product/platform-api/base/deployment.yaml",
-        "hash": "4605596910601558070"
-      },
-      {
-        "file": ".github/workflows/admin-ci.staging.yml",
-        "hash": "7686125114723707260"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/base/kustomization.yaml",
-        "hash": "2691751431118921303"
       },
       {
         "file": "k8s/argocd/staging/apps/observability/loki-promtail-staging.yaml",
         "hash": "8291816588831795047"
       },
       {
-        "file": "pnpm-lock.yaml",
-        "hash": "8114471477651457878"
-      },
-      {
-        "file": "k8s/argocd/projects/observability.yaml",
-        "hash": "490196601849225474"
-      },
-      {
         "file": "README.md",
         "hash": "9246947757305421540"
       },
       {
-        "file": "_keycloak/themes/edb-theme/login/resources/js/demo-autofill.js",
-        "hash": "13712325115631371541"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/networking/kustomization.yaml",
-        "hash": "2699326299415875206"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/certs/staging-cert.api.yaml",
-        "hash": "13131569885182565059"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/data/redis-staging.yaml",
-        "hash": "15984937371728208742"
-      },
-      {
-        "file": "_agents/lib/pg.sh",
-        "hash": "9269397967382270711"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/kustomization.yaml",
-        "hash": "16598900445747034955"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/email/theme.properties",
-        "hash": "6234928112967715866"
-      },
-      {
-        "file": "k8s/product/platform-client/overlays/prod/kustomization.yaml",
-        "hash": "11342590666665733381"
-      },
-      {
-        "file": "k8s/argocd/prod/app-of-apps.yaml",
-        "hash": "5258558882343185231"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/observability/prometheus-stack-staging.yaml",
-        "hash": "11319008644374627313"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/kustomization.yaml",
-        "hash": "15865792227274880847"
-      },
-      {
-        "file": "_notes/rabbitmq.md",
-        "hash": "7957034947003864046"
-      },
-      {
-        "file": "_agents/lib/log.sh",
-        "hash": "631212494059422801"
-      },
-      {
-        "file": "k8s/platform/data/postgres/prod/postgres-pv.prod.yaml",
-        "hash": "3470517115915715927"
-      },
-      {
-        "file": "k8s/platform/data/redis/overlays/prod/kustomization.yaml",
-        "hash": "10187254599521007595"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpUtils.java",
-        "hash": "9577180510541411178"
+        "file": "k8s/product/admin-client/base/deployment.yaml",
+        "hash": "12381968371926338021"
       },
       {
         "file": "k8s/argocd/prod/apps/business/admin-client-prod.yaml",
         "hash": "16424918114899241504"
       },
       {
+        "file": "k8s/platform/data/postgres/prod/postgres-deployment.prod.yaml",
+        "hash": "8764964442655176099"
+      },
+      {
+        "file": "docker/mfe-edb-admin/Dockerfile.prod",
+        "hash": "8374877559746967426"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-logo.png",
+        "hash": "17851688076475461561"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/business/platform-api-staging.yaml",
+        "hash": "15418184008228812335"
+      },
+      {
+        "file": "k8s/product/admin-client/overlays/staging/kustomization.yaml",
+        "hash": "9176531861487810210"
+      },
+      {
+        "file": "docker/platform-api/Dockerfile.staging",
+        "hash": "14178845856738623051"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/welcome/resources/background.svg",
+        "hash": "4847240136082459612"
+      },
+      {
+        "file": "k8s/argocd/projects/identity.yaml",
+        "hash": "8405283082888537458"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/favicon-32x32.png",
+        "hash": "10721991861793233565"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/search/meilisearch-prod.yaml",
+        "hash": "6120310833138704850"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-error-sign.png",
+        "hash": "2729419663571975297"
+      },
+      {
+        "file": "k8s/product/webshop-api/overlays/staging/patch.yaml",
+        "hash": "3574749336499981691"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpUtils.java",
+        "hash": "9577180510541411178"
+      },
+      {
+        "file": "k8s/product/admin-client/base/service.yaml",
+        "hash": "3053111919019230314"
+      },
+      {
+        "file": "eslint.config.mjs",
+        "hash": "4079322432403155467"
+      },
+      {
+        "file": "k8s/product/tools-invoices-api/overlays/staging/kustomization.yaml",
+        "hash": "4457886945905849931"
+      },
+      {
+        "file": "k8s/platform/identity/keycloak/base/deployment.yaml",
+        "hash": "9892642723661128778"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-success-sign.png",
+        "hash": "15459865558077081439"
+      },
+      {
+        "file": "k8s/product/tools-invoices-api/overlays/staging/patch.yaml",
+        "hash": "10665703974186523055"
+      },
+      {
+        "file": "k8s/product/admin-api/overlays/staging/kustomization.yaml",
+        "hash": "11821112962576807361"
+      },
+      {
+        "file": "docker/platform-api/Dockerfile.prod",
+        "hash": "9440291152235353578"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/js/demo-autofill.js",
+        "hash": "13712325115631371541"
+      },
+      {
+        "file": "k8s/argocd/projects/messaging.yaml",
+        "hash": "5163666910853611980"
+      },
+      {
         "file": "k8s/argocd/staging/apps/business/tools-invoices-api-staging.yaml",
         "hash": "6390319526571290127"
       },
       {
-        "file": "k8s/product/platform-client/base/deployment.yaml",
-        "hash": "15332498704235357020"
+        "file": "_keycloak/themes/edb-theme/welcome/resources/css/welcome.css",
+        "hash": "14919988553367198598"
       },
       {
-        "file": "k8s/argocd/prod/apps/observability/kustomization.yaml",
-        "hash": "3516806515042970234"
+        "file": "_keycloak/themes/edb-theme/login/register.ftl",
+        "hash": "12273455032188803950"
       },
       {
-        "file": "k8s/argocd/prod/apps/security/cert-manager-prod.yaml",
-        "hash": "4235594308836632791"
+        "file": "k8s/platform/observability/prometheus/values-staging.yaml",
+        "hash": "3711599605157785560"
       },
       {
-        "file": "k8s/platform/security/cert-manager/issuers/clusterissuer-letsencrypt-staging.yaml",
-        "hash": "929762130191001357"
+        "file": "_dev-env/Makefile",
+        "hash": "8242852435257835739"
       },
       {
-        "file": "k8s/platform/observability/loki/values-prod.yaml",
-        "hash": "529436650611690658"
+        "file": ".github/workflows/admin-ci.staging.yml",
+        "hash": "7686125114723707260"
       },
       {
-        "file": "k8s/platform/data/postgres/prod/postgres-pvc.prod.yaml",
-        "hash": "7501058638113652768"
+        "file": "k8s/platform/security/cert-manager/issuers/clusterissuer-letsencrypt-production.yaml",
+        "hash": "15066262790017364873"
       },
       {
-        "file": "k8s/platform/networking/ingress/staging/keycloak.ingress.staging.yaml",
-        "hash": "13706638134516312593"
+        "file": "k8s/argocd/projects/apps.yaml",
+        "hash": "12798349986406405849"
       },
       {
-        "file": "k8s/platform/networking/ingress/staging/certs/staging-cert.client.yaml",
-        "hash": "1642523476580702251"
+        "file": "Makefile",
+        "hash": "11819257615852994066"
       },
       {
-        "file": "k8s/argocd/staging/apps/identity/kustomization.yaml",
-        "hash": "11750493872166599784"
+        "file": "k8s/argocd/staging/apps/observability/grafana-staging.yaml",
+        "hash": "10747477057793867847"
       },
       {
-        "file": "docker/edb/Dockerfile.prod",
-        "hash": "9360408373120185166"
+        "file": "k8s/product/tools-invoices-api/base/deployment.yaml",
+        "hash": "14543813938359235625"
       },
       {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpSetupResourceFactory.java",
-        "hash": "479232370256591086"
+        "file": "k8s/platform/networking/ingress/staging/api.ingress.staging.yaml",
+        "hash": "11687394443240280030"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/android-chrome-192x192.png",
+        "hash": "10490545303131102663"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/base/service.yaml",
+        "hash": "3306623675200183655"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/search/kustomization.yaml",
+        "hash": "11220064864983766713"
       },
       {
         "file": "k8s/argocd/staging/apps/kustomization.yaml",
         "hash": "14945415720345483966"
       },
       {
-        "file": "k8s/argocd/staging/app-of-apps.yaml",
-        "hash": "15939913390666786163"
+        "file": "_notes/rabbitmq.md",
+        "hash": "7957034947003864046"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/messaging/rabbitmq-prod.yaml",
+        "hash": "686557461114922051"
+      },
+      {
+        "file": "k8s/product/clara-api/overlays/staging/patch-deployment.yaml",
+        "hash": "17357184639780418724"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/theme.properties",
+        "hash": "6772252567431287043"
+      },
+      {
+        "file": "docker/clara-api/Dockerfile.staging",
+        "hash": "2186742383266580445"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/business/kustomization.yaml",
+        "hash": "15977107867089690567"
+      },
+      {
+        "file": "k8s/platform/observability/grafana/dashboards/kustomization.yaml",
+        "hash": "10063951002149514373"
+      },
+      {
+        "file": "docker/edb/Dockerfile.dev",
+        "hash": "3315131845274882784"
+      },
+      {
+        "file": "_agents/lib/log.sh",
+        "hash": "631212494059422801"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/overlays/prod/kustomization.yaml",
+        "hash": "9580058434764529322"
+      },
+      {
+        "file": "docker/webshop-api/Dockerfile.prod",
+        "hash": "5012002611075429936"
+      },
+      {
+        "file": "migrations.json",
+        "hash": "12052160344734285579"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/business/platform-client-prod.yaml",
+        "hash": "497903588383583784"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/data/kustomization.yaml",
+        "hash": "1919938584035827060"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/prod/certs/prod-cert.api.yaml",
+        "hash": "16344440250631385271"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "12844019641284862346"
+      },
+      {
+        "file": "k8s/argocd/projects/observability.yaml",
+        "hash": "490196601849225474"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/favicon-16x16.png",
+        "hash": "11541858057285069888"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/networking/kustomization.yaml",
+        "hash": "2699326299415875206"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/kustomization.yaml",
+        "hash": "16598900445747034955"
+      },
+      {
+        "file": "k8s/platform/data/postgres/staging/postgres-pvc.staging.yaml",
+        "hash": "12505362162695480801"
+      },
+      {
+        "file": "k8s/product/admin-api/base/deployment.yaml",
+        "hash": "9604471590152299725"
+      },
+      {
+        "file": "_agents/lib/pg.sh",
+        "hash": "9269397967382270711"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpSetupEndpoint.java",
+        "hash": "12582504507502131129"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/security/cert-manager-issuers-prod.yaml",
+        "hash": "4949883125070852744"
+      },
+      {
+        "file": "k8s/platform/data/redis/base/deployment.yaml",
+        "hash": "9560863259934624784"
+      },
+      {
+        "file": "k8s/platform/networking/ingress-nginx/values-staging.yaml",
+        "hash": "3322715086516527931"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/client.ingress.staging.yaml",
+        "hash": "991693324918934754"
+      },
+      {
+        "file": "docker/webshop-api/wait-for-postgres.sh",
+        "hash": "294561920041957197"
+      },
+      {
+        "file": "k8s/product/platform-api/overlays/staging/kustomization.yaml",
+        "hash": "17639124470210865838"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "3494843969422251966"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/css/login.css",
+        "hash": "11240972848645976035"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/identity/keycloak-prod.yaml",
+        "hash": "5623232509288802391"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/overlays/staging/kustomization.yaml",
+        "hash": "2643940688983469671"
+      },
+      {
+        "file": "docker/mfe-edb-admin/Dockerfile.staging",
+        "hash": "8374877559746967426"
+      },
+      {
+        "file": "k8s/argocd/prod/app-of-apps.yaml",
+        "hash": "5258558882343185231"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/messaging/kustomization.yaml",
+        "hash": "2587275292403781020"
+      },
+      {
+        "file": "k8s/platform/identity/keycloak/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "docker/webshop-api/entrypoint.prod.sh",
+        "hash": "10706753286111197701"
+      },
+      {
+        "file": "k8s/platform/observability/grafana/dashboards/edb-main.json",
+        "hash": "3828321999145066326"
+      },
+      {
+        "file": "k8s/product/platform-client/overlays/staging/patch-env.yaml",
+        "hash": "18159828101417060121"
+      },
+      {
+        "file": "k8s/product/platform-client/base/deployment.yaml",
+        "hash": "15332498704235357020"
+      },
+      {
+        "file": "k8s/platform/observability/grafana/values-staging.yaml",
+        "hash": "1594533957326807469"
+      },
+      {
+        "file": "docker/mfe-edb-admin/Dockerfile.dev",
+        "hash": "9364661962905646076"
+      },
+      {
+        "file": ".github/workflows/postmerge-deployment.prod.yaml",
+        "hash": "650492880942626335"
+      },
+      {
+        "file": "k8s/product/tools-invoices-api/overlays/prod/patch.yaml",
+        "hash": "10701308283239515870"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/business/admin-client-staging.yaml",
+        "hash": "1975273020131864147"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst",
+        "hash": "17997840563894113720"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/observability/prometheus-stack-prod.yaml",
+        "hash": "5635830735215307324"
+      },
+      {
+        "file": "docker/edb/nginx/nginx.conf",
+        "hash": "15339255723691436734"
+      },
+      {
+        "file": "nx.json",
+        "hash": "13611242830833535689"
+      },
+      {
+        "file": "k8s/product/clara-api/base/deployment.yaml",
+        "hash": "5703805280480760275"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/rabbitmq.ingress.yaml",
+        "hash": "790207158409078184"
+      },
+      {
+        "file": "docker/mfe-edb-admin/nginx/nginx.admin.conf",
+        "hash": "11444052777467901121"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/networking/ingress-staging.yaml",
+        "hash": "6032973367732037432"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/base/deployment.yaml",
+        "hash": "8388564957568323812"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/template.ftl",
+        "hash": "17901797960129329055"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/about.txt",
+        "hash": "7722089900808381710"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/certs/staging-certificate.grafana.yaml",
+        "hash": "4307825106177380320"
+      },
+      {
+        "file": "docker/edb/Dockerfile.staging",
+        "hash": "13204327064922668489"
+      },
+      {
+        "file": "k8s/platform/data/postgres/staging/postgres-service.staging.yaml",
+        "hash": "4320564056803233066"
+      },
+      {
+        "file": "k8s/product/platform-client/base/service.yaml",
+        "hash": "16379973194691709808"
+      },
+      {
+        "file": "Directory.Build.props",
+        "hash": "7205809296883463924"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-error-arrow-down.png",
+        "hash": "1503001992704865959"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/overlays/staging/kustomization.yaml",
+        "hash": "16206387331781557815"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/base/deployment.yaml",
+        "hash": "17597866247778279524"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/prod/keycloak.ingress.prod.yaml",
+        "hash": "437940174094384329"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/data/redis-staging.yaml",
+        "hash": "15984937371728208742"
+      },
+      {
+        "file": "docs/EDB_FEATURE_GUIDE.md",
+        "hash": "3932899817183384495"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/business/admin-api-staging.yaml",
+        "hash": "13769004021796104726"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/business/tools-invoices-api-prod.yaml",
+        "hash": "1992464534492168641"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/README.md",
+        "hash": "179139576081501949"
+      },
+      {
+        "file": "_notes/commands.md",
+        "hash": "9600835288660107019"
+      },
+      {
+        "file": "k8s/platform/observability/promtail/values-staging.yaml",
+        "hash": "846444059700850149"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/identity/kustomization.yaml",
+        "hash": "17537843242557840622"
+      },
+      {
+        "file": "k8s/platform/observability/loki/values-staging.yaml",
+        "hash": "7356431419443167173"
+      },
+      {
+        "file": "_dev-env/docker-compose.yml",
+        "hash": "13602964879091660307"
+      },
+      {
+        "file": "k8s/product/platform-api/overlays/prod/patch.yaml",
+        "hash": "8492580543035640684"
+      },
+      {
+        "file": "k8s/product/clara-api/overlays/staging/kustomization.yaml",
+        "hash": "13896629390781889770"
+      },
+      {
+        "file": "k8s/product/admin-api/base/service.yaml",
+        "hash": "914460384331092909"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-bg-light.png",
+        "hash": "13945994767599594679"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/certs/staging.certificate.prometheus.yaml",
+        "hash": "4447408027732734427"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/keycloak.ingress.staging.yaml",
+        "hash": "13706638134516312593"
+      },
+      {
+        "file": "k8s/argocd/projects/security.yaml",
+        "hash": "3037050058652464339"
+      },
+      {
+        "file": "libs/shared/server/utils/util-query/.gitignore",
+        "hash": "12821096717990657955"
+      },
+      {
+        "file": "k8s/argocd/projects/data.yaml",
+        "hash": "8039614576161980116"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/resources/META-INF/services/org.keycloak.services.resource.RealmResourceProviderFactory",
+        "hash": "16375097380609586133"
+      },
+      {
+        "file": "_dev-env/initdb/001-create-dbs.sql",
+        "hash": "18399983603100466916"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpSetupResourceFactory.java",
+        "hash": "479232370256591086"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/welcome/resources/logo.svg",
+        "hash": "1336655464690489019"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/business/clara-api-staging.yaml",
+        "hash": "11476263459607753947"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/prod/api.ingress.prod.yaml",
+        "hash": "11865328054429354719"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst",
+        "hash": "4947151712813284206"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/certs/staging-cert.client.yaml",
+        "hash": "1642523476580702251"
+      },
+      {
+        "file": "k8s/argocd/projects/networking.yaml",
+        "hash": "17532154934973354832"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "k8s/platform/identity/keycloak/overlays/staging/patch-env.yaml",
+        "hash": "13889191852394051148"
+      },
+      {
+        "file": "k8s/product/clara-api/base/service.yaml",
+        "hash": "4459417942276576156"
+      },
+      {
+        "file": "k8s/product/admin-api/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/certs/staging-cert.api.yaml",
+        "hash": "13131569885182565059"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/search/kustomization.yaml",
+        "hash": "12913683086350867494"
+      },
+      {
+        "file": "k8s/product/platform-client/base/kustomization.yaml",
+        "hash": "13447959327813070461"
+      },
+      {
+        "file": "k8s/platform/observability/grafana/values-prod.yaml",
+        "hash": "16133672395893187913"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/overlays/prod/kustomization.yaml",
+        "hash": "2461311254645413369"
+      },
+      {
+        "file": "k8s/product/tools-invoices-api/base/service.yaml",
+        "hash": "12326186618665191061"
+      },
+      {
+        "file": "Directory.Build.targets",
+        "hash": "1227399244182734731"
+      },
+      {
+        "file": "2e7b910e-a28c-4c43-a0eb-918d67d22e15.png",
+        "hash": "15795576537640286414"
+      },
+      {
+        "file": "k8s/product/platform-client/overlays/staging/kustomization.yaml",
+        "hash": "5678262777430862312"
+      },
+      {
+        "file": "k8s/platform/security/cert-manager/issuers/clusterissuer-letsencrypt-staging.yaml",
+        "hash": "929762130191001357"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/overlays/prod/patch-env.yaml",
+        "hash": "1224588391681810378"
+      },
+      {
+        "file": "openapitools.json",
+        "hash": "7214245126380783037"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/email/theme.properties",
+        "hash": "6234928112967715866"
       },
       {
         "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/classes/META-INF/services/org.keycloak.services.resource.RealmResourceProviderFactory",
@@ -986,444 +902,528 @@
         "hash": "9913805521895895501"
       },
       {
-        "file": "docker/webshop-api/wait-for-postgres.sh",
-        "hash": "294561920041957197"
+        "file": "pnpm-workspace.yaml",
+        "hash": "11631957661797827706"
       },
       {
-        "file": "k8s/argocd/staging/apps/business/clara-api-staging.yaml",
-        "hash": "11476263459607753947"
+        "file": "k8s/argocd/staging/apps/search/meilisearch-staging.yaml",
+        "hash": "2843489823546658008"
       },
       {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/about.txt",
-        "hash": "7722089900808381710"
+        "file": "k8s/platform/data/postgres/prod/postgres-pv.prod.yaml",
+        "hash": "3470517115915715927"
       },
       {
-        "file": "k8s/platform/identity/keycloak/overlays/staging/patch-env.yaml",
-        "hash": "13889191852394051148"
+        "file": "docker/edb/Dockerfile.prod",
+        "hash": "9360408373120185166"
       },
       {
-        "file": "_keycloak/themes/edb-theme/login/template.ftl",
-        "hash": "17901797960129329055"
+        "file": "tsconfig.json",
+        "hash": "13354667176562422547"
       },
       {
-        "file": "k8s/argocd/prod/apps/data/kustomization.yaml",
-        "hash": "1919938584035827060"
+        "file": "k8s/product/tools-invoices-api/overlays/prod/kustomization.yaml",
+        "hash": "7054391939247717510"
       },
       {
-        "file": "k8s/product/webshop-api/overlays/staging/patch.yaml",
-        "hash": "3574749336499981691"
-      },
-      {
-        "file": "k8s/platform/observability/promtail/values-staging.yaml",
-        "hash": "846444059700850149"
-      },
-      {
-        "file": "k8s/product/webshop-api/base/service.yaml",
-        "hash": "8077524003390208634"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/welcome/theme.properties",
-        "hash": "6475508502396442896"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/base/service.yaml",
-        "hash": "5471580753234395671"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/base/service.yaml",
-        "hash": "3306623675200183655"
-      },
-      {
-        "file": "k8s/platform/observability/grafana/values-staging.yaml",
-        "hash": "1594533957326807469"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/search/meilisearch-prod.yaml",
-        "hash": "6120310833138704850"
-      },
-      {
-        "file": "k8s/platform/data/postgres/staging/postgres-pv.staging.yaml",
-        "hash": "3897866690712353041"
-      },
-      {
-        "file": "k8s/product/admin-api/overlays/staging/patch.yaml",
-        "hash": "1544466316039899076"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/certs/keycloak-cert.staging.yaml",
-        "hash": "11386579571455504994"
-      },
-      {
-        "file": "docker/tools-invoices-api/Dockerfile.staging",
-        "hash": "9782376032286420269"
-      },
-      {
-        "file": "k8s/platform/data/postgres/prod/postgres-deployment.prod.yaml",
-        "hash": "8764964442655176099"
-      },
-      {
-        "file": "docker/webshop-api/nginx/default.conf",
-        "hash": "15901474652906374641"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/certs/prod-cert.client.yaml",
-        "hash": "12017983693285567303"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/META-INF/services/org.keycloak.services.resource.RealmResourceProviderFactory",
-        "hash": "16375097380609586133"
-      },
-      {
-        "file": "k8s/product/admin-api/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "docker/admin-api/Dockerfile.prod",
-        "hash": "16144857412827049687"
-      },
-      {
-        "file": "eslint.config.mjs",
-        "hash": "4079322432403155467"
-      },
-      {
-        "file": "docker/admin-api/Dockerfile.staging",
-        "hash": "6860229099869913925"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/base/kustomization.yaml",
-        "hash": "6909311543881055503"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/welcome/resources/css/welcome.css",
-        "hash": "14919988553367198598"
-      },
-      {
-        "file": "docker/mfe-edb-admin/Dockerfile.prod",
-        "hash": "8374877559746967426"
-      },
-      {
-        "file": "k8s/argocd/projects/apps.yaml",
-        "hash": "12798349986406405849"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/rabbitmq.ingress.yaml",
-        "hash": "790207158409078184"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/data/kustomization.yaml",
-        "hash": "15918481597543186547"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/overlays/prod/kustomization.yaml",
-        "hash": "9580058434764529322"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-error-arrow-down.png",
-        "hash": "1503001992704865959"
-      },
-      {
-        "file": "k8s/product/admin-client/overlays/staging/kustomization.yaml",
-        "hash": "9176531861487810210"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/data/redis-prod.yaml",
-        "hash": "1527252037147406929"
-      },
-      {
-        "file": "k8s/product/tools-invoices-api/base/deployment.yaml",
-        "hash": "14543813938359235625"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/networking/ingress-nginx-staging.yaml",
-        "hash": "2427182760665673377"
-      },
-      {
-        "file": "k8s/product/clara-api/base/service.yaml",
-        "hash": "4459417942276576156"
-      },
-      {
-        "file": "k8s/platform/observability/promtail/values-prod.yaml",
-        "hash": "5700627765248211695"
-      },
-      {
-        "file": ".github/workflows/premerge-checks.staging.yaml",
-        "hash": "1741548988059498736"
-      },
-      {
-        "file": "k8s/product/platform-api/overlays/staging/kustomization.yaml",
-        "hash": "17639124470210865838"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/welcome/resources/background.svg",
-        "hash": "4847240136082459612"
-      },
-      {
-        "file": "_agents/lib/pretty.sh",
-        "hash": "5074252562954741674"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/css/login.css",
-        "hash": "11240972848645976035"
-      },
-      {
-        "file": "k8s/product/admin-api/overlays/staging/kustomization.yaml",
-        "hash": "11821112962576807361"
-      },
-      {
-        "file": "k8s/product/tools-invoices-api/overlays/staging/kustomization.yaml",
-        "hash": "4457886945905849931"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/identity/keycloak-prod.yaml",
-        "hash": "5623232509288802391"
-      },
-      {
-        "file": "k8s/platform/data/postgres/staging/postgres-pvc.staging.yaml",
-        "hash": "12505362162695480801"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/rabbitmq.ingress.prod.yaml",
-        "hash": "12703318452566925697"
-      },
-      {
-        "file": "k8s/argocd/projects/security.yaml",
-        "hash": "3037050058652464339"
-      },
-      {
-        "file": "k8s/argocd/projects/search.yaml",
-        "hash": "9942642159628019547"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-logo-text.png",
-        "hash": "4173573564263534504"
-      },
-      {
-        "file": "docker/webshop-api/Dockerfile.prod",
-        "hash": "5012002611075429936"
-      },
-      {
-        "file": ".github/workflows/premerge-checks.prod.yaml",
-        "hash": "2890723487946831256"
-      },
-      {
-        "file": "k8s/platform/data/postgres/staging/postgres-service.staging.yaml",
-        "hash": "4320564056803233066"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/networking/ingress-nginx-prod.yaml",
-        "hash": "2535091240275681105"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/certs/prod-cert.api.yaml",
-        "hash": "16344440250631385271"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "9430166341120122740"
-      },
-      {
-        "file": "k8s/product/admin-client/overlays/prod/kustomization.yaml",
-        "hash": "12657090784233697516"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/api.ingress.prod.yaml",
-        "hash": "11865328054429354719"
-      },
-      {
-        "file": "k8s/argocd/projects/identity.yaml",
-        "hash": "8405283082888537458"
-      },
-      {
-        "file": "jest.config.ts",
-        "hash": "3494843969422251966"
-      },
-      {
-        "file": "Directory.Build.props",
-        "hash": "7205809296883463924"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/api.ingress.staging.yaml",
-        "hash": "11687394443240280030"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/kc-totp-ext-1.0-SNAPSHOT.jar",
-        "hash": "17747154362019645314"
-      },
-      {
-        "file": "k8s/platform/identity/keycloak/base/deployment.yaml",
-        "hash": "9892642723661128778"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/networking/ingress-staging.yaml",
-        "hash": "6032973367732037432"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst",
-        "hash": "17997840563894113720"
-      },
-      {
-        "file": "docker/keycloak/Dockerfile.prod",
-        "hash": "6096147091387552385"
+        "file": "_keycloak/themes/edb-theme/login/resources/img/apple-touch-icon.png",
+        "hash": "5475271751981107666"
       },
       {
         "file": "docker/webshop-api/nginx/nginx.conf",
         "hash": "5219071461829857038"
       },
       {
+        "file": "k8s/argocd/staging/apps/business/platform-client-staging.yaml",
+        "hash": "16107396448619294608"
+      },
+      {
+        "file": ".config/dotnet-tools.json",
+        "hash": "11838792263928579418"
+      },
+      {
+        "file": "docker/webshop-api/entrypoint.sh",
+        "hash": "6579209722027721857"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/common/resources/lib/pficon/pficon.css",
+        "hash": "9583716868204215805"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
         "file": "k8s/product/webshop-api/overlays/staging/kustomization.yaml",
         "hash": "1927532301782428195"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpSetupEndpoint.java",
-        "hash": "12582504507502131129"
-      },
-      {
-        "file": "_notes/commands.md",
-        "hash": "9600835288660107019"
-      },
-      {
-        "file": "k8s/product/platform-api/overlays/staging/patch.yaml",
-        "hash": "7085818930960556201"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/identity/keycloak-staging.yaml",
-        "hash": "16680962974383851861"
-      },
-      {
-        "file": "k8s/platform/search/meilisearch/overlays/prod/patch-env.yaml",
-        "hash": "1224588391681810378"
-      },
-      {
-        "file": "_dev-env/initdb/001-create-dbs.sql",
-        "hash": "18399983603100466916"
-      },
-      {
-        "file": "Makefile",
-        "hash": "11819257615852994066"
-      },
-      {
-        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/QrUtils.java",
-        "hash": "9999545313764640375"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/overlays/prod/kustomization.yaml",
-        "hash": "2461311254645413369"
-      },
-      {
-        "file": "k8s/platform/data/postgres/prod/postgres-service.prod.yaml",
-        "hash": "1831871300970121832"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/business/kustomization.yaml",
-        "hash": "2625437021837472178"
-      },
-      {
-        "file": "k8s/product/tools-invoices-api/overlays/staging/patch.yaml",
-        "hash": "10665703974186523055"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/certs/staging-certificate.grafana.yaml",
-        "hash": "4307825106177380320"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "2697933577107987727"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/overlays/prod/patch-env.yaml",
-        "hash": "17247003291897104558"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/staging/argocd.ingress.staging.yaml",
-        "hash": "3375091472524314872"
       },
       {
         "file": "k8s/platform/identity/keycloak/overlays/prod/patch-env.yaml",
         "hash": "15343552191413969792"
       },
       {
-        "file": "k8s/argocd/staging/apps/business/admin-client-staging.yaml",
-        "hash": "1975273020131864147"
+        "file": "postcss.config.js",
+        "hash": "8055263870272897227"
       },
       {
-        "file": "Directory.Build.targets",
-        "hash": "1227399244182734731"
+        "file": "k8s/platform/data/redis/base/service.yaml",
+        "hash": "3167486143997189833"
       },
       {
-        "file": "k8s/product/admin-api/overlays/prod/kustomization.yaml",
-        "hash": "17539122568049238705"
-      },
-      {
-        "file": "k8s/platform/messaging/rabbitmq/base/deployment.yaml",
-        "hash": "17597866247778279524"
-      },
-      {
-        "file": "libs/shared/server/utils/util-query/.gitignore",
-        "hash": "12821096717990657955"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/business/platform-api-prod.yaml",
-        "hash": "12309827190003328596"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/messaging/kustomization.yaml",
-        "hash": "2587275292403781020"
-      },
-      {
-        "file": "k8s/platform/security/cert-manager/issuers/clusterissuer-letsencrypt-production.yaml",
-        "hash": "15066262790017364873"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/login/resources/img/android-chrome-192x192.png",
-        "hash": "10490545303131102663"
-      },
-      {
-        "file": "k8s/platform/observability/prometheus/values-prod.yaml",
-        "hash": "5496488642286642006"
-      },
-      {
-        "file": "k8s/argocd/staging/apps/observability/grafana-staging.yaml",
-        "hash": "10747477057793867847"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/common/resources/lib/pficon/pficon.woff2",
-        "hash": "2827301219867892212"
-      },
-      {
-        "file": "k8s/platform/networking/ingress/prod/keycloak.ingress.prod.yaml",
-        "hash": "437940174094384329"
-      },
-      {
-        "file": "_keycloak/themes/edb-theme/welcome/resources/logo.svg",
-        "hash": "1336655464690489019"
-      },
-      {
-        "file": "k8s/argocd/prod/apps/security/cert-manager-issuers-prod.yaml",
-        "hash": "4949883125070852744"
+        "file": "k8s/product/admin-client/overlays/prod/kustomization.yaml",
+        "hash": "12657090784233697516"
       },
       {
         "file": "_keycloak/themes/edb-theme/login/resources/img/favicon.ico",
         "hash": "8007720129933043856"
       },
       {
-        "file": "k8s/platform/data/redis/base/deployment.yaml",
-        "hash": "9560863259934624784"
+        "file": "k8s/platform/networking/ingress/prod/client.ingress.prod.yaml",
+        "hash": "467287015809957246"
       },
       {
-        "file": "k8s/product/platform-client/overlays/staging/kustomization.yaml",
-        "hash": "5678262777430862312"
+        "file": "k8s/platform/networking/ingress/prod/kustomization.yaml",
+        "hash": "736808354287594586"
       },
       {
-        "file": "k8s/platform/observability/loki/values-staging.yaml",
-        "hash": "7356431419443167173"
+        "file": "k8s/argocd/prod/apps/kustomization.yaml",
+        "hash": "15865792227274880847"
       },
       {
-        "file": "k8s/product/tools-invoices-api/overlays/prod/patch.yaml",
-        "hash": "10701308283239515870"
+        "file": "k8s/platform/networking/ingress/staging/certs/keycloak-cert.staging.yaml",
+        "hash": "11386579571455504994"
+      },
+      {
+        "file": ".dockerignore",
+        "hash": "6214472955782460302"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/data/kustomization.yaml",
+        "hash": "15918481597543186547"
+      },
+      {
+        "file": "k8s/platform/observability/prometheus/values-prod.yaml",
+        "hash": "5496488642286642006"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/maven-archiver/pom.properties",
+        "hash": "13586210154828388959"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/prod/certs/prod-cert.client.yaml",
+        "hash": "12017983693285567303"
       },
       {
         "file": "k8s/product/platform-api/base/kustomization.yaml",
         "hash": "6909311543881055503"
+      },
+      {
+        "file": "k8s/product/webshop-api/base/deployment.yaml",
+        "hash": "15441882712891421201"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/welcome/index.ftl",
+        "hash": "942698846919835028"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-bg.png",
+        "hash": "8179705968965254913"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/android-chrome-512x512.png",
+        "hash": "3560418089409557648"
+      },
+      {
+        "file": "babel.config.json",
+        "hash": "419334961819951668"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/TotpSetupResource.java",
+        "hash": "15056517802183991364"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/base/service.yaml",
+        "hash": "5471580753234395671"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/pom.xml",
+        "hash": "16999675452909022483"
+      },
+      {
+        "file": "k8s/argocd/projects/search.yaml",
+        "hash": "9942642159628019547"
+      },
+      {
+        "file": "k8s/platform/observability/promtail/values-prod.yaml",
+        "hash": "5700627765248211695"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/overlays/prod/patch-env.yaml",
+        "hash": "17247003291897104558"
+      },
+      {
+        "file": "docker/tools-invoices-api/Dockerfile.prod",
+        "hash": "7785277802955338027"
+      },
+      {
+        "file": "k8s/product/admin-api/overlays/prod/patch.yaml",
+        "hash": "2559007609350697565"
+      },
+      {
+        "file": "k8s/platform/identity/keycloak/overlays/staging/kustomization.yaml",
+        "hash": "2795909816737203770"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/networking/kustomization.yaml",
+        "hash": "8578424156571445375"
+      },
+      {
+        "file": "k8s/product/admin-api/overlays/prod/kustomization.yaml",
+        "hash": "17539122568049238705"
+      },
+      {
+        "file": "k8s/product/platform-api/base/service.yaml",
+        "hash": "8946053012460124780"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-bg-accented.png",
+        "hash": "9163604506036696539"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/common/resources/lib/pficon/pficon.woff2",
+        "hash": "2827301219867892212"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/networking/ingress-prod.yaml",
+        "hash": "13999522873633303135"
+      },
+      {
+        "file": "k8s/product/admin-client/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-warning-arrow-down.png",
+        "hash": "1503001992704865959"
+      },
+      {
+        "file": "k8s/platform/observability/loki/values-prod.yaml",
+        "hash": "529436650611690658"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/business/webshop-api-prod.yaml",
+        "hash": "7250566624985419827"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "8114471477651457878"
+      },
+      {
+        "file": "_agents/manifest.yml",
+        "hash": "12128812457821535647"
+      },
+      {
+        "file": "k8s/product/clara-api/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "k8s/product/webshop-api/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/src/main/java/com/yourcompany/totp/QrUtils.java",
+        "hash": "9999545313764640375"
+      },
+      {
+        "file": "k8s/product/webshop-api/overlays/prod/patch.yaml",
+        "hash": "17553112731219581995"
+      },
+      {
+        "file": "k8s/platform/data/redis/overlays/prod/kustomization.yaml",
+        "hash": "10187254599521007595"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/META-INF/services/org.keycloak.services.resource.RealmResourceProviderFactory",
+        "hash": "16375097380609586133"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/observability/loki-promtail-prod.yaml",
+        "hash": "3565384513876344369"
+      },
+      {
+        "file": "docker/keycloak/Dockerfile.staging",
+        "hash": "12303168746199384819"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/welcome/theme.properties",
+        "hash": "6475508502396442896"
+      },
+      {
+        "file": "docker/keycloak/Dockerfile.prod",
+        "hash": "6096147091387552385"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/keycloak-logo-text.png",
+        "hash": "4173573564263534504"
+      },
+      {
+        "file": "k8s/platform/data/postgres/staging/postgres-pv.staging.yaml",
+        "hash": "3897866690712353041"
+      },
+      {
+        "file": "_keycloak/keycloak-totp-extension/keycloak-totp-extension/target/kc-totp-ext-1.0-SNAPSHOT.jar",
+        "hash": "17747154362019645314"
+      },
+      {
+        "file": "k8s/product/webshop-api/base/service.yaml",
+        "hash": "8077524003390208634"
+      },
+      {
+        "file": "docker/admin-api/Dockerfile.staging",
+        "hash": "6860229099869913925"
+      },
+      {
+        "file": "package.json",
+        "hash": "4610047813132670582"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/business/webshop-api-staging.yaml",
+        "hash": "17396405365110083501"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-warning-sign.png",
+        "hash": "9209463769991887916"
+      },
+      {
+        "file": "k8s/platform/observability/grafana/dashboards/edb-logs.json",
+        "hash": "131501400867248350"
+      },
+      {
+        "file": "k8s/platform/messaging/rabbitmq/overlays/staging/patch-env.yaml",
+        "hash": "918631378393752118"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/business/admin-api-prod.yaml",
+        "hash": "16443050420692809330"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/security/cert-manager-issuers-staging.yaml",
+        "hash": "16398564851269873521"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "5407418692668764289"
+      },
+      {
+        "file": "k8s/platform/identity/keycloak/base/service.yaml",
+        "hash": "6029021382105415538"
+      },
+      {
+        "file": "k8s/platform/data/redis/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "k8s/platform/data/postgres/staging/postgres-deployment.staging.yaml",
+        "hash": "13802131194420611448"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "18235286178484777668"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/identity/kustomization.yaml",
+        "hash": "11750493872166599784"
+      },
+      {
+        "file": "docker/webshop-api/nginx/default.conf",
+        "hash": "15901474652906374641"
+      },
+      {
+        "file": "_agents/lib/pretty.sh",
+        "hash": "5074252562954741674"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/business/platform-api-prod.yaml",
+        "hash": "12309827190003328596"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/observability/kustomization.yaml",
+        "hash": "3516806515042970234"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/prod/rabbitmq.ingress.prod.yaml",
+        "hash": "12703318452566925697"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/messaging/rabbitmq-staging.yaml",
+        "hash": "11730553828248102043"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/observability/prometheus-stack-staging.yaml",
+        "hash": "11319008644374627313"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/observability/grafana-prod.yaml",
+        "hash": "1319042997744317735"
+      },
+      {
+        "file": "k8s/product/platform-api/base/deployment.yaml",
+        "hash": "4605596910601558070"
+      },
+      {
+        "file": "k8s/product/platform-client/overlays/prod/kustomization.yaml",
+        "hash": "11342590666665733381"
+      },
+      {
+        "file": "_dev-env/script/iterm_tab.sh",
+        "hash": "432607939417740305"
+      },
+      {
+        "file": "k8s/product/admin-api/overlays/staging/patch.yaml",
+        "hash": "1544466316039899076"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/messaging/kustomization.yaml",
+        "hash": "11348654939834462609"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/security/cert-manager-prod.yaml",
+        "hash": "4235594308836632791"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "14857385984490378817"
+      },
+      {
+        "file": "docker/webshop-api/Dockerfile.staging",
+        "hash": "1990838346705512978"
+      },
+      {
+        "file": "docs/MOBILE_APP_GUIDE.md",
+        "hash": "6931059224249920332"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/security/kustomization.yaml",
+        "hash": "2876872923869753210"
+      },
+      {
+        "file": "k8s/product/webshop-api/overlays/prod/kustomization.yaml",
+        "hash": "4203260679648583450"
+      },
+      {
+        "file": "k8s/platform/networking/ingress-nginx/namespace.yaml",
+        "hash": "8366795687544334164"
+      },
+      {
+        "file": "k8s/product/tools-invoices-api/base/kustomization.yaml",
+        "hash": "6909311543881055503"
+      },
+      {
+        "file": "k8s/platform/data/redis/overlays/staging/kustomization.yaml",
+        "hash": "8905345062865386151"
+      },
+      {
+        "file": "docker/admin-api/Dockerfile.prod",
+        "hash": "16144857412827049687"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/data/redis-prod.yaml",
+        "hash": "1527252037147406929"
+      },
+      {
+        "file": "vitest.workspace.ts",
+        "hash": "14023491222425291751"
+      },
+      {
+        "file": ".github/workflows/admin-ci.production.yml",
+        "hash": "4221555054967057082"
+      },
+      {
+        "file": ".github/workflows/premerge-checks.prod.yaml",
+        "hash": "2890723487946831256"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/identity/keycloak-staging.yaml",
+        "hash": "16680962974383851861"
+      },
+      {
+        "file": "k8s/platform/data/postgres/prod/postgres-service.prod.yaml",
+        "hash": "1831871300970121832"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/base/kustomization.yaml",
+        "hash": "2691751431118921303"
+      },
+      {
+        "file": "k8s/platform/data/postgres/prod/postgres-pvc.prod.yaml",
+        "hash": "7501058638113652768"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/business/kustomization.yaml",
+        "hash": "2625437021837472178"
+      },
+      {
+        "file": "k8s/platform/networking/ingress/staging/argocd.ingress.staging.yaml",
+        "hash": "3375091472524314872"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/site.webmanifest",
+        "hash": "11205980641497128048"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "2697933577107987727"
+      },
+      {
+        "file": "docker/tools-invoices-api/Dockerfile.staging",
+        "hash": "9782376032286420269"
+      },
+      {
+        "file": "k8s/platform/identity/keycloak/overlays/prod/kustomization.yaml",
+        "hash": "10076352225659432378"
+      },
+      {
+        "file": "k8s/platform/search/meilisearch/overlays/staging/patch-env.yaml",
+        "hash": "14006493891463119452"
+      },
+      {
+        "file": ".github/workflows/premerge-checks.staging.yaml",
+        "hash": "1741548988059498736"
+      },
+      {
+        "file": "k8s/product/platform-api/overlays/prod/kustomization.yaml",
+        "hash": "14590909167284284829"
+      },
+      {
+        "file": "k8s/product/platform-api/overlays/staging/patch.yaml",
+        "hash": "7085818930960556201"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/common/resources/img/favicon.ico",
+        "hash": "15025369607889895835"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/networking/ingress-nginx-staging.yaml",
+        "hash": "2427182760665673377"
+      },
+      {
+        "file": "k8s/argocd/prod/apps/networking/ingress-nginx-prod.yaml",
+        "hash": "2535091240275681105"
+      },
+      {
+        "file": "k8s/product/platform-client/overlays/prod/patch-env.yaml",
+        "hash": "6039850604766276474"
+      },
+      {
+        "file": "k8s/argocd/staging/app-of-apps.yaml",
+        "hash": "15939913390666786163"
+      },
+      {
+        "file": "_keycloak/themes/edb-theme/login/resources/img/feedback-success-arrow-down.png",
+        "hash": "3486365729874459939"
+      },
+      {
+        "file": "k8s/argocd/staging/apps/observability/kustomization.yaml",
+        "hash": "1606953868310264307"
       }
     ],
     "projectFileMap": {
@@ -10490,7 +10490,7 @@
       "mobile": [
         {
           "file": "apps/mobile/.env.development",
-          "hash": "4422805561309860544"
+          "hash": "18174977504708028076"
         },
         {
           "file": "apps/mobile/.env.staging",

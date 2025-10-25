@@ -6,6 +6,90 @@
           "targetsCache": {
             "targetsCache": {
               "targetsCache": {
+                "targetsCache": {
+                  "17924964409159096247": {
+                    "start": {
+                      "executor": "@nx/expo:start",
+                      "continuous": true
+                    },
+                    "serve": {
+                      "command": "expo start --web",
+                      "continuous": true,
+                      "options": {
+                        "cwd": "apps/mobile",
+                        "args": [
+                          "--clear"
+                        ]
+                      }
+                    },
+                    "run-ios": {
+                      "command": "expo run:ios",
+                      "continuous": true,
+                      "options": {
+                        "cwd": "apps/mobile"
+                      }
+                    },
+                    "run-android": {
+                      "command": "expo run:android",
+                      "continuous": true,
+                      "options": {
+                        "cwd": "apps/mobile"
+                      }
+                    },
+                    "export": {
+                      "command": "expo export",
+                      "options": {
+                        "cwd": "apps/mobile",
+                        "args": [
+                          "--clear"
+                        ]
+                      },
+                      "cache": true,
+                      "dependsOn": [
+                        "^export"
+                      ],
+                      "inputs": [
+                        "default",
+                        "^production",
+                        {
+                          "externalDependencies": [
+                            "expo"
+                          ]
+                        }
+                      ],
+                      "outputs": [
+                        "{workspaceRoot}/apps/mobile/dist"
+                      ]
+                    },
+                    "install": {
+                      "executor": "@nx/expo:install"
+                    },
+                    "prebuild": {
+                      "executor": "@nx/expo:prebuild"
+                    },
+                    "build": {
+                      "executor": "@nx/expo:build"
+                    },
+                    "submit": {
+                      "command": "eas submit",
+                      "options": {
+                        "cwd": "apps/mobile"
+                      }
+                    },
+                    "build-deps": {
+                      "dependsOn": [
+                        "^build"
+                      ]
+                    },
+                    "watch-deps": {
+                      "continuous": true,
+                      "dependsOn": [
+                        "build-deps"
+                      ],
+                      "command": "pnpm exec nx watch --projects mobile --includeDependentProjects -- pnpm exec nx build-deps mobile"
+                    }
+                  }
+                },
                 "17924964409159096247": {
                   "start": {
                     "executor": "@nx/expo:start",
@@ -504,7 +588,7 @@
         }
       }
     },
-    "17924964409159096247": {
+    "13505798925646836835": {
       "start": {
         "executor": "@nx/expo:start",
         "continuous": true
