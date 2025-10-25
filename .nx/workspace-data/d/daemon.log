@@ -13697,3 +13697,73 @@ Time for 'build typescript dependencies' 0.026959000009810552
 [NX v21.5.3 Daemon Server] - 2025-10-25T08:20:12.987Z - [SYNC]: project graph hash is the same, not collecting task sync generators
 [NX v21.5.3 Daemon Server] - 2025-10-25T08:20:12.987Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
 [NX v21.5.3 Daemon Server] - 2025-10-25T08:20:12.987Z - Time taken for 'total execution time for createProjectGraph()' 105.35574999998789ms
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.382Z - [WATCHER]: libs/server/workbench-api/features/feature-reminders was deleted
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.383Z - [WATCHER]: Processing file changes in outputs
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.786Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.786Z - [REQUEST]: 
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.786Z - [REQUEST]: libs/server/workbench-api/features/feature-reminders
+Time for '@nx/playwright/plugin:createNodes' 6.56920799985528
+Time for '@nx/cypress/plugin:createNodes' 1.7420830000191927
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.816Z - Time taken for 'hash changed files from watcher' 2.5702080000191927ms
+Time for '@nx/react/router-plugin:createNodes' 11.332167000044137
+Time for '@nx/storybook/plugin:createNodes' 15.911792000290006
+Time for 'nx/core/package-json:createNodes' 10.005624999757856
+Time for '@nx-dotnet/core:createNodes' 21.63479100028053
+Time for '@nx/expo/plugin:createNodes' 22.196458000224084
+Time for 'nx/core/project-json:createNodes' 18.02979200007394
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 33.804208000190556
+Time for '@nx/vite/plugin:createNodes' 55.09587499964982
+Time for '@nx/eslint/plugin:createNodes' 72.23404200002551
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.938Z - Time taken for 'build-project-configs' 106.65804199967533ms
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.961Z - Time taken for '@nx/storybook/plugin:createDependencies' 46.2628750000149ms
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:25.967Z - Time taken for '@nx/vite/plugin:createDependencies' 39.60462500015274ms
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-crm/src/lib/components/companies/company-activity-overview/company-activity-overview.tsx:32:5 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-crm/src/lib/components/companies/company-activity-overview/company-activity-overview.tsx:53:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:40:77 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:42:2 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:43:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:55:7 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:57:2 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:58:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:75:7 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:77:2 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:78:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:99:7 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:101:2 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/side/sidebar-tabs/sidebar-tabs.stories.tsx:102:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-crm/src/lib/components/tasks/charts/BarsCardInner.tsx:15:6 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/top/tab-bar-top/tab-bar-top.stories.tsx:44:75 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/top/tab-bar-top/tab-bar-top.stories.tsx:46:2 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/top/tab-bar-top/tab-bar-top.stories.tsx:47:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/top/tab-bar-top/tab-bar-top.stories.tsx:54:75 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/top/tab-bar-top/tab-bar-top.stories.tsx:56:2 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/navigation/tabs/top/tab-bar-top/tab-bar-top.stories.tsx:57:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/shared/client/ui-rn/src/lib/visuals/BarsCard.tsx:31:6 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-crm/src/lib/layout/CRMShellLayout.tsx:36:4 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/AdminShellLayout.tsx:54:4 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/capabilities/capabilities-container/capabilities-container.tsx:59:9 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/capabilities/capabilities-container/capabilities-container.tsx:77:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/logs/admin-logs-card/admin-logs-card.tsx:75:11 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/logs/admin-logs-card/admin-logs-card.tsx:108:7 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/logs/admin-logs-card/admin-logs-card.tsx:138:31 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/logs/admin-logs-header/admin-logs-header.tsx:28:11 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/libs/client/edb-clara/features/feature-clara-admin/src/lib/components/logs/admin-logs-header/admin-logs-header.tsx:37:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/mobile/src/app/(tabs)/crm/(features)/companies/[id]/_layout.tsx:78:72 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/mobile/src/app/(tabs)/crm/(features)/companies/[id]/_layout.tsx:86:0 Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:77503 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:77528 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:79358 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:79380 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:90964 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:90971 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:90977 Invalid character in identifier
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/__common-7c4fdb0ab84b582c96c5e2ac93e27932.js:3:90983 Invalid character in identifier
+Unable to resolve project for reference ..\apps\server\platform-api\EDb.PlatformApi.csproj in apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj
+Unable to resolve project for reference ..\apps\server\admin-api\EDb.AdminApi.csproj in apps/tests/admin-api-test/EDb.AdminApi.Test.csproj
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:26.589Z - Time taken for '@nx-dotnet/core:createDependencies' 668.8997089997865ms
+DEBUG nx::native::plugins::js::ts_import_locators: /Users/elias/Documents/Projects/2025_2026/eDB/apps/client/edb/src/assets/clara/_expo/static/js/web/index-e1a88ce3e4a699cd3bd5d639eb553355.js:2951:399356 Invalid character in identifier
+Time for 'build typescript dependencies' 1081.0934170000255
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:27.127Z - Wrote project graph cache to /Users/elias/Documents/Projects/2025_2026/eDB/.nx/workspace-data/project-graph.json
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:27.127Z - [SYNC]: collect registered sync generators
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:27.128Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v21.5.3 Daemon Server] - 2025-10-25T09:00:27.128Z - Time taken for 'total execution time for createProjectGraph()' 1198.9547079997137ms
