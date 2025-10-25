@@ -179,6 +179,9 @@
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps"
       }
+    },
+    {
+      "plugin": "./tools/workbench-plugin/src/index.ts"
     }
   ],
   "generators": {

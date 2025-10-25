@@ -1,0 +1,11 @@
+{
+  "name": "workbench-plugin",
+  "version": "0.0.1",
+  "generators": {
+    "workbenchApiFeature": {
+      "factory": "./dist/src/generators/workbench-api-feature/generator.js",
+      "schema": "./src/generators/workbench-api-feature/schema.json",
+      "description": "Scaffold a new Workbench API feature (contracts, Fastify routes, wiring)"
+    }
+  }
+}
