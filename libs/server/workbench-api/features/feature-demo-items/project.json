@@ -1,0 +1,19 @@
+{
+  "name": "feature-demo-items",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/workbench-api/features/feature-demo-items/src",
+  "projectType": "library",
+  "tags": ["scope:server", "context:workbench-api", "type:feature"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/server/workbench-api/features/feature-demo-items",
+        "main": "libs/server/workbench-api/features/feature-demo-items/src/index.ts",
+        "tsConfig": "libs/server/workbench-api/features/feature-demo-items/tsconfig.lib.json",
+        "assets": ["libs/server/workbench-api/features/feature-demo-items/*.md"]
+      }
+    }
+  }
+}

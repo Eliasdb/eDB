@@ -1,5 +1,5 @@
 {
-  "name": "@edb-workbench/api/feature-todos",
+  "name": "@edb-workbench/api/shared",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
