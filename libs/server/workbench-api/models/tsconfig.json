@@ -2,7 +2,7 @@
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
     "target": "es2022",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
 
     "strict": true,
@@ -16,9 +16,14 @@
     "noPropertyAccessFromIndexSignature": true,
 
     "declaration": true,
-    "composite": true
+    "composite": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@edb-workbench/api/shared": ["../shared/src/index.ts"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"],
-  "references": []
+  "references": [{ "path": "../shared" }]
 }

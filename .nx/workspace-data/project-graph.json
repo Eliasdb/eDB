@@ -4338,6 +4338,193 @@
         "implicitDependencies": []
       }
     },
+    "workbench-api-resources": {
+      "name": "workbench-api-resources",
+      "type": "lib",
+      "data": {
+        "root": "libs/server/workbench-api/resources",
+        "targets": {
+          "lint": {
+            "cache": true,
+            "options": {
+              "cwd": "libs/server/workbench-api/resources",
+              "command": "eslint ."
+            },
+            "inputs": [
+              "default",
+              "^default",
+              "{workspaceRoot}/eslint.config.mjs",
+              "{workspaceRoot}/libs/server/workbench-api/resources/eslint.config.mjs",
+              "{workspaceRoot}/tools/eslint-rules/**/*",
+              {
+                "externalDependencies": [
+                  "eslint"
+                ]
+              }
+            ],
+            "outputs": [
+              "{options.outputFile}"
+            ],
+            "metadata": {
+              "technologies": [
+                "eslint"
+              ],
+              "description": "Runs ESLint on project",
+              "help": {
+                "command": "pnpm exec eslint --help",
+                "example": {
+                  "options": {
+                    "max-warnings": 0
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "vite:test": {
+            "options": {
+              "cwd": "libs/server/workbench-api/resources",
+              "command": "vitest"
+            },
+            "cache": true,
+            "inputs": [
+              "default",
+              "^production",
+              {
+                "externalDependencies": [
+                  "vitest"
+                ]
+              },
+              {
+                "env": "CI"
+              }
+            ],
+            "outputs": [
+              "{workspaceRoot}/coverage/{projectRoot}"
+            ],
+            "metadata": {
+              "technologies": [
+                "vite"
+              ],
+              "description": "Run Vite tests",
+              "help": {
+                "command": "pnpm exec vitest --help",
+                "example": {
+                  "options": {
+                    "bail": 1,
+                    "coverage": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "typecheck": {
+            "cache": true,
+            "inputs": [
+              "production",
+              "^production",
+              {
+                "externalDependencies": [
+                  "typescript"
+                ]
+              }
+            ],
+            "options": {
+              "cwd": "libs/server/workbench-api/resources",
+              "command": "tsc --noEmit -p tsconfig.lib.json"
+            },
+            "metadata": {
+              "description": "Runs type-checking for the project.",
+              "technologies": [
+                "typescript"
+              ],
+              "help": {
+                "command": "pnpm exec tsc -p tsconfig.lib.json --help",
+                "example": {
+                  "options": {
+                    "noEmit": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "build-deps": {
+            "dependsOn": [
+              "^build"
+            ],
+            "configurations": {},
+            "options": {},
+            "parallelism": true,
+            "executor": "nx:noop"
+          },
+          "watch-deps": {
+            "continuous": true,
+            "dependsOn": [
+              "build-deps"
+            ],
+            "executor": "nx:run-commands",
+            "options": {
+              "command": "pnpm exec nx watch --projects workbench-api-resources --includeDependentProjects -- pnpm exec nx build-deps workbench-api-resources"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+              "{options.outputPath}"
+            ],
+            "options": {
+              "outputPath": "dist/libs/server/workbench-api/resources",
+              "main": "libs/server/workbench-api/resources/src/index.ts",
+              "tsConfig": "libs/server/workbench-api/resources/tsconfig.lib.json",
+              "assets": [
+                "libs/server/workbench-api/resources/*.md"
+              ]
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true,
+            "dependsOn": [
+              "^build"
+            ],
+            "inputs": [
+              "production",
+              "^production"
+            ]
+          },
+          "test": {
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": "libs/server/workbench-api/resources",
+              "command": "vitest run --config vitest.config.mts --reporter=verbose"
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true
+          }
+        },
+        "metadata": {},
+        "name": "workbench-api-resources",
+        "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "libs/server/workbench-api/resources/src",
+        "projectType": "library",
+        "tags": [
+          "scope:server",
+          "context:workbench-api",
+          "type:core"
+        ],
+        "implicitDependencies": []
+      }
+    },
     "util-auth": {
       "name": "util-auth",
       "type": "lib",
@@ -42345,6 +42532,38 @@
       {
         "source": "contracts",
         "target": "npm:zod",
+        "type": "static"
+      }
+    ],
+    "workbench-api-resources": [
+      {
+        "source": "workbench-api-resources",
+        "target": "npm:fastify",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-resources",
+        "target": "workbench-api-models",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-resources",
+        "target": "workbench-api-infra",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-resources",
+        "target": "workbench-api-shared",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-resources",
+        "target": "npm:dotenv",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-resources",
+        "target": "npm:vitest",
         "type": "static"
       }
     ],
@@ -96907,5 +97126,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1761673186595
+  "computedAt": 1761678166100
 }

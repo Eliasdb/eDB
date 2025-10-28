@@ -157,7 +157,8 @@
       ],
       "@edb-workbench/api/models": [
         "libs/server/workbench-api/models/src/index.ts"
-      ]
+      ],
+      "@e-db/resources": ["libs/server/workbench-api/resources/src/index.ts"]
     }
   },
   "exclude": ["tmp"]
