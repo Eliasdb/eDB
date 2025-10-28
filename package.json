@@ -13,7 +13,8 @@
     "build:wc-account:js": "vite build --mode development --config apps/client/wc-edb-user-account/vite.config.mts",
     "build:wc-account:css": "vite build --mode development --config apps/client/wc-edb-user-account/vite.styles.config.mts",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "workbench-db:migrate": "node libs/server/workbench-api/infra/src/lib/db/runMigrations.local.cjs"
   },
   "private": true,
   "dependencies": {
@@ -66,6 +67,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.44.6",
     "expo": "~54.0.10",
     "expo-dev-client": "^6.0.12",
     "expo-linear-gradient": "^15.0.7",
@@ -83,6 +85,7 @@
     "ng2-charts": "^8.0.0",
     "ngx-toastr": "^19.0.0",
     "openai": "^5.23.0",
+    "postgres": "^3.4.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-i18next": "^16.0.0",
@@ -119,6 +122,7 @@
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@babel/runtime": "~7.27.6",
+    "@edb-workbench/plugin": "workspace:*",
     "@eslint/js": "^9.16.0",
     "@expo/cli": "~0.25.2",
     "@fortawesome/angular-fontawesome": "^2.0.1",
@@ -172,6 +176,7 @@
     "@testing-library/react-native": "~13.2.0",
     "@types/jest": "30.0.0",
     "@types/node": "^22.18.8",
+    "@types/pg": "8.15.5",
     "@types/react": "~19.1.13",
     "@types/react-dom": "18.3.0",
     "@types/webpack-bundle-analyzer": "^4.7.0",
@@ -217,6 +222,7 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "metro-resolver": "~0.82.4",
     "ng-packagr": "20.2.0",
+    "nodemon": "^3.1.10",
     "nx": "21.5.3",
     "postcss": "^8.5.3",
     "postcss-loader": "^8.1.1",
@@ -245,8 +251,7 @@
     "webpack": "5.101.3",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
-    "zone.js": "^0.15.1",
-    "@edb-workbench/plugin": "workspace:*"
+    "zone.js": "^0.15.1"
   },
   "peerDependencies": {
     "react": ">=18.3.1 || 19.x",

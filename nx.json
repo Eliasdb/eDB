@@ -181,7 +181,7 @@
       }
     },
     {
-      "plugin": "./tools/workbench-plugin/src/index.ts"
+      "plugin": "@edb-workbench/plugin"
     }
   ],
   "generators": {

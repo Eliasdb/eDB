@@ -1,0 +1,26 @@
+{
+  "name": "workbench-api-infra",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/workbench-api/infra/src",
+  "projectType": "library",
+  "tags": ["scope:server", "context:workbench-api", "type:core"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/server/workbench-api/infra",
+        "main": "libs/server/workbench-api/infra/src/index.ts",
+        "tsConfig": "libs/server/workbench-api/infra/tsconfig.lib.json",
+        "assets": ["libs/server/workbench-api/infra/*.md"]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/server/workbench-api/infra",
+        "command": "vitest run --config vitest.config.mts --reporter=verbose"
+      }
+    }
+  }
+}

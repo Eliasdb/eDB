@@ -7,7 +7,15 @@
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build",
+        "feature-demo-items:build",
+        "feature-authors:build",
+        "feature-books:build",
+        "feature-publishers:build",
+        "feature-reviews:build",
+        "feature-members:build"
+      ],
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -21,7 +29,9 @@
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
-          "outExtension": { ".js": ".js" }
+          "outExtension": {
+            ".js": ".js"
+          }
         }
       },
       "configurations": {
@@ -31,7 +41,9 @@
         "production": {
           "esbuildOptions": {
             "sourcemap": false,
-            "outExtension": { ".js": ".js" }
+            "outExtension": {
+              ".js": ".js"
+            }
           }
         }
       }
@@ -44,7 +56,9 @@
         "{workspaceRoot}/dist/apps/server/workbench-api/package.json",
         "{workspaceRoot}/dist/apps/server/workbench-api/pnpm-lock.yaml"
       ],
-      "options": { "buildTarget": "build" }
+      "options": {
+        "buildTarget": "build"
+      }
     },
     "copy-workspace-modules": {
       "dependsOn": ["build"],
@@ -53,11 +67,19 @@
         "{workspaceRoot}/dist/apps/server/workbench-api/workspace_modules"
       ],
       "executor": "@nx/js:copy-workspace-modules",
-      "options": { "buildTarget": "build" }
+      "options": {
+        "buildTarget": "build"
+      }
     },
     "prune": {
       "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
       "executor": "nx:noop"
+    },
+    "serve-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nodemon --config apps/server/workbench-api/nodemon.json"
+      }
     },
     "serve": {
       "continuous": true,

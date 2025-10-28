@@ -1,0 +1,9 @@
+{
+  "watch": [
+    "apps/server/workbench-api/src",
+    "libs/server/workbench-api/features"
+  ],
+  "ext": "ts,json",
+  "ignore": ["dist/"],
+  "exec": "TS_NODE_PROJECT=apps/server/workbench-api/tsconfig.app.json node -r ts-node/register/transpile-only -r tsconfig-paths/register apps/server/workbench-api/src/main.ts"
+}

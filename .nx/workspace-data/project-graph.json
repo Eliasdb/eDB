@@ -233,6 +233,100 @@
             "configurations": {},
             "parallelism": true
           },
+          "vite:test": {
+            "options": {
+              "cwd": "libs/server/workbench-api/features/feature-demo-items",
+              "command": "vitest"
+            },
+            "cache": true,
+            "inputs": [
+              "default",
+              "^production",
+              {
+                "externalDependencies": [
+                  "vitest"
+                ]
+              },
+              {
+                "env": "CI"
+              }
+            ],
+            "outputs": [
+              "{workspaceRoot}/coverage/{projectRoot}"
+            ],
+            "metadata": {
+              "technologies": [
+                "vite"
+              ],
+              "description": "Run Vite tests",
+              "help": {
+                "command": "pnpm exec vitest --help",
+                "example": {
+                  "options": {
+                    "bail": 1,
+                    "coverage": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "typecheck": {
+            "cache": true,
+            "inputs": [
+              "production",
+              "^production",
+              {
+                "externalDependencies": [
+                  "typescript"
+                ]
+              }
+            ],
+            "options": {
+              "cwd": "libs/server/workbench-api/features/feature-demo-items",
+              "command": "tsc --noEmit -p tsconfig.lib.json"
+            },
+            "metadata": {
+              "description": "Runs type-checking for the project.",
+              "technologies": [
+                "typescript"
+              ],
+              "help": {
+                "command": "pnpm exec tsc -p tsconfig.lib.json --help",
+                "example": {
+                  "options": {
+                    "noEmit": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "build-deps": {
+            "dependsOn": [
+              "^build"
+            ],
+            "configurations": {},
+            "options": {},
+            "parallelism": true,
+            "executor": "nx:noop"
+          },
+          "watch-deps": {
+            "continuous": true,
+            "dependsOn": [
+              "build-deps"
+            ],
+            "executor": "nx:run-commands",
+            "options": {
+              "command": "pnpm exec nx watch --projects feature-demo-items --includeDependentProjects -- pnpm exec nx build-deps feature-demo-items"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
           "build": {
             "executor": "@nx/js:tsc",
             "outputs": [
@@ -256,6 +350,24 @@
               "production",
               "^production"
             ]
+          },
+          "test": {
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": "libs/server/workbench-api/features/feature-demo-items",
+              "command": "vitest run --config vitest.config.mts --reporter=verbose"
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true
+          }
+        },
+        "metadata": {
+          "targetGroups": {},
+          "js": {
+            "packageName": "@edb-workbench/api/feature-demo-items",
+            "packageMain": "./src/index.js",
+            "isInPackageManagerWorkspaces": true
           }
         },
         "name": "feature-demo-items",
@@ -265,14 +377,6 @@
           "context:workbench-api",
           "type:feature"
         ],
-        "metadata": {
-          "targetGroups": {},
-          "js": {
-            "packageName": "@edb-workbench/api/feature-demo-items",
-            "packageMain": "./src/index.js",
-            "isInPackageManagerWorkspaces": true
-          }
-        },
         "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
         "sourceRoot": "libs/server/workbench-api/features/feature-demo-items/src",
         "projectType": "library",
@@ -4398,6 +4502,193 @@
         "implicitDependencies": []
       }
     },
+    "workbench-api-models": {
+      "name": "workbench-api-models",
+      "type": "lib",
+      "data": {
+        "root": "libs/server/workbench-api/models",
+        "targets": {
+          "lint": {
+            "cache": true,
+            "options": {
+              "cwd": "libs/server/workbench-api/models",
+              "command": "eslint ."
+            },
+            "inputs": [
+              "default",
+              "^default",
+              "{workspaceRoot}/eslint.config.mjs",
+              "{workspaceRoot}/libs/server/workbench-api/models/eslint.config.mjs",
+              "{workspaceRoot}/tools/eslint-rules/**/*",
+              {
+                "externalDependencies": [
+                  "eslint"
+                ]
+              }
+            ],
+            "outputs": [
+              "{options.outputFile}"
+            ],
+            "metadata": {
+              "technologies": [
+                "eslint"
+              ],
+              "description": "Runs ESLint on project",
+              "help": {
+                "command": "pnpm exec eslint --help",
+                "example": {
+                  "options": {
+                    "max-warnings": 0
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "vite:test": {
+            "options": {
+              "cwd": "libs/server/workbench-api/models",
+              "command": "vitest"
+            },
+            "cache": true,
+            "inputs": [
+              "default",
+              "^production",
+              {
+                "externalDependencies": [
+                  "vitest"
+                ]
+              },
+              {
+                "env": "CI"
+              }
+            ],
+            "outputs": [
+              "{workspaceRoot}/coverage/{projectRoot}"
+            ],
+            "metadata": {
+              "technologies": [
+                "vite"
+              ],
+              "description": "Run Vite tests",
+              "help": {
+                "command": "pnpm exec vitest --help",
+                "example": {
+                  "options": {
+                    "bail": 1,
+                    "coverage": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "typecheck": {
+            "cache": true,
+            "inputs": [
+              "production",
+              "^production",
+              {
+                "externalDependencies": [
+                  "typescript"
+                ]
+              }
+            ],
+            "options": {
+              "cwd": "libs/server/workbench-api/models",
+              "command": "tsc --noEmit -p tsconfig.lib.json"
+            },
+            "metadata": {
+              "description": "Runs type-checking for the project.",
+              "technologies": [
+                "typescript"
+              ],
+              "help": {
+                "command": "pnpm exec tsc -p tsconfig.lib.json --help",
+                "example": {
+                  "options": {
+                    "noEmit": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "build-deps": {
+            "dependsOn": [
+              "^build"
+            ],
+            "configurations": {},
+            "options": {},
+            "parallelism": true,
+            "executor": "nx:noop"
+          },
+          "watch-deps": {
+            "continuous": true,
+            "dependsOn": [
+              "build-deps"
+            ],
+            "executor": "nx:run-commands",
+            "options": {
+              "command": "pnpm exec nx watch --projects workbench-api-models --includeDependentProjects -- pnpm exec nx build-deps workbench-api-models"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+              "{options.outputPath}"
+            ],
+            "options": {
+              "outputPath": "dist/libs/server/workbench-api/models",
+              "main": "libs/server/workbench-api/models/src/index.ts",
+              "tsConfig": "libs/server/workbench-api/models/tsconfig.lib.json",
+              "assets": [
+                "libs/server/workbench-api/models/*.md"
+              ]
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true,
+            "dependsOn": [
+              "^build"
+            ],
+            "inputs": [
+              "production",
+              "^production"
+            ]
+          },
+          "test": {
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": "libs/server/workbench-api/models",
+              "command": "vitest run --config vitest.config.mts --reporter=verbose"
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true
+          }
+        },
+        "metadata": {},
+        "name": "workbench-api-models",
+        "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "libs/server/workbench-api/models/src",
+        "projectType": "library",
+        "tags": [
+          "scope:server",
+          "context:workbench-api",
+          "type:models"
+        ],
+        "implicitDependencies": []
+      }
+    },
     "workbench-api-shared": {
       "name": "workbench-api-shared",
       "type": "lib",
@@ -4931,6 +5222,201 @@
         "$schema": "../../../node_modules/nx/schemas/project-schema.json",
         "sourceRoot": "apps/client/wc-edb-user-account/src",
         "tags": [],
+        "implicitDependencies": []
+      }
+    },
+    "workbench-api-infra": {
+      "name": "workbench-api-infra",
+      "type": "lib",
+      "data": {
+        "root": "libs/server/workbench-api/infra",
+        "targets": {
+          "lint": {
+            "cache": true,
+            "options": {
+              "cwd": "libs/server/workbench-api/infra",
+              "command": "eslint ."
+            },
+            "inputs": [
+              "default",
+              "^default",
+              "{workspaceRoot}/eslint.config.mjs",
+              "{workspaceRoot}/libs/server/workbench-api/infra/eslint.config.mjs",
+              "{workspaceRoot}/tools/eslint-rules/**/*",
+              {
+                "externalDependencies": [
+                  "eslint"
+                ]
+              }
+            ],
+            "outputs": [
+              "{options.outputFile}"
+            ],
+            "metadata": {
+              "technologies": [
+                "eslint"
+              ],
+              "description": "Runs ESLint on project",
+              "help": {
+                "command": "pnpm exec eslint --help",
+                "example": {
+                  "options": {
+                    "max-warnings": 0
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "vite:test": {
+            "options": {
+              "cwd": "libs/server/workbench-api/infra",
+              "command": "vitest"
+            },
+            "cache": true,
+            "inputs": [
+              "default",
+              "^production",
+              {
+                "externalDependencies": [
+                  "vitest"
+                ]
+              },
+              {
+                "env": "CI"
+              }
+            ],
+            "outputs": [
+              "{workspaceRoot}/coverage/{projectRoot}"
+            ],
+            "metadata": {
+              "technologies": [
+                "vite"
+              ],
+              "description": "Run Vite tests",
+              "help": {
+                "command": "pnpm exec vitest --help",
+                "example": {
+                  "options": {
+                    "bail": 1,
+                    "coverage": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "typecheck": {
+            "cache": true,
+            "inputs": [
+              "production",
+              "^production",
+              {
+                "externalDependencies": [
+                  "typescript"
+                ]
+              }
+            ],
+            "options": {
+              "cwd": "libs/server/workbench-api/infra",
+              "command": "tsc --noEmit -p tsconfig.lib.json"
+            },
+            "metadata": {
+              "description": "Runs type-checking for the project.",
+              "technologies": [
+                "typescript"
+              ],
+              "help": {
+                "command": "pnpm exec tsc -p tsconfig.lib.json --help",
+                "example": {
+                  "options": {
+                    "noEmit": true
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "build-deps": {
+            "dependsOn": [
+              "^build"
+            ],
+            "configurations": {},
+            "options": {},
+            "parallelism": true,
+            "executor": "nx:noop"
+          },
+          "watch-deps": {
+            "continuous": true,
+            "dependsOn": [
+              "build-deps"
+            ],
+            "executor": "nx:run-commands",
+            "options": {
+              "command": "pnpm exec nx watch --projects workbench-api-infra --includeDependentProjects -- pnpm exec nx build-deps workbench-api-infra"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+              "{options.outputPath}"
+            ],
+            "options": {
+              "outputPath": "dist/libs/server/workbench-api/infra",
+              "main": "libs/server/workbench-api/infra/src/index.ts",
+              "tsConfig": "libs/server/workbench-api/infra/tsconfig.lib.json",
+              "assets": [
+                "libs/server/workbench-api/infra/*.md"
+              ]
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true,
+            "dependsOn": [
+              "^build"
+            ],
+            "inputs": [
+              "production",
+              "^production"
+            ]
+          },
+          "test": {
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": "libs/server/workbench-api/infra",
+              "command": "vitest run --config vitest.config.mts --reporter=verbose"
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true
+          }
+        },
+        "metadata": {
+          "targetGroups": {},
+          "js": {
+            "packageName": "@edb-workbench/api/infra",
+            "packageMain": "./src/index.js",
+            "isInPackageManagerWorkspaces": true
+          }
+        },
+        "name": "workbench-api-infra",
+        "tags": [
+          "npm:private",
+          "scope:server",
+          "context:workbench-api",
+          "type:core"
+        ],
+        "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "libs/server/workbench-api/infra/src",
+        "projectType": "library",
         "implicitDependencies": []
       }
     },
@@ -6291,7 +6777,13 @@
           "build": {
             "executor": "@nx/esbuild:esbuild",
             "dependsOn": [
-              "^build"
+              "^build",
+              "feature-demo-items:build",
+              "feature-authors:build",
+              "feature-books:build",
+              "feature-publishers:build",
+              "feature-reviews:build",
+              "feature-members:build"
             ],
             "outputs": [
               "{options.outputPath}"
@@ -6376,6 +6868,14 @@
             "executor": "nx:noop",
             "configurations": {},
             "options": {},
+            "parallelism": true
+          },
+          "serve-dev": {
+            "executor": "nx:run-commands",
+            "options": {
+              "command": "nodemon --config apps/server/workbench-api/nodemon.json"
+            },
+            "configurations": {},
             "parallelism": true
           },
           "serve": {
@@ -7132,17 +7632,22 @@
               "assets": [
                 "tools/workbench-plugin/README.md",
                 {
-                  "input": "./tools/workbench-plugin/src",
-                  "glob": "**/!(*.ts)",
-                  "output": "./src"
+                  "input": "tools/workbench-plugin/src/generators",
+                  "glob": "**/files/**",
+                  "output": "src/generators"
                 },
                 {
-                  "input": "./tools/workbench-plugin/src",
-                  "glob": "**/*.d.ts",
-                  "output": "./src"
+                  "input": "tools/workbench-plugin/src/generators",
+                  "glob": "**/schema.json",
+                  "output": "src/generators"
                 },
                 {
-                  "input": "./tools/workbench-plugin",
+                  "input": "tools/workbench-plugin/src/generators",
+                  "glob": "**/schema.d.ts",
+                  "output": "src/generators"
+                },
+                {
+                  "input": "tools/workbench-plugin",
                   "glob": "generators.json",
                   "output": "."
                 }
@@ -7168,6 +7673,7 @@
           "targetGroups": {},
           "js": {
             "packageName": "@edb-workbench/plugin",
+            "packageMain": "./dist/index.js",
             "isInPackageManagerWorkspaces": true
           }
         },
@@ -12684,18 +13190,18 @@
         "hash": "sha512-BNhXkY1bblxKZpltzAx98G2Egj9g1Q+JRcvR7E99DOj862FTCX+ZPsAUtPTr7aHxwtrL7+fL3r0JSmM9kBm+Bw=="
       }
     },
-    "npm:@expo/config-plugins": {
+    "npm:@expo/config-plugins@10.1.2": {
       "type": "npm",
-      "name": "npm:@expo/config-plugins",
+      "name": "npm:@expo/config-plugins@10.1.2",
       "data": {
         "version": "10.1.2",
         "packageName": "@expo/config-plugins",
         "hash": "sha512-IMYCxBOcnuFStuK0Ay+FzEIBKrwW8OVUMc65+v0+i7YFIIe8aL342l7T4F8lR4oCfhXn7d6M5QPgXvjtc/gAcw=="
       }
     },
-    "npm:@expo/config-plugins@11.0.7": {
+    "npm:@expo/config-plugins": {
       "type": "npm",
-      "name": "npm:@expo/config-plugins@11.0.7",
+      "name": "npm:@expo/config-plugins",
       "data": {
         "version": "11.0.7",
         "packageName": "@expo/config-plugins",
@@ -27363,18 +27869,18 @@
         "hash": "sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig=="
       }
     },
-    "npm:http-proxy-middleware": {
+    "npm:http-proxy-middleware@2.0.9": {
       "type": "npm",
-      "name": "npm:http-proxy-middleware",
+      "name": "npm:http-proxy-middleware@2.0.9",
       "data": {
         "version": "2.0.9",
         "packageName": "http-proxy-middleware",
         "hash": "sha512-c1IyJYLYppU574+YI7R4QyX2ystMtVXZwIdzazUIPIJsHuWNd+mho2j+bKoHftndicGj9yh+xjd+l0yj7VeT1Q=="
       }
     },
-    "npm:http-proxy-middleware@3.0.5": {
+    "npm:http-proxy-middleware": {
       "type": "npm",
-      "name": "npm:http-proxy-middleware@3.0.5",
+      "name": "npm:http-proxy-middleware",
       "data": {
         "version": "3.0.5",
         "packageName": "http-proxy-middleware",
@@ -27550,6 +28056,15 @@
         "version": "1.2.1",
         "packageName": "ieee754",
         "hash": "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="
+      }
+    },
+    "npm:ignore-by-default": {
+      "type": "npm",
+      "name": "npm:ignore-by-default",
+      "data": {
+        "version": "1.0.1",
+        "packageName": "ignore-by-default",
+        "hash": "sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA=="
       }
     },
     "npm:ignore-walk": {
@@ -30855,18 +31370,18 @@
         "hash": "sha512-vpMDxkGIB+MTN8Af5hvSAanc6zXQipsAUO+XUx3PCQieKUfLwdoa8qaZ1WAQYRpaU+CJ8vhBcxtzzo3d9IsCIQ=="
       }
     },
-    "npm:metro-file-map": {
+    "npm:metro-file-map@0.83.1": {
       "type": "npm",
-      "name": "npm:metro-file-map",
+      "name": "npm:metro-file-map@0.83.1",
       "data": {
         "version": "0.83.1",
         "packageName": "metro-file-map",
         "hash": "sha512-Yu429lnexKl44PttKw3nhqgmpBR+6UQ/tRaYcxPeEShtcza9DWakCn7cjqDTQZtWR2A8xSNv139izJMyQ4CG+w=="
       }
     },
-    "npm:metro-file-map@0.83.3": {
+    "npm:metro-file-map": {
       "type": "npm",
-      "name": "npm:metro-file-map@0.83.3",
+      "name": "npm:metro-file-map",
       "data": {
         "version": "0.83.3",
         "packageName": "metro-file-map",
@@ -31071,9 +31586,9 @@
         "hash": "sha512-Ztekew9t/gOIMZX1tvJOgX7KlSLL5kWykl0Iwu2cL2vKMKVALRl1hysyhUw0vjpAvLFx+Kfq9VLjnHIkW32fPA=="
       }
     },
-    "npm:metro": {
+    "npm:metro@0.82.5": {
       "type": "npm",
-      "name": "npm:metro",
+      "name": "npm:metro@0.82.5",
       "data": {
         "version": "0.82.5",
         "packageName": "metro",
@@ -31089,9 +31604,9 @@
         "hash": "sha512-UGKepmTxoGD4HkQV8YWvpvwef7fUujNtTgG4Ygf7m/M0qjvb9VuDmAsEU+UdriRX7F61pnVK/opz89hjKlYTXA=="
       }
     },
-    "npm:metro@0.83.3": {
+    "npm:metro": {
       "type": "npm",
-      "name": "npm:metro@0.83.3",
+      "name": "npm:metro",
       "data": {
         "version": "0.83.3",
         "packageName": "metro",
@@ -31843,6 +32358,15 @@
         "version": "2.1.1",
         "packageName": "node-schedule",
         "hash": "sha512-OXdegQq03OmXEjt2hZP33W2YPs/E5BcFQks46+G2gAxs4gHOIVD1u7EqlYLYSKsaIpyKCK9Gbk0ta1/gjRSMRQ=="
+      }
+    },
+    "npm:nodemon": {
+      "type": "npm",
+      "name": "npm:nodemon",
+      "data": {
+        "version": "3.1.10",
+        "packageName": "nodemon",
+        "hash": "sha512-WDjw3pJ0/0jMFmyNDp3gvY2YizjLmmOUQo6DEBY+JgdvW/yQ9mEeSw6H5ythl5Ny2ytb7f9C2nIbjSxMNzbJXw=="
       }
     },
     "npm:nopt": {
@@ -33879,6 +34403,15 @@
         "hash": "sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ=="
       }
     },
+    "npm:postgres": {
+      "type": "npm",
+      "name": "npm:postgres",
+      "data": {
+        "version": "3.4.7",
+        "packageName": "postgres",
+        "hash": "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="
+      }
+    },
     "npm:prelude-ls": {
       "type": "npm",
       "name": "npm:prelude-ls",
@@ -34165,6 +34698,15 @@
         "version": "1.15.0",
         "packageName": "psl",
         "hash": "sha512-JZd3gMVBAVQkSs6HdNZo9Sdo0LNcQeMNP3CozBJb3JYC/QUYZTnKxP+f8oWRX4rHP5EurWxqAHTSwUCjlNKa1w=="
+      }
+    },
+    "npm:pstree.remy": {
+      "type": "npm",
+      "name": "npm:pstree.remy",
+      "data": {
+        "version": "1.1.8",
+        "packageName": "pstree.remy",
+        "hash": "sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w=="
       }
     },
     "npm:pump": {
@@ -36282,6 +36824,15 @@
         "hash": "sha512-nAu1WFPQSMNr2Zn9PGSZK9AGn4t/y97lEm+MXTtUDwfP0ksAIX4nO+6ruD9Jwut4C49SB1Ws+fbXsm/yScWOHw=="
       }
     },
+    "npm:simple-update-notifier": {
+      "type": "npm",
+      "name": "npm:simple-update-notifier",
+      "data": {
+        "version": "2.0.0",
+        "packageName": "simple-update-notifier",
+        "hash": "sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w=="
+      }
+    },
     "npm:sirv@2.0.4": {
       "type": "npm",
       "name": "npm:sirv@2.0.4",
@@ -37803,6 +38354,15 @@
         "hash": "sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ=="
       }
     },
+    "npm:touch": {
+      "type": "npm",
+      "name": "npm:touch",
+      "data": {
+        "version": "3.1.1",
+        "packageName": "touch",
+        "hash": "sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA=="
+      }
+    },
     "npm:tough-cookie@4.1.4": {
       "type": "npm",
       "name": "npm:tough-cookie@4.1.4",
@@ -38287,6 +38847,15 @@
         "version": "1.4.3",
         "packageName": "unbzip2-stream",
         "hash": "sha512-mlExGW4w71ebDJviH16lQLtZS32VKqsSfk80GCfUlwT/4/hNRFsoscrF/c++9xinkMzECL1uL9DDwXqFWkruPg=="
+      }
+    },
+    "npm:undefsafe": {
+      "type": "npm",
+      "name": "npm:undefsafe",
+      "data": {
+        "version": "2.0.5",
+        "packageName": "undefsafe",
+        "hash": "sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA=="
       }
     },
     "npm:undici-types": {
@@ -39925,6 +40494,16 @@
       {
         "source": "feature-demo-items",
         "target": "npm:fastify",
+        "type": "static"
+      },
+      {
+        "source": "feature-demo-items",
+        "target": "npm:fastify-type-provider-zod",
+        "type": "static"
+      },
+      {
+        "source": "feature-demo-items",
+        "target": "npm:vitest",
         "type": "static"
       }
     ],
@@ -41798,6 +42377,23 @@
         "type": "static"
       }
     ],
+    "workbench-api-models": [
+      {
+        "source": "workbench-api-models",
+        "target": "workbench-api-shared",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-models",
+        "target": "npm:zod",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-models",
+        "target": "npm:vitest",
+        "type": "static"
+      }
+    ],
     "workbench-api-shared": [
       {
         "source": "workbench-api-shared",
@@ -41961,6 +42557,48 @@
       {
         "source": "wc-edb-user-account",
         "target": "npm:vite",
+        "type": "static"
+      }
+    ],
+    "workbench-api-infra": [
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:jsonc-eslint-parser",
+        "type": "dynamic"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:tslib",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:vitest",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:drizzle-orm",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:postgres",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:dotenv",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "workbench-api-shared",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "workbench-api-models",
         "type": "static"
       }
     ],
@@ -43981,7 +44619,7 @@
       },
       {
         "source": "npm:@angular-devkit/build-angular",
-        "target": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -48649,7 +49287,7 @@
       },
       {
         "source": "npm:@expo/cli",
-        "target": "npm:@expo/config-plugins@11.0.7",
+        "target": "npm:@expo/config-plugins",
         "type": "static"
       },
       {
@@ -49649,146 +50287,146 @@
         "type": "static"
       }
     ],
-    "npm:@expo/config-plugins": [
+    "npm:@expo/config-plugins@10.1.2": [
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:@expo/config-types",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:@expo/json-file@9.1.5",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:@expo/plist@0.3.5",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:@expo/sdk-runtime-versions",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:getenv",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:glob",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:resolve-from",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:semver",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:slash",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:slugify",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:xcode",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@10.1.2",
         "target": "npm:xml2js",
         "type": "static"
       }
     ],
-    "npm:@expo/config-plugins@11.0.7": [
+    "npm:@expo/config-plugins": [
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/config-types@54.0.8",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/json-file",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/plist",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/sdk-runtime-versions",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:getenv",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:glob",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:resolve-from",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:semver",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:slash",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:slugify",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:xcode",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@11.0.7",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:xml2js",
         "type": "static"
       }
@@ -49873,7 +50511,7 @@
       },
       {
         "source": "npm:@expo/config@11.0.13",
-        "target": "npm:@expo/config-plugins",
+        "target": "npm:@expo/config-plugins@10.1.2",
         "type": "static"
       },
       {
@@ -50571,7 +51209,7 @@
       },
       {
         "source": "npm:@expo/metro",
-        "target": "npm:metro-file-map",
+        "target": "npm:metro-file-map@0.83.1",
         "type": "static"
       },
       {
@@ -50633,7 +51271,7 @@
       },
       {
         "source": "npm:@expo/metro@54.0.0",
-        "target": "npm:metro-file-map",
+        "target": "npm:metro-file-map@0.83.1",
         "type": "static"
       },
       {
@@ -50748,7 +51386,7 @@
       },
       {
         "source": "npm:@expo/prebuild-config",
-        "target": "npm:@expo/config-plugins@11.0.7",
+        "target": "npm:@expo/config-plugins",
         "type": "static"
       },
       {
@@ -50924,7 +51562,7 @@
       },
       {
         "source": "npm:@expo/prebuild-config@9.0.12",
-        "target": "npm:@expo/config-plugins",
+        "target": "npm:@expo/config-plugins@10.1.2",
         "type": "static"
       },
       {
@@ -55566,11 +56204,6 @@
         "source": "npm:@nx/devkit@21.6.3",
         "target": "npm:nx@21.6.3",
         "type": "static"
-      },
-      {
-        "source": "npm:@nx/devkit@21.6.3",
-        "target": "npm:nx@22.0.1",
-        "type": "static"
       }
     ],
     "npm:@nx/devkit": [
@@ -56761,7 +57394,7 @@
       },
       {
         "source": "npm:@nx/module-federation",
-        "target": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -56823,7 +57456,7 @@
       },
       {
         "source": "npm:@nx/module-federation@21.6.3",
-        "target": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -57006,7 +57639,7 @@
       },
       {
         "source": "npm:@nx/react",
-        "target": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -57088,7 +57721,7 @@
       },
       {
         "source": "npm:@nx/react@21.6.3",
-        "target": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -57364,7 +57997,7 @@
       },
       {
         "source": "npm:@nx/rspack",
-        "target": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -60414,7 +61047,7 @@
       },
       {
         "source": "npm:@react-native/community-cli-plugin",
-        "target": "npm:metro@0.83.3",
+        "target": "npm:metro",
         "type": "static"
       },
       {
@@ -61070,7 +61703,7 @@
       },
       {
         "source": "npm:@rspack/dev-server",
-        "target": "npm:http-proxy-middleware",
+        "target": "npm:http-proxy-middleware@2.0.9",
         "type": "static"
       },
       {
@@ -64022,7 +64655,7 @@
       },
       {
         "source": "npm:@testing-library/react-native@12.9.0",
-        "target": "npm:jest@29.7.0",
+        "target": "npm:jest",
         "type": "static"
       }
     ],
@@ -70398,6 +71031,11 @@
       },
       {
         "source": "npm:debug",
+        "target": "npm:supports-color@5.5.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:debug",
         "target": "npm:supports-color",
         "type": "static"
       }
@@ -70948,6 +71586,11 @@
       {
         "source": "npm:drizzle-orm",
         "target": "npm:pg",
+        "type": "static"
+      },
+      {
+        "source": "npm:drizzle-orm",
+        "target": "npm:postgres",
         "type": "static"
       }
     ],
@@ -76637,6 +77280,38 @@
         "type": "static"
       }
     ],
+    "npm:http-proxy-middleware@2.0.9": [
+      {
+        "source": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:@types/http-proxy",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:http-proxy",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:is-glob",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:is-plain-obj@3.0.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:micromatch",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:@types/express",
+        "type": "static"
+      }
+    ],
     "npm:http-proxy-middleware": [
       {
         "source": "npm:http-proxy-middleware",
@@ -76645,58 +77320,26 @@
       },
       {
         "source": "npm:http-proxy-middleware",
-        "target": "npm:http-proxy",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware",
-        "target": "npm:is-glob",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware",
-        "target": "npm:is-plain-obj@3.0.0",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware",
-        "target": "npm:micromatch",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware",
-        "target": "npm:@types/express",
-        "type": "static"
-      }
-    ],
-    "npm:http-proxy-middleware@3.0.5": [
-      {
-        "source": "npm:http-proxy-middleware@3.0.5",
-        "target": "npm:@types/http-proxy",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware@3.0.5",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:http-proxy-middleware@3.0.5",
+        "source": "npm:http-proxy-middleware",
         "target": "npm:http-proxy",
         "type": "static"
       },
       {
-        "source": "npm:http-proxy-middleware@3.0.5",
+        "source": "npm:http-proxy-middleware",
         "target": "npm:is-glob",
         "type": "static"
       },
       {
-        "source": "npm:http-proxy-middleware@3.0.5",
+        "source": "npm:http-proxy-middleware",
         "target": "npm:is-plain-object",
         "type": "static"
       },
       {
-        "source": "npm:http-proxy-middleware@3.0.5",
+        "source": "npm:http-proxy-middleware",
         "target": "npm:micromatch",
         "type": "static"
       }
@@ -80152,11 +80795,6 @@
         "source": "npm:jest-watch-typeahead@2.2.1",
         "target": "npm:strip-ansi@7.1.2",
         "type": "static"
-      },
-      {
-        "source": "npm:jest-watch-typeahead@2.2.1",
-        "target": "npm:jest@29.7.0",
-        "type": "static"
       }
     ],
     "npm:jest-watch-typeahead": [
@@ -82083,7 +82721,7 @@
       },
       {
         "source": "npm:metro-config",
-        "target": "npm:metro",
+        "target": "npm:metro@0.82.5",
         "type": "static"
       },
       {
@@ -82162,7 +82800,7 @@
       },
       {
         "source": "npm:metro-config@0.83.3",
-        "target": "npm:metro@0.83.3",
+        "target": "npm:metro",
         "type": "static"
       },
       {
@@ -82284,6 +82922,53 @@
         "type": "static"
       }
     ],
+    "npm:metro-file-map@0.83.1": [
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:debug",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:fb-watchman",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:flow-enums-runtime",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:graceful-fs",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:invariant",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:jest-worker@29.7.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:micromatch",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:nullthrows",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.1",
+        "target": "npm:walker",
+        "type": "static"
+      }
+    ],
     "npm:metro-file-map": [
       {
         "source": "npm:metro-file-map",
@@ -82327,53 +83012,6 @@
       },
       {
         "source": "npm:metro-file-map",
-        "target": "npm:walker",
-        "type": "static"
-      }
-    ],
-    "npm:metro-file-map@0.83.3": [
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:debug",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:fb-watchman",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:flow-enums-runtime",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:graceful-fs",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:invariant",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:jest-worker@29.7.0",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:micromatch",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
-        "target": "npm:nullthrows",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.3",
         "target": "npm:walker",
         "type": "static"
       }
@@ -83029,7 +83667,7 @@
       },
       {
         "source": "npm:metro-transform-worker@0.82.5",
-        "target": "npm:metro",
+        "target": "npm:metro@0.82.5",
         "type": "static"
       },
       {
@@ -83163,7 +83801,7 @@
       },
       {
         "source": "npm:metro-transform-worker@0.83.3",
-        "target": "npm:metro@0.83.3",
+        "target": "npm:metro",
         "type": "static"
       },
       {
@@ -83202,204 +83840,204 @@
         "type": "static"
       }
     ],
-    "npm:metro": [
+    "npm:metro@0.82.5": [
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/code-frame",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/core",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/generator",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/parser",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/template",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/traverse",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:@babel/types",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:accepts",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:ci-info@2.0.0",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:connect",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:error-stack-parser",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:flow-enums-runtime",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:graceful-fs",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:hermes-parser",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:image-size@1.2.1",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:invariant",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:jest-worker@29.7.0",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:jsc-safe-url",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:lodash.throttle",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-babel-transformer@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-cache",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-cache-key@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-config",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-core",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-file-map@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-resolver",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-runtime",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-source-map@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-symbolicate@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-transform-plugins@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:metro-transform-worker@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:mime-types",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:nullthrows",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:serialize-error",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:source-map@0.5.7",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:throat",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:ws@7.5.10",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.82.5",
         "target": "npm:yargs@17.7.2",
         "type": "static"
       }
@@ -83537,7 +84175,7 @@
       },
       {
         "source": "npm:metro@0.83.1",
-        "target": "npm:metro-file-map",
+        "target": "npm:metro-file-map@0.83.1",
         "type": "static"
       },
       {
@@ -83606,204 +84244,204 @@
         "type": "static"
       }
     ],
-    "npm:metro@0.83.3": [
+    "npm:metro": [
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/code-frame",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/core",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/generator",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/parser",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/template",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/traverse",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:@babel/types",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:accepts",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:ci-info@2.0.0",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:connect",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:error-stack-parser",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:flow-enums-runtime",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:graceful-fs",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:hermes-parser@0.32.0",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:image-size@1.2.1",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:invariant",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:jest-worker@29.7.0",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:jsc-safe-url",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:lodash.throttle",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-babel-transformer@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-cache@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-cache-key@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-config@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-core@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
-        "target": "npm:metro-file-map@0.83.3",
+        "source": "npm:metro",
+        "target": "npm:metro-file-map",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-resolver@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-runtime@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-source-map",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-symbolicate",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-transform-plugins@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:metro-transform-worker@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:mime-types",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:nullthrows",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:serialize-error",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:source-map@0.5.7",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:throat",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:ws@7.5.10",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.83.3",
+        "source": "npm:metro",
         "target": "npm:yargs@17.7.2",
         "type": "static"
       }
@@ -84530,6 +85168,58 @@
       {
         "source": "npm:node-schedule",
         "target": "npm:sorted-array-functions",
+        "type": "static"
+      }
+    ],
+    "npm:nodemon": [
+      {
+        "source": "npm:nodemon",
+        "target": "npm:chokidar",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:debug",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:ignore-by-default",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:minimatch@3.1.2",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:pstree.remy",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:semver",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:simple-update-notifier",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:supports-color@5.5.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:touch",
+        "type": "static"
+      },
+      {
+        "source": "npm:nodemon",
+        "target": "npm:undefsafe",
         "type": "static"
       }
     ],
@@ -88709,7 +89399,7 @@
       },
       {
         "source": "npm:react-native-localize",
-        "target": "npm:@expo/config-plugins",
+        "target": "npm:@expo/config-plugins@10.1.2",
         "type": "static"
       }
     ],
@@ -91369,6 +92059,13 @@
       {
         "source": "npm:simple-swizzle",
         "target": "npm:is-arrayish@0.3.4",
+        "type": "static"
+      }
+    ],
+    "npm:simple-update-notifier": [
+      {
+        "source": "npm:simple-update-notifier",
+        "target": "npm:semver",
         "type": "static"
       }
     ],
@@ -95051,7 +95748,7 @@
       },
       {
         "source": "npm:webpack-dev-server",
-        "target": "npm:http-proxy-middleware",
+        "target": "npm:http-proxy-middleware@2.0.9",
         "type": "static"
       },
       {
@@ -96210,5 +96907,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1761562648121
+  "computedAt": 1761673186595
 }

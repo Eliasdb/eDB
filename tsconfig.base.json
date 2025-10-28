@@ -93,8 +93,14 @@
       "@edb-workbench/api/contracts": [
         "libs/server/workbench-api/contracts/src/index.ts"
       ],
+      "@edb-workbench/api/feature-demo-items": [
+        "libs/server/workbench-api/features/feature-demo-items/src/index.ts"
+      ],
       "@edb-workbench/api/openapi": [
         "libs/server/workbench-api/openapi/src/index.ts"
+      ],
+      "@edb-workbench/api/shared": [
+        "libs/server/workbench-api/shared/src/index.ts"
       ],
       "@edb-workbench/plugin": ["tools/workbench-plugin/src/index.ts"],
       "@edb/client-auth": [
@@ -146,11 +152,11 @@
       "@vm/*": ["apps/mobile/src/viewmodels/*"],
       "@voice": ["apps/mobile/src/lib/voice/index.ts"],
       "@voice/*": ["apps/mobile/src/lib/voice/*"],
-      "@edb-workbench/api/shared": [
-        "libs/server/workbench-api/shared/src/index.ts"
+      "@edb-workbench/api/infra": [
+        "libs/server/workbench-api/infra/src/index.ts"
       ],
-      "@edb-workbench/api/feature-demo-items": [
-        "libs/server/workbench-api/features/feature-demo-items/src/index.ts"
+      "@edb-workbench/api/models": [
+        "libs/server/workbench-api/models/src/index.ts"
       ]
     }
   },

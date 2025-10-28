@@ -15,19 +15,23 @@
           "tools/workbench-plugin/README.md",
 
           {
-            "input": "./tools/workbench-plugin/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
+            "input": "tools/workbench-plugin/src/generators",
+            "glob": "**/files/**",
+            "output": "src/generators"
+          },
+          {
+            "input": "tools/workbench-plugin/src/generators",
+            "glob": "**/schema.json",
+            "output": "src/generators"
+          },
+          {
+            "input": "tools/workbench-plugin/src/generators",
+            "glob": "**/schema.d.ts",
+            "output": "src/generators"
           },
 
           {
-            "input": "./tools/workbench-plugin/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-
-          {
-            "input": "./tools/workbench-plugin",
+            "input": "tools/workbench-plugin",
             "glob": "generators.json",
             "output": "."
           }

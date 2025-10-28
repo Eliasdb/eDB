@@ -1,13 +1,17 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": ".",
-    "strict": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strict": true
   },
-  "exclude": ["dist", "node_modules"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules", "**/*.spec.ts", "**/*.test.ts"]
 }

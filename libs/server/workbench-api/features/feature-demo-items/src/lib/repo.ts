@@ -114,3 +114,14 @@ export function deleteDemoItemRepo(id: string): boolean {
   demoItems.splice(idx, 1);
   return true;
 }
+
+// ONLY for tests. Do not call from prod code.
+export function __clearAllDemoItemsForTests() {
+  // wipe in-memory array in place
+  (demoItems as DemoItem[]).length = 0;
+}
+
+// handy to let tests peek at current rows
+export function __getAllDemoItemsForTests() {
+  return demoItems;
+}
