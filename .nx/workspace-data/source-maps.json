@@ -12079,6 +12079,184 @@
       "nx/target-defaults"
     ]
   },
+  "libs/server/workbench-api/resources-pg": {
+    "root": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.options": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "libs/server/workbench-api/resources-pg/eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "name": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/server/workbench-api/resources-pg/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.scope:server": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.context:workbench-api": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "tags.type:wiring": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.main": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.tsConfig": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.assets": [
+      "libs/server/workbench-api/resources-pg/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  },
   "libs/server/workbench-api/shared": {
     "root": [
       "libs/server/workbench-api/shared/project.json",

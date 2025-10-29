@@ -1,0 +1,19 @@
+{
+  "name": "resources-pg",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/workbench-api/resources-pg/src",
+  "projectType": "library",
+  "tags": ["scope:server", "context:workbench-api", "type:wiring"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/server/workbench-api/resources-pg",
+        "main": "libs/server/workbench-api/resources-pg/src/index.ts",
+        "tsConfig": "libs/server/workbench-api/resources-pg/tsconfig.lib.json",
+        "assets": []
+      }
+    }
+  }
+}

@@ -78,7 +78,7 @@
     "serve-dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nodemon --config apps/server/workbench-api/nodemon.json"
+        "command": "DATABASE_URL=postgres://workbench_user:secret@127.0.0.1:5432/workbench_dev nodemon --config apps/server/workbench-api/nodemon.json"
       }
     },
     "serve": {

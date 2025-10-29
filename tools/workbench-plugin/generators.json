@@ -6,6 +6,16 @@
       "factory": "./dist/src/generators/workbench-api-feature/generator.js",
       "schema": "./src/generators/workbench-api-feature/schema.json",
       "description": "Scaffold a new Workbench API feature (contracts, Fastify routes, wiring)"
+    },
+    "workbench-api-model": {
+      "factory": "./src/generators/workbench-api-model/generator",
+      "schema": "./src/generators/workbench-api-model/schema.json",
+      "description": "Create a contract-first model (Zod + types + minimal Repo) in the models lib"
+    },
+    "workbench-api-resource": {
+      "factory": "./src/generators/workbench-api-resource/generator",
+      "schema": "./src/generators/workbench-api-resource/schema.json",
+      "description": "Create controller/service + auto-register routes"
     }
   }
 }

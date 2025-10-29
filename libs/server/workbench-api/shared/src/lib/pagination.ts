@@ -6,11 +6,13 @@ import { z } from 'zod';
  * sort e.g. "name:asc,createdAt:desc"
  * filter e.g. "status=active,type=internal"
  */
+
 export const listQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
   sort: z.string().optional(),
   filter: z.string().optional(),
+  search: z.string().optional(), // <-- add this
 });
 
 export type ListQueryInput = z.infer<typeof listQuerySchema>;

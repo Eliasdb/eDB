@@ -1,57 +1,60 @@
-import { BookRepoPg } from '@edb-workbench/api/infra';
-import type {
-  Book,
-  CreateBookBody,
-  UpdateBookBody,
+// libs/server/workbench-api/resources/src/lib/books/book.service.ts
+import {
+  bookIdParamSchema,
+  type BookRepo,
+  type CreateBookBody,
+  type UpdateBookBody,
 } from '@edb-workbench/api/models';
-import type { PaginationPlan } from '@edb-workbench/api/shared';
+
+import {
+  NotFoundError,
+  makePaginatedResult,
+  type PaginationPlan,
+} from '@edb-workbench/api/shared';
+
+export type RequestContext = { userId: string | null; roles: string[] };
+
+// if/when you flip this, the guards already exist
+const REQUIRE_AUTH = false;
+function ensureLoggedIn(ctx: RequestContext) {
+  if (REQUIRE_AUTH && !ctx.userId) throw new Error('Login required');
+}
 
 export class BookService {
-  //
-  // READS
-  //
-  static async list(args: {
-    plan: PaginationPlan;
-    search?: string;
-    filter?: Record<string, string>;
-  }) {
-    // passthrough to repo.list
-    return BookRepoPg.list(args);
+  constructor(private readonly repo: BookRepo) {}
+
+  async listBooks(_ctx: RequestContext, plan: PaginationPlan) {
+    const { rows, total } = await this.repo.list({ plan });
+    return makePaginatedResult(rows, plan, total);
   }
 
-  static async listByAuthor(args: {
-    authorId: string;
-    plan: PaginationPlan;
-    search?: string;
-    filter?: Record<string, string>;
-  }) {
-    return BookRepoPg.listByAuthor(args);
+  async getBook(_ctx: RequestContext, id: string) {
+    const { id: safe } = bookIdParamSchema.parse({ id });
+    const found = await this.repo.getById(safe);
+    if (!found) throw new NotFoundError('Book not found');
+    return { book: found };
   }
 
-  static async getById(id: string): Promise<Book | undefined> {
-    return BookRepoPg.getById(id);
+  async createBook(ctx: RequestContext, body: CreateBookBody) {
+    ensureLoggedIn(ctx);
+    // service can also parse if you prefer: const parsed = createBookBodySchema.parse(body)
+    const created = await this.repo.create(body);
+    return { book: created };
   }
 
-  static async listTagsForBook(bookId: string) {
-    return BookRepoPg.listTagsForBook(bookId);
+  async updateBook(ctx: RequestContext, id: string, body: UpdateBookBody) {
+    ensureLoggedIn(ctx);
+    const { id: safe } = bookIdParamSchema.parse({ id });
+    const updated = await this.repo.update(safe, body);
+    if (!updated) throw new NotFoundError('Book not found');
+    return { book: updated };
   }
 
-  //
-  // WRITES
-  //
-  static async create(body: CreateBookBody): Promise<Book> {
-    // We trust upstream zod to validate shape.
-    return BookRepoPg.create(body);
-  }
-
-  static async update(
-    id: string,
-    body: UpdateBookBody,
-  ): Promise<Book | undefined> {
-    return BookRepoPg.update(id, body);
-  }
-
-  static async delete(id: string): Promise<boolean> {
-    return BookRepoPg.delete(id);
+  async deleteBook(ctx: RequestContext, id: string) {
+    ensureLoggedIn(ctx);
+    const { id: safe } = bookIdParamSchema.parse({ id });
+    const ok = await this.repo.delete(safe);
+    if (!ok) throw new NotFoundError('Book not found');
+    return { success: true as const };
   }
 }

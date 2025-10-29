@@ -3845,6 +3845,95 @@
         "implicitDependencies": []
       }
     },
+    "resources-pg": {
+      "name": "resources-pg",
+      "type": "lib",
+      "data": {
+        "root": "libs/server/workbench-api/resources-pg",
+        "targets": {
+          "lint": {
+            "cache": true,
+            "options": {
+              "cwd": "libs/server/workbench-api/resources-pg",
+              "command": "eslint ."
+            },
+            "inputs": [
+              "default",
+              "^default",
+              "{workspaceRoot}/eslint.config.mjs",
+              "{workspaceRoot}/libs/server/workbench-api/resources-pg/eslint.config.mjs",
+              "{workspaceRoot}/tools/eslint-rules/**/*",
+              {
+                "externalDependencies": [
+                  "eslint"
+                ]
+              }
+            ],
+            "outputs": [
+              "{options.outputFile}"
+            ],
+            "metadata": {
+              "technologies": [
+                "eslint"
+              ],
+              "description": "Runs ESLint on project",
+              "help": {
+                "command": "pnpm exec eslint --help",
+                "example": {
+                  "options": {
+                    "max-warnings": 0
+                  }
+                }
+              }
+            },
+            "executor": "nx:run-commands",
+            "configurations": {},
+            "parallelism": true
+          },
+          "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+              "{options.outputPath}"
+            ],
+            "options": {
+              "outputPath": "dist/libs/server/workbench-api/resources-pg",
+              "main": "libs/server/workbench-api/resources-pg/src/index.ts",
+              "tsConfig": "libs/server/workbench-api/resources-pg/tsconfig.lib.json",
+              "assets": []
+            },
+            "configurations": {},
+            "parallelism": true,
+            "cache": true,
+            "dependsOn": [
+              "^build"
+            ],
+            "inputs": [
+              "production",
+              "^production"
+            ]
+          }
+        },
+        "name": "resources-pg",
+        "tags": [
+          "npm:private",
+          "scope:server",
+          "context:workbench-api",
+          "type:wiring"
+        ],
+        "metadata": {
+          "targetGroups": {},
+          "js": {
+            "packageName": "@e-db/resources-pg",
+            "packageMain": "./src/index.js",
+            "isInPackageManagerWorkspaces": true
+          }
+        },
+        "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "libs/server/workbench-api/resources-pg/src",
+        "projectType": "library",
+        "implicitDependencies": []
+      }
+    },
     "feature-404": {
       "name": "feature-404",
       "type": "lib",
@@ -7060,7 +7149,7 @@
           "serve-dev": {
             "executor": "nx:run-commands",
             "options": {
-              "command": "nodemon --config apps/server/workbench-api/nodemon.json"
+              "command": "DATABASE_URL=postgres://workbench_user:secret@127.0.0.1:5432/workbench_dev nodemon --config apps/server/workbench-api/nodemon.json"
             },
             "configurations": {},
             "parallelism": true
@@ -42322,6 +42411,33 @@
         "type": "static"
       }
     ],
+    "resources-pg": [
+      {
+        "source": "resources-pg",
+        "target": "npm:jsonc-eslint-parser",
+        "type": "dynamic"
+      },
+      {
+        "source": "resources-pg",
+        "target": "npm:tslib",
+        "type": "static"
+      },
+      {
+        "source": "resources-pg",
+        "target": "workbench-api-resources",
+        "type": "static"
+      },
+      {
+        "source": "resources-pg",
+        "target": "npm:fastify",
+        "type": "static"
+      },
+      {
+        "source": "resources-pg",
+        "target": "workbench-api-infra",
+        "type": "static"
+      }
+    ],
     "feature-404": [
       {
         "source": "feature-404",
@@ -42543,17 +42659,12 @@
       },
       {
         "source": "workbench-api-resources",
-        "target": "workbench-api-models",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-resources",
-        "target": "workbench-api-infra",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-resources",
         "target": "workbench-api-shared",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-resources",
+        "target": "workbench-api-models",
         "type": "static"
       },
       {
@@ -43123,7 +43234,7 @@
       },
       {
         "source": "workbench-api",
-        "target": "feature-demo-items",
+        "target": "resources-pg",
         "type": "static"
       }
     ],
@@ -97126,5 +97237,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1761678166100
+  "computedAt": 1761757543753
 }

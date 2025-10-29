@@ -1,163 +1,136 @@
-import { FastifyInstance } from 'fastify';
-import { BookService } from './book.service';
+// libs/server/workbench-api/resources/src/lib/books/book.controller.ts
+import type { FastifyInstance } from 'fastify';
 
-// if you already have zod schemas for request bodies, import them here:
 import {
+  buildPagination,
+  ctxFromReq,
+  handler,
+  listQuerySchema,
+  optionalAuth,
+  validateRequest,
+  type ListQueryInput,
+} from '@edb-workbench/api/shared';
+
+import {
+  bookIdParamSchema,
   createBookBodySchema,
   updateBookBodySchema,
+  type CreateBookBody,
+  type UpdateBookBody,
 } from '@edb-workbench/api/models';
 
-// helper to coerce query params into PaginationPlan
-function buildPlanFromQuery(q: any) {
-  // q = req.query (Fastify gives you strings)
-  const page = q.page ? Number(q.page) : 1;
-  const pageSize = q.pageSize ? Number(q.pageSize) : 10;
+import type { BookService, RequestContext } from './book.service';
 
-  const offset = (page - 1) * pageSize;
-  const limit = pageSize;
-
-  // optional sorters: ?sortField=title&sortDir=desc
-  const sorters =
-    q.sortField && q.sortDir
-      ? [
-          {
-            field: String(q.sortField),
-            dir: String(q.sortDir) as 'asc' | 'desc',
-          },
-        ]
-      : [];
-
-  // filters: anything like ?status=published&publishedYear=2010
-  // we'll just forward all query keys except known paging/sorting/search keys
-  const reserved = new Set([
-    'page',
-    'pageSize',
-    'sortField',
-    'sortDir',
-    'search',
-    'authorId',
-  ]);
-  const filters: Record<string, string> = {};
-  for (const [k, v] of Object.entries(q)) {
-    if (!reserved.has(k) && typeof v === 'string') {
-      filters[k] = v;
-    }
-  }
-
-  return {
-    page,
-    pageSize,
-    offset,
-    limit,
-    sorters,
-    filters,
-  };
-}
-
-export async function registerBookRoutes(app: FastifyInstance) {
-  //
-  // POST /books
-  //
-  app.post('/books', async (req, reply) => {
-    const body = createBookBodySchema.parse(req.body);
-    const created = await BookService.create(body);
-    return reply.code(201).send(created);
-  });
-
-  //
+// No infra here. Wire in the service where you bootstrap the app.
+export async function registerBookRoutes(
+  app: FastifyInstance,
+  svc: BookService,
+): Promise<void> {
   // GET /books
-  // supports: ?page=1&pageSize=10&search=way&status=published&sortField=title&sortDir=desc
-  //
-  app.get('/books', async (req, reply) => {
-    const q = req.query as Record<string, any>;
-    const plan = buildPlanFromQuery(q);
+  app.get(
+    '/books',
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          ListQueryInput,
+          Record<string, never>,
+          Record<string, never>
+        >({
+          querySchema: listQuerySchema,
+        }),
+      ],
+    },
+    handler(async (req) => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const q = req.query as ListQueryInput;
+      const plan = buildPagination(q);
+      return svc.listBooks(ctx, plan);
+    }),
+  );
 
-    const search =
-      typeof q['search'] === 'string' && q['search'].trim() !== ''
-        ? q['search']
-        : undefined;
-
-    // we ALSO forward top-level filters object to repo.list via BookService.list().
-    // service.list() already merges plan.filters with this "filter" param.
-    // if you don't want double merge, pass empty here. for now we'll pass undefined.
-    const out = await BookService.list({
-      plan,
-      search,
-      filter: undefined,
-    });
-
-    return reply.send(out);
-  });
-
-  //
   // GET /books/:id
-  //
-  app.get('/books/:id', async (req, reply) => {
-    const { id } = req.params as { id: string };
+  app.get(
+    '/books/:id',
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          Record<string, never>,
+          { id: string },
+          Record<string, never>
+        >({
+          paramsSchema: bookIdParamSchema,
+        }),
+      ],
+    },
+    handler(async (req) => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const { id } = req.params as { id: string };
+      return svc.getBook(ctx, id);
+    }),
+  );
 
-    const book = await BookService.getById(id);
-    if (!book) {
-      return reply.code(404).send({ message: 'Book not found' });
-    }
+  // POST /books
+  app.post(
+    '/books',
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          Record<string, never>,
+          Record<string, never>,
+          CreateBookBody
+        >({
+          bodySchema: createBookBodySchema,
+        }),
+      ],
+    },
+    handler(async (req) => {
+      const ctx: RequestContext = ctxFromReq(req);
+      // Fastify still types body as unknown at handler site; we validated → safe cast:
+      return svc.createBook(ctx, req.body as CreateBookBody);
+    }),
+  );
 
-    return reply.send(book);
-  });
-
-  //
   // PATCH /books/:id
-  //
-  app.patch('/books/:id', async (req, reply) => {
-    const { id } = req.params as { id: string };
-    const body = updateBookBodySchema.parse(req.body);
+  app.patch(
+    '/books/:id',
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<Record<string, never>, { id: string }, UpdateBookBody>({
+          paramsSchema: bookIdParamSchema,
+          bodySchema: updateBookBodySchema,
+        }),
+      ],
+    },
+    handler(async (req) => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const { id } = req.params as { id: string };
+      return svc.updateBook(ctx, id, req.body as UpdateBookBody);
+    }),
+  );
 
-    const updated = await BookService.update(id, body);
-    if (!updated) {
-      return reply.code(404).send({ message: 'Book not found' });
-    }
-
-    return reply.send(updated);
-  });
-
-  //
   // DELETE /books/:id
-  //
-  app.delete('/books/:id', async (req, reply) => {
-    const { id } = req.params as { id: string };
-    const ok = await BookService.delete(id);
-    return reply.send({ ok });
-  });
-
-  //
-  // GET /authors/:authorId/books
-  // nice REST shape for listByAuthor()
-  //
-  app.get('/authors/:authorId/books', async (req, reply) => {
-    const { authorId } = req.params as { authorId: string };
-    const q = req.query as Record<string, any>;
-    const plan = buildPlanFromQuery(q);
-
-    const search =
-      typeof q['search'] === 'string' && q['search'].trim() !== ''
-        ? q['search']
-        : undefined;
-
-    const out = await BookService.listByAuthor({
-      authorId,
-      plan,
-      search,
-      filter: undefined,
-    });
-
-    return reply.send(out);
-  });
-
-  //
-  // GET /books/:id/tags
-  // surfaces repo.listTagsForBook()
-  //
-  app.get('/books/:id/tags', async (req, reply) => {
-    const { id } = req.params as { id: string };
-    const rows = await BookService.listTagsForBook(id);
-    return reply.send(rows);
-  });
+  app.delete(
+    '/books/:id',
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          Record<string, never>,
+          { id: string },
+          Record<string, never>
+        >({
+          paramsSchema: bookIdParamSchema,
+        }),
+      ],
+    },
+    handler(async (req) => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const { id } = req.params as { id: string };
+      return svc.deleteBook(ctx, id);
+    }),
+  );
 }

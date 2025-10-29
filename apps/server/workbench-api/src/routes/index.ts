@@ -1,8 +1,8 @@
-import { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
-// Generators/agent will append new imports here:
-import { registerDemoItemsRoutes } from '@edb-workbench/api/feature-demo-items';
+// Single wire-up: app depends only on the resources→infra adapter.
+import { registerAllRoutes as registerWorkbenchApiRoutes } from '@edb-workbench/api/resources-pg';
 
 export async function registerAllRoutes(app: FastifyInstance) {
-  await registerDemoItemsRoutes(app);
+  await registerWorkbenchApiRoutes(app);
 }

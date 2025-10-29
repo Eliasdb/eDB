@@ -96,8 +96,20 @@
       "@edb-workbench/api/feature-demo-items": [
         "libs/server/workbench-api/features/feature-demo-items/src/index.ts"
       ],
+      "@edb-workbench/api/infra": [
+        "libs/server/workbench-api/infra/src/index.ts"
+      ],
+      "@edb-workbench/api/models": [
+        "libs/server/workbench-api/models/src/index.ts"
+      ],
       "@edb-workbench/api/openapi": [
         "libs/server/workbench-api/openapi/src/index.ts"
+      ],
+      "@edb-workbench/api/resources": [
+        "libs/server/workbench-api/resources/src/index.ts"
+      ],
+      "@edb-workbench/api/resources-pg": [
+        "libs/server/workbench-api/resources-pg/src/index.ts"
       ],
       "@edb-workbench/api/shared": [
         "libs/server/workbench-api/shared/src/index.ts"
@@ -151,14 +163,7 @@
       "@ui/*": ["apps/mobile/src/lib/ui/*"],
       "@vm/*": ["apps/mobile/src/viewmodels/*"],
       "@voice": ["apps/mobile/src/lib/voice/index.ts"],
-      "@voice/*": ["apps/mobile/src/lib/voice/*"],
-      "@edb-workbench/api/infra": [
-        "libs/server/workbench-api/infra/src/index.ts"
-      ],
-      "@edb-workbench/api/models": [
-        "libs/server/workbench-api/models/src/index.ts"
-      ],
-      "@e-db/resources": ["libs/server/workbench-api/resources/src/index.ts"]
+      "@voice/*": ["apps/mobile/src/lib/voice/*"]
     }
   },
   "exclude": ["tmp"]
