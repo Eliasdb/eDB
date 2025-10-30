@@ -34,11 +34,6 @@ export default async function workbenchApiResourceGenerator(
     plural,
   );
 
-  if (!tree.exists(outDir)) {
-    // ensure dir
-    tree.write(joinPathFragments(outDir, '.gitkeep'), '');
-  }
-
   // 1) copy templates
   const templateDir = path.join(__dirname, 'files');
   generateFiles(tree, templateDir, outDir, {

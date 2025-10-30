@@ -10,3 +10,5 @@ export * from './lib/repos/author.repo.pg';
 export * from './lib/repos/book.repo.pg';
 export * from './lib/repos/bookTag.repo.pg';
 export * from './lib/repos/tag.repo.pg';
+export * from './lib/db/schema.albums';
+export * from './lib/repos/album.repo.pg';

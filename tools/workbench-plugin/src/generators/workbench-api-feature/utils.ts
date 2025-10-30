@@ -29,6 +29,15 @@ function parseOneField(chunk: string): ParsedField {
   const isOptional = rawNamePart.endsWith('?');
   const cleanName = isOptional ? rawNamePart.slice(0, -1) : rawNamePart;
 
+  if (rawType === 'uuid') {
+    return {
+      fieldName: cleanName,
+      required: !isOptional,
+      tsType: 'string',
+      zodBase: 'z.string().uuid()',
+    };
+  }
+
   // built-ins
   if (rawType === 'string') {
     return {
@@ -88,7 +97,7 @@ function parseOneField(chunk: string): ParsedField {
   }
 
   throw new Error(
-    `Unsupported field type "${rawType}" in "${chunk}". Supported: string,number,boolean,date,enum(a|b|c)`,
+    `Unsupported field type "${rawType}" in "${chunk}". Supported: string,number,boolean,date,uuid,enum(a|b|c)`,
   );
 }
 

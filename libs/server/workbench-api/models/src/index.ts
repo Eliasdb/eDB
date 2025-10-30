@@ -1,3 +1,3 @@
 export * from './lib';
 
-export * from './lib/painter.model';
+export * from './lib/album.model';

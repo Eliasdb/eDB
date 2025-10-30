@@ -139,6 +139,22 @@ export interface ${Cap}Repo {
     tree.write(indexFile, index);
   }
 
+  // write a machine-readable contract so other generators can consume it
+  const contractDir = joinPathFragments(modelsRoot, 'src/contracts');
+
+  const contractPath = joinPathFragments(
+    contractDir,
+    `${singular}.contract.json`,
+  );
+  const contractJson = {
+    name: singular,
+    plural: n.fileName,
+    fieldsString: schema.fields.trim(),
+    // reuse your ParsedField shape so infra can plug in directly
+    fields: parsed, // array<ParsedField> from parseFields()
+  };
+  tree.write(contractPath, JSON.stringify(contractJson, null, 2));
+
   await formatFiles(tree);
   console.log(
     `[workbench-api-model] Created ${modelFile} and updated index.ts`,

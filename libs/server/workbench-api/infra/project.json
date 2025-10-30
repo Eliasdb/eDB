@@ -21,6 +21,20 @@
         "cwd": "libs/server/workbench-api/infra",
         "command": "vitest run --config vitest.config.mts --reporter=verbose"
       }
+    },
+    "migrations:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/server/workbench-api/infra",
+        "command": "drizzle-kit generate --config=drizzle.config.ts"
+      }
+    },
+    "migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/server/workbench-api/infra",
+        "command": "node src/lib/db/runMigrations.local.cjs"
+      }
     }
   }
 }

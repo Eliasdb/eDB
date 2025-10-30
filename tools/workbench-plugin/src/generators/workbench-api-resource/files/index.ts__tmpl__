@@ -1,2 +1,2 @@
-export * from './__singular__.controller';
-export * from './__singular__.service';
+export * from './<%= singular %>.controller';
+export * from './<%= singular %>.service';

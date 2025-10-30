@@ -1,0 +1,31 @@
+{
+  "name": "album",
+  "plural": "albums",
+  "fieldsString": "title:string,authorId:uuid,status:enum(draft|published|archived),publishedYear?:number",
+  "fields": [
+    {
+      "fieldName": "title",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string()"
+    },
+    {
+      "fieldName": "authorId",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string().uuid()"
+    },
+    {
+      "fieldName": "status",
+      "required": true,
+      "tsType": "'draft' | 'published' | 'archived'",
+      "zodBase": "z.enum(['draft', 'published', 'archived'])"
+    },
+    {
+      "fieldName": "publishedYear",
+      "required": false,
+      "tsType": "number",
+      "zodBase": "z.number()"
+    }
+  ]
+}

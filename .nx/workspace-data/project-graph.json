@@ -5673,6 +5673,24 @@
             "configurations": {},
             "parallelism": true,
             "cache": true
+          },
+          "migrations:generate": {
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": "libs/server/workbench-api/infra",
+              "command": "drizzle-kit generate --config=drizzle.config.ts"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "migrate": {
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": "libs/server/workbench-api/infra",
+              "command": "node src/lib/db/runMigrations.local.cjs"
+            },
+            "configurations": {},
+            "parallelism": true
           }
         },
         "metadata": {
@@ -42893,6 +42911,11 @@
     "workbench-api-infra": [
       {
         "source": "workbench-api-infra",
+        "target": "npm:drizzle-kit",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
         "target": "npm:jsonc-eslint-parser",
         "type": "dynamic"
       },
@@ -42923,12 +42946,12 @@
       },
       {
         "source": "workbench-api-infra",
-        "target": "workbench-api-shared",
+        "target": "workbench-api-models",
         "type": "static"
       },
       {
         "source": "workbench-api-infra",
-        "target": "workbench-api-models",
+        "target": "workbench-api-shared",
         "type": "static"
       }
     ],
@@ -97237,5 +97260,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1761757543753
+  "computedAt": 1761835337961
 }

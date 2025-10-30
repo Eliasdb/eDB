@@ -8,6 +8,7 @@ import { authorsTable } from './schema.authors';
 import { booksTable } from './schema.books';
 import { bookTagsTable } from './schema.bookTags';
 import { tagsTable } from './schema.tags';
+import { albumsTable } from './schema.albums';
 
 // ─────────────────────────────────────────────
 // Connection setup
@@ -29,6 +30,7 @@ export const db = drizzle(client, {
     booksTable,
     tagsTable,
     bookTagsTable,
+    albumsTable,
   },
 });
 
@@ -41,4 +43,5 @@ export const schema = {
   booksTable,
   tagsTable,
   bookTagsTable,
+  albumsTable,
 };

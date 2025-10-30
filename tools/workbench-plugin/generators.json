@@ -16,6 +16,16 @@
       "factory": "./src/generators/workbench-api-resource/generator",
       "schema": "./src/generators/workbench-api-resource/schema.json",
       "description": "Create controller/service + auto-register routes"
+    },
+    "workbench-api-entity": {
+      "factory": "./src/generators/workbench-api-entity/generator",
+      "schema": "./src/generators/workbench-api-entity/schema.json",
+      "description": "One-shot: contracts + resources + PG infra (drizzle schema + repo + exports)"
+    },
+    "workbench-api-infra": {
+      "factory": "./src/generators/workbench-api-infra/generator",
+      "schema": "./src/generators/workbench-api-infra/schema.json",
+      "description": "Create Drizzle schema + PG repo + exports + wiring"
     }
   }
 }

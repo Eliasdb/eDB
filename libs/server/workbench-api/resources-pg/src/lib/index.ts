@@ -3,6 +3,7 @@ import type { FastifyInstance } from 'fastify';
 
 // Import ONLY infra here (nowhere else):
 import {
+  AlbumRepoPg,
   AuthorRepoPg,
   BookRepoPg,
   BookTagRepoPg,
@@ -15,6 +16,7 @@ export async function registerAllRoutes(app: FastifyInstance) {
     author: AuthorRepoPg,
     tag: TagRepoPg,
     bookTag: BookTagRepoPg,
+    album: AlbumRepoPg,
   });
   await registry.registerAll(app);
 }

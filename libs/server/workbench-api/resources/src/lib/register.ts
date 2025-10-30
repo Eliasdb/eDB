@@ -7,6 +7,7 @@ import type {
   BookTagRepo,
   TagRepo,
 } from '@edb-workbench/api/models';
+import type { AlbumRepo } from '@edb-workbench/api/models';
 
 // ─────────────────────────────────────────────
 // @gen:model-imports (do not remove this line)
@@ -16,6 +17,8 @@ import type {
 // Existing resource imports
 import { registerBookRoutes } from './books/book.controller';
 import { BookService } from './books/book.service';
+import { registerAlbumRoutes } from './albums/album.controller';
+import { AlbumService } from './albums/album.service';
 
 // ─────────────────────────────────────────────
 // @gen:resource-imports (do not remove this line)
@@ -34,7 +37,7 @@ export interface RepoAdapters {
   // ───────────────────────────────────────────
   // @gen:adapters (do not remove this line)
   // generator appends: foo: FooRepo;
-  // ───────────────────────────────────────────
+  album: AlbumRepo;
 }
 
 export function makeRouteRegistry(adapters: RepoAdapters) {
@@ -54,6 +57,7 @@ export function makeRouteRegistry(adapters: RepoAdapters) {
       // @gen:calls (do not remove this line)
       // generator appends: await registerFoosRoutes(app, fooSvc);
       // ─────────────────────────────────────────
+      await registerAlbumRoutes(app, new AlbumService(adapters.album));
     },
   };
 }
