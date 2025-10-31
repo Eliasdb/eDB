@@ -749,11 +749,20 @@ function loadFieldsStringFromContract(
   }
 }
 
+const pascal = (s: string) =>
+  s
+    .replace(/[_-]/g, ' ')
+    .replace(/(?:^|\s)([a-z])/g, (_, c) => c.toUpperCase())
+    .replace(/\s+/g, '');
+
+const enumConstName = (plural: string, fieldName: string) =>
+  `${pascal(plural)}${pascal(fieldName)}Enum`;
+
 // ─────────────────────────────────────────────
 // Column helpers
 // ─────────────────────────────────────────────
 
-function drizzleColLine(_entity: string, f: ParsedField) {
+function drizzleColLine(plural: string, f: ParsedField) {
   const col = snake(f.fieldName);
   const nn = f.required ? '.notNull()' : '';
   if (f.zodBase.includes('.datetime()'))
@@ -763,17 +772,22 @@ function drizzleColLine(_entity: string, f: ParsedField) {
   if (f.tsType === 'string' && f.fieldName.endsWith('Id'))
     return `${col}: uuid('${col}')${nn},`;
   if (f.tsType === 'string') return `${col}: text('${col}')${nn},`;
-  if (f.tsType.includes("'"))
-    return `// enum column wired below\n${col}: ${col}Enum('${col}')${nn},`;
+  if (f.tsType.includes("'")) {
+    const constName = enumConstName(plural, f.fieldName);
+    return `// enum column wired below
+${col}: ${constName}('${col}')${nn},`;
+  }
   return `${col}: text('${col}')${nn},`;
 }
 
-function enumBlock(f: ParsedField) {
+function enumBlock(plural: string, f: ParsedField) {
   if (!f.tsType.includes("'")) return '';
-  const col = snake(f.fieldName);
+  const colSnake = snake(f.fieldName);
+  const constName = enumConstName(plural, f.fieldName);
   const variants = f.tsType.split('|').map((v) => v.trim().replace(/'/g, ''));
-  // export so drizzle-kit sees it and generates CREATE TYPE
-  return `export const ${col}Enum = pgEnum('${col}_enum', [${variants
+  // Make SQL type name unique per table+column:
+  const sqlTypeName = `${plural}_${colSnake}_enum`;
+  return `export const ${constName} = pgEnum('${sqlTypeName}', [${variants
     .map((v) => `'${v}'`)
     .join(', ')}]);`;
 }
@@ -1253,10 +1267,13 @@ export default async function generator(tree: Tree, schema: Schema) {
 
   // 1) Drizzle schema
   if (!tree.exists(schemaFile)) {
-    const enumDefs = fields.map(enumBlock).filter(Boolean).join('\n');
+    const enumDefs = fields
+      .map((f) => enumBlock(plural, f))
+      .filter(Boolean)
+      .join('\n');
     const cols = [
       `id: uuid('id').primaryKey().defaultRandom(),`,
-      ...fields.map((f) => drizzleColLine(singular, f)),
+      ...fields.map((f) => drizzleColLine(plural, f)),
       `created_at: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),`,
       `updated_at: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),`,
     ].join('\n  ');

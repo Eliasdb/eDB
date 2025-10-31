@@ -1,4 +1,11 @@
-import type { FastifyInstance } from 'fastify';
+import {
+  albumIdParamSchema,
+  createAlbumBodySchema,
+  updateAlbumBodySchema,
+  type CreateAlbumBody,
+  type UpdateAlbumBody,
+} from '@edb-workbench/api/models';
+
 import {
   buildPagination,
   ctxFromReq,
@@ -8,18 +15,16 @@ import {
   validateRequest,
   type ListQueryInput,
 } from '@edb-workbench/api/shared';
-import {
-  albumIdParamSchema,
-  createAlbumBodySchema,
-  updateAlbumBodySchema,
-  type CreateAlbumBody,
-  type UpdateAlbumBody,
-} from '@edb-workbench/api/models';
+
+import type { FastifyInstance } from 'fastify';
+import { applyAlbumIncludes } from './_includes.artist';
 import type { AlbumService, RequestContext } from './album.service';
+import type { RepoAdapters } from '../register';
 
 export async function registerAlbumRoutes(
   app: FastifyInstance,
   svc: AlbumService,
+  adapters?: RepoAdapters,
 ): Promise<void> {
   app.get(
     '/albums',
@@ -38,7 +43,7 @@ export async function registerAlbumRoutes(
     handler(async (req) => {
       const ctx: RequestContext = ctxFromReq(req);
       const plan = buildPagination(req.query as ListQueryInput);
-      return svc.list(ctx, plan);
+      return applyAlbumIncludes.list(req, await svc.list(ctx, plan), adapters);
     }),
   );
 
@@ -59,7 +64,7 @@ export async function registerAlbumRoutes(
     handler(async (req) => {
       const ctx: RequestContext = ctxFromReq(req);
       const { id } = req.params as { id: string };
-      return svc.getOne(ctx, id);
+      return applyAlbumIncludes.one(req, await svc.getOne(ctx, id), adapters);
     }),
   );
 

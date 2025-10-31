@@ -1,7 +1,7 @@
 {
   "name": "album",
   "plural": "albums",
-  "fieldsString": "title:string,authorId:uuid,status:enum(draft|published|archived),publishedYear?:number",
+  "fieldsString": "title:string,status:enum(draft|published|archived),artistId:uuid,publishedYear?:number",
   "fields": [
     {
       "fieldName": "title",
@@ -10,16 +10,17 @@
       "zodBase": "z.string()"
     },
     {
-      "fieldName": "authorId",
-      "required": true,
-      "tsType": "string",
-      "zodBase": "z.string().uuid()"
-    },
-    {
       "fieldName": "status",
       "required": true,
       "tsType": "'draft' | 'published' | 'archived'",
       "zodBase": "z.enum(['draft', 'published', 'archived'])"
+    },
+
+    {
+      "fieldName": "artistId",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string().uuid()"
     },
     {
       "fieldName": "publishedYear",
@@ -27,5 +28,18 @@
       "tsType": "number",
       "zodBase": "z.number()"
     }
-  ]
+  ],
+  "relationships": {
+    "belongsTo": [
+      {
+        "name": "artist",
+        "to": "artists",
+        "fk": "artistId",
+        "required": true,
+        "include": true,
+        "select": ["id", "name", "status"],
+        "onDelete": "cascade"
+      }
+    ]
+  }
 }

@@ -26,6 +26,12 @@
       "factory": "./src/generators/workbench-api-infra/generator",
       "schema": "./src/generators/workbench-api-infra/schema.json",
       "description": "Create Drizzle schema + PG repo + exports + wiring"
+    },
+
+    "workbench-api-rel": {
+      "factory": "./src/generators/workbench-api-rel/generator",
+      "schema": "./src/generators/workbench-api-rel/schema.json",
+      "description": "Add a belongsTo relation (child → parent) + DB FK + ?include support"
     }
   }
 }

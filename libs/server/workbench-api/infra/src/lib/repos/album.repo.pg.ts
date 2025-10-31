@@ -18,9 +18,9 @@ import type { PaginationPlan } from '@edb-workbench/api/shared';
 type AlbumRow = {
   id: string;
   title: string;
-  author_id: string;
   status: string;
   published_year: number | null;
+  artist_id: string;
   created_at: Date;
   updated_at: Date;
 };
@@ -29,9 +29,9 @@ function rowToAlbum(row: AlbumRow): Album {
   return {
     id: row.id,
     title: row.title,
-    authorId: row.author_id,
     status: row.status as Album['status'],
     publishedYear: row.published_year ?? undefined,
+    artistId: row.artist_id,
     createdAt: row.created_at.toISOString(),
     updatedAt: row.updated_at.toISOString(),
   };
@@ -49,8 +49,8 @@ function buildWhere({
     const q = '%' + search.toLowerCase() + '%';
     const ors: SQL[] = [];
     ors.push(like(sql`lower(${albumsTable.title})`, q));
-    ors.push(like(sql`lower(${albumsTable.author_id}::text)`, q));
     ors.push(like(sql`lower(${albumsTable.status}::text)`, q));
+    ors.push(like(sql`lower(${albumsTable.artist_id}::text)`, q));
     if (ors.length === 1) {
       parts.push(ors[0]);
     } else if (ors.length > 1) {
@@ -64,15 +64,16 @@ function buildWhere({
     if (key === 'title') {
       parts.push(eq(albumsTable.title, val));
     }
-    if (key === 'authorId') {
-      parts.push(eq(albumsTable.author_id, val));
-    }
+
     if (key === 'status') {
       parts.push(eq(albumsTable.status as any, val as any));
     }
     if (key === 'publishedYear') {
       const n = Number(val);
       if (!Number.isNaN(n)) parts.push(eq(albumsTable.published_year, n));
+    }
+    if (key === 'artistId') {
+      parts.push(eq(albumsTable.artist_id, val));
     }
   }
   return parts.length ? and(...parts) : undefined;
@@ -90,9 +91,9 @@ function buildOrder(plan: PaginationPlan): {
     if (field === 'createdAt') orderByExpr = albumsTable.created_at;
     if (field === 'updatedAt') orderByExpr = albumsTable.updated_at;
     if (field === 'title') orderByExpr = albumsTable.title;
-    if (field === 'authorId') orderByExpr = albumsTable.author_id;
     if (field === 'status') orderByExpr = albumsTable.status;
     if (field === 'publishedYear') orderByExpr = albumsTable.published_year;
+    if (field === 'artistId') orderByExpr = albumsTable.artist_id;
   }
   return { orderByExpr, orderDir };
 }
@@ -115,9 +116,9 @@ export const AlbumRepoPg: AlbumRepo = {
       .select({
         id: albumsTable.id,
         title: albumsTable.title,
-        author_id: albumsTable.author_id,
         status: albumsTable.status,
         published_year: albumsTable.published_year,
+        artist_id: albumsTable.artist_id,
         created_at: albumsTable.created_at,
         updated_at: albumsTable.updated_at,
       })
@@ -135,9 +136,9 @@ export const AlbumRepoPg: AlbumRepo = {
       .select({
         id: albumsTable.id,
         title: albumsTable.title,
-        author_id: albumsTable.author_id,
         status: albumsTable.status,
         published_year: albumsTable.published_year,
+        artist_id: albumsTable.artist_id,
         created_at: albumsTable.created_at,
         updated_at: albumsTable.updated_at,
       })
@@ -152,9 +153,9 @@ export const AlbumRepoPg: AlbumRepo = {
       .insert(albumsTable)
       .values({
         title: data.title,
-        author_id: data.authorId,
         status: data.status,
         published_year: data.publishedYear ?? null,
+        artist_id: data.artistId,
         created_at: sql`now()`,
         updated_at: sql`now()`,
       })
@@ -167,11 +168,11 @@ export const AlbumRepoPg: AlbumRepo = {
       .update(albumsTable)
       .set({
         ...(patch.title !== undefined ? { title: patch.title } : {}),
-        ...(patch.authorId !== undefined ? { author_id: patch.authorId } : {}),
         ...(patch.status !== undefined ? { status: patch.status } : {}),
         ...(patch.publishedYear !== undefined
           ? { published_year: patch.publishedYear }
           : {}),
+        ...(patch.artistId !== undefined ? { artist_id: patch.artistId } : {}),
         updated_at: sql`now()`,
       })
       .where(eq(albumsTable.id, id))

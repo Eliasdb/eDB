@@ -6,8 +6,9 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
+import { artistsTable } from './schema.artists';
 
-export const statusEnum = pgEnum('status_enum', [
+export const AlbumsStatusEnum = pgEnum('albums_status_enum', [
   'draft',
   'published',
   'archived',
@@ -16,10 +17,17 @@ export const statusEnum = pgEnum('status_enum', [
 export const albumsTable = pgTable('albums', {
   id: uuid('id').primaryKey().defaultRandom(),
   title: text('title').notNull(),
-  author_id: uuid('author_id').notNull(),
   // enum column wired below
-  status: statusEnum('status').notNull(),
+  status: AlbumsStatusEnum('status').notNull(),
   published_year: integer('published_year'),
+
+  artist_id: uuid('artist_id')
+    .notNull()
+    .references(() => artistsTable.id, {
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    }),
+
   created_at: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),

@@ -1,18 +1,23 @@
 import { z } from 'zod';
 
 /**
- * The query shape we accept on list endpoints.
- * page / pageSize control slice
- * sort e.g. "name:asc,createdAt:desc"
- * filter e.g. "status=active,type=internal"
+ * Query schema for list endpoints.
+ *
+ * - page / pageSize: slice the collection (1-based).
+ * - sort: "field:dir,...", e.g. "createdAt:desc,name:asc".
+ * - filter: "key=value,key2=value2". Each key is repo-specific (e.g. "status=active" or "agentId=...").
+ * - search: free text. Repos decide which columns participate.
+ * - include: comma-separated relation aliases to embed in results, e.g. "artist,agent".
+ *   Unknown aliases are ignored safely. For list endpoints, included objects appear per item
+ *   under their alias. For single-record endpoints, the include object is attached to the root record.
  */
-
 export const listQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
   sort: z.string().optional(),
   filter: z.string().optional(),
-  search: z.string().optional(), // <-- add this
+  search: z.string().optional(),
+  include: z.string().optional(), // optional by default, shared for all resources
 });
 
 export type ListQueryInput = z.infer<typeof listQuerySchema>;

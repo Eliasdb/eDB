@@ -8,8 +8,8 @@ import { z } from 'zod';
 export const albumSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
-  authorId: z.string().uuid(),
   status: z.enum(['draft', 'published', 'archived']),
+  artistId: z.string().uuid(),
   publishedYear: z.number().optional(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
@@ -18,16 +18,16 @@ export type Album = z.infer<typeof albumSchema>;
 
 export const createAlbumBodySchema = z.object({
   title: z.string(),
-  authorId: z.string().uuid(),
   status: z.enum(['draft', 'published', 'archived']),
+  artistId: z.string().uuid(),
   publishedYear: z.number().optional(),
 });
 export type CreateAlbumBody = z.infer<typeof createAlbumBodySchema>;
 
 export const updateAlbumBodySchema = z.object({
   title: z.string().optional(),
-  authorId: z.string().uuid().optional(),
   status: z.enum(['draft', 'published', 'archived']).optional(),
+  artistId: z.string().uuid().optional(),
   publishedYear: z.number().optional(),
 });
 export type UpdateAlbumBody = z.infer<typeof updateAlbumBodySchema>;

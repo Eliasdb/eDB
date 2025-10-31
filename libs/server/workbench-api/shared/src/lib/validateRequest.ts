@@ -6,6 +6,7 @@ import type {
   FastifyRequest,
   preHandlerHookHandler,
 } from 'fastify';
+import { ZodError } from 'zod';
 import { BadRequestError } from './errors';
 
 export interface Schema<T> {
@@ -61,6 +62,15 @@ export function validateRequest<Q = unknown, P = unknown, B = unknown>(
       done();
     } catch (_err) {
       done(new BadRequestError('Invalid request'));
+      if (_err instanceof ZodError) {
+        _reply.code(400).send({
+          statusCode: 400,
+          error: 'Bad Request',
+          message: 'Invalid request',
+          issues: _err.issues, // 👈 see exactly which field failed
+        });
+        return;
+      }
     }
   };
 

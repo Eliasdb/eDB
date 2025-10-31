@@ -3,9 +3,11 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { db } from '../../db/drizzle';
 import { AlbumRepoPg } from '../../repos/album.repo.pg';
-import { randomUUID } from 'node:crypto';
 
 import type { PaginationPlan } from '@edb-workbench/api/shared';
+import { ArtistRepoPg } from '../artist.repo.pg';
+import { randomUUID } from 'node:crypto';
+let artistId: string;
 
 function plan(overrides: Partial<PaginationPlan> = {}): PaginationPlan {
   return {
@@ -22,12 +24,19 @@ function plan(overrides: Partial<PaginationPlan> = {}): PaginationPlan {
 describe.sequential('AlbumRepoPg (infra ↔ db)', () => {
   beforeEach(async () => {
     await db.execute(sql`DELETE FROM "albums";`);
+    await db.execute(sql`DELETE FROM "artists";`);
+
+    const artist = await ArtistRepoPg.create({
+      name: 'seed-artist',
+      status: 'active', // adjust if your artists enum uses other values
+    });
+    artistId = artist.id;
   });
 
   it('create/get/update/delete basic flow', async () => {
     const row1 = await AlbumRepoPg.create({
       title: 'name-1-zz',
-      authorId: randomUUID(),
+      artistId: artistId,
       status: 'draft',
       publishedYear: undefined,
     });
@@ -49,19 +58,19 @@ describe.sequential('AlbumRepoPg (infra ↔ db)', () => {
   it('list(): pagination + search/filter/sort (when applicable)', async () => {
     const row1 = await AlbumRepoPg.create({
       title: 'name-1-zz',
-      authorId: randomUUID(),
+      artistId: artistId,
       status: 'draft',
       publishedYear: undefined,
     });
     const row2 = await AlbumRepoPg.create({
       title: 'name-2-zz',
-      authorId: randomUUID(),
+      artistId: artistId,
       status: 'draft',
       publishedYear: undefined,
     });
     const row3 = await AlbumRepoPg.create({
       title: 'name-3-zz',
-      authorId: randomUUID(),
+      artistId: artistId,
       status: 'draft',
       publishedYear: undefined,
     });

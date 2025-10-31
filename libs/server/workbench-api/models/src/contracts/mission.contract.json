@@ -1,0 +1,50 @@
+{
+  "name": "mission",
+  "plural": "missions",
+  "fieldsString": "title:string,status:enum(planned|active|paused|completed|failed),riskLevel?:number,eta?:date,agentId:uuid",
+  "fields": [
+    {
+      "fieldName": "title",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string()"
+    },
+    {
+      "fieldName": "status",
+      "required": true,
+      "tsType": "'planned' | 'active' | 'paused' | 'completed' | 'failed'",
+      "zodBase": "z.enum(['planned', 'active', 'paused', 'completed', 'failed'])"
+    },
+    {
+      "fieldName": "riskLevel",
+      "required": false,
+      "tsType": "number",
+      "zodBase": "z.number()"
+    },
+    {
+      "fieldName": "eta",
+      "required": false,
+      "tsType": "string",
+      "zodBase": "z.string().datetime()"
+    },
+    {
+      "fieldName": "agentId",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string().uuid()"
+    }
+  ],
+  "relationships": {
+    "belongsTo": [
+      {
+        "name": "agent",
+        "to": "agents",
+        "fk": "agentId",
+        "required": true,
+        "include": true,
+        "select": ["id", "codename", "status", "clearance"],
+        "onDelete": "cascade"
+      }
+    ]
+  }
+}
