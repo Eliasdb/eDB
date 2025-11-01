@@ -20,14 +20,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -66,14 +59,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -112,14 +98,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -158,14 +137,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -204,14 +176,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -250,14 +215,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -296,14 +254,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -342,14 +293,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -388,14 +332,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -483,7 +420,8 @@
               }
             }
           }
-        }
+        },
+        "parallelism": false
       }
     },
     "metadata": {
@@ -523,14 +461,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB-admin"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -569,14 +500,7 @@
             }
           }
         },
-        "dependsOn": [
-          {
-            "projects": [
-              "eDB-admin"
-            ],
-            "target": "serve"
-          }
-        ],
+        "parallelism": false,
         "cache": true,
         "inputs": [
           "default",
@@ -629,7 +553,8 @@
               }
             }
           }
-        }
+        },
+        "parallelism": false
       }
     },
     "metadata": {

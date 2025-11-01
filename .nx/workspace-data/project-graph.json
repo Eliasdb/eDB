@@ -8259,14 +8259,7 @@
                 }
               }
             },
-            "dependsOn": [
-              {
-                "projects": [
-                  "eDB-admin"
-                ],
-                "target": "serve"
-              }
-            ],
+            "parallelism": false,
             "cache": true,
             "inputs": [
               "default",
@@ -8282,8 +8275,7 @@
               "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report"
             ],
             "executor": "nx:run-commands",
-            "configurations": {},
-            "parallelism": true
+            "configurations": {}
           },
           "e2e-ci--src/example.spec.ts": {
             "options": {
@@ -8308,9 +8300,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -8327,7 +8317,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci": {
             "executor": "nx:noop",
@@ -8367,9 +8359,9 @@
                 }
               }
             },
+            "parallelism": false,
             "configurations": {},
-            "options": {},
-            "parallelism": true
+            "options": {}
           },
           "lint": {
             "cache": true,
@@ -9140,14 +9132,7 @@
                 }
               }
             },
-            "dependsOn": [
-              {
-                "projects": [
-                  "eDB"
-                ],
-                "target": "serve"
-              }
-            ],
+            "parallelism": false,
             "cache": true,
             "inputs": [
               "default",
@@ -9163,8 +9148,7 @@
               "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report"
             ],
             "executor": "nx:run-commands",
-            "configurations": {},
-            "parallelism": true
+            "configurations": {}
           },
           "e2e-ci--regression/subscriptions.spec.ts": {
             "options": {
@@ -9189,9 +9173,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9208,7 +9190,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci--regression/webshop.spec.ts": {
             "options": {
@@ -9233,9 +9217,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9252,7 +9234,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci--smoke/admin.smoke.spec.ts": {
             "options": {
@@ -9277,9 +9261,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9296,7 +9278,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci--smoke/app.smoke.spec.ts": {
             "options": {
@@ -9321,9 +9305,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9340,7 +9322,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci--smoke/auth.smoke.spec.ts": {
             "options": {
@@ -9365,9 +9349,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9384,7 +9366,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci--smoke/catalog.smoke.spec.ts": {
             "options": {
@@ -9409,9 +9393,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9428,7 +9410,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci--smoke/logout/logout.smoke.spec.ts": {
             "options": {
@@ -9453,14 +9437,7 @@
                 }
               }
             },
-            "dependsOn": [
-              {
-                "projects": [
-                  "eDB"
-                ],
-                "target": "serve"
-              }
-            ],
+            "parallelism": false,
             "cache": true,
             "inputs": [
               "default",
@@ -9476,8 +9453,7 @@
               "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-logout-logout-smoke-spec-ts"
             ],
             "executor": "nx:run-commands",
-            "configurations": {},
-            "parallelism": true
+            "configurations": {}
           },
           "e2e-ci--smoke/routes.smoke.spec.ts": {
             "options": {
@@ -9502,9 +9478,7 @@
                 }
               }
             },
-            "dependsOn": [
-              "^build"
-            ],
+            "parallelism": true,
             "cache": true,
             "inputs": [
               "default",
@@ -9521,7 +9495,9 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "parallelism": true
+            "dependsOn": [
+              "^build"
+            ]
           },
           "e2e-ci": {
             "executor": "nx:noop",
@@ -9596,9 +9572,9 @@
                 }
               }
             },
+            "parallelism": false,
             "configurations": {},
-            "options": {},
-            "parallelism": true
+            "options": {}
           },
           "lint": {
             "cache": true,
@@ -42946,12 +42922,12 @@
       },
       {
         "source": "workbench-api-infra",
-        "target": "workbench-api-models",
+        "target": "workbench-api-shared",
         "type": "static"
       },
       {
         "source": "workbench-api-infra",
-        "target": "workbench-api-shared",
+        "target": "workbench-api-models",
         "type": "static"
       }
     ],
@@ -97260,5 +97236,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1761923104816
+  "computedAt": 1762010241021
 }

@@ -1,9 +1,13 @@
-import { Tree, formatFiles, joinPathFragments, names } from '@nx/devkit';
-import { parseFields, type ParsedField } from '../workbench-api-feature/utils';
+// src/generators/workbench-api-model/index.ts
+import type { Tree } from '@nx/devkit';
+import { formatFiles, joinPathFragments, names } from '@nx/devkit';
+import { parseFields, type ParsedField } from '../_workbench-api-feature/utils';
+import { safeWrite } from './utils/journal';
 
 type Schema = {
   name: string; // typically plural in CLI (e.g., 'books')
-  fields: string; // "title:string,status:enum(draft|published|archived),publishedYear?:number"
+  fields?: string; // "title:string,status:enum(draft|published|archived),publishedYear?:number"
+  revert?: boolean; // --revert (no fields required)
 };
 
 function singularize(s: string) {
@@ -40,7 +44,6 @@ export default async function workbenchApiModelGenerator(
   schema: Schema,
 ) {
   if (!schema.name?.trim()) throw new Error('--name is required');
-  if (!schema.fields?.trim()) throw new Error('--fields is required');
 
   const raw = schema.name.trim();
   const n = names(raw); // plural-ish based on input
@@ -52,9 +55,66 @@ export default async function workbenchApiModelGenerator(
   const modelFile = joinPathFragments(modelLibDir, `${singular}.model.ts`);
   const indexFile = joinPathFragments(modelsRoot, 'src', 'index.ts');
 
-  if (tree.exists(modelFile)) {
-    throw new Error(`Model file already exists: ${modelFile}`);
+  const contractDir = joinPathFragments(modelsRoot, 'src', 'contracts');
+  const contractPath = joinPathFragments(
+    contractDir,
+    `${singular}.contract.json`,
+  );
+
+  // ─────────────────────────────────────────────
+  // Revert mode (no fields required)
+  // ─────────────────────────────────────────────
+  if (schema.revert) {
+    // remove export from index.ts (if present)
+    if (tree.exists(indexFile)) {
+      const before = tree.read(indexFile, 'utf-8') ?? '';
+      const exportLine = `export * from './lib/${singular}.model';`;
+      const after = before
+        .split('\n')
+        .filter((l) => l.trim() !== exportLine)
+        .join('\n');
+      if (after !== before) {
+        safeWrite(tree, { changes: [] } as any, indexFile, after);
+      }
+    }
+
+    // delete files if they exist
+    if (tree.exists(modelFile)) tree.delete(modelFile);
+    if (tree.exists(contractPath)) tree.delete(contractPath);
+
+    // best-effort: cleanup empty folders
+    try {
+      const libHasOther = tree
+        .children(modelLibDir)
+        .some((f) => f !== '.gitkeep');
+      if (
+        !libHasOther &&
+        tree.exists(joinPathFragments(modelLibDir, '.gitkeep'))
+      ) {
+        tree.delete(joinPathFragments(modelLibDir, '.gitkeep'));
+      }
+      const contractHasOther = tree
+        .children(contractDir)
+        .some((f) => f !== '.gitkeep');
+      if (
+        !contractHasOther &&
+        tree.exists(joinPathFragments(contractDir, '.gitkeep'))
+      ) {
+        tree.delete(joinPathFragments(contractDir, '.gitkeep'));
+      }
+    } catch {
+      // noop
+    }
+
+    await formatFiles(tree);
+    console.log(`[workbench-api-model] Reverted model '${singular}'`);
+    return;
   }
+
+  // ─────────────────────────────────────────────
+  // Create / Update mode (fields required)
+  // ─────────────────────────────────────────────
+  if (!schema.fields?.trim()) throw new Error('--fields is required');
 
   const parsed: ParsedField[] = parseFields(schema.fields);
 
@@ -79,7 +139,6 @@ export default async function workbenchApiModelGenerator(
   const tsCreateLines = parsed.map((f) => tsLine(f, 'create')).join('\n  ');
   const tsUpdateLines = parsed.map((f) => tsLine(f, 'update')).join('\n  ');
 
-  // Create the model file
   const content = `import type { PaginationPlan } from '@edb-workbench/api/shared';
 import { z } from 'zod';
 
@@ -125,35 +184,43 @@ export interface ${Cap}Repo {
 }
 `;
 
-  // ensure folder
+  // ensure folders
   if (!tree.exists(modelLibDir)) {
-    tree.write(modelLibDir + '/.gitkeep', '');
+    safeWrite(tree, { changes: [] } as any, `${modelLibDir}/.gitkeep`, '');
   }
-  tree.write(modelFile, content);
+  if (!tree.exists(contractDir)) {
+    safeWrite(tree, { changes: [] } as any, `${contractDir}/.gitkeep`, '');
+  }
+
+  // write model file
+  if (tree.exists(modelFile)) {
+    throw new Error(`Model file already exists: ${modelFile}`);
+  }
+  safeWrite(tree, { changes: [] } as any, modelFile, content);
 
   // append export in index.ts
-  let index = tree.exists(indexFile) ? tree.read(indexFile, 'utf-8')! : '';
   const exportLine = `export * from './lib/${singular}.model';`;
-  if (!index.includes(exportLine)) {
-    index = (index ? index + '\n' : '') + exportLine + '\n';
-    tree.write(indexFile, index);
-  }
+  const indexBefore = tree.exists(indexFile)
+    ? (tree.read(indexFile, 'utf-8') ?? '')
+    : '';
+  const indexAfter = indexBefore.includes(exportLine)
+    ? indexBefore
+    : (indexBefore ? indexBefore + '\n' : '') + exportLine + '\n';
+  safeWrite(tree, { changes: [] } as any, indexFile, indexAfter);
 
-  // write a machine-readable contract so other generators can consume it
-  const contractDir = joinPathFragments(modelsRoot, 'src/contracts');
-
-  const contractPath = joinPathFragments(
-    contractDir,
-    `${singular}.contract.json`,
-  );
+  // write machine-readable contract for other generators
   const contractJson = {
     name: singular,
     plural: n.fileName,
     fieldsString: schema.fields.trim(),
-    // reuse your ParsedField shape so infra can plug in directly
-    fields: parsed, // array<ParsedField> from parseFields()
+    fields: parsed, // array<ParsedField>
   };
-  tree.write(contractPath, JSON.stringify(contractJson, null, 2));
+  safeWrite(
+    tree,
+    { changes: [] } as any,
+    contractPath,
+    JSON.stringify(contractJson, null, 2),
+  );
 
   await formatFiles(tree);
   console.log(

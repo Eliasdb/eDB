@@ -4,14 +4,11 @@ import postgres from 'postgres';
 // ─────────────────────────────────────────────
 // Import your schema tables
 // ─────────────────────────────────────────────
-import { albumsTable } from './schema.albums';
-import { artistsTable } from './schema.artists';
+
 import { authorsTable } from './schema.authors';
 import { booksTable } from './schema.books';
 import { bookTagsTable } from './schema.bookTags';
 import { tagsTable } from './schema.tags';
-import { agentsTable } from './schema.agents';
-import { missionsTable } from './schema.missions';
 
 // ─────────────────────────────────────────────
 // Connection setup
@@ -33,10 +30,6 @@ export const db = drizzle(client, {
     booksTable,
     tagsTable,
     bookTagsTable,
-    albumsTable,
-    artistsTable,
-    agentsTable,
-    missionsTable,
   },
 });
 
@@ -49,8 +42,4 @@ export const schema = {
   booksTable,
   tagsTable,
   bookTagsTable,
-  albumsTable,
-  artistsTable,
-  agentsTable,
-  missionsTable,
 };

@@ -667,26 +667,32 @@
 // }
 
 import { Tree, formatFiles, joinPathFragments, names } from '@nx/devkit';
-import { parseFields, type ParsedField } from '../workbench-api-feature/utils';
+import { parseFields, type ParsedField } from '../_workbench-api-feature/utils';
 
 type Schema = {
   name: string; // plural, e.g. "albums"
   fields?: string; // optional; if omitted we'll read the model contract JSON
+  revert?: boolean; // NEW: undo what this generator created
 };
 
 const snake = (s: string) =>
   s.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase();
 const singularize = (s: string) => (s.endsWith('s') ? s.slice(0, -1) : s);
+const pascal = (s: string) =>
+  s
+    .replace(/[_-]/g, ' ')
+    .replace(/(?:^|\s)([a-z])/g, (_, c) => c.toUpperCase())
+    .replace(/\s+/g, '');
+const enumConstName = (plural: string, fieldName: string) =>
+  `${pascal(plural)}${pascal(fieldName)}Enum`;
 
-// ─────────────────────────────────────────────
-// Contract loader (SST → models contract JSON)
-// ─────────────────────────────────────────────
-
+/* ─────────────────────────────────────────────
+   Contract loader
+────────────────────────────────────────────── */
 function loadFieldsStringFromContract(
   tree: Tree,
   singular: string,
 ): string | undefined {
-  // Model generator creates: libs/server/workbench-api/models/src/contracts/<singular>.contract.json
   const contractPath = `libs/server/workbench-api/models/src/contracts/${singular}.contract.json`;
   if (!tree.exists(contractPath)) return undefined;
 
@@ -707,17 +713,8 @@ function loadFieldsStringFromContract(
       return json.fieldsString.trim();
     }
 
-    // Fallback (only if needed): derive a minimal fields string from fields[]
     if (Array.isArray(json.fields) && json.fields.length > 0) {
-      // This fallback is best-effort; we prefer fieldsString in the contract JSON.
       const pieces = json.fields.map((f) => {
-        // infer our DSL token from zodBase/tsType; keep it simple:
-        // - uuid → "uuid"
-        // - enum([...]) → enum(a|b)
-        // - number → "number"
-        // - boolean → "boolean"
-        // - date/datetime → "date"
-        // - otherwise string
         const name = f.fieldName;
         const isOptional = !f.required;
         const z = f.zodBase || '';
@@ -749,19 +746,9 @@ function loadFieldsStringFromContract(
   }
 }
 
-const pascal = (s: string) =>
-  s
-    .replace(/[_-]/g, ' ')
-    .replace(/(?:^|\s)([a-z])/g, (_, c) => c.toUpperCase())
-    .replace(/\s+/g, '');
-
-const enumConstName = (plural: string, fieldName: string) =>
-  `${pascal(plural)}${pascal(fieldName)}Enum`;
-
-// ─────────────────────────────────────────────
-// Column helpers
-// ─────────────────────────────────────────────
-
+/* ─────────────────────────────────────────────
+   Column helpers
+────────────────────────────────────────────── */
 function drizzleColLine(plural: string, f: ParsedField) {
   const col = snake(f.fieldName);
   const nn = f.required ? '.notNull()' : '';
@@ -785,23 +772,21 @@ function enumBlock(plural: string, f: ParsedField) {
   const colSnake = snake(f.fieldName);
   const constName = enumConstName(plural, f.fieldName);
   const variants = f.tsType.split('|').map((v) => v.trim().replace(/'/g, ''));
-  // Make SQL type name unique per table+column:
   const sqlTypeName = `${plural}_${colSnake}_enum`;
   return `export const ${constName} = pgEnum('${sqlTypeName}', [${variants
     .map((v) => `'${v}'`)
     .join(', ')}]);`;
 }
 
-// ─────────────────────────────────────────────
-// Repo helpers (search/filter/sort like Books)
-// ─────────────────────────────────────────────
-
+/* ─────────────────────────────────────────────
+   Repo helpers (search/filter/sort like Books)
+────────────────────────────────────────────── */
 function buildWhereHelper(plural: string, fields: ParsedField[]) {
   const table = `${plural}Table`;
   const searchable = fields.filter(
     (f) =>
       f.tsType === 'string' ||
-      f.tsType.includes("'") || // enums
+      f.tsType.includes("'") ||
       f.zodBase.includes('.datetime()'),
   );
 
@@ -817,7 +802,6 @@ function buildWhereHelper(plural: string, fields: ParsedField[]) {
     lines.push(`    const ors: SQL[] = [];`);
     for (const f of searchable) {
       const col = `${table}.${snake(f.fieldName)}`;
-      // Datetimes, enums, and UUIDs must cast to text for lower()/like
       if (f.zodBase.includes('.datetime()')) {
         lines.push(`    ors.push(like(sql\`lower(\${${col}}::text)\`, q));`);
       } else if (f.tsType.includes("'")) {
@@ -831,7 +815,6 @@ function buildWhereHelper(plural: string, fields: ParsedField[]) {
     lines.push(`    if (ors.length === 1) {`);
     lines.push(`      parts.push(ors[0]);`);
     lines.push(`    } else if (ors.length > 1) {`);
-    // fold with sql-template so the result stays typed as SQL (not undefined)
     lines.push(
       `      const disj = ors.slice(1).reduce<SQL>((acc, cur) => sql\`(\${acc}) OR (\${cur})\`, ors[0]);`,
     );
@@ -840,7 +823,6 @@ function buildWhereHelper(plural: string, fields: ParsedField[]) {
     lines.push(`  }`);
   }
 
-  // exact filters
   lines.push(`  for (const [key, val] of Object.entries(mergedFilters)) {`);
   for (const f of fields) {
     const col = `${table}.${snake(f.fieldName)}`;
@@ -955,10 +937,9 @@ function rowToModelFn(Cap: string, _plural: string, fields: ParsedField[]) {
 }`;
 }
 
-// ─────────────────────────────────────────────
-// Safe patching of drizzle.ts and resources-pg
-// ─────────────────────────────────────────────
-
+/* ─────────────────────────────────────────────
+   drizzle.ts & resources-pg patch helpers
+────────────────────────────────────────────── */
 function addImportOnce(txt: string, importLine: string): string {
   if (txt.includes(importLine)) return txt;
   const lines = txt.split('\n');
@@ -968,6 +949,14 @@ function addImportOnce(txt: string, importLine: string): string {
   }
   lines.splice(last + 1, 0, importLine);
   return lines.join('\n');
+}
+
+function removeExactImportLine(txt: string, importLine: string): string {
+  const re = new RegExp(
+    '^' + importLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\n?',
+    'm',
+  );
+  return txt.replace(re, '');
 }
 
 function insertIdentInObjectBlock(
@@ -991,15 +980,49 @@ function insertIdentInObjectBlock(
   if (braceEnd <= braceStart) return src;
 
   const inner = src.slice(braceStart + 1, braceEnd);
-  const items: string[] = inner
+  const items = inner
     .split(',')
-    .map((s: string) => s.trim())
-    .filter((s: string) => s.length > 0);
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
 
   if (!items.includes(identToAdd)) items.push(identToAdd);
 
-  const pretty = '\n    ' + items.join(',\n    ') + ',\n  ';
+  const pretty =
+    items.length > 0 ? '\n    ' + items.join(',\n    ') + ',\n  ' : ' ';
   return src.slice(0, braceStart + 1) + pretty + src.slice(braceEnd);
+}
+
+function removeIdentFromObjectBlock(
+  src: string,
+  startMarker: string,
+  identToRemove: string,
+): string {
+  const idx = src.indexOf(startMarker);
+  if (idx === -1) return src;
+  const braceStart = src.indexOf('{', idx);
+  if (braceStart === -1) return src;
+
+  let i = braceStart + 1;
+  let depth = 1;
+  while (i < src.length && depth > 0) {
+    if (src[i] === '{') depth++;
+    else if (src[i] === '}') depth--;
+    i++;
+  }
+  const braceEnd = i - 1;
+  if (braceEnd <= braceStart) return src;
+
+  const inner = src.slice(braceStart + 1, braceEnd);
+  const items = inner
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0 && s !== identToRemove);
+
+  const pretty =
+    items.length > 0 ? '\n    ' + items.join(',\n    ') + ',\n  ' : ' ';
+  let out = src.slice(0, braceStart + 1) + pretty + src.slice(braceEnd);
+  out = out.replace(/,,/g, ',');
+  return out;
 }
 
 function patchDrizzle(tree: Tree, plural: string) {
@@ -1022,11 +1045,30 @@ function patchDrizzle(tree: Tree, plural: string) {
   tree.write(p, txt);
 }
 
+function patchDrizzleRevert(tree: Tree, plural: string) {
+  const p = 'libs/server/workbench-api/infra/src/lib/db/drizzle.ts';
+  if (!tree.exists(p)) return;
+  let txt = tree.read(p, 'utf-8') ?? '';
+
+  const importLine = `import { ${plural}Table } from './schema.${plural}';`;
+  txt = removeExactImportLine(txt, importLine);
+  txt = removeIdentFromObjectBlock(txt, 'schema:', `${plural}Table`);
+  txt = removeIdentFromObjectBlock(
+    txt,
+    'export const schema =',
+    `${plural}Table`,
+  );
+  txt = txt.replace(/,,/g, ',');
+
+  tree.write(p, txt);
+}
+
 function patchResourcesPgRegistry(tree: Tree, singular: string, Cap: string) {
   const p = 'libs/server/workbench-api/resources-pg/src/lib/index.ts';
   if (!tree.exists(p)) return;
   let txt = tree.read(p, 'utf-8') ?? '';
 
+  // add CapRepoPg to import { ... } from '@edb-workbench/api/infra'
   const importRe =
     /import\s+\{\s*([^}]+)\s*\}\s+from '@edb-workbench\/api\/infra';/;
   if (importRe.test(txt)) {
@@ -1043,27 +1085,128 @@ function patchResourcesPgRegistry(tree: Tree, singular: string, Cap: string) {
     txt = `import { ${Cap}RepoPg } from '@edb-workbench/api/infra';\n` + txt;
   }
 
-  const makeRe = /makeRouteRegistry\s*\(\s*\{\s*([\s\S]*?)\}\s*\)/m;
-  if (makeRe.test(txt)) {
-    txt = txt.replace(makeRe, (_m, inner: string) => {
+  // ensure { singular: CapRepoPg } is passed to makeRouteRegistry({...})
+  const callIdx = txt.indexOf('makeRouteRegistry(');
+  if (callIdx !== -1) {
+    const objStart = txt.indexOf('{', callIdx);
+    if (objStart !== -1) {
+      let k = objStart + 1;
+      let depth = 1;
+      let inStr: '"' | "'" | '`' | null = null;
+      let esc = false;
+      while (k < txt.length && depth > 0) {
+        const ch = txt[k];
+        if (inStr) {
+          if (!esc && ch === inStr) inStr = null;
+          esc = !esc && ch === '\\';
+          k++;
+          continue;
+        }
+        if (ch === '"' || ch === "'" || ch === '`') {
+          inStr = ch as '"' | "'" | '`';
+          esc = false;
+          k++;
+          continue;
+        }
+        if (ch === '{') depth++;
+        else if (ch === '}') depth--;
+        k++;
+      }
+      const objEnd = k - 1;
+      const inner = txt.slice(objStart + 1, objEnd);
       const lines = inner
         .split('\n')
-        .map((s: string) => s.trim())
-        .filter((s: string) => s.length > 0);
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
       const entry = `${singular}: ${Cap}RepoPg,`;
       if (!lines.some((l) => l.startsWith(`${singular}:`))) lines.push(entry);
       const pretty = '\n    ' + lines.join('\n    ') + '\n  ';
-      return `makeRouteRegistry({${pretty}})`;
-    });
+      txt = txt.slice(0, objStart + 1) + pretty + txt.slice(objEnd);
+    }
   }
 
   tree.write(p, txt);
 }
 
-// ─────────────────────────────────────────────
-// TEST EMITTER (repos/tests + relative imports)
-// ─────────────────────────────────────────────
+function patchResourcesPgRegistryRevert(
+  tree: Tree,
+  singular: string,
+  Cap: string,
+) {
+  const p = 'libs/server/workbench-api/resources-pg/src/lib/index.ts';
+  if (!tree.exists(p)) return;
+  let txt = tree.read(p, 'utf-8') ?? '';
 
+  // 1) remove named import CapRepoPg from '@edb-workbench/api/infra'
+  const impRe =
+    /import\s+\{\s*([^}]+)\s*\}\s+from '@edb-workbench\/api\/infra';/m;
+  if (impRe.test(txt)) {
+    txt = txt.replace(impRe, (_m, names: string) => {
+      const parts = names
+        .split(',')
+        .map((s: string) => s.trim())
+        .filter((s: string) => s.length > 0 && s !== `${Cap}RepoPg`);
+      return parts.length > 0
+        ? `import { ${parts.join(', ')} } from '@edb-workbench/api/infra';`
+        : ''; // drop entire line if empty
+    });
+  }
+  // also handle standalone import line
+  txt = txt.replace(
+    new RegExp(
+      String.raw`^\s*import\s+\{\s*${Cap}RepoPg\s*\}\s+from\s+'@edb-workbench/api/infra';\s*\n?`,
+      'm',
+    ),
+    '',
+  );
+
+  // 2) remove mapping "singular: CapRepoPg," from makeRouteRegistry({...})
+  const callIdx = txt.indexOf('makeRouteRegistry(');
+  if (callIdx !== -1) {
+    const objStart = txt.indexOf('{', callIdx);
+    if (objStart !== -1) {
+      let k = objStart + 1;
+      let depth = 1;
+      let inStr: '"' | "'" | '`' | null = null;
+      let esc = false;
+      while (k < txt.length && depth > 0) {
+        const ch = txt[k];
+        if (inStr) {
+          if (!esc && ch === inStr) inStr = null;
+          esc = !esc && ch === '\\';
+          k++;
+          continue;
+        }
+        if (ch === '"' || ch === "'" || ch === '`') {
+          inStr = ch as '"' | "'" | '`';
+          esc = false;
+          k++;
+          continue;
+        }
+        if (ch === '{') depth++;
+        else if (ch === '}') depth--;
+        k++;
+      }
+      const objEnd = k - 1;
+      const inner = txt.slice(objStart + 1, objEnd);
+      const lines = inner
+        .split('\n')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0 && !s.startsWith(`${singular}:`));
+      const pretty =
+        lines.length > 0 ? '\n    ' + lines.join('\n    ') + '\n  ' : ' ';
+      txt = txt.slice(0, objStart + 1) + pretty + txt.slice(objEnd);
+    }
+  }
+
+  // tidy multiple blank lines
+  txt = txt.replace(/\n{3,}/g, '\n\n');
+  tree.write(p, txt);
+}
+
+/* ─────────────────────────────────────────────
+   Repo spec emitter
+────────────────────────────────────────────── */
 function emitRepoSpec(
   tree: Tree,
   opts: {
@@ -1224,14 +1367,12 @@ describe.sequential('${Cap}RepoPg (infra ↔ db)', () => {
   });
 });
 `;
-
   tree.write(specPath, content);
 }
 
-// ─────────────────────────────────────────────
-// MAIN
-// ─────────────────────────────────────────────
-
+/* ─────────────────────────────────────────────
+   MAIN (create & revert)
+────────────────────────────────────────────── */
 export default async function generator(tree: Tree, schema: Schema) {
   if (!schema.name?.trim()) throw new Error('--name is required');
 
@@ -1239,6 +1380,58 @@ export default async function generator(tree: Tree, schema: Schema) {
   const plural = n.fileName; // e.g., "albums"
   const singular = singularize(plural); // e.g., "album"
   const Cap = names(singular).className; // e.g., "Album"
+
+  const infraRoot = 'libs/server/workbench-api/infra';
+  const dbDir = joinPathFragments(infraRoot, 'src/lib/db');
+  const repoDir = joinPathFragments(infraRoot, 'src/lib/repos');
+  const schemaFile = joinPathFragments(dbDir, `schema.${plural}.ts`);
+  const repoFile = joinPathFragments(repoDir, `${singular}.repo.pg.ts`);
+  const infraIndexPath = joinPathFragments(infraRoot, 'src/index.ts');
+  const specPath = `${infraRoot}/src/lib/repos/tests/${singular}.repo.pg.spec.ts`;
+
+  /* ─────────────── REVERT ─────────────── */
+  if (schema.revert) {
+    // 1) delete files if present
+    if (tree.exists(schemaFile)) tree.delete(schemaFile);
+    if (tree.exists(repoFile)) tree.delete(repoFile);
+    if (tree.exists(specPath)) tree.delete(specPath);
+
+    // 2) infra index: remove exports we added
+    if (tree.exists(infraIndexPath)) {
+      let idx = tree.read(infraIndexPath, 'utf-8') ?? '';
+      const exSchema = `export * from './lib/db/schema.${plural}';`;
+      const exRepo = `export * from './lib/repos/${singular}.repo.pg';`;
+      idx = idx
+        .replace(
+          new RegExp(
+            '^' + exSchema.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\n?',
+            'm',
+          ),
+          '',
+        )
+        .replace(
+          new RegExp(
+            '^' + exRepo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\n?',
+            'm',
+          ),
+          '',
+        )
+        .replace(/\n{3,}/g, '\n\n');
+      tree.write(infraIndexPath, idx);
+    }
+
+    // 3) drizzle.ts: remove import + identifiers in schema objects
+    patchDrizzleRevert(tree, plural);
+
+    // 4) resources-pg registry: remove CapRepoPg import + mapping
+    patchResourcesPgRegistryRevert(tree, singular, Cap);
+
+    await formatFiles(tree);
+    console.info(`[workbench-api-infra] Reverted → ${plural}`);
+    return;
+  }
+
+  /* ─────────────── CREATE ─────────────── */
 
   // Resolve fields from CLI or contract file
   let fieldsString = schema.fields?.trim();
@@ -1253,13 +1446,6 @@ export default async function generator(tree: Tree, schema: Schema) {
   }
 
   const fields = parseFields(fieldsString);
-
-  const infraRoot = 'libs/server/workbench-api/infra';
-  const dbDir = joinPathFragments(infraRoot, 'src/lib/db');
-  const repoDir = joinPathFragments(infraRoot, 'src/lib/repos');
-  const schemaFile = joinPathFragments(dbDir, `schema.${plural}.ts`);
-  const repoFile = joinPathFragments(repoDir, `${singular}.repo.pg.ts`);
-  const infraIndexPath = joinPathFragments(infraRoot, 'src/index.ts');
 
   if (!tree.exists(dbDir)) tree.write(joinPathFragments(dbDir, '.gitkeep'), '');
   if (!tree.exists(repoDir))
@@ -1287,7 +1473,7 @@ export const ${plural}Table = pgTable('${plural}', {
     tree.write(schemaFile, content);
   }
 
-  // 2) PG repo with safe where + typed row mapping
+  // 2) PG repo
   if (!tree.exists(repoFile)) {
     const selectBlock = `{
         id: ${plural}Table.id,
@@ -1400,16 +1586,10 @@ ${fields
     tree.write(repoFile, repo);
   }
 
-  // Emit repo tests (under repos/tests with correct relative imports)
-  emitRepoSpec(tree, {
-    infraRoot,
-    plural,
-    singular,
-    Cap,
-    fields,
-  });
+  // 3) Emit repo tests
+  emitRepoSpec(tree, { infraRoot, plural, singular, Cap, fields });
 
-  // 3) ensure infra exports
+  // 4) ensure infra exports
   let idx = tree.exists(infraIndexPath)
     ? tree.read(infraIndexPath, 'utf-8')!
     : '';
@@ -1420,7 +1600,7 @@ ${fields
   if (!idx.includes(exRepo)) idx += exRepo + '\n';
   tree.write(infraIndexPath, idx);
 
-  // 4) patch drizzle + resources-pg registry
+  // 5) patch drizzle + resources-pg registry
   patchDrizzle(tree, plural);
   patchResourcesPgRegistry(tree, singular, Cap);
 

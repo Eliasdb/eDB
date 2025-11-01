@@ -17,11 +17,6 @@
       "schema": "./src/generators/workbench-api-resource/schema.json",
       "description": "Create controller/service + auto-register routes"
     },
-    "workbench-api-entity": {
-      "factory": "./src/generators/workbench-api-entity/generator",
-      "schema": "./src/generators/workbench-api-entity/schema.json",
-      "description": "One-shot: contracts + resources + PG infra (drizzle schema + repo + exports)"
-    },
     "workbench-api-infra": {
       "factory": "./src/generators/workbench-api-infra/generator",
       "schema": "./src/generators/workbench-api-infra/schema.json",
@@ -31,7 +26,7 @@
     "workbench-api-rel": {
       "factory": "./src/generators/workbench-api-rel/generator",
       "schema": "./src/generators/workbench-api-rel/schema.json",
-      "description": "Add a belongsTo relation (child → parent) + DB FK + ?include support"
+      "description": "Create or revert a belongsTo relation across contract, model, db, repo, tests, and resources (use --revert to clean)."
     }
   }
 }
