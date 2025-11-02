@@ -5,6 +5,8 @@ import type {
   AuthorRepo,
   BookRepo,
   BookTagRepo,
+  GadgetRepo,
+  SupplierRepo,
   TagRepo,
 } from '@edb-workbench/api/models';
 // ─────────────────────────────────────────────
@@ -16,7 +18,10 @@ import type {
 
 import { registerBookRoutes } from './books/book.controller';
 import { BookService } from './books/book.service';
-
+import { registerGadgetRoutes } from './gadgets/gadget.controller';
+import { GadgetService } from './gadgets/gadget.service';
+import { registerSupplierRoutes } from './suppliers/supplier.controller';
+import { SupplierService } from './suppliers/supplier.service';
 // ─────────────────────────────────────────────
 // @gen:resource-imports (do not remove this line)
 
@@ -34,6 +39,8 @@ export interface RepoAdapters {
   // ───────────────────────────────────────────
   // @gen:adapters (do not remove this line)
   // generator appends: foo: FooRepo;
+  supplier: SupplierRepo;
+  gadget: GadgetRepo;
 }
 
 export function makeRouteRegistry(adapters: RepoAdapters) {
@@ -58,6 +65,9 @@ export function makeRouteRegistry(adapters: RepoAdapters) {
 
       // ─────────────────────────────────────────
       // @gen:calls (do not remove this line)
+      await registerGadgetRoutes(app, new GadgetService(adapters.gadget));
+
+      await registerSupplierRoutes(app, new SupplierService(adapters.supplier));
 
       // generator appends: await registerFoosRoutes(app, fooSvc);
       // ─────────────────────────────────────────

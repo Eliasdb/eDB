@@ -4327,106 +4327,6 @@
         "implicitDependencies": []
       }
     },
-    "contracts": {
-      "name": "contracts",
-      "type": "lib",
-      "data": {
-        "root": "libs/server/workbench-api/contracts",
-        "targets": {
-          "lint": {
-            "cache": true,
-            "options": {
-              "cwd": "libs/server/workbench-api/contracts",
-              "command": "eslint ."
-            },
-            "inputs": [
-              "default",
-              "^default",
-              "{workspaceRoot}/eslint.config.mjs",
-              "{workspaceRoot}/libs/server/workbench-api/contracts/eslint.config.mjs",
-              "{workspaceRoot}/tools/eslint-rules/**/*",
-              {
-                "externalDependencies": [
-                  "eslint"
-                ]
-              }
-            ],
-            "outputs": [
-              "{options.outputFile}"
-            ],
-            "metadata": {
-              "technologies": [
-                "eslint"
-              ],
-              "description": "Runs ESLint on project",
-              "help": {
-                "command": "pnpm exec eslint --help",
-                "example": {
-                  "options": {
-                    "max-warnings": 0
-                  }
-                }
-              }
-            },
-            "executor": "nx:run-commands",
-            "configurations": {},
-            "parallelism": true
-          },
-          "build": {
-            "executor": "@nx/js:tsc",
-            "outputs": [
-              "{options.outputPath}"
-            ],
-            "options": {
-              "outputPath": "dist/libs/server/workbench-api/contracts",
-              "main": "libs/server/workbench-api/contracts/src/index.ts",
-              "tsConfig": "libs/server/workbench-api/contracts/tsconfig.lib.json",
-              "assets": [
-                "libs/server/workbench-api/contracts/*.md"
-              ]
-            },
-            "configurations": {},
-            "parallelism": true,
-            "cache": true,
-            "dependsOn": [
-              "^build"
-            ],
-            "inputs": [
-              "production",
-              "^production"
-            ]
-          },
-          "test": {
-            "executor": "@nx/jest:jest",
-            "outputs": [
-              "{workspaceRoot}/coverage/{projectRoot}"
-            ],
-            "options": {
-              "jestConfig": "libs/server/workbench-api/contracts/jest.config.ts"
-            },
-            "configurations": {},
-            "parallelism": true,
-            "cache": true
-          }
-        },
-        "name": "contracts",
-        "tags": [
-          "npm:private"
-        ],
-        "metadata": {
-          "targetGroups": {},
-          "js": {
-            "packageName": "@edb-workbench/api/contracts",
-            "packageMain": "./src/index.js",
-            "isInPackageManagerWorkspaces": true
-          }
-        },
-        "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-        "sourceRoot": "libs/server/workbench-api/contracts/src",
-        "projectType": "library",
-        "implicitDependencies": []
-      }
-    },
     "workbench-api-resources": {
       "name": "workbench-api-resources",
       "type": "lib",
@@ -5687,7 +5587,7 @@
             "executor": "nx:run-commands",
             "options": {
               "cwd": "libs/server/workbench-api/infra",
-              "command": "node src/lib/db/runMigrations.local.cjs"
+              "command": "node src/lib/db/scripts/runMigrations.local.cjs"
             },
             "configurations": {},
             "parallelism": true
@@ -8259,7 +8159,14 @@
                 }
               }
             },
-            "parallelism": false,
+            "dependsOn": [
+              {
+                "projects": [
+                  "eDB-admin"
+                ],
+                "target": "serve"
+              }
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -8275,7 +8182,8 @@
               "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report"
             ],
             "executor": "nx:run-commands",
-            "configurations": {}
+            "configurations": {},
+            "parallelism": true
           },
           "e2e-ci--src/example.spec.ts": {
             "options": {
@@ -8300,7 +8208,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -8317,9 +8227,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci": {
             "executor": "nx:noop",
@@ -8359,9 +8267,9 @@
                 }
               }
             },
-            "parallelism": false,
             "configurations": {},
-            "options": {}
+            "options": {},
+            "parallelism": true
           },
           "lint": {
             "cache": true,
@@ -9132,7 +9040,14 @@
                 }
               }
             },
-            "parallelism": false,
+            "dependsOn": [
+              {
+                "projects": [
+                  "eDB"
+                ],
+                "target": "serve"
+              }
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9148,7 +9063,8 @@
               "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report"
             ],
             "executor": "nx:run-commands",
-            "configurations": {}
+            "configurations": {},
+            "parallelism": true
           },
           "e2e-ci--regression/subscriptions.spec.ts": {
             "options": {
@@ -9173,7 +9089,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9190,9 +9108,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci--regression/webshop.spec.ts": {
             "options": {
@@ -9217,7 +9133,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9234,9 +9152,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci--smoke/admin.smoke.spec.ts": {
             "options": {
@@ -9261,7 +9177,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9278,9 +9196,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci--smoke/app.smoke.spec.ts": {
             "options": {
@@ -9305,7 +9221,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9322,9 +9240,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci--smoke/auth.smoke.spec.ts": {
             "options": {
@@ -9349,7 +9265,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9366,9 +9284,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci--smoke/catalog.smoke.spec.ts": {
             "options": {
@@ -9393,7 +9309,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9410,9 +9328,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci--smoke/logout/logout.smoke.spec.ts": {
             "options": {
@@ -9437,7 +9353,14 @@
                 }
               }
             },
-            "parallelism": false,
+            "dependsOn": [
+              {
+                "projects": [
+                  "eDB"
+                ],
+                "target": "serve"
+              }
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9453,7 +9376,8 @@
               "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-logout-logout-smoke-spec-ts"
             ],
             "executor": "nx:run-commands",
-            "configurations": {}
+            "configurations": {},
+            "parallelism": true
           },
           "e2e-ci--smoke/routes.smoke.spec.ts": {
             "options": {
@@ -9478,7 +9402,9 @@
                 }
               }
             },
-            "parallelism": true,
+            "dependsOn": [
+              "^build"
+            ],
             "cache": true,
             "inputs": [
               "default",
@@ -9495,9 +9421,7 @@
             ],
             "executor": "nx:run-commands",
             "configurations": {},
-            "dependsOn": [
-              "^build"
-            ]
+            "parallelism": true
           },
           "e2e-ci": {
             "executor": "nx:noop",
@@ -9572,9 +9496,9 @@
                 }
               }
             },
-            "parallelism": false,
             "configurations": {},
-            "options": {}
+            "options": {},
+            "parallelism": true
           },
           "lint": {
             "cache": true,
@@ -24971,13 +24895,22 @@
         "hash": "sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow=="
       }
     },
-    "npm:drizzle-kit": {
+    "npm:drizzle-kit@0.31.5": {
       "type": "npm",
-      "name": "npm:drizzle-kit",
+      "name": "npm:drizzle-kit@0.31.5",
       "data": {
         "version": "0.31.5",
         "packageName": "drizzle-kit",
         "hash": "sha512-+CHgPFzuoTQTt7cOYCV6MOw2w8vqEn/ap1yv4bpZOWL03u7rlVRQhUY0WYT3rHsgVTXwYQDZaSUJSQrMBUKuWg=="
+      }
+    },
+    "npm:drizzle-kit": {
+      "type": "npm",
+      "name": "npm:drizzle-kit",
+      "data": {
+        "version": "0.31.6",
+        "packageName": "drizzle-kit",
+        "hash": "sha512-/B4e/4pwnx25QwD5xXgdpo1S+077a2VZdosXbItE/oNmUgQwZydGDz9qJYmnQl/b+5IX0rLfwRhrPnroGtrg8Q=="
       }
     },
     "npm:drizzle-orm": {
@@ -42628,23 +42561,6 @@
         "type": "static"
       }
     ],
-    "contracts": [
-      {
-        "source": "contracts",
-        "target": "npm:jsonc-eslint-parser",
-        "type": "dynamic"
-      },
-      {
-        "source": "contracts",
-        "target": "npm:tslib",
-        "type": "static"
-      },
-      {
-        "source": "contracts",
-        "target": "npm:zod",
-        "type": "static"
-      }
-    ],
     "workbench-api-resources": [
       {
         "source": "workbench-api-resources",
@@ -42693,11 +42609,6 @@
       {
         "source": "openapi",
         "target": "npm:@asteasolutions/zod-to-openapi",
-        "type": "static"
-      },
-      {
-        "source": "openapi",
-        "target": "contracts",
         "type": "static"
       }
     ],
@@ -42917,17 +42828,17 @@
       },
       {
         "source": "workbench-api-infra",
-        "target": "npm:dotenv",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-infra",
         "target": "workbench-api-shared",
         "type": "static"
       },
       {
         "source": "workbench-api-infra",
         "target": "workbench-api-models",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:dotenv",
         "type": "static"
       }
     ],
@@ -43221,6 +43132,11 @@
     ],
     "tests-admin-api-test": [],
     "workbench-api": [
+      {
+        "source": "workbench-api",
+        "target": "npm:@fastify/cors",
+        "type": "static"
+      },
       {
         "source": "workbench-api",
         "target": "npm:fastify",
@@ -43564,7 +43480,7 @@
       },
       {
         "source": "clara-api",
-        "target": "npm:drizzle-kit",
+        "target": "npm:drizzle-kit@0.31.5",
         "type": "static"
       },
       {
@@ -43867,22 +43783,32 @@
       },
       {
         "source": "edb",
-        "target": "feature-shell",
-        "type": "static"
-      },
-      {
-        "source": "edb",
         "target": "npm:@angular/common",
         "type": "static"
       },
       {
         "source": "edb",
-        "target": "npm:@angular/router",
+        "target": "npm:@angular/forms",
         "type": "static"
       },
       {
         "source": "edb",
         "target": "npm:@tanstack/angular-query-experimental",
+        "type": "static"
+      },
+      {
+        "source": "edb",
+        "target": "npm:rxjs",
+        "type": "static"
+      },
+      {
+        "source": "edb",
+        "target": "feature-shell",
+        "type": "static"
+      },
+      {
+        "source": "edb",
+        "target": "npm:@angular/router",
         "type": "static"
       },
       {
@@ -44066,7 +43992,7 @@
       },
       {
         "source": "mobile",
-        "target": "npm:expo-router@6.0.12",
+        "target": "npm:expo-router",
         "type": "static"
       },
       {
@@ -44246,7 +44172,7 @@
       },
       {
         "source": "mobile",
-        "target": "npm:@testing-library/react-native@12.9.0",
+        "target": "npm:@testing-library/react-native",
         "type": "static"
       },
       {
@@ -71884,6 +71810,28 @@
         "type": "static"
       }
     ],
+    "npm:drizzle-kit@0.31.5": [
+      {
+        "source": "npm:drizzle-kit@0.31.5",
+        "target": "npm:@drizzle-team/brocli",
+        "type": "static"
+      },
+      {
+        "source": "npm:drizzle-kit@0.31.5",
+        "target": "npm:@esbuild-kit/esm-loader",
+        "type": "static"
+      },
+      {
+        "source": "npm:drizzle-kit@0.31.5",
+        "target": "npm:esbuild@0.25.10",
+        "type": "static"
+      },
+      {
+        "source": "npm:drizzle-kit@0.31.5",
+        "target": "npm:esbuild-register",
+        "type": "static"
+      }
+    ],
     "npm:drizzle-kit": [
       {
         "source": "npm:drizzle-kit",
@@ -97236,5 +97184,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1762010241021
+  "computedAt": 1762115119972
 }

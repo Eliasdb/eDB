@@ -1,4 +1,3 @@
-// tools/workbench-plugin/src/generators/workbench-api-rel/revert.ts
 import { formatFiles, names, Tree } from '@nx/devkit';
 import {
   ContractJSON,
@@ -64,7 +63,6 @@ function splitTopLevelArgs(str: string): string[] {
 }
 
 function findMatchingParen(src: string, openIdx: number): number {
-  // openIdx points to '('
   let i = openIdx + 1,
     depth = 1;
   let sc: string | null = null,
@@ -95,7 +93,6 @@ function findMatchingParen(src: string, openIdx: number): number {
 }
 
 function findMatchingBrace(src: string, openIdx: number): number {
-  // openIdx points to '{'
   let i = openIdx + 1,
     depth = 1;
   let sc: string | null = null,
@@ -195,11 +192,9 @@ function removePropFromObjectBody(
     keep.push(part);
   }
 
-  // Stitch back together with commas, and tidy trailing/leading commas/whitespace.
   let next = keep.join(',').replace(/,\s*,/g, ',').trim();
   if (next.startsWith(',')) next = next.slice(1);
   if (next.endsWith(',')) next = next.slice(0, -1);
-  // Pretty-ish
   if (next.length && !/^\s*\n/.test(next)) next = '\n' + next + '\n';
   return { next, changed };
 }
@@ -236,7 +231,6 @@ function removePropFromZodExport(
   if (!bodyChanged) return { next: src, changed };
 
   changed = true;
-  // Also tidy superfluous commas around the braces
   let next = before + bodyNext + after;
   next = next
     .replace(/\{\s*,/g, '{')
@@ -303,7 +297,6 @@ function revertModelZod(
   let src = read(tree, modelPath);
   let changed = false;
 
-  // Remove FK from the three main exports if present.
   const entityExport = `${childSingular}Schema`;
   const createExport = `create${CapChild}BodySchema`;
   const updateExport = `update${CapChild}BodySchema`;
@@ -322,7 +315,6 @@ function revertModelZod(
 
   if (!changed) return false;
 
-  // Final tidy
   src = src
     .replace(/,\s*\}/g, '}')
     .replace(/\{\s*,/g, '{')
@@ -331,14 +323,18 @@ function revertModelZod(
   return writeIfChanged(tree, modelPath, src) || changed;
 }
 
-/* ───────────── Drizzle schema ───────────── */
+/* ───────────── Drizzle schema ─────────────
+   (create added field in libs/.../db/schemas/<child>.ts and may add
+   `import { <parent>Table } from './<parent>';`) */
 function revertDrizzleSchema(
   tree: Tree,
   childPlural: string,
+  parentPlural: string,
   fk: string,
 ): boolean {
-  const schemaPath = `libs/server/workbench-api/infra/src/lib/db/schema.${childPlural}.ts`;
+  const schemaPath = `libs/server/workbench-api/infra/src/lib/db/schemas/${childPlural}.ts`;
   if (!tree.exists(schemaPath)) return false;
+
   let src = read(tree, schemaPath);
 
   const tb = findPgTableBlock(src, childPlural);
@@ -347,22 +343,47 @@ function revertDrizzleSchema(
   const fkSnake = snake(fk);
   const props = splitTopLevelProps(tb.block);
   const idxFk = props.findIndex((p) => p.name === fkSnake);
-  if (idxFk < 0) return false;
+  let blockNext = tb.block;
+  let changed = false;
 
-  const blockNext =
-    tb.block.slice(0, props[idxFk].start) + tb.block.slice(props[idxFk].end);
-  const out = (tb.before + blockNext + tb.after).replace(/\n{3,}/g, '\n\n');
-  return writeIfChanged(tree, schemaPath, out);
+  if (idxFk >= 0) {
+    blockNext =
+      tb.block.slice(0, props[idxFk].start) + tb.block.slice(props[idxFk].end);
+    changed = true;
+  }
+
+  blockNext = blockNext.replace(/\n{3,}/g, '\n\n');
+  let out = tb.before + blockNext + tb.after;
+
+  // If parent import is now unused, drop it.
+  const importLine = new RegExp(
+    String.raw`^\s*import\s+\{\s*${reEscape(parentPlural)}Table\s*\}\s+from\s+['"]\./${reEscape(
+      parentPlural,
+    )}['"]\s*;\s*$`,
+    'm',
+  );
+  if (importLine.test(out)) {
+    const stillUsesParent = new RegExp(
+      String.raw`\b${reEscape(parentPlural)}Table\b`,
+    ).test(out);
+    if (!stillUsesParent) {
+      out = out.replace(importLine, '').replace(/\n{3,}/g, '\n\n');
+      changed = true;
+    }
+  }
+
+  return changed ? !!writeIfChanged(tree, schemaPath, out) || changed : false;
 }
 
-/* ───────────── Repo ───────────── */
+/* ───────────── Repo ─────────────
+   (create touched libs/.../repos/<child>/repo.pg.ts) */
 function revertRepoPg(
   tree: Tree,
   childSingular: string,
   childPlural: string,
   fk: string,
 ): boolean {
-  const file = `libs/server/workbench-api/infra/src/lib/repos/${childSingular}.repo.pg.ts`;
+  const file = `libs/server/workbench-api/infra/src/lib/repos/${childSingular}/repo.pg.ts`;
   if (!tree.exists(file)) return false;
   let src = read(tree, file);
   let changed = false;
@@ -370,7 +391,7 @@ function revertRepoPg(
   const fkSnake = snake(fk);
   const Cap = names(childSingular).className;
 
-  // Catch-all: remove no-op conditional spread for FK anywhere in file
+  // Catch-all: strip no-op spreads related to FK
   const spreadNoopAny = new RegExp(
     String.raw`\.\.\.\s*(?:\(\s*)?patch\.` +
       reEscape(fk) +
@@ -385,7 +406,9 @@ function revertRepoPg(
   // Remove fk from Row type
   src = src.replace(
     new RegExp(
-      String.raw`(type\s+${Cap}Row\s*=\s*\{[\s\S]*?)\n\s*${fkSnake}\s*:\s*string\s*;\s*`,
+      String.raw`(type\s+${reEscape(Cap)}Row\s*=\s*\{[\s\S]*?)\n\s*${reEscape(
+        fkSnake,
+      )}\s*:\s*string\s*;\s*`,
       'm',
     ),
     (_m, head) => {
@@ -397,7 +420,9 @@ function revertRepoPg(
   // Remove mapping in rowToX(...)
   src = src.replace(
     new RegExp(
-      String.raw`(\breturn\s*\{\s*[\s\S]*?\bid\s*:\s*[^\n]+?\n)\s*${fk}\s*:\s*row\.${fkSnake}\s*,?\s*\n`,
+      String.raw`(\breturn\s*\{\s*[\s\S]*?\bid\s*:\s*[^\n]+?\n)\s*${reEscape(
+        fk,
+      )}\s*:\s*row\.${reEscape(fkSnake)}\s*,?\s*\n`,
       'm',
     ),
     (_m, prefix) => {
@@ -413,7 +438,9 @@ function revertRepoPg(
       const next = body
         .replace(
           new RegExp(
-            String.raw`\s*${fkSnake}\s*:\s*${childPlural}Table\.${fkSnake}\s*,?`,
+            String.raw`\s*${reEscape(fkSnake)}\s*:\s*${reEscape(
+              childPlural,
+            )}Table\.${reEscape(fkSnake)}\s*,?`,
             'g',
           ),
           '',
@@ -432,11 +459,16 @@ function revertRepoPg(
     (m, head, body, tail) => {
       let next = body
         .replace(
-          new RegExp(String.raw`\s*${fkSnake}\s*:\s*data\.${fk}\s*,?`, 'g'),
+          new RegExp(
+            String.raw`\s*${reEscape(fkSnake)}\s*:\s*data\.${reEscape(
+              fk,
+            )}\s*,?`,
+            'g',
+          ),
           '',
         )
         .replace(
-          new RegExp(String.raw`\s*${fkSnake}\s*:\s*[^,}]+,\s*`, 'g'),
+          new RegExp(String.raw`\s*${reEscape(fkSnake)}\s*:\s*[^,}]+,\s*`, 'g'),
           '',
         );
       if (next !== body) changed = true;
@@ -444,13 +476,13 @@ function revertRepoPg(
     },
   );
 
-  // Remove fk from .set({ ... }) including no-op conditional spreads
+  // Remove fk from .set({ ... })
   src = src.replace(
     /(\.set\s*\(\s*\{)([\s\S]*?)(\}\s*\))/m,
     (m, head, body, tail) => {
       const assign = new RegExp(
         String.raw`\s*` +
-          fkSnake +
+          reEscape(fkSnake) +
           String.raw`\s*:\s*patch\.` +
           reEscape(fk) +
           String.raw`,?\s*`,
@@ -462,7 +494,7 @@ function revertRepoPg(
         String.raw`\.\.\.\(\s*patch\.` +
           reEscape(fk) +
           String.raw`\s*!={1,2}\s*undefined\s*\?\s*\{\s*` +
-          fkSnake +
+          reEscape(fkSnake) +
           String.raw`\s*:\s*patch\.` +
           reEscape(fk) +
           String.raw`\s*\}\s*:\s*\{\s*\}\s*\)\s*,?\s*`,
@@ -491,7 +523,7 @@ function revertRepoPg(
     },
   );
 
-  // Remove filter branch: if (key === '<fk>') { ... }
+  // Remove filters branch: if (key === '<fk>') {...}
   src = src.replace(
     new RegExp(
       String.raw`\n\s*if\s*\(\s*key\s*===\s*['"]` +
@@ -509,7 +541,8 @@ function revertRepoPg(
   return writeIfChanged(tree, file, src) || changed;
 }
 
-/* ───────────── Repo SPEC ───────────── */
+/* ───────────── Repo SPEC ─────────────
+   (create touched one of these possible paths) */
 function revertRepoSpecForFk(
   tree: Tree,
   childSingular: string,
@@ -517,7 +550,8 @@ function revertRepoSpecForFk(
   fk: string,
 ): boolean {
   const candidates = [
-    `libs/server/workbench-api/infra/src/lib/repos/${childSingular}.repo.pg.spec.ts`,
+    // same folder layout as create flow
+    `libs/server/workbench-api/infra/src/lib/repos/${childSingular}/repo.pg.spec.ts`,
     `libs/server/workbench-api/infra/src/lib/repos/tests/${childSingular}.repo.pg.spec.ts`,
     `libs/server/workbench-api/infra/src/lib/repos/__tests__/${childSingular}.repo.pg.spec.ts`,
   ];
@@ -547,29 +581,31 @@ function revertRepoSpecForFk(
   const parentSingular = singularize(parentPlural);
   const parentIdVar = `${parentSingular}Id`;
   src = src.replace(
-    new RegExp(String.raw`^\s*let\s+${parentIdVar}\s*:\s*string\s*;\s*$`, 'm'),
+    new RegExp(
+      String.raw`^\s*let\s+${reEscape(parentIdVar)}\s*:\s*string\s*;\s*$`,
+      'm',
+    ),
     () => {
       changed = true;
       return '';
     },
   );
 
-  // strip "<fk>: ..." inside ALL Repo.create({ ... })
-  // Primary: target this repo's create({...})
+  // strip "<fk>: ..." inside this repo's create({ ... }) calls
   {
     const repoName = `${names(childSingular).className}RepoPg`.replace(
       /[.*+?^${}()|[\]\\]/g,
       '\\$&',
     );
 
+    // Correct regex for: <RepoName>.create({ ... })
     src = src.replace(
       new RegExp(
-        String.raw`(${repoName}\s*\.create\s*$begin:math:text$\\s*\\{)([\\s\\S]*?)(\\}\\s*$end:math:text$)`,
+        String.raw`(${repoName})\s*\.create\s*$begin:math:text$\\s*\\{([\\s\\S]*?)\\}\\s*$end:math:text$`,
         'g',
       ),
-      (_m, head, body, tail) => {
-        let inner = body
-          // remove "<fk>: something," (middle of object)
+      (_m, _head, body) => {
+        const inner = body
           .replace(
             new RegExp(
               String.raw`\s*` + reEscape(fk) + String.raw`\s*:\s*[^,}]+,\s*`,
@@ -577,7 +613,6 @@ function revertRepoSpecForFk(
             ),
             '',
           )
-          // remove "<fk>: something" (last prop)
           .replace(
             new RegExp(
               String.raw`\s*,?\s*` +
@@ -588,16 +623,16 @@ function revertRepoSpecForFk(
             '',
           );
         if (inner !== body) changed = true;
-        return `${head}${inner}${tail}`;
+        return `${_head}.create({${inner}})`;
       },
     );
   }
 
-  // Fallback: ANY .create({ ... }) call (covers tests that import repo differently)
+  // Fallback: ANY .create({ ... }) call
   src = src.replace(
     /(\.create\s*\(\s*\{)([\s\S]*?)(\}\s*\))/g,
     (_m, head, body, tail) => {
-      let inner = body
+      const inner = body
         .replace(
           new RegExp(
             String.raw`\s*` + reEscape(fk) + String.raw`\s*:\s*[^,}]+,\s*`,
@@ -665,7 +700,9 @@ function revertControllerIncludes(
   // Remove apply...Includes import
   ctrl = ctrl.replace(
     new RegExp(
-      String.raw`^\s*import\s+\{\s*apply${capChild}Includes\s*\}\s+from\s+'\.\/_includes\.${includeAlias}';\s*\n?`,
+      String.raw`^\s*import\s+\{\s*apply${reEscape(
+        capChild,
+      )}Includes\s*\}\s+from\s+'\.\/_includes\.${reEscape(includeAlias)}';\s*\n?`,
       'm',
     ),
     () => {
@@ -683,7 +720,7 @@ function revertControllerIncludes(
     },
   );
 
-  // Unwrap return lines for list/one to just the payload
+  // Unwrap return lines
   function unwrap(kind: 'list' | 'one') {
     const needle = `return apply${capChild}Includes.${kind}`;
     let from = 0;
@@ -718,7 +755,11 @@ function revertControllerIncludes(
   // Drop 'adapters' param in the function signature
   {
     const strictSig = new RegExp(
-      String.raw`export\s+async\s+function\s+register${capChild}Routes\s*$begin:math:text$\\s*app:\\s*FastifyInstance\\s*,\\s*svc:\\s*${capChild}Service\\s*,\\s*adapters\\??:\\s*RepoAdapters\\s*$end:math:text$\s*:\s*Promise<void>\s*\{`,
+      String.raw`export\s+async\s+function\s+register${reEscape(
+        capChild,
+      )}Routes\s*$begin:math:text$\\s*app:\\s*FastifyInstance\\s*,\\s*svc:\\s*${reEscape(
+        capChild,
+      )}Service\\s*,\\s*adapters\\??:\\s*RepoAdapters\\s*$end:math:text$\s*:\s*Promise<void>\s*\{`,
       'm',
     );
     let next = ctrl.replace(
@@ -731,7 +772,9 @@ function revertControllerIncludes(
 
     if (next === ctrl) {
       const looser = new RegExp(
-        String.raw`(export\s+async\s+function\s+register${capChild}Routes\s*\(\s*[^)]*?)\s*,\s*adapters\??:\s*RepoAdapters\s*`,
+        String.raw`(export\s+async\s+function\s+register${reEscape(
+          capChild,
+        )}Routes\s*\(\s*[^)]*?)\s*,\s*adapters\??:\s*RepoAdapters\s*`,
         'm',
       );
       next = ctrl.replace(looser, `$1`);
@@ -742,7 +785,6 @@ function revertControllerIncludes(
     }
   }
 
-  // Tidy
   ctrl = ctrl
     .replace(/,\s*\)/g, ')')
     .replace(/\(\s*,/g, '(')
@@ -817,7 +859,7 @@ export default async function revertFlow(
     revertFkInContract(tree, childSingular, parent, fk, includeAlias) ||
     anyChanged;
   anyChanged = revertModelZod(tree, childSingular, CapChild, fk) || anyChanged;
-  anyChanged = revertDrizzleSchema(tree, child, fk) || anyChanged;
+  anyChanged = revertDrizzleSchema(tree, child, parent, fk) || anyChanged; // NOTE: parent added here
   anyChanged = revertRepoPg(tree, childSingular, child, fk) || anyChanged;
   anyChanged =
     revertRepoSpecForFk(tree, childSingular, parent, fk) || anyChanged;

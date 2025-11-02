@@ -1,5 +1,5 @@
 {
-  "8316245468520813847": {
+  "12219818058544834782": {
     "targets": {
       "e2e": {
         "command": "playwright test",
@@ -20,7 +20,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -59,7 +66,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -98,7 +112,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -137,7 +158,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -176,7 +204,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -215,7 +250,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -254,7 +296,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -293,7 +342,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -332,7 +388,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -420,8 +483,7 @@
               }
             }
           }
-        },
-        "parallelism": false
+        }
       }
     },
     "metadata": {
@@ -440,7 +502,7 @@
       }
     }
   },
-  "17227228147629866742": {
+  "15586674731200351602": {
     "targets": {
       "e2e": {
         "command": "playwright test",
@@ -461,7 +523,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB-admin"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -500,7 +569,14 @@
             }
           }
         },
-        "parallelism": false,
+        "dependsOn": [
+          {
+            "projects": [
+              "eDB-admin"
+            ],
+            "target": "serve"
+          }
+        ],
         "cache": true,
         "inputs": [
           "default",
@@ -553,8 +629,7 @@
               }
             }
           }
-        },
-        "parallelism": false
+        }
       }
     },
     "metadata": {

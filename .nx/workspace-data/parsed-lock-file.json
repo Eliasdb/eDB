@@ -15012,13 +15012,22 @@
         "hash": "sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow=="
       }
     },
-    "npm:drizzle-kit": {
+    "npm:drizzle-kit@0.31.5": {
       "type": "npm",
-      "name": "npm:drizzle-kit",
+      "name": "npm:drizzle-kit@0.31.5",
       "data": {
         "version": "0.31.5",
         "packageName": "drizzle-kit",
         "hash": "sha512-+CHgPFzuoTQTt7cOYCV6MOw2w8vqEn/ap1yv4bpZOWL03u7rlVRQhUY0WYT3rHsgVTXwYQDZaSUJSQrMBUKuWg=="
+      }
+    },
+    "npm:drizzle-kit": {
+      "type": "npm",
+      "name": "npm:drizzle-kit",
+      "data": {
+        "version": "0.31.6",
+        "packageName": "drizzle-kit",
+        "hash": "sha512-/B4e/4pwnx25QwD5xXgdpo1S+077a2VZdosXbItE/oNmUgQwZydGDz9qJYmnQl/b+5IX0rLfwRhrPnroGtrg8Q=="
       }
     },
     "npm:drizzle-orm": {
@@ -85065,6 +85074,46 @@
     {
       "source": "npm:dotenv-expand",
       "target": "npm:dotenv@16.6.1",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:@drizzle-team/brocli",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:@esbuild-kit/esm-loader",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:esbuild@0.25.10",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:esbuild-register",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:@drizzle-team/brocli",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:@esbuild-kit/esm-loader",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:esbuild@0.25.10",
+      "type": "static"
+    },
+    {
+      "source": "npm:drizzle-kit@0.31.5",
+      "target": "npm:esbuild-register",
       "type": "static"
     },
     {

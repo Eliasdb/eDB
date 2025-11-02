@@ -39,7 +39,6 @@ export const routes: Route[] = [
       },
 
       /* Demo applications. */
-
       {
         path: 'webshop',
         loadChildren: () =>
@@ -53,9 +52,7 @@ export const routes: Route[] = [
       {
         path: 'izmir',
         loadChildren: () =>
-          import('@eDB/feature-izmir').then(
-            (m) => m.featureIzmirRoutes,
-          ),
+          import('@eDB/feature-izmir').then((m) => m.featureIzmirRoutes),
       },
       {
         path: 'erp',
@@ -69,6 +66,16 @@ export const routes: Route[] = [
         loadComponent: () =>
           import('./wrappers/iframe-wrapper/iframe-wrapper.component').then(
             (m) => m.IframeWrapperComponent,
+          ),
+      },
+
+      /* 🔧 Agent playground */
+      {
+        path: 'workbench',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./wrappers/agent-playground/agent-playground.component').then(
+            (m) => m.AgentPlaygroundComponent,
           ),
       },
     ],

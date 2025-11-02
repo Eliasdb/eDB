@@ -33,7 +33,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "libs/server/workbench-api/infra",
-        "command": "node src/lib/db/runMigrations.local.cjs"
+        "command": "node src/lib/db/scripts/runMigrations.local.cjs"
       }
     }
   }

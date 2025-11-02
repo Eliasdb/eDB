@@ -14,6 +14,18 @@ import {
   writeIfChanged,
 } from './utils';
 
+type OnDeleteCli = 'cascade' | 'restrict' | 'setNull' | 'set null' | undefined;
+
+function normalizeOnDelete(input: OnDeleteCli) {
+  // keep "CLI" form stable for contracts/docs; use Drizzle's exact literal for schema
+  const cli: 'cascade' | 'restrict' | 'setNull' =
+    input === 'set null' ? 'setNull' : (input ?? 'cascade');
+  const drizzle: 'cascade' | 'restrict' | 'set null' =
+    cli === 'setNull' ? 'set null' : cli;
+  const nullable = cli === 'setNull';
+  return { cli, drizzle, nullable };
+}
+
 /* ───────────── Step 1: Contract JSON (ensure fk + relationship) ───────────── */
 function ensureFkInContract(
   tree: Tree,
@@ -23,31 +35,49 @@ function ensureFkInContract(
   includeAlias: string,
   onDelete: Schema['onDelete'],
   selectList: string[],
-): { required: boolean; changed: boolean } {
+): { requiredForCreate: boolean; nullable: boolean; changed: boolean } {
   const contractPath = `libs/server/workbench-api/models/src/contracts/${childSingular}.contract.json`;
   const raw = read(tree, contractPath);
   const json: ContractJSON = JSON.parse(raw);
 
   let changed = false;
 
+  // normalize
+  const { cli: onDeleteCli, nullable } = normalizeOnDelete(onDelete);
+
+  // discover or add FK field
   let fkField = json.fields.find((f) => f.fieldName === fk);
-  let required = fkField ? fkField.required : true;
+  let requiredForCreate = fkField ? fkField.required : true;
 
   if (!fkField) {
     fkField = {
       fieldName: fk,
-      required,
-      tsType: 'string',
-      zodBase: 'z.string().uuid()',
+      required: requiredForCreate,
+      tsType: nullable ? 'string | null' : 'string',
+      zodBase: nullable ? 'z.string().uuid().nullable()' : 'z.string().uuid()',
     };
     json.fields.push(fkField);
     changed = true;
 
-    const frag = `${fk}${required ? '' : '?'}:uuid`;
+    const frag = `${fk}${requiredForCreate ? '' : '?'}:uuid`;
     json.fieldsString =
-      json.fieldsString && json.fieldsString.trim().length > 0
+      json.fieldsString && json.fieldsString.trim()
         ? `${json.fieldsString},${frag}`
         : frag;
+  } else {
+    // ensure nullability mirrors setNull
+    const nextTs = nullable ? 'string | null' : 'string';
+    const nextZod = nullable
+      ? 'z.string().uuid().nullable()'
+      : 'z.string().uuid()';
+    if (fkField.tsType !== nextTs) {
+      fkField.tsType = nextTs;
+      changed = true;
+    }
+    if (fkField.zodBase !== nextZod) {
+      fkField.zodBase = nextZod;
+      changed = true;
+    }
   }
 
   json.relationships ??= {};
@@ -56,22 +86,23 @@ function ensureFkInContract(
   const already = json.relationships.belongsTo.find(
     (r) => r.fk === fk && r.to === parentPlural,
   );
-  const effectiveOnDelete = onDelete ?? (required ? 'restrict' : 'setNull');
+  const effectiveOnDelete =
+    onDeleteCli ?? (requiredForCreate ? 'restrict' : 'setNull');
 
   if (already) {
     const before = JSON.stringify(already);
     already.name = includeAlias;
-    already.required = required;
+    already.required = requiredForCreate; // create-time requirement
     already.include = true;
     already.select = selectList;
-    already.onDelete = effectiveOnDelete;
+    already.onDelete = effectiveOnDelete; // contract keeps CLI form
     if (JSON.stringify(already) !== before) changed = true;
   } else {
     json.relationships.belongsTo.push({
       name: includeAlias,
       to: parentPlural,
       fk,
-      required,
+      required: requiredForCreate,
       include: true,
       select: selectList,
       onDelete: effectiveOnDelete,
@@ -81,7 +112,8 @@ function ensureFkInContract(
 
   const next = JSON.stringify(json, null, 2);
   return {
-    required,
+    requiredForCreate,
+    nullable,
     changed: writeIfChanged(tree, contractPath, next) || changed,
   };
 }
@@ -92,45 +124,73 @@ function patchModelZod(
   childSingular: string,
   CapChild: string,
   fk: string,
-  required: boolean,
+  requiredForCreate: boolean,
+  nullable: boolean,
 ): boolean {
   const modelPath = `libs/server/workbench-api/models/src/lib/${childSingular}.model.ts`;
   let src = read(tree, modelPath);
   let changed = false;
 
-  const fkModel = `  ${fk}: z.string().uuid()${required ? '' : '.optional()'},`;
-  const fkCreate = `  ${fk}: z.string().uuid()${required ? '' : '.optional()'},`;
-  const fkUpdate = `  ${fk}: z.string().uuid().optional(),`;
+  const base = `z.string().uuid()${nullable ? '.nullable()' : ''}`;
+  const fkModel = `  ${fk}: ${base},`;
+  const fkCreate = `  ${fk}: ${base}${requiredForCreate ? '' : '.optional()'},`;
+  const fkUpdate = `  ${fk}: ${base}.optional(),`;
 
+  // replace or insert in read model
   src = src.replace(
     new RegExp(
-      `(export\\s+const\\s+${childSingular}Schema\\s*=\\s*z\\.object\\s*\\(\\s*\\{[\\s\\S]*?)(\\n\\s*createdAt:)`,
+      `(export\\s+const\\s+${childSingular}Schema\\s*=\\s*z\\.object\\s*\\(\\s*\\{)([\\s\\S]*?)(\\n\\s*createdAt:)`,
       'm',
     ),
-    (m, head, createdAt) =>
-      m.includes(`${fk}: z.string().uuid()`)
-        ? m
-        : ((changed = true), head + `\n${fkModel}\n` + createdAt),
+    (_m, head, body, createdAt) => {
+      const hasProp = new RegExp(String.raw`\\b${fk}\\s*:`).test(body);
+      changed = true;
+      const bodyNext = hasProp
+        ? body.replace(
+            new RegExp(String.raw`\\b${fk}\\s*:\\s*[^,]+,?`),
+            fkModel,
+          )
+        : `${body}\n${fkModel}\n`;
+      return head + bodyNext + createdAt;
+    },
   );
+
+  // create schema
   src = src.replace(
     new RegExp(
-      `(export\\s+const\\s+create${CapChild}BodySchema\\s*=\\s*z\\.object\\s*\\(\\s*\\{[\\s\\S]*?)(\\n\\s*\\}\\)\\s*;?)`,
+      `(export\\s+const\\s+create${CapChild}BodySchema\\s*=\\s*z\\.object\\s*\\(\\s*\\{)([\\s\\S]*?)(\\n\\s*\\}\\)\\s*;?)`,
       'm',
     ),
-    (m, head, tail) =>
-      m.includes(`${fk}: z.string().uuid()`)
-        ? m
-        : ((changed = true), head + `\n${fkCreate}\n` + tail),
+    (_m, head, body, tail) => {
+      const hasProp = new RegExp(String.raw`\\b${fk}\\s*:`).test(body);
+      changed = true;
+      const bodyNext = hasProp
+        ? body.replace(
+            new RegExp(String.raw`\\b${fk}\\s*:\\s*[^,]+,?`),
+            fkCreate,
+          )
+        : `${body}\n${fkCreate}\n`;
+      return head + bodyNext + tail;
+    },
   );
+
+  // update schema
   src = src.replace(
     new RegExp(
-      `(export\\s+const\\s+update${CapChild}BodySchema\\s*=\\s*z\\.object\\s*\\(\\s*\\{[\\s\\S]*?)(\\n\\s*\\}\\)\\s*;?)`,
+      `(export\\s+const\\s+update${CapChild}BodySchema\\s*=\\s*z\\.object\\s*\$begin:math:text$\\\\s*\\\\{)([\\\\s\\\\S]*?)(\\\\n\\\\s*\\\\}\\$end:math:text$\\s*;?)`,
       'm',
     ),
-    (m, head, tail) =>
-      m.includes(`${fk}: z.string().uuid().optional()`)
-        ? m
-        : ((changed = true), head + `\n${fkUpdate}\n` + tail),
+    (_m, head, body, tail) => {
+      const hasProp = new RegExp(String.raw`\\b${fk}\\s*:`).test(body);
+      changed = true;
+      const bodyNext = hasProp
+        ? body.replace(
+            new RegExp(String.raw`\\b${fk}\\s*:\\s*[^,]+,?`),
+            fkUpdate,
+          )
+        : `${body}\n${fkUpdate}\n`;
+      return head + bodyNext + tail;
+    },
   );
 
   return writeIfChanged(tree, modelPath, src) || changed;
@@ -142,14 +202,15 @@ function patchDrizzleSchema(
   childPlural: string,
   parentPlural: string,
   fk: string,
-  required: boolean,
-  onDelete: 'restrict' | 'setNull' | 'cascade',
+  requiredForCreate: boolean,
+  onDeleteDrizzle: 'restrict' | 'set null' | 'cascade',
+  nullable: boolean,
 ): boolean {
-  const schemaPath = `libs/server/workbench-api/infra/src/lib/db/schema.${childPlural}.ts`;
+  const schemaPath = `libs/server/workbench-api/infra/src/lib/db/schemas/${childPlural}.ts`;
   let src = read(tree, schemaPath);
   let changed = false;
 
-  const importLine = `import { ${parentPlural}Table } from './schema.${parentPlural}';`;
+  const importLine = `import { ${parentPlural}Table } from './${parentPlural}';`;
   const src0 = insertImportSafely(src, importLine);
   if (src0 !== src) {
     src = src0;
@@ -163,10 +224,10 @@ function patchDrizzleSchema(
     );
 
   const fkSnake = snake(fk);
-  const canonicalCore =
+  const core =
     `${fkSnake}: uuid('${fkSnake}')` +
-    (required ? `.notNull()` : ``) +
-    `.references(() => ${parentPlural}Table.id, { onDelete: '${onDelete}', onUpdate: 'cascade' }),`;
+    (nullable ? `` : `.notNull()`) +
+    `.references(() => ${parentPlural}Table.id, { onDelete: '${onDeleteDrizzle}', onUpdate: 'cascade' }),`;
 
   const props = splitTopLevelProps(tb.block);
   const idxCreated = props.findIndex((p) => p.name === 'created_at');
@@ -174,7 +235,7 @@ function patchDrizzleSchema(
   const idxFk = props.findIndex((p) => p.name === fkSnake);
   const defaultIndent =
     props.find((p) => p.indent.trim().length > 0)?.indent ?? '  ';
-  const mk = (indent: string) => `\n${indent}${canonicalCore}\n`;
+  const mk = (indent: string) => `\n${indent}${core}\n`;
 
   let blockNext = tb.block;
 
@@ -195,25 +256,25 @@ function patchDrizzleSchema(
       (idxCreated >= 0 ? props[idxCreated].indent : null) ??
       (idxUpdated >= 0 ? props[idxUpdated].indent : null) ??
       defaultIndent;
-
     const anchorStart =
       idxCreated >= 0
         ? props[idxCreated].start
         : idxUpdated >= 0
           ? props[idxUpdated].start
           : tb.block.length;
-
-    const canon = mk(insertIndent);
     blockNext =
-      tb.block.slice(0, anchorStart) + canon + tb.block.slice(anchorStart);
+      tb.block.slice(0, anchorStart) +
+      mk(insertIndent) +
+      tb.block.slice(anchorStart);
     changed = true;
   }
 
   blockNext = blockNext.replace(/\n{3,}/g, '\n\n');
-
   if (!changed) return false;
-  const out = tb.before + blockNext + tb.after;
-  return writeIfChanged(tree, schemaPath, out) || changed;
+  return (
+    writeIfChanged(tree, schemaPath, tb.before + blockNext + tb.after) ||
+    changed
+  );
 }
 
 /* ───────────── Step 4: Repo wiring ───────────── */
@@ -222,13 +283,14 @@ function patchRepoPg(
   childSingular: string,
   childPlural: string,
   fk: string,
+  nullable: boolean,
 ): boolean {
-  const file = `libs/server/workbench-api/infra/src/lib/repos/${childSingular}.repo.pg.ts`;
+  const file = `libs/server/workbench-api/infra/src/lib/repos/${childSingular}/repo.pg.ts`;
   if (!tree.exists(file)) return false;
   let src = read(tree, file);
   let changed = false;
 
-  const tableImport = `import { ${childPlural}Table } from '../db/schema.${childPlural}';`;
+  const tableImport = `import { ${childPlural}Table } from '../../db/schemas/${childPlural}';`;
   if (!src.includes(tableImport)) {
     src = addImportAfterImports(src, tableImport);
     changed = true;
@@ -237,23 +299,36 @@ function patchRepoPg(
   const fkSnake = snake(fk);
   const Cap = names(childSingular).className;
 
+  // Row type block
   {
-    // Row type
     const startTok = `type ${Cap}Row = {`;
     const si = src.indexOf(startTok);
     if (si !== -1) {
       const ei = src.indexOf('};', si);
       if (ei !== -1) {
         const body = src.slice(si + startTok.length, ei);
-        if (!new RegExp(String.raw`\b${fkSnake}\s*:\s*string\b`).test(body)) {
-          const patched =
-            startTok + body + `\n  ${fkSnake}: string;` + src.slice(ei, ei + 2);
-          src = src.slice(0, si) + patched + src.slice(ei + 2);
+        const want = `${fkSnake}: ${nullable ? 'string | null' : 'string'};`;
+        if (!new RegExp(String.raw`\\b${fkSnake}\\s*:`).test(body)) {
+          src = src.slice(0, ei) + `\n  ${want}\n` + src.slice(ei);
+          changed = true;
+        } else if (nullable && !/\bstring\s*\|\s*null\b/.test(body)) {
+          // upgrade to nullable
+          src = src.replace(
+            new RegExp(String.raw`(${fkSnake}\\s*:\\s*)string(\\s*;)`),
+            `$1string | null$2`,
+          );
           changed = true;
         }
       }
     }
   }
+
+  // rowToX mapper (unchanged logic, it already copies row.fkSnake)
+  // SELECT/values/set/filter injections (unchanged)
+
+  // ... keep your existing injections below, no change required ...
+  // (paste your current code for select/values/set/filter blocks here)
+
   {
     // Mapper
     const fnStart = `function rowTo${Cap}(row: ${Cap}Row): ${Cap} {`;
@@ -342,7 +417,7 @@ function patchRepoSpecForFk(
   fk: string,
 ): boolean {
   const candidates = [
-    `libs/server/workbench-api/infra/src/lib/repos/${childSingular}.repo.pg.spec.ts`,
+    `libs/server/workbench-api/infra/src/lib/repos/${childSingular}/repo.pg.spec.ts`,
     `libs/server/workbench-api/infra/src/lib/repos/tests/${childSingular}.repo.pg.spec.ts`,
     `libs/server/workbench-api/infra/src/lib/repos/__tests__/${childSingular}.repo.pg.spec.ts`,
   ];
@@ -722,35 +797,60 @@ export default async function createFlow(
     ?.split(',')
     .map((s) => s.trim())
     .filter(Boolean) ?? ['id', 'name'];
-  const onDelete = schema.onDelete ?? 'cascade';
+
+  // normalize onDelete and derive nullability
+  const {
+    cli: onDeleteCli,
+    drizzle: onDeleteDrizzle,
+    nullable,
+  } = normalizeOnDelete(schema.onDelete ?? 'cascade');
 
   let anyChanged = false;
 
-  const { required, changed: c1 } = ensureFkInContract(
+  const {
+    requiredForCreate,
+    nullable: nullableFromContract,
+    changed: c1,
+  } = ensureFkInContract(
     tree,
     childSingular,
     parent,
     fk,
     includeAlias,
-    onDelete,
+    onDeleteCli,
     select,
   );
-  anyChanged = anyChanged || c1;
+  anyChanged ||= c1;
 
-  anyChanged =
-    patchModelZod(tree, childSingular, CapChild, fk, required) || anyChanged;
-  anyChanged =
-    patchDrizzleSchema(tree, child, parent, fk, required, onDelete) ||
-    anyChanged;
-  anyChanged = patchRepoPg(tree, childSingular, child, fk) || anyChanged;
-  anyChanged =
-    patchRepoSpecForFk(tree, childSingular, parent, fk) || anyChanged;
+  // source of truth for nullability is onDelete 'set null'
+  const isNullable = nullable || nullableFromContract;
 
+  anyChanged ||= patchModelZod(
+    tree,
+    childSingular,
+    CapChild,
+    fk,
+    requiredForCreate,
+    isNullable,
+  );
+  anyChanged ||= patchDrizzleSchema(
+    tree,
+    child,
+    parent,
+    fk,
+    requiredForCreate,
+    onDeleteDrizzle,
+    isNullable,
+  );
+  anyChanged ||= patchRepoPg(tree, childSingular, child, fk, isNullable);
+  anyChanged ||= patchRepoSpecForFk(tree, childSingular, parent, fk);
+
+  // controller/includes/register unchanged
   const ctrlPath = `libs/server/workbench-api/resources/src/lib/${child}/${childSingular}.controller.ts`;
   let ctrlSrc = read(tree, ctrlPath);
   const s1 = ensureControllerSignatureAcceptsAdapters(ctrlSrc, CapChild);
   ctrlSrc = s1.next;
-  anyChanged = anyChanged || s1.changed;
+  anyChanged ||= s1.changed;
 
   const s2 = patchControllerForIncludesMinimal(
     ctrlSrc,
@@ -760,25 +860,24 @@ export default async function createFlow(
     includeAlias,
   );
   ctrlSrc = s2.next;
-  anyChanged = anyChanged || s2.changed;
+  anyChanged ||= s2.changed;
 
-  anyChanged = writeIfChanged(tree, ctrlPath, ctrlSrc) || anyChanged;
-  anyChanged =
-    writeIncludesHelper(
-      tree,
-      child,
-      childSingular,
-      parent,
-      includeAlias,
-      select,
-      CapChild,
-    ) || anyChanged;
-  anyChanged = patchRegisterCallToPassAdapters(tree, CapChild) || anyChanged;
+  anyChanged ||= writeIfChanged(tree, ctrlPath, ctrlSrc);
+  anyChanged ||= writeIncludesHelper(
+    tree,
+    child,
+    childSingular,
+    parent,
+    includeAlias,
+    select,
+    CapChild,
+  );
+  anyChanged ||= patchRegisterCallToPassAdapters(tree, CapChild);
 
   if (anyChanged) await formatFiles(tree);
 
   console.info(
-    `[workbench-api-rel] OK → ${child} belongsTo ${parent} via fk=${fk} (onDelete=${onDelete})`,
+    `[workbench-api-rel] OK → ${child} belongsTo ${parent} via fk=${fk} (onDelete=${onDeleteDrizzle})`,
   );
   if (!anyChanged) {
     console.info(`[workbench-api-rel] No changes: already up-to-date.`);

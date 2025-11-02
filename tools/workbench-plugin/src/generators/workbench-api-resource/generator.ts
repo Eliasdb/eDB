@@ -130,7 +130,7 @@ function insertRegisterCall(
 
   // 2) Fallback: parse async registerAll(...) { ... }
   const sig =
-    /async\s+registerAll\s*$begin:math:text$\\s*app\\s*:\\s*FastifyInstance\\s*$end:math:text$\s*\{\s*/m;
+    /async\s+registerAll\s*\\s*app\\s*:\\s*FastifyInstance\\s*\s*\{\s*/m;
   const m = sig.exec(reg);
   if (!m) {
     // last resort: append near end (shouldn't happen in your file)

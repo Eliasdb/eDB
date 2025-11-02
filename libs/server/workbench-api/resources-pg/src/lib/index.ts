@@ -7,6 +7,8 @@ import {
   BookRepoPg,
   BookTagRepoPg,
   TagRepoPg,
+  SupplierRepoPg,
+  GadgetRepoPg,
 } from '@edb-workbench/api/infra';
 
 export async function registerAllRoutes(app: FastifyInstance) {
@@ -15,6 +17,8 @@ export async function registerAllRoutes(app: FastifyInstance) {
     author: AuthorRepoPg,
     tag: TagRepoPg,
     bookTag: BookTagRepoPg,
+    supplier: SupplierRepoPg,
+    gadget: GadgetRepoPg,
   });
   await registry.registerAll(app);
 }
