@@ -11971,15 +11971,6 @@
         "hash": "sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA=="
       }
     },
-    "npm:@esbuild/aix-ppc64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/aix-ppc64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/aix-ppc64",
-        "hash": "sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ=="
-      }
-    },
     "npm:@esbuild/aix-ppc64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/aix-ppc64@0.25.10",
@@ -12023,15 +12014,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/android-arm64",
         "hash": "sha512-P0UVNGIienjZv3f5zq0DP3Nt2IE/3plFzuaS96vihvD0Hd6H/q4WXUGpCxD/E8YrSXfNyRPbpTq+T8ZQioSuPA=="
-      }
-    },
-    "npm:@esbuild/android-arm64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/android-arm64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/android-arm64",
-        "hash": "sha512-c0uX9VAUBQ7dTDCjq+wdyGLowMdtR/GoC2U5IYk/7D1H1JYC0qseD7+11iMP2mRLN9RcCMRcjC4YMclCzGwS/A=="
       }
     },
     "npm:@esbuild/android-arm64@0.25.10": {
@@ -12079,15 +12061,6 @@
         "hash": "sha512-qg/Lj1mu3CdQlDEEiWrlC4eaPZ1KztwGJ9B6J+/6G+/4ewxJg7gqj8eVYWvao1bXrqGiW2rsBZFSX3q2lcW05w=="
       }
     },
-    "npm:@esbuild/android-arm@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/android-arm@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/android-arm",
-        "hash": "sha512-vCPvzSjpPHEi1siZdlvAlsPxXl7WbOVUBBAowWug4rJHb68Ox8KualB+1ocNvT5fjv6wpkX6o/iEpbDrf68zcg=="
-      }
-    },
     "npm:@esbuild/android-arm@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/android-arm@0.25.10",
@@ -12131,15 +12104,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/android-x64",
         "hash": "sha512-3k7ZoUW6Q6YqhdhIaq/WZ7HwBpnFBlW905Fa4s4qWJyiNOgT1dOqDiVAQFwBH7gBRZr17gLrlFCRzF6jFh7Kew=="
-      }
-    },
-    "npm:@esbuild/android-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/android-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/android-x64",
-        "hash": "sha512-D7aPRUUNHRBwHxzxRvp856rjUHRFW1SdQATKXH2hqA0kAZb1hKmi02OpYRacl0TxIGz/ZmXWlbZgjwWYaCakTA=="
       }
     },
     "npm:@esbuild/android-x64@0.25.10": {
@@ -12187,15 +12151,6 @@
         "hash": "sha512-B6IeSgZgtEzGC42jsI+YYu9Z3HKRxp8ZT3cqhvliEHovq8HSX2YX8lNocDn79gCKJXOSaEot9MVYky7AKjCs8g=="
       }
     },
-    "npm:@esbuild/darwin-arm64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/darwin-arm64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/darwin-arm64",
-        "hash": "sha512-DwqXqZyuk5AiWWf3UfLiRDJ5EDd49zg6O9wclZ7kUMv2WRFr4HKjXp/5t8JZ11QbQfUS6/cRCKGwYhtNAY88kQ=="
-      }
-    },
     "npm:@esbuild/darwin-arm64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/darwin-arm64@0.25.10",
@@ -12239,15 +12194,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/darwin-x64",
         "hash": "sha512-hKoVkKzFiToTgn+41qGhsUJXFlIjxI/jSYeZf3ugemDYZldIXIxhvwN6erJGlX4t5h417iFuheZ7l+YVn05N3A=="
-      }
-    },
-    "npm:@esbuild/darwin-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/darwin-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/darwin-x64",
-        "hash": "sha512-se/JjF8NlmKVG4kNIuyWMV/22ZaerB+qaSi5MdrXtd6R08kvs2qCN4C09miupktDitvh8jRFflwGFBQcxZRjbw=="
       }
     },
     "npm:@esbuild/darwin-x64@0.25.10": {
@@ -12295,15 +12241,6 @@
         "hash": "sha512-4aRvFIXmwAcDBw9AueDQ2YnGmz5L6obe5kmPT8Vd+/+x/JMVKCgdcRwH6APrbpNXsPz+K653Qg8HB/oXvXVukA=="
       }
     },
-    "npm:@esbuild/freebsd-arm64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/freebsd-arm64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/freebsd-arm64",
-        "hash": "sha512-5JcRxxRDUJLX8JXp/wcBCy3pENnCgBR9bN6JsY4OmhfUtIHe3ZW0mawA7+RDAcMLrMIZaf03NlQiX9DGyB8h4g=="
-      }
-    },
     "npm:@esbuild/freebsd-arm64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/freebsd-arm64@0.25.10",
@@ -12347,15 +12284,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/freebsd-x64",
         "hash": "sha512-EYoXZ4d8xtBoVN7CEwWY2IN4ho76xjYXqSXMNccFSx2lgqOG/1TBPW0yPx1bJZk94qu3tX0fycJeeQsKovA8gg=="
-      }
-    },
-    "npm:@esbuild/freebsd-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/freebsd-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/freebsd-x64",
-        "hash": "sha512-J95kNBj1zkbMXtHVH29bBriQygMXqoVQOQYA+ISs0/2l3T9/kj42ow2mpqerRBxDJnmkUDCaQT/dfNXWX/ZZCQ=="
       }
     },
     "npm:@esbuild/freebsd-x64@0.25.10": {
@@ -12403,15 +12331,6 @@
         "hash": "sha512-EoTjyYyLuVPfdPLsGVVVC8a0p1BFFvtpQDB/YLEhaXyf/5bczaGeN15QkR+O4S5LeJ92Tqotve7i1jn35qwvdA=="
       }
     },
-    "npm:@esbuild/linux-arm64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-arm64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-arm64",
-        "hash": "sha512-ibKvmyYzKsBeX8d8I7MH/TMfWDXBF3db4qM6sy+7re0YXya+K1cem3on9XgdT2EQGMu4hQyZhan7TeQ8XkGp4Q=="
-      }
-    },
     "npm:@esbuild/linux-arm64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/linux-arm64@0.25.10",
@@ -12455,15 +12374,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/linux-arm",
         "hash": "sha512-J5jPms//KhSNv+LO1S1TX1UWp1ucM6N6XuL6ITdKWElCu8wXP72l9MM0zDTzzeikVyqFE6U8YAV9/tFyj0ti+w=="
-      }
-    },
-    "npm:@esbuild/linux-arm@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-arm@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-arm",
-        "hash": "sha512-bPb5AHZtbeNGjCKVZ9UGqGwo8EUu4cLq68E95A53KlxAPRmUyYv2D6F0uUI65XisGOL1hBP5mTronbgo+0bFcA=="
       }
     },
     "npm:@esbuild/linux-arm@0.25.10": {
@@ -12511,15 +12421,6 @@
         "hash": "sha512-Thsa42rrP1+UIGaWz47uydHSBOgTUnwBwNq59khgIwktK6x60Hivfbux9iNR0eHCHzOLjLMLfUMLCypBkZXMHA=="
       }
     },
-    "npm:@esbuild/linux-ia32@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-ia32@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-ia32",
-        "hash": "sha512-YvjXDqLRqPDl2dvRODYmmhz4rPeVKYvppfGYKSNGdyZkA01046pLWyRKKI3ax8fbJoK5QbxblURkwK/MWY18Tg=="
-      }
-    },
     "npm:@esbuild/linux-ia32@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/linux-ia32@0.25.10",
@@ -12563,15 +12464,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/linux-loong64",
         "hash": "sha512-LiXdXA0s3IqRRjm6rV6XaWATScKAXjI4R4LoDlvO7+yQqFdlr1Bax62sRwkVvRIrwXxvtYEHHI4dm50jAXkuAA=="
-      }
-    },
-    "npm:@esbuild/linux-loong64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-loong64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-loong64",
-        "hash": "sha512-uHf1BmMG8qEvzdrzAqg2SIG/02+4/DHB6a9Kbya0XDvwDEKCoC8ZRWI5JJvNdUjtciBGFQ5PuBlpEOXQj+JQSg=="
       }
     },
     "npm:@esbuild/linux-loong64@0.25.10": {
@@ -12619,15 +12511,6 @@
         "hash": "sha512-fEnAuj5VGTanfJ07ff0gOA6IPsvrVHLVb6Lyd1g2/ed67oU1eFzL0r9WL7ZzscD+/N6i3dWumGE1Un4f7Amf+w=="
       }
     },
-    "npm:@esbuild/linux-mips64el@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-mips64el@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-mips64el",
-        "hash": "sha512-IajOmO+KJK23bj52dFSNCMsz1QP1DqM6cwLUv3W1QwyxkyIWecfafnI555fvSGqEKwjMXVLokcV5ygHW5b3Jbg=="
-      }
-    },
     "npm:@esbuild/linux-mips64el@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/linux-mips64el@0.25.10",
@@ -12671,15 +12554,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/linux-ppc64",
         "hash": "sha512-nYJA2/QPimDQOh1rKWedNOe3Gfc8PabU7HT3iXWtNUbRzXS9+vgB0Fjaqr//XNbd82mCxHzik2qotuI89cfixg=="
-      }
-    },
-    "npm:@esbuild/linux-ppc64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-ppc64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-ppc64",
-        "hash": "sha512-1hHV/Z4OEfMwpLO8rp7CvlhBDnjsC3CttJXIhBi+5Aj5r+MBvy4egg7wCbe//hSsT+RvDAG7s81tAvpL2XAE4w=="
       }
     },
     "npm:@esbuild/linux-ppc64@0.25.10": {
@@ -12727,15 +12601,6 @@
         "hash": "sha512-2MueBrlPQCw5dVJJpQdUYgeqIzDQgw3QtiAHUC4RBz9FXPrskyyU3VI1hw7C0BSKB9OduwSJ79FTCqtGMWqJHg=="
       }
     },
-    "npm:@esbuild/linux-riscv64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-riscv64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-riscv64",
-        "hash": "sha512-2HdXDMd9GMgTGrPWnJzP2ALSokE/0O5HhTUvWIbD3YdjME8JwvSCnNGBnTThKGEB91OZhzrJ4qIIxk/SBmyDDA=="
-      }
-    },
     "npm:@esbuild/linux-riscv64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/linux-riscv64@0.25.10",
@@ -12781,15 +12646,6 @@
         "hash": "sha512-+Pil1Nv3Umes4m3AZKqA2anfhJiVmNCYkPchwFJNEJN5QxmTs1uzyy4TvmDrCRNT2ApwSari7ZIgrPeUx4UZDg=="
       }
     },
-    "npm:@esbuild/linux-s390x@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-s390x@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-s390x",
-        "hash": "sha512-zus5sxzqBJD3eXxwvjN1yQkRepANgxE9lgOW2qLnmr8ikMTphkjgXu1HR01K4FJg8h1kEEDAqDcZQtbrRnB41A=="
-      }
-    },
     "npm:@esbuild/linux-s390x@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/linux-s390x@0.25.10",
@@ -12833,15 +12689,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/linux-x64",
         "hash": "sha512-B71g1QpxfwBvNrfyJdVDexenDIt1CiDN1TIXLbhOw0KhJzE78KIFGX6OJ9MrtC0oOqMWf+0xop4qEU8JrJTwCg=="
-      }
-    },
-    "npm:@esbuild/linux-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/linux-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/linux-x64",
-        "hash": "sha512-1rYdTpyv03iycF1+BhzrzQJCdOuAOtaqHTWJZCWvijKD2N5Xu0TtVC8/+1faWqcP9iBCWOmjmhoH94dH82BxPQ=="
       }
     },
     "npm:@esbuild/linux-x64@0.25.10": {
@@ -12916,15 +12763,6 @@
         "hash": "sha512-3ltjQ7n1owJgFbuC61Oj++XhtzmymoCihNFgT84UAmJnxJfm4sYCiSLTXZtE00VWYpPMYc+ZQmB6xbSdVh0JWA=="
       }
     },
-    "npm:@esbuild/netbsd-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/netbsd-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/netbsd-x64",
-        "hash": "sha512-Woi2MXzXjMULccIwMnLciyZH4nCIMpWQAs049KEeMvOcNADVxo0UBIQPfSmxB3CWKedngg7sWZdLvLczpe0tLg=="
-      }
-    },
     "npm:@esbuild/netbsd-x64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/netbsd-x64@0.25.10",
@@ -12997,15 +12835,6 @@
         "hash": "sha512-RbrfTB9SWsr0kWmb9srfF+L933uMDdu9BIzdA7os2t0TXhCRjrQyCeOt6wVxr79CKD4c+p+YhCj31HBkYcXebw=="
       }
     },
-    "npm:@esbuild/openbsd-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/openbsd-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/openbsd-x64",
-        "hash": "sha512-HLNNw99xsvx12lFBUwoT8EVCsSvRNDVxNpjZ7bPn947b8gJPzeHWyNVhFsaerc0n3TsbOINvRP2byTZ5LKezow=="
-      }
-    },
     "npm:@esbuild/openbsd-x64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/openbsd-x64@0.25.10",
@@ -13069,15 +12898,6 @@
         "hash": "sha512-HKjJwRrW8uWtCQnQOz9qcU3mUZhTUQvi56Q8DPTLLB+DawoiQdjsYq+j+D3s9I8VFtDr+F9CjgXKKC4ss89IeA=="
       }
     },
-    "npm:@esbuild/sunos-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/sunos-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/sunos-x64",
-        "hash": "sha512-6+gjmFpfy0BHU5Tpptkuh8+uw3mnrvgs+dSPQXQOv3ekbordwnzTVEb4qnIvQcYXq6gzkyTnoZ9dZG+D4garKg=="
-      }
-    },
     "npm:@esbuild/sunos-x64@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/sunos-x64@0.25.10",
@@ -13121,15 +12941,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/win32-arm64",
         "hash": "sha512-URgtR1dJnmGvX864pn1B2YUYNzjmXkuJOIqG2HdU62MVS4EHpU2946OZoTMnRUHklGtJdJZ33QfzdjGACXhn1A=="
-      }
-    },
-    "npm:@esbuild/win32-arm64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/win32-arm64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/win32-arm64",
-        "hash": "sha512-Z0gOTd75VvXqyq7nsl93zwahcTROgqvuAcYDUr+vOv8uHhNSKROyU961kgtCD1e95IqPKSQKH7tBTslnS3tA8A=="
       }
     },
     "npm:@esbuild/win32-arm64@0.25.10": {
@@ -13177,15 +12988,6 @@
         "hash": "sha512-+ZOE6pUkMOJfmxmBZElNOx72NKpIa/HFOMGzu8fqzQJ5kgf6aTGrcJaFsNiVMH4JKpMipyK+7k0n2UXN7a8YKQ=="
       }
     },
-    "npm:@esbuild/win32-ia32@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/win32-ia32@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/win32-ia32",
-        "hash": "sha512-SWXFF1CL2RVNMaVs+BBClwtfZSvDgtL//G/smwAc5oVK/UPu2Gu9tIaRgFmYFFKrmg3SyAjSrElf0TiJ1v8fYA=="
-      }
-    },
     "npm:@esbuild/win32-ia32@0.25.10": {
       "type": "npm",
       "name": "npm:@esbuild/win32-ia32@0.25.10",
@@ -13229,15 +13031,6 @@
         "version": "0.19.12",
         "packageName": "@esbuild/win32-x64",
         "hash": "sha512-T1QyPSDCyMXaO3pzBkF96E8xMkiRYbUEZADd29SyPGabqxMViNoii+NcK7eWJAEoU6RZyEm5lVSIjTmcdoB9HA=="
-      }
-    },
-    "npm:@esbuild/win32-x64@0.21.5": {
-      "type": "npm",
-      "name": "npm:@esbuild/win32-x64@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "@esbuild/win32-x64",
-        "hash": "sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw=="
       }
     },
     "npm:@esbuild/win32-x64@0.25.10": {
@@ -13384,18 +13177,18 @@
         "hash": "sha512-BNhXkY1bblxKZpltzAx98G2Egj9g1Q+JRcvR7E99DOj862FTCX+ZPsAUtPTr7aHxwtrL7+fL3r0JSmM9kBm+Bw=="
       }
     },
-    "npm:@expo/config-plugins@10.1.2": {
+    "npm:@expo/config-plugins": {
       "type": "npm",
-      "name": "npm:@expo/config-plugins@10.1.2",
+      "name": "npm:@expo/config-plugins",
       "data": {
         "version": "10.1.2",
         "packageName": "@expo/config-plugins",
         "hash": "sha512-IMYCxBOcnuFStuK0Ay+FzEIBKrwW8OVUMc65+v0+i7YFIIe8aL342l7T4F8lR4oCfhXn7d6M5QPgXvjtc/gAcw=="
       }
     },
-    "npm:@expo/config-plugins": {
+    "npm:@expo/config-plugins@11.0.7": {
       "type": "npm",
-      "name": "npm:@expo/config-plugins",
+      "name": "npm:@expo/config-plugins@11.0.7",
       "data": {
         "version": "11.0.7",
         "packageName": "@expo/config-plugins",
@@ -16786,15 +16579,6 @@
         "hash": "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="
       }
     },
-    "npm:@popperjs/core": {
-      "type": "npm",
-      "name": "npm:@popperjs/core",
-      "data": {
-        "version": "2.11.8",
-        "packageName": "@popperjs/core",
-        "hash": "sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A=="
-      }
-    },
     "npm:@radix-ui/primitive": {
       "type": "npm",
       "name": "npm:@radix-ui/primitive",
@@ -18595,18 +18379,18 @@
         "hash": "sha512-ka0q9tQBLruhO38sybP/MkZzejqAltce7HJTJ2KKbUYUlbvuG7m56tBX7DVC5JaImbsO3b8fqOrKH7gRt4KYrQ=="
       }
     },
-    "npm:@storybook/react": {
+    "npm:@storybook/react@8.6.14": {
       "type": "npm",
-      "name": "npm:@storybook/react",
+      "name": "npm:@storybook/react@8.6.14",
       "data": {
         "version": "8.6.14",
         "packageName": "@storybook/react",
         "hash": "sha512-BOepx5bBFwl/CPI+F+LnmMmsG1wQYmrX/UQXgUbHQUU9Tj7E2ndTnNbpIuSLc8IrM03ru+DfwSg1Co3cxWtT+g=="
       }
     },
-    "npm:@storybook/react@9.1.10": {
+    "npm:@storybook/react": {
       "type": "npm",
-      "name": "npm:@storybook/react@9.1.10",
+      "name": "npm:@storybook/react",
       "data": {
         "version": "9.1.10",
         "packageName": "@storybook/react",
@@ -20476,24 +20260,6 @@
         "hash": "sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA=="
       }
     },
-    "npm:@vue/reactivity": {
-      "type": "npm",
-      "name": "npm:@vue/reactivity",
-      "data": {
-        "version": "3.1.5",
-        "packageName": "@vue/reactivity",
-        "hash": "sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg=="
-      }
-    },
-    "npm:@vue/shared": {
-      "type": "npm",
-      "name": "npm:@vue/shared",
-      "data": {
-        "version": "3.1.5",
-        "packageName": "@vue/shared",
-        "hash": "sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA=="
-      }
-    },
     "npm:@webassemblyjs/ast": {
       "type": "npm",
       "name": "npm:@webassemblyjs/ast",
@@ -21050,15 +20816,6 @@
         "version": "5.35.0",
         "packageName": "algoliasearch",
         "hash": "sha512-Y+moNhsqgLmvJdgTsO4GZNgsaDWv8AOGAaPeIeHKlDn/XunoAqYbA+XNpBd1dW8GOXAUDyxC9Rxc7AV4kpFcIg=="
-      }
-    },
-    "npm:alpinejs": {
-      "type": "npm",
-      "name": "npm:alpinejs",
-      "data": {
-        "version": "3.15.0",
-        "packageName": "alpinejs",
-        "hash": "sha512-lpokA5okCF1BKh10LG8YjqhfpxyHBk4gE7boIgVHltJzYoM7O9nK3M7VlntLEJGsVmu7U/RzUWajmHREGT38Eg=="
       }
     },
     "npm:angular-eslint": {
@@ -22699,18 +22456,18 @@
         "hash": "sha512-Pj779qHxV2tuapviy1bSZNEL1maXr13bPYpsvSDB68HlYcYuhlDrmGd63i0JHMCLKzc7rUSNIrpdJlhVlNwrxA=="
       }
     },
-    "npm:chokidar": {
+    "npm:chokidar@3.6.0": {
       "type": "npm",
-      "name": "npm:chokidar",
+      "name": "npm:chokidar@3.6.0",
       "data": {
         "version": "3.6.0",
         "packageName": "chokidar",
         "hash": "sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw=="
       }
     },
-    "npm:chokidar@4.0.3": {
+    "npm:chokidar": {
       "type": "npm",
-      "name": "npm:chokidar@4.0.3",
+      "name": "npm:chokidar",
       "data": {
         "version": "4.0.3",
         "packageName": "chokidar",
@@ -23626,18 +23383,18 @@
         "hash": "sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA=="
       }
     },
-    "npm:cosmiconfig@8.3.6": {
+    "npm:cosmiconfig": {
       "type": "npm",
-      "name": "npm:cosmiconfig@8.3.6",
+      "name": "npm:cosmiconfig",
       "data": {
         "version": "8.3.6",
         "packageName": "cosmiconfig",
         "hash": "sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA=="
       }
     },
-    "npm:cosmiconfig": {
+    "npm:cosmiconfig@9.0.0": {
       "type": "npm",
-      "name": "npm:cosmiconfig",
+      "name": "npm:cosmiconfig@9.0.0",
       "data": {
         "version": "9.0.0",
         "packageName": "cosmiconfig",
@@ -24895,22 +24652,13 @@
         "hash": "sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow=="
       }
     },
-    "npm:drizzle-kit@0.31.5": {
-      "type": "npm",
-      "name": "npm:drizzle-kit@0.31.5",
-      "data": {
-        "version": "0.31.5",
-        "packageName": "drizzle-kit",
-        "hash": "sha512-+CHgPFzuoTQTt7cOYCV6MOw2w8vqEn/ap1yv4bpZOWL03u7rlVRQhUY0WYT3rHsgVTXwYQDZaSUJSQrMBUKuWg=="
-      }
-    },
     "npm:drizzle-kit": {
       "type": "npm",
       "name": "npm:drizzle-kit",
       "data": {
-        "version": "0.31.6",
+        "version": "0.31.5",
         "packageName": "drizzle-kit",
-        "hash": "sha512-/B4e/4pwnx25QwD5xXgdpo1S+077a2VZdosXbItE/oNmUgQwZydGDz9qJYmnQl/b+5IX0rLfwRhrPnroGtrg8Q=="
+        "hash": "sha512-+CHgPFzuoTQTt7cOYCV6MOw2w8vqEn/ap1yv4bpZOWL03u7rlVRQhUY0WYT3rHsgVTXwYQDZaSUJSQrMBUKuWg=="
       }
     },
     "npm:drizzle-orm": {
@@ -25406,15 +25154,6 @@
         "version": "0.19.12",
         "packageName": "esbuild",
         "hash": "sha512-aARqgq8roFBj054KvQr5f1sFu0D65G+miZRCuJyJ0G13Zwx7vRar5Zhn2tkQNzIXcBrNVsv/8stehpj+GAjgbg=="
-      }
-    },
-    "npm:esbuild@0.21.5": {
-      "type": "npm",
-      "name": "npm:esbuild@0.21.5",
-      "data": {
-        "version": "0.21.5",
-        "packageName": "esbuild",
-        "hash": "sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw=="
       }
     },
     "npm:esbuild@0.25.10": {
@@ -27685,18 +27424,18 @@
         "hash": "sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg=="
       }
     },
-    "npm:has-flag@3.0.0": {
+    "npm:has-flag": {
       "type": "npm",
-      "name": "npm:has-flag@3.0.0",
+      "name": "npm:has-flag",
       "data": {
         "version": "3.0.0",
         "packageName": "has-flag",
         "hash": "sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw=="
       }
     },
-    "npm:has-flag": {
+    "npm:has-flag@4.0.0": {
       "type": "npm",
-      "name": "npm:has-flag",
+      "name": "npm:has-flag@4.0.0",
       "data": {
         "version": "4.0.0",
         "packageName": "has-flag",
@@ -27836,15 +27575,6 @@
         "version": "0.32.1",
         "packageName": "hermes-parser",
         "hash": "sha512-175dz634X/W5AiwrpLdoMl/MOb17poLHyIqgyExlE8D9zQ1OPnoORnGMB5ltRKnpvQzBjMYvT2rN/sHeIfZW5Q=="
-      }
-    },
-    "npm:highlight.js": {
-      "type": "npm",
-      "name": "npm:highlight.js",
-      "data": {
-        "version": "11.11.1",
-        "packageName": "highlight.js",
-        "hash": "sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w=="
       }
     },
     "npm:hoist-non-react-statics": {
@@ -31573,18 +31303,18 @@
         "hash": "sha512-vpMDxkGIB+MTN8Af5hvSAanc6zXQipsAUO+XUx3PCQieKUfLwdoa8qaZ1WAQYRpaU+CJ8vhBcxtzzo3d9IsCIQ=="
       }
     },
-    "npm:metro-file-map@0.83.1": {
+    "npm:metro-file-map": {
       "type": "npm",
-      "name": "npm:metro-file-map@0.83.1",
+      "name": "npm:metro-file-map",
       "data": {
         "version": "0.83.1",
         "packageName": "metro-file-map",
         "hash": "sha512-Yu429lnexKl44PttKw3nhqgmpBR+6UQ/tRaYcxPeEShtcza9DWakCn7cjqDTQZtWR2A8xSNv139izJMyQ4CG+w=="
       }
     },
-    "npm:metro-file-map": {
+    "npm:metro-file-map@0.83.3": {
       "type": "npm",
-      "name": "npm:metro-file-map",
+      "name": "npm:metro-file-map@0.83.3",
       "data": {
         "version": "0.83.3",
         "packageName": "metro-file-map",
@@ -31789,9 +31519,9 @@
         "hash": "sha512-Ztekew9t/gOIMZX1tvJOgX7KlSLL5kWykl0Iwu2cL2vKMKVALRl1hysyhUw0vjpAvLFx+Kfq9VLjnHIkW32fPA=="
       }
     },
-    "npm:metro@0.82.5": {
+    "npm:metro": {
       "type": "npm",
-      "name": "npm:metro@0.82.5",
+      "name": "npm:metro",
       "data": {
         "version": "0.82.5",
         "packageName": "metro",
@@ -31807,9 +31537,9 @@
         "hash": "sha512-UGKepmTxoGD4HkQV8YWvpvwef7fUujNtTgG4Ygf7m/M0qjvb9VuDmAsEU+UdriRX7F61pnVK/opz89hjKlYTXA=="
       }
     },
-    "npm:metro": {
+    "npm:metro@0.83.3": {
       "type": "npm",
-      "name": "npm:metro",
+      "name": "npm:metro@0.83.3",
       "data": {
         "version": "0.83.3",
         "packageName": "metro",
@@ -38449,15 +38179,6 @@
         "hash": "sha512-azl+t0z7pw/z958Gy9svOTuzqIk6xq+NSheJzn5MMWtWTFywIacg2wUlzKFGtt3cthx0r2SxMK0yzJOR0IES7Q=="
       }
     },
-    "npm:tippy.js": {
-      "type": "npm",
-      "name": "npm:tippy.js",
-      "data": {
-        "version": "6.3.7",
-        "packageName": "tippy.js",
-        "hash": "sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ=="
-      }
-    },
     "npm:tldts-core": {
       "type": "npm",
       "name": "npm:tldts-core",
@@ -39529,15 +39250,6 @@
         "hash": "sha512-2MpU/Y+SCZyWUB6ua3HbJCrgnF0KACAsmzOQt1UvRVJCGF6S8xdA3ZUhWcWdM9ivG4I5az8PnQmwwrkC2CAQrQ=="
       }
     },
-    "npm:vite-plugin-dynamic-import": {
-      "type": "npm",
-      "name": "npm:vite-plugin-dynamic-import",
-      "data": {
-        "version": "1.6.0",
-        "packageName": "vite-plugin-dynamic-import",
-        "hash": "sha512-TM0sz70wfzTIo9YCxVFwS8OA9lNREsh+0vMHGSkWDTZ7bgd1Yjs5RV8EgB634l/91IsXJReg0xtmuQqP0mf+rg=="
-      }
-    },
     "npm:vite-plugin-full-reload": {
       "type": "npm",
       "name": "npm:vite-plugin-full-reload",
@@ -39554,24 +39266,6 @@
         "version": "1.2.3",
         "packageName": "vite-plugin-string",
         "hash": "sha512-zw2jL0c4B6CAvxO8PshX04494jTcqJjNH2kW1AugBH+fImRY0evdNtVgmeS1i1VFdua/OFhL7fMqIPh0uF21/Q=="
-      }
-    },
-    "npm:vite-require": {
-      "type": "npm",
-      "name": "npm:vite-require",
-      "data": {
-        "version": "0.2.3",
-        "packageName": "vite-require",
-        "hash": "sha512-Lpeg5mxXiLAVrylKK9FMF8d6yxLBm6YtHXmtWpJSDSWBdl12tBsMGHOBC/fsLzATj+Zp9FHjqwzE1JayOPi9dQ=="
-      }
-    },
-    "npm:vite@5.4.20": {
-      "type": "npm",
-      "name": "npm:vite@5.4.20",
-      "data": {
-        "version": "5.4.20",
-        "packageName": "vite",
-        "hash": "sha512-j3lYzGC3P+B5Yfy/pfKNgVEg4+UtcIJcVRt2cDjIOmhLourAqPqf8P7acgxeiSgUB7E3p2P8/3gNIgDLpwzs4g=="
       }
     },
     "npm:vite@7.1.2": {
@@ -43480,7 +43174,7 @@
       },
       {
         "source": "clara-api",
-        "target": "npm:drizzle-kit@0.31.5",
+        "target": "npm:drizzle-kit",
         "type": "static"
       },
       {
@@ -43992,7 +43686,7 @@
       },
       {
         "source": "mobile",
-        "target": "npm:expo-router",
+        "target": "npm:expo-router@6.0.12",
         "type": "static"
       },
       {
@@ -44172,7 +43866,7 @@
       },
       {
         "source": "mobile",
-        "target": "npm:@testing-library/react-native",
+        "target": "npm:@testing-library/react-native@12.9.0",
         "type": "static"
       },
       {
@@ -45118,7 +44812,7 @@
       },
       {
         "source": "npm:@angular-devkit/core",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       }
     ],
@@ -45155,7 +44849,7 @@
       },
       {
         "source": "npm:@angular-devkit/core@20.3.4",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       }
     ],
@@ -45758,7 +45452,7 @@
       },
       {
         "source": "npm:@angular/compiler-cli",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -49542,7 +49236,7 @@
       },
       {
         "source": "npm:@expo/cli",
-        "target": "npm:@expo/config-plugins",
+        "target": "npm:@expo/config-plugins@11.0.7",
         "type": "static"
       },
       {
@@ -50542,146 +50236,146 @@
         "type": "static"
       }
     ],
-    "npm:@expo/config-plugins@10.1.2": [
+    "npm:@expo/config-plugins": [
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/config-types",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/json-file@9.1.5",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/plist@0.3.5",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:@expo/sdk-runtime-versions",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:getenv",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:glob",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:resolve-from",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:semver",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:slash",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:slugify",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:xcode",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins@10.1.2",
+        "source": "npm:@expo/config-plugins",
         "target": "npm:xml2js",
         "type": "static"
       }
     ],
-    "npm:@expo/config-plugins": [
+    "npm:@expo/config-plugins@11.0.7": [
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:@expo/config-types@54.0.8",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:@expo/json-file",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:@expo/plist",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:@expo/sdk-runtime-versions",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:getenv",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:glob",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:resolve-from",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:semver",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:slash",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:slugify",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:xcode",
         "type": "static"
       },
       {
-        "source": "npm:@expo/config-plugins",
+        "source": "npm:@expo/config-plugins@11.0.7",
         "target": "npm:xml2js",
         "type": "static"
       }
@@ -50766,7 +50460,7 @@
       },
       {
         "source": "npm:@expo/config@11.0.13",
-        "target": "npm:@expo/config-plugins@10.1.2",
+        "target": "npm:@expo/config-plugins",
         "type": "static"
       },
       {
@@ -51464,7 +51158,7 @@
       },
       {
         "source": "npm:@expo/metro",
-        "target": "npm:metro-file-map@0.83.1",
+        "target": "npm:metro-file-map",
         "type": "static"
       },
       {
@@ -51526,7 +51220,7 @@
       },
       {
         "source": "npm:@expo/metro@54.0.0",
-        "target": "npm:metro-file-map@0.83.1",
+        "target": "npm:metro-file-map",
         "type": "static"
       },
       {
@@ -51641,7 +51335,7 @@
       },
       {
         "source": "npm:@expo/prebuild-config",
-        "target": "npm:@expo/config-plugins",
+        "target": "npm:@expo/config-plugins@11.0.7",
         "type": "static"
       },
       {
@@ -51817,7 +51511,7 @@
       },
       {
         "source": "npm:@expo/prebuild-config@9.0.12",
-        "target": "npm:@expo/config-plugins@10.1.2",
+        "target": "npm:@expo/config-plugins",
         "type": "static"
       },
       {
@@ -56458,6 +56152,11 @@
       {
         "source": "npm:@nx/devkit@21.6.3",
         "target": "npm:nx@21.6.3",
+        "type": "static"
+      },
+      {
+        "source": "npm:@nx/devkit@21.6.3",
+        "target": "npm:nx@22.0.1",
         "type": "static"
       }
     ],
@@ -61302,7 +61001,7 @@
       },
       {
         "source": "npm:@react-native/community-cli-plugin",
-        "target": "npm:metro",
+        "target": "npm:metro@0.83.3",
         "type": "static"
       },
       {
@@ -61953,7 +61652,7 @@
       },
       {
         "source": "npm:@rspack/dev-server",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -63288,7 +62987,7 @@
       },
       {
         "source": "npm:@storybook/preset-react-webpack",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@8.6.14",
         "type": "static"
       },
       {
@@ -63499,7 +63198,7 @@
     "npm:@storybook/react-native-ui-common": [
       {
         "source": "npm:@storybook/react-native-ui-common",
-        "target": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -63561,7 +63260,7 @@
       },
       {
         "source": "npm:@storybook/react-native-ui",
-        "target": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -63643,7 +63342,7 @@
       },
       {
         "source": "npm:@storybook/react-native",
-        "target": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -63750,7 +63449,7 @@
       },
       {
         "source": "npm:@storybook/react-webpack5",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@8.6.14",
         "type": "static"
       },
       {
@@ -63770,6 +63469,63 @@
       },
       {
         "source": "npm:@storybook/react-webpack5",
+        "target": "npm:typescript",
+        "type": "static"
+      }
+    ],
+    "npm:@storybook/react@8.6.14": [
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/components",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/global",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/manager-api",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/preview-api",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/react-dom-shim@8.6.14",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/theming",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:react",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:react-dom",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:storybook",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/test",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -63777,88 +63533,31 @@
     "npm:@storybook/react": [
       {
         "source": "npm:@storybook/react",
-        "target": "npm:@storybook/components",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
         "target": "npm:@storybook/global",
         "type": "static"
       },
       {
         "source": "npm:@storybook/react",
-        "target": "npm:@storybook/manager-api",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/preview-api",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/react-dom-shim@8.6.14",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/theming",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:react",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:react-dom",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:storybook",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/test",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:typescript",
-        "type": "static"
-      }
-    ],
-    "npm:@storybook/react@9.1.10": [
-      {
-        "source": "npm:@storybook/react@9.1.10",
-        "target": "npm:@storybook/global",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@9.1.10",
         "target": "npm:@storybook/react-dom-shim@9.1.10",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:react",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:react-dom",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:storybook",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -64130,7 +63829,7 @@
       },
       {
         "source": "npm:@svgr/core",
-        "target": "npm:cosmiconfig@8.3.6",
+        "target": "npm:cosmiconfig",
         "type": "static"
       },
       {
@@ -64186,7 +63885,7 @@
       },
       {
         "source": "npm:@svgr/plugin-svgo",
-        "target": "npm:cosmiconfig@8.3.6",
+        "target": "npm:cosmiconfig",
         "type": "static"
       },
       {
@@ -64361,7 +64060,7 @@
       },
       {
         "source": "npm:@swc/cli",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       }
     ],
@@ -64910,7 +64609,7 @@
       },
       {
         "source": "npm:@testing-library/react-native@12.9.0",
-        "target": "npm:jest",
+        "target": "npm:jest@29.7.0",
         "type": "static"
       }
     ],
@@ -66322,13 +66021,6 @@
         "type": "static"
       }
     ],
-    "npm:@vue/reactivity": [
-      {
-        "source": "npm:@vue/reactivity",
-        "target": "npm:@vue/shared",
-        "type": "static"
-      }
-    ],
     "npm:@webassemblyjs/ast": [
       {
         "source": "npm:@webassemblyjs/ast",
@@ -67081,13 +66773,6 @@
       {
         "source": "npm:algoliasearch",
         "target": "npm:@algolia/requester-node-http",
-        "type": "static"
-      }
-    ],
-    "npm:alpinejs": [
-      {
-        "source": "npm:alpinejs",
-        "target": "npm:@vue/reactivity",
         "type": "static"
       }
     ],
@@ -69268,51 +68953,51 @@
         "type": "static"
       }
     ],
-    "npm:chokidar": [
+    "npm:chokidar@3.6.0": [
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:anymatch",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:braces",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:glob-parent@5.1.2",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:is-binary-path",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:is-glob",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:normalize-path",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:readdirp",
         "type": "static"
       },
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@3.6.0",
         "target": "npm:fsevents",
         "type": "static"
       }
     ],
-    "npm:chokidar@4.0.3": [
+    "npm:chokidar": [
       {
-        "source": "npm:chokidar@4.0.3",
+        "source": "npm:chokidar",
         "target": "npm:readdirp@4.1.2",
         "type": "static"
       }
@@ -69971,56 +69656,56 @@
         "type": "static"
       }
     ],
-    "npm:cosmiconfig@8.3.6": [
+    "npm:cosmiconfig": [
       {
-        "source": "npm:cosmiconfig@8.3.6",
+        "source": "npm:cosmiconfig",
         "target": "npm:import-fresh",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@8.3.6",
+        "source": "npm:cosmiconfig",
         "target": "npm:js-yaml",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@8.3.6",
+        "source": "npm:cosmiconfig",
         "target": "npm:parse-json@5.2.0",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@8.3.6",
+        "source": "npm:cosmiconfig",
         "target": "npm:path-type",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@8.3.6",
+        "source": "npm:cosmiconfig",
         "target": "npm:typescript",
         "type": "static"
       }
     ],
-    "npm:cosmiconfig": [
+    "npm:cosmiconfig@9.0.0": [
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@9.0.0",
         "target": "npm:env-paths",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@9.0.0",
         "target": "npm:import-fresh",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@9.0.0",
         "target": "npm:js-yaml",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@9.0.0",
         "target": "npm:parse-json@5.2.0",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@9.0.0",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -71810,28 +71495,6 @@
         "type": "static"
       }
     ],
-    "npm:drizzle-kit@0.31.5": [
-      {
-        "source": "npm:drizzle-kit@0.31.5",
-        "target": "npm:@drizzle-team/brocli",
-        "type": "static"
-      },
-      {
-        "source": "npm:drizzle-kit@0.31.5",
-        "target": "npm:@esbuild-kit/esm-loader",
-        "type": "static"
-      },
-      {
-        "source": "npm:drizzle-kit@0.31.5",
-        "target": "npm:esbuild@0.25.10",
-        "type": "static"
-      },
-      {
-        "source": "npm:drizzle-kit@0.31.5",
-        "target": "npm:esbuild-register",
-        "type": "static"
-      }
-    ],
     "npm:drizzle-kit": [
       {
         "source": "npm:drizzle-kit",
@@ -72683,123 +72346,6 @@
       {
         "source": "npm:esbuild",
         "target": "npm:@esbuild/win32-x64@0.19.12",
-        "type": "static"
-      }
-    ],
-    "npm:esbuild@0.21.5": [
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/aix-ppc64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/android-arm@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/android-arm64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/android-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/darwin-arm64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/darwin-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/freebsd-arm64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/freebsd-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-arm@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-arm64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-ia32@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-loong64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-mips64el@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-ppc64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-riscv64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-s390x@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/linux-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/netbsd-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/openbsd-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/sunos-x64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/win32-arm64@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/win32-ia32@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:esbuild@0.21.5",
-        "target": "npm:@esbuild/win32-x64@0.21.5",
         "type": "static"
       }
     ],
@@ -76285,7 +75831,7 @@
       },
       {
         "source": "npm:fork-ts-checker-webpack-plugin",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -76357,7 +75903,7 @@
       },
       {
         "source": "npm:fork-ts-checker-webpack-plugin@8.0.0",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -81072,6 +80618,11 @@
         "source": "npm:jest-watch-typeahead@2.2.1",
         "target": "npm:strip-ansi@7.1.2",
         "type": "static"
+      },
+      {
+        "source": "npm:jest-watch-typeahead@2.2.1",
+        "target": "npm:jest@29.7.0",
+        "type": "static"
       }
     ],
     "npm:jest-watch-typeahead": [
@@ -82998,7 +82549,7 @@
       },
       {
         "source": "npm:metro-config",
-        "target": "npm:metro@0.82.5",
+        "target": "npm:metro",
         "type": "static"
       },
       {
@@ -83077,7 +82628,7 @@
       },
       {
         "source": "npm:metro-config@0.83.3",
-        "target": "npm:metro",
+        "target": "npm:metro@0.83.3",
         "type": "static"
       },
       {
@@ -83199,53 +82750,6 @@
         "type": "static"
       }
     ],
-    "npm:metro-file-map@0.83.1": [
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:debug",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:fb-watchman",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:flow-enums-runtime",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:graceful-fs",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:invariant",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:jest-worker@29.7.0",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:micromatch",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:nullthrows",
-        "type": "static"
-      },
-      {
-        "source": "npm:metro-file-map@0.83.1",
-        "target": "npm:walker",
-        "type": "static"
-      }
-    ],
     "npm:metro-file-map": [
       {
         "source": "npm:metro-file-map",
@@ -83289,6 +82793,53 @@
       },
       {
         "source": "npm:metro-file-map",
+        "target": "npm:walker",
+        "type": "static"
+      }
+    ],
+    "npm:metro-file-map@0.83.3": [
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:debug",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:fb-watchman",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:flow-enums-runtime",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:graceful-fs",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:invariant",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:jest-worker@29.7.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:micromatch",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
+        "target": "npm:nullthrows",
+        "type": "static"
+      },
+      {
+        "source": "npm:metro-file-map@0.83.3",
         "target": "npm:walker",
         "type": "static"
       }
@@ -83944,7 +83495,7 @@
       },
       {
         "source": "npm:metro-transform-worker@0.82.5",
-        "target": "npm:metro@0.82.5",
+        "target": "npm:metro",
         "type": "static"
       },
       {
@@ -84078,7 +83629,7 @@
       },
       {
         "source": "npm:metro-transform-worker@0.83.3",
-        "target": "npm:metro",
+        "target": "npm:metro@0.83.3",
         "type": "static"
       },
       {
@@ -84117,204 +83668,204 @@
         "type": "static"
       }
     ],
-    "npm:metro@0.82.5": [
+    "npm:metro": [
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/code-frame",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/core",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/generator",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/parser",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/template",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/traverse",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:@babel/types",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:accepts",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:ci-info@2.0.0",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:connect",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:error-stack-parser",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:flow-enums-runtime",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:graceful-fs",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:hermes-parser",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:image-size@1.2.1",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:invariant",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:jest-worker@29.7.0",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:jsc-safe-url",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:lodash.throttle",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-babel-transformer@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-cache",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-cache-key@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-config",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-core",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-file-map@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-resolver",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-runtime",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-source-map@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-symbolicate@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-transform-plugins@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:metro-transform-worker@0.82.5",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:mime-types",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:nullthrows",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:serialize-error",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:source-map@0.5.7",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:throat",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:ws@7.5.10",
         "type": "static"
       },
       {
-        "source": "npm:metro@0.82.5",
+        "source": "npm:metro",
         "target": "npm:yargs@17.7.2",
         "type": "static"
       }
@@ -84452,7 +84003,7 @@
       },
       {
         "source": "npm:metro@0.83.1",
-        "target": "npm:metro-file-map@0.83.1",
+        "target": "npm:metro-file-map",
         "type": "static"
       },
       {
@@ -84521,204 +84072,204 @@
         "type": "static"
       }
     ],
-    "npm:metro": [
+    "npm:metro@0.83.3": [
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/code-frame",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/core",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/generator",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/parser",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/template",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/traverse",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:@babel/types",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:accepts",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:chalk",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:ci-info@2.0.0",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:connect",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:debug",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:error-stack-parser",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:flow-enums-runtime",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:graceful-fs",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:hermes-parser@0.32.0",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:image-size@1.2.1",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:invariant",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:jest-worker@29.7.0",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:jsc-safe-url",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:lodash.throttle",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-babel-transformer@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-cache@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-cache-key@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-config@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-core@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
-        "target": "npm:metro-file-map",
+        "source": "npm:metro@0.83.3",
+        "target": "npm:metro-file-map@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-resolver@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-runtime@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-source-map",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-symbolicate",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-transform-plugins@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:metro-transform-worker@0.83.3",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:mime-types",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:nullthrows",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:serialize-error",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:source-map@0.5.7",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:throat",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:ws@7.5.10",
         "type": "static"
       },
       {
-        "source": "npm:metro",
+        "source": "npm:metro@0.83.3",
         "target": "npm:yargs@17.7.2",
         "type": "static"
       }
@@ -85114,7 +84665,7 @@
       },
       {
         "source": "npm:ng-packagr",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -85451,7 +85002,7 @@
     "npm:nodemon": [
       {
         "source": "npm:nodemon",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -88086,7 +87637,7 @@
     "npm:postcss-loader@8.1.1": [
       {
         "source": "npm:postcss-loader@8.1.1",
-        "target": "npm:cosmiconfig",
+        "target": "npm:cosmiconfig@9.0.0",
         "type": "static"
       },
       {
@@ -88118,7 +87669,7 @@
     "npm:postcss-loader": [
       {
         "source": "npm:postcss-loader",
-        "target": "npm:cosmiconfig",
+        "target": "npm:cosmiconfig@9.0.0",
         "type": "static"
       },
       {
@@ -89676,7 +89227,7 @@
       },
       {
         "source": "npm:react-native-localize",
-        "target": "npm:@expo/config-plugins@10.1.2",
+        "target": "npm:@expo/config-plugins",
         "type": "static"
       }
     ],
@@ -91704,7 +91255,7 @@
     "npm:sass@1.90.0": [
       {
         "source": "npm:sass@1.90.0",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -91726,7 +91277,7 @@
     "npm:sass": [
       {
         "source": "npm:sass",
-        "target": "npm:chokidar@4.0.3",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -93349,28 +92900,28 @@
     "npm:supports-color@5.5.0": [
       {
         "source": "npm:supports-color@5.5.0",
-        "target": "npm:has-flag@3.0.0",
+        "target": "npm:has-flag",
         "type": "static"
       }
     ],
     "npm:supports-color@7.2.0": [
       {
         "source": "npm:supports-color@7.2.0",
-        "target": "npm:has-flag",
+        "target": "npm:has-flag@4.0.0",
         "type": "static"
       }
     ],
     "npm:supports-color": [
       {
         "source": "npm:supports-color",
-        "target": "npm:has-flag",
+        "target": "npm:has-flag@4.0.0",
         "type": "static"
       }
     ],
     "npm:supports-hyperlinks": [
       {
         "source": "npm:supports-hyperlinks",
-        "target": "npm:has-flag",
+        "target": "npm:has-flag@4.0.0",
         "type": "static"
       },
       {
@@ -93504,7 +93055,7 @@
       },
       {
         "source": "npm:tailwindcss@3.4.17",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -93616,7 +93167,7 @@
       },
       {
         "source": "npm:tailwindcss",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -94038,13 +93589,6 @@
         "type": "static"
       }
     ],
-    "npm:tippy.js": [
-      {
-        "source": "npm:tippy.js",
-        "target": "npm:@popperjs/core",
-        "type": "static"
-      }
-    ],
     "npm:tldts": [
       {
         "source": "npm:tldts",
@@ -94167,7 +93711,7 @@
       },
       {
         "source": "npm:ts-checker-rspack-plugin",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -95217,28 +94761,6 @@
         "type": "static"
       }
     ],
-    "npm:vite-plugin-dynamic-import": [
-      {
-        "source": "npm:vite-plugin-dynamic-import",
-        "target": "npm:acorn",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite-plugin-dynamic-import",
-        "target": "npm:es-module-lexer",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite-plugin-dynamic-import",
-        "target": "npm:fast-glob",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite-plugin-dynamic-import",
-        "target": "npm:magic-string@0.30.19",
-        "type": "static"
-      }
-    ],
     "npm:vite-plugin-full-reload": [
       {
         "source": "npm:vite-plugin-full-reload",
@@ -95260,70 +94782,6 @@
       {
         "source": "npm:vite-plugin-string",
         "target": "npm:vite",
-        "type": "static"
-      }
-    ],
-    "npm:vite-require": [
-      {
-        "source": "npm:vite-require",
-        "target": "npm:fast-glob",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite-require",
-        "target": "npm:vite-plugin-dynamic-import",
-        "type": "static"
-      }
-    ],
-    "npm:vite@5.4.20": [
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:esbuild@0.21.5",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:postcss",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:rollup",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:@types/node",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:fsevents",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:less",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:lightningcss",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:sass",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:sass-embedded",
-        "type": "static"
-      },
-      {
-        "source": "npm:vite@5.4.20",
-        "target": "npm:terser",
         "type": "static"
       }
     ],
@@ -95995,7 +95453,7 @@
       },
       {
         "source": "npm:webpack-dev-server",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@3.6.0",
         "type": "static"
       },
       {
@@ -97184,5 +96642,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1762115119972
+  "computedAt": 1764083137715
 }

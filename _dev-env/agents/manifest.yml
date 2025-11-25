@@ -1,6 +1,6 @@
 # _agents/manifest.yml
 version: 1
-cwd: _agents # agent runs commands from this folder
+cwd: _dev-env/agents # agent runs commands from this folder
 
 env:
   PG_CONTAINER: { default: edb-postgres }
