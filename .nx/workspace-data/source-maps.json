@@ -48,6 +48,10 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
+    "metadata.targetGroups.E2E (CI).9": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
     "targets": [
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
@@ -716,6 +720,54 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
+    "targets.e2e-ci--merge-reports": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.executor": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.cache": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.inputs": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.outputs": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.options": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.options.config": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.options.expectedSuites": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata.technologies": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata.technologies.0": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata.description": [
+      "e2e/eDB-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
     "targets.lint": [
       "e2e/eDB-e2e/eslint.config.mjs",
       "@nx/eslint/plugin"
@@ -855,6 +907,10 @@
       "@nx/playwright/plugin"
     ],
     "metadata.targetGroups.E2E (CI).1": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "metadata.targetGroups.E2E (CI).2": [
       "e2e/mfe-edb-admin-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -1047,6 +1103,54 @@
       "@nx/playwright/plugin"
     ],
     "targets.e2e-ci.metadata.help.example": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.executor": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.cache": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.inputs": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.outputs": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.options": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.options.config": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.options.expectedSuites": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata.technologies": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata.technologies.0": [
+      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
+      "@nx/playwright/plugin"
+    ],
+    "targets.e2e-ci--merge-reports.metadata.description": [
       "e2e/mfe-edb-admin-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -13522,6 +13626,38 @@
       "libs/shared/client/ui/project.json",
       "nx/core/project-json"
     ],
+    "targets.build-deps": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.build-deps.dependsOn": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.continuous": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.dependsOn": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.executor": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.options": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
+    "targets.watch-deps.options.command": [
+      "libs/shared/client/ui/vite.config.mts",
+      "@nx/vite/plugin"
+    ],
     "targets.vite:test": [
       "libs/shared/client/ui/vite.config.mts",
       "@nx/vite/plugin"
@@ -13635,38 +13771,6 @@
       "@nx/vite/plugin"
     ],
     "targets.typecheck.metadata.help.example": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.build-deps": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.build-deps.dependsOn": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.continuous": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.dependsOn": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.executor": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.options": [
-      "libs/shared/client/ui/vite.config.mts",
-      "@nx/vite/plugin"
-    ],
-    "targets.watch-deps.options.command": [
       "libs/shared/client/ui/vite.config.mts",
       "@nx/vite/plugin"
     ],
@@ -15568,62 +15672,6 @@
       "apps/server/admin-api/project.json",
       "nx/core/project-json"
     ],
-    "tags": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "apps/server/admin-api/EDb.AdminApi.csproj",
-      "@nx-dotnet/core"
-    ],
     "$schema": [
       "apps/server/admin-api/project.json",
       "nx/core/project-json"
@@ -15636,11 +15684,19 @@
       "apps/server/admin-api/project.json",
       "nx/core/project-json"
     ],
+    "tags": [
+      "apps/server/admin-api/project.json",
+      "nx/core/project-json"
+    ],
     "tags.scope:admin": [
       "apps/server/admin-api/project.json",
       "nx/core/project-json"
     ],
     "tags.type:api": [
+      "apps/server/admin-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
       "apps/server/admin-api/project.json",
       "nx/core/project-json"
     ],
@@ -15708,10 +15764,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.swagger.cache": [
       "nx.json",
       "nx/target-defaults"
@@ -15730,62 +15782,6 @@
       "apps/server/platform-api/project.json",
       "nx/core/project-json"
     ],
-    "tags": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "apps/server/platform-api/EDb.PlatformApi.csproj",
-      "@nx-dotnet/core"
-    ],
     "$schema": [
       "apps/server/platform-api/project.json",
       "nx/core/project-json"
@@ -15798,11 +15794,19 @@
       "apps/server/platform-api/project.json",
       "nx/core/project-json"
     ],
+    "tags": [
+      "apps/server/platform-api/project.json",
+      "nx/core/project-json"
+    ],
     "tags.scope:platform": [
       "apps/server/platform-api/project.json",
       "nx/core/project-json"
     ],
     "tags.type:api": [
+      "apps/server/platform-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
       "apps/server/platform-api/project.json",
       "nx/core/project-json"
     ],
@@ -15843,1374 +15847,6 @@
       "nx/target-defaults"
     ],
     "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "apps/tests/admin-api-test": {
-    "root": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "name": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.executor": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.dependsOn": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.options": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.options.noBuild": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "apps/tests/admin-api-test/EDb.AdminApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "apps/tests/platform-api-test": {
-    "root": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "name": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.executor": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.dependsOn": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.options": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.options.noBuild": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "apps/tests/platform-api-test/EDb.PlatformApi.Test.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.test.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/server/platform-api/features/feature-account": {
-    "root": [
-      "libs/server/platform-api/features/feature-account/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/server/platform-api/features/feature-account/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/server/platform-api/features/feature-account/EDb.FeatureAccount.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/server/platform-api/features/feature-account/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/server/platform-api/features/feature-account/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/server/platform-api/features/feature-account/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/server/platform-api/features/feature-account/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/server/platform-api/features/feature-applications": {
-    "root": [
-      "libs/server/platform-api/features/feature-applications/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/server/platform-api/features/feature-applications/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/server/platform-api/features/feature-applications/EDb.FeatureApplications.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/server/platform-api/features/feature-applications/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/server/platform-api/features/feature-applications/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/server/platform-api/features/feature-applications/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/server/platform-api/features/feature-applications/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/server/platform-api/features/feature-crm": {
-    "root": [
-      "libs/server/platform-api/features/feature-crm/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/server/platform-api/features/feature-crm/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/server/platform-api/features/feature-crm/EDb.FeatureCrm.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/server/platform-api/features/feature-crm/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/server/platform-api/features/feature-crm/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/server/platform-api/features/feature-crm/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/server/platform-api/features/feature-crm/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/shared/server/data-access": {
-    "root": [
-      "libs/shared/server/data-access/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/shared/server/data-access/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/shared/server/data-access/EDb.DataAccess.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/shared/server/data-access/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/shared/server/data-access/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/shared/server/data-access/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/shared/server/data-access/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/shared/server/domain": {
-    "root": [
-      "libs/shared/server/domain/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/shared/server/domain/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/shared/server/domain/EDb.Domain.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/shared/server/domain/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/shared/server/domain/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/shared/server/domain/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/shared/server/domain/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/shared/server/identity": {
-    "root": [
-      "libs/shared/server/identity/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/shared/server/identity/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/shared/server/identity/EDb.Identity.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/shared/server/identity/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/shared/server/identity/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/shared/server/identity/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/shared/server/identity/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/shared/server/utils/util-attributes": {
-    "root": [
-      "libs/shared/server/utils/util-attributes/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/shared/server/utils/util-attributes/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/shared/server/utils/util-attributes/EDb.UtilAttributes.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/shared/server/utils/util-attributes/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/shared/server/utils/util-attributes/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/shared/server/utils/util-attributes/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/shared/server/utils/util-attributes/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/shared/server/utils/util-auth": {
-    "root": [
-      "libs/shared/server/utils/util-auth/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/shared/server/utils/util-auth/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "tags.nx-dotnet": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.executor": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.outputs": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.options": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.configuration": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.options.noDependencies": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.build.configurations.production.configuration": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.executor": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.inputs": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.executor": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.options.configuration": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "targets.serve.configurations.production.configuration": [
-      "libs/shared/server/utils/util-auth/EDb.AuthUtils.csproj",
-      "@nx-dotnet/core"
-    ],
-    "$schema": [
-      "libs/shared/server/utils/util-auth/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/shared/server/utils/util-auth/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/shared/server/utils/util-auth/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/shared/server/utils/util-auth/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ]
@@ -17565,6 +16201,278 @@
     "targets.codegen.parallelism": [
       "nx.json",
       "nx/target-defaults"
+    ]
+  },
+  "libs/server/platform-api/features/feature-account": {
+    "root": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/server/platform-api/features/feature-account/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/server/platform-api/features/feature-applications": {
+    "root": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/server/platform-api/features/feature-applications/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/server/platform-api/features/feature-crm": {
+    "root": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/server/platform-api/features/feature-crm/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/shared/server/data-access": {
+    "root": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/shared/server/data-access/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/shared/server/domain": {
+    "root": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/shared/server/domain/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/shared/server/identity": {
+    "root": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/shared/server/identity/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/shared/server/utils/util-attributes": {
+    "root": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/shared/server/utils/util-attributes/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/shared/server/utils/util-auth": {
+    "root": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "libs/shared/server/utils/util-auth/project.json",
+      "nx/core/project-json"
     ]
   }
 }

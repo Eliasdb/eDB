@@ -1,5 +1,5 @@
 {
-  "1833041606240077847": {
+  "4707301884100331086": {
     "targets": {
       "e2e": {
         "command": "playwright test",
@@ -431,42 +431,50 @@
           {
             "target": "e2e-ci--regression/subscriptions.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--regression/webshop.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--smoke/admin.smoke.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--smoke/app.smoke.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--smoke/auth.smoke.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--smoke/catalog.smoke.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--smoke/logout/logout.smoke.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           },
           {
             "target": "e2e-ci--smoke/routes.smoke.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           }
         ],
         "metadata": {
@@ -484,6 +492,32 @@
             }
           }
         }
+      },
+      "e2e-ci--merge-reports": {
+        "executor": "@nx/playwright:merge-reports",
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report"
+        ],
+        "options": {
+          "config": "playwright.config.ts",
+          "expectedSuites": 8
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Merges Playwright blob reports from atomized tasks to produce unified reports for the configured reporters."
+        }
       }
     },
     "metadata": {
@@ -497,12 +531,13 @@
           "e2e-ci--smoke/catalog.smoke.spec.ts",
           "e2e-ci--smoke/logout/logout.smoke.spec.ts",
           "e2e-ci--smoke/routes.smoke.spec.ts",
-          "e2e-ci"
+          "e2e-ci",
+          "e2e-ci--merge-reports"
         ]
       }
     }
   },
-  "10304232268570737592": {
+  "567352684588658528": {
     "targets": {
       "e2e": {
         "command": "playwright test",
@@ -612,7 +647,8 @@
           {
             "target": "e2e-ci--src/example.spec.ts",
             "projects": "self",
-            "params": "forward"
+            "params": "forward",
+            "options": "forward"
           }
         ],
         "metadata": {
@@ -630,13 +666,40 @@
             }
           }
         }
+      },
+      "e2e-ci--merge-reports": {
+        "executor": "@nx/playwright:merge-reports",
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report"
+        ],
+        "options": {
+          "config": "playwright.config.ts",
+          "expectedSuites": 1
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Merges Playwright blob reports from atomized tasks to produce unified reports for the configured reporters."
+        }
       }
     },
     "metadata": {
       "targetGroups": {
         "E2E (CI)": [
           "e2e-ci--src/example.spec.ts",
-          "e2e-ci"
+          "e2e-ci",
+          "e2e-ci--merge-reports"
         ]
       }
     }

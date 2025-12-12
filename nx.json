@@ -138,7 +138,7 @@
         "staticStorybookTargetName": "static-storybook"
       }
     },
-    "@nx-dotnet/core",
+
     {
       "plugin": "@nx/react/router-plugin",
       "options": {
