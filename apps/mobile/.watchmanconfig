@@ -1,4 +1,6 @@
 {
+  "prefer_split_fsevents_watcher": true,
+
   "ignore_dirs": [
     "node_modules",
     "dist",
