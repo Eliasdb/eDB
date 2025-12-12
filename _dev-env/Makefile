@@ -16,10 +16,9 @@ COMPOSE := docker compose -f docker-compose.yml
 # ── Individual Nx tabs ─────────────────────────────────────────
 
 platform-app:
-	CHOKIDAR_USEPOLLING=1 \
-	WATCHPACK_POLLING=true \
+	NX_FILE_WATCHER=native \
 	$(ITERM) $(ITERM_APP) "Platform + Admin App" \
-	  nx run eDB:serve --devRemotes=mfe-edb-admin --poll=1500
+	  nx run edb:serve --devRemotes=mfe-edb-admin
 
 
 # Guarded .NET targets: set polling ONLY here

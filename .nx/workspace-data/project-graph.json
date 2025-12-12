@@ -5371,6 +5371,19 @@
             ],
             "cache": true
           },
+          "build-dev-watch": {
+            "executor": "nx:run-commands",
+            "options": {
+              "commands": [
+                "pnpm vite build --mode development --watch --config apps/client/wc-edb-user-account/vite.config.mts",
+                "pnpm vite build --mode development --watch --config apps/client/wc-edb-user-account/vite.styles.config.mts"
+              ],
+              "parallel": true,
+              "color": true
+            },
+            "configurations": {},
+            "parallelism": true
+          },
           "serve": {
             "executor": "@nx/vite:dev-server",
             "options": {
@@ -8802,12 +8815,6 @@
               "flatpickr",
               "flatpickr/dist/plugins/rangePlugin"
             ],
-            "dependsOn": [
-              {
-                "projects": "dependencies",
-                "target": "staging"
-              }
-            ],
             "executor": "@nx/angular:webpack-browser",
             "options": {
               "outputPath": "dist/apps/client/edb",
@@ -8914,6 +8921,9 @@
             "defaultConfiguration": "production",
             "parallelism": true,
             "cache": true,
+            "dependsOn": [
+              "^build"
+            ],
             "inputs": [
               "production",
               "^production",
@@ -8922,7 +8932,86 @@
               }
             ]
           },
+          "build-ng": {
+            "executor": "@angular/build:application",
+            "dependsOn": [
+              {
+                "target": "build",
+                "projects": "dependencies"
+              }
+            ],
+            "outputs": [
+              "{options.outputPath}"
+            ],
+            "options": {
+              "outputPath": "dist/apps/client/edb-ng",
+              "browser": "apps/client/edb/src/main.ts",
+              "tsConfig": "apps/client/edb/tsconfig.app.json",
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "apps/client/edb/public"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "apps/client/edb/src/assets",
+                  "output": "assets"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "dist/apps/client/edb-user-account",
+                  "output": "assets/eDB-user-account"
+                }
+              ],
+              "styles": [
+                "apps/client/edb/src/styles.css",
+                "@angular/material/prebuilt-themes/purple-green.css"
+              ]
+            },
+            "configurations": {
+              "production": {
+                "outputHashing": "all"
+              },
+              "development": {
+                "optimization": false,
+                "extractLicenses": false,
+                "sourceMap": true
+              }
+            },
+            "defaultConfiguration": "development",
+            "parallelism": true
+          },
+          "serve-dev-with-account": {
+            "executor": "nx:run-commands",
+            "options": {
+              "commands": [
+                "nx run wc-edb-user-account:build-dev-watch",
+                "nx serve edb"
+              ],
+              "parallel": true,
+              "color": true
+            },
+            "configurations": {},
+            "parallelism": true
+          },
           "serve": {
+            "continuous": true,
+            "executor": "@angular/build:dev-server",
+            "options": {
+              "proxyConfig": "apps/client/edb/proxy.conf.json"
+            },
+            "configurations": {
+              "production": {
+                "buildTarget": "edb:build-ng:production"
+              },
+              "development": {
+                "buildTarget": "edb:build-ng:development"
+              }
+            },
+            "defaultConfiguration": "development",
+            "parallelism": true
+          },
+          "serve-mf": {
             "allowedCommonJsDependencies": [
               "flatpickr",
               "flatpickr/dist/plugins/rangePlugin"
@@ -8949,7 +9038,7 @@
             "parallelism": true
           },
           "extract-i18n": {
-            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "executor": "@angular/build:extract-i18n",
             "options": {
               "buildTarget": "edb:build"
             },
@@ -96642,5 +96731,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1764083137715
+  "computedAt": 1764893048201
 }
