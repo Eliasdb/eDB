@@ -1,0 +1,147 @@
+import type { FastifyInstance } from 'fastify';
+
+import {
+  ctxFromReq,
+  handler,
+  optionalAuth,
+  validateRequest,
+} from '@edb-workbench/api/shared';
+
+import {
+  create__DomainClassName__BodySchema,
+  idParamSchema,
+  list__DomainClassName__sQuerySchema,
+  update__DomainClassName__BodySchema,
+  type Create__DomainClassName__Body,
+  type __DomainClassName__ListResponse,
+  type __DomainClassName__SingleResponse,
+  type IdParam,
+  type List__DomainClassName__sQuery,
+  type Update__DomainClassName__Body,
+} from './contracts';
+
+import {
+  create__DomainClassName__,
+  delete__DomainClassName__,
+  get__DomainClassName__,
+  list__DomainClassName__s,
+  update__DomainClassName__,
+  type RequestContext,
+} from './service';
+
+export async function __RouteRegistrarName__(
+  app: FastifyInstance,
+): Promise<void> {
+  const base = '/__routeBase__';
+
+  // LIST
+  app.get(
+    base,
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          List__DomainClassName__sQuery,
+          Record<string, never>,
+          Record<string, never>
+        >({
+          querySchema: list__DomainClassName__sQuerySchema,
+        }),
+      ],
+    },
+    handler(async (req): Promise<__DomainClassName__ListResponse> => {
+      const ctx: RequestContext = ctxFromReq(req);
+      return list__DomainClassName__s(
+        ctx,
+        req.query as List__DomainClassName__sQuery,
+      );
+    }),
+  );
+
+  // GET ONE
+  app.get(
+    `${base}/:id`,
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<Record<string, never>, IdParam, Record<string, never>>({
+          paramsSchema: idParamSchema,
+        }),
+      ],
+    },
+    handler(async (req): Promise<__DomainClassName__SingleResponse> => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const { id } = req.params as IdParam;
+      return get__DomainClassName__(ctx, id);
+    }),
+  );
+
+  // CREATE
+  app.post(
+    base,
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          Record<string, never>,
+          Record<string, never>,
+          Create__DomainClassName__Body
+        >({
+          bodySchema: create__DomainClassName__BodySchema,
+        }),
+      ],
+    },
+    handler(async (req): Promise<__DomainClassName__SingleResponse> => {
+      const ctx: RequestContext = ctxFromReq(req);
+      return create__DomainClassName__(
+        ctx,
+        req.body as Create__DomainClassName__Body,
+      );
+    }),
+  );
+
+  // UPDATE
+  app.patch(
+    `${base}/:id`,
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<
+          Record<string, never>,
+          IdParam,
+          Update__DomainClassName__Body
+        >({
+          paramsSchema: idParamSchema,
+          bodySchema: update__DomainClassName__BodySchema,
+        }),
+      ],
+    },
+    handler(async (req): Promise<__DomainClassName__SingleResponse> => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const { id } = req.params as IdParam;
+      return update__DomainClassName__(
+        ctx,
+        id,
+        req.body as Update__DomainClassName__Body,
+      );
+    }),
+  );
+
+  // DELETE
+  app.delete(
+    `${base}/:id`,
+    {
+      preHandler: [
+        optionalAuth,
+        validateRequest<Record<string, never>, IdParam, Record<string, never>>({
+          paramsSchema: idParamSchema,
+        }),
+      ],
+    },
+    handler(async (req): Promise<{ success: true }> => {
+      const ctx: RequestContext = ctxFromReq(req);
+      const { id } = req.params as IdParam;
+      return delete__DomainClassName__(ctx, id);
+    }),
+  );
+}

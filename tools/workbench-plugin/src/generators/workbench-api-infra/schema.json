@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "workbenchApiInfra generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Plural route/entity name (e.g. 'books')",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "fields": {
+      "type": "string",
+      "description": "Comma-separated list of fieldName:type (supports string, number, boolean, date, uuid, enum(a|b|c)). Optional: if omitted, the generator will read libs/server/workbench-api/models/src/contracts/<singular>.contract.json"
+    }
+  },
+  "required": ["name"]
+}

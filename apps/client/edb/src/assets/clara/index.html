@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Clara</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  <link rel="preload" href="/_expo/static/css/modal.module-119e35a4dd48cf2285bf977f7ba6f354.css" as="style"><link rel="stylesheet" href="/_expo/static/css/modal.module-119e35a4dd48cf2285bf977f7ba6f354.css"><link rel="preload" href="/_expo/static/css/web-d4f70a3b02f897900a69fd5bac46ae55.css" as="style"><link rel="stylesheet" href="/_expo/static/css/web-d4f70a3b02f897900a69fd5bac46ae55.css"><link rel="icon" href="/favicon.ico" /></head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  <script id="clara-base-script">
+(function () {
+  var BASE = '/assets/clara';
+  if (location.pathname.startsWith(BASE)) {
+    var rest = location.pathname.slice(BASE.length);
+    if (!rest || rest === '/index.html') rest = '/';
+    if (rest !== location.pathname) {
+      history.replaceState(null, '', rest + location.search + location.hash);
+    }
+  }
+  var base = document.createElement('base');
+  base.href = BASE.replace(/\/$/, '') + '/';
+  document.head.prepend(base);
+})();
+</script>
+<script id="clara-api-base">window.CLARA_API_BASE="https://api.staging.eliasdebock.com/clara";</script>
+<script src="/_expo/static/js/web/__expo-metro-runtime-46ac14f77b8d07852b02d57eb3e5b645.js" defer></script><script src="/_expo/static/js/web/__common-0780f3c5be0ec6af965c253f263ec2f5.js" defer></script><script src="/_expo/static/js/web/index-04d5954b5635d9acd16d23a4649081e8.js" defer></script>
+</body>
+</html>

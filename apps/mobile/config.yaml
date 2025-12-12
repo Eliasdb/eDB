@@ -1,0 +1,7 @@
+appId: com.eliasbedock.clara # ← your real bundle id
+android:
+  appId: com.eliasdebock.clara
+  appInstall: apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk
+devices:
+  android:
+    - emulator-5554 # <-- use ADB serial, not AVD name

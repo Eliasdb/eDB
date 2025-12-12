@@ -1,0 +1,7 @@
+:host ::ng-deep .ant-select-selector {
+  @apply bg-slate-950/80 border-slate-800 text-slate-100;
+}
+
+:host ::ng-deep .ant-select-selection-item {
+  @apply text-slate-100;
+}

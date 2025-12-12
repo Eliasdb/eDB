@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../../dist/out-tsc",
+
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    "types": ["vitest/globals", "vitest/importMeta", "node"],
+
+    "composite": true
+  },
+  "include": [
+    "vitest.config.*",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.ts"
+  ],
+  "exclude": []
+}

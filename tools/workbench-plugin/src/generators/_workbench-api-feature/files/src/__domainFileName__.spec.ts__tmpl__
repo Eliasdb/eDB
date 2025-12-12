@@ -1,0 +1,202 @@
+import Fastify from 'fastify';
+import { ZodTypeProvider } from 'fastify-type-provider-zod';
+import { beforeEach, describe, expect, it } from 'vitest';
+
+import { __RouteRegistrarName__ } from './index';
+import * as repo from './repo';
+
+// boot a fresh fastify instance with only this feature registered
+async function makeApp() {
+  const app = Fastify({ logger: false }).withTypeProvider<ZodTypeProvider>();
+  await __RouteRegistrarName__(app);
+  return app;
+}
+
+// reset the in-memory store between tests
+beforeEach(() => {
+  repo.__clearAllForTests?.();
+});
+
+describe('__featureLibName__ feature (e2e-ish)', () => {
+  it('can CREATE + LIST basic CRUD', async () => {
+    const app = await makeApp();
+
+    const postRes = await app.inject({
+      method: 'POST',
+      url: '/__routeBase__',
+      payload: {
+        __createPayloadLines__
+      },
+    });
+    expect(postRes.statusCode).toBe(200);
+    const created = postRes.json();
+    const id = created.item.id;
+    expect(id).toBeTruthy();
+
+    const listRes = await app.inject({
+      method: 'GET',
+      url: '/__routeBase__?page=1&pageSize=10',
+    });
+    expect(listRes.statusCode).toBe(200);
+    const listJson = listRes.json();
+
+    expect(Array.isArray(listJson.items)).toBe(true);
+    expect(listJson.items.find((x: any) => x.id === id)).toBeTruthy();
+  });
+
+  it('can PATCH + DELETE', async () => {
+    const app = await makeApp();
+
+    const createRes = await app.inject({
+      method: 'POST',
+      url: '/__routeBase__',
+      payload: {
+        __createPayloadLines__
+      },
+    });
+    const id = createRes.json().item.id;
+
+    const patchRes = await app.inject({
+      method: 'PATCH',
+      url: `/__routeBase__/${id}`,
+      payload: {
+        __patchKey__: __patchVal__,
+      },
+    });
+    expect(patchRes.statusCode).toBe(200);
+
+    const delRes = await app.inject({
+      method: 'DELETE',
+      url: `/__routeBase__/${id}`,
+    });
+    expect(delRes.statusCode).toBe(200);
+
+    const getGone = await app.inject({
+      method: 'GET',
+      url: `/__routeBase__/${id}`,
+    });
+    expect(getGone.statusCode).toBe(404);
+  });
+
+  // ─────────────────────────────────────────────
+  // Extended functionality tests
+  // ─────────────────────────────────────────────
+
+  it('supports pagination', async () => {
+    const app = await makeApp();
+    for (let i = 0; i < 25; i++) {
+      await app.inject({
+        method: 'POST',
+        url: '/__routeBase__',
+        payload: {
+          __createPayloadLines__
+        },
+      });
+    }
+
+    const res1 = await app.inject({
+      method: 'GET',
+      url: '/__routeBase__?page=1&pageSize=10',
+    });
+    const json1 = res1.json();
+    expect(json1.items.length).toBe(10);
+    expect(json1.hasMore).toBe(true);
+    expect(json1.nextPage).toBe(2);
+
+    const res3 = await app.inject({
+      method: 'GET',
+      url: '/__routeBase__?page=3&pageSize=10',
+    });
+    const json3 = res3.json();
+    expect(json3.items.length).toBe(5);
+    expect(json3.hasMore).toBe(false);
+    expect(json3.nextPage).toBe(null);
+  });
+
+  it('supports filtering', async () => {
+    const app = await makeApp();
+
+    // create two items with slightly different field values
+    await app.inject({
+      method: 'POST',
+      url: '/__routeBase__',
+      payload: { __createPayloadLines__ },
+    });
+    await app.inject({
+      method: 'POST',
+      url: '/__routeBase__',
+      payload: { __createPayloadLines__ },
+    });
+
+    // choose a filter key dynamically (first field)
+    const all = repo.__getAllForTests?.() || [];
+    const sample = all[0];
+    const [filterKey, filterValue] = Object.entries(sample).find(
+      ([k, v]) => typeof v === 'string' || typeof v === 'boolean',
+    ) || [];
+
+    if (filterKey && filterValue) {
+      const res = await app.inject({
+        method: 'GET',
+        url: `/__routeBase__?filter=${filterKey}=${filterValue}`,
+      });
+      const json = res.json();
+      expect(json.items.every((x: any) => x[filterKey] === filterValue)).toBe(true);
+    }
+  });
+
+  it('supports search', async () => {
+    const app = await makeApp();
+    await app.inject({
+      method: 'POST',
+      url: '/__routeBase__',
+      payload: { __createPayloadLines__ },
+    });
+
+    const searchTerm = 'demo';
+    const res = await app.inject({
+      method: 'GET',
+      url: `/__routeBase__?search=${searchTerm}`,
+    });
+    expect(res.statusCode).toBe(200);
+    const json = res.json();
+    expect(json.items.some((x: any) =>
+      JSON.stringify(x).toLowerCase().includes(searchTerm),
+    )).toBe(true);
+  });
+
+    it('supports sorting (asc/desc)', async () => {
+    const app = await makeApp();
+
+    // determine first searchable string field (title/name/whatever)
+    const sample = repo.__getAllForTests?.()[0] || {};
+    const field = Object.keys(sample).find(
+      (k) => typeof (sample as any)[k] === 'string',
+    ) || 'id';
+
+    // create 3 records with unique values in that field
+    const variants = ['Alpha', 'Zulu', 'Bravo'];
+    for (const val of variants) {
+      // build payload without double commas
+      const payload: Record<string, any> = {
+        __createPayloadLines__
+      };
+      payload[field] = val;
+      await app.inject({ method: 'POST', url: '/__routeBase__', payload });
+    }
+
+    const asc = await app.inject({
+      method: 'GET',
+      url: `/__routeBase__?sort=${field}:asc`,
+    });
+    const ascItems = asc.json().items;
+    expect(ascItems[0][field] <= ascItems[ascItems.length - 1][field]).toBe(true);
+
+    const desc = await app.inject({
+      method: 'GET',
+      url: `/__routeBase__?sort=${field}:desc`,
+    });
+    const descItems = desc.json().items;
+    expect(descItems[0][field] >= descItems[descItems.length - 1][field]).toBe(true);
+  });
+});

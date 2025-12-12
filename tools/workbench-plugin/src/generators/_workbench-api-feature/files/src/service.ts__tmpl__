@@ -1,0 +1,169 @@
+import {
+  NotFoundError,
+  UnauthorizedError,
+  assertCanAccessResource,
+  buildPagination,
+  makePaginatedResult,
+} from '@edb-workbench/api/shared';
+
+import {
+  ensureFound,
+  type Create__DomainClassName__Body,
+  type __DomainClassName__ListResponse,
+  type __DomainClassName__SingleResponse,
+  type List__DomainClassName__sQuery,
+  type Update__DomainClassName__Body,
+} from './contracts';
+
+import {
+  create__DomainClassName__Repo,
+  delete__DomainClassName__Repo,
+  get__DomainClassName__ByIdRepo,
+  list__DomainClassName__sRepo,
+  update__DomainClassName__Repo,
+} from './repo';
+
+/**
+ * Feature-level security switch.
+ *
+ * false  = demo/scaffold mode
+ *         reads and writes are "open"
+ * true   = production-ish mode
+ *         reads check ownership/admin
+ *         writes require logged-in user
+ */
+const REQUIRE_AUTH = false;
+
+export type RequestContext = {
+  userId: string | null;
+  roles: string[];
+};
+
+// internal guard
+function ensureLoggedIn(ctx: RequestContext): void {
+  if (REQUIRE_AUTH && !ctx.userId) {
+    throw new UnauthorizedError('Login required');
+  }
+}
+
+/**
+ * LIST
+ */
+export function list__DomainClassName__s(
+  ctx: RequestContext,
+  query: List__DomainClassName__sQuery,
+): __DomainClassName__ListResponse {
+  const plan = buildPagination(query);
+
+  const { rows, total } = list__DomainClassName__sRepo({
+    plan,
+    search: query.search,
+  });
+
+  if (!REQUIRE_AUTH) {
+    return makePaginatedResult(rows, plan, total);
+  }
+
+  // "real mode"
+  ensureLoggedIn(ctx);
+  const isAdmin = ctx.roles.includes('admin');
+
+  const visibleRows = isAdmin
+    ? rows
+    : rows.filter((item) => item.ownerId === ctx.userId);
+
+  const visibleTotal = isAdmin ? total : visibleRows.length;
+
+  return makePaginatedResult(visibleRows, plan, visibleTotal);
+}
+
+/**
+ * GET ONE
+ */
+export function get__DomainClassName__(
+  ctx: RequestContext,
+  id: string,
+): __DomainClassName__SingleResponse {
+  const item = ensureFound(get__DomainClassName__ByIdRepo(id));
+
+  if (!REQUIRE_AUTH) {
+    return { item };
+  }
+
+  ensureLoggedIn(ctx);
+  assertCanAccessResource(ctx, item.ownerId, ['admin']);
+  return { item };
+}
+
+/**
+ * CREATE
+ */
+export function create__DomainClassName__(
+  ctx: RequestContext,
+  body: Create__DomainClassName__Body,
+): __DomainClassName__SingleResponse {
+  if (!REQUIRE_AUTH) {
+    // open mode: fake owner if none
+    const created = create__DomainClassName__Repo(
+      ctx.userId ?? 'demo-user',
+      body as any,
+    );
+    return { item: created };
+  }
+
+  ensureLoggedIn(ctx);
+  const created = create__DomainClassName__Repo(ctx.userId!, body as any);
+  return { item: created };
+}
+
+/**
+ * UPDATE
+ */
+export function update__DomainClassName__(
+  ctx: RequestContext,
+  id: string,
+  body: Update__DomainClassName__Body,
+): __DomainClassName__SingleResponse {
+  const existing = ensureFound(get__DomainClassName__ByIdRepo(id));
+
+  if (!REQUIRE_AUTH) {
+    const updated = update__DomainClassName__Repo(id, body);
+    const finalItem = ensureFound(updated, 'Updated item missing');
+    return { item: finalItem };
+  }
+
+  ensureLoggedIn(ctx);
+  assertCanAccessResource(ctx, existing.ownerId, ['admin']);
+
+  const updated = update__DomainClassName__Repo(id, body);
+  const finalItem = ensureFound(updated, 'Updated item missing');
+  return { item: finalItem };
+}
+
+/**
+ * DELETE
+ */
+export function delete__DomainClassName__(
+  ctx: RequestContext,
+  id: string,
+): { success: true } {
+  const existing = ensureFound(get__DomainClassName__ByIdRepo(id));
+
+  if (!REQUIRE_AUTH) {
+    const ok = delete__DomainClassName__Repo(id);
+    if (!ok) {
+      throw new NotFoundError('Item already gone');
+    }
+    return { success: true };
+  }
+
+  ensureLoggedIn(ctx);
+  assertCanAccessResource(ctx, existing.ownerId, ['admin']);
+
+  const ok = delete__DomainClassName__Repo(id);
+  if (!ok) {
+    throw new NotFoundError('Item already gone');
+  }
+
+  return { success: true };
+}

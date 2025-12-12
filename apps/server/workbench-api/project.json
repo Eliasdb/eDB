@@ -1,0 +1,114 @@
+{
+  "name": "workbench-api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/workbench-api/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "dependsOn": [
+        "^build",
+        "feature-demo-items:build",
+        "feature-authors:build",
+        "feature-books:build",
+        "feature-publishers:build",
+        "feature-reviews:build",
+        "feature-members:build"
+      ],
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/server/workbench-api",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/server/workbench-api/src/main.ts",
+        "tsConfig": "apps/server/workbench-api/tsconfig.app.json",
+        "assets": ["apps/server/workbench-api/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {
+          "cache": false
+        },
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/server/workbench-api/package.json",
+        "{workspaceRoot}/dist/apps/server/workbench-api/pnpm-lock.yaml"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/server/workbench-api/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "DATABASE_URL=postgres://workbench_user:secret@127.0.0.1:5432/workbench_dev nodemon --config apps/server/workbench-api/nodemon.json"
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "workbench-api:build",
+        "runBuildTargetDependencies": true,
+        "waitUntilTargets": ["workbench-api:build"],
+        "inspect": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "workbench-api:build:development",
+          "waitUntilTargets": ["workbench-api:build:development"]
+        },
+        "production": {
+          "buildTarget": "workbench-api:build:production",
+          "waitUntilTargets": ["workbench-api:build:production"]
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/server/workbench-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

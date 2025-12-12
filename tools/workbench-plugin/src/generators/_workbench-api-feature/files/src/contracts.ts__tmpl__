@@ -1,0 +1,81 @@
+import {
+  listQuerySchema,
+  NotFoundError,
+  type PaginatedResult,
+} from '@edb-workbench/api/shared';
+import { z } from 'zod';
+
+/**
+ * Domain model schema for __DomainClassName__
+ */
+export const __domainPropName__Schema = z.object({
+  __modelFieldLines__
+});
+
+export type __DomainClassName__ = z.infer<typeof __domainPropName__Schema>;
+
+/**
+ * Create body
+ */
+export const create__DomainClassName__BodySchema = z.object({
+  __createBodyLines__
+});
+export type Create__DomainClassName__Body = z.infer<
+  typeof create__DomainClassName__BodySchema
+>;
+
+/**
+ * Update body
+ */
+export const update__DomainClassName__BodySchema = z.object({
+  __updateBodyLines__
+});
+export type Update__DomainClassName__Body = z.infer<
+  typeof update__DomainClassName__BodySchema
+>;
+
+/**
+ * :id param
+ */
+export const idParamSchema = z.object({
+  id: z.string().uuid(),
+});
+export type IdParam = z.infer<typeof idParamSchema>;
+
+/**
+ * List query:
+ * - pagination, sort, filter
+ * - optional full-text-ish search
+ */
+export const list__DomainClassName__sQuerySchema = listQuerySchema.extend({
+  search: z.string().optional(),
+});
+export type List__DomainClassName__sQuery = z.infer<
+  typeof list__DomainClassName__sQuerySchema
+>;
+
+/**
+ * Response shapes
+ */
+export type __DomainClassName__ListResponse =
+  PaginatedResult<__DomainClassName__>;
+
+export type __DomainClassName__SingleResponse = {
+  item: __DomainClassName__;
+};
+
+/**
+ * Helper for 404 in service layer
+ */
+export function ensureFound<T>(val: T | undefined, msg = 'Not Found'): T {
+  if (!val) {
+    throw new NotFoundError(msg);
+  }
+  return val;
+}
+
+// Re-export useful shared types
+export type {
+  PaginatedResult,
+  PaginationPlan,
+} from '@edb-workbench/api/shared';

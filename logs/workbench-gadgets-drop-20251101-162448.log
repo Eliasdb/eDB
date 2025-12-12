@@ -1,0 +1,43 @@
+date: invalid argument 's' for -I
+# workbench-gadgets drop @ 
+# BASE=http://127.0.0.1:9102
+
+• Attempt to delete gadgets (if API is running)
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+• Attempt to delete suppliers (if API is running)
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+• Revert relationship gadgets -> suppliers
+
+ NX  Generating @edb-workbench/plugin:workbench-api-rel
+
+[workbench-api-rel] Reverted → gadgets belongsTo suppliers (fk=supplierId)
+[workbench-api-rel] Nothing to revert (already clean).
+• Revert infra
+
+ NX  Generating @edb-workbench/plugin:workbench-api-infra
+
+[workbench-api-infra] Reverted → gadgets
+
+ NX  Generating @edb-workbench/plugin:workbench-api-infra
+
+[workbench-api-infra] Reverted → suppliers
+• Revert resources
+
+ NX  Generating @edb-workbench/plugin:workbench-api-resource
+
+[workbench-api-resource] Reverted -> gadgets
+
+ NX  Generating @edb-workbench/plugin:workbench-api-resource
+
+[workbench-api-resource] Reverted -> suppliers
+• Revert models
+
+ NX  Generating @edb-workbench/plugin:workbench-api-model
+
+[workbench-api-model] Reverted model 'gadget'
+
+ NX  Generating @edb-workbench/plugin:workbench-api-model
+
+[workbench-api-model] Reverted model 'supplier'
+
+Drop complete. Full log: logs/workbench-gadgets-drop-20251101-162448.log

@@ -1,0 +1,31 @@
+{
+  "name": "supplier",
+  "plural": "suppliers",
+  "fieldsString": "name:string,country?:string,rating?:number,contactEmail?:string",
+  "fields": [
+    {
+      "fieldName": "name",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string()"
+    },
+    {
+      "fieldName": "country",
+      "required": false,
+      "tsType": "string",
+      "zodBase": "z.string()"
+    },
+    {
+      "fieldName": "rating",
+      "required": false,
+      "tsType": "number",
+      "zodBase": "z.number()"
+    },
+    {
+      "fieldName": "contactEmail",
+      "required": false,
+      "tsType": "string",
+      "zodBase": "z.string()"
+    }
+  ]
+}

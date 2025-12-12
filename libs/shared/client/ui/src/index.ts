@@ -35,6 +35,48 @@ export { UiSidebarLayoutSmarterComponent } from './lib/layouts/sidebar-layout/si
 export { CustomModalService } from './lib/services/custom-modal.service';
 export { SidebarToggleService } from './lib/services/sidebar-toggle.service';
 
+// NG-Zorro
+export {
+  UiNzButtonComponent,
+  type UiNzButtonShape,
+  type UiNzButtonSize,
+  type UiNzButtonType,
+  type UiNzIconTheme,
+} from './lib/components/ng-zorro/button/ui-nz-button.component';
+export {
+  UiNzInputComponent,
+  type UiNzInputSize,
+  type UiNzInputType,
+} from './lib/components/ng-zorro/input/ui-nz-input.component';
+export {
+  UiNzSelectComponent,
+  type UiNzSelectMode,
+  type UiNzSelectOption,
+  type UiNzSelectGroup,
+  type UiNzSelectValue,
+} from './lib/components/ng-zorro/select/ui-nz-select.component';
+export {
+  UiNzDatePickerComponent,
+  type UiNzDatePickerSize,
+} from './lib/components/ng-zorro/date-picker/ui-nz-date-picker.component';
+export {
+  UiNzTableComponent,
+  type UiNzTableColumn,
+} from './lib/components/ng-zorro/table/ui-nz-table.component';
+export { UiNzModalComponent } from './lib/components/ng-zorro/modal/ui-nz-modal.component';
+export {
+  UiNzTabsComponent,
+  type UiNzTab,
+  type UiNzTabPosition,
+  type UiNzTabsSize,
+} from './lib/components/ng-zorro/tabs/ui-nz-tabs.component';
+export { UiNzCardComponent } from './lib/components/ng-zorro/card/ui-nz-card.component';
+export { UiNzCheckboxComponent } from './lib/components/ng-zorro/checkbox/ui-nz-checkbox.component';
+export {
+  UiNzSwitchComponent,
+  type UiNzSwitchSize,
+} from './lib/components/ng-zorro/switch/ui-nz-switch.component';
+
 // Material
 export { LoadingStateComponent } from './lib/components/material/loading-state/loading-state.component';
 export { QuantitySelectorComponent } from './lib/components/material/quantity-selector/quantity-selector.component';

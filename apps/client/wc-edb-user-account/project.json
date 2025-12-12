@@ -52,6 +52,20 @@
       },
       "defaultConfiguration": "production"
     },
+
+    /* 🔹 NEW: dev build in watch mode */
+    "build-dev-watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm vite build --mode development --watch --config apps/client/wc-edb-user-account/vite.config.mts",
+          "pnpm vite build --mode development --watch --config apps/client/wc-edb-user-account/vite.styles.config.mts"
+        ],
+        "parallel": true,
+        "color": true
+      }
+    },
+
     "serve": {
       "executor": "@nx/vite:dev-server",
       "options": {

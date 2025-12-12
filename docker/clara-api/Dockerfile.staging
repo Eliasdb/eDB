@@ -1,0 +1,23 @@
+# ---- deps stage ----
+FROM node:20-alpine AS deps
+WORKDIR /srv/app
+
+# Use Nx-pruned artifacts
+COPY dist/apps/server/clara-api/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY dist/apps/server/clara-api/workspace_modules ./workspace_modules
+# IMPORTANT: use the generated dist package.json (has deps)
+COPY dist/apps/server/clara-api/package.json ./package.json
+
+RUN corepack enable && corepack prepare pnpm@9 --activate
+RUN pnpm install --prod --frozen-lockfile || pnpm install --prod
+
+# ---- runner ----
+FROM gcr.io/distroless/nodejs20-debian12:latest AS runner
+WORKDIR /srv/app
+
+COPY --from=deps /srv/app/node_modules ./node_modules
+COPY dist/apps/server/clara-api/main.cjs ./main.cjs
+COPY dist/apps/server/clara-api/package.json ./package.json
+
+ENV PORT=9101
+CMD ["main.cjs"]

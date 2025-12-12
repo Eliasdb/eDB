@@ -1,0 +1,42 @@
+{
+  "name": "workbench-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/workbench-plugin/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "tools/workbench-plugin/dist",
+        "main": "tools/workbench-plugin/src/index.ts",
+        "tsConfig": "tools/workbench-plugin/tsconfig.lib.json",
+        "assets": [
+          "tools/workbench-plugin/README.md",
+
+          {
+            "input": "tools/workbench-plugin/src/generators",
+            "glob": "**/files/**",
+            "output": "src/generators"
+          },
+          {
+            "input": "tools/workbench-plugin/src/generators",
+            "glob": "**/schema.json",
+            "output": "src/generators"
+          },
+          {
+            "input": "tools/workbench-plugin/src/generators",
+            "glob": "**/schema.d.ts",
+            "output": "src/generators"
+          },
+
+          {
+            "input": "tools/workbench-plugin",
+            "glob": "generators.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}
