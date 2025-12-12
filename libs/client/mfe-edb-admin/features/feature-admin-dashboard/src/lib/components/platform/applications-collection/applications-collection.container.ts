@@ -103,26 +103,31 @@ import {
           label="Application Name"
           formControlName="name"
           theme="light"
+          ngDefaultControl
         />
         <ui-text-input
           label="Description"
           formControlName="description"
           theme="light"
+          ngDefaultControl
         />
         <ui-text-input
           label="Icon URL"
           formControlName="iconUrl"
           theme="light"
+          ngDefaultControl
         />
         <ui-text-input
           label="Route Path"
           formControlName="routePath"
           theme="light"
+          ngDefaultControl
         />
         <ui-text-input
           label="Tags (comma-separated)"
           formControlName="tags"
           theme="light"
+          ngDefaultControl
         />
       </form>
     </ng-template>

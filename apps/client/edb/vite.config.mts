@@ -1,18 +1,28 @@
-/// <reference types='vitest' />
+/// <reference types="vitest" />
 import angular from '@analogjs/vite-plugin-angular';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { join } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  root: __dirname,
-  cacheDir: '../node_modules/.vite/test',
+  // Point Vite at the folder that actually contains index.html
+  root: join(__dirname, 'src'),
+
+  cacheDir: join(__dirname, '../node_modules/.vite/edb'),
+
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
 
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  server: {
+    port: 4200,
+    strictPort: true,
+  },
+
+  build: {
+    // output relative to the project root (apps/client/edb)
+    outDir: join(__dirname, 'dist-vite'),
+    emptyOutDir: true,
+  },
 
   test: {
     server: {

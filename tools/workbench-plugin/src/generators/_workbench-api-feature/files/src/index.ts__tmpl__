@@ -1,0 +1,2 @@
+export * from './contracts';
+export { __RouteRegistrarName__ } from './controller';

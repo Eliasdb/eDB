@@ -1,24 +1,27 @@
 import { withModuleFederation } from '@nx/module-federation/angular';
-import config from './module-federation.config';
+import { composePlugins } from '@nx/webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import baseConfig from './module-federation.config';
 
-/**
- * DTS Plugin is disabled in Nx Workspaces as Nx already provides Typing support for Module Federation
- * The DTS Plugin can be enabled by setting dts: true
- * Learn more about the DTS Plugin here: https://module-federation.io/configure/dts.html
- */
-export default withModuleFederation(
-  {
-    ...config,
-    /*
-     * Remote overrides for production.
-     * Each entry is a pair of a unique name and the URL where it is deployed.
-     *
-     * e.g.
-     * remotes: [
-     *   ['app1', 'https://app1.example.com'],
-     *   ['app2', 'https://app2.example.com'],
-     * ]
-     */
+export default composePlugins(
+  withModuleFederation(
+    {
+      ...baseConfig,
+    },
+    { dts: false },
+  ),
+
+  // 👇 extra plugin only in prod
+  (config) => {
+    config.plugins ??= [];
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        analyzerPort: 8888,
+        openAnalyzer: true,
+      }),
+    );
+
+    return config;
   },
-  { dts: false },
 );

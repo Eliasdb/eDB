@@ -1,0 +1,26 @@
+import path from 'node:path';
+import url from 'node:url';
+import { defineConfig } from 'vitest/config';
+
+const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+export default defineConfig({
+  test: {
+    environment: 'node',
+    globals: true,
+    reporters: ['default', 'verbose'],
+    include: ['src/**/*.spec.ts'],
+  },
+  resolve: {
+    alias: {
+      "@edb-workbench/api/__featureLibName__": path.resolve(
+        dirname,
+        "./src/index.ts"
+      ),
+      "@edb-workbench/api/shared": path.resolve(
+        dirname,
+        "../../shared/src/index.ts"
+      ),
+    },
+  },
+});

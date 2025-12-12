@@ -1,0 +1,36 @@
+{
+  "extends": "../../../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+
+    "outDir": "../../../../dist/out-tsc",
+    "declaration": true,
+    "composite": true,
+
+    "types": ["vitest/globals", "vitest/importMeta", "node"],
+
+    "baseUrl": ".",
+    "paths": {
+      "@edb-workbench/api/shared": ["../shared/src/index.ts"],
+      "@edb-workbench/api/models": ["../models/src/index.ts"],
+      "@edb-workbench/api/infra": ["./src/index.ts"]
+    }
+  },
+
+  "include": ["src/**/*.ts", "vitest.config.*"],
+
+  "exclude": ["vitest.config.*", "src/**/migrate.*"],
+
+  "references": [{ "path": "../shared" }, { "path": "../models" }]
+}

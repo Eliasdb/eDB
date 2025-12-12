@@ -7,3 +7,4 @@ resources:
   - platform-client-staging.yaml
   - webshop-api-staging.yaml
   - tools-invoices-api-staging.yaml
+  - clara-api-staging.yaml

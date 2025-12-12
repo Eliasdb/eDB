@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "workbenchApiFeature generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Feature name, usually plural for the route. e.g. 'painters', 'contacts'",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "fields": {
+      "type": "string",
+      "description": "Comma-separated list of fieldName:type. e.g. \"name:string,birthYear:number,status:enum(active|archived),joinedAt:date\""
+    }
+  },
+  "required": ["name", "fields"]
+}

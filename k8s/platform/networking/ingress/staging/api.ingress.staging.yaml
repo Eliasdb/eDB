@@ -41,6 +41,13 @@ spec:
                 name: tools-invoices-api-staging
                 port:
                   number: 8000
+          - path: /clara(/|$)(.*) # <— NEW
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: clara-api-staging
+                port:
+                  number: 9101
   tls:
     - hosts:
         - api.staging.eliasdebock.com

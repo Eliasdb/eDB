@@ -5,8 +5,9 @@
   "prefix": "app",
   "sourceRoot": "apps/client/edb/src",
   "tags": [],
-  "implicitDependencies": ["wc-edb-user-account"],
+  "implicitDependencies": ["wc-edb-user-account", "mobile"],
   "targets": {
+    // 🔹 keep your existing webpack+MF build as-is
     "build": {
       "allowedCommonJsDependencies": [
         "flatpickr",
@@ -27,8 +28,18 @@
           },
           {
             "glob": "**/*",
+            "input": "apps/client/edb/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
             "input": "dist/apps/client/edb-user-account",
             "output": "assets/eDB-user-account"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/client/edb/src/assets/clara/_expo",
+            "output": "_expo"
           }
         ],
         "scripts": [],
@@ -107,7 +118,87 @@
       },
       "defaultConfiguration": "production"
     },
+
+    // 🔹 NEW: Angular/Vite-style build just for dev
+    "build-ng": {
+      "executor": "@angular/build:application",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/client/edb-ng",
+        "browser": "apps/client/edb/src/main.ts",
+        "tsConfig": "apps/client/edb/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/client/edb/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/client/edb/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "dist/apps/client/edb-user-account",
+            "output": "assets/eDB-user-account"
+          }
+        ],
+        "styles": [
+          "apps/client/edb/src/styles.css",
+          "@angular/material/prebuilt-themes/purple-green.css"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+
+    "serve-dev-with-account": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run wc-edb-user-account:build-dev-watch",
+          "nx serve edb"
+        ],
+        "parallel": true,
+        "color": true
+      }
+    },
+
+    // 🔹 NEW: Fast dev server like in smostr-admin
     "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "proxyConfig": "apps/client/edb/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "edb:build-ng:production"
+        },
+        "development": {
+          "buildTarget": "edb:build-ng:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+
+    // 🔹 keep your MF dev server under a different name
+    "serve-mf": {
       "allowedCommonJsDependencies": [
         "flatpickr",
         "flatpickr/dist/plugins/rangePlugin"
@@ -132,8 +223,9 @@
       "defaultConfiguration": "development",
       "continuous": true
     },
+
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "edb:build"
       }

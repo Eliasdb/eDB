@@ -1,0 +1,135 @@
+import type { PaginationPlan } from '@edb-workbench/api/shared';
+import { randomUUID } from 'crypto';
+import type {
+  __DomainClassName__,
+  Update__DomainClassName__Body,
+} from './contracts';
+
+// in-memory data store
+const records: __DomainClassName__[] = [];
+
+/**
+ * list with filtering / search / sort / pagination
+ */
+export function list__DomainClassName__sRepo(args: {
+  plan: PaginationPlan;
+  search?: string;
+}): { rows: __DomainClassName__[]; total: number } {
+  const { plan, search } = args;
+
+  let results = [...records];
+
+  // basic search across some string-ish fields
+  if (search && search.trim() !== '') {
+    const q = search.toLowerCase();
+    const searchableFields = __searchFieldExpr__; // e.g. ['title','name']
+    results = results.filter((item) => {
+      return searchableFields.some((fld: string) => {
+        const v = (item as any)[fld];
+        return typeof v === 'string' && v.toLowerCase().includes(q);
+      });
+    });
+  }
+
+  // filters: key=value from plan.filters
+  for (const [key, value] of Object.entries(plan.filters)) {
+    results = results.filter((item) => {
+      const itemVal = (item as Record<string, unknown>)[key];
+      return String(itemVal) === value;
+    });
+  }
+
+  // sorting
+  if (plan.sorters.length > 0) {
+    results.sort((a, b) => {
+      for (const { field, dir } of plan.sorters) {
+        const av = (a as Record<string, unknown>)[field];
+        const bv = (b as Record<string, unknown>)[field];
+
+        if (av === bv) continue;
+        if (av == null) return dir === 'asc' ? -1 : 1;
+        if (bv == null) return dir === 'asc' ? 1 : -1;
+
+        if (av < bv) return dir === 'asc' ? -1 : 1;
+        if (av > bv) return dir === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }
+
+  const total = results.length;
+  const sliced = results.slice(plan.offset, plan.offset + plan.limit);
+
+  return { rows: sliced, total };
+}
+
+/**
+ * single read
+ */
+export function get__DomainClassName__ByIdRepo(
+  id: string,
+): __DomainClassName__ | undefined {
+  return records.find((it) => it.id === id);
+}
+
+/**
+ * create
+ */
+export function create__DomainClassName__Repo(
+  ownerId: string,
+  data: Record<string, unknown>,
+): __DomainClassName__ {
+  const now = new Date().toISOString();
+
+  // Build final row from user data + system fields.
+  const record: __DomainClassName__ = {
+    id: randomUUID(),
+    ownerId,
+    createdAt: now,
+    updatedAt: now,
+    ...data,
+  } as __DomainClassName__;
+
+  records.push(record);
+  return record;
+}
+
+/**
+ * update
+ */
+export function update__DomainClassName__Repo(
+  id: string,
+  patch: Update__DomainClassName__Body,
+): __DomainClassName__ | undefined {
+  const idx = records.findIndex((it) => it.id === id);
+  if (idx === -1) return undefined;
+
+  const current = records[idx];
+
+  const updated: __DomainClassName__ = {
+    ...current,
+    ...patch,
+    updatedAt: new Date().toISOString(),
+  };
+
+  records[idx] = updated;
+  return updated;
+}
+
+/**
+ * delete
+ */
+export function delete__DomainClassName__Repo(id: string): boolean {
+  const idx = records.findIndex((it) => it.id === id);
+  if (idx === -1) return false;
+  records.splice(idx, 1);
+  return true;
+}
+
+export function __clearAllForTests() {
+  records.length = 0;
+}
+
+export function __getAllForTests() {
+  return Array.isArray(records) ? [...records] : [];
+}

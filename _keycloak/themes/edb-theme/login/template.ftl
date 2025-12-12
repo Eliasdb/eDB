@@ -185,6 +185,8 @@
       <@loginFooter.content/>
     </div>
   </div>
+      <script src="${url.resourcesPath}/js/demo-autofill.js"></script>
+
 </body>
 </html>
 </#macro>

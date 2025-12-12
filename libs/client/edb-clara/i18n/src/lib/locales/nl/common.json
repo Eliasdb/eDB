@@ -1,0 +1,114 @@
+{
+  "home": {
+    "greeting": "Hoi, ik ben Clara.\nWat kan ik vandaag voor je doen?",
+    "status": {
+      "connecting": "Verbinden…",
+      "live": "Live — je kunt praten",
+      "tap": "Tik om te praten"
+    }
+  },
+
+  "menu": {
+    "open": "Gebruikersmenu openen",
+    "profile": "Profiel",
+    "help": "Help",
+    "logout": "Afmelden"
+  },
+
+  "mic": {
+    "connecting": "Verbinden…",
+    "stop": "Stoppen",
+    "talk": "Praat"
+  },
+
+  "profile": {
+    "title": "Profiel",
+    "name": "Elias De Bock",
+    "email": "elias@example.com",
+    "account": "Account",
+    "preferences": "Voorkeuren",
+    "personalDetails": "Persoonlijke gegevens",
+    "security": "Beveiliging",
+    "connectedApps": "Gekoppelde apps",
+    "changePhoto": "Foto wijzigen",
+    "manageVoice": "Spraak beheren",
+    "language": "Taal"
+  },
+  "theme": {
+    "title": "Thema",
+    "system": "Systeem",
+    "light": "Licht",
+    "dark": "Donker"
+  },
+  "settings": {
+    "voiceMode": "Spraakmodus",
+    "notifications": "Meldingen"
+  },
+
+  "personal": {
+    "title": "Persoonlijke gegevens",
+    "save": "Opslaan",
+    "saveChanges": "Wijzigingen opslaan",
+    "sections": {
+      "identity": "Identiteit",
+      "work": "Werk",
+      "notes": "Notities"
+    },
+    "fields": {
+      "firstName": "Voornaam",
+      "lastName": "Achternaam",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "company": "Bedrijf",
+      "role": "Functie / Titel",
+      "privateNotes": "Privé notities"
+    },
+    "placeholders": {
+      "firstName": "Voornaam",
+      "lastName": "Achternaam",
+      "email": "jij@bedrijf.com",
+      "phone": "+32 ...",
+      "company": "Bedrijf",
+      "role": "Functie",
+      "notes": "Iets dat Clara moet weten…"
+    }
+  },
+
+  "tabs": {
+    "clara": "Clara",
+    "home": "Start",
+    "chat": "Chat",
+    "crm": "CRM",
+    "settings": "Instellingen",
+    "profile": "Profiel",
+    "admin": "Beheer"
+  },
+
+  "languages": {
+    "en": "Engels (VS)",
+    "nl": "Nederlands"
+  },
+
+  "crm": {
+    "title": "CRM",
+    "tasks": "Taken",
+    "contacts": "Contacten",
+    "companies": "Bedrijven",
+    "emptyTasks": "Nog geen taken — Clara zal ze hier neerzetten.",
+    "emptyContacts": "Nog geen contacten — Clara plaatst ze hier.",
+    "emptyCompanies": "Nog geen bedrijven — Clara koppelt ze hier.",
+    "loadError": "Hub kon niet worden geladen",
+    "addTaskPlaceholder": "Taak toevoegen…",
+    "addTaskButton": "Toevoegen"
+  },
+  "chat": {
+    "placeholder": "Typ een bericht…",
+    "send": "Versturen"
+  },
+
+  "admin": {
+    "logs": {
+      "empty": "Nog geen tool-calls — start er één en deze pagina werkt live bij."
+    }
+  }
+}

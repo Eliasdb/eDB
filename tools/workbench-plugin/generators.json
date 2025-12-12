@@ -1,0 +1,32 @@
+{
+  "name": "workbench-plugin",
+  "version": "0.0.1",
+  "generators": {
+    "workbench-api-feature": {
+      "factory": "./dist/src/generators/workbench-api-feature/generator.js",
+      "schema": "./src/generators/workbench-api-feature/schema.json",
+      "description": "Scaffold a new Workbench API feature (contracts, Fastify routes, wiring)"
+    },
+    "workbench-api-model": {
+      "factory": "./src/generators/workbench-api-model/generator",
+      "schema": "./src/generators/workbench-api-model/schema.json",
+      "description": "Create a contract-first model (Zod + types + minimal Repo) in the models lib"
+    },
+    "workbench-api-resource": {
+      "factory": "./src/generators/workbench-api-resource/generator",
+      "schema": "./src/generators/workbench-api-resource/schema.json",
+      "description": "Create controller/service + auto-register routes"
+    },
+    "workbench-api-infra": {
+      "factory": "./src/generators/workbench-api-infra/generator",
+      "schema": "./src/generators/workbench-api-infra/schema.json",
+      "description": "Create Drizzle schema + PG repo + exports + wiring"
+    },
+
+    "workbench-api-rel": {
+      "factory": "./src/generators/workbench-api-rel/generator",
+      "schema": "./src/generators/workbench-api-rel/schema.json",
+      "description": "Create or revert a belongsTo relation across contract, model, db, repo, tests, and resources (use --revert to clean)."
+    }
+  }
+}

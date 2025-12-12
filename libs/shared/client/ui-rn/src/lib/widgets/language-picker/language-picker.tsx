@@ -1,0 +1,35 @@
+// apps/mobile/src/lib/ui/LanguagePicker.tsx
+import { AppLocale, setLocale } from '@edb-clara/i18n';
+import { useTranslation } from 'react-i18next';
+import { Text, TouchableOpacity, View } from 'react-native';
+
+const LANGS: { code: AppLocale }[] = [{ code: 'en' }, { code: 'nl' }];
+
+export function LanguagePicker() {
+  const { t, i18n } = useTranslation();
+  const current = (i18n.language?.split('-')?.[0] as AppLocale) || 'en';
+
+  return (
+    <View>
+      {LANGS.map(({ code }) => (
+        <TouchableOpacity
+          key={code}
+          onPress={() => setLocale(code)}
+          className="flex-row items-center justify-between px-md py-md border-t border-border dark:border-border-dark"
+          activeOpacity={0.7}
+        >
+          <Text className="text-[15px] text-text dark:text-text-dark">
+            {t(`languages.${code}`)}
+          </Text>
+          <View
+            className={`w-4 h-4 rounded-full border-2 ${
+              current === code
+                ? 'border-primary bg-primary'
+                : 'border-border dark:border-border-dark'
+            }`}
+          />
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}

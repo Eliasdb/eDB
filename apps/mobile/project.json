@@ -1,0 +1,104 @@
+{
+  "name": "mobile",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/mobile/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo start"
+      }
+    },
+    "start:devclient": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo start --dev-client"
+      }
+    },
+    "android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo run:android"
+      }
+    },
+    "ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo run:ios"
+      }
+    },
+    "build:web": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "expo export --platform web --output-dir dist"
+      }
+    },
+    "build:web:dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc 'set -euo pipefail; cd apps/mobile; EXPO_PUBLIC_API_BASE=${EXPO_PUBLIC_API_BASE:-http://127.0.0.1:9101} EXPO_NO_TELEMETRY=1 npx expo export --platform web --output-dir dist --clear'"
+      }
+    },
+    "copy:web:to:assets": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "bash -lc 'set -euo pipefail; REPO=$(git rev-parse --show-toplevel); SRC=apps/mobile/dist; DEST=$REPO/apps/client/edb/src/assets/clara; mkdir -p \"$DEST\"; rm -rf \"$DEST\"/* || true; cp -R \"$SRC\"/* \"$DEST\"/'"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "EXPO_PUBLIC_STORYBOOK=1 apps/mobile/_tools/export-web.dev.sh"
+      }
+    },
+    "staging": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "command": "EXPO_PUBLIC_STORYBOOK=1 apps/mobile/_tools/mobile-staging.sh"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/mobile/jest.config.ts"
+      }
+    },
+
+    "maestro": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "maestro test .maestro/flows --format junit --output .maestro/results",
+        "forwardAllArgs": true
+      }
+    },
+    "maestro:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "maestro test .maestro/flows --device iOS",
+        "forwardAllArgs": true
+      }
+    },
+    "maestro:android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/mobile",
+        "command": "PATH=$ANDROID_HOME/platform-tools:$PATH maestro test .maestro/flows --config .maestro/config.android.yaml --no-ansi",
+        "forwardAllArgs": true
+      }
+    }
+  }
+}

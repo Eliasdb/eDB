@@ -1,0 +1,49 @@
+import {
+  <%= singular %>IdParamSchema,
+  type <%= Cap %>Repo,
+  type Create<%= Cap %>Body,
+  type Update<%= Cap %>Body,
+} from '@edb-workbench/api/models';
+import { NotFoundError, makePaginatedResult, type PaginationPlan } from '@edb-workbench/api/shared';
+
+export type RequestContext = { userId: string | null; roles: string[] };
+const REQUIRE_AUTH = false;
+function ensureLoggedIn(ctx: RequestContext) { if (REQUIRE_AUTH && !ctx.userId) throw new Error('Login required'); }
+
+export class <%= Cap %>Service {
+  constructor(private readonly repo: <%= Cap %>Repo) {}
+
+  async list(_ctx: RequestContext, plan: PaginationPlan) {
+    const { rows, total } = await this.repo.list({ plan });
+    return makePaginatedResult(rows, plan, total);
+  }
+
+  async getOne(_ctx: RequestContext, id: string) {
+    const { id: safe } = <%= singular %>IdParamSchema.parse({ id });
+    const found = await this.repo.getById(safe);
+    if (!found) throw new NotFoundError('<%= Cap %> not found');
+    return { <%= singular %>: found };
+  }
+
+  async create(ctx: RequestContext, body: Create<%= Cap %>Body) {
+    ensureLoggedIn(ctx);
+    const created = await this.repo.create(body);
+    return { <%= singular %>: created };
+  }
+
+  async update(ctx: RequestContext, id: string, body: Update<%= Cap %>Body) {
+    ensureLoggedIn(ctx);
+    const { id: safe } = <%= singular %>IdParamSchema.parse({ id });
+    const updated = await this.repo.update(safe, body);
+    if (!updated) throw new NotFoundError('<%= Cap %> not found');
+    return { <%= singular %>: updated };
+  }
+
+  async remove(ctx: RequestContext, id: string) {
+    ensureLoggedIn(ctx);
+    const { id: safe } = <%= singular %>IdParamSchema.parse({ id });
+    const ok = await this.repo.delete(safe);
+    if (!ok) throw new NotFoundError('<%= Cap %> not found');
+    return { success: true as const };
+  }
+}

@@ -14,8 +14,11 @@ node_modules
 .env.*.local
 .env
 
+# except keep this one tracked
+
 /_archive/
 
+.maestro
 
 apps/**/*-account.json
 secret
@@ -85,6 +88,7 @@ _archive
 !styles.css
 
 *.css.map
+
 service-account.json
 
 # IDE - VSCode
@@ -94,7 +98,7 @@ service-account.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-scripts
+# scripts
 # misc
 /.sass-cache
 /connect.lock
@@ -111,8 +115,7 @@ Thumbs.db
 
 obj
 
-.nx/cache
-.nx/workspace-data
+
 
 .angular
 
@@ -122,3 +125,24 @@ vite.config.*.timestamp*
 vitest.config.*.timestamp*
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+# Expo
+node_modules/
+.expo/
+.yarn/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+cache/
+
+ios
+
+android
+
+!.env.development

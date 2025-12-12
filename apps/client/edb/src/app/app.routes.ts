@@ -1,7 +1,8 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
+import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth.guard';
-import { WrapperComponent } from './wc-wrapper/wrapReact';
+import { WrapperComponent } from './wrappers/wc-wrapper/wrapReact';
 
 export const routes: Route[] = [
   {
@@ -30,16 +31,27 @@ export const routes: Route[] = [
       },
 
       /* Remote admin (Dynamic Module Federation) */
-      {
-        path: 'admin',
-        loadChildren: () =>
-          loadRemote<{ default: Route[] }>('mfe-edb-admin/Routes').then(
-            (m) => m!.default,
-          ),
-      },
+      // {
+      //   path: 'admin',
+      //   loadChildren: () =>
+      //     loadRemote<{ default: Route[] }>('mfe-edb-admin/Routes').then(
+      //       (m) => m!.default,
+      //     ),
+      // },
+
+      ...(environment.mfEnableRemotes
+        ? [
+            {
+              path: 'admin',
+              loadChildren: () =>
+                loadRemote<{ default: Route[] }>('mfe-edb-admin/Routes').then(
+                  (m) => m!.default,
+                ),
+            },
+          ]
+        : []),
 
       /* Demo applications. */
-
       {
         path: 'webshop',
         loadChildren: () =>
@@ -51,9 +63,33 @@ export const routes: Route[] = [
           import('@edb/feature-crm').then((m) => m.featureCRMRoutes),
       },
       {
+        path: 'izmir',
+        loadChildren: () =>
+          import('@eDB/feature-izmir').then((m) => m.featureIzmirRoutes),
+      },
+      {
         path: 'erp',
         loadChildren: () =>
           import('@edb/feature-erp').then((m) => m.featureERPRoutes),
+      },
+
+      {
+        path: 'clara',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./wrappers/iframe-wrapper/iframe-wrapper.component').then(
+            (m) => m.IframeWrapperComponent,
+          ),
+      },
+
+      /* 🔧 Agent playground */
+      {
+        path: 'workbench',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./wrappers/agent-playground/agent-playground.component').then(
+            (m) => m.AgentPlaygroundComponent,
+          ),
       },
     ],
   },

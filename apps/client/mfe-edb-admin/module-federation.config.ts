@@ -7,7 +7,7 @@ import {
 } from '@nx/module-federation';
 
 /* strict singleton helper (core Angular + RxJS only) */
-const strict = (requiredVersion = '^20.2.4'): SharedLibraryConfig => ({
+const strict = (requiredVersion = '^21.0.5'): SharedLibraryConfig => ({
   singleton: true,
   strictVersion: true,
   requiredVersion,
@@ -40,7 +40,7 @@ export default {
       pkg === '@angular/platform-browser' ||
       pkg === '@angular/router'
     ) {
-      return strict(); // ^20.2.4
+      return strict(); // ^21.0.5
     }
 
     // 2. RxJS – strict singleton

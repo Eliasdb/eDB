@@ -37,6 +37,15 @@ namespace EDb.DataAccess.Data
                         IconUrl = "https://unpkg.com/lucide-static/icons/layers.svg",
                         RoutePath = "/erp",
                         Tags = ["Angular", "Python"],
+                    },
+                    // ➕ Clara
+                    new Application
+                    {
+                        Name = "Clara",
+                        Description = "AI assistant & voice/chat interface",
+                        IconUrl = "https://unpkg.com/lucide-static/icons/bot.svg",
+                        RoutePath = "/clara",
+                        Tags = ["React Native", "Node", "Fastify", "OpenAI", "WebRTC"],
                     }
                 );
 

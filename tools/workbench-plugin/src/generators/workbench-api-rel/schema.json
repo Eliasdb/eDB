@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+
+  "cli": "nx",
+  "id": "workbench-api-rel",
+  "title": "workbench-api-rel",
+  "type": "object",
+  "properties": {
+    "belongsTo": {
+      "type": "string",
+      "description": "child:parent (both plural), e.g. 'gadgets:suppliers'",
+      "x-prompt": "Enter child:parent (both plural)"
+    },
+    "fk": {
+      "type": "string",
+      "description": "FK field on child (camelCase), default '<parentSingular>Id'"
+    },
+    "include": {
+      "type": "string",
+      "description": "Include alias on child (parent singular), default parent singular"
+    },
+    "onDelete": {
+      "type": "string",
+      "enum": ["restrict", "setNull", "cascade"],
+      "description": "FK onDelete behavior (default 'cascade')"
+    },
+    "select": {
+      "type": "string",
+      "description": "Parent fields to return when included, comma-separated (default 'id,name')"
+    },
+    "revert": {
+      "type": "boolean",
+      "description": "Revert/clean the relationship and all wiring",
+      "default": false
+    }
+  },
+  "required": ["belongsTo"]
+}
