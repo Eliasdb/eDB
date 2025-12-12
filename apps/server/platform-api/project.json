@@ -5,13 +5,17 @@
   "sourceRoot": "apps/server/platform-api",
   "tags": ["scope:platform", "type:api"],
   "targets": {
-    "build": {
-      "executor": "@nx-dotnet/core:publish",
+    "serve": {
+      "command": "dotnet watch run",
       "options": {
-        "configuration": "Release",
-        "output": "dist/apps/server/platform-api",
-        "runtime": "linux-arm64",
-        "selfContained": false
+        "cwd": "{projectRoot}"
+      },
+      "continuous": true
+    },
+    "build": {
+      "command": "dotnet build",
+      "options": {
+        "cwd": "{projectRoot}"
       }
     }
   }

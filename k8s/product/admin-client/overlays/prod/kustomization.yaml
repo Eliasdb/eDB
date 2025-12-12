@@ -4,18 +4,19 @@ nameSuffix: -prod
 namespace: default
 
 resources:
-  - ../../base
+- ../../base
 
 # Pin an explicit prod tag here
 images:
-  - name: eliasdb/edb-admin
-    newTag: v2.0
+- name: eliasdb/edb-admin
+  newName: eliasdb/edb-admin
+  newTag: v2.1
 
 patches:
-  - target:
-      kind: Deployment
-      name: admin-client
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/env/0/value
-        value: production
+- patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/env/0/value
+      value: production
+  target:
+    kind: Deployment
+    name: admin-client

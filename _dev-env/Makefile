@@ -23,10 +23,13 @@ platform-app:
 
 # Guarded .NET targets: set polling ONLY here
 platform-api:
-	$(ITERM) $(ITERM_APP) "Platform API"           DOTNET_USE_POLLING_FILE_WATCHER=1 nx serve platform-api
+	$(ITERM) $(ITERM_APP) "Platform API" \
+	  env DOTNET_USE_POLLING_FILE_WATCHER=1 nx run platform-api:serve
 
 admin-api:
-	$(ITERM) $(ITERM_APP) "Admin API"              DOTNET_USE_POLLING_FILE_WATCHER=1 nx serve admin-api
+	$(ITERM) $(ITERM_APP) "Admin API" \
+	  env DOTNET_USE_POLLING_FILE_WATCHER=1 nx run admin-api:serve
+
 
 # Other services (no polling)
 webshop-api:

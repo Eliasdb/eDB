@@ -3,9 +3,10 @@ kind: Kustomization
 nameSuffix: -prod
 namespace: default
 resources:
-  - ../../base
+- ../../base
 patches:
-  - path: patch.yaml
+- path: patch.yaml
 images:
-  - name: eliasdb/platform-api
-    newTag: v2.0.1 # pin prod here (change via PR)
+- name: eliasdb/platform-api
+  newName: eliasdb/platform-api
+  newTag: v2.1
