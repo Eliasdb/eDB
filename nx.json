@@ -138,7 +138,6 @@
         "staticStorybookTargetName": "static-storybook"
       }
     },
-
     {
       "plugin": "@nx/react/router-plugin",
       "options": {
