@@ -1,0 +1,32 @@
+{
+  "name": "workbench-api-shared",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/server/workbench-api/shared/src",
+  "projectType": "library",
+  "tags": ["scope:server", "context:workbench-api", "type:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/server/workbench-api/shared",
+        "main": "libs/server/workbench-api/shared/src/index.ts",
+        "tsConfig": "libs/server/workbench-api/shared/tsconfig.lib.json",
+        "assets": ["libs/server/workbench-api/shared/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/server/workbench-api/shared/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "passWithNoTests": false,
+        "config": "libs/server/workbench-api/shared/vitest.config.mts"
+      }
+    }
+  }
+}

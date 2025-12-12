@@ -1,0 +1,40 @@
+{
+  "name": "gadget",
+  "plural": "gadgets",
+  "fieldsString": "name:string,category:enum(surveillance|infiltration|comms|medical),weightGr?:number,discontinued?:boolean,releasedAt?:date",
+  "fields": [
+    {
+      "fieldName": "name",
+      "required": true,
+      "tsType": "string",
+      "zodBase": "z.string()"
+    },
+    {
+      "fieldName": "category",
+      "required": true,
+      "tsType": "'surveillance' | 'infiltration' | 'comms' | 'medical'",
+      "zodBase": "z.enum(['surveillance', 'infiltration', 'comms', 'medical'])"
+    },
+    {
+      "fieldName": "weightGr",
+      "required": false,
+      "tsType": "number",
+      "zodBase": "z.number()"
+    },
+    {
+      "fieldName": "discontinued",
+      "required": false,
+      "tsType": "boolean",
+      "zodBase": "z.boolean()"
+    },
+    {
+      "fieldName": "releasedAt",
+      "required": false,
+      "tsType": "string",
+      "zodBase": "z.string().datetime()"
+    }
+  ],
+  "relationships": {
+    "belongsTo": []
+  }
+}

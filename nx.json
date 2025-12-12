@@ -130,12 +130,6 @@
       }
     },
     {
-      "plugin": "@nx/vite",
-      "options": {
-        "targetName": "test"
-      }
-    },
-    {
       "plugin": "@nx/storybook/plugin",
       "options": {
         "serveStorybookTargetName": "storybook",
@@ -185,6 +179,9 @@
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps"
       }
+    },
+    {
+      "plugin": "@edb-workbench/plugin"
     }
   ],
   "generators": {

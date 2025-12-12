@@ -98,7 +98,7 @@ service-account.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-scripts
+# scripts
 # misc
 /.sass-cache
 /connect.lock
@@ -115,8 +115,7 @@ Thumbs.db
 
 obj
 
-.nx/cache
-.nx/workspace-data
+
 
 .angular
 

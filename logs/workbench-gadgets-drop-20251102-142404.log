@@ -1,0 +1,77 @@
+date: invalid argument 's' for -I
+# workbench-gadgets drop @ 
+# BASE=http://127.0.0.1:9102
+
+• Attempt to delete gadgets (if API is running)
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+• Attempt to delete suppliers (if API is running)
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+• Revert relationship gadgets -> suppliers
+
+ NX  Generating @edb-workbench/plugin:workbench-api-rel
+
+[workbench-api-rel] Reverted → gadgets belongsTo suppliers (fk=supplierId)
+UPDATE libs/server/workbench-api/models/src/contracts/gadget.contract.json
+UPDATE libs/server/workbench-api/models/src/lib/gadget.model.ts
+UPDATE libs/server/workbench-api/resources/src/lib/gadgets/gadget.controller.ts
+DELETE libs/server/workbench-api/resources/src/lib/gadgets/_includes.supplier.ts
+UPDATE libs/server/workbench-api/resources/src/lib/register.ts
+• Revert infra
+
+ NX  Generating @edb-workbench/plugin:workbench-api-infra
+
+[workbench-api-infra] Reverted → gadgets
+DELETE libs/server/workbench-api/infra/src/lib/db/schemas/gadgets.ts
+DELETE libs/server/workbench-api/infra/src/lib/repos/gadget/repo.pg.ts
+DELETE libs/server/workbench-api/infra/src/lib/repos/gadget/repo.pg.spec.ts
+UPDATE libs/server/workbench-api/infra/src/index.ts
+UPDATE libs/server/workbench-api/infra/src/lib/db/orm/drizzle.ts
+UPDATE libs/server/workbench-api/resources-pg/src/lib/index.ts
+
+ NX  Generating @edb-workbench/plugin:workbench-api-infra
+
+[workbench-api-infra] Reverted → suppliers
+DELETE libs/server/workbench-api/infra/src/lib/db/schemas/suppliers.ts
+DELETE libs/server/workbench-api/infra/src/lib/repos/supplier/repo.pg.ts
+DELETE libs/server/workbench-api/infra/src/lib/repos/supplier/repo.pg.spec.ts
+UPDATE libs/server/workbench-api/infra/src/index.ts
+UPDATE libs/server/workbench-api/infra/src/lib/db/orm/drizzle.ts
+UPDATE libs/server/workbench-api/resources-pg/src/lib/index.ts
+• Revert resources
+
+ NX  Generating @edb-workbench/plugin:workbench-api-resource
+
+[workbench-api-resource] Reverted -> gadgets
+UPDATE libs/server/workbench-api/resources/src/lib/register.ts
+DELETE libs/server/workbench-api/resources/src/lib/gadgets/gadget.controller.ts
+DELETE libs/server/workbench-api/resources/src/lib/gadgets/gadget.service.ts
+DELETE libs/server/workbench-api/resources/src/lib/gadgets/index.ts
+DELETE libs/server/workbench-api/resources/src/lib/gadgets
+
+ NX  Generating @edb-workbench/plugin:workbench-api-resource
+
+[workbench-api-resource] Reverted -> suppliers
+UPDATE libs/server/workbench-api/resources/src/lib/register.ts
+DELETE libs/server/workbench-api/resources/src/lib/suppliers/supplier.controller.ts
+DELETE libs/server/workbench-api/resources/src/lib/suppliers/supplier.service.ts
+DELETE libs/server/workbench-api/resources/src/lib/suppliers/index.ts
+DELETE libs/server/workbench-api/resources/src/lib/suppliers
+• Revert models
+
+ NX  Generating @edb-workbench/plugin:workbench-api-model
+
+[workbench-api-model] Reverted model 'gadget'
+UPDATE libs/server/workbench-api/models/src/index.ts
+DELETE libs/server/workbench-api/models/src/lib/gadget.model.ts
+DELETE libs/server/workbench-api/models/src/contracts/gadget.contract.json
+
+ NX  Generating @edb-workbench/plugin:workbench-api-model
+
+[workbench-api-model] Reverted model 'supplier'
+UPDATE libs/server/workbench-api/models/src/index.ts
+DELETE libs/server/workbench-api/models/src/lib/supplier.model.ts
+DELETE libs/server/workbench-api/models/src/contracts/supplier.contract.json
+DELETE libs/server/workbench-api/models/src/contracts/.gitkeep
+DELETE libs/server/workbench-api/models/src/contracts
+
+Drop complete. Full log: logs/workbench-gadgets-drop-20251102-142404.log

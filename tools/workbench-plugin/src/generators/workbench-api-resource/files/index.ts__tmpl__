@@ -1,0 +1,2 @@
+export * from './<%= singular %>.controller';
+export * from './<%= singular %>.service';

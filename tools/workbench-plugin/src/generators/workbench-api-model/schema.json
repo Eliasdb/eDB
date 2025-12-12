@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "workbench-api-model",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "Plural-ish, e.g. 'missions'." },
+    "fields": {
+      "type": "string",
+      "description": "e.g. \"title:string,status:enum(planned|active)\""
+    },
+    "revert": {
+      "type": "boolean",
+      "default": false,
+      "description": "Revert a previous run for this model."
+    },
+    "runId": {
+      "type": "string",
+      "description": "Optional run id to revert; defaults to latest."
+    },
+    "force": {
+      "type": "boolean",
+      "default": false,
+      "description": "Force revert even if file drift is detected."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "revert": { "const": true } } },
+      "then": { "required": ["name"] },
+      "else": { "required": ["name", "fields"] }
+    }
+  ]
+}

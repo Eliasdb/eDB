@@ -52,6 +52,9 @@
       "@eDB/feature-dashboard": [
         "libs/client/edb/features/feature-dashboard/src/index.ts"
       ],
+      "@eDB/feature-izmir": [
+        "libs/client/edb/features/feature-izmir/src/index.ts"
+      ],
       "@eDB/feature-login": ["libs/eDB/features/feature-login/src/index.ts"],
       "@eDB/feature-profile": [
         "libs/eDB/features/feature-profile/src/index.ts"
@@ -82,8 +85,36 @@
       "@edb-clara/feature-profile": [
         "libs/client/edb-clara/features/feature-clara-profile/src/index.ts"
       ],
+      "@edb-clara/feature-voice": [
+        "libs/client/edb-clara/features/feature-clara-voice/src/index.ts"
+      ],
       "@edb-clara/i18n": ["libs/client/edb-clara/i18n/src/index.ts"],
       "@edb-clara/realtime": ["libs/client/edb-clara/real-time/src/index.ts"],
+      "@edb-workbench/api/contracts": [
+        "libs/server/workbench-api/contracts/src/index.ts"
+      ],
+      "@edb-workbench/api/feature-demo-items": [
+        "libs/server/workbench-api/features/feature-demo-items/src/index.ts"
+      ],
+      "@edb-workbench/api/infra": [
+        "libs/server/workbench-api/infra/src/index.ts"
+      ],
+      "@edb-workbench/api/models": [
+        "libs/server/workbench-api/models/src/index.ts"
+      ],
+      "@edb-workbench/api/openapi": [
+        "libs/server/workbench-api/openapi/src/index.ts"
+      ],
+      "@edb-workbench/api/resources": [
+        "libs/server/workbench-api/resources/src/index.ts"
+      ],
+      "@edb-workbench/api/resources-pg": [
+        "libs/server/workbench-api/resources-pg/src/index.ts"
+      ],
+      "@edb-workbench/api/shared": [
+        "libs/server/workbench-api/shared/src/index.ts"
+      ],
+      "@edb-workbench/plugin": ["tools/workbench-plugin/src/index.ts"],
       "@edb/client-auth": [
         "libs/client/edb/data-access/client-auth/src/index.ts"
       ],

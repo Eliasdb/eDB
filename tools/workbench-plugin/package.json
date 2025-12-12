@@ -1,0 +1,12 @@
+{
+  "name": "@edb-workbench/plugin",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./dist/index.js",
+  "generators": "./generators.json",
+  "dependencies": {
+    "@nx/devkit": "^21.0.0",
+    "tslib": "^2.3.0"
+  }
+}

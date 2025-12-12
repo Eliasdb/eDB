@@ -3,10 +3,10 @@ import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 import { View } from 'react-native';
 
-import type { Activity } from '@edb-clara/client-crm';
 import { Button } from '../../primitives';
 import {
   ActivityTimeline,
+  type ActivityLike,
   type ActivityTimelineProps,
 } from './activity-timeline';
 
@@ -15,48 +15,31 @@ import {
 const now = new Date();
 const iso = (d: Date) => d.toISOString();
 
-// helper to make relative times
-const minutesAgo = (m: number) => {
-  const d = new Date(now.getTime() - m * 60_000);
-  return iso(d);
-};
-const hoursAgo = (h: number) => {
-  const d = new Date(now.getTime() - h * 3_600_000);
-  return iso(d);
-};
-const daysAgo = (dys: number) => {
-  const d = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() - dys,
-    14,
-    15,
-  );
-  return iso(d);
-};
+// helpers for relative times
+const minutesAgo = (m: number) => iso(new Date(now.getTime() - m * 60_000));
+const hoursAgo = (h: number) => iso(new Date(now.getTime() - h * 3_600_000));
+const daysAgo = (dys: number) =>
+  iso(new Date(now.getFullYear(), now.getMonth(), now.getDate() - dys, 14, 15));
 
-const demoActivities: Activity[] = [
+const demoActivities: ActivityLike[] = [
   // today
   {
     id: 'a1',
     type: 'email',
     at: minutesAgo(15),
     summary: 'Sent pricing proposal to Jane',
-    companyId: 'co1',
   },
   {
     id: 'a2',
     type: 'call',
     at: hoursAgo(2),
     summary: 'Call with CTO — discussed SSO & SCIM',
-    companyId: 'co1',
   },
   {
     id: 'a3',
     type: 'note',
     at: hoursAgo(6),
     summary: 'Internal note: high intent, move to proposal',
-    companyId: 'co1',
   },
 
   // yesterday
@@ -65,7 +48,6 @@ const demoActivities: Activity[] = [
     type: 'meeting',
     at: daysAgo(1),
     summary: 'Discovery meeting with ops team',
-    companyId: 'co1',
   },
 
   // earlier
@@ -74,14 +56,12 @@ const demoActivities: Activity[] = [
     type: 'status',
     at: daysAgo(3),
     summary: 'Advanced to "Proposal" stage',
-    companyId: 'co1',
   },
   {
     id: 'a6',
     type: 'system',
     at: daysAgo(7),
     summary: 'Account imported from HubSpot',
-    companyId: 'co1',
   },
 ];
 
@@ -126,7 +106,7 @@ export const WithHeaderAction: Story = {
   args: {
     // keep args serializable; inject node via render()
   },
-  render: (args: ActivityTimelineProps) => (
+  render: (args: ActivityTimelineProps<ActivityLike>) => (
     <ActivityTimeline
       {...args}
       headerActions={
@@ -152,14 +132,14 @@ export const WithHeaderAction: Story = {
 
 export const ClickableRows: Story = {
   args: {},
-  render: (args) => (
+  render: (args: ActivityTimelineProps<ActivityLike>) => (
     <ActivityTimeline {...args} onPressItem={(a) => action('onPressItem')(a)} />
   ),
 };
 
 export const CustomSecondary: Story = {
   args: {},
-  render: (args) => (
+  render: (args: ActivityTimelineProps<ActivityLike>) => (
     <ActivityTimeline
       {...args}
       renderSecondary={(a) => {
@@ -181,7 +161,7 @@ export const CustomSecondary: Story = {
 
 export const CustomIconsPerType: Story = {
   args: {},
-  render: (args) => (
+  render: (args: ActivityTimelineProps<ActivityLike>) => (
     <ActivityTimeline
       {...args}
       iconForType={(t) => {

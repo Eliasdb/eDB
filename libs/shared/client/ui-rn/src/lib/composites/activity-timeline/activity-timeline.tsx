@@ -1,21 +1,33 @@
-import type { Activity } from '@edb-clara/client-crm';
+// apps/mobile/src/ui/composites/ActivityTimeline.tsx
 import { Ionicons } from '@expo/vector-icons';
+import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Card, EmptyLine, List } from '../../primitives';
 import { TwoLineRow } from '../list-rows';
 
 type IconName = React.ComponentProps<typeof Ionicons>['name'];
 
-/* Layout constants */
+/* ---------- Minimal domain-agnostic shape ---------- */
+export type ActivityLike = {
+  id: string;
+  type: 'note' | 'call' | 'email' | 'meeting' | 'status' | 'system';
+  at: string; // ISO timestamp
+  summary: string;
+};
+
+/* ---------- Layout constants ---------- */
 const GROUP_PAD_X = 10;
 const RAIL_LEFT = 16;
 const DOT_SIZE = 8;
 const DOT_GAP_FROM_RAIL = 8;
-
 const TEXT_OFFSET_FROM_RAIL = DOT_GAP_FROM_RAIL + DOT_SIZE + 16;
 
-/* Defaults */
-const defaultIconForType = (t: Activity['type']): IconName => {
+const CHIP_RIGHT = 10;
+const CHIP_BOTTOM = 8;
+const CHIP_SIZE = 28;
+
+/* ---------- Utils ---------- */
+const defaultIconForType = (t: ActivityLike['type']): IconName => {
   switch (t) {
     case 'note':
       return 'document-text-outline';
@@ -32,7 +44,8 @@ const defaultIconForType = (t: Activity['type']): IconName => {
       return 'chatbubble-ellipses-outline';
   }
 };
-const colorFor = (t: Activity['type']) => {
+
+const colorFor = (t: ActivityLike['type']) => {
   switch (t) {
     case 'meeting':
       return '#EAB308';
@@ -49,12 +62,14 @@ const colorFor = (t: Activity['type']) => {
       return '#94A3B8';
   }
 };
+
 const withAlpha = (hex: string, a: number) => {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   return `rgba(${r},${g},${b},${a})`;
 };
+
 const formatTime = (iso: string) =>
   new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
@@ -72,8 +87,9 @@ function dayKey(iso: string) {
     day: 'numeric',
   });
 }
-function groupByDay(rows: Activity[]) {
-  const m = new Map<string, Activity[]>();
+
+function groupByDay<T extends ActivityLike>(rows: T[]) {
+  const m = new Map<string, T[]>();
   rows.forEach((a) => {
     const k = dayKey(a.at);
     const arr = m.get(k) ?? [];
@@ -83,28 +99,29 @@ function groupByDay(rows: Activity[]) {
   return Array.from(m.entries());
 }
 
-/* Props */
-export type ActivityTimelineProps = {
+/* ---------- Props ---------- */
+export type ActivityTimelineProps<T extends ActivityLike = ActivityLike> = {
   title?: string;
-  activities?: Activity[];
+  activities?: T[];
   loading?: boolean;
   headerActions?: React.ReactNode;
-  iconForType?: (t: Activity['type']) => IconName;
-  onPressItem?: (a: Activity) => void;
-  renderSecondary?: (a: Activity) => React.ReactNode;
+  iconForType?: (t: T['type']) => IconName;
+  onPressItem?: (a: T) => void;
+  renderSecondary?: (a: T) => React.ReactNode;
   emptyText?: string;
 };
 
-export function ActivityTimeline({
+/* ---------- Component ---------- */
+export function ActivityTimeline<T extends ActivityLike>({
   title = 'Timeline',
   activities = [],
   loading,
   headerActions,
-  iconForType = defaultIconForType,
+  iconForType = defaultIconForType as (t: T['type']) => IconName,
   onPressItem,
   renderSecondary,
   emptyText = 'No activity yet',
-}: ActivityTimelineProps) {
+}: ActivityTimelineProps<T>) {
   return (
     <View className="px-4">
       <View className="mb-2 flex-row items-center justify-between">
@@ -178,15 +195,7 @@ export function ActivityTimeline({
   );
 }
 
-// layout constants
-const CHIP_RIGHT = 10;
-const CHIP_TOP = 8; // (kept if you use it elsewhere)
-const CHIP_BOTTOM = 8; // NEW
-const CHIP_SIZE = 28;
-
-// …
-
-/* Row (assumes wrapper paddingLeft: RAIL_LEFT) */
+/* ---------- Row ---------- */
 function Row({
   icon,
   color,
@@ -205,7 +214,6 @@ function Row({
       style={{
         position: 'relative',
         paddingTop: 12,
-        // bump bottom padding so the bottom-right chip has room
         paddingBottom: Math.max(14, CHIP_BOTTOM + 10),
         paddingRight: CHIP_RIGHT + 10,
         paddingLeft: TEXT_OFFSET_FROM_RAIL,
@@ -224,12 +232,12 @@ function Row({
         }}
       />
 
-      {/* bottom-right chip (moved from top-right) */}
+      {/* bottom-right chip */}
       <View
         style={{
           position: 'absolute',
           right: CHIP_RIGHT,
-          bottom: CHIP_BOTTOM, // ← was top: CHIP_TOP
+          bottom: CHIP_BOTTOM,
           width: CHIP_SIZE,
           height: CHIP_SIZE,
           borderRadius: 8,

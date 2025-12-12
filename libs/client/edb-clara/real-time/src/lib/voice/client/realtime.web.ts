@@ -6,35 +6,26 @@ import type { RealtimeConnections, RealtimeOptions } from '../core/types';
 import { buildAuthHeaders, createAudioSink } from '../core/utils';
 import { attachRemoteLevelMeter } from './audioLevel';
 
-import { invalidateToolLogs } from '@edb-clara/client-admin';
-import { invalidateAfterTool } from '@edb-clara/client-crm';
-
 export async function connectRealtime(
   getTokenUrl: string,
   apiBase: string,
   opts?: RealtimeOptions,
 ): Promise<RealtimeConnections> {
   const headers = buildAuthHeaders(opts?.bearer);
-
-  // 1) Token
   const t = await getToken(getTokenUrl);
 
-  // 2) PeerConnection (web)
   const pc = new RTCPeerConnection({
     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
   });
 
-  // 3) Data channel
   const dc = pc.createDataChannel('oai-events');
 
-  // 4) Mic capture
   const stream = await navigator.mediaDevices.getUserMedia({
     audio: true,
     video: false,
   });
   stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
-  // 5) Remote audio playback
   pc.addEventListener('track', (ev) => {
     const [remoteStream] = ev.streams;
     const el = createAudioSink();
@@ -42,17 +33,14 @@ export async function connectRealtime(
     el.play().catch(() => {});
   });
 
-  // 🔊 Attach remote level meter (extracted helper)
   const detachMeter = attachRemoteLevelMeter(pc as any, {
     onLevel: opts?.onLevel,
     onSpeakingChanged: opts?.onSpeakingChanged,
-    threshold: 0.1, // tweak as desired
+    threshold: 0.1,
   });
 
-  // 6) On open: session tools
   dc.addEventListener('open', async () => {
     const meta = await fetch(`${apiBase}/realtime/tools`).then((r) => r.json());
-
     dc.send(
       JSON.stringify({
         type: 'session.update',
@@ -62,20 +50,16 @@ export async function connectRealtime(
           tool_choice: 'auto',
           modalities: ['audio', 'text'],
           turn_detection: { type: 'server_vad' },
-          // voice: 'sage', // cedar, ash, sage, verse, coral, ballad, marin
         },
       }),
     );
   });
 
-  // 7) Messages + tool execution
   const executeOnce = createExecuteOnce(apiBase, headers, dc, {
     onToolEffect: (name, args, result) => {
-      invalidateAfterTool(name, args, result); // ✅ precise invalidation
       opts?.onToolEffect?.(name, args, result);
     },
     onInvalidate: () => {
-      invalidateToolLogs();
       opts?.onInvalidate?.();
     },
     bearer: opts?.bearer,
@@ -83,16 +67,14 @@ export async function connectRealtime(
 
   const onMessage = makeMessageHandler(dc, executeOnce, {
     onToolEffect: (name, args) => {
-      invalidateAfterTool(name, args); // ✅ precise invalidation
+      // optional per-message hook
     },
   });
 
   dc.addEventListener('message', onMessage);
 
-  // 8) Offer/Answer
   await negotiate(pc, t);
 
-  // 9) Close helper
   const close = () => {
     try {
       dc.removeEventListener('message', onMessage);

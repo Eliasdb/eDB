@@ -1,0 +1,29 @@
+# __featureLibName__
+
+Auto-generated feature for `__routeBase__`.
+
+Routes mounted at: `/__routeBase__`
+
+Exposed ops:
+- `GET /__routeBase__`        (list with search / filter / sort / pagination)
+- `GET /__routeBase__/:id`    (read one)
+- `POST /__routeBase__`       (create)
+- `PATCH /__routeBase__/:id`  (update)
+- `DELETE /__routeBase__/:id` (remove)
+
+Security:
+- `REQUIRE_AUTH` inside `service.ts` is `false` by default.
+  Set it to `true` when you want RBAC / ownership enforcement.
+
+Pagination:
+- Query params: `page`, `pageSize`, `sort`, `filter`, `search`
+- Response shape (list endpoint):
+  ```json
+  {
+    "items": [ /* rows */ ],
+    "page": 1,
+    "pageSize": 10,
+    "total": 42,
+    "hasMore": true,
+    "nextPage": 2
+  }

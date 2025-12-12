@@ -56,4 +56,10 @@
    <ProjectReference Include="..\..\..\libs\shared\server\domain\EDb.Domain.csproj" />
 </ItemGroup>
 
+<ItemGroup>
+  <Watch Include="**/*"
+         Exclude="bin/**;obj/**;node_modules/**;dist/**;build/**;.next/**;.nx/**;coverage/**" />
+</ItemGroup>
+
+
 </Project>

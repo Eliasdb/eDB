@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../../dist/out-tsc",
+
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    "types": ["vitest/globals", "vitest/importMeta", "node"],
+    "composite": true,
+    "declaration": false,
+
+    "baseUrl": ".",
+    "paths": {
+      "@edb-workbench/api/shared": ["../shared/src/index.ts"],
+      "@edb-workbench/api/models": ["../models/src/index.ts"],
+      "@edb-workbench/api/core": ["./src/index.ts"]
+    }
+  },
+  "include": [
+    "vitest.config.*",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.ts"
+  ],
+  "exclude": []
+}
