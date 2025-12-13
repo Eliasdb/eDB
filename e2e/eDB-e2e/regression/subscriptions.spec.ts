@@ -5,7 +5,7 @@ test.describe('@regression @auth @mutates', () => {
     page,
   }) => {
     await page.goto('/catalog');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const card = page.getByTestId('catalog-card').first();
     await expect(card).toBeVisible();
@@ -21,7 +21,7 @@ test.describe('@regression @auth @mutates', () => {
         await toast
           .first()
           .waitFor({ state: 'hidden', timeout: 6000 })
-          .catch(() => {});
+          .catch(() => undefined);
       }
     };
 
@@ -60,7 +60,7 @@ test.describe('@regression @auth @mutates', () => {
 
     // Cleanup (so the test is idempotent)
     await page.getByRole('link', { name: /catalog/i }).click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
     await waitToastGone();
     await unsubscribeBtn.scrollIntoViewIfNeeded();
     await unsubscribeBtn.click();

@@ -12,7 +12,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'camelCase',
         },
       ],
@@ -20,7 +20,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'platform',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'kebab-case',
         },
       ],
@@ -40,7 +40,8 @@ export default [
     files: ['**/*.html'],
     rules: {
       '@angular-eslint/template/no-negated-async': 'error',
-      '@angular-eslint/template/no-call-expression': 'warn',
+      // Angular signals are invoked as functions in templates; allow call expressions there.
+      '@angular-eslint/template/no-call-expression': 'off',
     },
   },
 ];

@@ -2477,11 +2477,11 @@
       "nx/core/project-json"
     ],
     "targets": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.cache": [
@@ -2489,55 +2489,55 @@
       "nx/target-defaults"
     ],
     "targets.lint.options": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.inputs": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.outputs": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.executor": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.options.cwd": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.options.command": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata.technologies": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata.technologies.0": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata.description": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata.help": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata.help.command": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.lint.metadata.help.example": [
-      "apps/client/wc-edb-user-account/eslint.config.cjs",
+      "apps/client/wc-edb-user-account/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "projectType": [
@@ -5495,7 +5495,7 @@
       "nx/core/project-json"
     ],
     "targets": [
-      "libs/client/edb/data-access/client-crm/eslint.config.cjs",
+      "libs/client/edb/data-access/client-crm/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.vite:test": [
@@ -8867,7 +8867,7 @@
       "nx/core/project-json"
     ],
     "targets": [
-      "libs/client/edb/features/feature-webshop-orders/eslint.config.cjs",
+      "libs/client/edb/features/feature-webshop-orders/eslint.config.mjs",
       "@nx/eslint/plugin"
     ],
     "targets.vite:test": [

@@ -170,7 +170,7 @@ jobs:
           # IMPORTANT: comma-separated, NO spaces
           DOCKER_APPS=$(pnpm nx show projects --affected --type=app \
             --base=origin/dev --head=HEAD --plain \
-            --exclude=mfe-edb-admin,mobile,wc-edb-user-account)
+            --exclude=mfe-edb-admin,mobile,wc-edb-user-account,workbench-api)
 
           echo "Docker apps: $DOCKER_APPS"
 

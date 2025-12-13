@@ -6,7 +6,6 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
-  OnInit,
   computed,
   effect,
   inject,
@@ -276,10 +275,14 @@ import {
             </p>
           </div>
           <div class="flex items-center gap-3">
-            <label class="text-sm font-medium text-[color:var(--foreground,#111827)]">
+            <label
+              class="text-sm font-medium text-[color:var(--foreground,#111827)]"
+              for="venue-filter"
+            >
               Venue filter
             </label>
             <select
+              id="venue-filter"
               class="rounded-lg border border-[color:var(--border,#d1d5db)] bg-[color:var(--background,#fff)] px-3 py-2 text-sm focus:border-[color:var(--primary,#4f46e5)] focus:outline-none focus:ring"
               [value]="selectedVenue()"
               (change)="handleVenueFilter($any($event.target).value)"
@@ -522,7 +525,7 @@ import {
     </section>
   `,
 })
-export class EventPlannerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class EventPlannerComponent implements OnDestroy, AfterViewInit {
   private readonly fb = inject(FormBuilder);
   private readonly api = inject(EventPlannerService);
   private readonly destroyRef = inject(DestroyRef);
@@ -692,8 +695,6 @@ export class EventPlannerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.refreshVenues();
     this.refreshEvents();
   }
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.setupVenueObserver();

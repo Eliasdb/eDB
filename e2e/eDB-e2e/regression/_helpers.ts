@@ -3,7 +3,7 @@ import { expect, Page } from '@playwright/test';
 
 export async function ensureSubscribed(page: Page, appName: RegExp) {
   await page.goto('/catalog');
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
 
   const toast = page.locator('.notification-overlay [role="status"]').first();
   const card = page.getByTestId('catalog-card').filter({ hasText: appName });
@@ -36,15 +36,18 @@ export async function resetCart(page: Page) {
     .getByTestId('remove-line')
     .or(drawer.getByRole('button', { name: /remove|delete|trash/i }));
 
-  while (await removeBtn.count()) {
+  let remaining = await removeBtn.count();
+  while (remaining) {
     await removeBtn.first().click();
-    // small debounce to allow UI to update
-    await page.waitForTimeout(50);
+    await expect
+      .poll(async () => removeBtn.count(), { message: 'removing line item' })
+      .toBeLessThan(remaining);
+    remaining = await removeBtn.count();
   }
 
   // close drawer if you have a close button
   const close = drawer.getByRole('button', { name: /close/i }).first();
-  if (await close.count()) await close.click().catch(() => {});
+  if (await close.count()) await close.click().catch(() => undefined);
 
   // badge should be 0 (badge may disappear entirely)
   await expect

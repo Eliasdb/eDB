@@ -129,15 +129,15 @@ export default async function workbenchApiModelGenerator(
   const createBodyLines = parsed.map((f) => zodLine(f, 'create')).join('\n  ');
   const updateBodyLines = parsed.map((f) => zodLine(f, 'update')).join('\n  ');
 
-  const tsModelFieldLines = [
+  const _tsModelFieldLines = [
     `id: string;`,
     ...parsed.map((f) => tsLine(f, 'model')),
     `createdAt: string;`,
     `updatedAt: string;`,
   ].join('\n  ');
 
-  const tsCreateLines = parsed.map((f) => tsLine(f, 'create')).join('\n  ');
-  const tsUpdateLines = parsed.map((f) => tsLine(f, 'update')).join('\n  ');
+  const _tsCreateLines = parsed.map((f) => tsLine(f, 'create')).join('\n  ');
+  const _tsUpdateLines = parsed.map((f) => tsLine(f, 'update')).join('\n  ');
 
   const content = `import type { PaginationPlan } from '@edb-workbench/api/shared';
 import { z } from 'zod';

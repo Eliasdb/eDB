@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NavigationEnd, Router, UrlTree } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -15,7 +15,9 @@ export class NavigationService {
   >([]);
   navigationLinks$ = this.navigationLinksSubject.asObservable();
 
-  constructor(private router: Router) {
+  private readonly router = inject(Router);
+
+  constructor() {
     this.initializeNavigationLinks();
 
     // Update active state on every NavigationEnd event.

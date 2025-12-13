@@ -9,7 +9,7 @@ async function bootAuthed(page: Page) {
     if (/openid-connect\/auth/i.test(u)) throw new Error('still on keycloak');
   }).toPass({ timeout: 15000 });
 
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
   await expect(page.getByRole('navigation').first()).toBeVisible();
 }
 

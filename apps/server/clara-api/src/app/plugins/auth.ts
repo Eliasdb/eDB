@@ -8,7 +8,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (app) => {
 
   app.addHook(
     'preHandler',
-    async (req: FastifyRequest, _reply: FastifyReply) => {
+    async (_req: FastifyRequest, _reply: FastifyReply) => {
       // const token = (req.headers.authorization ?? '').replace(/^Bearer\s+/i,'');
       // if (!token) throw app.httpErrors.unauthorized();
       // req.user = { id: 'demo' };

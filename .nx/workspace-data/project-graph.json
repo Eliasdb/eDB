@@ -4800,7 +4800,7 @@
               "default",
               "^default",
               "{workspaceRoot}/eslint.config.mjs",
-              "{workspaceRoot}/apps/client/wc-edb-user-account/eslint.config.cjs",
+              "{workspaceRoot}/apps/client/wc-edb-user-account/eslint.config.mjs",
               "{workspaceRoot}/tools/eslint-rules/**/*",
               {
                 "externalDependencies": [
@@ -40011,11 +40011,6 @@
       },
       {
         "source": "client-crm",
-        "target": "feature-crm",
-        "type": "static"
-      },
-      {
-        "source": "client-crm",
         "target": "npm:@analogjs/vitest-angular",
         "type": "static"
       },
@@ -41246,7 +41241,7 @@
       {
         "source": "clara-api",
         "target": "npm:dotenv",
-        "type": "dynamic"
+        "type": "static"
       },
       {
         "source": "clara-api",
@@ -92818,5 +92813,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1765600314165
+  "computedAt": 1765601600009
 }
