@@ -5,12 +5,19 @@ import { Pie, PolarChart } from 'victory-native';
 type PieRow = { label: string; value: number; color?: string };
 
 // One-time shim: current XL d.ts is too strict on key generics
-const PolarChartAny = PolarChart as unknown as React.ComponentType<any>;
+type PolarChartProps = {
+  data: PieRow[];
+  valueKey: keyof PieRow;
+  labelKey: keyof PieRow;
+  colorKey?: keyof PieRow;
+  children?: React.ReactNode;
+};
+const PolarChartShim = PolarChart as unknown as React.ComponentType<PolarChartProps>;
 
 export function PieCard({ data }: { data: PieRow[] }) {
   return (
     <View style={{ height: 220, borderRadius: 12, overflow: 'hidden' }}>
-      <PolarChartAny
+      <PolarChartShim
         data={data}
         valueKey="value" // numeric field for slice size
         labelKey="label" // text field for labels
@@ -19,7 +26,7 @@ export function PieCard({ data }: { data: PieRow[] }) {
         {/* Valid props: innerRadius, startAngle, circleSweepDegrees, size */}
         <Pie.Chart innerRadius={60} />
         <Pie.Label />
-      </PolarChartAny>
+      </PolarChartShim>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 // apps/mobile/src/lib/ui/primitives/VoiceButton.tsx
-import { useThemeOverride } from '@edb/shared-ui-rn';
+import { useThemeOverride } from '../../../../widgets/theme-picker/uset';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, StyleSheet } from 'react-native';

@@ -69,36 +69,40 @@ export const SizesRow: Story = {
 
 /* --- With label (layout demo) ------------------------------------------- */
 
+const WithTextLabelRender = (args: Parameters<typeof Checkbox>[0]) => {
+  const [val, setVal] = useState(!!args.checked);
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <Checkbox {...args} checked={val} onChange={setVal} />
+      <Text style={{ fontSize: 16 }}>Receive updates by email</Text>
+    </View>
+  );
+};
+
 export const WithTextLabel: Story = {
-  render: (args) => {
-    const [val, setVal] = useState(!!args.checked);
-    return (
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-        <Checkbox {...args} checked={val} onChange={setVal} />
-        <Text style={{ fontSize: 16 }}>Receive updates by email</Text>
-      </View>
-    );
-  },
+  render: (args) => <WithTextLabelRender {...args} />,
+};
+
+const PlaygroundRender = (args: Parameters<typeof Checkbox>[0]) => {
+  const [val, setVal] = useState(!!args.checked);
+  return (
+    <View style={{ gap: 12 }}>
+      <Checkbox
+        {...args}
+        checked={val}
+        onChange={(next) => {
+          setVal(next);
+          args.onChange?.(next);
+        }}
+      />
+      <Text>Checked: {val ? 'true' : 'false'}</Text>
+    </View>
+  );
 };
 
 /* --- Playground (fully interactive) ------------------------------------- */
 
 export const Playground: Story = {
-  render: (args) => {
-    const [val, setVal] = useState(!!args.checked);
-    return (
-      <View style={{ gap: 12 }}>
-        <Checkbox
-          {...args}
-          checked={val}
-          onChange={(next) => {
-            setVal(next);
-            args.onChange?.(next);
-          }}
-        />
-        <Text>Checked: {val ? 'true' : 'false'}</Text>
-      </View>
-    );
-  },
+  render: (args) => <PlaygroundRender {...args} />,
   args: { checked: false, tintChecked: 'primary', tintUnchecked: 'neutral' },
 };

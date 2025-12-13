@@ -54,7 +54,7 @@ export function BarsCard({ data }: { data: DayStat[] }) {
                   xKey="label"
                   yKeys={['value']}
                   axisOptions={{ tickCount: 4 }}
-                  // @ts-ignore older versions may not expose domain
+                  // @ts-expect-error older versions may not expose domain
                   domain={{ y: [0, paddedMax] }}
                 >
                   {({ points, chartBounds }: any) => (

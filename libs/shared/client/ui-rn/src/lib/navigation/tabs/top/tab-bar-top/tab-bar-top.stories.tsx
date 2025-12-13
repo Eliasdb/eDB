@@ -36,24 +36,29 @@ const meta: Meta<typeof TabBarTop<K>> = {
 export default meta;
 type Story = StoryObj<typeof TabBarTop<K>>;
 
+const DefaultRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
+  const [value, setValue] = useState<K>('overview');
+  return <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />;
+};
+
 /** Basic usage with three tabs */
 export const Default: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<K>('overview');
-    return (
-      <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />
-    );
-  },
+  render: (args) => <DefaultRender {...args} />,
+};
+
+const StartWithActivityRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
+  const [value, setValue] = useState<K>('activity');
+  return <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Start with a different active tab */
 export const StartWithActivity: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<K>('activity');
-    return (
-      <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />
-    );
-  },
+  render: (args) => <StartWithActivityRender {...args} />,
+};
+
+const LongLabelsRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
+  const [value, setValue] = useState('overview');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Long labels to test spacing and truncation */
@@ -65,10 +70,12 @@ export const LongLabels: Story = {
       { key: 'settings', label: 'Application & User Settings' },
     ] as any,
   },
-  render: (args) => {
-    const [value, setValue] = useState('overview');
-    return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
-  },
+  render: (args) => <LongLabelsRender {...args} />,
+};
+
+const ManyTabsRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
+  const [value, setValue] = useState('billing');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Four or more tabs */
@@ -82,8 +89,5 @@ export const ManyTabs: Story = {
       { key: 'support', label: 'Support' },
     ] as any,
   },
-  render: (args) => {
-    const [value, setValue] = useState('billing');
-    return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
-  },
+  render: (args) => <ManyTabsRender {...args} />,
 };

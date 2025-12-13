@@ -2,6 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Text as RNText, type TextProps } from 'react-native';
+import { useThemePreference } from '../../../providers/themePreference';
 
 type IonName = React.ComponentProps<typeof Ionicons>['name'];
 
@@ -18,9 +19,6 @@ export function Icon({ name, size = 20, ...textProps }: IconProps) {
     </RNText>
   );
 }
-
-// Optional: a dimmed variant that auto-picks a fallback color by theme
-import { useThemePreference } from '../../../providers/themePreference';
 
 export function DimIcon({
   name,

@@ -7,7 +7,9 @@ import { Platform, Pressable, Text, View } from 'react-native';
 let RNDateTimePicker: any;
 try {
   RNDateTimePicker = require('@react-native-community/datetimepicker').default;
-} catch {}
+} catch (error) {
+  RNDateTimePicker = null;
+}
 
 type Props = {
   value?: string; // "YYYY-MM-DD"

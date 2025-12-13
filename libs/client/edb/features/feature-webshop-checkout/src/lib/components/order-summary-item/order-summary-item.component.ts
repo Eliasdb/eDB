@@ -7,7 +7,7 @@ import { CartItem } from '@edb/shared-types';
 import { SkeletonModule } from 'carbon-components-angular';
 
 @Component({
-  selector: 'order-summary-item',
+  selector: 'webshop-order-summary-item',
   imports: [SkeletonModule, CurrencyPipe],
   template: `
     @if (skeleton) {
@@ -39,16 +39,19 @@ import { SkeletonModule } from 'carbon-components-angular';
       <div class="flex items-center justify-between min-h-[4.5rem]">
         <div class="flex items-center space-x-4 flex-1">
           <img
-            [src]="item!.book.photoUrl"
+            [src]="item?.book.photoUrl"
+            [alt]="item?.book.title || 'Book cover'"
             class="h-14 w-10 rounded-lg shadow-md object-cover flex-shrink-0"
           />
           <div>
-            <p class="font-medium leading-tight">{{ item!.book.title }}</p>
-            <p class="text-sm opacity-80">Qty: {{ item!.selectedAmount }}</p>
+            <p class="font-medium leading-tight">{{ item?.book.title }}</p>
+            <p class="text-sm opacity-80">Qty: {{ item?.selectedAmount }}</p>
           </div>
         </div>
         <p class="font-semibold whitespace-nowrap">
-          {{ item!.book.price * item!.selectedAmount | currency: 'EUR' }}
+          {{ item?.book.price && item?.selectedAmount
+            ? item.book.price * item.selectedAmount
+            : 0 | currency: 'EUR' }}
         </p>
       </div>
     }

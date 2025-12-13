@@ -24,7 +24,7 @@ export function CompanyDetailsList({
               icon={row.icon}
               label={row.label}
               value={value ?? row.empty ?? undefined}
-              href={href as any}
+              href={href}
             />
           </List.Item>
         );

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { View } from 'react-native';
 import { Bar, CartesianChart } from 'victory-native';
 
@@ -26,32 +26,30 @@ export function BarsCard({ data }: Props) {
           // fontSize: 11,
         }}
         // Some versions don’t expose domain; ignore if not supported
-        // @ts-ignore
+        // @ts-expect-error victory-native typings may not expose domain prop
         domain={{ y: [0, paddedMax] }}
       >
         {({ points, chartBounds }) => (
-          <>
-            <Bar
-              points={points.value}
-              chartBounds={chartBounds}
-              roundedCorners={{
-                topLeft: 8,
-                topRight: 8,
-                bottomLeft: 2,
-                bottomRight: 2,
-              }}
+          <Bar
+            points={points.value}
+            chartBounds={chartBounds}
+            roundedCorners={{
+              topLeft: 8,
+              topRight: 8,
+              bottomLeft: 2,
+              bottomRight: 2,
+            }}
               innerPadding={14}
               barWidth={18}
               animate={{ type: 'timing', duration: 350 }}
               // Let the chart render value labels via Skia (supported in newer builds)
               // If your version supports a labels prop:
-              // @ts-ignore
+              // @ts-expect-error labels support differs by victory-native version
               labels={{
                 position: 'top',
                 color: '#a0a0a0',
               }}
-            />
-          </>
+          />
         )}
       </CartesianChart>
     </View>

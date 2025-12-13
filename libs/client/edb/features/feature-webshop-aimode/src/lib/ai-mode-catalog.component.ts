@@ -7,7 +7,7 @@ import { AiSearchService } from './services/ai-search.service';
 import { AiBookItem } from './types/ai-search';
 
 @Component({
-  selector: 'ai-mode-catalog',
+  selector: 'webshop-ai-mode-catalog',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
@@ -111,7 +111,7 @@ import { AiBookItem } from './types/ai-search';
   `,
 })
 export class AiModeCatalogComponent implements OnInit {
-  readonly onClose = input<() => void>(() => {});
+  readonly onClose = input<() => void>(() => undefined);
   protected svc = inject(AiSearchService);
 
   searchControl = new FormControl('');
@@ -129,10 +129,10 @@ export class AiModeCatalogComponent implements OnInit {
 
   firstPage = computed(() => this.svc.firstPage());
   filterKeys = computed(() =>
-    this.firstPage() ? Object.keys(this.firstPage()!.filters_used ?? {}) : [],
+    this.firstPage() ? Object.keys(this.firstPage()?.filters_used ?? {}) : [],
   );
 
-  trackByIndex = (_: number, __: AiBookItem) => _;
+  trackByIndex = (index: number, _item: AiBookItem) => index;
   close() {
     this.onClose()();
   }

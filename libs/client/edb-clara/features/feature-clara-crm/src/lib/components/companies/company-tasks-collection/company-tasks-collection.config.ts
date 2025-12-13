@@ -28,7 +28,9 @@ export const relFuture = (iso?: string | null) => {
 /* --- badge from real fields --- */
 export type StatusView = { label: string; tint: string };
 
-const statusFromTask = (t: any): StatusView => {
+const statusFromTask = (
+  t: CompanyOverview['tasks'][number] | undefined,
+): StatusView => {
   if (t?.done === true) return { tint: '#16a34a', label: 'Done' };
   const s = String(t?.status ?? t?.state ?? '').toLowerCase();
   if (s === 'blocked') return { tint: '#ef4444', label: 'Blocked' };
@@ -42,8 +44,11 @@ export function getTasksGlanceItems(ov?: CompanyOverview): StatItem[] {
   const tasks = ov?.tasks ?? [];
   const open =
     typeof ov?.stats?.openTasks === 'number'
-      ? ov!.stats!.openTasks
-      : tasks.reduce((n, t: any) => n + (t?.done ? 0 : 1), 0);
+      ? ov.stats.openTasks
+      : tasks.reduce(
+          (n, t: CompanyOverview['tasks'][number]) => n + (t?.done ? 0 : 1),
+          0,
+        );
 
   const nextDueIso = ov?.stats?.nextTaskDue ?? null; // no local compute
   const nextDue = nextDueIso ? (relFuture(nextDueIso) ?? nextDueIso) : '—';
@@ -63,7 +68,9 @@ export type TaskView = {
   status: StatusView;
 };
 
-export function mapTaskToView(task: any): TaskView {
+export function mapTaskToView(
+  task: CompanyOverview['tasks'][number] | undefined,
+): TaskView {
   const id = task?.id ?? '';
   const title = task?.title ?? 'Untitled task';
 

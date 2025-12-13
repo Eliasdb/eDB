@@ -64,29 +64,30 @@ export const WithError: Story = {
   ),
 };
 
+const WithSwitchRender = () => {
+  const [enabled, setEnabled] = useState(false);
+  return (
+    <Field label="Enable notifications" helpText="Turn this on to receive alerts.">
+      <Switch value={enabled} onValueChange={setEnabled} />
+    </Field>
+  );
+};
+
 export const WithSwitch: Story = {
-  render: () => {
-    const [enabled, setEnabled] = useState(false);
-    return (
-      <Field
-        label="Enable notifications"
-        helpText="Turn this on to receive alerts."
-      >
-        <Switch value={enabled} onValueChange={setEnabled} />
-      </Field>
-    );
-  },
+  render: () => <WithSwitchRender />,
+};
+
+const WithCheckboxRender = () => {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Field label="Accept terms">
+      <Checkbox checked={checked} onChange={setChecked} />
+    </Field>
+  );
 };
 
 export const WithCheckbox: Story = {
-  render: () => {
-    const [checked, setChecked] = useState(false);
-    return (
-      <Field label="Accept terms">
-        <Checkbox checked={checked} onChange={setChecked} />
-      </Field>
-    );
-  },
+  render: () => <WithCheckboxRender />,
 };
 
 export const AllTogether: Story = {

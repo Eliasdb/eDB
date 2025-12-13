@@ -26,7 +26,25 @@ export type ContactRowView = {
   rightText?: string; // e.g. "• 2d"
 };
 
-export function mapContactToView(c: any): ContactRowView {
+type LooseContact = Partial<{
+  id: string;
+  name: string;
+  fullName: string;
+  displayName: string;
+  title: string;
+  role: string;
+  position: string;
+  email: string;
+  primaryEmail: string;
+  phone: string;
+  mobile: string;
+  phoneNumber: string;
+  lastActivityAt: string | null;
+  updatedAt: string | null;
+  createdAt: string | null;
+}>;
+
+export function mapContactToView(c?: LooseContact | null): ContactRowView {
   const name = c?.name ?? c?.fullName ?? c?.displayName ?? 'Unnamed';
 
   const role = c?.title ?? c?.role ?? c?.position ?? undefined;

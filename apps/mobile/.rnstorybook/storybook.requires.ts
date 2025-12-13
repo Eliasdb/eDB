@@ -11,7 +11,7 @@ const normalizedStories = [
     directory: "./src",
     files: "**/*.stories.@(ts|tsx|js|jsx)",
     importPathMatcher: /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(ts|tsx|js|jsx))$/,
-    // @ts-expect-error
+    // @ts-expect-error storybook auto-generates this require context
     req: require.context(
       '../src',
       true,
@@ -35,7 +35,7 @@ const annotations = [
 
 global.STORIES = normalizedStories;
 
-// @ts-expect-error
+// @ts-expect-error optional HMR APIs may not exist in RN
 module?.hot?.accept?.();
 
 

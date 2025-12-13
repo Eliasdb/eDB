@@ -52,12 +52,14 @@ describe.sequential('SupplierRepoPg (infra ↔ db)', () => {
       rating: undefined,
       contactEmail: undefined,
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const row2 = await SupplierRepoPg.create({
       name: 'name-2-zz',
       country: undefined,
       rating: undefined,
       contactEmail: undefined,
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const row3 = await SupplierRepoPg.create({
       name: 'name-3-zz',
       country: undefined,

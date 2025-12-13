@@ -7,7 +7,7 @@ export type SectionConfig = {
   title: string;
   key: SectionKey;
   empty: string;
-  render: (item: any) => React.ReactNode;
+  render: (item: Record<string, unknown>) => React.ReactNode;
 };
 
 export const companySectionsConfig = [

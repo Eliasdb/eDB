@@ -1,5 +1,9 @@
 // features/crm/config/company-details.config.ts
-import type { CompanyOverview } from '@edb-clara/client-crm';
+import type {
+  Company,
+  CompanyHQ,
+  CompanyOverview,
+} from '@edb-clara/client-crm';
 
 type IconName = React.ComponentProps<
   typeof import('@expo/vector-icons').Ionicons
@@ -18,7 +22,8 @@ export const companyDetailsConfig: readonly DetailRow[] = [
     icon: 'business-outline',
     label: 'HQ',
     getValue: (ov) => {
-      const hq = (ov?.company as any)?.hq;
+      const hq: CompanyHQ | null | undefined = (ov?.company as Company | null)
+        ?.hq;
       if (!hq) return undefined;
       const parts = [
         hq.line1,
