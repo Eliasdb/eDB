@@ -15,10 +15,13 @@ export class InfiniteScrollDirective {
   @Output() scrolled = new EventEmitter<void>();
 
   @HostListener('scroll', ['$event.target'])
-  onScroll(container: HTMLElement): void {
-    const nearBottom =
-      container.scrollTop + container.clientHeight >=
-      container.scrollHeight - 50;
+  onScroll(container: EventTarget | null): void {
+    if (!container || !(container instanceof HTMLElement)) {
+      return;
+    }
+    const el = container as HTMLElement;
+
+    const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 50;
 
     if (nearBottom && this.hasMore() && !this.isFetching()) {
       this.scrolled.emit();

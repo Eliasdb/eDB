@@ -6,11 +6,15 @@ import {
   SharedLibraryConfig,
 } from '@nx/module-federation';
 
+// Only enable eager sharing in dev to avoid prod/runtime side-effects.
+const isDev = process.env.NODE_ENV !== 'production';
+
 /* strict singleton helper (core Angular + RxJS only) */
 const strict = (requiredVersion = '^21.0.5'): SharedLibraryConfig => ({
   singleton: true,
   strictVersion: true,
   requiredVersion,
+  eager: isDev ? true : undefined,
 });
 
 /* loose singleton helper (your own libs + UI kits) */
@@ -50,7 +54,7 @@ export default {
 
     // 3. Angular Material / CDK – strict singleton
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
-      return strict();
+      return pkg.startsWith('@angular/cdk') ? strict('^21.0.3') : strict();
     }
 
     // 4. Your shared libs / UI kits – loose singleton

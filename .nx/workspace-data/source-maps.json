@@ -68,7 +68,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e.parallelism": [
+    "targets.e2e.dependsOn": [
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -132,7 +132,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--regression/subscriptions.spec.ts.parallelism": [
+    "targets.e2e-ci--regression/subscriptions.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -200,7 +200,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--regression/webshop.spec.ts.parallelism": [
+    "targets.e2e-ci--regression/webshop.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -268,7 +268,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--smoke/admin.smoke.spec.ts.parallelism": [
+    "targets.e2e-ci--smoke/admin.smoke.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -336,7 +336,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--smoke/app.smoke.spec.ts.parallelism": [
+    "targets.e2e-ci--smoke/app.smoke.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -404,7 +404,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--smoke/auth.smoke.spec.ts.parallelism": [
+    "targets.e2e-ci--smoke/auth.smoke.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -472,7 +472,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--smoke/catalog.smoke.spec.ts.parallelism": [
+    "targets.e2e-ci--smoke/catalog.smoke.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -540,7 +540,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--smoke/logout/logout.smoke.spec.ts.parallelism": [
+    "targets.e2e-ci--smoke/logout/logout.smoke.spec.ts.dependsOn": [
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -608,7 +608,7 @@
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--smoke/routes.smoke.spec.ts.parallelism": [
+    "targets.e2e-ci--smoke/routes.smoke.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -689,10 +689,6 @@
       "@nx/playwright/plugin"
     ],
     "targets.e2e-ci.metadata": [
-      "e2e/eDB-e2e/playwright.config.ts",
-      "@nx/playwright/plugin"
-    ],
-    "targets.e2e-ci.parallelism": [
       "e2e/eDB-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -860,31 +856,31 @@
       "e2e/eDB-e2e/project.json",
       "nx/core/project-json"
     ],
-    "targets.e2e-ci--regression/subscriptions.spec.ts.dependsOn": [
+    "targets.e2e-ci--regression/subscriptions.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.e2e-ci--regression/webshop.spec.ts.dependsOn": [
+    "targets.e2e-ci--regression/webshop.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.e2e-ci--smoke/admin.smoke.spec.ts.dependsOn": [
+    "targets.e2e-ci--smoke/admin.smoke.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.e2e-ci--smoke/app.smoke.spec.ts.dependsOn": [
+    "targets.e2e-ci--smoke/app.smoke.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.e2e-ci--smoke/auth.smoke.spec.ts.dependsOn": [
+    "targets.e2e-ci--smoke/auth.smoke.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.e2e-ci--smoke/catalog.smoke.spec.ts.dependsOn": [
+    "targets.e2e-ci--smoke/catalog.smoke.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.e2e-ci--smoke/routes.smoke.spec.ts.dependsOn": [
+    "targets.e2e-ci--smoke/routes.smoke.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -934,7 +930,7 @@
       "e2e/mfe-edb-admin-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e.parallelism": [
+    "targets.e2e.dependsOn": [
       "e2e/mfe-edb-admin-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -998,7 +994,7 @@
       "e2e/mfe-edb-admin-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
-    "targets.e2e-ci--src/example.spec.ts.parallelism": [
+    "targets.e2e-ci--src/example.spec.ts.dependsOn": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -1079,10 +1075,6 @@
       "@nx/playwright/plugin"
     ],
     "targets.e2e-ci.metadata": [
-      "e2e/mfe-edb-admin-e2e/playwright.config.ts",
-      "@nx/playwright/plugin"
-    ],
-    "targets.e2e-ci.parallelism": [
       "e2e/mfe-edb-admin-e2e/playwright.config.ts",
       "@nx/playwright/plugin"
     ],
@@ -1250,7 +1242,7 @@
       "e2e/mfe-edb-admin-e2e/project.json",
       "nx/core/project-json"
     ],
-    "targets.e2e-ci--src/example.spec.ts.dependsOn": [
+    "targets.e2e-ci--src/example.spec.ts.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -1705,6 +1697,18 @@
       "nx/core/project-json"
     ],
     "targets.serve.options.proxyConfig": [
+      "apps/client/edb/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.hmr": [
+      "apps/client/edb/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.liveReload": [
+      "apps/client/edb/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.poll": [
       "apps/client/edb/project.json",
       "nx/core/project-json"
     ],
@@ -2266,6 +2270,18 @@
       "apps/client/mfe-edb-admin/project.json",
       "nx/core/project-json"
     ],
+    "targets.serve.options.hmr": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.liveReload": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.poll": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
     "targets.serve.configurations.production": [
       "apps/client/mfe-edb-admin/project.json",
       "nx/core/project-json"
@@ -2279,6 +2295,62 @@
       "nx/core/project-json"
     ],
     "targets.serve.configurations.development.buildTarget": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.executor": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.options": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.configurations": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.defaultConfiguration": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.continuous": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.options.port": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.options.publicHost": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.options.buildTarget": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.options.hmr": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.configurations.development": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.configurations.development.buildTarget": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.configurations.production": [
+      "apps/client/mfe-edb-admin/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-mf.configurations.production.buildTarget": [
       "apps/client/mfe-edb-admin/project.json",
       "nx/core/project-json"
     ],
@@ -4395,708 +4467,6 @@
       "nx/target-defaults"
     ],
     "targets.test.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "apps/server/webshop-api": {
-    "root": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.options": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.inputs": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.outputs": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.executor": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.options.cwd": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.options.command": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.technologies": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.technologies.0": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.description": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help.command": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help.example": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "projectType": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.vite:build": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.options": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.cache": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.dependsOn": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.inputs": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.outputs": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.executor": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.options.cwd": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.options.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata.technologies": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata.technologies.0": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata.description": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata.help": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata.help.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:build.metadata.help.example": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.continuous": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.options": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.executor": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.options.cwd": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.options.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.technologies": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.technologies.0": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.description": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.help": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.help.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.help.example": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:serve.metadata.deprecated": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.continuous": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.options": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.executor": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.options.cwd": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.options.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata.technologies": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata.technologies.0": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata.description": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata.help": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata.help.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.vite:dev.metadata.help.example": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.continuous": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.dependsOn": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.options": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.executor": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.options.cwd": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.options.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata.technologies": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata.technologies.0": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata.description": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata.help": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata.help.command": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.preview.metadata.help.example": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.serve-static": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.serve-static.continuous": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.serve-static.executor": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.serve-static.options": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.serve-static.options.buildTarget": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "targets.serve-static.options.spa": [
-      "apps/server/webshop-api/vite.config.js",
-      "@nx/vite/plugin"
-    ],
-    "name": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "tags": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:private": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups.NPM Scripts": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups.NPM Scripts.0": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.isInPackageManagerWorkspaces": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.executor": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.options": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.metadata": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.options.script": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.metadata.scriptContent": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "targets.dev.metadata.runCommand": [
-      "apps/server/webshop-api/package.json",
-      "nx/core/package-json"
-    ],
-    "$schema": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.executor": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.commands": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.cwd": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.serve": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.serve.executor": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.serve.options": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.serve.options.commands": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.serve.options.cwd": [
-      "apps/server/webshop-api/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/client/edb-clara/i18n": {
-    "root": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "targets": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.options": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.inputs": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.outputs": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.executor": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.options.cwd": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.options.command": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.technologies": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.technologies.0": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.description": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help.command": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help.example": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "name": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "$schema": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "// targets": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/client/edb-clara/i18n/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ]
-  },
-  "libs/server/admin-api/generated/admin-api-types": {
-    "root": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "targets": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.lint.options": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.inputs": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.outputs": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.executor": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.options.cwd": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.options.command": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.technologies": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.technologies.0": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.description": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help.command": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "targets.lint.metadata.help.example": [
-      "eslint.config.mjs",
-      "@nx/eslint/plugin"
-    ],
-    "name": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "tags": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "tags.npm:private": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.targetGroups": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.packageName": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.packageVersion": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.packageMain": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "metadata.js.isInPackageManagerWorkspaces": [
-      "libs/server/admin-api/generated/admin-api-types/package.json",
-      "nx/core/package-json"
-    ],
-    "$schema": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "implicitDependencies": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "implicitDependencies.admin-api-swagger": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.executor": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.outputs": [
-      "libs/server/admin-api/generated/admin-api-types/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.parallelism": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.dependsOn": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.build.parallelism": [
       "nx.json",
       "nx/target-defaults"
     ]
@@ -15703,6 +15073,708 @@
       "nx/target-defaults"
     ],
     "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  },
+  "apps/server/webshop-api": {
+    "root": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "projectType": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.vite:build": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.options": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.cache": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.dependsOn": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.inputs": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.outputs": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.executor": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.options.cwd": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.options.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata.technologies": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata.technologies.0": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata.description": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata.help": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata.help.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:build.metadata.help.example": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.continuous": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.options": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.executor": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.options.cwd": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.options.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.technologies": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.technologies.0": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.description": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.help": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.help.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.help.example": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:serve.metadata.deprecated": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.continuous": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.options": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.executor": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.options.cwd": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.options.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata.technologies": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata.technologies.0": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata.description": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata.help": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata.help.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.vite:dev.metadata.help.example": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.continuous": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.dependsOn": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.options": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.executor": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.options.cwd": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.options.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata.technologies": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata.technologies.0": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata.description": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata.help": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata.help.command": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.preview.metadata.help.example": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.serve-static": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.serve-static.continuous": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.serve-static.executor": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.serve-static.options": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.serve-static.options.buildTarget": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "targets.serve-static.options.spa": [
+      "apps/server/webshop-api/vite.config.js",
+      "@nx/vite/plugin"
+    ],
+    "name": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "tags": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.0": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.executor": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.options": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.metadata": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.options.script": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.metadata.scriptContent": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.dev.metadata.runCommand": [
+      "apps/server/webshop-api/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.commands": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.cwd": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.executor": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.commands": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.cwd": [
+      "apps/server/webshop-api/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  },
+  "libs/client/edb-clara/i18n": {
+    "root": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "name": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "$schema": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "// targets": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/client/edb-clara/i18n/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  },
+  "libs/server/admin-api/generated/admin-api-types": {
+    "root": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "targets": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.options": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.inputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.outputs": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.executor": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.cwd": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.options.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.technologies.0": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.description": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.command": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "targets.lint.metadata.help.example": [
+      "eslint.config.mjs",
+      "@nx/eslint/plugin"
+    ],
+    "name": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/server/admin-api/generated/admin-api-types/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "implicitDependencies": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "implicitDependencies.admin-api-swagger": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs": [
+      "libs/server/admin-api/generated/admin-api-types/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.cache": [
       "nx.json",
       "nx/target-defaults"
     ],

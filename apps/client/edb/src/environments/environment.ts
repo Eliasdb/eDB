@@ -1,5 +1,7 @@
 export const environment = {
   production: false,
-  mfManifestBaseUrl: '', // local dev
-  mfEnableRemotes: false, // 👈 turn OFF for dev for now
+  // Point at the local admin MFE dev server so the host can register the remote manifest.
+  mfManifestBaseUrl: 'http://localhost:4300',
+  // Enable remotes in dev so loadRemote works when hitting /admin.
+  mfEnableRemotes: true,
 };

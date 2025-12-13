@@ -184,7 +184,10 @@
       "continuous": true,
       "executor": "@angular/build:dev-server",
       "options": {
-        "proxyConfig": "apps/client/edb/proxy.conf.json"
+        "proxyConfig": "apps/client/edb/proxy.conf.json",
+        "hmr": true,
+        "liveReload": true,
+        "poll": 1000
       },
       "configurations": {
         "production": {

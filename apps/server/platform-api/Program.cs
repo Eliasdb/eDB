@@ -43,6 +43,10 @@ if (builder.Environment.IsProduction() || builder.Environment.IsStaging())
 {
     builder.WebHost.UseUrls("http://0.0.0.0:9101");
 }
+else if (builder.Environment.IsDevelopment())
+{
+    builder.WebHost.UseUrls("http://localhost:5098");
+}
 
 // --- Build Application ---
 var app = builder.Build();

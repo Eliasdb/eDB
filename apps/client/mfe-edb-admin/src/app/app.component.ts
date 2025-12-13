@@ -1,9 +1,9 @@
-// import { Component } from '@angular/core';
-// import { ShellComponent } from '@eDB/feature-shell';
+import { Component } from '@angular/core';
+import { UiShellHostComponent } from '@eDB/feature-shell';
 
-// @Component({
-//   selector: 'app-root',
-//   template: `<app-shell></app-shell>`,
-//   imports: [ShellComponent],
-// })
-// export class AppComponent {}
+@Component({
+  selector: 'app-admin-root',
+  template: `<ui-shell-host></ui-shell-host>`,
+  imports: [UiShellHostComponent],
+})
+export class AppComponent {}
