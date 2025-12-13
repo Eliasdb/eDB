@@ -1896,18 +1896,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -5496,22 +5484,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -5739,22 +5711,6 @@
       "nx/target-defaults"
     ],
     "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -6187,22 +6143,6 @@
       "nx/target-defaults"
     ],
     "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -7446,22 +7386,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -8096,22 +8020,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -8339,22 +8247,6 @@
       "nx/target-defaults"
     ],
     "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -9191,22 +9083,6 @@
       "nx/target-defaults"
     ],
     "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.options.passWithNoTests": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
       "nx.json",
       "nx/target-defaults"
     ],
@@ -13432,18 +13308,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -14244,18 +14108,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -14479,18 +14331,6 @@
       "nx/target-defaults"
     ],
     "targets.test.cache": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
       "nx.json",
       "nx/target-defaults"
     ],

@@ -8,10 +8,11 @@ module.exports = function (api) {
       'nativewind/babel',
     ],
     plugins: [
+      // Needed to parse Storybook packages that include static class blocks even when Storybook isn't enabled
+      '@babel/plugin-transform-class-static-block',
       [
         'module-resolver',
         {
-          root: ['./src'],
           extensions: ['.tsx', '.ts', '.jsx', '.json'],
           alias: {
             '@ui': './src/lib/ui',

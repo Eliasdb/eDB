@@ -21,7 +21,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "options": {
         "vitestConfig": "libs/shared/client/ui/vitest.config.ts",
         "passWithNoTests": true

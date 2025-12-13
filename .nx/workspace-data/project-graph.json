@@ -1418,25 +1418,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-webshop-aimode",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-webshop-aimode"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -1563,25 +1554,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-webshop-orders",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-webshop-orders"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -2051,25 +2033,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/data-access/client-checkout",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/data-access/client-checkout"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -2568,25 +2541,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/data-access/client-orders",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/data-access/client-orders"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -2961,25 +2925,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-webshop",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-webshop"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -3368,25 +3323,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/data-access/client-crm",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/data-access/client-crm"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -4099,25 +4045,16 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "outputs": [
               "{options.reportsDirectory}"
             ],
             "options": {
-              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-erp",
-              "passWithNoTests": true
+              "reportsDirectory": "../../../../../coverage/libs/client/edb/features/feature-erp"
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -5631,21 +5568,13 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "options": {
               "passWithNoTests": true
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -7214,22 +7143,14 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "options": {
               "vitestConfig": "libs/utils/util-common/vitest.config.ts",
               "passWithNoTests": true
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {},
@@ -8015,22 +7936,14 @@
             "cache": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "options": {
               "vitestConfig": "libs/shared/client/ui/vitest.config.ts",
               "passWithNoTests": true
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           }
         },
         "metadata": {
@@ -8527,22 +8440,14 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "options": {
               "vitestConfig": "apps/client/edb/vitest.config.ts",
               "passWithNoTests": true
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           },
           "serve-static": {
             "executor": "@nx/web:file-server",
@@ -9287,8 +9192,8 @@
           "build": {
             "executor": "nx:run-commands",
             "options": {
-              "cwd": ".",
-              "command": "echo \"Skipping mobile build (EAS not required in this pipeline)\""
+              "cwd": "apps/mobile",
+              "command": "bash -lc 'set -euo pipefail; EXPO_NO_TELEMETRY=1 EXPO_USE_WATCHMAN=0 npx expo export --platform web --output-dir dist'"
             },
             "configurations": {},
             "parallelism": true,
@@ -16757,18 +16662,18 @@
         "hash": "sha512-ka0q9tQBLruhO38sybP/MkZzejqAltce7HJTJ2KKbUYUlbvuG7m56tBX7DVC5JaImbsO3b8fqOrKH7gRt4KYrQ=="
       }
     },
-    "npm:@storybook/react": {
+    "npm:@storybook/react@8.6.14": {
       "type": "npm",
-      "name": "npm:@storybook/react",
+      "name": "npm:@storybook/react@8.6.14",
       "data": {
         "version": "8.6.14",
         "packageName": "@storybook/react",
         "hash": "sha512-BOepx5bBFwl/CPI+F+LnmMmsG1wQYmrX/UQXgUbHQUU9Tj7E2ndTnNbpIuSLc8IrM03ru+DfwSg1Co3cxWtT+g=="
       }
     },
-    "npm:@storybook/react@9.1.10": {
+    "npm:@storybook/react": {
       "type": "npm",
-      "name": "npm:@storybook/react@9.1.10",
+      "name": "npm:@storybook/react",
       "data": {
         "version": "9.1.10",
         "packageName": "@storybook/react",
@@ -59837,7 +59742,7 @@
       },
       {
         "source": "npm:@storybook/preset-react-webpack",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@8.6.14",
         "type": "static"
       },
       {
@@ -60048,7 +59953,7 @@
     "npm:@storybook/react-native-ui-common": [
       {
         "source": "npm:@storybook/react-native-ui-common",
-        "target": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -60110,7 +60015,7 @@
       },
       {
         "source": "npm:@storybook/react-native-ui",
-        "target": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -60192,7 +60097,7 @@
       },
       {
         "source": "npm:@storybook/react-native",
-        "target": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -60299,7 +60204,7 @@
       },
       {
         "source": "npm:@storybook/react-webpack5",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@8.6.14",
         "type": "static"
       },
       {
@@ -60319,6 +60224,63 @@
       },
       {
         "source": "npm:@storybook/react-webpack5",
+        "target": "npm:typescript",
+        "type": "static"
+      }
+    ],
+    "npm:@storybook/react@8.6.14": [
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/components",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/global",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/manager-api",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/preview-api",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/react-dom-shim@8.6.14",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/theming",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:react",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:react-dom",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:storybook",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/test",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@8.6.14",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -60326,88 +60288,31 @@
     "npm:@storybook/react": [
       {
         "source": "npm:@storybook/react",
-        "target": "npm:@storybook/components",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
         "target": "npm:@storybook/global",
         "type": "static"
       },
       {
         "source": "npm:@storybook/react",
-        "target": "npm:@storybook/manager-api",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/preview-api",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/react-dom-shim@8.6.14",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/theming",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:react",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:react-dom",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:storybook",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:@storybook/test",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react",
-        "target": "npm:typescript",
-        "type": "static"
-      }
-    ],
-    "npm:@storybook/react@9.1.10": [
-      {
-        "source": "npm:@storybook/react@9.1.10",
-        "target": "npm:@storybook/global",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@9.1.10",
         "target": "npm:@storybook/react-dom-shim@9.1.10",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:react",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:react-dom",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:storybook",
         "type": "static"
       },
       {
-        "source": "npm:@storybook/react@9.1.10",
+        "source": "npm:@storybook/react",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -61459,7 +61364,7 @@
       },
       {
         "source": "npm:@testing-library/react-native@12.9.0",
-        "target": "npm:jest",
+        "target": "npm:jest@29.7.0",
         "type": "static"
       }
     ],
@@ -76907,6 +76812,11 @@
         "source": "npm:jest-watch-typeahead@2.2.1",
         "target": "npm:strip-ansi@7.1.2",
         "type": "static"
+      },
+      {
+        "source": "npm:jest-watch-typeahead@2.2.1",
+        "target": "npm:jest@29.7.0",
+        "type": "static"
       }
     ],
     "npm:jest-watch-typeahead": [
@@ -82040,7 +81950,7 @@
       },
       {
         "source": "npm:null-loader",
-        "target": "npm:webpack",
+        "target": "npm:webpack@5.102.1",
         "type": "static"
       }
     ],
@@ -86226,6 +86136,11 @@
       {
         "source": "npm:react-server-dom-webpack",
         "target": "npm:webpack-sources",
+        "type": "static"
+      },
+      {
+        "source": "npm:react-server-dom-webpack",
+        "target": "npm:webpack@5.102.1",
         "type": "static"
       }
     ],
@@ -92891,5 +92806,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1765597599898
+  "computedAt": 1765599027703
 }

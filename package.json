@@ -252,6 +252,10 @@
     "webpack-cli": "^6.0.1",
     "zone.js": "^0.15.1"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-arm64-gnu": "4.52.4",
+    "@rollup/rollup-linux-x64-gnu": "4.52.4"
+  },
   "peerDependencies": {
     "react": ">=18.3.1 || 19.x",
     "react-dom": ">=18.3.1 || 19.x",

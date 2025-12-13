@@ -40,6 +40,7 @@
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
     },
+    "platforms": ["ios", "android", "web"],
     "plugins": [
       "./plugins/ios-build-settings",
       [

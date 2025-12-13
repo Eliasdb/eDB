@@ -8,8 +8,8 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": ".",
-        "command": "echo \"Skipping mobile build (EAS not required in this pipeline)\""
+        "cwd": "apps/mobile",
+        "command": "bash -lc 'set -euo pipefail; EXPO_NO_TELEMETRY=1 EXPO_USE_WATCHMAN=0 npx expo export --platform web --output-dir dist'"
       }
     },
     "start": {
