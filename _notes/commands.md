@@ -14,6 +14,10 @@
 export KUBECONFIG=$(pwd)/secret/k3s-config.yaml
 export KUBECONFIG=$(pwd)/secret/k3s-prod-config.yaml
 
+NEW:
+export KUBECONFIG=~/.kube/edb-staging.yaml  
+kubectl get nodes
+
 # Applying new config to cluster
 
 `kubectl apply -f k8s/prod/admin-api/admin-api-deployment.prod.yaml`

@@ -1,7 +1,8 @@
 # =========================================================
 # Base runtime with needed PHP extensions (Alpine)
+# Note: Symfony 8 components in composer.lock require PHP >= 8.4
 # =========================================================
-FROM php:8.3-fpm-alpine AS runtime
+FROM php:8.4-fpm-alpine AS runtime
 
 # Build deps for PHP extensions, then runtime tools
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev linux-headers \
