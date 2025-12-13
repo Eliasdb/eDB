@@ -26,7 +26,7 @@ export function toISOWithOffset(
   let dt = DateTime.fromISO(s, { setZone: false });
   if (dt.isValid) {
     // If string already has an offset or Z, respect it; otherwise assume tz
-    const hasOffset = /[Zz]|[+\-]\d{2}:\d{2}$/.test(s);
+    const hasOffset = /[Zz]|[-+]\d{2}:\d{2}$/.test(s);
     dt = hasOffset
       ? dt.toUTC().setZone(dt.offsetNameShort || 'UTC')
       : dt.setZone(tz);

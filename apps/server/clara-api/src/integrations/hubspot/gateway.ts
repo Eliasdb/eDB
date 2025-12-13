@@ -69,7 +69,7 @@ export class HubspotGateway {
     fromId: string,
     toType: 'contacts' | 'companies' | 'deals',
     toId: string,
-    associationType: string = 'contact_to_company',
+    associationType = 'contact_to_company',
   ) {
     // v4 associations
     const path = `${ASSOCIATIONS}/${fromType}/${toType}/batch/create`;

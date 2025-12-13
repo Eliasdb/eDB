@@ -6,6 +6,10 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "@edb-workbench/api/shared": "workspace:*",
+    "fastify": "^5.6.1",
+    "tslib": "^2.3.0",
+    "vitest": "^3.0.0",
+    "zod": "^3.25.76"
   }
 }

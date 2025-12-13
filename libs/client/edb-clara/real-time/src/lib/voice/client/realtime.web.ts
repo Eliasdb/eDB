@@ -30,7 +30,7 @@ export async function connectRealtime(
     const [remoteStream] = ev.streams;
     const el = createAudioSink();
     el.srcObject = remoteStream;
-    el.play().catch(() => {});
+    el.play().catch(() => undefined);
   });
 
   const detachMeter = attachRemoteLevelMeter(pc as any, {
@@ -66,9 +66,8 @@ export async function connectRealtime(
   });
 
   const onMessage = makeMessageHandler(dc, executeOnce, {
-    onToolEffect: (name, args) => {
-      // optional per-message hook
-    },
+    onToolEffect: (name, args, result) =>
+      opts?.onToolEffect?.(name, args, result),
   });
 
   dc.addEventListener('message', onMessage);
@@ -76,18 +75,10 @@ export async function connectRealtime(
   await negotiate(pc, t);
 
   const close = () => {
-    try {
-      dc.removeEventListener('message', onMessage);
-    } catch {}
-    try {
-      dc.close();
-    } catch {}
-    try {
-      pc.close();
-    } catch {}
-    try {
-      detachMeter();
-    } catch {}
+    dc.removeEventListener('message', onMessage);
+    dc.close();
+    pc.close();
+    detachMeter();
     stream.getTracks().forEach((tr) => tr.stop());
   };
 

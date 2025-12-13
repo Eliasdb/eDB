@@ -13184,6 +13184,14 @@
       "libs/shared/client/ui/project.json",
       "nx/core/project-json"
     ],
+    "targets.lint.options": [
+      "libs/shared/client/ui/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.options.maxWarnings": [
+      "libs/shared/client/ui/project.json",
+      "nx/core/project-json"
+    ],
     "targets.storybook": [
       "libs/shared/client/ui/project.json",
       "nx/core/project-json"
