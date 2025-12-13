@@ -57,8 +57,11 @@ export default function ResponsiveSaveBar({
   const [pressed, setPressed] = useState(false);
   const webEffects: StyleProp<ViewStyle> | null = isWeb
     ? {
-        backdropFilter: 'blur(8px)',
-        boxShadow: '0 10px 28px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.04)',
+        // limited to RN-web compatible props
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 6 },
       }
     : null;
 

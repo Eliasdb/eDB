@@ -1,6 +1,7 @@
 {
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "../../..",
     "module": "esnext",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
@@ -9,7 +10,15 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noPropertyAccessFromIndexSignature": true
+    "noPropertyAccessFromIndexSignature": true,
+    "paths": {
+      "@edb-workbench/api/models": [
+        "dist/libs/server/workbench-api/models/src/index.d.ts"
+      ],
+      "@edb-workbench/api/models/*": [
+        "dist/libs/server/workbench-api/models/src/*"
+      ]
+    }
   },
   "files": [],
   "include": [],

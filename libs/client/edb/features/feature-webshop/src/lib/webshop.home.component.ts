@@ -42,7 +42,7 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
       <main class="platform-content">
         @if (aiView()) {
-          <ai-mode-catalog [onClose]="toggleAiView" />
+          <webshop-ai-mode-catalog [onClose]="toggleAiView" />
         } @else {
           <router-outlet />
         }

@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 
 import { Platform, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import type { Theme } from 'react-native-calendars/src/types';
 
 type Task = {
   id: string;
@@ -25,6 +26,19 @@ type MarkedDate = {
   selected?: boolean;
   selectedColor?: string;
   selectedTextColor?: string;
+  backgroundColor?: string;
+  calendarBackground?: string;
+  textSectionTitleColor?: string;
+  selectedDayBackgroundColor?: string;
+  selectedDayTextColor?: string;
+  todayTextColor?: string;
+  dayTextColor?: string;
+  textDisabledColor?: string;
+  selectedDotColor?: string;
+  monthTextColor?: string;
+  textMonthFontWeight?: string;
+  textMonthFontSize?: number;
+  arrowColor?: string;
 };
 type MarkedDateMap = Record<string, MarkedDate>;
 
@@ -128,7 +142,7 @@ export function TasksCalendarLite({
     };
   }, [markedDates, selected, today, C.selBg, C.text, C.todayBg]);
 
-  const theme: MarkedDate = {
+  const theme: Theme = {
     backgroundColor: C.bg,
     calendarBackground: C.bg,
     textSectionTitleColor: C.dim,

@@ -60,8 +60,14 @@ export default {
     // 4. Your shared libs / UI kits – loose singleton
     if (
       pkg === '@edb/shared-ui' ||
+      pkg === '@edb/shared-types' ||
       pkg === 'carbon-components-angular' ||
-      pkg === '@tanstack/angular-query-experimental'
+      pkg === 'carbon-components' ||
+      pkg === '@carbon/styles' ||
+      pkg === '@tanstack/angular-query-experimental' ||
+      pkg === '@tanstack/query-core' ||
+      pkg === 'chart.js' ||
+      pkg === 'ng2-charts'
     ) {
       return loose;
     }

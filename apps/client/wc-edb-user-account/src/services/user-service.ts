@@ -5,8 +5,13 @@ import {
   UserInfo,
 } from '../types/types';
 
+type ImportMetaEnvWithBase = ImportMeta & {
+  env?: { VITE_API_BASE_URL?: string };
+};
+
 const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5098/api/account';
+  (import.meta as ImportMetaEnvWithBase).env?.VITE_API_BASE_URL ||
+  'http://localhost:5098/api/account';
 
 export async function getToken(): Promise<string | null> {
   return (

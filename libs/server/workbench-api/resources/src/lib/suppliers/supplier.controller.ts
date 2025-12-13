@@ -52,7 +52,12 @@ export async function registerSupplierRoutes(
           { id: string },
           Record<string, never>
         >({
-          paramsSchema: supplierIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = supplierIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
         }),
       ],
     },
@@ -93,7 +98,12 @@ export async function registerSupplierRoutes(
           { id: string },
           UpdateSupplierBody
         >({
-          paramsSchema: supplierIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = supplierIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
           bodySchema: updateSupplierBodySchema,
         }),
       ],
@@ -115,7 +125,12 @@ export async function registerSupplierRoutes(
           { id: string },
           Record<string, never>
         >({
-          paramsSchema: supplierIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = supplierIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
         }),
       ],
     },

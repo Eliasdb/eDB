@@ -1,12 +1,21 @@
 {
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "../../..",
     "target": "es2022",
     "module": "commonjs",
     "moduleResolution": "node",
     "composite": false,
     "declaration": true,
     "esModuleInterop": true,
-    "types": ["vitest/globals", "vitest/importMeta", "node"]
+    "types": ["vitest/globals", "vitest/importMeta", "node"],
+    "paths": {
+      "@edb-workbench/api/models": [
+        "dist/libs/server/workbench-api/models/src/index.d.ts"
+      ],
+      "@edb-workbench/api/models/*": [
+        "dist/libs/server/workbench-api/models/src/*"
+      ]
+    }
   }
 }

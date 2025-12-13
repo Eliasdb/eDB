@@ -1,6 +1,6 @@
 import { Injectable, TemplateRef, inject } from '@angular/core';
 import { ModalService } from 'carbon-components-angular';
-import { UiModalComponent } from '../components/modal/modal.component.js';
+import { UiModalComponent } from '../components/modal/modal.component';
 
 @Injectable({
   providedIn: 'root',

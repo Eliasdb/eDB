@@ -3,7 +3,13 @@
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    "rootDir": "../../..",
+    "rootDirs": [
+      "libs/server/workbench-api/resources/src",
+      "libs/server/workbench-api/models/src"
+    ]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "../models/src/**/*.ts"],
+  "exclude": ["../models/src/**/*.spec.ts", "../models/src/**/*.test.ts"]
 }

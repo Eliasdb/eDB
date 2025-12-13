@@ -14,9 +14,13 @@ export type Summarized = {
 
 export type ToolScope = 'internal' | 'hubspot' | 'salesforce' | 'all';
 export type JSONSchema = {
-  properties?: Record<string, unknown>;
+  type?: string;
+  properties?: Record<string, JSONSchema | { type?: string; description?: string }>;
   required?: string[];
   oneOf?: JSONSchema[];
+  enum?: readonly unknown[] | unknown[];
+  items?: JSONSchema;
+  additionalProperties?: boolean;
 };
 
 /* ---------- display types ---------- */

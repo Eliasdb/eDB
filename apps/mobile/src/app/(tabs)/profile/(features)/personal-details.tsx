@@ -16,7 +16,6 @@ import ResponsiveSaveBar from './res';
 export default function PersonalDetailsScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-
   const { state, cards, dirty } = usePersonalDetailsForm(t);
 
   return (

@@ -60,7 +60,12 @@ export async function registerBookRoutes(
           { id: string },
           Record<string, never>
         >({
-          paramsSchema: bookIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = bookIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
         }),
       ],
     },
@@ -100,7 +105,12 @@ export async function registerBookRoutes(
       preHandler: [
         optionalAuth,
         validateRequest<Record<string, never>, { id: string }, UpdateBookBody>({
-          paramsSchema: bookIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = bookIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
           bodySchema: updateBookBodySchema,
         }),
       ],
@@ -123,7 +133,12 @@ export async function registerBookRoutes(
           { id: string },
           Record<string, never>
         >({
-          paramsSchema: bookIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = bookIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
         }),
       ],
     },

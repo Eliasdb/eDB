@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UiShellHostComponent } from '@eDB/feature-shell';
 
 @Component({
+  // Dev-only host shell. In prod the remote is loaded via module federation routes.
   selector: 'app-admin-root',
-  template: `<edb-shell-host></edb-shell-host>`,
-  imports: [UiShellHostComponent],
+  template: ``,
+  imports: [],
 })
 export class AppComponent {}

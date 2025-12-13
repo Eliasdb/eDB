@@ -73,7 +73,11 @@ export type TaskSummary = {
   id: string;
   title: string;
   due?: string;
+  dueAt?: string;
+  dueDate?: string;
   done?: boolean;
+  status?: string;
+  state?: string;
   companyId?: string | null;
   contactId?: string | null;
 };

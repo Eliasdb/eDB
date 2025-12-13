@@ -52,7 +52,6 @@ export function ToolCard({
                 style={{
                   color: text,
                   flexShrink: 1,
-                  // @ts-expect-error RN web-only prop
                   flexWrap: 'wrap',
                 }}
               >

@@ -7,6 +7,7 @@ import { CartItem } from '@edb/shared-types';
 import { SkeletonModule } from 'carbon-components-angular';
 
 @Component({
+  standalone: true,
   selector: 'webshop-order-summary-item',
   imports: [SkeletonModule, CurrencyPipe],
   template: `
@@ -39,19 +40,17 @@ import { SkeletonModule } from 'carbon-components-angular';
       <div class="flex items-center justify-between min-h-[4.5rem]">
         <div class="flex items-center space-x-4 flex-1">
           <img
-            [src]="item?.book.photoUrl"
-            [alt]="item?.book.title || 'Book cover'"
+            [src]="photoUrl"
+            [alt]="altText"
             class="h-14 w-10 rounded-lg shadow-md object-cover flex-shrink-0"
           />
           <div>
-            <p class="font-medium leading-tight">{{ item?.book.title }}</p>
-            <p class="text-sm opacity-80">Qty: {{ item?.selectedAmount }}</p>
+            <p class="font-medium leading-tight">{{ title }}</p>
+            <p class="text-sm opacity-80">Qty: {{ quantity }}</p>
           </div>
         </div>
         <p class="font-semibold whitespace-nowrap">
-          {{ item?.book.price && item?.selectedAmount
-            ? item.book.price * item.selectedAmount
-            : 0 | currency: 'EUR' }}
+          {{ lineTotal | currency: 'EUR' }}
         </p>
       </div>
     }
@@ -60,4 +59,25 @@ import { SkeletonModule } from 'carbon-components-angular';
 export class OrderSummaryItemComponent {
   @Input() item?: CartItem; // real cart item when skeleton = false
   @Input() skeleton = false; // true → render placeholders only
+
+  get photoUrl(): string {
+    return this.item?.book?.photoUrl ?? '';
+  }
+
+  get altText(): string {
+    return this.item?.book?.title ?? 'Book cover';
+  }
+
+  get title(): string {
+    return this.item?.book?.title ?? 'Untitled';
+  }
+
+  get quantity(): number {
+    return this.item?.selectedAmount ?? 0;
+  }
+
+  get lineTotal(): number {
+    const price = this.item?.book?.price ?? 0;
+    return price * this.quantity;
+  }
 }

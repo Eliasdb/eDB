@@ -307,7 +307,6 @@ function Row({
       style={[
         monoStyle,
         {
-          display: 'inline',
           color: ok ? '#16a34a' : '#ef4444',
           marginRight: 6,
         },

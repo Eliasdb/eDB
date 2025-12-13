@@ -38,7 +38,7 @@ import {
       [class.transform]="!embedded"
       [class.translate-x-full]="!embedded && !_opened()"
       [ngClass]="{
-        'transition-transform duration-300 ease-[cubic-bezier(.4,0,.2,1)]':
+        'transition-transform duration-300 ease-\\[cubic-bezier(.4,0,.2,1)\\]':
           !embedded && ready,
       }"
       (click)="$event.stopPropagation()"

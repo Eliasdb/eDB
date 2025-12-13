@@ -2,14 +2,24 @@
 import { useCompanyOverview } from '@edb-clara/client-crm';
 import { router, Slot, useLocalSearchParams, usePathname } from 'expo-router';
 
-import { EntityHero, IconButton, Screen, Segmented } from '@edb/shared-ui-rn';
+  import {
+    EntityHero,
+    IconButton,
+    Screen,
+    Segmented,
+    type SegmentedOption,
+  } from '@edb/shared-ui-rn';
 import { Platform, ScrollView, Text, View } from 'react-native';
 
 type TabKey = 'snapshot' | 'research' | 'work' | 'tasks' | 'overview';
 
-const TABS: { value: TabKey; label: string; iconName: string }[] = [
+const TABS: SegmentedOption<TabKey>[] = [
   { value: 'snapshot', label: 'Snapshot', iconName: 'grid-outline' },
-  { value: 'research', label: 'Research', iconName: 'document-text-outline' },
+  {
+    value: 'research',
+    label: 'Research',
+    iconName: 'document-text-outline',
+  },
   { value: 'work', label: 'Contacts', iconName: 'people-outline' },
   { value: 'tasks', label: 'Tasks', iconName: 'checkmark-done-outline' },
   { value: 'overview', label: 'Activity', iconName: 'list-outline' },

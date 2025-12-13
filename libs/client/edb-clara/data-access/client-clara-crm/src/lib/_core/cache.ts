@@ -20,8 +20,8 @@ const asPatch = (val: unknown): EntityPatch =>
   isRecord(val) ? (val as EntityPatch) : {};
 
 const asKindArgs = (val: unknown): { kind: Kind } | null =>
-  isRecord(val) && typeof val.kind === 'string'
-    ? ({ kind: val.kind } as { kind: Kind })
+  isRecord(val) && typeof val['kind'] === 'string'
+    ? ({ kind: val['kind'] } as { kind: Kind })
     : null;
 
 export function invalidateHub() {
@@ -91,18 +91,17 @@ export function invalidateAfterTool(
     }
 
     case 'hub.delete': {
-      const { kind } = (parsedArgs ?? { kind: undefined as never })
-        ? (args as { kind: Kind; id: string })
-        : { kind: undefined as never, id: '' };
-      const prev = asPatch(isRecord(result) ? result.prev : undefined); // from server change
+      const { kind, id } = (args as { kind?: Kind; id?: string }) ?? {};
+      const prev = asPatch(isRecord(result) ? result['prev'] : undefined); // from server change
+      if (!kind) break;
       invLists(kind);
 
       if (kind === 'companies') {
-        invalidateCompany(qc, safeId(prev.id)); // overview page of the deleted company
+        invalidateCompany(qc, safeId(prev['id'] ?? id)); // overview page of the deleted company
       }
 
       if (kind === 'contacts') {
-        invContact(safeId(prev.id));
+        invContact(safeId(prev['id'] ?? id));
         invalidateCompany(qc, safeId(prev.companyId));
       }
 

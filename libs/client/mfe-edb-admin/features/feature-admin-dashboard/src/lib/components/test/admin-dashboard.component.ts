@@ -24,6 +24,7 @@ import { AdminOrdersListComponent } from '../webshop/order-collection/order.coll
 import { AdminSidebarComponent } from './admin-sidebar.component';
 
 @Component({
+  standalone: true,
   selector: 'edb-admin-dashboard',
   imports: [
     MatDrawerContent,
@@ -52,11 +53,11 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
         class="drawer bg-gray-900 text-white"
         [class.closed]="!isDrawerOpen"
       >
-        <admin-sidebar
+        <edb-admin-sidebar
           [isOpen]="drawer.opened"
           (toggleSidebar)="drawer.toggle()"
           (itemSelected)="switchDrawerContent($event)"
-        ></admin-sidebar>
+        ></edb-admin-sidebar>
       </mat-drawer>
 
       <!-- Main content ------------------------------------------------------- -->
@@ -111,7 +112,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
             <div class="p-6">
               <h2 class="mb-4 text-2xl font-medium">Dashboard</h2>
               <cds-tile class="flex-1 border rounded-[0.375rem] p-4 mb-4">
-                <notifications-panel></notifications-panel>
+                <edb-notifications-panel></edb-notifications-panel>
               </cds-tile>
 
               <div class="flex flex-col md:flex-row gap-4 mb-4">
@@ -222,7 +223,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                 <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
                   <h4 class="mb-4 text-lg font-medium">Orders</h4>
                   <div class="max-h-[28rem] overflow-y-auto pr-2">
-                    <admin-orders-list />
+                    <edb-admin-orders-list />
                   </div>
                 </cds-tile>
               </div>

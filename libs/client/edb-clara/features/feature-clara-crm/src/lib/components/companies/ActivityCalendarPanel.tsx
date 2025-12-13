@@ -8,7 +8,8 @@ import {
 } from '@edb/shared-ui-rn';
 import { useMemo, useState } from 'react';
 import { useColorScheme, View } from 'react-native';
-import { Calendar, type MarkedDates } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
+import type { MarkedDates } from 'react-native-calendars/src/types';
 
 type CalendarDay = {
   dateString: string;

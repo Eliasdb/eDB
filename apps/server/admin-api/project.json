@@ -17,12 +17,11 @@
       }
     },
     "swagger": {
-      "executor": "@nx-dotnet/core:update-swagger",
+      "executor": "nx:run-commands",
       "outputs": ["{workspaceRoot}/libs/generated/admin-api-swagger"],
       "options": {
-        "output": "libs/generated/admin-api-swagger"
-      },
-      "dependsOn": ["build"]
+        "command": "echo \"skip swagger generation (nx/dotnet executors removed)\""
+      }
     }
   }
 }

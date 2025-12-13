@@ -37,16 +37,16 @@ export default composePlugins(
       }),
     );
 
-    // 👇 analyzer only if enabled (recommended gate it!)
-    // if (process.env.ANALYZE === 'true') {
-    config.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'server',
-        analyzerPort: 8888,
-        openAnalyzer: true,
-      }),
-    );
-    // }
+    // 👇 enable analyzer only when requested (prevents dev/CI port conflicts)
+    if (process.env.ANALYZE === 'true') {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerPort: Number(process.env.ANALYZE_PORT ?? 8888),
+          openAnalyzer: true,
+        }),
+      );
+    }
 
     return config;
   },

@@ -55,9 +55,9 @@ function summarizeParams(schema?: JSONSchema): CapabilityItem['summary'] {
   if (!schema || typeof schema !== 'object') return;
 
   const out: CapabilityItem['summary'] = {};
-  const props = schema?.properties as Record<string, unknown> | undefined;
+  const props = schema?.properties as Record<string, JSONSchema | { enum?: unknown; oneOf?: JSONSchema[] }> | undefined;
 
-  const kindEnum = props?.kind?.enum as string[] | undefined;
+  const kindEnum = props?.kind && 'enum' in props.kind ? (props.kind.enum as string[] | readonly string[] | undefined) : undefined;
   if (Array.isArray(kindEnum) && kindEnum.length) out.kinds = kindEnum;
 
   const req = schema?.required as string[] | undefined;

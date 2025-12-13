@@ -24,7 +24,12 @@ type CompanyRowData = {
   subtitle: string;
   initials: string;
   tags: Array<{ text: string; tone: 'primary' }>;
-  meta: Array<{ label: string; value: string; pill?: boolean; icon?: string }>;
+  meta: Array<{
+    label: string;
+    value: string;
+    pill?: boolean;
+    icon?: 'calendar' | 'time' | 'person';
+  }>;
 };
 type TaskData = {
   id: string;
@@ -131,13 +136,14 @@ export default function SkeletonPlayground() {
     }
 
     // companies (playground entity row shape)
+    const company = item as CompanyRowData;
     return (
       <EntityRow
-        title={item.title}
-        subtitle={item.subtitle}
-        initials={item.initials}
-        tags={item.tags}
-        meta={item.meta}
+        title={company.title}
+        subtitle={company.subtitle}
+        initials={company.initials}
+        tags={company.tags}
+        meta={company.meta}
         onLayout={index === 0 ? onMeasureRow : undefined}
       />
     );
