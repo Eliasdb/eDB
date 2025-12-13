@@ -31,7 +31,7 @@ jobs:
       - run: npm install -g pnpm
       - run: pnpm install --frozen-lockfile
       - name: Lint mfe-edb-admin
-        run: pnpm nx lint mfe-edb-admin --verbose
+        run: pnpm nx lint mfe-edb-admin
 
   # ─────────────────────────────────────────────
   test:
