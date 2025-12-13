@@ -96,7 +96,7 @@ jobs:
         run: |
           pnpm nx affected --target=lint \
             --base=origin/dev --head=HEAD \
-            --parallel --exclude=mfe-edb-admin || true
+            --parallel --exclude=mfe-edb-admin,mfe-edb-admin-e2e || true
 
   # ─────────────────────────────────────────────
   test:

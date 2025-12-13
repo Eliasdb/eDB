@@ -11,7 +11,7 @@ import {
 const isDev = process.env.NODE_ENV !== 'production';
 
 /* strict singleton helper (core Angular + RxJS only) */
-const strict = (requiredVersion = '^21.0.5'): SharedLibraryConfig => ({
+const strict = (requiredVersion = '21.0.5'): SharedLibraryConfig => ({
   singleton: true,
   strictVersion: true,
   requiredVersion,
@@ -42,7 +42,7 @@ export default {
       pkg === '@angular/platform-browser' ||
       pkg === '@angular/router'
     ) {
-      return strict(); // ^21.0.5
+      return strict(); // 21.0.5
     }
 
     // 2. RxJS – strict singleton
@@ -52,7 +52,7 @@ export default {
 
     // 3. Angular Material / CDK – strict singleton
     if (pkg.startsWith('@angular/material') || pkg.startsWith('@angular/cdk')) {
-      return pkg.startsWith('@angular/cdk') ? strict('^21.0.3') : strict();
+      return strict('21.0.3');
     }
 
     // 4. Your shared libs / UI kits – loose singleton
