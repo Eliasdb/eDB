@@ -11,3 +11,4 @@ spec:
     commonName: app.eliasdebock.com
     dnsNames:
         - app.eliasdebock.com
+        - clara.eliasdebock.com

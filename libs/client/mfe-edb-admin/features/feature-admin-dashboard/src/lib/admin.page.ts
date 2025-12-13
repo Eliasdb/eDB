@@ -1,4 +1,11 @@
-import { Component, OnDestroy, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  OnDestroy,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import { ModalModule, PlaceholderModule } from 'carbon-components-angular';
 
 import { MatDrawer } from '@angular/material/sidenav';
 
@@ -35,11 +42,15 @@ console.log('✅ Chart.js registered once in host:', Chart);
 
 @Component({
   selector: 'platform-admin',
-  template: ` <section class="admin-page ">
-    <edb-admin-dashboard />
-  </section>`,
-  imports: [AdminDashboardComponent],
+  template: `
+    <ibm-modal-placeholder></ibm-modal-placeholder>
+    <section class="admin-page ">
+      <edb-admin-dashboard />
+    </section>
+  `,
+  imports: [AdminDashboardComponent, ModalModule, PlaceholderModule],
   styleUrls: ['admin.page.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminPage implements OnDestroy {
   currentView = signal<'books' | 'order-overview'>('books');

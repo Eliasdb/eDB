@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 
 import { AdminService } from '@eDB/client-admin';
 import { TableUtilsService } from '@edb/util-common';
-import { PlaceholderModule } from 'carbon-components-angular';
+import { PlaceholderModule, ModalModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -41,6 +41,9 @@ import {
   imports: [
     UiTableComponent,
     UiButtonComponent,
+    // Carbon modal needs both the module (providers) and a placeholder in the
+    // view tree; keep it close to where the modal is opened.
+    ModalModule,
     PlaceholderModule,
     UiPlatformOverflowMenuComponent,
     MatCardModule,
@@ -131,6 +134,7 @@ import {
         />
       </form>
     </ng-template>
+
   `,
 })
 export class ApplicationsCollectionContainer implements OnInit {
