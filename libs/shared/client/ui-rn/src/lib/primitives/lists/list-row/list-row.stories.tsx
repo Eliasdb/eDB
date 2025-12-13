@@ -4,6 +4,9 @@ import { Text } from 'react-native';
 
 import { ListRow } from './list-row';
 
+const bodyTextStyle = { fontSize: 16, color: '#111827' };
+const compactTextStyle = { fontSize: 15, color: '#111827' };
+
 const meta: Meta<typeof ListRow> = {
   title: 'Primitives/Lists/List Row',
   component: ListRow,
@@ -31,9 +34,7 @@ export const Basic: Story = {
     <ListRow
       {...args}
       body={
-        <Text className="text-[16px] text-text dark:text-text-dark">
-          Hello Row
-        </Text>
+        <Text style={bodyTextStyle}>Hello Row</Text>
       }
     />
   ),
@@ -45,9 +46,7 @@ export const WithIconAndChevron: Story = {
       {...args}
       left={<Ionicons name="person-outline" size={20} color="#6B7280" />}
       body={
-        <Text className="text-[16px] text-text dark:text-text-dark">
-          Profile
-        </Text>
+        <Text style={bodyTextStyle}>Profile</Text>
       }
       right={<Ionicons name="chevron-forward" size={18} color="#9CA3AF" />}
     />
@@ -60,9 +59,7 @@ export const WithSwitch: Story = {
       {...args}
       left={<Ionicons name="notifications-outline" size={20} color="#6B7280" />}
       body={
-        <Text className="text-[16px] text-text dark:text-text-dark">
-          Notifications
-        </Text>
+        <Text style={bodyTextStyle}>Notifications</Text>
       }
       right={<Ionicons name="toggle-outline" size={28} color="#6C63FF" />}
     />
@@ -76,9 +73,7 @@ export const CompactMode: Story = {
       compact
       left={<Ionicons name="moon-outline" size={18} color="#6B7280" />}
       body={
-        <Text className="text-[15px] text-text dark:text-text-dark">
-          Dark Mode
-        </Text>
+        <Text style={compactTextStyle}>Dark Mode</Text>
       }
       right={<Ionicons name="checkmark-outline" size={18} color="#16a34a" />}
     />
@@ -91,9 +86,7 @@ export const WithDivider: Story = {
       {...args}
       showDividerTop
       body={
-        <Text className="text-[16px] text-text dark:text-text-dark">
-          Separated row
-        </Text>
+        <Text style={bodyTextStyle}>Separated row</Text>
       }
     />
   ),
@@ -105,11 +98,7 @@ export const FullExampleList: Story = {
       <ListRow
         {...args}
         left={<Ionicons name="person-outline" size={20} color="#6B7280" />}
-        body={
-          <Text className="text-[16px] text-text dark:text-text-dark">
-            Profile
-          </Text>
-        }
+        body={<Text style={bodyTextStyle}>Profile</Text>}
         right={<Ionicons name="chevron-forward" size={18} color="#9CA3AF" />}
       />
       <ListRow
@@ -118,22 +107,14 @@ export const FullExampleList: Story = {
         left={
           <Ionicons name="notifications-outline" size={20} color="#6B7280" />
         }
-        body={
-          <Text className="text-[16px] text-text dark:text-text-dark">
-            Notifications
-          </Text>
-        }
+        body={<Text style={bodyTextStyle}>Notifications</Text>}
         right={<Ionicons name="toggle-outline" size={28} color="#6C63FF" />}
       />
       <ListRow
         {...args}
         showDividerTop
         left={<Ionicons name="moon-outline" size={20} color="#6B7280" />}
-        body={
-          <Text className="text-[16px] text-text dark:text-text-dark">
-            Dark Mode
-          </Text>
-        }
+        body={<Text style={bodyTextStyle}>Dark Mode</Text>}
         right={<Ionicons name="checkmark-outline" size={18} color="#16a34a" />}
       />
     </>

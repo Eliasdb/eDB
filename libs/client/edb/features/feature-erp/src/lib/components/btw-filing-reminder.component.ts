@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'btw-filing-reminder',
+  selector: 'edb-btw-filing-reminder',
   standalone: true,
   template: `
     <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">

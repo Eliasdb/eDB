@@ -4,6 +4,18 @@ import { PlaceholderModule } from 'carbon-components-angular';
 
 import { UiPlatformHeaderComponent } from '../header/platform-header.component';
 
+type NavigationLink = {
+  id: string;
+  label: string;
+  isCurrentPage: boolean;
+  icon?: string;
+};
+
+type MenuOption = {
+  id: string;
+  label: string;
+};
+
 @Component({
   selector: 'ui-shell',
   imports: [RouterModule, UiPlatformHeaderComponent, PlaceholderModule],
@@ -24,8 +36,8 @@ import { UiPlatformHeaderComponent } from '../header/platform-header.component';
   `,
 })
 export class UiShellComponent {
-  @Input() menuOptions: any[] = [];
-  @Input() navigationLinks: any[] = [];
+  @Input() menuOptions: MenuOption[] = [];
+  @Input() navigationLinks: NavigationLink[] = [];
 
   @Output() linkClick = new EventEmitter<string>();
   @Output() menuOptionSelected = new EventEmitter<string>();

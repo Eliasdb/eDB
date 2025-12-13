@@ -1,12 +1,18 @@
 import { FlatList, View } from 'react-native';
 import { MessageBubble } from './message-bubble';
 
+export type ChatMessage = {
+  id: string;
+  text: string;
+  from: 'user' | 'clara';
+};
+
 export function ChatThread({
   messages,
   listRef,
 }: {
-  messages: any[];
-  listRef: React.RefObject<FlatList<any>>;
+  messages: ChatMessage[];
+  listRef: React.RefObject<FlatList<ChatMessage>>;
 }) {
   return (
     <FlatList

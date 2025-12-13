@@ -56,11 +56,15 @@ import { CartItem } from '@edb/shared-types';
             <div class="flex-1 overflow-y-auto pr-2 space-y-4">
               @if (loading) {
                 @for (_ of placeholderRows; track _) {
-                  <order-summary-item [skeleton]="true"></order-summary-item>
+                  <webshop-order-summary-item
+                    [skeleton]="true"
+                  ></webshop-order-summary-item>
                 }
               } @else {
                 @for (item of cartItems; track item.id) {
-                  <order-summary-item [item]="item"></order-summary-item>
+                  <webshop-order-summary-item
+                    [item]="item"
+                  ></webshop-order-summary-item>
                 }
               }
             </div>
@@ -141,7 +145,9 @@ import { CartItem } from '@edb/shared-types';
               <div class="lg:hidden border-t mt-10 space-y-4">
                 <h2 class="text-2xl font-bold text-gray-800">Order Summary</h2>
                 @for (item of cartItems; track item.id) {
-                  <order-summary-item [item]="item"></order-summary-item>
+                  <webshop-order-summary-item
+                    [item]="item"
+                  ></webshop-order-summary-item>
                 }
                 <div
                   class="flex justify-between font-bold text-lg text-gray-700"

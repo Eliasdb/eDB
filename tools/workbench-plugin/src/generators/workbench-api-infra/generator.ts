@@ -553,7 +553,7 @@ function emitRepoSpec(
     repoDir: string; // co-located directory
   },
 ) {
-  const { repoDir, plural, singular, Cap, fields } = opts;
+  const { repoDir, plural, singular: _singular, Cap, fields } = opts;
 
   const specPath = `${repoDir}/repo.pg.spec.ts`;
   if (tree.exists(specPath)) return;

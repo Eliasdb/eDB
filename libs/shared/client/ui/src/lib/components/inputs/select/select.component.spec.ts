@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SelectModule } from 'carbon-components-angular';
+import { vi } from 'vitest';
 import { UiSelectComponent } from './select.component';
 
 describe('UiSelectComponent', () => {

@@ -8,7 +8,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '@eDB/shared-env';
-import { CompanyDto, ContactDto } from '@edb/feature-crm';
+import { CompanyDto, ContactDto } from './types';
 
 /* ─────────────────────────────────────────── */
 /* DTOs & payload helpers                      */

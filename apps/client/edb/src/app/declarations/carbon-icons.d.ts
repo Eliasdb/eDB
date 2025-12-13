@@ -1,4 +1,5 @@
 declare module '@carbon/icons/es/*' {
-  const content: any;
+  import type { CarbonIconType } from '@carbon/icons-react';
+  const content: CarbonIconType;
   export default content;
 }

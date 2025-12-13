@@ -92,27 +92,29 @@ export const TagWithIcon: Story = {
 
 /* --- Interactive (toggle tone/variant) ------------------------ */
 
+const ToggleableRender = () => {
+  const [solid, setSolid] = useState(false);
+  return (
+    <View style={{ gap: 12 }}>
+      <Pill
+        text={solid ? 'Solid / Primary' : 'Soft / Success'}
+        tone={solid ? 'primary' : 'success'}
+        variant={solid ? 'solid' : 'soft'}
+        onPress={() => setSolid((s) => !s)}
+        left={<Icon name={solid ? 'flash' : 'leaf'} />}
+      />
+      <Pill
+        text="Outline / Danger"
+        tone="danger"
+        variant="outline"
+        right={<Icon name="close" />}
+      />
+    </View>
+  );
+};
+
 export const Toggleable: Story = {
-  render: () => {
-    const [solid, setSolid] = useState(false);
-    return (
-      <View style={{ gap: 12 }}>
-        <Pill
-          text={solid ? 'Solid / Primary' : 'Soft / Success'}
-          tone={solid ? 'primary' : 'success'}
-          variant={solid ? 'solid' : 'soft'}
-          onPress={() => setSolid((s) => !s)}
-          left={<Icon name={solid ? 'flash' : 'leaf'} />}
-        />
-        <Pill
-          text="Outline / Danger"
-          tone="danger"
-          variant="outline"
-          right={<Icon name="close" />}
-        />
-      </View>
-    );
-  },
+  render: () => <ToggleableRender />,
 };
 
 /* --- Density grid (quick visual matrix) ----------------------- */

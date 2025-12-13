@@ -25,7 +25,7 @@ type DropdownItem = { content: string; selected: boolean };
       [readonly]="readonly()"
       [fluid]="fluid()"
       (selected)="handleSelected($event)"
-      (onClose)="handleClose($event)"
+      (onClose)="handleClose()"
     >
       <cds-dropdown-list [items]="items()"></cds-dropdown-list>
     </cds-dropdown>
@@ -61,7 +61,7 @@ export class UiDropdownComponent {
     this.selectionChange.emit(event as DropdownItem);
   }
 
-  handleClose(_: unknown): void {
+  handleClose(): void {
     this.dropdownClosed.emit();
   }
 }

@@ -6,8 +6,20 @@
     "declarationMap": false,
     "emitDeclarationOnly": false,
     "stripInternal": false,
-    "types": ["node"]
+    "composite": false,
+    "types": ["node"],
+    "rootDir": "../../..",
+    "rootDirs": [
+      "libs/server/workbench-api/infra/src",
+      "libs/server/workbench-api/models/src"
+    ]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["vitest.config.*", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "include": ["src/**/*.ts", "../models/src/**/*.ts"],
+  "exclude": [
+    "vitest.config.*",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "../models/src/**/*.spec.ts",
+    "../models/src/**/*.test.ts"
+  ]
 }

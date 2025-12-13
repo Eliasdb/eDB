@@ -29,7 +29,9 @@ export default function ProfileScreen() {
           <ProfileCard
             name={t('profile.name')}
             email={t('profile.email')}
-            onChangePhoto={() => {}}
+            onChangePhoto={() =>
+              router.push('/(tabs)/profile/(features)/personal-details')
+            }
             onManageVoice={() => router.push('./voice-mode')}
           />
 

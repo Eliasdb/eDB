@@ -38,13 +38,13 @@ export class UiNzModalComponent {
 
   @Output() readonly openChange = new EventEmitter<boolean>();
   @Output() readonly ok = new EventEmitter<void>();
-  @Output() readonly cancel = new EventEmitter<void>();
+  @Output() readonly cancelled = new EventEmitter<void>();
 
   handleOk(): void {
     this.ok.emit();
   }
   handleCancel(): void {
-    this.cancel.emit();
+    this.cancelled.emit();
   }
   handleVisibleChange(next: boolean): void {
     this.openChange.emit(next);

@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/angular:ng-packagr-lite",
+      "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/shared/client/ui/ng-package.json"
@@ -21,14 +21,17 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "options": {
         "vitestConfig": "libs/shared/client/ui/vitest.config.ts",
         "passWithNoTests": true
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint"
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "maxWarnings": 1000
+      }
     },
     "storybook": {
       "executor": "@storybook/angular:start-storybook",

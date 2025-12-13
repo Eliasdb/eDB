@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'ui-webshop-quantity-selector',
+  standalone: true,
   imports: [MatIconModule, MatButtonModule],
   template: `
     <div class="flex items-center justify-center">

@@ -6,7 +6,7 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import '@carbon/styles/css/styles.css'; // Carbon layer
 import '../src/lib/styles/main.css'; // ✅ correct path
 
-export const decorators: any[] = [
+export const decorators = [
   applicationConfig({
     providers: [
       { provide: NZ_I18N, useValue: en_US }, // Default locale

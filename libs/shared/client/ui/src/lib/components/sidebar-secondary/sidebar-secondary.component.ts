@@ -38,7 +38,7 @@ import {
       [class.transform]="!embedded"
       [class.translate-x-full]="!embedded && !_opened()"
       [ngClass]="{
-        'transition-transform duration-300 ease-[cubic-bezier(.4,0,.2,1)]':
+        'transition-transform duration-300 ease-\\[cubic-bezier(.4,0,.2,1)\\]':
           !embedded && ready,
       }"
       (click)="$event.stopPropagation()"
@@ -59,7 +59,7 @@ export class UiSlideInSidebarComponent implements AfterViewInit {
   @Input() embedded = false;
 
   /** Two-way control – parent binds `[opened]` and/or `(closed)` */
-  @Input({ alias: 'opened', transform: (v: any) => !!v })
+  @Input({ alias: 'opened', transform: (v: unknown) => !!v })
   set opened(v: boolean) {
     this._opened.set(v);
   }

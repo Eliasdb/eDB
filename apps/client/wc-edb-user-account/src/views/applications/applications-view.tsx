@@ -23,8 +23,10 @@ export function ApplicationsView() {
       try {
         const data = await fetchApplications(token);
         setApps(data);
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong');
+      } catch (err: unknown) {
+        const message =
+          err instanceof Error ? err.message : 'Something went wrong';
+        setError(message);
       }
     }
 

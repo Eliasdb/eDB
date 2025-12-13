@@ -57,12 +57,12 @@ export class UiModalComponent {
   content = model<string>();
 
   // ✅ FIX: switch from input() to model() to allow .set()
-  readonly template = model<TemplateRef<any> | null>(null);
-  readonly context = model<any>(null);
+  readonly template = model<TemplateRef<unknown> | null>(null);
+  readonly context = model<unknown>(null);
   readonly cancelRoute = model<string | undefined>(undefined);
 
-  @Output() save = new EventEmitter<any>();
-  @Output() close = new EventEmitter<void>();
+  @Output() save = new EventEmitter<unknown>();
+  @Output() dismissed = new EventEmitter<void>();
 
   private router = inject(Router);
 
@@ -71,7 +71,7 @@ export class UiModalComponent {
     if (cancelRoute) {
       this.router.navigate([cancelRoute]);
     }
-    this.close.emit();
+    this.dismissed.emit();
   }
 
   onSave(): void {

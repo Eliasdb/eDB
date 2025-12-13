@@ -15,8 +15,10 @@ export default composePlugins(
   ),
 
   // ✅ Add workaround plugin to patch the options error
-  (config, context, options = {}) => {
+  (config, context, _options = {}) => {
     // Optional safeguard: avoid error if options is undefined
+
+    void _options;
 
     config.plugins ??= [];
     config.plugins.push(

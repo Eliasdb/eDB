@@ -2,8 +2,10 @@
 import type { ToolMeta, ToolModule } from '../../../types';
 
 /* ── Shared enums used in parameters ─────────────────────────────────────── */
-const KIND_ENUM = {
-  enum: ['tasks', 'contacts', 'companies', 'activities'] as const,
+import type { JSONSchema } from '../../../types';
+
+const KIND_ENUM: JSONSchema = {
+  enum: ['tasks', 'contacts', 'companies', 'activities'],
 };
 
 /* ── JSON Schemas for create/patch payloads (LEAN, aligned) ─────────────── */

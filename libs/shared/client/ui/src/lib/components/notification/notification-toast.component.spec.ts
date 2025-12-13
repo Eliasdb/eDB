@@ -136,7 +136,10 @@ describe('UiNotificationToastComponent', () => {
   });
 
   it('should not render any notification if type is invalid', async () => {
-    fixture.componentRef.setInput('type', 'invalid-type' as any);
+    fixture.componentRef.setInput(
+      'type',
+      'invalid-type' as unknown as 'toast' | 'notification' | 'actionable-notification',
+    );
     fixture.detectChanges();
     await fixture.whenStable();
 

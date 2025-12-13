@@ -79,7 +79,7 @@ export interface CompanyCard {
   `,
 })
 export class CrmCompanySidebarComponent {
-  @Input({ alias: 'embedded' }) embedded = false;
+  @Input() embedded = false;
 
   @ViewChild('shell', { static: true, read: UiSlideInSidebarComponent })
   private shell!: UiSlideInSidebarComponent;

@@ -52,7 +52,7 @@ export class ApplicationsCollectionAccordionComponent {
   onDelete(app: Application): void {
     this.deleteApplication.emit(app);
   }
-  onSelected(event: any): void {
+  onSelected(event: unknown): void {
     console.log('Accordion item selected:', event);
   }
 }

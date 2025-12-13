@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SearchModule } from 'carbon-components-angular';
+import { vi } from 'vitest';
 import { UiSearchComponent } from './search.component';
 
 describe('UiSearchComponent', () => {
@@ -22,23 +23,23 @@ describe('UiSearchComponent', () => {
   });
 
   it('should have the correct default inputs', () => {
-    expect(component.theme).toBe('dark');
-    expect(component.placeholder).toBe('Search');
-    expect(component.autocomplete).toBe('off');
-    expect(component.disabled).toBeFalsy();
-    expect(component.size).toBe('md');
-    expect(component.skeleton).toBeFalsy();
-    expect(component.expandable).toBeFalsy();
+    expect(component.theme()).toBe('light');
+    expect(component.placeholder()).toBe('Search');
+    expect(component.autocomplete()).toBe('off');
+    expect(component.disabled()).toBeFalsy();
+    expect(component.size()).toBe('md');
+    expect(component.skeleton()).toBeFalsy();
+    expect(component.expandable()).toBeFalsy();
   });
 
   it('should bind input properties to the cds-search component', () => {
-    component.theme = 'light';
-    component.placeholder = 'Type something';
-    component.autocomplete = 'on';
-    component.disabled = true;
-    component.size = 'lg';
-    component.skeleton = true;
-    component.expandable = true;
+    fixture.componentRef.setInput('theme', 'dark');
+    fixture.componentRef.setInput('placeholder', 'Type something');
+    fixture.componentRef.setInput('autocomplete', 'on');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('skeleton', true);
+    fixture.componentRef.setInput('expandable', true);
 
     fixture.detectChanges();
 
@@ -74,7 +75,7 @@ describe('UiSearchComponent', () => {
   });
 
   it('should disable the search input when the disabled property is true', () => {
-    component.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     const searchElement = fixture.debugElement.query(
@@ -84,7 +85,7 @@ describe('UiSearchComponent', () => {
   });
 
   it('should set the correct placeholder', () => {
-    component.placeholder = 'Custom placeholder';
+    fixture.componentRef.setInput('placeholder', 'Custom placeholder');
     fixture.detectChanges();
 
     const searchElement = fixture.debugElement.query(
@@ -96,7 +97,7 @@ describe('UiSearchComponent', () => {
   });
 
   it('should have the correct size', () => {
-    component.size = 'sm';
+    fixture.componentRef.setInput('size', 'sm');
     fixture.detectChanges();
 
     const searchElement = fixture.debugElement.query(

@@ -4,6 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HeaderUserMenu } from '../../headers/header-user-menu/header-user-menu';
 import { HeaderIconKey, headerIconRegistry } from './icon-registry';
 
+type IconName = React.ComponentProps<typeof Ionicons>['name'];
+
 type Props = {
   title: string;
   subtitle?: string;
@@ -50,7 +52,7 @@ export function AppHeader({
   const iconNeutral = isDark ? '#E5E7EB' : '#111827';
 
   // pick the icon from the registry if a key is provided
-  const leadingIconName = leadingKey
+  const leadingIconName: IconName | undefined = leadingKey
     ? headerIconRegistry[leadingKey]
     : undefined;
 
@@ -97,7 +99,7 @@ export function AppHeader({
               leading
             ) : leadingIconName ? (
               <Ionicons
-                name={leadingIconName as any}
+                name={leadingIconName}
                 size={18}
                 color={iconNeutral}
               />

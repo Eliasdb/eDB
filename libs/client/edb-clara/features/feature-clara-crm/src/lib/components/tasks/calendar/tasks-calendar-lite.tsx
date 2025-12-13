@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 
 import { Platform, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import type { Theme } from 'react-native-calendars/src/types';
 
 type Task = {
   id: string;
@@ -17,6 +18,29 @@ type Props = {
   /** Hide the internal header if the parent already shows a section title */
   showHeader?: boolean;
 };
+
+type MarkedDate = {
+  marked?: boolean;
+  dotColor?: string;
+  customStyles?: { container?: object; text?: object };
+  selected?: boolean;
+  selectedColor?: string;
+  selectedTextColor?: string;
+  backgroundColor?: string;
+  calendarBackground?: string;
+  textSectionTitleColor?: string;
+  selectedDayBackgroundColor?: string;
+  selectedDayTextColor?: string;
+  todayTextColor?: string;
+  dayTextColor?: string;
+  textDisabledColor?: string;
+  selectedDotColor?: string;
+  monthTextColor?: string;
+  textMonthFontWeight?: string;
+  textMonthFontSize?: number;
+  arrowColor?: string;
+};
+type MarkedDateMap = Record<string, MarkedDate>;
 
 // Replace your helper with this
 function toYMD(input?: string | Date | null) {
@@ -78,8 +102,8 @@ export function TasksCalendarLite({
   }, [tasks]);
 
   // dots (recompute when theme flips so colors update immediately)
-  const markedDates = useMemo(() => {
-    const marks: Record<string, any> = {};
+  const markedDates = useMemo<MarkedDateMap>(() => {
+    const marks: MarkedDateMap = {};
     for (const [day, list] of Object.entries(byDate)) {
       const anyDone = list.some((t) => t.done);
       marks[day] = {
@@ -88,13 +112,13 @@ export function TasksCalendarLite({
       };
     }
     return marks;
-  }, [byDate, isDark]); // <- include isDark so colors update
+  }, [byDate, C.dotDone, C.dotTodo]); // theme colors already derived
 
   const today = toYMD(new Date());
   const [selected, setSelected] = useState<string>(today);
 
   // selection & today styling
-  const calendarMarks = useMemo(() => {
+  const calendarMarks = useMemo<MarkedDateMap>(() => {
     return {
       ...markedDates,
       [selected]: {
@@ -116,9 +140,9 @@ export function TasksCalendarLite({
           }
         : null),
     };
-  }, [markedDates, selected, today, isDark]);
+  }, [markedDates, selected, today, C.selBg, C.text, C.todayBg]);
 
-  const theme: Record<string, any> = {
+  const theme: Theme = {
     backgroundColor: C.bg,
     calendarBackground: C.bg,
     textSectionTitleColor: C.dim,
@@ -159,7 +183,9 @@ export function TasksCalendarLite({
         key={`cal-${effective}`} // <- force remount on theme change
         markedDates={calendarMarks}
         markingType="dot"
-        onDayPress={(d: any) => setSelected(d.dateString)}
+        onDayPress={(d: { dateString?: string }) =>
+          setSelected(d.dateString ?? selected)
+        }
         theme={theme}
         style={{
           borderTopWidth: showHeader ? 1 : 0,

@@ -21,7 +21,7 @@ export type TasksCollectionProps = {
 };
 
 export function TasksCollection({ data, loading }: TasksCollectionProps) {
-  const tasks: any[] = data?.tasks ?? [];
+  const tasks: CompanyOverview['tasks'] = data?.tasks ?? [];
 
   // ✅ Render in server order.
   const rows = tasks.map(mapTaskToView);
@@ -29,7 +29,7 @@ export function TasksCollection({ data, loading }: TasksCollectionProps) {
 
   // Tiny footer (until backend exposes done/blocked counts)
   const { done, blocked } = tasks.reduce(
-    (acc, t: any) => {
+    (acc, t) => {
       const s = String(t?.status ?? t?.state ?? '').toLowerCase();
       if (
         t?.done === true ||

@@ -51,7 +51,12 @@ export async function registerGadgetRoutes(
           { id: string },
           Record<string, never>
         >({
-          paramsSchema: gadgetIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = gadgetIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
         }),
       ],
     },
@@ -92,7 +97,12 @@ export async function registerGadgetRoutes(
           { id: string },
           UpdateGadgetBody
         >({
-          paramsSchema: gadgetIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = gadgetIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
           bodySchema: updateGadgetBodySchema,
         }),
       ],
@@ -114,7 +124,12 @@ export async function registerGadgetRoutes(
           { id: string },
           Record<string, never>
         >({
-          paramsSchema: gadgetIdParamSchema,
+          paramsSchema: {
+            parse: (data): { id: string } => {
+              const parsed = gadgetIdParamSchema.parse(data);
+              return { id: parsed.id };
+            },
+          },
         }),
       ],
     },

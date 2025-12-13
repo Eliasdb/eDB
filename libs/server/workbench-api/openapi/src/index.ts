@@ -1,1 +1,1 @@
-export * from './lib/openapi';
+export * from './lib/emit-openapi';

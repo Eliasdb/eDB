@@ -11,6 +11,7 @@ import {
   OnInit,
   ViewChild,
   createComponent,
+  inject,
 } from '@angular/core';
 import { EventPlannerComponent } from '../../agent-playground/event-planner.component';
 
@@ -55,10 +56,8 @@ export class AgentPlaygroundComponent
   @ViewChild('mount', { static: true }) mountRef!: ElementRef<HTMLDivElement>;
   private mountedComponent?: ComponentRef<EventPlannerComponent>;
 
-  constructor(
-    private readonly environmentInjector: EnvironmentInjector,
-    private readonly appRef: ApplicationRef,
-  ) {}
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly appRef = inject(ApplicationRef);
 
   clear() {
     this.destroyMountedApp();
@@ -86,7 +85,15 @@ export class AgentPlaygroundComponent
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
-      (window as any).agentPlayground = {
+      const globalWindow = window as typeof window & {
+        agentPlayground?: {
+          mountHtml: (html: string) => void;
+          clear: () => void;
+          mountApp: () => void;
+          el: () => HTMLDivElement;
+        };
+      };
+      globalWindow.agentPlayground = {
         mountHtml: this.mountHtml.bind(this),
         clear: this.clear.bind(this),
         mountApp: this.mountApp.bind(this),
@@ -102,7 +109,10 @@ export class AgentPlaygroundComponent
   ngOnDestroy() {
     this.destroyMountedApp();
     if (typeof window !== 'undefined') {
-      delete (window as any).agentPlayground;
+      const globalWindow = window as typeof window & {
+        agentPlayground?: unknown;
+      };
+      delete globalWindow.agentPlayground;
     }
   }
 

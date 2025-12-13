@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd 
 
 WORKDIR /app
 
-# Copy published output
-COPY dist/apps/server/admin-api ./
+# Copy published output (net8.0 assets)
+COPY dist/apps/server/admin-api/net8.0 ./
 
 # Copy DB wait script
 COPY apps/server/admin-api/wait-for-postgres.sh ./wait-for-postgres.sh
@@ -20,4 +20,4 @@ ENV DOTNET_ENVIRONMENT=Production
 EXPOSE 9102
 
 # Entry point waits for DB then runs the app
-ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service-prod", "dotnet", "EDb.AdminApi.dll"]
+ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service-prod", "dotnet", "/app/EDb.AdminApi.dll"]

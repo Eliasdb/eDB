@@ -25,7 +25,7 @@ describe.sequential('AuthorRepoPg (infra ↔ db)', () => {
     // but don't hard-fail if the table isn't created yet
     try {
       await db.execute(sql`DELETE FROM "authors";`);
-    } catch (err) {
+    } catch {
       // swallow "relation does not exist" so local dev can run tests
       // before running the migration
       // (once you run the CREATE TABLE migration, this won't trigger)

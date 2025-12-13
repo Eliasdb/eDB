@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/headers/header-user-menu/header-user-menu.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { ComponentProps, useMemo } from 'react';
+import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View, useColorScheme } from 'react-native';
 import {
@@ -10,7 +10,6 @@ import {
   MenuTrigger,
   renderers,
 } from 'react-native-popup-menu';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { Popover } = renderers;
 
@@ -22,19 +21,12 @@ type Props = {
 export function HeaderUserMenu({ toolbarHeight, onNavigate }: Props) {
   const { t } = useTranslation();
   const isDark = useColorScheme() === 'dark';
-  const insets = useSafeAreaInsets();
   const GAP = 8;
 
   const triggerBg = isDark ? '#131b2f' : '#F3F4F6';
   const triggerBorder = isDark ? '#334155' : '#E5E7EB';
   const triggerIcon = isDark ? '#E5E7EB' : '#111827';
   const menuBg = isDark ? '#030405' : '#FFFFFF';
-
-  // header background used to mask the arrow (fallback)
-  const headerBg = useMemo(
-    () => (isDark ? 'rgba(17,24,39,0.95)' : 'rgba(255,255,255,0.85)'),
-    [isDark],
-  );
 
   const goto = (path: string, opts?: { replace?: boolean }) =>
     onNavigate?.(path, opts);
@@ -50,7 +42,7 @@ export function HeaderUserMenu({ toolbarHeight, onNavigate }: Props) {
           preferredPlacement: 'bottom',
           // Try all knobs; different versions honor different ones
           arrow: false,
-          showArrow: false as any,
+          showArrow: false,
           arrowColor: menuBg,
           arrowStyle: { opacity: 0 },
           arrowSize: { width: 0, height: 0 },

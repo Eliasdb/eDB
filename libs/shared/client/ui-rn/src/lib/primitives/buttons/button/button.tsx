@@ -1,7 +1,14 @@
 // apps/mobile/src/lib/ui/primitives/Button.tsx
 import { Ionicons } from '@expo/vector-icons';
 import { ReactNode } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  StyleProp,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 type Tint = 'primary' | 'danger' | 'success' | 'neutral';
 type Variant = 'solid' | 'outline' | 'ghost';
@@ -28,7 +35,7 @@ export type ButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   className?: string;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
   testID?: string;
 

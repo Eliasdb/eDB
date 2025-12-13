@@ -16,7 +16,7 @@ import { BookParamService } from '@eDB-webshop/util-book-params';
 })
 export class BooksService {
   private http = inject(HttpClient);
-  private bookParamService = inject(BookParamService);
+  private bookParamService: BookParamService = inject(BookParamService);
 
   booksInfiniteQuery = injectInfiniteQuery<RawApiDataBooks, Error>(() => {
     const search = this.bookParamService.querySignal();

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserPortalSnackbarComponent } from './user-portal-snackbar.component';
+import { PortalSnackbarComponent } from './portal-snackbar.component';
 
 describe('UserPortalSnackbarComponent', () => {
-  let component: UserPortalSnackbarComponent;
-  let fixture: ComponentFixture<UserPortalSnackbarComponent>;
+  let component: PortalSnackbarComponent;
+  let fixture: ComponentFixture<PortalSnackbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserPortalSnackbarComponent],
+      imports: [PortalSnackbarComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UserPortalSnackbarComponent);
+    fixture = TestBed.createComponent(PortalSnackbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

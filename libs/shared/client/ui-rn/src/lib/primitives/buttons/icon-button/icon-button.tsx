@@ -107,14 +107,13 @@ export function IconButton({
         ]
           .filter(Boolean)
           .join(' ')}
-        style={{
-          ...(variant === 'ghost'
+        style={[
+          variant === 'ghost'
             ? { shadowOpacity: 0, shadowRadius: 0, elevation: 0 }
-            : null),
-          alignItems: 'center',
-          justifyContent: 'center',
-          ...style,
-        }}
+            : null,
+          { alignItems: 'center', justifyContent: 'center' },
+          style,
+        ]}
         icon={ion}
         {...rest}
       />
@@ -144,15 +143,14 @@ export function IconButton({
       ]
         .filter(Boolean)
         .join(' ')}
-      style={{
-        ...(variant === 'ghost'
+      style={[
+        variant === 'ghost'
           ? { shadowOpacity: 0, shadowRadius: 0, elevation: 0 }
-          : null),
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...radiusStyle,
-        ...style,
-      }}
+          : null,
+        { alignItems: 'center', justifyContent: 'center' },
+        radiusStyle,
+        style,
+      ]}
       {...rest}
     />
   );

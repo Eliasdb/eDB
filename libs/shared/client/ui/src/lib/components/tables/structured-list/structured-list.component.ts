@@ -9,6 +9,14 @@ import { UiPasswordInputComponent } from '../../inputs/password-input/password-i
 import { UiTextInputComponent } from '../../inputs/text-input/input.component';
 import { UiSkeletonTextComponent } from '../../text/skeleton-text/skeleton-text.component';
 
+type StructuredListInputValues = {
+  newPassword?: string;
+  confirmPassword?: string;
+  firstName?: string;
+  lastName?: string;
+  value?: string;
+};
+
 @Component({
   selector: 'ui-structured-list',
   imports: [
@@ -181,7 +189,7 @@ export class UiStructuredListComponent {
   readonly rows = input<string[][]>([]);
   readonly editingRowIndex = input<number | null>(null);
   readonly isEditingAny = input(false);
-  readonly inputValues = input<any>({});
+  readonly inputValues = input<StructuredListInputValues>({});
   readonly skeleton = input<boolean>(false);
 
   readonly uneditedMode = input<boolean>(false); // New input to control edit visibility

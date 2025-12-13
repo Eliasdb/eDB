@@ -82,7 +82,9 @@ export class KeycloakService {
 
     const redirectUri = window.location.href.split('#')[0];
 
-    clearInterval(this.refreshHandle!);
+    if (this.refreshHandle) {
+      clearInterval(this.refreshHandle);
+    }
     this.refreshHandle = null;
     this.isAuthenticated.set(false);
     this.setToken(null);
@@ -96,7 +98,9 @@ export class KeycloakService {
 
   /** Sets up an interval‑based refresh loop (background‑tab safe) */
   private scheduleRefreshLoop() {
-    clearInterval(this.refreshHandle!);
+    if (this.refreshHandle) {
+      clearInterval(this.refreshHandle);
+    }
     this.refreshHandle = setInterval(async () => {
       try {
         const refreshed = await this.keycloak.updateToken(70); // refresh if <70 s left

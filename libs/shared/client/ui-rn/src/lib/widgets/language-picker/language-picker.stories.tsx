@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/LanguagePicker.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { LanguagePicker } from './language-picker';
 
@@ -37,31 +37,12 @@ export const Default: Story = {
   render: () => <LanguagePicker />,
 };
 
+const SimulatedSwitchRender = () => (
+  <View style={{ borderWidth: 1, borderColor: '#ddd', borderRadius: 8 }}>
+    <LanguagePicker />
+  </View>
+);
+
 export const SimulatedSwitch: Story = {
-  render: () => {
-    const [lang, setLang] = useState<'en' | 'nl'>('en');
-
-    // Mocked component that overrides setLocale + i18n.language
-    const Mocked = () => {
-      const i18n = {
-        language: lang,
-        t: (key: string) => {
-          if (key === 'languages.en') return 'English';
-          if (key === 'languages.nl') return 'Nederlands';
-          return key;
-        },
-      } as any;
-
-      const setLocale = (code: 'en' | 'nl') => setLang(code);
-
-      return (
-        <View style={{ borderWidth: 1, borderColor: '#ddd', borderRadius: 8 }}>
-          {/* Inject fake i18n via context override if needed */}
-          <LanguagePicker />
-        </View>
-      );
-    };
-
-    return <Mocked />;
-  },
+  render: () => <SimulatedSwitchRender />,
 };

@@ -1,4 +1,14 @@
-import { and, asc, desc, eq, like, or, sql, type AnyColumn } from 'drizzle-orm';
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  like,
+  or,
+  sql,
+  type AnyColumn,
+  type SQL,
+} from 'drizzle-orm';
 
 import type {
   Author,
@@ -39,7 +49,7 @@ export const AuthorRepoPg: AuthorRepo = {
   }): Promise<{ rows: Author[]; total: number }> {
     const { plan, search, filter } = args;
 
-    const whereParts: any[] = [];
+    const whereParts: SQL[] = [];
 
     // ── free-text search across firstName / lastName (case-insensitive)
     if (search && search.trim() !== '') {
@@ -50,7 +60,7 @@ export const AuthorRepoPg: AuthorRepo = {
         or(
           like(sql`lower(${authorsTable.firstName})`, q),
           like(sql`lower(${authorsTable.lastName})`, q),
-        ),
+        ) as SQL,
       );
     }
 
@@ -86,18 +96,21 @@ export const AuthorRepoPg: AuthorRepo = {
     }
 
     // ── total count
-    const totalResult = await db
-      .select({ cnt: sql<number>`count(*)::int` })
-      .from(authorsTable)
-      .where(whereExpr);
+    const totalResult = whereExpr
+      ? await db
+          .select({ cnt: sql<number>`count(*)::int` })
+          .from(authorsTable)
+          .where(whereExpr)
+      : await db
+          .select({ cnt: sql<number>`count(*)::int` })
+          .from(authorsTable);
 
     const total = totalResult[0]?.cnt ?? 0;
 
     // ── page slice
-    const rowsDb = await db
-      .select()
-      .from(authorsTable)
-      .where(whereExpr)
+    const rowsDb = await (whereExpr
+      ? db.select().from(authorsTable).where(whereExpr)
+      : db.select().from(authorsTable))
       .orderBy(orderDir === 'asc' ? asc(orderByExpr) : desc(orderByExpr))
       .limit(plan.limit)
       .offset(plan.offset);

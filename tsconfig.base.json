@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "react-native": ["node_modules/react-native"],
       "@data-access": ["apps/mobile/src/lib/data-access/index.ts"],
       "@data-access/*": ["apps/mobile/src/lib/data-access/*"],
       "@e-db/generated-admin-api-types": [
@@ -166,5 +167,8 @@
       "@voice/*": ["apps/mobile/src/lib/voice/*"]
     }
   },
-  "exclude": ["tmp"]
+  "exclude": ["tmp"],
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  }
 }

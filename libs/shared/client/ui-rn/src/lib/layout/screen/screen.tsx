@@ -54,15 +54,19 @@ export function Screen({
     <ScrollView
       className="flex-1 bg-surface dark:bg-surface-dark"
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        minHeight: '100%',
-        paddingTop: padTop,
-        paddingBottom: padBottom,
-        paddingLeft: p.left,
-        paddingRight: p.right,
-        ...(center ? { alignItems: 'center', justifyContent: 'center' } : null),
-        ...(contentContainerStyle as any),
-      }}
+      contentContainerStyle={[
+        {
+          minHeight: '100%',
+          paddingTop: padTop,
+          paddingBottom: padBottom,
+          paddingLeft: p.left,
+          paddingRight: p.right,
+          ...(center
+            ? { alignItems: 'center', justifyContent: 'center' }
+            : null),
+        },
+        contentContainerStyle,
+      ]}
       {...rest}
     />
   );

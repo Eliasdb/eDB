@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Book } from '@edb/shared-types';
 
 @Component({
-  selector: 'books-list-item',
+  selector: 'webshop-books-list-item',
   imports: [RouterLink, MatButtonModule],
   template: `
     @if (book()) {
@@ -27,6 +27,7 @@ import { Book } from '@edb/shared-types';
               <img
                 [src]="book()?.blurDataUrl"
                 class="absolute inset-0 w-full h-full object-cover blur-xl scale-105 transition-opacity duration-500"
+                alt=""
                 aria-hidden="true"
               />
             }

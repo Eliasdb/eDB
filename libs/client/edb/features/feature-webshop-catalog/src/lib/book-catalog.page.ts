@@ -4,6 +4,7 @@ import {
   ElementRef,
   inject,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 
 import {
@@ -24,7 +25,7 @@ import {
 } from './components/index';
 
 @Component({
-  selector: 'books-container',
+  selector: 'webshop-books-container',
   imports: [
     BooksCollectionGridOverviewComponent,
     BooksCollectionListOverviewComponent,
@@ -47,41 +48,41 @@ import {
           Filters
         </h2>
 
-        <book-filters
+        <webshop-book-filters
           data-testid="books-filters-form"
           [value]="query()"
           [bookStatus]="status()"
           [activeGenre]="genre()"
-          (search)="onSearch($event)"
+          (searchChange)="onSearch($event)"
           (filterGenre)="filterGenre($event)"
           (filterStatus)="filterStatus($event)"
           (clearFilters)="clearFilters()"
-        ></book-filters>
+        ></webshop-book-filters>
       </aside>
 
       <!-- Right‑hand (Books + sort) -->
       <section class="flex-1 flex flex-col gap-6">
         <!-- Section Title -->
 
-        <books-sort-bar
+        <webshop-books-sort-bar
           [showList]="showList"
           data-testid="books-sortbar"
           [bookCount]="totalBooksCount() || 0"
           [selectedSort]="sort() || 'title,asc'"
           (sort)="onSort($event)"
           (clickEvent)="toggleShowList($event)"
-        ></books-sort-bar>
+        ></webshop-books-sort-bar>
 
         <!-- Results / loader -->
         <section class="min-h-[50vh] flex-1" data-testid="books-results">
           @if (booksInfiniteQuery.isSuccess(); as _result) {
             @if (showList) {
-              <books-collection-list-overview
+              <webshop-books-collection-list-overview
                 data-testid="books-list"
                 [books]="flattenedBooks() || []"
               />
             } @else {
-              <books-collection-grid-overview
+              <webshop-books-collection-grid-overview
                 data-testid="books-grid"
                 [books]="flattenedBooks() || []"
               />
@@ -102,7 +103,7 @@ import {
     </section>
   `,
 })
-export class BooksCollectionContainer {
+export class BooksCollectionContainer implements AfterViewInit {
   private booksService = inject(BooksService);
   private bookParamService = inject(BookParamService);
 

@@ -16,6 +16,8 @@ export default function TaskEditRoute() {
 
   // fetch a single task
   const { data: task } = useTask(id);
+  const del = useDeleteTask();
+  const patch = usePatchTask(id);
 
   // If item vanished (deleted / invalid id), close the sheet
   useEffect(() => {
@@ -26,10 +28,6 @@ export default function TaskEditRoute() {
   }, [task, id, router]);
 
   if (!task) return null;
-
-  // mutations bound to this task
-  const del = useDeleteTask();
-  const patch = usePatchTask(task.id);
 
   return (
     <Screen center={false} padding={0}>

@@ -26,6 +26,7 @@ export function OtpDevicesSection({ devices, onDelete }: Props) {
               `&referrer_uri=${encodeURIComponent('/realms/eDB/account')}`
             }
             target="_blank"
+            rel="noreferrer"
             className="text-blue-600 underline"
           >
             Set up authenticator

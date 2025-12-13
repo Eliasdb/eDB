@@ -13,9 +13,10 @@ export function useTasks() {
 
 export function useTask(id?: string) {
   const enabled = !!id;
+  const taskId = id ?? '';
   return useQuery({
-    queryKey: enabled ? taskKeys.byId(id!) : taskKeys.byId(''),
-    queryFn: () => fetchTask(id!),
+    queryKey: taskKeys.byId(taskId),
+    queryFn: () => fetchTask(taskId),
     enabled,
   });
 }

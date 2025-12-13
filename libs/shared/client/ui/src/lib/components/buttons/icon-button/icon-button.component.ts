@@ -52,7 +52,6 @@ export class UiIconButtonComponent {
   readonly ariaLabel = input<string | null>(null);
   readonly testId = input<string | null>(null);
 
-  @Output() click = new EventEmitter<Event>();
   @Output() iconButtonClick = new EventEmitter<Event>();
   @Output() iconButtonMouseEnter = new EventEmitter<Event>();
   @Output() iconButtonMouseLeave = new EventEmitter<Event>();
@@ -61,7 +60,6 @@ export class UiIconButtonComponent {
 
   handleClick(event: Event) {
     this.iconButtonClick.emit(event);
-    this.click.emit(event);
   }
   handleMouseEnter(e: Event) {
     this.iconButtonMouseEnter.emit(e);

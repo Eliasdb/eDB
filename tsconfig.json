@@ -1,4 +1,18 @@
 {
-  "compilerOptions": {},
-  "extends": "expo/tsconfig.base"
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "extends": "./tsconfig.base.json",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tmp",
+    "coverage",
+    "build",
+    "apps/mobile/node_modules",
+    "apps/mobile/.expo",
+    "apps/client/edb/src/assets"
+  ]
 }

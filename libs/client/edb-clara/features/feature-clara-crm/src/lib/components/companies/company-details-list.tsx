@@ -15,17 +15,23 @@ export function CompanyDetailsList({
     <List>
       {config.map((row, idx) => {
         const value = loading ? null : row.getValue(data);
-        const href = loading ? undefined : (row.getHref?.(data) ?? undefined);
-        const Row = href ? LinkFieldRow : FieldRow;
+        const href = loading ? undefined : row.getHref?.(data);
         return (
           <List.Item key={row.label} first={idx === 0}>
-            {/* LinkFieldRow accepts href; FieldRow ignores it */}
-            <Row
-              icon={row.icon}
-              label={row.label}
-              value={value ?? row.empty ?? undefined}
-              href={href as any}
-            />
+            {href ? (
+              <LinkFieldRow
+                icon={row.icon}
+                label={row.label}
+                value={value ?? row.empty ?? undefined}
+                href={href}
+              />
+            ) : (
+              <FieldRow
+                icon={row.icon}
+                label={row.label}
+                value={value ?? row.empty ?? undefined}
+              />
+            )}
           </List.Item>
         );
       })}

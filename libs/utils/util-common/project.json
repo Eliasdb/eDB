@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "options": {
         "vitestConfig": "libs/utils/util-common/vitest.config.ts",
         "passWithNoTests": true

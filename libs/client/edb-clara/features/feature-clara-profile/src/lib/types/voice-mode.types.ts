@@ -1,4 +1,4 @@
-import { VoiceKey } from '../../../voice/previews/voices';
+import { VoiceKey } from '@edb-clara/realtime';
 
 export type VoiceCard = {
   key: VoiceKey;

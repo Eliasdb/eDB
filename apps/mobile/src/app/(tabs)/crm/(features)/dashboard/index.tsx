@@ -1,27 +1,7 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-
 import { Card, Screen } from '@edb/shared-ui-rn';
 import { Text } from 'react-native';
 
 export default function CRMDashboard() {
-  const { t } = useTranslation();
-
-  // ✅ safe fallback when data hasn’t arrived yet
-
-  const barsMock = useMemo(
-    () => [
-      { label: 'Mon', value: 3 },
-      { label: 'Tue', value: 6 },
-      { label: 'Wed', value: 2 },
-      { label: 'Thu', value: 5 },
-      { label: 'Fri', value: 4 },
-      { label: 'Sat', value: 1 },
-      { label: 'Sun', value: 2 },
-    ],
-    [],
-  );
-
   return (
     <Screen padding={16} center={false}>
       {/* Optional: error banner */}

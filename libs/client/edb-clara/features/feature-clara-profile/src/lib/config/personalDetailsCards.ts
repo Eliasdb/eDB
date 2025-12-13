@@ -1,9 +1,8 @@
+import type { TFunction } from 'i18next';
 import type { CardDef } from '../types/profile-details.types';
 
-type TFunc = (key: string, defaultOrOpts?: any) => string;
-
 export type MakePersonalDetailsCardsArgs = {
-  t: TFunc;
+  t: TFunction<'translation'>;
   firstName: string;
   setFirstName: (s: string) => void;
   lastName: string;

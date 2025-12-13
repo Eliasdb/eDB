@@ -87,7 +87,7 @@ export function AdminLogsCard({ vm }: { vm: LogVM }) {
                 args: vm.args,
                 result: vm.result,
                 error: vm.error,
-              } as any).map((r) => (
+              }).map((r) => (
                 <KV key={r.label} label={r.label} value={r.value} />
               ))}
             </Card>

@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact, ContactStatus } from '../../types/contact.types';
@@ -20,7 +19,10 @@ import { Contact, ContactStatus } from '../../types/contact.types';
     <div class="space-y-4">
       @for (f of fields; track f.key) {
         <div class="space-y-1">
-          <label class="block text-xs font-medium text-gray-600">
+          <label
+            class="block text-xs font-medium text-gray-600"
+            [attr.for]="f.key + '-input'"
+          >
             {{ f.label }}
           </label>
 
@@ -28,11 +30,13 @@ import { Contact, ContactStatus } from '../../types/contact.types';
             <input
               [type]="f.type"
               [(ngModel)]="draft[f.key]"
+              [id]="f.key + '-input'"
               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
             />
           } @else {
             <select
               [(ngModel)]="draft.status"
+              [id]="f.key + '-input'"
               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
             >
               @for (s of statuses; track s) {
@@ -49,7 +53,7 @@ import { Contact, ContactStatus } from '../../types/contact.types';
       <button
         class="px-3 py-1.5 rounded-md border text-sm hover:bg-gray-50"
         type="button"
-        (click)="cancel.emit()"
+        (click)="cancelRequested.emit()"
       >
         Cancel
       </button>
@@ -67,7 +71,7 @@ export class ContactEditFormComponent implements OnChanges {
   /* ---------- Inputs / Outputs ---------- */
   @Input({ required: true }) contact!: Contact;
   @Output() save = new EventEmitter<Contact>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelRequested = new EventEmitter<void>();
 
   /* ---------- Working copy ---------- */
   draft: Contact = {} as Contact;
@@ -89,7 +93,7 @@ export class ContactEditFormComponent implements OnChanges {
   ] as const;
 
   /* ---------- Lifecycle ---------- */
-  ngOnChanges(_: SimpleChanges) {
+  ngOnChanges() {
     /** fresh shallow-copy each time the input changes */
     this.draft = { ...this.contact };
   }

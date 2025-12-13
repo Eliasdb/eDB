@@ -15,8 +15,6 @@ export function attachRemoteLevelMeter(
   const intervalMs = opts.intervalMs ?? 250;
 
   let speaking = false;
-  let timer: any;
-
   async function sample() {
     try {
       const stats = await pc.getStats();
@@ -59,11 +57,9 @@ export function attachRemoteLevelMeter(
     }
   }
 
-  timer = setInterval(sample, intervalMs);
+  const timer = setInterval(sample, intervalMs);
 
   return () => {
-    try {
-      clearInterval(timer);
-    } catch {}
+    clearInterval(timer);
   };
 }

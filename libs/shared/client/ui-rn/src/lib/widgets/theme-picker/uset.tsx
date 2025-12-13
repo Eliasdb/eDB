@@ -27,7 +27,9 @@ export function useThemeOverride(opts?: { restore?: boolean }) {
         if (saved === 'light' || saved === 'dark' || saved === 'system') {
           setColorScheme(saved as ThemeOverride);
         }
-      } catch {}
+      } catch (error) {
+        void error;
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRestore]);
@@ -35,7 +37,9 @@ export function useThemeOverride(opts?: { restore?: boolean }) {
   async function setOverride(v: ThemeOverride) {
     try {
       await AsyncStorage.setItem(KEY, v);
-    } catch {}
+    } catch (error) {
+      void error;
+    }
     setColorScheme(v);
   }
 

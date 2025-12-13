@@ -68,24 +68,26 @@ export const CustomColors: Story = {
   },
 };
 
+const ControlledPlaygroundRender = (args: Parameters<typeof Switch>[0]) => {
+  const [on, setOn] = useState<boolean>(false);
+  return (
+    <View style={{ gap: 16 }}>
+      <Text>Value: {on ? 'true' : 'false'}</Text>
+      <Switch
+        {...args}
+        value={on}
+        onValueChange={(v) => {
+          setOn(v);
+          action('onValueChange')(v);
+        }}
+        size="md"
+      />
+    </View>
+  );
+};
+
 export const ControlledPlayground: Story = {
-  render: (args) => {
-    const [on, setOn] = useState<boolean>(false);
-    return (
-      <View style={{ gap: 16 }}>
-        <Text>Value: {on ? 'true' : 'false'}</Text>
-        <Switch
-          {...args}
-          value={on}
-          onValueChange={(v) => {
-            setOn(v);
-            action('onValueChange')(v);
-          }}
-          size="md"
-        />
-      </View>
-    );
-  },
+  render: (args) => <ControlledPlaygroundRender {...args} />,
 };
 
 export const DenseRow: Story = {

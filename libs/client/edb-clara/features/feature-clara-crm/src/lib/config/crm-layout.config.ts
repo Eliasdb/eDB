@@ -17,8 +17,8 @@ export const CRM_LAYOUT_CONFIG = {
 const BASE = '/(tabs)/crm';
 
 export function pathForCrmTab(key: CrmTabKey) {
-  const tab = TABS.find((t) => t.key === key)!;
-  return `${BASE}/${tab.segment}`;
+  const tab = TABS.find((t) => t.key === key);
+  return tab ? `${BASE}/${tab.segment}` : BASE;
 }
 
 export function getActiveCrmTab(pathname: string | null): CrmTabKey {

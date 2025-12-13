@@ -20,7 +20,7 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
   ],
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-[#f4f4f7]">
-      <ui-platform-subheader
+      <webshop-subheader
         (openDialog)="toggleCart()"
         [cartItems]="cartItems()"
         [orderCount]="orderCount()"
@@ -42,7 +42,7 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
 
       <main class="platform-content">
         @if (aiView()) {
-          <ai-mode-catalog [onClose]="toggleAiView" />
+          <webshop-ai-mode-catalog [onClose]="toggleAiView" />
         } @else {
           <router-outlet />
         }
@@ -52,9 +52,9 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
 })
 export class WebshopAppComponent {
   private router = inject(Router);
-  private cartService = inject(CartService);
-  private orderService = inject(OrderService);
-  private aiSvc = inject(AiSearchService);
+  private cartService: CartService = inject(CartService);
+  private orderService: OrderService = inject(OrderService);
+  private aiSvc: AiSearchService = inject(AiSearchService);
 
   cartItems = this.cartService.cartItems;
   orderCount = this.orderService.orderCount;

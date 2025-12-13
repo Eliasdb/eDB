@@ -59,7 +59,11 @@ export interface NewActivity {
       </div>
 
       <div class="flex justify-end gap-2">
-        <ui-button variant="ghost" size="sm" (buttonClick)="cancel.emit()">
+        <ui-button
+          variant="ghost"
+          size="sm"
+          (buttonClick)="cancelRequested.emit()"
+        >
           Cancel
         </ui-button>
 
@@ -83,7 +87,7 @@ export class AddActivityFormComponent {
 
   /* outputs */
   @Output() saveActivity = new EventEmitter<NewActivity>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelRequested = new EventEmitter<void>();
 
   /* helpers */
   canSave() {
@@ -91,9 +95,9 @@ export class AddActivityFormComponent {
   }
 
   save() {
-    if (!this.canSave()) return;
+    if (!this.canSave() || !this.date) return;
     this.saveActivity.emit({
-      date: this.date!,
+      date: this.date,
       title: this.title.trim(),
       details: this.details.trim(),
     });

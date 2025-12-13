@@ -82,7 +82,9 @@ export interface UiNzTableColumn<T = Record<string, unknown>> {
     </nz-table>
   `,
 })
-export class UiNzTableComponent<T extends Record<string, unknown> = any> {
+export class UiNzTableComponent<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> {
   /* Inputs */
   readonly columns = input<UiNzTableColumn<T>[]>([]);
   readonly data = input<T[]>([]);
@@ -95,7 +97,10 @@ export class UiNzTableComponent<T extends Record<string, unknown> = any> {
 
   // Always return an object (never undefined/null) to satisfy the nzScroll type
   readonly scrollConfig = computed<{ x?: string | null; y?: string | null }>(
-    () => (this.scrollX() ? { x: this.scrollX()! } : {}),
+    () => {
+      const x = this.scrollX();
+      return x ? { x } : {};
+    },
   );
 
   /* Tracking */

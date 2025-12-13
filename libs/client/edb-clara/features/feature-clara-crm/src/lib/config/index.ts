@@ -1,3 +1,5 @@
+import type { TFunction } from 'i18next';
+
 // features/crm/navigation.ts
 export type CrmTabKey = 'dashboard' | 'tasks' | 'contacts' | 'companies';
 
@@ -27,8 +29,6 @@ export function getActiveCrmTab(pathname: string): CrmTabKey {
 }
 
 // features/crm/tabs-config.ts
-import type { TFunction } from 'i18next';
-
 export type CrmTab = { key: CrmTabKey; label: string };
 
 export function buildCrmTabs(t: TFunction): CrmTab[] {

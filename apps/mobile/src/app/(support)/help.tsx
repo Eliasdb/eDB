@@ -1,5 +1,4 @@
 // Hooks
-import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,6 +12,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ViewStyle,
   useWindowDimensions,
 } from 'react-native';
 
@@ -20,7 +20,6 @@ import { CONTACT_LINKS, FAQ_ITEMS, GUIDE_SECTIONS } from './help.config';
 
 export default function HelpScreen() {
   const insets = useSafeAreaInsets();
-  const router = useRouter();
   const { width } = useWindowDimensions();
   const isWide = width >= 920;
   const contentPaddingH = isWide ? 24 : 16;
@@ -158,12 +157,16 @@ function PrimaryLink({
   icon: React.ComponentProps<typeof Ionicons>['name'];
   onPress: () => void;
 }) {
+  type WebTouchableStyle = ViewStyle & { cursor?: string };
+  const webStyle: WebTouchableStyle | undefined =
+    Platform.OS === 'web' ? { cursor: 'pointer' } : undefined;
+
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.9}
       className="h-11 rounded-xl bg-primary/10 border border-primary/25 px-3 flex-row items-center gap-2"
-      style={Platform.OS === 'web' ? ({ cursor: 'pointer' } as any) : undefined}
+      style={webStyle}
     >
       <Ionicons name={icon} size={18} color="#6C63FF" />
       <Text className="text-[15px] font-semibold text-primary">{label}</Text>

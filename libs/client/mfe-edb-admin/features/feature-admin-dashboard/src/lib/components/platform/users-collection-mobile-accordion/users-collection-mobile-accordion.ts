@@ -53,7 +53,7 @@ export class UsersCollectionAccordionComponent {
     this.viewMoreId.emit(id);
   }
 
-  onSelected(event: any): void {
+  onSelected(event: unknown): void {
     console.log('Accordion item selected:', event);
   }
 }

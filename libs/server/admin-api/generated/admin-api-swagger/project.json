@@ -5,19 +5,13 @@
   "targets": {
     "build": {
       "executor": "nx:noop",
-      "outputs": ["libs/generated/admin-api-swagger"]
+      "outputs": ["{workspaceRoot}/libs/generated/admin-api-swagger"]
     },
     "codegen": {
-      "executor": "@nx-dotnet/core:openapi-codegen",
+      "executor": "nx:run-commands",
       "options": {
-        "useOpenApiGenerator": true,
-        "openApiGenerator": "typescript",
-        "openapiJsonPath": "libs/generated/admin-api-swagger",
-        "outputProject": "generated-admin-api-types"
-      },
-      "dependsOn": ["swagger"],
-      "inputs": ["{projectRoot}/libs/generated/admin-api-swagger"],
-      "outputs": ["{workspaceRoot}"]
+        "command": "echo \"skip admin-api swagger codegen (nx/dotnet executors removed)\""
+      }
     }
   }
 }

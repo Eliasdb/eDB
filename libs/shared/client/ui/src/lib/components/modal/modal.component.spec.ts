@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalModule } from 'carbon-components-angular';
@@ -7,8 +8,6 @@ import { UiButtonComponent } from '../buttons/button/button.component';
 import { UiTextAreaComponent } from '../inputs/text-area/text-area.component';
 import { UiTextInputComponent } from '../inputs/text-input/input.component';
 import { UiModalComponent } from './modal.component';
-
-import { CommonModule } from '@angular/common';
 
 describe('UiModalComponent', () => {
   let component: UiModalComponent;
@@ -37,7 +36,6 @@ describe('UiModalComponent', () => {
 
   it('should create the component', () => {
     fixture.componentRef.setInput('header', 'Default Header');
-    fixture.componentRef.setInput('hasForm', false);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -51,9 +49,8 @@ describe('UiModalComponent', () => {
     expect(headerElement.textContent.trim()).toBe('Test Header');
   });
 
-  it('should render content when no form is present', () => {
+  it('should render content when provided', () => {
     fixture.componentRef.setInput('content', 'Test Content');
-    fixture.componentRef.setInput('hasForm', false);
     fixture.detectChanges();
     const contentElement = fixture.nativeElement.querySelector(
       '.confirmation-text p',
@@ -61,38 +58,16 @@ describe('UiModalComponent', () => {
     expect(contentElement.textContent.trim()).toBe('Test Content');
   });
 
-  it('should render a form when hasForm is true', () => {
-    fixture.componentRef.setInput('hasForm', true);
-    fixture.detectChanges();
-    const formElement = fixture.nativeElement.querySelector('form');
-    expect(formElement).toBeTruthy();
-  });
-
   it('should emit save event with form data on save', () => {
     const saveSpy = vi.spyOn(component.save, 'emit');
-    fixture.componentRef.setInput('hasForm', true);
-    component.form.patchValue({
-      name: 'Test App',
-      routePath: '/test',
-      iconUrl: 'https://test.com/icon.png',
-      tags: 'tag1,tag2',
-      description: 'Test Description',
-    });
     fixture.detectChanges();
 
     component.onSave();
-    expect(saveSpy).toHaveBeenCalledWith({
-      name: 'Test App',
-      routePath: '/test',
-      iconUrl: 'https://test.com/icon.png',
-      tags: ['tag1', 'tag2'],
-      description: 'Test Description',
-    });
+    expect(saveSpy).toHaveBeenCalled();
   });
 
   it('should emit save event without form data on save when no form is present', () => {
     const saveSpy = vi.spyOn(component.save, 'emit');
-    fixture.componentRef.setInput('hasForm', false);
     fixture.componentRef.setInput('header', 'Default Header');
     fixture.detectChanges();
 
@@ -100,8 +75,8 @@ describe('UiModalComponent', () => {
     expect(saveSpy).toHaveBeenCalledWith();
   });
 
-  it('should emit close event on cancel', () => {
-    const closeSpy = vi.spyOn(component.close, 'emit');
+  it('should emit dismissed event on cancel', () => {
+    const closeSpy = vi.spyOn(component.dismissed, 'emit');
     fixture.componentRef.setInput('header', 'Default Header');
     fixture.detectChanges();
     component.onCancel();

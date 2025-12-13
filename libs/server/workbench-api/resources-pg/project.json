@@ -12,7 +12,8 @@
         "outputPath": "dist/libs/server/workbench-api/resources-pg",
         "main": "libs/server/workbench-api/resources-pg/src/index.ts",
         "tsConfig": "libs/server/workbench-api/resources-pg/tsconfig.lib.json",
-        "assets": []
+        "assets": [],
+        "rootDir": "libs"
       }
     }
   }

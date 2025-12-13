@@ -22,13 +22,17 @@ export default composePlugins(
         ngDevMode: JSON.stringify(false),
         ngJitMode: JSON.stringify(false),
       }),
-
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'server',
-        analyzerPort: 8888,
-        openAnalyzer: true,
-      }),
     );
+
+    if (process.env.ANALYZE === 'true') {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerPort: Number(process.env.ANALYZE_PORT ?? 8888),
+          openAnalyzer: true,
+        }),
+      );
+    }
 
     return config;
   },

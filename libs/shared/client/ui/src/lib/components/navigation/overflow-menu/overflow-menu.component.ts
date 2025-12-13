@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  inject,
   input,
   Output,
   ViewChild,
@@ -22,7 +23,7 @@ import { UiIconComponent } from '../../../components/icon/icon.component';
       [flip]="flip()"
       [offset]="offset()"
       [customTrigger]="customTriggerTemplate"
-      (selected)="onMenuSelect($event)"
+      (selected)="onMenuSelect()"
       (closed)="hardClose()"
       description=""
     >
@@ -62,7 +63,7 @@ export class UiPlatformOverflowMenuComponent implements AfterViewInit {
 
   @ViewChild('menu', { static: true })
   private menuEl!: HTMLElement & { open: boolean };
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   /* close the popover on every navigation ----------------------- */
   ngAfterViewInit(): void {
@@ -83,7 +84,7 @@ export class UiPlatformOverflowMenuComponent implements AfterViewInit {
     this.onOptionClick(opt.id);
   }
 
-  onMenuSelect(_: any) {
+  onMenuSelect(): void {
     this.hardClose();
   }
 

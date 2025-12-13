@@ -9,7 +9,7 @@ export interface NavItem {
 }
 
 @Component({
-  selector: 'erp-invoices-shell',
+  selector: 'edb-erp-invoices-shell',
   imports: [UiSidebarLayoutSmarterComponent],
   template: `
     <ui-sidebar-layout

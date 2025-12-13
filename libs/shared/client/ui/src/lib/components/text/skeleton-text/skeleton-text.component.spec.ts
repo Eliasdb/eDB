@@ -4,14 +4,12 @@ import { UiSkeletonTextComponent } from './skeleton-text.component';
 
 describe('UiSkeletonTextComponent', () => {
   let fixture: ComponentFixture<UiSkeletonTextComponent>;
-  let component: UiSkeletonTextComponent;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SkeletonModule, UiSkeletonTextComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UiSkeletonTextComponent);
-    component = fixture.componentInstance;
   });
 
   it('should render with default inputs', () => {

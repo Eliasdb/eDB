@@ -36,7 +36,7 @@ console.log('✅ Chart.js registered once in host:', Chart);
 @Component({
   selector: 'platform-admin',
   template: ` <section class="admin-page ">
-    <admin-dashboard />
+    <edb-admin-dashboard />
   </section>`,
   imports: [AdminDashboardComponent],
   styleUrls: ['admin.page.scss'],

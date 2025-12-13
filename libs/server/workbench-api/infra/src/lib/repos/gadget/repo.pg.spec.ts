@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { db } from '../../db/orm/drizzle';
 import { GadgetRepoPg } from './repo.pg';
-import { randomUUID } from 'node:crypto';
 
 import type { PaginationPlan } from '@edb-workbench/api/shared';
 
@@ -55,6 +54,7 @@ describe.sequential('GadgetRepoPg (infra ↔ db)', () => {
       discontinued: undefined,
       releasedAt: undefined,
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const row2 = await GadgetRepoPg.create({
       name: 'name-2-zz',
       category: 'surveillance',
@@ -62,6 +62,7 @@ describe.sequential('GadgetRepoPg (infra ↔ db)', () => {
       discontinued: undefined,
       releasedAt: undefined,
     });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const row3 = await GadgetRepoPg.create({
       name: 'name-3-zz',
       category: 'surveillance',

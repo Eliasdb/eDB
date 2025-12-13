@@ -7,6 +7,7 @@ import {
   FlatList,
   Platform,
   Text,
+  TextStyle,
   View,
   useWindowDimensions,
 } from 'react-native';
@@ -14,7 +15,7 @@ import {
 import { LogVM, entryToVM } from '@edb-clara/client-admin';
 
 type Page = {
-  items: any[];
+  items: LogVM[];
   total: number;
   offset: number;
   limit: number;
@@ -31,6 +32,18 @@ async function fetchToolLogsPage(offset = 0, limit = 10): Promise<Page> {
 }
 
 type Mode = 'standalone' | 'embedded';
+type LayoutCfg = {
+  fs: number;
+  fsMeta: number;
+  fsDetails: number;
+  rowPy: number;
+  headerPy: number;
+  radius: number;
+  W: { time: number; action?: number; kind?: number; ms: number };
+  labels: Record<string, string>;
+  twoLine: boolean;
+  containerMinWidth: number;
+};
 
 export default function AdminLogsTerminal({
   emptyText = 'No logs yet',
@@ -56,7 +69,8 @@ export default function AdminLogsTerminal({
     queryKey: ['tool-logs', pageSize],
     initialPageParam: 0,
     queryFn: ({ pageParam = 0 }) => fetchToolLogsPage(pageParam, pageSize),
-    getNextPageParam: (last) => (last.hasMore ? last.nextOffset! : undefined),
+    getNextPageParam: (last) =>
+      last.hasMore && last.nextOffset != null ? last.nextOffset : undefined,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     refetchOnMount: false,
@@ -92,17 +106,17 @@ export default function AdminLogsTerminal({
   }, [tryFetchNext]);
 
   /* ---------- styles/config ---------- */
-  const mono = useMemo(
+  const mono = useMemo<TextStyle>(
     () =>
-      (Platform.select({
+      Platform.select<TextStyle>({
         ios: { fontFamily: 'Menlo' },
         android: { fontFamily: 'monospace' },
         web: { fontFamily: 'monospace' },
-      }) as any) || {},
+      }) ?? {},
     [],
   );
 
-  const cfg = useMemo(() => {
+  const cfg = useMemo<LayoutCfg>(() => {
     if (isNarrow) {
       return {
         fs: 11,
@@ -282,8 +296,8 @@ function Row({
   showDivider,
 }: {
   vm: LogVM;
-  monoStyle: any;
-  cfg: any;
+  monoStyle: TextStyle;
+  cfg: LayoutCfg;
   showDivider: boolean;
 }) {
   const ok = vm.ok;
@@ -293,7 +307,6 @@ function Row({
       style={[
         monoStyle,
         {
-          display: 'inline',
           color: ok ? '#16a34a' : '#ef4444',
           marginRight: 6,
         },
@@ -392,7 +405,7 @@ function Cell({
   dim?: boolean;
   right?: boolean;
   className?: string;
-  style?: any;
+  style?: TextStyle;
   fs?: number;
 }) {
   return (

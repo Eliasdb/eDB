@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/navigation/TabBarTop.tsx
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, View, useColorScheme } from 'react-native';
+import { Pressable, View, useColorScheme, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -12,15 +12,15 @@ import type { TabDef, TabKey } from '../../tab.types';
 
 type Metrics = Record<string, { x: number; w: number; textW: number }>;
 
-export function TabBarTop<K extends TabKey>({
+export function TabBarTop({
   tabs,
   value,
   onChange,
   idPrefix,
 }: {
-  tabs: TabDef<K>[];
-  value: K;
-  onChange: (k: K) => void;
+  tabs: TabDef[];
+  value: TabKey;
+  onChange: (k: TabKey) => void;
   idPrefix?: string;
 }) {
   const isDark = useColorScheme() === 'dark';
@@ -205,7 +205,7 @@ function ChipTab({
   onTabLayout: (key: string, x: number, w: number) => void;
   onTextLayout: (key: string, textW: number) => void;
   a11yId?: string;
-  itemStyle?: any;
+  itemStyle?: StyleProp<ViewStyle>;
   fullWidth?: boolean;
   colors: { idle: string; active: string };
 }) {

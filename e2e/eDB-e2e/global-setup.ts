@@ -1,9 +1,9 @@
 // global-setup.ts
-import { chromium, type FullConfig } from '@playwright/test';
+import { chromium } from '@playwright/test';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-export default async function globalSetup(config: FullConfig) {
+export default async function globalSetup() {
   const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
   const stateFile = path.join(__dirname, '.auth', 'state.json');
   fs.mkdirSync(path.dirname(stateFile), { recursive: true });
@@ -22,10 +22,10 @@ export default async function globalSetup(config: FullConfig) {
 
   // Wait until we’re back on the app
   await page.waitForURL(
-    new RegExp(`^${baseURL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`),
+    new RegExp(`^${baseURL.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}`),
     { timeout: 15000 },
   );
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
 
   await page.context().storageState({ path: stateFile });
   await browser.close();

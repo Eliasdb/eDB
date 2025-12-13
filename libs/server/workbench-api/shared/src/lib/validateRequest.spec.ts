@@ -1,4 +1,8 @@
-import type { FastifyInstance } from 'fastify';
+import type {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+} from 'fastify';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 import { BadRequestError } from './errors';
@@ -24,7 +28,7 @@ describe('validateRequest preHandler', () => {
     });
 
     // pretend FastifyRequest
-    const req: any = {
+    const req: Partial<FastifyRequest> = {
       query: { page: '2' },
       params: { id: '550e8400-e29b-41d4-a716-446655440000' },
       body: { name: 'Test Item' },
@@ -32,7 +36,7 @@ describe('validateRequest preHandler', () => {
 
     const done = vi.fn();
     const fakeApp = createFakeFastifyInstance();
-    const fakeReply = {} as any;
+    const fakeReply = {} as FastifyReply;
 
     const preHandler = validateRequest({
       querySchema,
@@ -41,7 +45,12 @@ describe('validateRequest preHandler', () => {
     });
 
     // bind fake fastify instance as `this`
-    preHandler.call(fakeApp, req, fakeReply, done);
+    preHandler.call(
+      fakeApp,
+      req as FastifyRequest,
+      fakeReply,
+      done,
+    );
 
     // should have succeeded (no error passed to done)
     expect(done).toHaveBeenCalledWith();
@@ -59,7 +68,7 @@ describe('validateRequest preHandler', () => {
       name: z.string().min(1),
     });
 
-    const req: any = {
+    const req: Partial<FastifyRequest> = {
       query: {},
       params: {},
       body: { name: '' }, // invalid
@@ -67,13 +76,18 @@ describe('validateRequest preHandler', () => {
 
     const done = vi.fn();
     const fakeApp = createFakeFastifyInstance();
-    const fakeReply = {} as any;
+    const fakeReply = {} as FastifyReply;
 
     const preHandler = validateRequest({
       bodySchema,
     });
 
-    preHandler.call(fakeApp, req, fakeReply, done);
+    preHandler.call(
+      fakeApp,
+      req as FastifyRequest,
+      fakeReply,
+      done,
+    );
 
     const firstArg = done.mock.calls[0][0];
 

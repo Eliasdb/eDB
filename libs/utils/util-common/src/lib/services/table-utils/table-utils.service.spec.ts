@@ -4,8 +4,8 @@ import { TableUtilsService } from './table-utils.service';
 
 // Mock TableHeaderItem and TableItem
 vi.mock('carbon-components-angular', () => ({
-  TableHeaderItem: vi.fn((init: any) => init), // Mock returns the input directly
-  TableItem: vi.fn((init: any) => init), // Same for TableItem
+  TableHeaderItem: vi.fn((init: unknown) => init), // Mock returns the input directly
+  TableItem: vi.fn((init: unknown) => init), // Same for TableItem
 }));
 
 // Import the mocked classes
@@ -24,7 +24,7 @@ describe('TableUtilsService - createExpandedData', () => {
       { id: 2, name: 'Bob', details: 'Extra Data 2' },
     ];
 
-    const config: ExpandedDataConfig<any> = {
+    const config: ExpandedDataConfig<{ id: number; name: string; details: string }> = {
       headers: [
         new TableHeaderItem({ data: 'Name' }),
         new TableHeaderItem({ data: 'Details' }),
@@ -79,7 +79,7 @@ describe('TableUtilsService - createExpandedData', () => {
       { id: 2, name: 'Bob' },
     ];
 
-    const config: ExpandedDataConfig<any> = {
+    const config: ExpandedDataConfig<{ id: number; name: string }> = {
       headers: [new TableHeaderItem({ data: 'Name' })],
       rowMapper: (item) => [new TableItem({ data: item.name })],
     };

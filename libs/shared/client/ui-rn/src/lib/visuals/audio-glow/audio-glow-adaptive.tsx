@@ -1,5 +1,6 @@
 // apps/mobile/src/lib/ui/visuals/AudioGlowAdaptive.tsx
 import React from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import { useThemeOverride } from '../../widgets/theme-picker/uset';
 import { AudioGlowDark } from './audio-glow-dark/audio-glow-dark';
 import AudioGlowLight from './audio-glow-light/audio-glow-light';
@@ -9,7 +10,7 @@ type Props = {
   speaking: boolean;
   baseRadius?: number;
   color?: string;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
   /** In Storybook you can pass restore=false to avoid AsyncStorage side-effects */
   restoreThemeState?: boolean;
 };

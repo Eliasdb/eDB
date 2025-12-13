@@ -30,7 +30,7 @@ export default function AdminShellLayout() {
   }, [pathname, current, dir]);
 
   return (
-    <ResponsiveTabsLayout<AdminTabKey>
+    <ResponsiveTabsLayout
       tabs={ADMIN_LAYOUT_CONFIG.tabs.map((t) => ({
         key: t.key,
         label: t.label,
@@ -38,8 +38,9 @@ export default function AdminShellLayout() {
       value={current}
       onChange={(next) => {
         console.log('[Admin] onChange ->', { from: current, to: next, dir });
-        setNext(current, next);
-        const target = pathForTab(next);
+        const tab = next as AdminTabKey;
+        setNext(current, tab);
+        const target = pathForTab(tab);
         console.log('[Admin] navigate replace:', target);
         router.replace(target);
       }}

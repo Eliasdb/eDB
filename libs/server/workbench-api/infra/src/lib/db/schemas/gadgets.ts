@@ -7,7 +7,6 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
-import { suppliersTable } from './suppliers';
 
 export const GadgetsCategoryEnum = pgEnum('gadgets_category_enum', [
   'surveillance',
