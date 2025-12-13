@@ -34,7 +34,13 @@ export function NavigationTabBar(props: BottomTabBarProps) {
           <Ionicons name="ellipse" size={size} color={color} />
         );
 
-    const badge = typedOptions.tabBarBadge;
+    const badgeRaw = typedOptions.tabBarBadge;
+    const badge =
+      typeof badgeRaw === 'string' ||
+      typeof badgeRaw === 'number' ||
+      typeof badgeRaw === 'boolean'
+        ? badgeRaw
+        : undefined;
     const testID =
       typedOptions.tabBarTestID ?? typedOptions.tabBarAccessibilityLabel;
     return {

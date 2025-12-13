@@ -1,18 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { View } from 'react-native';
-import type { TabDef } from '../../tab.types';
 import { TabBarTop } from './tab-bar-top';
 
-type K = 'overview' | 'activity' | 'settings';
-
-const sampleTabs: TabDef<K>[] = [
+const sampleTabs = [
   { key: 'overview', label: 'Overview' },
   { key: 'activity', label: 'Activity' },
   { key: 'settings', label: 'Settings' },
 ];
 
-const meta: Meta<typeof TabBarTop<K>> = {
+const meta: Meta<typeof TabBarTop> = {
   title: 'Navigation/Tab Bar Top',
   component: TabBarTop,
   args: {
@@ -34,11 +31,12 @@ const meta: Meta<typeof TabBarTop<K>> = {
   ],
 };
 export default meta;
-type Story = StoryObj<typeof TabBarTop<K>>;
+type Story = StoryObj<typeof TabBarTop>;
+type TabBarTopProps = Parameters<typeof TabBarTop>[0];
 
-const DefaultRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
-  const [value, setValue] = useState<K>('overview');
-  return <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />;
+const DefaultRender = (args: TabBarTopProps) => {
+  const [value, setValue] = useState('overview');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Basic usage with three tabs */
@@ -46,9 +44,9 @@ export const Default: Story = {
   render: (args) => <DefaultRender {...args} />,
 };
 
-const StartWithActivityRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
-  const [value, setValue] = useState<K>('activity');
-  return <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />;
+const StartWithActivityRender = (args: TabBarTopProps) => {
+  const [value, setValue] = useState('activity');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Start with a different active tab */
@@ -56,7 +54,7 @@ export const StartWithActivity: Story = {
   render: (args) => <StartWithActivityRender {...args} />,
 };
 
-const LongLabelsRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
+const LongLabelsRender = (args: TabBarTopProps) => {
   const [value, setValue] = useState('overview');
   return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
@@ -73,7 +71,7 @@ export const LongLabels: Story = {
   render: (args) => <LongLabelsRender {...args} />,
 };
 
-const ManyTabsRender = (args: Parameters<typeof TabBarTop<K>>[0]) => {
+const ManyTabsRender = (args: TabBarTopProps) => {
   const [value, setValue] = useState('billing');
   return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };

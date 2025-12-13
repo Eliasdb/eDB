@@ -6,7 +6,7 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@edb-workbench/api/shared": "*",
+    "@edb-workbench/api/shared": "workspace:*",
     "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.6",
     "dotenv": "^16.4.5",

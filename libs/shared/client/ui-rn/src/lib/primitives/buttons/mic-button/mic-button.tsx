@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { ComponentProps, useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, StyleSheet } from 'react-native';
-import { useThemeOverride } from '../../../../widgets/theme-picker/uset';
+import { useThemeOverride } from '../../../widgets/theme-picker/uset';
 
 type Props = {
   connected: boolean;

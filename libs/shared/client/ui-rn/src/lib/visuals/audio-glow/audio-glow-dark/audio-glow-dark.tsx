@@ -8,7 +8,7 @@ import {
   RadialGradient,
   vec,
 } from '@shopify/react-native-skia';
-import { Platform, View } from 'react-native';
+import { Platform, View, type ViewStyle } from 'react-native';
 import { useThemePreference } from '../../../providers';
 
 type Props = {
@@ -173,11 +173,10 @@ export function AudioGlowDark({
           opacity: overallOpacity,
         },
         Platform.OS === 'web'
-          ? {
-              // web-only style
-              // @ts-expect-error React Native web supports filter
+          ? ({
+              // web-only style (RN web supports filter)
               filter: isLight ? 'blur(110px)' : 'blur(90px)',
-            }
+            } satisfies ViewStyle)
           : {},
       ]}
     />

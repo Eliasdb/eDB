@@ -1,4 +1,14 @@
 {
   "compilerOptions": {},
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tmp",
+    "coverage",
+    "build",
+    "apps/mobile/node_modules",
+    "apps/mobile/.expo",
+    "apps/client/edb/src/assets"
+  ]
 }

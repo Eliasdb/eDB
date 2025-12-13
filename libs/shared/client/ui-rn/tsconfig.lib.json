@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "types": ["node", "nativewind/types", "./src/types/react-native-classname"]
+    "types": ["node", "nativewind/types"]
   },
   "exclude": [
     "**/*.test.ts",
@@ -19,5 +19,12 @@
     "src/**/*.test.ts",
     "jest.resolver.js"
   ],
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.d.ts"]
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.d.ts",
+    "nativewind-env.d.ts"
+  ]
 }
