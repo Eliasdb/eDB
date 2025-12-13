@@ -147,9 +147,9 @@ export class ApplicationsCollectionContainer implements OnInit {
   menuOptions = OVERFLOW_MENU_CONFIG;
   tableModel = new TableModel();
 
-  adminService = inject(AdminService);
-  tableUtils = inject(TableUtilsService);
-  modalUtils = inject(CustomModalService);
+  adminService: AdminService = inject(AdminService);
+  tableUtils: TableUtilsService = inject(TableUtilsService);
+  modalUtils: CustomModalService = inject(CustomModalService);
   router = inject(Router);
   fb = inject(FormBuilder);
 

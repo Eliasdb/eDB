@@ -9,21 +9,21 @@ function createFakeFastifyInstance(): FastifyInstance {
 }
 
 // minimal FastifyReply mock that records what was sent
-function createReplyMock() {
+function createReplyMock(): FastifyReply & {
+  _getSent(): unknown[];
+  _getStatus(): number | null;
+} {
   const sent: unknown[] = [];
   let statusCode: number | null = null;
 
-  const reply: Pick<FastifyReply, 'send' | 'status'> & {
-    _getSent(): unknown[];
-    _getStatus(): number | null;
-  } = {
+  const reply = {
     send(payload: unknown) {
       sent.push(payload);
-      return reply as FastifyReply;
+      return reply;
     },
     status(code: number) {
       statusCode = code;
-      return reply as FastifyReply; // Fastify reply.status() is chainable
+      return reply; // Fastify reply.status() is chainable
     },
 
     // helpers we assert against:
@@ -33,6 +33,9 @@ function createReplyMock() {
     _getStatus() {
       return statusCode;
     },
+  } as unknown as FastifyReply & {
+    _getSent(): unknown[];
+    _getStatus(): number | null;
   };
 
   return reply;

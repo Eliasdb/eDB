@@ -52,9 +52,9 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
 })
 export class WebshopAppComponent {
   private router = inject(Router);
-  private cartService = inject(CartService);
-  private orderService = inject(OrderService);
-  private aiSvc = inject(AiSearchService);
+  private cartService: CartService = inject(CartService);
+  private orderService: OrderService = inject(OrderService);
+  private aiSvc: AiSearchService = inject(AiSearchService);
 
   cartItems = this.cartService.cartItems;
   orderCount = this.orderService.orderCount;

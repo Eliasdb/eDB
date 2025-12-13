@@ -168,8 +168,8 @@ import {
 })
 export class SingleBookPage {
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly booksService = inject(BooksService);
-  private readonly cartService = inject(CartService);
+  private readonly booksService: BooksService = inject(BooksService);
+  private readonly cartService: CartService = inject(CartService);
 
   imageLoaded = signal(false);
   liveStatus = signal(''); // ✅ status text for tests & screen readers

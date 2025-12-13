@@ -133,10 +133,10 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   private sortChange$ = new Subject<SortEvent>();
   private searchChange$ = new Subject<string>();
 
-  private adminService = inject(AdminService);
-  private modalUtils = inject(CustomModalService);
-  private usersParamsService = inject(UsersParamsService);
-  private tableUtilsService = inject(TableUtilsService);
+  private adminService: AdminService = inject(AdminService);
+  private modalUtils: CustomModalService = inject(CustomModalService);
+  private usersParamsService: UsersParamsService = inject(UsersParamsService);
+  private tableUtilsService: TableUtilsService = inject(TableUtilsService);
   private router = inject(Router);
 
   onViewMoreEvent(id: number): void {

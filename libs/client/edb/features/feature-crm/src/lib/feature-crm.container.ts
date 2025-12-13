@@ -258,8 +258,8 @@ import { ContactStatus } from './types/contact.types';
 export class CRMContainer {
   /* ────────── DI ────────── */
   private fb = inject(FormBuilder);
-  private mod = inject(CustomModalService);
-  private crm = inject(CrmService);
+  private mod: CustomModalService = inject(CustomModalService);
+  private crm: CrmService = inject(CrmService);
 
   /* ────────── Signals ────────── */
   readonly selectedCompany = signal<string | null>(null);
