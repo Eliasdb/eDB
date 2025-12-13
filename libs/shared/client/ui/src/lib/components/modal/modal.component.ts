@@ -62,7 +62,7 @@ export class UiModalComponent {
   readonly cancelRoute = model<string | undefined>(undefined);
 
   @Output() save = new EventEmitter<unknown>();
-  @Output() close = new EventEmitter<void>();
+  @Output() dismissed = new EventEmitter<void>();
 
   private router = inject(Router);
 
@@ -71,7 +71,7 @@ export class UiModalComponent {
     if (cancelRoute) {
       this.router.navigate([cancelRoute]);
     }
-    this.close.emit();
+    this.dismissed.emit();
   }
 
   onSave(): void {

@@ -98,7 +98,7 @@ export function TasksCalendarLite({
       };
     }
     return marks;
-  }, [byDate, isDark, C.dotDone, C.dotTodo]); // <- include theme colors
+  }, [byDate, C.dotDone, C.dotTodo]); // theme colors already derived
 
   const today = toYMD(new Date());
   const [selected, setSelected] = useState<string>(today);
@@ -169,7 +169,9 @@ export function TasksCalendarLite({
         key={`cal-${effective}`} // <- force remount on theme change
         markedDates={calendarMarks}
         markingType="dot"
-        onDayPress={(d: any) => setSelected(d.dateString)}
+        onDayPress={(d: { dateString?: string }) =>
+          setSelected(d.dateString ?? selected)
+        }
         theme={theme}
         style={{
           borderTopWidth: showHeader ? 1 : 0,

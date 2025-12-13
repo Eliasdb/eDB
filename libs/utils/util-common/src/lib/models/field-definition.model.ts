@@ -4,7 +4,7 @@ export interface FieldDefinition {
   label: string;
   placeholder?: string;
   controlType: 'text' | 'password' | 'email' | 'number' | 'textarea' | 'select';
-  validators: any[];
+  validators: unknown[];
   errorMessages: { [key: string]: string };
-  options?: { label: string; value: any }[];
+  options?: { label: string; value: unknown }[];
 }

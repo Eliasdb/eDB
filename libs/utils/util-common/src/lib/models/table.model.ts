@@ -19,7 +19,7 @@ export interface RowMapperConfig<T> {
   isTemplate?: boolean; // Indicates if this field uses a template (e.g., actions column)
   isExpandable?: boolean; // Indicates if column is expandable
   getExpandedData?: (row: T) => TableItem[][]; // Function to retrieve expanded data
-  valueGetter?: (row: T) => any; // Function to transform the field's data
+  valueGetter?: (row: T) => unknown; // Function to transform the field's data
 }
 
 export interface SubscribedUserDto {
@@ -42,9 +42,9 @@ export interface ApplicationOverviewDto {
  */
 export interface ExpandedDataConfig<T> {
   headers: TableHeaderItem[]; // Correct type for headers
-  rowMapper: (item: T, context?: { [key: string]: any }) => TableItem[];
+  rowMapper: (item: T, context?: Record<string, unknown>) => TableItem[];
   expandedDataMapper?: (
     item: T,
-    context?: { [key: string]: any },
+    context?: Record<string, unknown>,
   ) => TableItem[][];
 }

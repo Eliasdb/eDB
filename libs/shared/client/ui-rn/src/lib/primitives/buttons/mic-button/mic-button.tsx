@@ -1,8 +1,8 @@
 // apps/mobile/src/lib/ui/primitives/VoiceButton.tsx
-import { useThemeOverride } from '../../../../widgets/theme-picker/uset';
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useRef } from 'react';
+import { ComponentProps, useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, StyleSheet } from 'react-native';
+import { useThemeOverride } from '../../../../widgets/theme-picker/uset';
 
 type Props = {
   connected: boolean;
@@ -70,7 +70,11 @@ export function MicButton({
       : 'rgba(0,0,0,0.05)'
     : PALETTE.bgLoading;
 
-  const icon = loading ? 'ellipsis-horizontal' : connected ? 'stop' : 'mic';
+  const icon: ComponentProps<typeof Ionicons>['name'] = loading
+    ? 'ellipsis-horizontal'
+    : connected
+      ? 'stop'
+      : 'mic';
   const tint = loading
     ? PALETTE.tintLoading
     : connected
@@ -114,7 +118,7 @@ export function MicButton({
     );
     loop.start();
     return () => loop.stop();
-  }, [connected, loading, speaking, isDark]);
+  }, [connected, idlePulseAmp, isDark, loading, pulse, speaking, speakingPulse]);
 
   // React to input level (very subtle in dark)
   useEffect(() => {
@@ -125,7 +129,7 @@ export function MicButton({
       friction: 6,
       useNativeDriver: true,
     }).start();
-  }, [level, connected, loading]);
+  }, [connected, level, loading, react, reactMax]);
 
   return (
     <Animated.View
@@ -153,7 +157,7 @@ export function MicButton({
           },
         ]}
       >
-        <Ionicons name={icon as any} size={iconSize} color={tint} />
+        <Ionicons name={icon} size={iconSize} color={tint} />
       </Pressable>
     </Animated.View>
   );

@@ -41090,6 +41090,11 @@
       {
         "source": "ui-rn",
         "target": "npm:@react-native-community/datetimepicker",
+        "type": "static"
+      },
+      {
+        "source": "ui-rn",
+        "target": "npm:@react-native-community/datetimepicker",
         "type": "dynamic"
       },
       {
@@ -92813,5 +92818,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1765605959567
+  "computedAt": 1765607962959
 }

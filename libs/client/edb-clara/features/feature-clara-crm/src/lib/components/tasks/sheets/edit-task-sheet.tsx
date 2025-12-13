@@ -28,7 +28,7 @@ export function EditTaskSheet({
   useEffect(() => {
     setTitle(task?.title ?? '');
     setDue(task?.due ?? '');
-  }, [task?.id, visible]);
+  }, [task?.id, task?.title, task?.due, visible]);
 
   const canSave = title.trim().length > 0;
 

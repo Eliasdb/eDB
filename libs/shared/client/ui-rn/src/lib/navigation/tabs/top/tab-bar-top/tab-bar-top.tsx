@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/navigation/TabBarTop.tsx
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, View, useColorScheme } from 'react-native';
+import { Pressable, View, useColorScheme, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -205,7 +205,7 @@ function ChipTab({
   onTabLayout: (key: string, x: number, w: number) => void;
   onTextLayout: (key: string, textW: number) => void;
   a11yId?: string;
-  itemStyle?: any;
+  itemStyle?: StyleProp<ViewStyle>;
   fullWidth?: boolean;
   colors: { idle: string; active: string };
 }) {

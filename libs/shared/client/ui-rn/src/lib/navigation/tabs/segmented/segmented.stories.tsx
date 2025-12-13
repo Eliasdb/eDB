@@ -20,7 +20,7 @@ const TabsBasicRender = () => {
     <View style={{ padding: 16, gap: 16 }}>
       <Segmented
         value={tab}
-        onChange={(v) => setTab(v as any)}
+        onChange={(v) => setTab(v)}
         options={[
           { value: 'overview', label: 'Overview' },
           { value: 'details', label: 'Details' },

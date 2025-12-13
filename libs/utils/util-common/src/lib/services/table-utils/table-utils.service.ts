@@ -49,11 +49,12 @@ export class TableUtilsService {
   prepareData<T>(
     rows: T[],
     mapperConfigs: RowMapperConfig<T>[],
-    overflowTemplate?: TemplateRef<any>,
+    overflowTemplate?: TemplateRef<unknown>,
   ): TableItem[][] {
     return rows.map((row) =>
       mapperConfigs.map((config) => {
-        let data = (row as any)[config.field];
+        const record = row as Record<string, unknown>;
+        let data = record[config.field];
 
         // Use valueGetter if provided to transform the data
         if (config.valueGetter) {
@@ -68,7 +69,7 @@ export class TableUtilsService {
         // Handle expandable rows
         if (config.isExpandable && config.getExpandedData) {
           tableItem.expandedData = config.getExpandedData(row);
-          tableItem.expandAsTable = true as any;
+          tableItem.expandAsTable = true;
         }
 
         return tableItem;
@@ -79,7 +80,7 @@ export class TableUtilsService {
   createExpandedData<T>(
     items: T[],
     config: ExpandedDataConfig<T>,
-    context?: { [key: string]: any },
+    context?: Record<string, unknown>,
   ): TableItem[][] {
     const { rowMapper, expandedDataMapper } = config;
 

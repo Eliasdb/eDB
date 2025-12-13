@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild, input } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  inject,
+  input,
+} from '@angular/core';
 import {
   MatDrawer,
   MatDrawerContainer,
@@ -44,7 +51,7 @@ export interface NavItem {
             [brandSubtitle]="brandSubtitle()"
             [items]="items()"
             (navClick)="leftNav.close()"
-            (toggle)="leftNav.toggle()"
+            (toggleSidebar)="leftNav.toggle()"
           >
             <span sidebarLogo>
               <svg
@@ -111,7 +118,7 @@ export class UiSidebarLayoutSmarterComponent implements OnInit, OnDestroy {
   // Lifecycle
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private sidebarToggle: SidebarToggleService) {}
+  private readonly sidebarToggle = inject(SidebarToggleService);
 
   ngOnInit() {
     this.sidebarToggle.toggle$

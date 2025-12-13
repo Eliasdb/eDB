@@ -66,7 +66,7 @@ export function Checkbox({
       accessibilityRole="checkbox"
       accessibilityState={{ checked: isChecked }}
       accessibilityLabel={accessibilityLabel}
-      hitSlop={hitSlop as any}
+      hitSlop={hitSlop}
       style={({ pressed }) => (pressed ? [{ opacity: 0.85 }, style] : style)}
       className="items-center justify-center"
     >

@@ -1,6 +1,6 @@
 // apps/mobile/src/lib/ui/visuals/AudioGlowLight.tsx
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   speaking: boolean;
   baseRadius?: number;
   color?: string;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
 };
 
 export default function AudioGlowLight({

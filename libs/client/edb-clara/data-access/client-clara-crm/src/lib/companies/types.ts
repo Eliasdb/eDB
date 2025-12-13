@@ -10,7 +10,7 @@ export type CompanyHQ = {
   postalCode?: string | null;
   country?: string | null;
   /** Allow extra keys from enrichment, etc. */
-  [k: string]: any;
+  [k: string]: unknown;
 };
 
 /** Core Company record returned by the API. */

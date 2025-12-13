@@ -32,7 +32,7 @@ export interface NavItem {
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          (click)="toggle.emit()"
+          (click)="toggleSidebar.emit()"
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -84,7 +84,7 @@ export class UiNavSidebarComponent {
   readonly items = input<NavItem[]>([]);
 
   @Output() navClick = new EventEmitter<string>();
-  @Output() toggle = new EventEmitter<void>();
+  @Output() toggleSidebar = new EventEmitter<void>();
 
   select(itm: NavItem) {
     this.navClick.emit(itm.id);

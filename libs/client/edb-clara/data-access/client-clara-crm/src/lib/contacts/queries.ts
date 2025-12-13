@@ -18,18 +18,20 @@ export function useContacts() {
 
 export function useContact(id?: string) {
   const enabled = !!id;
+  const contactId = id ?? '';
   return useQuery({
-    queryKey: enabled ? contactKeys.byId(id!) : contactKeys.byId(''),
-    queryFn: () => fetchContact(id!),
+    queryKey: contactKeys.byId(contactId),
+    queryFn: () => fetchContact(contactId),
     enabled,
   });
 }
 
 export function useContactOverview(id?: string) {
   const enabled = !!id;
+  const contactId = id ?? '';
   return useQuery({
-    queryKey: enabled ? contactKeys.overview(id!) : contactKeys.overview(''),
-    queryFn: () => fetchContactOverview(id!),
+    queryKey: contactKeys.overview(contactId),
+    queryFn: () => fetchContactOverview(contactId),
     enabled,
     staleTime: 60_000,
   });
@@ -37,11 +39,10 @@ export function useContactOverview(id?: string) {
 
 export function useContactActivities(id?: string) {
   const enabled = !!id;
+  const contactId = id ?? '';
   return useQuery({
-    queryKey: enabled
-      ? contactKeys.activities(id!)
-      : contactKeys.activities(''),
-    queryFn: () => fetchActivitiesForContact(id!),
+    queryKey: contactKeys.activities(contactId),
+    queryFn: () => fetchActivitiesForContact(contactId),
     enabled,
     staleTime: 10_000,
   });

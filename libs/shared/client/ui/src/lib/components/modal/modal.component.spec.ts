@@ -100,8 +100,8 @@ describe('UiModalComponent', () => {
     expect(saveSpy).toHaveBeenCalledWith();
   });
 
-  it('should emit close event on cancel', () => {
-    const closeSpy = vi.spyOn(component.close, 'emit');
+  it('should emit dismissed event on cancel', () => {
+    const closeSpy = vi.spyOn(component.dismissed, 'emit');
     fixture.componentRef.setInput('header', 'Default Header');
     fixture.detectChanges();
     component.onCancel();

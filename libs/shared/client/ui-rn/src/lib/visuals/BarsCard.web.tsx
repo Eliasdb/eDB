@@ -38,9 +38,11 @@ export function BarsCard({ data }: { data: DayStat[] }) {
             `https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.40.0/bin/full/${file}`,
         }}
         getComponent={async () => {
-          const VN: any = await import('victory-native');
+          const VN = await import('victory-native');
           const Comp = (() => {
             const { CartesianChart, Bar } = VN;
+            type ChartPoint = { x: number; y: number };
+            type ChartBounds = { x: number; y: number; width: number; height: number };
             const Chart: React.ComponentType<object> = () => (
               <View
                 style={{
@@ -57,7 +59,13 @@ export function BarsCard({ data }: { data: DayStat[] }) {
                   // @ts-expect-error older versions may not expose domain
                   domain={{ y: [0, paddedMax] }}
                 >
-                  {({ points, chartBounds }: any) => (
+                  {({
+                    points,
+                    chartBounds,
+                  }: {
+                    points: { value: ChartPoint[] };
+                    chartBounds: ChartBounds;
+                  }) => (
                     <Bar
                       points={points.value}
                       chartBounds={chartBounds}

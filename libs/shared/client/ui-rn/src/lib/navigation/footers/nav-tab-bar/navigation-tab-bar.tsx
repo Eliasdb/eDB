@@ -3,6 +3,13 @@ import { Ionicons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import BottomNav from '../bottom-nav/bottom-nav';
 
+type TabBarOptions = {
+  tabBarIcon?: (p: { color: string; size: number; focused: boolean }) => React.ReactNode;
+  tabBarBadge?: React.ReactNode;
+  tabBarTestID?: string;
+  tabBarAccessibilityLabel?: string;
+};
+
 export function NavigationTabBar(props: BottomTabBarProps) {
   const { state, descriptors, navigation } = props;
 
@@ -12,7 +19,8 @@ export function NavigationTabBar(props: BottomTabBarProps) {
       (options.tabBarLabel as string) ?? options.title ?? route.name;
     const focused = state.index === index;
 
-    const iconRenderer = options.tabBarIcon
+    const typedOptions = options as TabBarOptions;
+    const iconRenderer = typedOptions.tabBarIcon
       ? ({
           color,
           size,
@@ -21,15 +29,14 @@ export function NavigationTabBar(props: BottomTabBarProps) {
           color: string;
           size: number;
           focused: boolean;
-        }) => options.tabBarIcon!({ color, size, focused: f })
+        }) => typedOptions.tabBarIcon?.({ color, size, focused: f })
       : ({ color, size }: { color: string; size: number }) => (
           <Ionicons name="ellipse" size={size} color={color} />
         );
 
-    const anyOpts = options as any;
-    const badge = anyOpts.tabBarBadge;
-    const testID: string | undefined =
-      anyOpts.tabBarTestID ?? anyOpts.tabBarAccessibilityLabel ?? undefined;
+    const badge = typedOptions.tabBarBadge;
+    const testID =
+      typedOptions.tabBarTestID ?? typedOptions.tabBarAccessibilityLabel;
     return {
       key: route.key,
       label: String(label),

@@ -152,7 +152,7 @@ const WithBadgesRender = (args: BottomNavProps) => {
                   fontSize: 10,
                   fontWeight: '700',
                   color: 'white',
-                  includeFontPadding: false as any,
+                  includeFontPadding: false,
                 }}
               >
                 {String(badge)}

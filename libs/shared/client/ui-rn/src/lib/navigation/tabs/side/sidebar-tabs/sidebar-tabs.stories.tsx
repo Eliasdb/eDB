@@ -104,7 +104,7 @@ export const LongLabels: Story = {
       { key: 'work', label: 'Company & Role Details' },
       { key: 'notifications', label: 'Notifications & Alerts' },
       { key: 'billing', label: 'Billing & Invoices' },
-    ] as any,
+    ],
   },
   render: (args) => <LongLabelsRender {...args} />,
 };

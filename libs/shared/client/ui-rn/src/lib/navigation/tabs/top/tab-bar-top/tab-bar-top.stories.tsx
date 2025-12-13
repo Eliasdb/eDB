@@ -68,7 +68,7 @@ export const LongLabels: Story = {
       { key: 'overview', label: 'Overview of your dashboard' },
       { key: 'activity', label: 'Recent activity and logs' },
       { key: 'settings', label: 'Application & User Settings' },
-    ] as any,
+    ],
   },
   render: (args) => <LongLabelsRender {...args} />,
 };
@@ -87,7 +87,7 @@ export const ManyTabs: Story = {
       { key: 'settings', label: 'Settings' },
       { key: 'billing', label: 'Billing' },
       { key: 'support', label: 'Support' },
-    ] as any,
+    ],
   },
   render: (args) => <ManyTabsRender {...args} />,
 };

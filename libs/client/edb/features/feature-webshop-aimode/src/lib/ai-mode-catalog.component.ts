@@ -4,7 +4,6 @@ import { Component, computed, inject, input, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AiSearchService } from './services/ai-search.service';
-import { AiBookItem } from './types/ai-search';
 
 @Component({
   selector: 'webshop-ai-mode-catalog',
@@ -132,7 +131,7 @@ export class AiModeCatalogComponent implements OnInit {
     this.firstPage() ? Object.keys(this.firstPage()?.filters_used ?? {}) : [],
   );
 
-  trackByIndex = (index: number, _item: AiBookItem) => index;
+  trackByIndex = (index: number) => index;
   close() {
     this.onClose()();
   }

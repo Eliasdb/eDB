@@ -24,12 +24,17 @@ function runHookAndThrowOnError(
 ): void {
   let capturedErr: unknown = undefined;
 
-  const fakeReply = {} as any;
+  const fakeReply = {} as Parameters<preHandlerHookHandler>[1];
   const fakeApp = createFakeFastifyInstance();
 
-  hook.call(fakeApp, reqLike as any, fakeReply, (err?: Error) => {
-    capturedErr = err;
-  });
+  hook.call(
+    fakeApp,
+    reqLike as Parameters<preHandlerHookHandler>[0],
+    fakeReply,
+    (err?: Error) => {
+      capturedErr = err;
+    },
+  );
 
   if (capturedErr) {
     throw capturedErr;

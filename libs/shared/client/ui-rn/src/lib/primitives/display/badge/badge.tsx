@@ -8,7 +8,7 @@ import { Text, View, type ViewProps } from 'react-native';
 export function withAlpha(hex: string, a = 0.12) {
   const m = /^#?([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i.exec(hex);
   if (!m) return hex;
-  const [_, r, g, b] = m;
+  const [, r, g, b] = m;
   return `rgba(${parseInt(r, 16)},${parseInt(g, 16)},${parseInt(b, 16)},${a})`;
 }
 

@@ -95,9 +95,9 @@ export class AddActivityFormComponent {
   }
 
   save() {
-    if (!this.canSave()) return;
+    if (!this.canSave() || !this.date) return;
     this.saveActivity.emit({
-      date: this.date!,
+      date: this.date,
       title: this.title.trim(),
       details: this.details.trim(),
     });

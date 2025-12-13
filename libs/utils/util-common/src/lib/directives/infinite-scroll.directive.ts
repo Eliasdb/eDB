@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[infiniteScroll]',
+  selector: '[edbInfiniteScroll]',
 })
 export class InfiniteScrollDirective {
   readonly isFetching = input<boolean | null>(false);

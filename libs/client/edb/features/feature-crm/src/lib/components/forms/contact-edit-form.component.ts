@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact, ContactStatus } from '../../types/contact.types';
@@ -94,7 +93,7 @@ export class ContactEditFormComponent implements OnChanges {
   ] as const;
 
   /* ---------- Lifecycle ---------- */
-  ngOnChanges(_: SimpleChanges) {
+  ngOnChanges() {
     /** fresh shallow-copy each time the input changes */
     this.draft = { ...this.contact };
   }

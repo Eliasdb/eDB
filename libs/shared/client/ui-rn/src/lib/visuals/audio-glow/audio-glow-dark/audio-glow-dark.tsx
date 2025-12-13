@@ -105,6 +105,8 @@ export function AudioGlowDark({
         <Canvas style={{ width: size, height: size }}>
           {/* Halo */}
           <Group blendMode={blend}>
+            {/* Skia blur style accepts string literal; suppress RN style rule */}
+            {/* eslint-disable-next-line react/style-prop-object */}
             <BlurMask blur={blurHalo} style="normal" />
             <Circle cx={cx} cy={cy} r={haloR}>
               <Paint>
@@ -120,6 +122,7 @@ export function AudioGlowDark({
 
           {/* Core */}
           <Group blendMode={blend}>
+            {/* eslint-disable-next-line react/style-prop-object */}
             <BlurMask blur={blurCore} style="normal" />
             <Circle cx={cx} cy={cy} r={coreR}>
               <Paint>
@@ -135,6 +138,7 @@ export function AudioGlowDark({
 
           {/* Spark */}
           <Group blendMode={blend}>
+            {/* eslint-disable-next-line react/style-prop-object */}
             <BlurMask blur={blurSpark} style="normal" />
             <Circle cx={cx} cy={cy} r={sparkR}>
               <Paint>
@@ -160,7 +164,7 @@ export function AudioGlowDark({
   return (
     <View
       pointerEvents="none"
-      style={
+      style={[
         {
           position: 'absolute',
           width: radius * 2,
@@ -168,11 +172,14 @@ export function AudioGlowDark({
           borderRadius: radius,
           backgroundColor: tintedWeb ?? color,
           opacity: overallOpacity,
-          filter: isLight ? 'blur(110px)' : 'blur(90px)',
-          // If the container allows it, uncomment to mimic additive blend on web:
-          // mixBlendMode: 'screen',
-        } as any
-      }
+        },
+        Platform.OS === 'web'
+          ? {
+              // @ts-expect-error web-only style
+              filter: isLight ? 'blur(110px)' : 'blur(90px)',
+            }
+          : {},
+      ]}
     />
   );
 }

@@ -45,7 +45,7 @@ export class CatalogService {
         this.queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
         this.queryClient.invalidateQueries({ queryKey: ['catalog'] });
       },
-      onError: (error: any) => {
+      onError: (error: unknown) => {
         console.error('Failed to subscribe:', error);
       },
     }));

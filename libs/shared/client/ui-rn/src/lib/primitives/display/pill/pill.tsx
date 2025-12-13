@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Platform,
   Pressable,
+  StyleProp,
   Text,
   TextStyle,
   View,
@@ -33,8 +34,8 @@ export type PillProps = {
 
   onPress?: () => void;
   className?: string;
-  style?: ViewStyle;
-  textStyle?: TextStyle;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   testID?: string;
 };
 
@@ -126,7 +127,7 @@ export function Pill({
   testID,
 }: PillProps) {
   const isWeb = Platform.OS === 'web';
-  const Wrapper: any = onPress ? Pressable : View;
+  const Wrapper: typeof Pressable | typeof View = onPress ? Pressable : View;
 
   // --- TAG PRESET (theme-driven) ---
   if (preset === 'tag') {
@@ -135,7 +136,7 @@ export function Pill({
       muted ? 'bg-gray-100 dark:bg-tag-dark' : 'bg-tag dark:bg-tag-dark',
     ].join(' ');
 
-    const nativeTagStyle = !isWeb
+    const nativeTagStyle: StyleProp<ViewStyle> = !isWeb
       ? { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12 }
       : undefined;
 
@@ -147,7 +148,7 @@ export function Pill({
         testID={testID}
         onPress={onPress}
         className={[webTagClasses, className ?? ''].join(' ')}
-        style={[nativeTagStyle as any, style]}
+        style={[nativeTagStyle, style]}
       >
         {left ? <View style={{ marginRight: 6 }}>{left}</View> : null}
         {text ? (

@@ -59,7 +59,7 @@ export class UiSlideInSidebarComponent implements AfterViewInit {
   @Input() embedded = false;
 
   /** Two-way control – parent binds `[opened]` and/or `(closed)` */
-  @Input({ alias: 'opened', transform: (v: any) => !!v })
+  @Input({ alias: 'opened', transform: (v: unknown) => !!v })
   set opened(v: boolean) {
     this._opened.set(v);
   }

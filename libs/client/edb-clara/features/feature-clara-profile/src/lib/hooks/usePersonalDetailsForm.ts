@@ -3,7 +3,15 @@ import { useMemo, useState } from 'react';
 import { INITIAL_PERSONAL_DETAILS, makePersonalDetailsCards } from '../config';
 import type { CardDef } from '../types/profile-details.types';
 
-type TFunc = (key: string, defaultOrOpts?: any) => string;
+type TFunc = (
+  key: string,
+  defaultOrOpts?:
+    | string
+    | {
+        defaultValue?: string;
+        count?: number;
+      },
+) => string;
 
 export function usePersonalDetailsForm(t: TFunc) {
   const [firstName, setFirstName] = useState(

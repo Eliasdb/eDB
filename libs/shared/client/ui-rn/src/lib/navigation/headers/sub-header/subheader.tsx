@@ -98,13 +98,11 @@ export function SubHeader({
             <Text
               numberOfLines={1}
               className="text-[18px] font-bold text-text dark:text-text-dark"
-              style={
-                Platform.select({
-                  ios: { letterSpacing: 0.2 },
-                  android: { letterSpacing: 0.15 },
-                  web: undefined,
-                }) as any
-              }
+              style={Platform.select<{ letterSpacing?: number }>({
+                ios: { letterSpacing: 0.2 },
+                android: { letterSpacing: 0.15 },
+                web: undefined,
+              })}
             >
               {title}
             </Text>
@@ -134,7 +132,11 @@ export function BackButton({ onPress }: { onPress: () => void }) {
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       activeOpacity={0.8}
       className="h-11 w-11 items-center justify-center rounded-full"
-      style={Platform.OS === 'web' ? ({ cursor: 'pointer' } as any) : undefined}
+      style={
+        Platform.OS === 'web'
+          ? ({ cursor: 'pointer' } satisfies ViewStyle)
+          : undefined
+      }
     >
       <Ionicons name="chevron-back" size={24} color={dim} />
     </TouchableOpacity>
@@ -157,7 +159,11 @@ export function TextAction({
       accessibilityLabel={label}
       activeOpacity={0.85}
       className="h-11 px-2 items-center justify-center"
-      style={Platform.OS === 'web' ? ({ cursor: 'pointer' } as any) : undefined}
+      style={
+        Platform.OS === 'web'
+          ? ({ cursor: 'pointer' } satisfies ViewStyle)
+          : undefined
+      }
     >
       <Text className="text-[16px] font-semibold" style={{ color }}>
         {label}

@@ -82,7 +82,9 @@ export interface UiNzTableColumn<T = Record<string, unknown>> {
     </nz-table>
   `,
 })
-export class UiNzTableComponent<T extends Record<string, unknown> = any> {
+export class UiNzTableComponent<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> {
   /* Inputs */
   readonly columns = input<UiNzTableColumn<T>[]>([]);
   readonly data = input<T[]>([]);

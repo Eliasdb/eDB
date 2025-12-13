@@ -1,13 +1,17 @@
 // apps/mobile/src/lib/ui/widgets/DateField.tsx
 import { Ionicons } from '@expo/vector-icons';
+import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import React, { useMemo, useRef, useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 
 // Lazy require so web bundles don't pull the native module
-let RNDateTimePicker: any;
+let RNDateTimePicker:
+  | typeof import('@react-native-community/datetimepicker').default
+  | null;
 try {
-  RNDateTimePicker = require('@react-native-community/datetimepicker').default;
-} catch (error) {
+  RNDateTimePicker = require('@react-native-community/datetimepicker')
+    .default as typeof import('@react-native-community/datetimepicker').default;
+} catch {
   RNDateTimePicker = null;
 }
 
@@ -62,7 +66,10 @@ export function DateField({
     }
   };
 
-  const handleNativeChange = (e: any, selected?: Date) => {
+  const handleNativeChange = (
+    e: DateTimePickerEvent,
+    selected?: Date | undefined,
+  ) => {
     // Android fires onChange for both selection and dismiss
     if (Platform.OS === 'android') setShowNative(false);
 
@@ -103,7 +110,7 @@ export function DateField({
       {/* Web overlay input */}
       {Platform.OS === 'web' && (
         <input
-          ref={webInputRef as any}
+          ref={webInputRef}
           type={dateSupported ? 'date' : 'text'}
           placeholder={placeholder}
           value={value ?? ''}

@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FieldDefinition } from '../../models/field-definition.model';
 
 @Injectable({ providedIn: 'root' })
 export class FormUtilsService {
-  constructor(private fb: FormBuilder) {}
+  private readonly fb = inject(FormBuilder);
 
   // Create a form group dynamically
   createFormGroup(fields: FieldDefinition[]): FormGroup {

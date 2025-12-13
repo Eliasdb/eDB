@@ -306,9 +306,9 @@ export class CRMContainer {
   });
   /* ───── view refs ───── */
   @ViewChild('addContactForm', { static: true })
-  private addContactTpl!: TemplateRef<any>;
+  private addContactTpl!: TemplateRef<unknown>;
   @ViewChild('addCompanyForm', { static: true })
-  private addCompanyTpl!: TemplateRef<any>;
+  private addCompanyTpl!: TemplateRef<unknown>;
   @ViewChild('contactSidebar') private contactSidebar?: ContactSidebarComponent;
   @ViewChild('companySidebar')
   private companySidebar?: CrmCompanySidebarComponent;
@@ -361,14 +361,16 @@ export class CRMContainer {
       onSave: () => {
         if (this.addContactFormGroup.invalid) return;
 
-        const v = this.addContactFormGroup.value;
+        const v = this.addContactFormGroup.getRawValue();
+        const { firstName, lastName, email, phone, companyId, status } = v;
+        if (!firstName || !lastName || !email || !companyId || !status) return;
         const payload: NewContactPayload = {
-          firstName: v.firstName!,
-          lastName: v.lastName!,
-          email: v.email!,
-          phone: v.phone!,
-          companyId: v.companyId!,
-          status: v.status! as ContactStatus,
+          firstName,
+          lastName,
+          email,
+          phone: phone ?? '',
+          companyId,
+          status: status as ContactStatus,
         };
         this.crm.addContactMutation().mutate(payload);
       },
@@ -389,11 +391,13 @@ export class CRMContainer {
       onSave: () => {
         if (this.addCompanyFormGroup.invalid) return;
 
-        const v = this.addCompanyFormGroup.value;
+        const v = this.addCompanyFormGroup.getRawValue();
+        const { name, vatNumber, website } = v;
+        if (!name) return;
         const payload: NewCompanyPayload = {
-          name: v.name!,
-          vatNumber: v.vatNumber!,
-          website: v.website!,
+          name,
+          vatNumber: vatNumber ?? '',
+          website: website ?? '',
         };
         this.crm.addCompanyMutation().mutate(payload);
 

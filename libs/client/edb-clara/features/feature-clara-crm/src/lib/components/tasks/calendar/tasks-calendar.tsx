@@ -84,7 +84,7 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
     schedule[today] ??= [];
 
     return { schedule, marks };
-  }, [tasks, isDark, C.dotDone, C.dotTodo]);
+  }, [tasks, C.dotDone, C.dotTodo]);
 
   // Stable items object that Agenda can diff without throwing
   const [items, setItems] = useState<AgendaItems>(() => {
@@ -118,7 +118,7 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
     });
   };
 
-  const theme: Record<string, any> = {
+  const theme: Record<string, unknown> = {
     backgroundColor: C.bg,
     calendarBackground: C.bg,
     textSectionTitleColor: C.dim,
