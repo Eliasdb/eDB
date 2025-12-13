@@ -22,7 +22,7 @@ public class OrderCreatedConsumer : IConsumer<OrderCreatedV1>
 
         Console.WriteLine("🔥 Received order.created.v1:");
 
-        // 1) Persist notification (+ optional live push)
+        // 1) Persist notification (+ optional live push).
         await _notifications.WriteOrderCreatedAsync(e, ctx.CancellationToken);
 
         // 2) Keep your live orders stream too
