@@ -130,7 +130,7 @@
       "continuous": true
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "options": {
         "vitestConfig": "apps/client/mfe-edb-admin/vitest.config.ts",
         "passWithNoTests": true

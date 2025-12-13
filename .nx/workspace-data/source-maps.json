@@ -2478,18 +2478,6 @@
       "nx.json",
       "nx/target-defaults"
     ],
-    "targets.test.inputs": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
-    "targets.test.configurations.ci.coverage": [
-      "nx.json",
-      "nx/target-defaults"
-    ],
     "targets.test.parallelism": [
       "nx.json",
       "nx/target-defaults"
@@ -3266,14 +3254,6 @@
       "apps/mobile/app.json",
       "@nx/expo/plugin"
     ],
-    "targets.build": [
-      "apps/mobile/app.json",
-      "@nx/expo/plugin"
-    ],
-    "targets.build.executor": [
-      "apps/mobile/app.json",
-      "@nx/expo/plugin"
-    ],
     "targets.submit": [
       "apps/mobile/app.json",
       "@nx/expo/plugin"
@@ -3291,14 +3271,6 @@
       "@nx/expo/plugin"
     ],
     "targets.submit.options.command": [
-      "apps/mobile/app.json",
-      "@nx/expo/plugin"
-    ],
-    "targets.build-deps": [
-      "apps/mobile/app.json",
-      "@nx/expo/plugin"
-    ],
-    "targets.build-deps.dependsOn": [
       "apps/mobile/app.json",
       "@nx/expo/plugin"
     ],
@@ -3439,6 +3411,26 @@
       "nx/core/project-json"
     ],
     "projectType": [
+      "apps/mobile/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "apps/mobile/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "apps/mobile/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "apps/mobile/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.cwd": [
+      "apps/mobile/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.command": [
       "apps/mobile/project.json",
       "nx/core/project-json"
     ],

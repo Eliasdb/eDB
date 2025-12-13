@@ -1,5 +1,5 @@
 {
-  "8038712782135449135": {
+  "9009027582885534944": {
     "apps/client/edb": {
       "targets": {
         "lint": {
@@ -41,7 +41,7 @@
       }
     }
   },
-  "4955603539230570877": {
+  "1439007940555865694": {
     "apps/client/mfe-edb-admin": {
       "targets": {
         "lint": {
@@ -83,7 +83,7 @@
       }
     }
   },
-  "467745781720257209": {
+  "1403060819082838790": {
     "apps/client/wc-edb-user-account": {
       "targets": {
         "lint": {
@@ -125,7 +125,7 @@
       }
     }
   },
-  "6456351993907995538": {
+  "15092492909800083541": {
     "apps/mobile": {
       "targets": {
         "lint": {
@@ -167,7 +167,7 @@
       }
     }
   },
-  "15667022685691727804": {
+  "7189875050764891283": {
     "apps/server/clara-api": {
       "targets": {
         "lint": {
@@ -209,7 +209,7 @@
       }
     }
   },
-  "12875662720581410718": {
+  "16767410484210853528": {
     "apps/server/workbench-api": {
       "targets": {
         "lint": {
@@ -251,7 +251,7 @@
       }
     }
   },
-  "6540762021489173096": {
+  "9497669111779102922": {
     "e2e/eDB-e2e": {
       "targets": {
         "lint": {
@@ -293,7 +293,7 @@
       }
     }
   },
-  "10637612642883846948": {
+  "5223641516095297435": {
     "e2e/mfe-edb-admin-e2e": {
       "targets": {
         "lint": {
@@ -335,19 +335,19 @@
       }
     }
   },
-  "7672465826859045368": {},
-  "12035758746093529470": {},
-  "2764234233204769381": {},
-  "4213394009354151233": {},
-  "10599526544109487930": {},
-  "4589717294837965918": {},
-  "12741510112036086651": {},
-  "14571592841544645579": {},
-  "7173945573026484999": {},
-  "7982627097118687836": {},
-  "6578918291461261514": {},
-  "14322900695609187264": {},
-  "6939661007009975164": {
+  "17713467249680021588": {},
+  "13404381243225049182": {},
+  "4924807399935928810": {},
+  "1896608224464027592": {},
+  "4920065460738400947": {},
+  "6874145268496408391": {},
+  "5542788759377447239": {},
+  "18020779137618173709": {},
+  "1614394909898710491": {},
+  "8658757926804304894": {},
+  "16022286409605086316": {},
+  "5716212906530438763": {},
+  "11944301260643134089": {
     "libs/client/edb/data-access/client-auth": {
       "targets": {
         "lint": {
@@ -389,7 +389,7 @@
       }
     }
   },
-  "17655000345675635733": {
+  "2086897414396168114": {
     "libs/client/edb/data-access/client-books": {
       "targets": {
         "lint": {
@@ -431,7 +431,7 @@
       }
     }
   },
-  "1562548217477817234": {
+  "5469490373063935561": {
     "libs/client/edb/data-access/client-cart": {
       "targets": {
         "lint": {
@@ -473,7 +473,7 @@
       }
     }
   },
-  "14384349219420966381": {
+  "11977743705782025658": {
     "libs/client/edb/data-access/client-catalog": {
       "targets": {
         "lint": {
@@ -515,7 +515,7 @@
       }
     }
   },
-  "6121654529646599489": {
+  "16710267797156345954": {
     "libs/client/edb/data-access/client-checkout": {
       "targets": {
         "lint": {
@@ -557,7 +557,7 @@
       }
     }
   },
-  "284667206931395366": {
+  "10244544912321040849": {
     "libs/client/edb/data-access/client-crm": {
       "targets": {
         "lint": {
@@ -599,7 +599,7 @@
       }
     }
   },
-  "13203356178523700061": {
+  "8946127624028099004": {
     "libs/client/edb/data-access/client-dashboard": {
       "targets": {
         "lint": {
@@ -641,7 +641,7 @@
       }
     }
   },
-  "18287964741485435086": {
+  "16629066460912485072": {
     "libs/client/edb/data-access/client-orders": {
       "targets": {
         "lint": {
@@ -683,7 +683,7 @@
       }
     }
   },
-  "1311097577814885358": {
+  "12711991566292198173": {
     "libs/client/edb/data-access/client-profile": {
       "targets": {
         "lint": {
@@ -725,7 +725,7 @@
       }
     }
   },
-  "5542887088605147882": {
+  "2025277136662660924": {
     "libs/client/edb/features/feature-404": {
       "targets": {
         "lint": {
@@ -767,7 +767,7 @@
       }
     }
   },
-  "16045913360674173684": {
+  "5801672286412504719": {
     "libs/client/edb/features/feature-catalog": {
       "targets": {
         "lint": {
@@ -809,7 +809,7 @@
       }
     }
   },
-  "11939908861638754052": {
+  "16184837088586931235": {
     "libs/client/edb/features/feature-crm": {
       "targets": {
         "lint": {
@@ -851,7 +851,7 @@
       }
     }
   },
-  "6531499687929194748": {
+  "10527969591674006457": {
     "libs/client/edb/features/feature-dashboard": {
       "targets": {
         "lint": {
@@ -893,7 +893,7 @@
       }
     }
   },
-  "2097486634254431142": {
+  "425590127185524639": {
     "libs/client/edb/features/feature-erp": {
       "targets": {
         "lint": {
@@ -935,7 +935,7 @@
       }
     }
   },
-  "3237431530535524648": {
+  "13808972845808924133": {
     "libs/client/edb/features/feature-izmir": {
       "targets": {
         "lint": {
@@ -977,7 +977,7 @@
       }
     }
   },
-  "3580216831692915871": {
+  "1838634620360826654": {
     "libs/client/edb/features/feature-shell": {
       "targets": {
         "lint": {
@@ -1019,7 +1019,7 @@
       }
     }
   },
-  "12707062968605757635": {
+  "8589369638823777146": {
     "libs/client/edb/features/feature-webshop": {
       "targets": {
         "lint": {
@@ -1061,7 +1061,7 @@
       }
     }
   },
-  "6732083786687466555": {
+  "10316500577488911754": {
     "libs/client/edb/features/feature-webshop-aimode": {
       "targets": {
         "lint": {
@@ -1103,7 +1103,7 @@
       }
     }
   },
-  "14582979157708426533": {
+  "14691341684718345645": {
     "libs/client/edb/features/feature-webshop-cart": {
       "targets": {
         "lint": {
@@ -1145,7 +1145,7 @@
       }
     }
   },
-  "12525654443501389841": {
+  "13727463703573617719": {
     "libs/client/edb/features/feature-webshop-catalog": {
       "targets": {
         "lint": {
@@ -1187,7 +1187,7 @@
       }
     }
   },
-  "9945842576555257031": {
+  "16944001985308948972": {
     "libs/client/edb/features/feature-webshop-checkout": {
       "targets": {
         "lint": {
@@ -1229,7 +1229,7 @@
       }
     }
   },
-  "15254016516633321103": {
+  "5200763327835091315": {
     "libs/client/edb/features/feature-webshop-orders": {
       "targets": {
         "lint": {
@@ -1271,7 +1271,7 @@
       }
     }
   },
-  "14398366798186546417": {
+  "8794827903160071734": {
     "libs/client/edb-clara/data-access/client-clara-admin": {
       "targets": {
         "lint": {
@@ -1313,7 +1313,7 @@
       }
     }
   },
-  "113811271829040336": {
+  "7009582743221748482": {
     "libs/client/edb-clara/data-access/client-clara-crm": {
       "targets": {
         "lint": {
@@ -1355,7 +1355,7 @@
       }
     }
   },
-  "16935613692115798255": {
+  "17925448216855068255": {
     "libs/client/edb-clara/features/feature-clara-admin": {
       "targets": {
         "lint": {
@@ -1397,7 +1397,7 @@
       }
     }
   },
-  "12891290850999056438": {
+  "5042084826376699695": {
     "libs/client/edb-clara/features/feature-clara-chat": {
       "targets": {
         "lint": {
@@ -1439,7 +1439,7 @@
       }
     }
   },
-  "12655940803844649546": {
+  "14174557882088357913": {
     "libs/client/edb-clara/features/feature-clara-crm": {
       "targets": {
         "lint": {
@@ -1481,7 +1481,7 @@
       }
     }
   },
-  "16203267433522439275": {
+  "10128229214599285174": {
     "libs/client/edb-clara/features/feature-clara-profile": {
       "targets": {
         "lint": {
@@ -1523,7 +1523,7 @@
       }
     }
   },
-  "2050455640746053953": {
+  "18427823933645098857": {
     "libs/client/edb-clara/features/feature-clara-voice": {
       "targets": {
         "lint": {
@@ -1565,7 +1565,7 @@
       }
     }
   },
-  "10246270846235548471": {
+  "9416645485572401643": {
     "libs/client/edb-clara/real-time": {
       "targets": {
         "lint": {
@@ -1607,7 +1607,7 @@
       }
     }
   },
-  "16272254574573326834": {
+  "465773451270635254": {
     "libs/client/mfe-edb-admin/data-access/client-admin": {
       "targets": {
         "lint": {
@@ -1649,7 +1649,7 @@
       }
     }
   },
-  "11441212480536432": {
+  "7335416699485604816": {
     "libs/client/mfe-edb-admin/features/feature-admin-dashboard": {
       "targets": {
         "lint": {
@@ -1691,7 +1691,7 @@
       }
     }
   },
-  "13798767343430090009": {
+  "14778797970988281291": {
     "libs/server/workbench-api/features/feature-demo-items": {
       "targets": {
         "lint": {
@@ -1733,7 +1733,7 @@
       }
     }
   },
-  "2112641714281363425": {
+  "16129793137655059135": {
     "libs/server/workbench-api/infra": {
       "targets": {
         "lint": {
@@ -1775,7 +1775,7 @@
       }
     }
   },
-  "15607121984680671445": {
+  "15470774929518155271": {
     "libs/server/workbench-api/models": {
       "targets": {
         "lint": {
@@ -1817,7 +1817,7 @@
       }
     }
   },
-  "9088986093919477419": {
+  "17753919221712282317": {
     "libs/server/workbench-api/openapi": {
       "targets": {
         "lint": {
@@ -1859,7 +1859,7 @@
       }
     }
   },
-  "4053488229149554219": {
+  "13204652515595844776": {
     "libs/server/workbench-api/resources": {
       "targets": {
         "lint": {
@@ -1901,7 +1901,7 @@
       }
     }
   },
-  "4316344441732935671": {
+  "9512189789014136317": {
     "libs/server/workbench-api/resources-pg": {
       "targets": {
         "lint": {
@@ -1943,7 +1943,7 @@
       }
     }
   },
-  "5428396410494272883": {
+  "8847071148308837854": {
     "libs/server/workbench-api/shared": {
       "targets": {
         "lint": {
@@ -1985,7 +1985,7 @@
       }
     }
   },
-  "14100334964478769543": {
+  "3065215903088340660": {
     "libs/shared/client/data": {
       "targets": {
         "lint": {
@@ -2027,7 +2027,7 @@
       }
     }
   },
-  "11404973481255141702": {
+  "15370086839391074690": {
     "libs/shared/client/ui": {
       "targets": {
         "lint": {
@@ -2069,7 +2069,7 @@
       }
     }
   },
-  "2894039759578525344": {
+  "11311555029922338643": {
     "libs/shared/client/ui-rn": {
       "targets": {
         "lint": {
@@ -2111,7 +2111,7 @@
       }
     }
   },
-  "16455144910447539433": {
+  "3704633556553617684": {
     "libs/types/webshop": {
       "targets": {
         "lint": {
@@ -2153,7 +2153,7 @@
       }
     }
   },
-  "5122044083794694642": {
+  "2608813489819618498": {
     "libs/utils/util-book-params": {
       "targets": {
         "lint": {
@@ -2195,7 +2195,7 @@
       }
     }
   },
-  "9936573425656874319": {
+  "241111863190143672": {
     "libs/utils/util-common": {
       "targets": {
         "lint": {
@@ -2237,7 +2237,7 @@
       }
     }
   },
-  "10353996642264334080": {
+  "3736195148054216939": {
     "libs/utils/util-environment": {
       "targets": {
         "lint": {
@@ -2279,7 +2279,7 @@
       }
     }
   },
-  "8700403874635717612": {
+  "11671717300075975458": {
     "libs/utils/util-navigation": {
       "targets": {
         "lint": {
@@ -2321,7 +2321,7 @@
       }
     }
   },
-  "10324168404663850551": {
+  "13064779751559490401": {
     "libs/utils/util-user-params": {
       "targets": {
         "lint": {
@@ -2363,7 +2363,7 @@
       }
     }
   },
-  "3843849746015311192": {
+  "15436261124716923364": {
     "tools/workbench-plugin": {
       "targets": {
         "lint": {
@@ -2405,8 +2405,8 @@
       }
     }
   },
-  "9763067677321170766": {},
-  "9416770434731069927": {
+  "1995059515175587100": {},
+  "2220391614151068710": {
     "apps/server/webshop-api": {
       "targets": {
         "lint": {
@@ -2447,7 +2447,7 @@
       }
     }
   },
-  "10933107710483068991": {
+  "2434073456321461690": {
     "libs/client/edb-clara/i18n": {
       "targets": {
         "lint": {
@@ -2488,7 +2488,7 @@
       }
     }
   },
-  "10540416608546533787": {
+  "6942035440704147248": {
     "libs/server/admin-api/generated/admin-api-types": {
       "targets": {
         "lint": {
@@ -2529,8 +2529,310 @@
       }
     }
   },
-  "12828620517422796860": {},
-  "5552192480029234041": {
+  "15947675594956195731": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "14663846345018568880": {},
+  "216357563940101786": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "13630062734334640237": {},
+  "9101021844609498585": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "6229070795524055526": {},
+  "15998973651038941518": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "14876431833094169394": {},
+  "16260713466818056939": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "9003719749816393369": {},
+  "540161426849525890": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "18008980384347832227": {},
+  "13890210092494993449": {
+    "libs/shared/client/ui": {
+      "targets": {
+        "lint": {
+          "command": "eslint .",
+          "cache": true,
+          "options": {
+            "cwd": "libs/shared/client/ui"
+          },
+          "inputs": [
+            "default",
+            "^default",
+            "{workspaceRoot}/eslint.config.mjs",
+            "{workspaceRoot}/libs/shared/client/ui/eslint.config.cjs",
+            "{workspaceRoot}/tools/eslint-rules/**/*",
+            {
+              "externalDependencies": [
+                "eslint"
+              ]
+            }
+          ],
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "metadata": {
+            "technologies": [
+              "eslint"
+            ],
+            "description": "Runs ESLint on project",
+            "help": {
+              "command": "pnpm exec eslint --help",
+              "example": {
+                "options": {
+                  "max-warnings": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "9333452696629468770": {},
+  "18059454352580371185": {},
+  "7630823578064966751": {},
+  "15385652346487021837": {
     "apps/client/edb": {
       "targets": {
         "lint": {
@@ -2572,7 +2874,7 @@
       }
     }
   },
-  "15948242598156836033": {
+  "3077607686899516063": {
     "apps/client/mfe-edb-admin": {
       "targets": {
         "lint": {
@@ -2614,7 +2916,7 @@
       }
     }
   },
-  "13598730666571219573": {
+  "444433016288821857": {
     "apps/client/wc-edb-user-account": {
       "targets": {
         "lint": {
@@ -2656,7 +2958,7 @@
       }
     }
   },
-  "5253615012679406840": {
+  "14014290623634903412": {
     "apps/mobile": {
       "targets": {
         "lint": {
@@ -2698,7 +3000,7 @@
       }
     }
   },
-  "1931775747401473601": {
+  "10333777266804573770": {
     "apps/server/clara-api": {
       "targets": {
         "lint": {
@@ -2740,7 +3042,7 @@
       }
     }
   },
-  "17909234863553285784": {
+  "1724462629670189339": {
     "apps/server/workbench-api": {
       "targets": {
         "lint": {
@@ -2782,7 +3084,7 @@
       }
     }
   },
-  "14238901598820205465": {
+  "14829291960203483794": {
     "e2e/eDB-e2e": {
       "targets": {
         "lint": {
@@ -2824,7 +3126,7 @@
       }
     }
   },
-  "4563670525054829175": {
+  "8464817510343993693": {
     "e2e/mfe-edb-admin-e2e": {
       "targets": {
         "lint": {
@@ -2866,19 +3168,19 @@
       }
     }
   },
-  "17752444295272978280": {},
-  "11258632660593916753": {},
-  "16658867013514330521": {},
-  "14831880128729103992": {},
-  "6221109278645410108": {},
-  "12065350858588045115": {},
-  "7111981671952692127": {},
-  "17368876244613751122": {},
-  "13922355579834381217": {},
-  "15338960599701163350": {},
-  "9952214251211130968": {},
-  "4615142709914040354": {},
-  "12432054778868700395": {
+  "11538438957973505576": {},
+  "6622062687975258304": {},
+  "18074470774192167103": {},
+  "1340292308967958632": {},
+  "3671654693348787956": {},
+  "7377748772112142568": {},
+  "14918038744467605990": {},
+  "12866373289526794248": {},
+  "1057826680318471485": {},
+  "3888882257905520764": {},
+  "14627420497143922609": {},
+  "6473063658841232533": {},
+  "4488354936968144132": {
     "libs/client/edb/data-access/client-auth": {
       "targets": {
         "lint": {
@@ -2920,7 +3222,7 @@
       }
     }
   },
-  "15457060174436322707": {
+  "7648162087899709192": {
     "libs/client/edb/data-access/client-books": {
       "targets": {
         "lint": {
@@ -2962,7 +3264,7 @@
       }
     }
   },
-  "9616555083753259043": {
+  "4726334763855617437": {
     "libs/client/edb/data-access/client-cart": {
       "targets": {
         "lint": {
@@ -3004,7 +3306,7 @@
       }
     }
   },
-  "3993379466477408530": {
+  "17187703465535423195": {
     "libs/client/edb/data-access/client-catalog": {
       "targets": {
         "lint": {
@@ -3046,7 +3348,7 @@
       }
     }
   },
-  "12514880275747635479": {
+  "15440042224975841012": {
     "libs/client/edb/data-access/client-checkout": {
       "targets": {
         "lint": {
@@ -3088,7 +3390,7 @@
       }
     }
   },
-  "6891715588812254488": {
+  "16924141550341556070": {
     "libs/client/edb/data-access/client-crm": {
       "targets": {
         "lint": {
@@ -3130,7 +3432,7 @@
       }
     }
   },
-  "6694619297377437051": {
+  "15311118469988177170": {
     "libs/client/edb/data-access/client-dashboard": {
       "targets": {
         "lint": {
@@ -3172,7 +3474,7 @@
       }
     }
   },
-  "2683671548575438800": {
+  "16958320670591799007": {
     "libs/client/edb/data-access/client-orders": {
       "targets": {
         "lint": {
@@ -3214,7 +3516,7 @@
       }
     }
   },
-  "14463557211164732967": {
+  "203315032490564861": {
     "libs/client/edb/data-access/client-profile": {
       "targets": {
         "lint": {
@@ -3256,7 +3558,7 @@
       }
     }
   },
-  "7831797733236283695": {
+  "6643046335045178093": {
     "libs/client/edb/features/feature-404": {
       "targets": {
         "lint": {
@@ -3298,7 +3600,7 @@
       }
     }
   },
-  "1735705318120940568": {
+  "5964149694293784573": {
     "libs/client/edb/features/feature-catalog": {
       "targets": {
         "lint": {
@@ -3340,7 +3642,7 @@
       }
     }
   },
-  "11774719770657530007": {
+  "8670500070664181667": {
     "libs/client/edb/features/feature-crm": {
       "targets": {
         "lint": {
@@ -3382,7 +3684,7 @@
       }
     }
   },
-  "14639723247565229987": {
+  "8245417178191698905": {
     "libs/client/edb/features/feature-dashboard": {
       "targets": {
         "lint": {
@@ -3424,7 +3726,7 @@
       }
     }
   },
-  "18165946635847770987": {
+  "369094491633848409": {
     "libs/client/edb/features/feature-erp": {
       "targets": {
         "lint": {
@@ -3466,7 +3768,7 @@
       }
     }
   },
-  "10649784469145380318": {
+  "1095650633559817873": {
     "libs/client/edb/features/feature-izmir": {
       "targets": {
         "lint": {
@@ -3508,7 +3810,7 @@
       }
     }
   },
-  "6852605758574972673": {
+  "2408314813227502951": {
     "libs/client/edb/features/feature-shell": {
       "targets": {
         "lint": {
@@ -3550,7 +3852,7 @@
       }
     }
   },
-  "12782814791845123936": {
+  "1125250911137584047": {
     "libs/client/edb/features/feature-webshop": {
       "targets": {
         "lint": {
@@ -3592,7 +3894,7 @@
       }
     }
   },
-  "8222197215712530926": {
+  "7952113723629222056": {
     "libs/client/edb/features/feature-webshop-aimode": {
       "targets": {
         "lint": {
@@ -3634,7 +3936,7 @@
       }
     }
   },
-  "10308182475527162581": {
+  "9128528656774511976": {
     "libs/client/edb/features/feature-webshop-cart": {
       "targets": {
         "lint": {
@@ -3676,7 +3978,7 @@
       }
     }
   },
-  "17722724777861651826": {
+  "1610505659125343080": {
     "libs/client/edb/features/feature-webshop-catalog": {
       "targets": {
         "lint": {
@@ -3718,7 +4020,7 @@
       }
     }
   },
-  "507356004702123407": {
+  "4786356127015548643": {
     "libs/client/edb/features/feature-webshop-checkout": {
       "targets": {
         "lint": {
@@ -3760,7 +4062,7 @@
       }
     }
   },
-  "5630197662528133327": {
+  "9127277658802717277": {
     "libs/client/edb/features/feature-webshop-orders": {
       "targets": {
         "lint": {
@@ -3802,7 +4104,7 @@
       }
     }
   },
-  "8625978743508640798": {
+  "9974659058538757616": {
     "libs/client/edb-clara/data-access/client-clara-admin": {
       "targets": {
         "lint": {
@@ -3844,7 +4146,7 @@
       }
     }
   },
-  "2294249164498084304": {
+  "12552919020248795335": {
     "libs/client/edb-clara/data-access/client-clara-crm": {
       "targets": {
         "lint": {
@@ -3886,7 +4188,7 @@
       }
     }
   },
-  "17144127340092422663": {
+  "16633653313798422562": {
     "libs/client/edb-clara/features/feature-clara-admin": {
       "targets": {
         "lint": {
@@ -3928,7 +4230,7 @@
       }
     }
   },
-  "4914083877661666157": {
+  "5767065968451195264": {
     "libs/client/edb-clara/features/feature-clara-chat": {
       "targets": {
         "lint": {
@@ -3970,7 +4272,7 @@
       }
     }
   },
-  "16348147914911405002": {
+  "1085831188711173271": {
     "libs/client/edb-clara/features/feature-clara-crm": {
       "targets": {
         "lint": {
@@ -4012,7 +4314,7 @@
       }
     }
   },
-  "14643315855847236485": {
+  "14373306420604625864": {
     "libs/client/edb-clara/features/feature-clara-profile": {
       "targets": {
         "lint": {
@@ -4054,7 +4356,7 @@
       }
     }
   },
-  "17177128240408397384": {
+  "4064854440397163587": {
     "libs/client/edb-clara/features/feature-clara-voice": {
       "targets": {
         "lint": {
@@ -4096,7 +4398,7 @@
       }
     }
   },
-  "1211432540246857844": {
+  "3077255808906154093": {
     "libs/client/edb-clara/real-time": {
       "targets": {
         "lint": {
@@ -4138,7 +4440,7 @@
       }
     }
   },
-  "7684349264717189617": {
+  "13096055193908153212": {
     "libs/client/mfe-edb-admin/data-access/client-admin": {
       "targets": {
         "lint": {
@@ -4180,7 +4482,7 @@
       }
     }
   },
-  "9540880650682485404": {
+  "9000660726886328981": {
     "libs/client/mfe-edb-admin/features/feature-admin-dashboard": {
       "targets": {
         "lint": {
@@ -4222,7 +4524,7 @@
       }
     }
   },
-  "9844101582525281492": {
+  "3343549888451233880": {
     "libs/server/workbench-api/features/feature-demo-items": {
       "targets": {
         "lint": {
@@ -4264,7 +4566,7 @@
       }
     }
   },
-  "4417890182693954925": {
+  "14927412551640014488": {
     "libs/server/workbench-api/infra": {
       "targets": {
         "lint": {
@@ -4306,7 +4608,7 @@
       }
     }
   },
-  "51409312702456390": {
+  "17518425097142950242": {
     "libs/server/workbench-api/models": {
       "targets": {
         "lint": {
@@ -4348,7 +4650,7 @@
       }
     }
   },
-  "17070566533525281359": {
+  "7011374204745207052": {
     "libs/server/workbench-api/openapi": {
       "targets": {
         "lint": {
@@ -4390,7 +4692,7 @@
       }
     }
   },
-  "5675279132691456612": {
+  "16775274868073329239": {
     "libs/server/workbench-api/resources": {
       "targets": {
         "lint": {
@@ -4432,7 +4734,7 @@
       }
     }
   },
-  "6709043843724961384": {
+  "16420478066299551755": {
     "libs/server/workbench-api/resources-pg": {
       "targets": {
         "lint": {
@@ -4474,7 +4776,7 @@
       }
     }
   },
-  "9510894844601370401": {
+  "16867144219774153898": {
     "libs/server/workbench-api/shared": {
       "targets": {
         "lint": {
@@ -4516,7 +4818,7 @@
       }
     }
   },
-  "17378860700236016865": {
+  "8770572418301272911": {
     "libs/shared/client/data": {
       "targets": {
         "lint": {
@@ -4558,7 +4860,7 @@
       }
     }
   },
-  "17302967838337868866": {
+  "860893414826061778": {
     "libs/shared/client/ui": {
       "targets": {
         "lint": {
@@ -4600,7 +4902,7 @@
       }
     }
   },
-  "1066134806815299110": {
+  "3134044048845189279": {
     "libs/shared/client/ui-rn": {
       "targets": {
         "lint": {
@@ -4642,7 +4944,7 @@
       }
     }
   },
-  "9549866971843857151": {
+  "7895101787731672314": {
     "libs/types/webshop": {
       "targets": {
         "lint": {
@@ -4684,7 +4986,7 @@
       }
     }
   },
-  "14987823433267952989": {
+  "17181552856931240231": {
     "libs/utils/util-book-params": {
       "targets": {
         "lint": {
@@ -4726,7 +5028,7 @@
       }
     }
   },
-  "4519887659603955951": {
+  "3422275425138463456": {
     "libs/utils/util-common": {
       "targets": {
         "lint": {
@@ -4768,7 +5070,7 @@
       }
     }
   },
-  "576036798837573851": {
+  "18269468346344710274": {
     "libs/utils/util-environment": {
       "targets": {
         "lint": {
@@ -4810,7 +5112,7 @@
       }
     }
   },
-  "9366906278780133964": {
+  "17227301575454563785": {
     "libs/utils/util-navigation": {
       "targets": {
         "lint": {
@@ -4852,7 +5154,7 @@
       }
     }
   },
-  "2907338103538443644": {
+  "12800258028015732923": {
     "libs/utils/util-user-params": {
       "targets": {
         "lint": {
@@ -4894,7 +5196,7 @@
       }
     }
   },
-  "89919074162231244": {
+  "14244392985270371866": {
     "tools/workbench-plugin": {
       "targets": {
         "lint": {
@@ -4936,8 +5238,8 @@
       }
     }
   },
-  "15522295040507792252": {},
-  "4451700843033574701": {
+  "17803600874687833959": {},
+  "4638982151774750867": {
     "apps/server/webshop-api": {
       "targets": {
         "lint": {
@@ -4978,7 +5280,7 @@
       }
     }
   },
-  "9209384476491200273": {
+  "1676656881584990906": {
     "libs/client/edb-clara/i18n": {
       "targets": {
         "lint": {
@@ -5019,7 +5321,7 @@
       }
     }
   },
-  "8701598955361736889": {
+  "8411940283113726888": {
     "libs/server/admin-api/generated/admin-api-types": {
       "targets": {
         "lint": {
@@ -5060,20 +5362,20 @@
       }
     }
   },
-  "4857709711394185604": {
-    "libs/utils/util-common": {
+  "5529481967663679686": {
+    "apps/mobile": {
       "targets": {
         "lint": {
           "command": "eslint .",
           "cache": true,
           "options": {
-            "cwd": "libs/utils/util-common"
+            "cwd": "apps/mobile"
           },
           "inputs": [
             "default",
             "^default",
             "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/libs/utils/util-common/eslint.config.mjs",
+            "{workspaceRoot}/apps/mobile/eslint.config.mjs",
             "{workspaceRoot}/tools/eslint-rules/**/*",
             {
               "externalDependencies": [
@@ -5102,1084 +5404,8 @@
       }
     }
   },
-  "17436602730687881141": {},
-  "957199212163178818": {
-    "libs/utils/util-common": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "libs/utils/util-common"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/libs/utils/util-common/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "8233665398606009219": {},
-  "9624879848743219469": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "2857574280370345526": {},
-  "16077099345118238846": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "4114783027227065646": {},
-  "8311519852112446169": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "13795924904844270795": {},
-  "1939880024560564111": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "17915853304087217188": {},
-  "7547890907998368563": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "16067881009057507354": {},
-  "359938330039422275": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "7818648323037219457": {},
-  "8049049245135802649": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "8499512715690366231": {},
-  "10223661028899149664": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "18304114168410718391": {},
-  "17818946512087718968": {},
-  "8131218466746024904": {
-    "libs/client/edb/features/feature-izmir": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "libs/client/edb/features/feature-izmir"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/libs/client/edb/features/feature-izmir/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "4129044907110212849": {},
-  "3460143485504667781": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "10334880597449330597": {},
-  "16507909259254926136": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "8017506965332013034": {},
-  "1707689468012810149": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "1438853223036592779": {},
-  "3926320091827004809": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "4040204359758423029": {},
-  "11824210992365253109": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "1079492793903884557": {},
-  "16248791709599250260": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "4630635222945217483": {},
-  "11648668651995690708": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "15721937617259119418": {},
-  "14048056711075880856": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "6194384517582723455": {},
-  "1488384844017695242": {},
-  "14318134285205756815": {},
-  "5663967701058999703": {},
-  "649802030284300896": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "1797239045644150045": {},
-  "11796604226131534157": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "1866560330130844495": {},
-  "12816249647982912629": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "1397233334213576373": {},
-  "12948475373087176613": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "5113632815223255479": {},
-  "2700002935268094428": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "9848397306791733973": {},
-  "2986268640238019264": {
-    "apps/client/edb": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/edb"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/edb/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "16105643235135399023": {},
-  "3354153397712060468": {
-    "apps/client/mfe-edb-admin": {
-      "targets": {
-        "lint": {
-          "command": "eslint .",
-          "cache": true,
-          "options": {
-            "cwd": "apps/client/mfe-edb-admin"
-          },
-          "inputs": [
-            "default",
-            "^default",
-            "{workspaceRoot}/eslint.config.mjs",
-            "{workspaceRoot}/apps/client/mfe-edb-admin/eslint.config.mjs",
-            "{workspaceRoot}/tools/eslint-rules/**/*",
-            {
-              "externalDependencies": [
-                "eslint"
-              ]
-            }
-          ],
-          "outputs": [
-            "{options.outputFile}"
-          ],
-          "metadata": {
-            "technologies": [
-              "eslint"
-            ],
-            "description": "Runs ESLint on project",
-            "help": {
-              "command": "pnpm exec eslint --help",
-              "example": {
-                "options": {
-                  "max-warnings": 0
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "18182255988596122425": {}
+  "10730058097775112501": {},
+  "921715853018907988": {},
+  "295131883801785749": {},
+  "11869513457818660477": {}
 }

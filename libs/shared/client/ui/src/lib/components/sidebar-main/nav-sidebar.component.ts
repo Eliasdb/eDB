@@ -12,6 +12,7 @@ export interface NavItem {
 
 @Component({
   selector: 'ui-nav-sidebar',
+  standalone: true,
   imports: [RouterLink, RouterLinkActive, MatIconModule, MatButtonModule],
   template: `
     <nav

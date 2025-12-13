@@ -3,5 +3,9 @@
   "dest": "../../../../dist/libs/shared/client/ui",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@angular/cdk",
+    "@angular/material"
+  ]
 }

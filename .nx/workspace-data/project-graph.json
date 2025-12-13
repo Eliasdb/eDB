@@ -6364,22 +6364,14 @@
             "parallelism": true
           },
           "test": {
-            "executor": "@nx/vite:test",
+            "executor": "@nx/vitest:test",
             "options": {
               "vitestConfig": "apps/client/mfe-edb-admin/vitest.config.ts",
               "passWithNoTests": true
             },
-            "configurations": {
-              "ci": {
-                "coverage": true
-              }
-            },
+            "configurations": {},
             "parallelism": true,
-            "cache": true,
-            "inputs": [
-              "default",
-              "^production"
-            ]
+            "cache": true
           },
           "extract-i18n": {
             "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -7998,7 +7990,7 @@
             "parallelism": true
           },
           "build": {
-            "executor": "@nx/angular:ng-packagr-lite",
+            "executor": "@nx/angular:package",
             "outputs": [
               "{workspaceRoot}/dist/{projectRoot}"
             ],
@@ -9293,9 +9285,12 @@
             "parallelism": true
           },
           "build": {
-            "executor": "@nx/expo:build",
+            "executor": "nx:run-commands",
+            "options": {
+              "cwd": ".",
+              "command": "echo \"Skipping mobile build (EAS not required in this pipeline)\""
+            },
             "configurations": {},
-            "options": {},
             "parallelism": true,
             "dependsOn": [
               "^build",
@@ -16762,18 +16757,18 @@
         "hash": "sha512-ka0q9tQBLruhO38sybP/MkZzejqAltce7HJTJ2KKbUYUlbvuG7m56tBX7DVC5JaImbsO3b8fqOrKH7gRt4KYrQ=="
       }
     },
-    "npm:@storybook/react@8.6.14": {
+    "npm:@storybook/react": {
       "type": "npm",
-      "name": "npm:@storybook/react@8.6.14",
+      "name": "npm:@storybook/react",
       "data": {
         "version": "8.6.14",
         "packageName": "@storybook/react",
         "hash": "sha512-BOepx5bBFwl/CPI+F+LnmMmsG1wQYmrX/UQXgUbHQUU9Tj7E2ndTnNbpIuSLc8IrM03ru+DfwSg1Co3cxWtT+g=="
       }
     },
-    "npm:@storybook/react": {
+    "npm:@storybook/react@9.1.10": {
       "type": "npm",
-      "name": "npm:@storybook/react",
+      "name": "npm:@storybook/react@9.1.10",
       "data": {
         "version": "9.1.10",
         "packageName": "@storybook/react",
@@ -20114,9 +20109,9 @@
       "type": "npm",
       "name": "npm:baseline-browser-mapping",
       "data": {
-        "version": "2.8.12",
+        "version": "2.9.7",
         "packageName": "baseline-browser-mapping",
-        "hash": "sha512-vAPMQdnyKCBtkmQA6FMCBvU9qFIppS3nzyXnEM+Lo2IAhG4Mpjv9cCxMudhgV3YdNNJv6TNqXy97dfRVL2LmaQ=="
+        "hash": "sha512-k9xFKplee6KIio3IDbwj+uaCLpqzOwakOgmqzPezM0sFJlFKcg30vk2wOiAJtkTSfx0SSQDSe8q+mWA/fSH5Zg=="
       }
     },
     "npm:basic-auth": {
@@ -20830,18 +20825,18 @@
         "hash": "sha512-Pj779qHxV2tuapviy1bSZNEL1maXr13bPYpsvSDB68HlYcYuhlDrmGd63i0JHMCLKzc7rUSNIrpdJlhVlNwrxA=="
       }
     },
-    "npm:chokidar@3.6.0": {
+    "npm:chokidar": {
       "type": "npm",
-      "name": "npm:chokidar@3.6.0",
+      "name": "npm:chokidar",
       "data": {
         "version": "3.6.0",
         "packageName": "chokidar",
         "hash": "sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw=="
       }
     },
-    "npm:chokidar": {
+    "npm:chokidar@4.0.3": {
       "type": "npm",
-      "name": "npm:chokidar",
+      "name": "npm:chokidar@4.0.3",
       "data": {
         "version": "4.0.3",
         "packageName": "chokidar",
@@ -21739,18 +21734,18 @@
         "hash": "sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA=="
       }
     },
-    "npm:cosmiconfig": {
+    "npm:cosmiconfig@8.3.6": {
       "type": "npm",
-      "name": "npm:cosmiconfig",
+      "name": "npm:cosmiconfig@8.3.6",
       "data": {
         "version": "8.3.6",
         "packageName": "cosmiconfig",
         "hash": "sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA=="
       }
     },
-    "npm:cosmiconfig@9.0.0": {
+    "npm:cosmiconfig": {
       "type": "npm",
-      "name": "npm:cosmiconfig@9.0.0",
+      "name": "npm:cosmiconfig",
       "data": {
         "version": "9.0.0",
         "packageName": "cosmiconfig",
@@ -26059,18 +26054,18 @@
         "hash": "sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig=="
       }
     },
-    "npm:http-proxy-middleware@2.0.9": {
+    "npm:http-proxy-middleware": {
       "type": "npm",
-      "name": "npm:http-proxy-middleware@2.0.9",
+      "name": "npm:http-proxy-middleware",
       "data": {
         "version": "2.0.9",
         "packageName": "http-proxy-middleware",
         "hash": "sha512-c1IyJYLYppU574+YI7R4QyX2ystMtVXZwIdzazUIPIJsHuWNd+mho2j+bKoHftndicGj9yh+xjd+l0yj7VeT1Q=="
       }
     },
-    "npm:http-proxy-middleware": {
+    "npm:http-proxy-middleware@3.0.5": {
       "type": "npm",
-      "name": "npm:http-proxy-middleware",
+      "name": "npm:http-proxy-middleware@3.0.5",
       "data": {
         "version": "3.0.5",
         "packageName": "http-proxy-middleware",
@@ -41512,6 +41507,21 @@
       },
       {
         "source": "ui",
+        "target": "npm:@angular/router",
+        "type": "static"
+      },
+      {
+        "source": "ui",
+        "target": "npm:@angular/cdk",
+        "type": "static"
+      },
+      {
+        "source": "ui",
+        "target": "npm:@angular/material",
+        "type": "static"
+      },
+      {
+        "source": "ui",
         "target": "npm:@angular/platform-browser",
         "type": "static"
       },
@@ -41523,11 +41533,6 @@
       {
         "source": "ui",
         "target": "npm:vitest",
-        "type": "static"
-      },
-      {
-        "source": "ui",
-        "target": "npm:@angular/router",
         "type": "static"
       },
       {
@@ -41553,11 +41558,6 @@
       {
         "source": "ui",
         "target": "npm:@angular/forms",
-        "type": "static"
-      },
-      {
-        "source": "ui",
-        "target": "npm:@angular/material",
         "type": "static"
       },
       {
@@ -42666,7 +42666,7 @@
       },
       {
         "source": "npm:@angular-devkit/build-angular",
-        "target": "npm:http-proxy-middleware",
+        "target": "npm:http-proxy-middleware@3.0.5",
         "type": "static"
       },
       {
@@ -42915,7 +42915,7 @@
       },
       {
         "source": "npm:@angular-devkit/core",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@4.0.3",
         "type": "static"
       }
     ],
@@ -43511,7 +43511,7 @@
       },
       {
         "source": "npm:@angular/compiler-cli",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@4.0.3",
         "type": "static"
       },
       {
@@ -54222,7 +54222,7 @@
       },
       {
         "source": "npm:@nx/module-federation",
-        "target": "npm:http-proxy-middleware",
+        "target": "npm:http-proxy-middleware@3.0.5",
         "type": "static"
       },
       {
@@ -54395,7 +54395,7 @@
       },
       {
         "source": "npm:@nx/react",
-        "target": "npm:http-proxy-middleware",
+        "target": "npm:http-proxy-middleware@3.0.5",
         "type": "static"
       },
       {
@@ -54584,7 +54584,7 @@
       },
       {
         "source": "npm:@nx/rspack",
-        "target": "npm:http-proxy-middleware",
+        "target": "npm:http-proxy-middleware@3.0.5",
         "type": "static"
       },
       {
@@ -58519,12 +58519,12 @@
       },
       {
         "source": "npm:@rspack/dev-server",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
         "source": "npm:@rspack/dev-server",
-        "target": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -59837,7 +59837,7 @@
       },
       {
         "source": "npm:@storybook/preset-react-webpack",
-        "target": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -60048,7 +60048,7 @@
     "npm:@storybook/react-native-ui-common": [
       {
         "source": "npm:@storybook/react-native-ui-common",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@9.1.10",
         "type": "static"
       },
       {
@@ -60110,7 +60110,7 @@
       },
       {
         "source": "npm:@storybook/react-native-ui",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@9.1.10",
         "type": "static"
       },
       {
@@ -60192,7 +60192,7 @@
       },
       {
         "source": "npm:@storybook/react-native",
-        "target": "npm:@storybook/react",
+        "target": "npm:@storybook/react@9.1.10",
         "type": "static"
       },
       {
@@ -60299,7 +60299,7 @@
       },
       {
         "source": "npm:@storybook/react-webpack5",
-        "target": "npm:@storybook/react@8.6.14",
+        "target": "npm:@storybook/react",
         "type": "static"
       },
       {
@@ -60319,63 +60319,6 @@
       },
       {
         "source": "npm:@storybook/react-webpack5",
-        "target": "npm:typescript",
-        "type": "static"
-      }
-    ],
-    "npm:@storybook/react@8.6.14": [
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/components",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/global",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/manager-api",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/preview-api",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/react-dom-shim@8.6.14",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/theming",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:react",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:react-dom",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:storybook",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
-        "target": "npm:@storybook/test",
-        "type": "static"
-      },
-      {
-        "source": "npm:@storybook/react@8.6.14",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -60383,12 +60326,32 @@
     "npm:@storybook/react": [
       {
         "source": "npm:@storybook/react",
+        "target": "npm:@storybook/components",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react",
         "target": "npm:@storybook/global",
         "type": "static"
       },
       {
         "source": "npm:@storybook/react",
-        "target": "npm:@storybook/react-dom-shim@9.1.10",
+        "target": "npm:@storybook/manager-api",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react",
+        "target": "npm:@storybook/preview-api",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react",
+        "target": "npm:@storybook/react-dom-shim@8.6.14",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react",
+        "target": "npm:@storybook/theming",
         "type": "static"
       },
       {
@@ -60408,6 +60371,43 @@
       },
       {
         "source": "npm:@storybook/react",
+        "target": "npm:@storybook/test",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react",
+        "target": "npm:typescript",
+        "type": "static"
+      }
+    ],
+    "npm:@storybook/react@9.1.10": [
+      {
+        "source": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/global",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@9.1.10",
+        "target": "npm:@storybook/react-dom-shim@9.1.10",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@9.1.10",
+        "target": "npm:react",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@9.1.10",
+        "target": "npm:react-dom",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@9.1.10",
+        "target": "npm:storybook",
+        "type": "static"
+      },
+      {
+        "source": "npm:@storybook/react@9.1.10",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -60679,7 +60679,7 @@
       },
       {
         "source": "npm:@svgr/core",
-        "target": "npm:cosmiconfig",
+        "target": "npm:cosmiconfig@8.3.6",
         "type": "static"
       },
       {
@@ -60735,7 +60735,7 @@
       },
       {
         "source": "npm:@svgr/plugin-svgo",
-        "target": "npm:cosmiconfig",
+        "target": "npm:cosmiconfig@8.3.6",
         "type": "static"
       },
       {
@@ -60910,7 +60910,7 @@
       },
       {
         "source": "npm:@swc/cli",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@4.0.3",
         "type": "static"
       }
     ],
@@ -61459,7 +61459,7 @@
       },
       {
         "source": "npm:@testing-library/react-native@12.9.0",
-        "target": "npm:jest@29.7.0",
+        "target": "npm:jest",
         "type": "static"
       }
     ],
@@ -65875,51 +65875,51 @@
         "type": "static"
       }
     ],
-    "npm:chokidar@3.6.0": [
+    "npm:chokidar": [
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:anymatch",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:braces",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:glob-parent@5.1.2",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:is-binary-path",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:is-glob",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:normalize-path",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:readdirp",
         "type": "static"
       },
       {
-        "source": "npm:chokidar@3.6.0",
+        "source": "npm:chokidar",
         "target": "npm:fsevents",
         "type": "static"
       }
     ],
-    "npm:chokidar": [
+    "npm:chokidar@4.0.3": [
       {
-        "source": "npm:chokidar",
+        "source": "npm:chokidar@4.0.3",
         "target": "npm:readdirp@4.1.2",
         "type": "static"
       }
@@ -66578,56 +66578,56 @@
         "type": "static"
       }
     ],
-    "npm:cosmiconfig": [
+    "npm:cosmiconfig@8.3.6": [
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@8.3.6",
         "target": "npm:import-fresh",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@8.3.6",
         "target": "npm:js-yaml",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@8.3.6",
         "target": "npm:parse-json@5.2.0",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@8.3.6",
         "target": "npm:path-type",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig",
+        "source": "npm:cosmiconfig@8.3.6",
         "target": "npm:typescript",
         "type": "static"
       }
     ],
-    "npm:cosmiconfig@9.0.0": [
+    "npm:cosmiconfig": [
       {
-        "source": "npm:cosmiconfig@9.0.0",
+        "source": "npm:cosmiconfig",
         "target": "npm:env-paths",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@9.0.0",
+        "source": "npm:cosmiconfig",
         "target": "npm:import-fresh",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@9.0.0",
+        "source": "npm:cosmiconfig",
         "target": "npm:js-yaml",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@9.0.0",
+        "source": "npm:cosmiconfig",
         "target": "npm:parse-json@5.2.0",
         "type": "static"
       },
       {
-        "source": "npm:cosmiconfig@9.0.0",
+        "source": "npm:cosmiconfig",
         "target": "npm:typescript",
         "type": "static"
       }
@@ -72260,7 +72260,7 @@
       },
       {
         "source": "npm:fork-ts-checker-webpack-plugin",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -72332,7 +72332,7 @@
       },
       {
         "source": "npm:fork-ts-checker-webpack-plugin@8.0.0",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -73336,38 +73336,6 @@
         "type": "static"
       }
     ],
-    "npm:http-proxy-middleware@2.0.9": [
-      {
-        "source": "npm:http-proxy-middleware@2.0.9",
-        "target": "npm:@types/http-proxy",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware@2.0.9",
-        "target": "npm:http-proxy",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware@2.0.9",
-        "target": "npm:is-glob",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware@2.0.9",
-        "target": "npm:is-plain-obj@3.0.0",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware@2.0.9",
-        "target": "npm:micromatch",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware@2.0.9",
-        "target": "npm:@types/express",
-        "type": "static"
-      }
-    ],
     "npm:http-proxy-middleware": [
       {
         "source": "npm:http-proxy-middleware",
@@ -73376,11 +73344,6 @@
       },
       {
         "source": "npm:http-proxy-middleware",
-        "target": "npm:debug",
-        "type": "static"
-      },
-      {
-        "source": "npm:http-proxy-middleware",
         "target": "npm:http-proxy",
         "type": "static"
       },
@@ -73391,11 +73354,48 @@
       },
       {
         "source": "npm:http-proxy-middleware",
-        "target": "npm:is-plain-object",
+        "target": "npm:is-plain-obj@3.0.0",
         "type": "static"
       },
       {
         "source": "npm:http-proxy-middleware",
+        "target": "npm:micromatch",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware",
+        "target": "npm:@types/express",
+        "type": "static"
+      }
+    ],
+    "npm:http-proxy-middleware@3.0.5": [
+      {
+        "source": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:@types/http-proxy",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:debug",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:http-proxy",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:is-glob",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@3.0.5",
+        "target": "npm:is-plain-object",
+        "type": "static"
+      },
+      {
+        "source": "npm:http-proxy-middleware@3.0.5",
         "target": "npm:micromatch",
         "type": "static"
       }
@@ -76906,11 +76906,6 @@
       {
         "source": "npm:jest-watch-typeahead@2.2.1",
         "target": "npm:strip-ansi@7.1.2",
-        "type": "static"
-      },
-      {
-        "source": "npm:jest-watch-typeahead@2.2.1",
-        "target": "npm:jest@29.7.0",
         "type": "static"
       }
     ],
@@ -81491,7 +81486,7 @@
       },
       {
         "source": "npm:ng-packagr",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@4.0.3",
         "type": "static"
       },
       {
@@ -81828,7 +81823,7 @@
     "npm:nodemon": [
       {
         "source": "npm:nodemon",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -82045,7 +82040,7 @@
       },
       {
         "source": "npm:null-loader",
-        "target": "npm:webpack@5.102.1",
+        "target": "npm:webpack",
         "type": "static"
       }
     ],
@@ -83703,7 +83698,7 @@
     "npm:postcss-loader": [
       {
         "source": "npm:postcss-loader",
-        "target": "npm:cosmiconfig@9.0.0",
+        "target": "npm:cosmiconfig",
         "type": "static"
       },
       {
@@ -86232,11 +86227,6 @@
         "source": "npm:react-server-dom-webpack",
         "target": "npm:webpack-sources",
         "type": "static"
-      },
-      {
-        "source": "npm:react-server-dom-webpack",
-        "target": "npm:webpack@5.102.1",
-        "type": "static"
       }
     ],
     "npm:react-style-singleton": [
@@ -87484,7 +87474,7 @@
     "npm:sass": [
       {
         "source": "npm:sass",
-        "target": "npm:chokidar",
+        "target": "npm:chokidar@4.0.3",
         "type": "static"
       },
       {
@@ -89306,7 +89296,7 @@
       },
       {
         "source": "npm:tailwindcss@3.4.17",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -89418,7 +89408,7 @@
       },
       {
         "source": "npm:tailwindcss",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -89898,7 +89888,7 @@
       },
       {
         "source": "npm:ts-checker-rspack-plugin",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -91700,7 +91690,7 @@
       },
       {
         "source": "npm:webpack-dev-server",
-        "target": "npm:chokidar@3.6.0",
+        "target": "npm:chokidar",
         "type": "static"
       },
       {
@@ -91730,7 +91720,7 @@
       },
       {
         "source": "npm:webpack-dev-server",
-        "target": "npm:http-proxy-middleware@2.0.9",
+        "target": "npm:http-proxy-middleware",
         "type": "static"
       },
       {
@@ -92901,5 +92891,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1765595430285
+  "computedAt": 1765597599898
 }

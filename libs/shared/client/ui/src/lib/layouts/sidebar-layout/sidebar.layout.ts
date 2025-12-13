@@ -20,6 +20,7 @@ export interface NavItem {
 
 @Component({
   selector: 'ui-sidebar-layout',
+  standalone: true,
   imports: [
     MatSidenavModule,
     MatDrawerContainer,
