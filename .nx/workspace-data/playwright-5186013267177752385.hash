@@ -2765,5 +2765,657 @@
         ]
       }
     }
+  },
+  "12336782511089822233": {
+    "targets": {
+      "e2e": {
+        "command": "playwright test",
+        "options": {
+          "cwd": "{projectRoot}"
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report"
+        ]
+      },
+      "e2e-ci--regression/subscriptions.spec.ts": {
+        "command": "playwright test regression/subscriptions.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/regression-subscriptions-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/regression-subscriptions-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/regression-subscriptions-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/regression-subscriptions-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in regression/subscriptions.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/regression-subscriptions-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/regression-subscriptions-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/regression-subscriptions-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--regression/webshop.spec.ts": {
+        "command": "playwright test regression/webshop.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/regression-webshop-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/regression-webshop-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/regression-webshop-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/regression-webshop-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in regression/webshop.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/regression-webshop-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/regression-webshop-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/regression-webshop-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--smoke/admin.smoke.spec.ts": {
+        "command": "playwright test smoke/admin.smoke.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/smoke-admin-smoke-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-admin-smoke-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-admin-smoke-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/smoke-admin-smoke-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in smoke/admin.smoke.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/smoke-admin-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-admin-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/smoke-admin-smoke-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--smoke/app.smoke.spec.ts": {
+        "command": "playwright test smoke/app.smoke.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/smoke-app-smoke-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-app-smoke-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-app-smoke-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/smoke-app-smoke-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in smoke/app.smoke.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/smoke-app-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-app-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/smoke-app-smoke-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--smoke/auth.smoke.spec.ts": {
+        "command": "playwright test smoke/auth.smoke.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/smoke-auth-smoke-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-auth-smoke-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-auth-smoke-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/smoke-auth-smoke-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in smoke/auth.smoke.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/smoke-auth-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-auth-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/smoke-auth-smoke-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--smoke/catalog.smoke.spec.ts": {
+        "command": "playwright test smoke/catalog.smoke.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/smoke-catalog-smoke-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-catalog-smoke-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-catalog-smoke-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/smoke-catalog-smoke-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in smoke/catalog.smoke.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/smoke-catalog-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-catalog-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/smoke-catalog-smoke-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--smoke/logout/logout.smoke.spec.ts": {
+        "command": "playwright test smoke/logout/logout.smoke.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/smoke-logout-logout-smoke-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-logout-logout-smoke-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-logout-logout-smoke-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/smoke-logout-logout-smoke-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in smoke/logout/logout.smoke.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/smoke-logout-logout-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-logout-logout-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/smoke-logout-logout-smoke-spec-ts.zip"
+        ]
+      },
+      "e2e-ci--smoke/routes.smoke.spec.ts": {
+        "command": "playwright test smoke/routes.smoke.spec.ts --output=../../dist/.playwright/e2e/eDB-e2e/test-output/smoke-routes-smoke-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-routes-smoke-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-routes-smoke-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/eDB-e2e/blob-report/smoke-routes-smoke-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in smoke/routes.smoke.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output/smoke-routes-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report/smoke-routes-smoke-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report/smoke-routes-smoke-spec-ts.zip"
+        ]
+      },
+      "e2e-ci": {
+        "executor": "nx:noop",
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/test-output",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report",
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/blob-report"
+        ],
+        "dependsOn": [
+          {
+            "target": "e2e-ci--regression/subscriptions.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--regression/webshop.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--smoke/admin.smoke.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--smoke/app.smoke.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--smoke/auth.smoke.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--smoke/catalog.smoke.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--smoke/logout/logout.smoke.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          },
+          {
+            "target": "e2e-ci--smoke/routes.smoke.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          }
+        ],
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in CI",
+          "nonAtomizedTarget": "e2e",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false
+      },
+      "e2e-ci--merge-reports": {
+        "executor": "@nx/playwright:merge-reports",
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/eDB-e2e/playwright-report"
+        ],
+        "options": {
+          "config": "playwright.config.ts",
+          "expectedSuites": 8
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Merges Playwright blob reports from atomized tasks to produce unified reports for the configured reporters."
+        }
+      }
+    },
+    "metadata": {
+      "targetGroups": {
+        "E2E (CI)": [
+          "e2e-ci--regression/subscriptions.spec.ts",
+          "e2e-ci--regression/webshop.spec.ts",
+          "e2e-ci--smoke/admin.smoke.spec.ts",
+          "e2e-ci--smoke/app.smoke.spec.ts",
+          "e2e-ci--smoke/auth.smoke.spec.ts",
+          "e2e-ci--smoke/catalog.smoke.spec.ts",
+          "e2e-ci--smoke/logout/logout.smoke.spec.ts",
+          "e2e-ci--smoke/routes.smoke.spec.ts",
+          "e2e-ci",
+          "e2e-ci--merge-reports"
+        ]
+      }
+    }
+  },
+  "4762475273033539883": {
+    "targets": {
+      "e2e": {
+        "command": "playwright test",
+        "options": {
+          "cwd": "{projectRoot}"
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/test-output",
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report",
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/blob-report"
+        ]
+      },
+      "e2e-ci--src/example.spec.ts": {
+        "command": "playwright test src/example.spec.ts --output=../../dist/.playwright/e2e/mfe-edb-admin-e2e/test-output/src-example-spec-ts",
+        "options": {
+          "cwd": "{projectRoot}",
+          "env": {
+            "PLAYWRIGHT_HTML_OUTPUT_DIR": "../../dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report/src-example-spec-ts",
+            "PLAYWRIGHT_HTML_REPORT": "../../dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report/src-example-spec-ts",
+            "PLAYWRIGHT_BLOB_OUTPUT_FILE": "../../dist/.playwright/e2e/mfe-edb-admin-e2e/blob-report/src-example-spec-ts.zip"
+          }
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in src/example.spec.ts in CI",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false,
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/test-output/src-example-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report/src-example-spec-ts",
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/blob-report/src-example-spec-ts.zip"
+        ]
+      },
+      "e2e-ci": {
+        "executor": "nx:noop",
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/test-output",
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report",
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/blob-report"
+        ],
+        "dependsOn": [
+          {
+            "target": "e2e-ci--src/example.spec.ts",
+            "projects": "self",
+            "params": "forward",
+            "options": "forward"
+          }
+        ],
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Runs Playwright Tests in CI",
+          "nonAtomizedTarget": "e2e",
+          "help": {
+            "command": "pnpm exec playwright test --help",
+            "example": {
+              "options": {
+                "workers": 1
+              }
+            }
+          }
+        },
+        "parallelism": false
+      },
+      "e2e-ci--merge-reports": {
+        "executor": "@nx/playwright:merge-reports",
+        "cache": true,
+        "inputs": [
+          "default",
+          "^production",
+          {
+            "externalDependencies": [
+              "@playwright/test"
+            ]
+          }
+        ],
+        "outputs": [
+          "{workspaceRoot}/dist/.playwright/e2e/mfe-edb-admin-e2e/playwright-report"
+        ],
+        "options": {
+          "config": "playwright.config.ts",
+          "expectedSuites": 1
+        },
+        "metadata": {
+          "technologies": [
+            "playwright"
+          ],
+          "description": "Merges Playwright blob reports from atomized tasks to produce unified reports for the configured reporters."
+        }
+      }
+    },
+    "metadata": {
+      "targetGroups": {
+        "E2E (CI)": [
+          "e2e-ci--src/example.spec.ts",
+          "e2e-ci",
+          "e2e-ci--merge-reports"
+        ]
+      }
+    }
   }
 }

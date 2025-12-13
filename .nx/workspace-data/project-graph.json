@@ -25725,24 +25725,6 @@
         "hash": "sha512-Bz+Qll2XuvvueHz0yhcr67V/43q1VecSyIqZm+P8OL8KZHznUXECZXkuwQePR5b6fWY/kzhhadmgNs9dB/Nifg=="
       }
     },
-    "npm:fastify-websocket@4.2.2": {
-      "type": "npm",
-      "name": "npm:fastify-websocket@4.2.2",
-      "data": {
-        "version": "4.2.2",
-        "packageName": "fastify-websocket",
-        "hash": "sha512-Cx4CZwercvoPq4fc6f09VAoa3wqp9qOQUDHp8wMkCHau4zw7wGa+C3Oi2QNUvhvNqw6N4mH8WWYLEnGXUlnumg=="
-      }
-    },
-    "npm:fastify-websocket": {
-      "type": "npm",
-      "name": "npm:fastify-websocket",
-      "data": {
-        "version": "4.3.0",
-        "packageName": "fastify-websocket",
-        "hash": "sha512-PLoXjlKHaWOEIJ7tHStM2i8aL4kdYVB8d1Umf7TdpQ93kG7OopO7eV4IAyO545kRiE8pyL1AbjlJeZ7irDA1aA=="
-      }
-    },
     "npm:fastify": {
       "type": "npm",
       "name": "npm:fastify",
@@ -31795,9 +31777,9 @@
       "type": "npm",
       "name": "npm:node-forge",
       "data": {
-        "version": "1.3.1",
+        "version": "1.3.2",
         "packageName": "node-forge",
-        "hash": "sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA=="
+        "hash": "sha512-6xKiQ+cph9KImrRh0VsjH2d8/GXA4FIMlgU4B757iI1ApvcyA9VlouP0yZJha01V+huImO+kKMU7ih+2+E14fw=="
       }
     },
     "npm:node-gyp-build-optional-packages": {
@@ -33996,15 +33978,6 @@
         "hash": "sha512-JOnOPQ/8TZgjs1JIH/m9ni7FfimjNa/PRx7y/Wb5qdItsnhO0jE4AT7fC0HjC28DUQWDr50dwSYZLdRMlqDq3Q=="
       }
     },
-    "npm:process-warning": {
-      "type": "npm",
-      "name": "npm:process-warning",
-      "data": {
-        "version": "1.0.0",
-        "packageName": "process-warning",
-        "hash": "sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q=="
-      }
-    },
     "npm:process-warning@4.0.1": {
       "type": "npm",
       "name": "npm:process-warning@4.0.1",
@@ -34828,9 +34801,9 @@
       "type": "npm",
       "name": "npm:react-server-dom-webpack",
       "data": {
-        "version": "19.0.0",
+        "version": "19.0.2",
         "packageName": "react-server-dom-webpack",
-        "hash": "sha512-hLug9KEXLc8vnU9lDNe2b2rKKDaqrp5gNiES4uyu2Up3FZfZJZmdwLFXlWzdA9gTB/6/cWduSB2K1Lfag2pSvw=="
+        "hash": "sha512-niMxdagxhrZYniMzN2QqXKdfL/MOgV54V2KjDLB9TUHR+wt2BWwROzW47RQV1XihQBP0hVxcoPWmy2s1JilcUg=="
       }
     },
     "npm:react-style-singleton": {
@@ -42687,11 +42660,6 @@
       {
         "source": "clara-api",
         "target": "npm:fastify-plugin",
-        "type": "static"
-      },
-      {
-        "source": "clara-api",
-        "target": "npm:fastify-websocket",
         "type": "static"
       },
       {
@@ -62752,7 +62720,7 @@
       },
       {
         "source": "npm:@testing-library/react-native@12.9.0",
-        "target": "npm:jest@29.7.0",
+        "target": "npm:jest",
         "type": "static"
       }
     ],
@@ -73642,25 +73610,6 @@
         "type": "static"
       }
     ],
-    "npm:fastify-websocket@4.2.2": [
-      {
-        "source": "npm:fastify-websocket@4.2.2",
-        "target": "npm:fastify-plugin",
-        "type": "static"
-      },
-      {
-        "source": "npm:fastify-websocket@4.2.2",
-        "target": "npm:ws",
-        "type": "static"
-      }
-    ],
-    "npm:fastify-websocket": [
-      {
-        "source": "npm:fastify-websocket",
-        "target": "npm:process-warning",
-        "type": "static"
-      }
-    ],
     "npm:fastify": [
       {
         "source": "npm:fastify",
@@ -79062,11 +79011,6 @@
         "source": "npm:jest-watch-typeahead@2.2.1",
         "target": "npm:strip-ansi@7.1.2",
         "type": "static"
-      },
-      {
-        "source": "npm:jest-watch-typeahead@2.2.1",
-        "target": "npm:jest@29.7.0",
-        "type": "static"
       }
     ],
     "npm:jest-watch-typeahead": [
@@ -84219,7 +84163,7 @@
       },
       {
         "source": "npm:null-loader",
-        "target": "npm:webpack@5.102.1",
+        "target": "npm:webpack",
         "type": "static"
       }
     ],
@@ -95136,5 +95080,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1765584711320
+  "computedAt": 1765585302843
 }
