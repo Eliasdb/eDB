@@ -22,7 +22,6 @@ import { adminRemoteRoutes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
-
     provideRouter(adminRemoteRoutes),
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withFetch()),

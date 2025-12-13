@@ -7,7 +7,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/eDB/features/feature-crm',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     watch: false,
     globals: true,

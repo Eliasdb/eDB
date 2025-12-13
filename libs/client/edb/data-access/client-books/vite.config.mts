@@ -7,7 +7,7 @@ import { defineConfig } from 'vitest/config'; // ✅ FIXED
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/eDB/data-access/client-books',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     watch: false,
     globals: true,

@@ -7,7 +7,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../../node_modules/.vite/libs/eDB-webshop/util-book-params',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])] as any,
+  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])] as any,
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
