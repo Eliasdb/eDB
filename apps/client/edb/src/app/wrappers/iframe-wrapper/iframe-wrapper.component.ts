@@ -21,7 +21,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       }
 
       .clara-frame {
-        position: fixed; /* take over the whole viewport */
+        position: fixed; /* take over the whole viewport. */
         inset: 0; /* top, right, bottom, left = 0 */
         width: 100%;
         height: 100%;

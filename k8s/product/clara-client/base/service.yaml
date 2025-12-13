@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clara-client
+  labels:
+    app: clara-client
+spec:
+  type: ClusterIP
+  selector:
+    app: clara-client
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
