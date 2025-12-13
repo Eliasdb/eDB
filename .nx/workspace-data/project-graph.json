@@ -40162,17 +40162,17 @@
       },
       {
         "source": "resources-pg",
-        "target": "workbench-api-resources",
-        "type": "static"
-      },
-      {
-        "source": "resources-pg",
         "target": "npm:fastify",
         "type": "static"
       },
       {
         "source": "resources-pg",
         "target": "workbench-api-infra",
+        "type": "static"
+      },
+      {
+        "source": "resources-pg",
+        "target": "workbench-api-resources",
         "type": "static"
       }
     ],
@@ -40618,6 +40618,26 @@
       },
       {
         "source": "workbench-api-infra",
+        "target": "workbench-api-shared",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:drizzle-orm",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:dotenv",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
+        "target": "npm:postgres",
+        "type": "static"
+      },
+      {
+        "source": "workbench-api-infra",
         "target": "npm:tslib",
         "type": "static"
       },
@@ -40628,27 +40648,7 @@
       },
       {
         "source": "workbench-api-infra",
-        "target": "npm:drizzle-orm",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-infra",
-        "target": "npm:postgres",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-infra",
-        "target": "workbench-api-shared",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-infra",
         "target": "workbench-api-models",
-        "type": "static"
-      },
-      {
-        "source": "workbench-api-infra",
-        "target": "npm:dotenv",
         "type": "static"
       }
     ],
@@ -42112,17 +42112,17 @@
       },
       {
         "source": "mobile",
-        "target": "npm:react-i18next",
-        "type": "static"
-      },
-      {
-        "source": "mobile",
         "target": "client-clara-crm",
         "type": "static"
       },
       {
         "source": "mobile",
         "target": "feature-clara-crm",
+        "type": "static"
+      },
+      {
+        "source": "mobile",
+        "target": "npm:react-i18next",
         "type": "static"
       },
       {
@@ -92813,5 +92813,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1765601600009
+  "computedAt": 1765604804467
 }

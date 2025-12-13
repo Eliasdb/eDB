@@ -41,9 +41,9 @@ export interface UserProfile {
  */
 export interface ExpandedDataConfig<T> {
   headers: TableHeaderItem[]; // Correct type for headers
-  rowMapper: (item: T, context?: { [key: string]: any }) => TableItem[];
+  rowMapper: (item: T, context?: Record<string, unknown>) => TableItem[];
   expandedDataMapper?: (
     item: T,
-    context?: { [key: string]: any },
+    context?: Record<string, unknown>,
   ) => TableItem[][];
 }

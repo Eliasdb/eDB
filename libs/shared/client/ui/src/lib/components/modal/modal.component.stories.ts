@@ -54,9 +54,9 @@ type Story = StoryObj<UiModalComponent>;
 })
 class CustomTemplateWrapperComponent {
   @ViewChild('customTemplate', { static: true })
-  customTemplate!: TemplateRef<any>;
+  customTemplate!: TemplateRef<unknown>;
   @Input() header?: string;
-  @Input() context?: any;
+  @Input() context?: unknown;
 }
 
 export const CustomTemplateModal: Story = {

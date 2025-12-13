@@ -6,27 +6,35 @@ import { AdminService } from '@eDB/client-admin';
 import { Order } from '@edb/shared-types';
 
 @Component({
-  selector: 'admin-orders-list',
+  selector: 'edb-admin-orders-list',
   standalone: true,
   imports: [CommonModule],
   template: `
     <section class="sm:p-4 md:p-6 text-black">
       <div class="max-w-6xl mx-auto space-y-6">
         <!-- header (kept minimal on mobile) -->
-        <header *ngIf="!isMobile()" class="mb-2">
-          <p class="text-gray-600 text-sm">Overview of all customer orders.</p>
-        </header>
+        @if (!isMobile()) {
+          <header class="mb-2">
+            <p class="text-gray-600 text-sm">
+              Overview of all customer orders.
+            </p>
+          </header>
+        }
 
         <!-- loading / error -->
-        <ng-container *ngIf="orders(); else loading">
-          <ng-container *ngIf="orders() as list; else error">
-            @for (order of list; track order.id) {
+        @if (orders(); as ordersList) {
+          @if (ordersList.length === 0) {
+            <p class="text-sm text-gray-500">No orders available.</p>
+          } @else {
+            @for (order of ordersList; track order.id) {
               <!-- ===== MOBILE PILL ===== -->
-              <ng-container *ngIf="isMobile(); else desktopCard">
+              @if (isMobile()) {
                 <div
                   (click)="toggle(order.id)"
                   class="group relative flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm transition
          hover:shadow-md active:bg-slate-50 cursor-pointer"
+                  tabindex="0"
+                  (keyup.enter)="toggle(order.id)"
                 >
                   <!-- left colour strip – now flush top & bottom -->
                   <span
@@ -61,37 +69,35 @@ import { Order } from '@edb/shared-types';
                 </div>
 
                 <!-- accordion details -->
-                <div
-                  *ngIf="open(order.id)"
-                  class="mt-2 rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs space-y-3"
-                >
-                  <!-- shipping -->
-                  <div>
-                    <p class="font-semibold mb-0.5">Shipping</p>
-                    <address class="not-italic leading-snug text-gray-600">
-                      {{ order.fullName }}<br />
-                      {{ order.address }}<br />
-                      {{ order.postalCode }} {{ order.city }}
-                    </address>
-                  </div>
+                @if (open(order.id)) {
+                  <div
+                    class="mt-2 rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs space-y-3"
+                  >
+                    <!-- shipping -->
+                    <div>
+                      <p class="font-semibold mb-0.5">Shipping</p>
+                      <address class="not-italic leading-snug text-gray-600">
+                        {{ order.fullName }}<br />
+                        {{ order.address }}<br />
+                        {{ order.postalCode }} {{ order.city }}
+                      </address>
+                    </div>
 
-                  <!-- items -->
-                  <div class="divide-y divide-slate-100">
-                    @for (item of order.items; track item.name) {
-                      <div class="flex justify-between py-1">
-                        <span>{{ item.name }} (×{{ item.quantity }})</span>
-                        <span>{{
-                          item.price | currency: 'EUR' : undefined : '1.0-0'
-                        }}</span>
-                      </div>
-                    }
+                    <!-- items -->
+                    <div class="divide-y divide-slate-100">
+                      @for (item of order.items; track item.name) {
+                        <div class="flex justify-between py-1">
+                          <span>{{ item.name }} (×{{ item.quantity }})</span>
+                          <span>{{
+                            item.price | currency: 'EUR' : undefined : '1.0-0'
+                          }}</span>
+                        </div>
+                      }
+                    </div>
                   </div>
-                </div>
-              </ng-container>
-
-              <!-- ===== DESKTOP CARD ===== -->
-              <ng-template #desktopCard>
-                <!-- (your current desktop article, unchanged) -->
+                }
+              } @else {
+                <!-- ===== DESKTOP CARD ===== -->
                 <article
                   class="relative border border-slate-200 rounded-xl bg-white p-5 md:p-6 shadow-sm transition hover:shadow-md hover:ring-1 hover:ring-slate-300"
                 >
@@ -110,7 +116,9 @@ import { Order } from '@edb/shared-types';
                       <p class="text-sm text-gray-500">{{ order.date }}</p>
                       <p class="text-sm text-gray-500">
                         {{ order.fullName }}
-                        <span *ngIf="order.email">({{ order.email }})</span>
+                        @if (order.email) {
+                          <span>({{ order.email }})</span>
+                        }
                       </p>
                     </div>
 
@@ -152,20 +160,12 @@ import { Order } from '@edb/shared-types';
                     }
                   </div>
                 </article>
-              </ng-template>
+              }
             }
-          </ng-container>
-        </ng-container>
-
-        <ng-template #loading>
+          }
+        } @else {
           <p class="text-sm text-gray-500">Loading orders…</p>
-        </ng-template>
-
-        <ng-template #error>
-          <p class="text-sm text-red-600">
-            Could not load orders. Please try again later.
-          </p>
-        </ng-template>
+        }
       </div>
     </section>
   `,
@@ -191,7 +191,11 @@ export class AdminOrdersListComponent {
   /* ───────── accordion state (mobile) ───────── */
   private opened = new Set<string | number>();
   toggle(id: string | number) {
-    this.opened.has(id) ? this.opened.delete(id) : this.opened.add(id);
+    if (this.opened.has(id)) {
+      this.opened.delete(id);
+    } else {
+      this.opened.add(id);
+    }
   }
   open(id: string | number) {
     return this.opened.has(id);

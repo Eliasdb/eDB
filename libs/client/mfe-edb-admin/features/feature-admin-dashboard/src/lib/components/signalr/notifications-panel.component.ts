@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NotificationsService } from './notifications.service'; // adjust import path
 
 @Component({
-  selector: 'notifications-panel',
+  selector: 'edb-notifications-panel',
   standalone: true,
   imports: [CommonModule, DatePipe, MatButtonModule],
   template: `
@@ -16,13 +16,9 @@ import { NotificationsService } from './notifications.service'; // adjust import
       </button>
     </div>
 
-    <div
-      *ngIf="listQuery.isLoading(); else content"
-      class="text-sm text-gray-500"
-    >
-      Loading…
-    </div>
-    <ng-template #content>
+    @if (listQuery.isLoading()) {
+      <div class="text-sm text-gray-500">Loading…</div>
+    } @else {
       <ul class="divide-y rounded border bg-white">
         @for (n of items(); track n.id) {
           <li class="p-3 flex gap-3 hover:bg-slate-50">
@@ -40,28 +36,29 @@ import { NotificationsService } from './notifications.service'; // adjust import
               <div class="text-sm font-medium" [class.opacity-60]="n.read">
                 {{ n.title }}
               </div>
-              <div class="text-xs text-slate-600" *ngIf="n.message">
-                {{ n.message }}
-              </div>
+              @if (n.message) {
+                <div class="text-xs text-slate-600">
+                  {{ n.message }}
+                </div>
+              }
               <div class="text-[11px] text-slate-500 mt-1">
                 {{ n.createdAt | date: 'short' }}
               </div>
               <div class="mt-1 flex gap-2">
-                <a
-                  *ngIf="n.href"
-                  class="text-xs underline"
-                  [href]="n.href"
-                  target="_blank"
-                  rel="noreferrer"
-                  >Open</a
-                >
-                <button
-                  class="text-xs underline"
-                  (click)="markRead(n.id)"
-                  *ngIf="!n.read"
-                >
-                  Mark read
-                </button>
+                @if (n.href) {
+                  <a
+                    class="text-xs underline"
+                    [href]="n.href"
+                    target="_blank"
+                    rel="noreferrer"
+                    >Open</a
+                  >
+                }
+                @if (!n.read) {
+                  <button class="text-xs underline" (click)="markRead(n.id)">
+                    Mark read
+                  </button>
+                }
               </div>
             </div>
           </li>
@@ -69,11 +66,11 @@ import { NotificationsService } from './notifications.service'; // adjust import
       </ul>
 
       <div class="mt-2 text-center">
-        <button mat-button (click)="loadMore()" *ngIf="nextCursor()">
-          Load more
-        </button>
+        @if (nextCursor()) {
+          <button mat-button (click)="loadMore()">Load more</button>
+        }
       </div>
-    </ng-template>
+    }
   `,
 })
 export class NotificationsPanelComponent {
@@ -105,11 +102,11 @@ export class NotificationsPanelComponent {
     const prev = this.listQuery.data();
     if (prev && next.data) {
       const merged = [...prev.items, ...next.data.items];
-      (this.listQuery as any).setData({
+      this.listQuery.setData(() => ({
         ...prev,
         items: merged,
         nextCursor: next.data.nextCursor,
-      });
+      }));
       this.nextCursor.set(next.data.nextCursor);
     }
   }

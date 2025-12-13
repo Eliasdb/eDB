@@ -3,6 +3,9 @@ import baseConfig from '../../../eslint.config.mjs';
 
 export default [
   ...baseConfig,
+  {
+    ignores: ['apps/client/edb/src/assets/clara/_expo/static/js/**/*'],
+  },
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
   {

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'erp-home',
+  selector: 'edb-erp-home',
   imports: [CommonModule, RouterModule],
   template: `
     <div class="min-h-[calc(100dvh-9rem)] p-6 bg-slate-50 text-black">

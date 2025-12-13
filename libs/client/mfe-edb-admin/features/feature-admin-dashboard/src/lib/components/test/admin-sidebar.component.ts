@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'admin-sidebar',
+  selector: 'edb-admin-sidebar',
   imports: [MatIconModule],
   template: `
     <nav class="w-[16rem] bg-gray-900 text-white h-full flex flex-col p-4">
@@ -58,19 +58,27 @@ import { MatIconModule } from '@angular/material/icon';
 
       <h3 class="text-xs mb-2">Admin Sidebar</h3>
       <ul class="flex-1 space-y-1">
-        <li
-          class="flex items-center py-1 cursor-pointer"
-          (click)="onSelect('platform')"
-        >
-          <mat-icon>dashboard</mat-icon>
-          <span class="text-sm">Platform</span>
+        <li>
+          <button
+            type="button"
+            class="flex items-center py-1 cursor-pointer w-full text-left"
+            (click)="onSelect('platform')"
+            (keyup.enter)="onSelect('platform')"
+          >
+            <mat-icon>dashboard</mat-icon>
+            <span class="text-sm">Platform</span>
+          </button>
         </li>
-        <li
-          class="flex items-center py-1 cursor-pointer"
-          (click)="onSelect('webshop')"
-        >
-          <mat-icon>storefront</mat-icon>
-          <span class="text-sm">Webshop</span>
+        <li>
+          <button
+            type="button"
+            class="flex items-center py-1 cursor-pointer w-full text-left"
+            (click)="onSelect('webshop')"
+            (keyup.enter)="onSelect('webshop')"
+          >
+            <mat-icon>storefront</mat-icon>
+            <span class="text-sm">Webshop</span>
+          </button>
         </li>
       </ul>
     </nav>
@@ -79,7 +87,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AdminSidebarComponent {
   /** Whether drawer is open to choose icon direction */
-  @Input() isOpen: boolean = true;
+  @Input() isOpen = true;
   /** Emits when toggle icon is clicked */
   @Output() toggleSidebar = new EventEmitter<void>();
   /** Emits when a menu item is selected */

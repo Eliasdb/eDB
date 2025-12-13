@@ -49,8 +49,10 @@ export function PasswordSettingsSection({
       setConfirmPassword('');
       setSignOutOthers(false);
       if (onSuccess) onSuccess();
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : 'Failed to change password';
+      alert(message);
     }
   }
 

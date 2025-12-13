@@ -181,7 +181,7 @@ export class UiStructuredListComponent {
   readonly rows = input<string[][]>([]);
   readonly editingRowIndex = input<number | null>(null);
   readonly isEditingAny = input(false);
-  readonly inputValues = input<any>({});
+  readonly inputValues = input<Record<string, unknown>>({});
   readonly skeleton = input<boolean>(false);
 
   readonly uneditedMode = input<boolean>(false); // New input to control edit visibility

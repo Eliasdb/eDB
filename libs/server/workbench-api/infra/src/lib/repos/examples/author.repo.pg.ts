@@ -1,4 +1,14 @@
-import { and, asc, desc, eq, like, or, sql, type AnyColumn } from 'drizzle-orm';
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  like,
+  or,
+  sql,
+  type AnyColumn,
+  type SQL,
+} from 'drizzle-orm';
 
 import type {
   Author,
@@ -39,7 +49,7 @@ export const AuthorRepoPg: AuthorRepo = {
   }): Promise<{ rows: Author[]; total: number }> {
     const { plan, search, filter } = args;
 
-    const whereParts: any[] = [];
+    const whereParts: SQL[] = [];
 
     // ── free-text search across firstName / lastName (case-insensitive)
     if (search && search.trim() !== '') {

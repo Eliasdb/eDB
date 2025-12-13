@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Book } from '@edb/shared-types';
 
 @Component({
-  selector: 'books-grid-item',
+  selector: 'webshop-books-grid-item',
   imports: [RouterLink, DecimalPipe],
   template: `
     <article
@@ -58,6 +58,7 @@ import { Book } from '@edb/shared-types';
           class="absolute inset-0 w-full h-full object-cover blur-lg transition-opacity duration-700 ease-out will-change-[opacity]"
           [class.opacity-100]="!imageLoaded()"
           [class.opacity-0]="imageLoaded()"
+          alt=""
           aria-hidden="true"
         />
 

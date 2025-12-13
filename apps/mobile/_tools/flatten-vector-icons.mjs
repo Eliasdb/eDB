@@ -43,7 +43,9 @@ for (const src of ttfMatches) {
   const out = path.join(destDir, base);
   try {
     fs.copyFileSync(src, out);
-  } catch {}
+  } catch (err) {
+    console.warn(`Skipping copy for ${src}:`, err);
+  }
 }
 
 // rewrite any references to the long pnpm/vendor paths to ./fonts/<basename>.ttf

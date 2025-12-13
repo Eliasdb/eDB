@@ -72,7 +72,7 @@ export class NotificationsService {
     this.qc.setQueryData<PagedNotificationsDto>(
       ['admin-notifications', { limit: 50, cursor: null }],
       (prev) => {
-        if (!prev) return prev as any;
+        if (!prev) return prev;
         const items = prev.items.map((n) =>
           n.id === id ? { ...n, read: true } : n,
         );

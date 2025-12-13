@@ -24,8 +24,8 @@ import { UiPlatformHeaderComponent } from '../header/platform-header.component';
   `,
 })
 export class UiShellComponent {
-  @Input() menuOptions: any[] = [];
-  @Input() navigationLinks: any[] = [];
+  @Input() menuOptions: Array<Record<string, unknown>> = [];
+  @Input() navigationLinks: Array<Record<string, unknown>> = [];
 
   @Output() linkClick = new EventEmitter<string>();
   @Output() menuOptionSelected = new EventEmitter<string>();

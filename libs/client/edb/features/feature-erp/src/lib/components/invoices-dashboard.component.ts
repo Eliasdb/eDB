@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { UiTableComponent, UiTileComponent } from '@edb/shared-ui';
 import {
   TableHeaderItem,
@@ -32,8 +32,18 @@ ChartJS.register(
   Legend,
 );
 
+type Invoice = {
+  invoice_number: string;
+  invoice_date: string;
+  service_period: string;
+  net: string;
+  vat: string;
+  total: string;
+};
+
 @Component({
-  selector: 'erp-invoice-dashboard',
+  selector: 'edb-invoice-dashboard',
+  standalone: true,
   imports: [
     CommonModule,
     UiTableComponent,
@@ -44,7 +54,7 @@ ChartJS.register(
   template: `
     <div class="p-8 flex flex-col gap-10 bg-slate-50 min-h-screen">
       <!-- ░ Reminder Section ░ -->
-      <btw-filing-reminder />
+      <edb-btw-filing-reminder />
 
       <!-- ░ KPI Section ░ -->
       <section class="grid gap-6 sm:grid-cols-3">
@@ -104,13 +114,13 @@ ChartJS.register(
   `,
 })
 export class InvoiceDashboardComponent implements OnInit {
-  invoices = signal<any[]>([]);
+  invoices = signal<Invoice[]>([]);
   totalNet = signal<string>('0');
   totalVat = signal<string>('0');
   tableModel = signal<TableModel>(new TableModel());
 
   chartLabels: string[] = [];
-  chartType: 'bar' = 'bar';
+  chartType = 'bar' as const;
   chartData: ChartData<'bar'> = { labels: [], datasets: [] };
   chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
@@ -135,11 +145,11 @@ export class InvoiceDashboardComponent implements OnInit {
     },
   };
 
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   ngOnInit(): void {
     this.http
-      .get<any[]>(`${environment.invoicesAPIUrl}/invoices`)
+      .get<Invoice[]>(`${environment.invoicesAPIUrl}/invoices`)
       .subscribe((invoices) => {
         this.invoices.set(invoices);
         this.setupTable(invoices);
@@ -148,7 +158,7 @@ export class InvoiceDashboardComponent implements OnInit {
       });
   }
 
-  private setupTable(invoices: any[]) {
+  private setupTable(invoices: Invoice[]) {
     const model = new TableModel();
     model.header = [
       new TableHeaderItem({ data: 'Invoice Number' }),
@@ -171,14 +181,14 @@ export class InvoiceDashboardComponent implements OnInit {
     this.tableModel.set(model);
   }
 
-  private calculateTotals(invoices: any[]) {
+  private calculateTotals(invoices: Invoice[]) {
     const net = invoices.reduce((sum, inv) => sum + parseFloat(inv.net), 0);
     const vat = invoices.reduce((sum, inv) => sum + parseFloat(inv.vat), 0);
     this.totalNet.set(net.toFixed(2));
     this.totalVat.set(vat.toFixed(2));
   }
 
-  private setupChart(invoices: any[]) {
+  private setupChart(invoices: Invoice[]) {
     const vatByMonth: Record<string, number> = {};
     for (const inv of invoices) {
       const month = inv.service_period;

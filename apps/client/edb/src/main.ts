@@ -5,7 +5,7 @@ const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;
 const remotes = [{ name: 'mfe-edb-admin', entry: manifestUrl }];
 
 // I get a bug in dev env when I remove this...
-(window as any).ngDevMode = true;
+(window as typeof window & { ngDevMode?: boolean }).ngDevMode = true;
 
 // Only do MF wiring if explicitly enabled for this env
 if (environment.mfEnableRemotes) {

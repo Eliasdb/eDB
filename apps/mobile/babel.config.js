@@ -39,7 +39,7 @@ module.exports = function (api) {
     overrides: isSB
       ? [
           {
-            test: /(node_modules[\/\\](?:@storybook|storybook)[\/\\])/,
+            test: /(node_modules[\\/](?:@storybook|storybook)[\\/])/,
             plugins: ['@babel/plugin-transform-class-static-block'],
           },
         ]

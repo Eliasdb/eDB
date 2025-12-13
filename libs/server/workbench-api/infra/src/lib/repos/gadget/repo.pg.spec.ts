@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { db } from '../../db/orm/drizzle';
 import { GadgetRepoPg } from './repo.pg';
-import { randomUUID } from 'node:crypto';
 
 import type { PaginationPlan } from '@edb-workbench/api/shared';
 

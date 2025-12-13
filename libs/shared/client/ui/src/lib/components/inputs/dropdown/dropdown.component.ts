@@ -61,7 +61,7 @@ export class UiDropdownComponent {
     this.selectionChange.emit(event as DropdownItem);
   }
 
-  handleClose(_: unknown): void {
+  handleClose(): void {
     this.dropdownClosed.emit();
   }
 }

@@ -20,7 +20,7 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
   ],
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-[#f4f4f7]">
-      <ui-platform-subheader
+      <webshop-subheader
         (openDialog)="toggleCart()"
         [cartItems]="cartItems()"
         [orderCount]="orderCount()"

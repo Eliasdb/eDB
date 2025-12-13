@@ -55,8 +55,9 @@ export function PersonalInfoView({ userInfo }: Props) {
       alert(res.message);
       setInitial(formData);
       setEditing(null);
-    } catch (e: any) {
-      alert(e.message || 'Failed');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Failed';
+      alert(message);
     }
   }
 
@@ -102,8 +103,9 @@ export function PersonalInfoView({ userInfo }: Props) {
       alert(res.message);
       setInitialCompanyInfo(companyInfo);
       setEditingCompanyField(null);
-    } catch (e: any) {
-      alert(e.message || 'Failed to update');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Failed to update';
+      alert(message);
     }
   }
 
@@ -233,11 +235,10 @@ export function PersonalInfoView({ userInfo }: Props) {
                 variant="destructive"
                 className="w-full md:w-auto"
                 onClick={() => {
-                  if (
-                    confirm(
-                      'Are you sure you want to delete your account? This action cannot be undone.',
-                    )
-                  ) {
+                  const shouldDelete = window.confirm(
+                    'Are you sure you want to delete your account? This action cannot be undone.',
+                  );
+                  if (shouldDelete) {
                     alert('Account deletion is not yet implemented.');
                   }
                 }}

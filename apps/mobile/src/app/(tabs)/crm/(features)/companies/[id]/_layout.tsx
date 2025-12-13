@@ -7,7 +7,7 @@ import { Platform, ScrollView, Text, View } from 'react-native';
 
 type TabKey = 'snapshot' | 'research' | 'work' | 'tasks' | 'overview';
 
-const TABS: { value: TabKey; label: string; iconName: any }[] = [
+const TABS: { value: TabKey; label: string; iconName: string }[] = [
   { value: 'snapshot', label: 'Snapshot', iconName: 'grid-outline' },
   { value: 'research', label: 'Research', iconName: 'document-text-outline' },
   { value: 'work', label: 'Contacts', iconName: 'people-outline' },

@@ -95,7 +95,10 @@ export class UiNzTableComponent<T extends Record<string, unknown> = any> {
 
   // Always return an object (never undefined/null) to satisfy the nzScroll type
   readonly scrollConfig = computed<{ x?: string | null; y?: string | null }>(
-    () => (this.scrollX() ? { x: this.scrollX()! } : {}),
+    () => {
+      const x = this.scrollX();
+      return x ? { x } : {};
+    },
   );
 
   /* Tracking */

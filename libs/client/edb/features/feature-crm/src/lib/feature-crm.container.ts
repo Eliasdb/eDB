@@ -188,13 +188,11 @@ import { ContactStatus } from './types/contact.types';
         <!-- ░░ Sidebars ░░ -->
         <crm-contact-sidebar
           #contactSidebar
-          (closed)="onContactSidebarClosed()"
         >
         </crm-contact-sidebar>
 
         <crm-company-sidebar
           #companySidebar
-          (closed)="onCompanySidebarClosed()"
         >
         </crm-company-sidebar>
 
@@ -408,6 +406,4 @@ export class CRMContainer {
   }
 
   /* ───── sidebar close hooks (reserved) ───── */
-  onContactSidebarClosed() {}
-  onCompanySidebarClosed() {}
 }

@@ -67,7 +67,8 @@ function buildWhere({
       parts.push(eq(gadgetsTable.name, val));
     }
     if (key === 'category') {
-      parts.push(eq(gadgetsTable.category as any, val as any));
+      const cat = val as Gadget['category'];
+      parts.push(eq(gadgetsTable.category, cat));
     }
     if (key === 'weightGr') {
       const n = Number(val);

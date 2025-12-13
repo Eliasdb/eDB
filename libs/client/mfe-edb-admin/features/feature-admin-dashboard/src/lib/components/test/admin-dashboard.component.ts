@@ -2,7 +2,7 @@
 // admin-dashboard.component.ts   (breadcrumb text animation 🌀)
 // ─────────────────────────────────────────────────────────────
 import { TitleCasePipe } from '@angular/common';
-import { Component, ViewChild, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -24,7 +24,7 @@ import { AdminOrdersListComponent } from '../webshop/order-collection/order.coll
 import { AdminSidebarComponent } from './admin-sidebar.component';
 
 @Component({
-  selector: 'admin-dashboard',
+  selector: 'edb-admin-dashboard',
   imports: [
     MatDrawerContent,
     MatDrawerContainer,
@@ -233,7 +233,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     </mat-drawer-container>
   `,
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
   /* Drawer */
   @ViewChild('drawer') private drawer!: MatDrawer;
   isDrawerOpen = false;

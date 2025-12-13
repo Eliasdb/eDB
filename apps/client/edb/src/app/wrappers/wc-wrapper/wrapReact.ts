@@ -14,8 +14,7 @@ import { KeycloakService } from '@edb/client-auth';
 export class WrapperComponent implements AfterContentInit {
   @ViewChild('vc', { read: ElementRef, static: true }) vc!: ElementRef;
 
-  constructor(private route: ActivatedRoute) {}
-
+  private readonly route = inject(ActivatedRoute);
   private keycloakService = inject(KeycloakService);
 
   async ngAfterContentInit(): Promise<void> {

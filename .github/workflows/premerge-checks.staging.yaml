@@ -178,7 +178,7 @@ jobs:
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
             # Only run Nx build for apps that actually use it (skip python services)
-            if [ "$lower_app" != "webshop-api" ] && [ "$lower_app" != "tools-invoices-api" ]; then
+            if [ "$lower_app" != "webshop-api" ] && [ "$lower_app" != "tools-invoices-api" ] && [ "$lower_app" != "workbench-api" ]; then
               echo "🏗️ Nx build for $app"
               pnpm nx run "$app":build --configuration=staging
             else

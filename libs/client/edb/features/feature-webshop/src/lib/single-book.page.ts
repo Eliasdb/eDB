@@ -18,7 +18,7 @@ import {
 } from '@edb/shared-ui';
 
 @Component({
-  selector: 'single-book',
+  selector: 'webshop-single-book',
   imports: [
     LoadingStateComponent,
     MatRippleModule,
@@ -50,6 +50,7 @@ import {
                   class="absolute inset-0 w-full h-full object-cover blur-xl transition-opacity duration-700 ease-out will-change-[opacity]"
                   [class.opacity-100]="!imageLoaded()"
                   [class.opacity-0]="imageLoaded()"
+                  alt=""
                   aria-hidden="true"
                 />
               }

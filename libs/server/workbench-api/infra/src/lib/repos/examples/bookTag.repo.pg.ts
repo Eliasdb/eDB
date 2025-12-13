@@ -64,10 +64,14 @@ export const BookTagRepoPg: BookTagRepo & Extras = Object.assign({}, core, {
         where: (bt, { eq }) => and(eq(bt.bookId, bookId), eq(bt.tagId, tagId)),
       }));
 
+    if (!row) {
+      throw new Error('Failed to link tag to book (row missing)');
+    }
+
     return {
-      bookId: row!.bookId,
-      tagId: row!.tagId,
-      createdAt: row!.created_at.toISOString(),
+      bookId: row.bookId,
+      tagId: row.tagId,
+      createdAt: row.created_at.toISOString(),
     };
   },
 

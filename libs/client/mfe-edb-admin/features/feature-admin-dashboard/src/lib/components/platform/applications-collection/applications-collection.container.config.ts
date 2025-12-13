@@ -9,7 +9,10 @@ export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
     new TableHeaderItem({ data: 'Subscribers', sortable: false }),
     new TableHeaderItem({ data: 'Actions', sortable: false }),
   ],
-  rowMapper: (application: Application, context?: { [key: string]: any }) => [
+  rowMapper: (
+    application: Application,
+    context?: Record<string, unknown>,
+  ) => [
     new TableItem({ data: application.name }),
     new TableItem({ data: application.description }),
     new TableItem({ data: application.subscriberCount }),
@@ -18,7 +21,10 @@ export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
       template: context?.['nonExpandedActionTemplate'], // Use non-expanded action template
     }),
   ],
-  expandedDataMapper: (app: Application, context?: { [key: string]: any }) => {
+  expandedDataMapper: (
+    app: Application,
+    context?: Record<string, unknown>,
+  ) => {
     const actionTemplate = context?.['expandedActionTemplate'];
 
     return [

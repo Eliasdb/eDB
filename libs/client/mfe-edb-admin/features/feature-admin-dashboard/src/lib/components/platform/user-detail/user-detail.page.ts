@@ -2,6 +2,16 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '@eDB/client-admin';
 import { UiButtonComponent, UiStructuredListComponent } from '@edb/shared-ui';
+import type { UserProfile } from '../../../types/user.type';
+
+type UserDetail = UserProfile & {
+  fullName: string;
+  preferredLanguage?: string;
+  role?: string;
+  title?: string;
+  address?: string;
+  phoneNumber?: string;
+};
 
 @Component({
   selector: 'platform-user-profile',
@@ -73,10 +83,10 @@ export class UserDetailPage {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  protected user = signal<any>(null);
+  protected user = signal<UserDetail | null>(null);
   editingRowIndex: number | null = null;
   isEditingAny = false;
-  inputValues: any = {};
+  inputValues: { value?: string } = {};
 
   personalDetails = computed(() => this.computePersonalDetails());
   accountDetails = computed(() => this.computeAccountDetails());

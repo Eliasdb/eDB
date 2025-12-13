@@ -1,6 +1,5 @@
 // apps/mobile/src/app/(dev)/SkeletonPlayground.tsx
 import React, { useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -19,9 +18,23 @@ import {
 import { Card, EntityRow, List, Screen, TaskRow } from '@edb/shared-ui-rn';
 
 type Mode = 'companies' | 'contacts' | 'tasks';
+type CompanyRowData = {
+  id: string;
+  title: string;
+  subtitle: string;
+  initials: string;
+  tags: Array<{ text: string; tone: 'primary' }>;
+  meta: Array<{ label: string; value: string; pill?: boolean; icon?: string }>;
+};
+type TaskData = {
+  id: string;
+  title: string;
+  done: boolean;
+  due?: string;
+  source?: string;
+};
 
 export default function SkeletonPlayground() {
-  const { t } = useTranslation();
   const [mode, setMode] = useState<Mode>('companies');
   const [rows, setRows] = useState(6);
   const [showSkeleton, setShowSkeleton] = useState(true);
@@ -38,7 +51,7 @@ export default function SkeletonPlayground() {
   };
 
   // ---- Mock data ----
-  const companies = useMemo(
+  const companies = useMemo<CompanyRowData[]>(
     () =>
       Array.from({ length: rows }).map((_, i) => ({
         id: `co-${i}`,
@@ -60,7 +73,7 @@ export default function SkeletonPlayground() {
   );
 
   // ✅ Contacts use the actual Contact model (email + phone)
-  const contacts: Contact[] = useMemo(
+  const contacts = useMemo<Contact[]>(
     () =>
       Array.from({ length: rows }).map((_, i) => ({
         id: `ct-${i}`,
@@ -75,7 +88,7 @@ export default function SkeletonPlayground() {
   );
 
   // ✅ Tasks use TaskRow shape (matches @api Task)
-  const tasks = useMemo(
+  const tasks = useMemo<TaskData[]>(
     () =>
       Array.from({ length: rows }).map((_, i) => ({
         id: `tk-${i}`,
@@ -87,18 +100,21 @@ export default function SkeletonPlayground() {
     [rows],
   );
 
-  const data =
+  const data: Array<CompanyRowData | Contact | TaskData> =
     mode === 'companies' ? companies : mode === 'contacts' ? contacts : tasks;
 
-  const renderActualRow = (item: any, index: number) => {
+  const renderActualRow = (
+    item: CompanyRowData | Contact | TaskData,
+    index: number,
+  ) => {
     if (mode === 'tasks') {
       return (
         <View onLayout={index === 0 ? onMeasureRow : undefined}>
           <TaskRow
-            task={item}
-            onToggle={() => {}}
-            onDelete={() => {}}
-            onEdit={() => {}}
+            task={item as TaskData}
+            onToggle={() => undefined}
+            onDelete={() => undefined}
+            onEdit={() => undefined}
           />
         </View>
       );
@@ -198,7 +214,7 @@ export default function SkeletonPlayground() {
           <Text className="text-sm font-semibold opacity-70 mb-2">Actual</Text>
           <List inset>
             {Array.isArray(data) &&
-              data.map((item: any, i: number) => (
+              data.map((item, i) => (
                 <List.Item key={item.id ?? i} first={i === 0}>
                   {renderActualRow(item, i)}
                 </List.Item>

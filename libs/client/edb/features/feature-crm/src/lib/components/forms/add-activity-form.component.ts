@@ -59,7 +59,11 @@ export interface NewActivity {
       </div>
 
       <div class="flex justify-end gap-2">
-        <ui-button variant="ghost" size="sm" (buttonClick)="cancel.emit()">
+        <ui-button
+          variant="ghost"
+          size="sm"
+          (buttonClick)="cancelRequested.emit()"
+        >
           Cancel
         </ui-button>
 
@@ -83,7 +87,7 @@ export class AddActivityFormComponent {
 
   /* outputs */
   @Output() saveActivity = new EventEmitter<NewActivity>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() cancelRequested = new EventEmitter<void>();
 
   /* helpers */
   canSave() {

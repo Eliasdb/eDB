@@ -10,8 +10,9 @@ import {
   StyleSheet,
   Text,
   View,
+  type StyleProp,
+  type ViewStyle,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Variant = 'auto' | 'sticky' | 'floating';
 
@@ -42,7 +43,6 @@ export default function ResponsiveSaveBar({
   tabBarHeight = 56,
   variant = 'auto',
 }: Props) {
-  const insets = useSafeAreaInsets();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
   const isWeb = Platform.OS === 'web';
@@ -51,6 +51,16 @@ export default function ResponsiveSaveBar({
     () => variant === 'floating' || (variant === 'auto' && isWeb),
     [variant, isWeb],
   );
+
+  const translateY = useRef(new Animated.Value(24)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+  const [pressed, setPressed] = useState(false);
+  const webEffects: StyleProp<ViewStyle> | null = isWeb
+    ? {
+        backdropFilter: 'blur(8px)',
+        boxShadow: '0 10px 28px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.04)',
+      }
+    : null;
 
   const palette = {
     bg: isDark
@@ -63,26 +73,8 @@ export default function ResponsiveSaveBar({
     ctaText: '#FFFFFF',
   };
 
-  if (!showFloating) {
-    return (
-      <StickySaveBar
-        dirty={dirty}
-        onSave={onSave}
-        label={label}
-        unsavedText={unsavedText}
-        upToDateText={upToDateText}
-        pad={pad}
-        safeBottom={safeBottom}
-      />
-    );
-  }
-
-  const baseBottom = isWeb ? 24 : bottomOffset;
-
-  const translateY = useRef(new Animated.Value(24)).current;
-  const opacity = useRef(new Animated.Value(0)).current;
-
   useEffect(() => {
+    if (!showFloating) return;
     if (dirty) {
       Animated.parallel([
         Animated.timing(translateY, {
@@ -114,9 +106,23 @@ export default function ResponsiveSaveBar({
         }),
       ]).start();
     }
-  }, [dirty, translateY, opacity]);
+  }, [dirty, showFloating, translateY, opacity]);
 
-  const [pressed, setPressed] = useState(false);
+  if (!showFloating) {
+    return (
+      <StickySaveBar
+        dirty={dirty}
+        onSave={onSave}
+        label={label}
+        unsavedText={unsavedText}
+        upToDateText={upToDateText}
+        pad={pad}
+        safeBottom={safeBottom}
+      />
+    );
+  }
+
+  const baseBottom = isWeb ? 24 : bottomOffset;
 
   return (
     <View pointerEvents="box-none" style={styles.overlay}>
@@ -136,13 +142,7 @@ export default function ResponsiveSaveBar({
               backgroundColor: palette.bg,
               borderColor: palette.border,
             },
-            isWeb
-              ? ({
-                  backdropFilter: 'blur(8px)',
-                  boxShadow:
-                    '0 10px 28px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.04)',
-                } as any)
-              : null,
+            webEffects,
             Platform.select({
               android: { elevation: 8 },
               ios: {

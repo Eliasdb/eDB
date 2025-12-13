@@ -3,9 +3,7 @@ import {
   uuid,
   text,
   integer,
-  boolean,
   timestamp,
-  pgEnum,
 } from 'drizzle-orm/pg-core';
 
 export const suppliersTable = pgTable('suppliers', {

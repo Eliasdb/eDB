@@ -4,7 +4,7 @@ import { OrderService } from '@edb/client-orders';
 import { Order } from '@edb/shared-types';
 
 @Component({
-  selector: 'order-tracking-page',
+  selector: 'webshop-order-tracking-page',
   standalone: true,
   imports: [NgClass, CurrencyPipe, TitleCasePipe],
   template: `
