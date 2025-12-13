@@ -3,7 +3,7 @@ using EDb.AdminAPI.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // ─────────────────────────────────────────────────────
-// 🏗️ Service Registration
+// 🏗️ Service Registration.
 // ─────────────────────────────────────────────────────
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
