@@ -217,7 +217,7 @@ jobs:
     if: needs.detect-affected.outputs.admin_changed == 'true'
     uses: ./.github/workflows/admin-ci.staging.yml
     with:
-      image_tag: ${{ needs.version.outputs.image_tag }}
+      image_tag: ${{ needs.version.outputs.pretty_tag != '' && needs.version.outputs.pretty_tag || needs.version.outputs.image_tag }}
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
