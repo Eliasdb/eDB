@@ -8,7 +8,6 @@ import {
   RadialGradient,
   vec,
 } from '@shopify/react-native-skia';
-import React from 'react';
 import { Platform, View } from 'react-native';
 import { useThemePreference } from '../../../providers';
 
@@ -175,7 +174,8 @@ export function AudioGlowDark({
         },
         Platform.OS === 'web'
           ? {
-              // @ts-expect-error web-only style
+              // web-only style
+              // @ts-expect-error React Native web supports filter
               filter: isLight ? 'blur(110px)' : 'blur(90px)',
             }
           : {},

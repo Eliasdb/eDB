@@ -25,14 +25,12 @@ export function BarsCard({ data }: Props) {
           // labelColor: '#9aa0a6',
           // fontSize: 11,
         }}
-        // Some versions don’t expose domain; ignore if not supported
-        // @ts-expect-error victory-native typings may not expose domain prop
-        domain={{ y: [0, paddedMax] }}
+        domain={{ y: [0, paddedMax] } as any}
       >
         {({ points, chartBounds }) => (
           <Bar
-            points={points.value}
-            chartBounds={chartBounds}
+            points={points.value as any}
+            chartBounds={chartBounds as any}
             roundedCorners={{
               topLeft: 8,
               topRight: 8,
@@ -44,11 +42,12 @@ export function BarsCard({ data }: Props) {
               animate={{ type: 'timing', duration: 350 }}
               // Let the chart render value labels via Skia (supported in newer builds)
               // If your version supports a labels prop:
-              // @ts-expect-error labels support differs by victory-native version
-              labels={{
-                position: 'top',
-                color: '#a0a0a0',
-              }}
+              labels={
+                {
+                  position: 'top',
+                  color: '#a0a0a0',
+                } as any
+              }
           />
         )}
       </CartesianChart>

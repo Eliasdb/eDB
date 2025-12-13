@@ -40,9 +40,9 @@ export function BarsCard({ data }: { data: DayStat[] }) {
         getComponent={async () => {
           const VN = await import('victory-native');
           const Comp = (() => {
-            const { CartesianChart, Bar } = VN;
+            const CartesianChart: any = (VN as any).CartesianChart;
+            const Bar: any = (VN as any).Bar;
             type ChartPoint = { x: number; y: number };
-            type ChartBounds = { x: number; y: number; width: number; height: number };
             const Chart: React.ComponentType<object> = () => (
               <View
                 style={{
@@ -56,18 +56,11 @@ export function BarsCard({ data }: { data: DayStat[] }) {
                   xKey="label"
                   yKeys={['value']}
                   axisOptions={{ tickCount: 4 }}
-                  // @ts-expect-error older versions may not expose domain
                   domain={{ y: [0, paddedMax] }}
                 >
-                  {({
-                    points,
-                    chartBounds,
-                  }: {
-                    points: { value: ChartPoint[] };
-                    chartBounds: ChartBounds;
-                  }) => (
+                  {({ points, chartBounds }: any) => (
                     <Bar
-                      points={points.value}
+                      points={points.value as ChartPoint[]}
                       chartBounds={chartBounds}
                       roundedCorners={{
                         topLeft: 8,
@@ -80,7 +73,7 @@ export function BarsCard({ data }: { data: DayStat[] }) {
                       animate={{ type: 'timing', duration: 350 }}
                       // color prop name varies by version; both are handled:
                       {...{ color: barColor, fill: barColor }}
-                      labels={{ position: 'top', fontSize: 11 }}
+                      labels={{ position: 'top' }}
                     />
                   )}
                 </CartesianChart>

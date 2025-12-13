@@ -40,7 +40,7 @@ describe('UiIconButtonComponent', () => {
   });
 
   it('should emit blur event when focus is lost', () => {
-    const emitSpy = vi.spyOn(component.blur, 'emit');
+    const emitSpy = vi.spyOn(component.iconButtonBlur, 'emit');
 
     const button = fixture.debugElement.query(By.css('cds-icon-button'));
     button.triggerEventHandler('blur', {});

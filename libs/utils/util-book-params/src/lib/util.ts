@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Genre } from '@eDB-webshop/shared-data';
+import { Genre } from '../../../shared/client/data/src/lib/data';
 import {
   debounceTime,
   distinctUntilChanged,

@@ -6,6 +6,7 @@ import {
   TableItem,
   TableModel,
 } from 'carbon-components-angular/table';
+import { vi } from 'vitest';
 import { SortEvent, UiTableComponent } from './table.component';
 
 describe('UiTableComponent', () => {
@@ -36,16 +37,24 @@ describe('UiTableComponent', () => {
   });
 
   it('should emit rowClicked with index when onRowClick is called', () => {
+    const model = new TableModel();
+    model.data = [
+      [new TableItem({ data: 'row 0' })],
+      [new TableItem({ data: 'row 1' })],
+    ];
+    fixture.componentRef.setInput('model', model);
+    fixture.detectChanges();
+
     vi.spyOn(component.rowClicked, 'emit');
-    const rowIndex = 2;
+    const rowIndex = 1;
     component.onRowClick(rowIndex);
-    expect(component.rowClicked.emit).toHaveBeenCalledWith(rowIndex);
+    expect(component.rowClicked.emit).toHaveBeenCalledWith(model.data[rowIndex]);
   });
 
-  it('should emit addApplication when onAddApplication is called', () => {
-    vi.spyOn(component.addApplication, 'emit');
-    component.onAddApplication();
-    expect(component.addApplication.emit).toHaveBeenCalled();
+  it('should emit primaryActionClick when onPrimaryActionClick is called', () => {
+    vi.spyOn(component.primaryActionClick, 'emit');
+    component.onPrimaryActionClick();
+    expect(component.primaryActionClick.emit).toHaveBeenCalled();
   });
 
   it('should emit pageChanged with page number when onPageChange is called', () => {

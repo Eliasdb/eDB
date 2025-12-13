@@ -69,7 +69,9 @@ export class TableUtilsService {
         // Handle expandable rows
         if (config.isExpandable && config.getExpandedData) {
           tableItem.expandedData = config.getExpandedData(row);
-          tableItem.expandAsTable = true;
+          // carbon TableItem types pin expandAsTable to false, assert to enable nested table rendering
+          (tableItem as unknown as { expandAsTable: boolean }).expandAsTable =
+            true;
         }
 
         return tableItem;

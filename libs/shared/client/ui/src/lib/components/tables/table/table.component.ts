@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule, TableModule } from 'carbon-components-angular';
 import { TableItem, TableModel } from 'carbon-components-angular/table';
-import { UiButtonComponent } from '../../buttons/button/button.component';
+import { UiButtonComponent } from '../../buttons/button/button.component.js';
 
 export interface SortEvent {
   sortField: string;

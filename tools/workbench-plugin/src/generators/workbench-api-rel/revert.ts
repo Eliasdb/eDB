@@ -488,7 +488,7 @@ function revertRepoPg(
           String.raw`,?\s*`,
         'g',
       );
-      const next = body.replace(assign, '');
+      let next = body.replace(assign, '');
 
       const spreadAssign = new RegExp(
         String.raw`\.\.\.\(\s*patch\.` +

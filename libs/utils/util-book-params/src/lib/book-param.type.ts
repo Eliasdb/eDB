@@ -1,4 +1,4 @@
-import { Genre } from '@eDB-webshop/shared-data';
+import { Genre } from '../../../shared/client/data/src/lib/data';
 
 export const SEARCH_QUERY_PARAM = 'searchFilter';
 export const GENRE_QUERY_PARAM = 'genre';

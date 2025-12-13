@@ -113,3 +113,4 @@ export function Dot({
 }
 
 export default Dot;
+export { Dot as PulseDot };

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { FieldDefinition } from '../../models/field-definition.model';
 
 @Injectable({ providedIn: 'root' })
@@ -10,10 +10,12 @@ export class FormUtilsService {
   createFormGroup(fields: FieldDefinition[]): FormGroup {
     const group = this.fb.group({});
     for (const field of fields) {
+      const validators: ValidatorFn | ValidatorFn[] | null =
+        field.validators ?? null;
       group.addControl(
         field.controlName,
         this.fb.control('', {
-          validators: field.validators,
+          validators,
           nonNullable: true,
         }),
       );
