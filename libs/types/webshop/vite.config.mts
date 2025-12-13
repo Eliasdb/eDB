@@ -8,7 +8,7 @@ export default defineConfig({
   root: __dirname,
   cacheDir:
     '../../../../node_modules/.vite/libs/eDB-webshop/shared/shared-types',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])] as any,
+  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])] as any,
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
