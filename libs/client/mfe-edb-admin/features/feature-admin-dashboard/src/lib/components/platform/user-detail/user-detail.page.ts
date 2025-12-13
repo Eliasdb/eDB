@@ -135,7 +135,7 @@ export class UserDetailPage {
     const user = this.user();
     if (!user) return [];
     return [
-      ['ID', user.id],
+      ['ID', `${user.id}`],
       ['Display Name', user.displayName],
       ['Role', user.role],
       ['Preferred Language', user.preferredLanguage],

@@ -60,7 +60,7 @@ export const AuthorRepoPg: AuthorRepo = {
         or(
           like(sql`lower(${authorsTable.firstName})`, q),
           like(sql`lower(${authorsTable.lastName})`, q),
-        ),
+        ) as SQL,
       );
     }
 
@@ -96,18 +96,21 @@ export const AuthorRepoPg: AuthorRepo = {
     }
 
     // ── total count
-    const totalResult = await db
-      .select({ cnt: sql<number>`count(*)::int` })
-      .from(authorsTable)
-      .where(whereExpr);
+    const totalResult = whereExpr
+      ? await db
+          .select({ cnt: sql<number>`count(*)::int` })
+          .from(authorsTable)
+          .where(whereExpr)
+      : await db
+          .select({ cnt: sql<number>`count(*)::int` })
+          .from(authorsTable);
 
     const total = totalResult[0]?.cnt ?? 0;
 
     // ── page slice
-    const rowsDb = await db
-      .select()
-      .from(authorsTable)
-      .where(whereExpr)
+    const rowsDb = await (whereExpr
+      ? db.select().from(authorsTable).where(whereExpr)
+      : db.select().from(authorsTable))
       .orderBy(orderDir === 'asc' ? asc(orderByExpr) : desc(orderByExpr))
       .limit(plan.limit)
       .offset(plan.offset);

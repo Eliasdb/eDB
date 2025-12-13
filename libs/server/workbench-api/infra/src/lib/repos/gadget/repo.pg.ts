@@ -178,8 +178,6 @@ export const GadgetRepoPg: GadgetRepo = {
     const updated = await db
       .update(gadgetsTable)
       .set({
-        ...(patch.supplierId !== undefined ? {} : {}),
-
         ...(patch.name !== undefined ? { name: patch.name } : {}),
         ...(patch.category !== undefined ? { category: patch.category } : {}),
         ...(patch.weightGr !== undefined ? { weight_gr: patch.weightGr } : {}),

@@ -167,5 +167,8 @@
       "@voice/*": ["apps/mobile/src/lib/voice/*"]
     }
   },
-  "exclude": ["tmp"]
+  "exclude": ["tmp"],
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  }
 }

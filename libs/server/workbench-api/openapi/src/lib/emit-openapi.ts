@@ -3,14 +3,21 @@ import {
   OpenAPIRegistry,
   OpenApiGeneratorV31,
 } from '@asteasolutions/zod-to-openapi';
-import { Health } from '@edb-workbench/api/contracts';
 import { mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import { z } from 'zod';
 
 const registry = new OpenAPIRegistry();
 
+// Local health schema (keeps this package self contained)
+const HealthResponse: z.ZodTypeAny = z.object({
+  ok: z.boolean(),
+  service: z.string(),
+  time: z.string(),
+});
+
 // Register component schemas
-registry.register('HealthResponse', Health.HealthResponse);
+registry.register('HealthResponse', HealthResponse as any);
 
 // Register the path using the registered component
 registry.registerPath({

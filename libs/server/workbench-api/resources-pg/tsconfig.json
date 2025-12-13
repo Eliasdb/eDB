@@ -2,6 +2,9 @@
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
     "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "importHelpers": true,

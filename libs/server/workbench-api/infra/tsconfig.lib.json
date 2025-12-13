@@ -6,6 +6,7 @@
     "declarationMap": false,
     "emitDeclarationOnly": false,
     "stripInternal": false,
+    "composite": false,
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],

@@ -19,10 +19,11 @@ function createReplyMock() {
   } = {
     send(payload: unknown) {
       sent.push(payload);
+      return reply as FastifyReply;
     },
     status(code: number) {
       statusCode = code;
-      return reply; // Fastify reply.status() is chainable
+      return reply as FastifyReply; // Fastify reply.status() is chainable
     },
 
     // helpers we assert against:

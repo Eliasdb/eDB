@@ -2,6 +2,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { injectQueryClient } from '@tanstack/angular-query-experimental';
 import { NotificationsService } from './notifications.service'; // adjust import path
 
 @Component({
@@ -75,6 +76,7 @@ import { NotificationsService } from './notifications.service'; // adjust import
 })
 export class NotificationsPanelComponent {
   private api = inject(NotificationsService);
+  private qc = injectQueryClient();
 
   // initial page
   listQuery = this.api.queryList(50, null);
@@ -100,14 +102,15 @@ export class NotificationsPanelComponent {
     const next = await this.api.queryList(50, cursor).refetch(); // run once manually to get next page
     // merge manually
     const prev = this.listQuery.data();
-    if (prev && next.data) {
-      const merged = [...prev.items, ...next.data.items];
-      this.listQuery.setData(() => ({
+    const nextData = next.data;
+    if (prev && nextData) {
+      const merged = [...prev.items, ...nextData.items];
+      this.qc.setQueryData(['admin-notifications', { limit: 50, cursor: null }], () => ({
         ...prev,
         items: merged,
-        nextCursor: next.data.nextCursor,
+        nextCursor: nextData.nextCursor,
       }));
-      this.nextCursor.set(next.data.nextCursor);
+      this.nextCursor.set(nextData.nextCursor);
     }
   }
 

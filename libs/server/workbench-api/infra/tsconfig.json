@@ -4,9 +4,9 @@
     "target": "es2022",
     "module": "commonjs",
     "moduleResolution": "node",
-    "composite": true,
+    "composite": false,
     "declaration": true,
+    "esModuleInterop": true,
     "types": ["vitest/globals", "vitest/importMeta", "node"]
-  },
-  "references": [{ "path": "../shared" }, { "path": "../models" }]
+  }
 }
