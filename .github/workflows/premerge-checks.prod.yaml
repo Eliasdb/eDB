@@ -173,6 +173,11 @@ jobs:
               echo "⚠️ Skipping NX build for $app"
             fi
 
+            if [ "$app" = "clara-api" ]; then
+              echo "🪚 Pruning $app"
+              pnpm nx run clara-api:prune:production --skip-nx-cache
+            fi
+
             if [ "$app" = "wc-edb-user-account" ]; then
               echo "⚠️ Skipping Docker for $app"
               continue

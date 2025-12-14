@@ -3,7 +3,7 @@ import type { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify';
 import fp from 'fastify-plugin';
 
 export const authPlugin: FastifyPluginAsync = fp(async (app) => {
-  // (optional) declare at runtime that requests can have `user`
+  // (optional) declare at runtime that requests can have `user`.
   app.decorateRequest('user', null);
 
   app.addHook(

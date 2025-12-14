@@ -18,7 +18,7 @@ export default function SupportLayout() {
         ),
       }}
     >
-      {/* Declare screens in this group so they get titles */}
+      {/* Declare screens in this group so they get titles... */}
       <Stack.Screen name="help" options={{ title: 'Help & Support' }} />
     </Stack>
   );
