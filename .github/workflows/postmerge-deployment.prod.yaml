@@ -309,9 +309,9 @@ jobs:
           delete-branch: true
           branch-suffix: short-commit-hash
           base: 'main'
-      labels: |
-        release
-        prod
+          labels: |
+            release
+            prod
 
   # ─────────────────────────────────────────────────────────────────────────────
   # 🤖 Promote Clara Client to Prod (GitOps)

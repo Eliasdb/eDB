@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: clara-api
-          image: eliasdb/clara-api:v2.1
+          image: eliasdb/clara-api
           envFrom:
             - secretRef:
                 name: clara-api-db-prod
