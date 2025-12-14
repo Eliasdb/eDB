@@ -103,7 +103,8 @@ jobs:
           ADMIN_APP=$(echo "$AFFECTED" | grep -xq "mfe-edb-admin" && echo "true" || echo "false")
           ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
           INVOICES_API=$(echo "$AFFECTED" | grep -xq "tools-invoices-api" && echo "true" || echo "false")
-          CLARA_CLIENT=$(echo "$AFFECTED" | grep -xq "clara-client" && echo "true" || echo "false")
+          # Clara client is exported from the mobile app; trigger when either changes
+          CLARA_CLIENT=$(echo "$AFFECTED" | grep -xEq "(^|\\s)(clara-client|mobile)(\\s|$)" && echo "true" || echo "false")
           CLARA_API=$(echo "$AFFECTED" | grep -xq "clara-api" && echo "true" || echo "false")
 
           echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
