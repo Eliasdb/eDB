@@ -3,7 +3,7 @@ import type OpenAI from 'openai';
 
 export type ExecCtx = { app?: FastifyInstance };
 
-// Every tool pack implements this
+// Every tool pack implements this.
 export interface ToolModule {
   /** Unique module namespace, e.g. "hub" or "hubspot" */
   namespace: string;

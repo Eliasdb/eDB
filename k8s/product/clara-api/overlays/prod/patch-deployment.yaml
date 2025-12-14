@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clara-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: clara-api
+          image: eliasdb/clara-api
+          envFrom:
+            - secretRef:
+                name: clara-api-db-prod
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-secret-prod
+                  key: OPENAI_API_KEY
+            - name: HUBSPOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hubspot-secret-prod
+                  key: HUBSPOT_TOKEN
+            - name: HUBSPOT_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: hubspot-secret-prod
+                  key: HUBSPOT_BASE

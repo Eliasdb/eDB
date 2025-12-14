@@ -58,6 +58,8 @@ jobs:
       admin_app: ${{ steps.set_booleans.outputs.admin_app }}
       admin_api: ${{ steps.set_booleans.outputs.admin_api }}
       invoices_api: ${{ steps.set_booleans.outputs.invoices_api }}
+      clara_client: ${{ steps.set_booleans.outputs.clara_client }}
+      clara_api: ${{ steps.set_booleans.outputs.clara_api }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -101,6 +103,8 @@ jobs:
           ADMIN_APP=$(echo "$AFFECTED" | grep -xq "mfe-edb-admin" && echo "true" || echo "false")
           ADMIN_API=$(echo "$AFFECTED" | grep -xq "admin-api" && echo "true" || echo "false")
           INVOICES_API=$(echo "$AFFECTED" | grep -xq "tools-invoices-api" && echo "true" || echo "false")
+          CLARA_CLIENT=$(echo "$AFFECTED" | grep -xq "clara-client" && echo "true" || echo "false")
+          CLARA_API=$(echo "$AFFECTED" | grep -xq "clara-api" && echo "true" || echo "false")
 
           echo "platform_api=${PLATFORM_API}" >> $GITHUB_OUTPUT
           echo "webshop_api=${WEBSHOP_API}" >> $GITHUB_OUTPUT
@@ -108,6 +112,8 @@ jobs:
           echo "admin_app=${ADMIN_APP}" >> $GITHUB_OUTPUT
           echo "admin_api=${ADMIN_API}" >> $GITHUB_OUTPUT
           echo "invoices_api=${INVOICES_API}" >> $GITHUB_OUTPUT      
+          echo "clara_client=${CLARA_CLIENT}" >> $GITHUB_OUTPUT
+          echo "clara_api=${CLARA_API}" >> $GITHUB_OUTPUT      
 
           printf "\n📦 What Will Be Deployed:\n\
             🔌 APIs:\n\
@@ -115,10 +121,12 @@ jobs:
               🧠 Admin API:     %s\n\
               🛒 Webshop API:   %s\n\
               🧾 Invoice API:   %s\n\
+              🤖 Clara API:     %s\n\
             🧩 Apps:\n\
               📱 Platform App:  %s\n\
-              👑 Admin App:     %s\n\n" \
-            "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$INVOICES_API" "$PLATFORM_APP" "$ADMIN_APP"
+              👑 Admin App:     %s\n\
+              🤖 Clara Client:  %s\n\n" \
+            "$PLATFORM_API" "$ADMIN_API" "$WEBSHOP_API" "$INVOICES_API" "$CLARA_API" "$PLATFORM_APP" "$ADMIN_APP" "$CLARA_CLIENT"
         shell: bash
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -215,6 +223,51 @@ jobs:
             prod
 
   # ─────────────────────────────────────────────────────────────────────────────
+  # 🤖 Deploy Clara API to Production
+  # ─────────────────────────────────────────────────────────────────────────────
+  promote-clara-api:
+    name: Promote Clara API to Prod (GitOps)
+    runs-on: self-hosted
+    needs: [nx-affected, version]
+    if: ${{ needs.nx-affected.outputs.clara_api == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3'
+
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
+          IMAGE_NAME: eliasdb/clara-api
+        run: |
+          set -euo pipefail
+          cd k8s/product/clara-api/overlays/prod
+
+          kustomize edit set image "${IMAGE_NAME}=${IMAGE_NAME}:${TAG}"
+
+          echo "kustomization.yaml after bump:"
+          grep -n "^images:" kustomization.yaml || true
+          grep -n "${IMAGE_NAME}" kustomization.yaml || true
+
+          kustomize build . >/dev/null
+
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote clara-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote clara-api to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **clara-api** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/clara-api-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          base: 'main'
+          labels: |
+            release
+            prod
+
+  # ─────────────────────────────────────────────────────────────────────────────
   # 🌐 Promote Platform App to Prod (GitOps)
   # ─────────────────────────────────────────────────────────────────────────────
   promote-platform-app:
@@ -253,6 +306,52 @@ jobs:
           title: 'Promote platform-client to ${{ needs.version.outputs.image_tag }} [skip ci]'
           body: 'Promotes **platform-client** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
           branch: 'promote/platform-client-${{ needs.version.outputs.image_tag }}'
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          base: 'main'
+          labels: |
+            release
+            prod
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🤖 Promote Clara Client to Prod (GitOps)
+  # ─────────────────────────────────────────────────────────────────────────────
+  promote-clara-client:
+    name: Promote Clara Client to Prod (GitOps)
+    runs-on: self-hosted
+    needs: [nx-affected, version]
+    if: ${{ needs.nx-affected.outputs.clara_client == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install kustomize
+      - uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: '5.4.3'
+
+      - name: Bump image tag in prod overlay
+        env:
+          TAG: ${{ needs.version.outputs.image_tag }}
+          IMAGE_NAME: eliasdb/clara-client
+        run: |
+          set -euo pipefail
+          cd k8s/product/clara-client/overlays/prod
+
+          kustomize edit set image "${IMAGE_NAME}=${IMAGE_NAME}:${TAG}"
+
+          echo "kustomization.yaml after bump:"
+          grep -n "^images:" -n kustomization.yaml || true
+          grep -n "${IMAGE_NAME}" kustomization.yaml || true
+
+          kustomize build . >/dev/null
+
+      - name: Create Promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(prod): promote clara-client to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          title: 'Promote clara-client to ${{ needs.version.outputs.image_tag }} [skip ci]'
+          body: 'Promotes **clara-client** to `${{ needs.version.outputs.image_tag }}`. ArgoCD will deploy after merge.'
+          branch: 'promote/clara-client-${{ needs.version.outputs.image_tag }}'
           delete-branch: true
           branch-suffix: short-commit-hash
           base: 'main'
