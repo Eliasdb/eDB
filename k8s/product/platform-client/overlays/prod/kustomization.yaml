@@ -10,4 +10,4 @@ patches:
 images:
 - name: eliasdb/edb
   newName: eliasdb/edb
-  newTag: v2.1
+  newTag: v2.2
