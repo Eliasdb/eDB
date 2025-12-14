@@ -15,7 +15,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'camelCase',
         },
       ],
@@ -23,7 +23,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'kebab-case',
         },
       ],

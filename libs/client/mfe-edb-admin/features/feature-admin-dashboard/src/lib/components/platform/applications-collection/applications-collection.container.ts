@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 
 import { AdminService } from '@eDB/client-admin';
 import { TableUtilsService } from '@edb/util-common';
-import { PlaceholderModule } from 'carbon-components-angular';
+import { PlaceholderModule, ModalModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -41,6 +41,9 @@ import {
   imports: [
     UiTableComponent,
     UiButtonComponent,
+    // Carbon modal needs both the module (providers) and a placeholder in the
+    // view tree; keep it close to where the modal is opened.
+    ModalModule,
     PlaceholderModule,
     UiPlatformOverflowMenuComponent,
     MatCardModule,
@@ -131,6 +134,7 @@ import {
         />
       </form>
     </ng-template>
+
   `,
 })
 export class ApplicationsCollectionContainer implements OnInit {
@@ -138,18 +142,18 @@ export class ApplicationsCollectionContainer implements OnInit {
   isSmallScreen = false;
 
   @ViewChild('actionTemplate', { static: true })
-  actionTemplate!: TemplateRef<any>;
+  actionTemplate!: TemplateRef<unknown>;
   @ViewChild('deleteTemplate', { static: true })
-  deleteTemplate!: TemplateRef<any>;
+  deleteTemplate!: TemplateRef<unknown>;
   @ViewChild('applicationFormTemplate', { static: true })
-  applicationFormTemplate!: TemplateRef<any>;
+  applicationFormTemplate!: TemplateRef<unknown>;
 
   menuOptions = OVERFLOW_MENU_CONFIG;
   tableModel = new TableModel();
 
-  adminService = inject(AdminService);
-  tableUtils = inject(TableUtilsService);
-  modalUtils = inject(CustomModalService);
+  adminService: AdminService = inject(AdminService);
+  tableUtils: TableUtilsService = inject(TableUtilsService);
+  modalUtils: CustomModalService = inject(CustomModalService);
   router = inject(Router);
   fb = inject(FormBuilder);
 
@@ -232,19 +236,24 @@ export class ApplicationsCollectionContainer implements OnInit {
 
   openAddApplicationModal() {
     this.applicationForm.reset();
+    this.applicationForm.markAsPristine();
+    this.applicationForm.markAsUntouched();
 
     this.modalUtils.openModal({
       header: MODAL_CONFIG.addApplication.header,
       template: this.applicationFormTemplate,
       context: { form: this.applicationForm },
       onSave: () => {
+        if (this.applicationForm.invalid) return;
         const formValue = this.applicationForm.value;
         this.handleAddApplication({
-          name: formValue.name!,
-          description: formValue.description!,
-          iconUrl: formValue.iconUrl!,
-          routePath: formValue.routePath!,
-          tags: formValue.tags?.split(',').map((tag) => tag.trim()) || [],
+          name: formValue.name ?? '',
+          description: formValue.description ?? '',
+          iconUrl: formValue.iconUrl ?? '',
+          routePath: formValue.routePath ?? '',
+          tags: formValue.tags
+            ? formValue.tags.split(',').map((tag) => tag.trim())
+            : [],
         });
       },
     });
@@ -264,14 +273,17 @@ export class ApplicationsCollectionContainer implements OnInit {
       template: this.applicationFormTemplate,
       context: { form: this.applicationForm },
       onSave: () => {
+        if (this.applicationForm.invalid) return;
         const formValue = this.applicationForm.value;
         this.handleEditApplication({
           ...application,
-          name: formValue.name!,
-          description: formValue.description!,
-          iconUrl: formValue.iconUrl!,
-          routePath: formValue.routePath!,
-          tags: formValue.tags?.split(',').map((tag) => tag.trim()) || [],
+          name: formValue.name ?? application.name,
+          description: formValue.description ?? application.description,
+          iconUrl: formValue.iconUrl ?? application.iconUrl,
+          routePath: formValue.routePath ?? application.routePath,
+          tags: formValue.tags
+            ? formValue.tags.split(',').map((tag) => tag.trim())
+            : application.tags ?? [],
         });
       },
     });

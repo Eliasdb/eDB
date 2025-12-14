@@ -73,10 +73,10 @@ export const TagRepoPg: TagRepo = {
       .limit(plan.limit)
       .offset(plan.offset);
 
-    return { rows: rows.map(rowToTag as any), total };
+    return { rows: rows.map((row) => rowToTag(row as TagRow)), total };
   },
 
-  async getById(id) {
+  async getById(id: string) {
     const [row] = await db
       .select()
       .from(tagsTable)

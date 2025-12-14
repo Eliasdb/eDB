@@ -1,8 +1,11 @@
-const nx = require('@nx/eslint-plugin');
-const baseConfig = require('../../../eslint.config.mjs');
+import nx from '@nx/eslint-plugin';
+import baseConfig from '../../../eslint.config.mjs';
 
-module.exports = [
+export default [
   ...baseConfig,
+  {
+    ignores: ['apps/client/edb/src/assets/clara/_expo/static/js/**/*'],
+  },
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
   {
@@ -12,7 +15,7 @@ module.exports = [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'camelCase',
         },
       ],
@@ -20,7 +23,7 @@ module.exports = [
         'error',
         {
           type: 'element',
-          prefix: 'platform',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'kebab-case',
         },
       ],
@@ -40,7 +43,8 @@ module.exports = [
     files: ['**/*.html'],
     rules: {
       '@angular-eslint/template/no-negated-async': 'error',
-      '@angular-eslint/template/no-call-expression': 'warn',
+      // Angular signals are invoked as functions in templates; allow call expressions there.
+      '@angular-eslint/template/no-call-expression': 'off',
     },
   },
 ];

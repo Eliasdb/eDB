@@ -48,8 +48,8 @@ export async function connectRealtime(
   stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
   // Remote audio: handled by RN automatically
-  (pc as any).ontrack = () => {};
-  (pc as any).onaddstream = () => {};
+  (pc as any).ontrack = () => undefined;
+  (pc as any).onaddstream = () => undefined;
 
   // 🔊 Level meter to consumer
   const detachMeter = attachRemoteLevelMeter(pc as any, {
@@ -94,9 +94,8 @@ export async function connectRealtime(
   });
 
   const onMessage = makeMessageHandler(dc as any, executeOnce, {
-    onToolEffect: (name, args) => {
-      // Additional per-message hooks can go here if you need
-    },
+    onToolEffect: (name, args, result) =>
+      opts?.onToolEffect?.(name, args, result as any),
   });
 
   (dc as any).onmessage = onMessage as any;
@@ -104,23 +103,17 @@ export async function connectRealtime(
   await negotiate(pc as any, t);
 
   const close = () => {
-    try {
-      (dc as any).onmessage = undefined;
-      (dc as any).onopen = undefined;
-      (dc as any).close();
-    } catch {}
-    try {
-      (pc as any).ontrack = undefined;
-      (pc as any).onaddstream = undefined;
-      (pc as any).close();
-    } catch {}
-    try {
-      detachMeter();
-    } catch {}
-    try {
-      stream.getTracks().forEach((tr) => tr.stop());
-    } catch {}
-    closeAudioSession().catch(() => {});
+    (dc as any).onmessage = undefined;
+    (dc as any).onopen = undefined;
+    (dc as any).close();
+
+    (pc as any).ontrack = undefined;
+    (pc as any).onaddstream = undefined;
+    (pc as any).close();
+
+    detachMeter();
+    stream.getTracks().forEach((tr) => tr.stop());
+    closeAudioSession().catch(() => undefined);
   };
 
   return { pc: pc as any, dc: dc as any, close };

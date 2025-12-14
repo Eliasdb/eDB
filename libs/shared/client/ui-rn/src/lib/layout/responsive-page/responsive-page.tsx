@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { View } from 'react-native';
+import { Children, ReactNode } from 'react';
+import { useWindowDimensions, View } from 'react-native';
 
 export function PageContainer({
   children,
@@ -25,8 +25,6 @@ export function PageContainer({
 }
 
 // ui/layout/TwoCol.tsx
-import { Children } from 'react';
-import { useWindowDimensions } from 'react-native';
 
 type Props = {
   children: ReactNode | ReactNode[];

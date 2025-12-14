@@ -45,6 +45,18 @@ spec:
                 name: platform-client-prod
                 port:
                   number: 80
+    - host: clara.eliasdebock.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: clara-client-prod
+                port:
+                  number: 80
   tls:
-    - hosts: [app.eliasdebock.com]
+    - hosts:
+        - app.eliasdebock.com
+        - clara.eliasdebock.com
       secretName: app-prod-tls

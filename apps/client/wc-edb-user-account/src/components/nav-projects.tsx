@@ -20,9 +20,9 @@ export function NavProjects({
     url: string;
     icon: LucideIcon;
   }[];
-  onSelectProject: (project: any) => void;
+  onSelectProject: (project: { name: string; url: string; icon: LucideIcon }) => void;
 }) {
-  const { isMobile, setOpen, setOpenMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">

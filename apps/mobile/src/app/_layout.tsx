@@ -25,6 +25,7 @@ import '../../global.css';
 
 // i18n
 import { initI18n } from '@edb-clara/i18n';
+import type { i18n } from 'i18next';
 
 const queryClient = getQueryClient();
 
@@ -55,7 +56,7 @@ function RootInner() {
 }
 
 export default function RootLayout() {
-  const [i18nInstance, setI18nInstance] = useState<any>(null);
+  const [i18nInstance, setI18nInstance] = useState<i18n | null>(null);
 
   useEffect(() => {
     let mounted = true;

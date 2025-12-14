@@ -29,83 +29,88 @@ export default meta;
 
 type Story = StoryObj<typeof DateField>;
 
+const EmptyRender = (args: Parameters<typeof DateField>[0]) => {
+  const [value, setValue] = useState<string | undefined>(undefined);
+  return <DateField {...args} value={value} onChange={setValue} />;
+};
+
 export const Empty: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string | undefined>(undefined);
-    return <DateField {...args} value={value} onChange={setValue} />;
-  },
+  render: (args) => <EmptyRender {...args} />,
+};
+
+const WithValueRender = (args: Parameters<typeof DateField>[0]) => {
+  const [value, setValue] = useState<string | undefined>('2025-10-15');
+  return <DateField {...args} value={value} onChange={setValue} />;
 };
 
 export const WithValue: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string | undefined>('2025-10-15');
-    return <DateField {...args} value={value} onChange={setValue} />;
-  },
+  render: (args) => <WithValueRender {...args} />,
+};
+
+const WithMinMaxRender = (args: Parameters<typeof DateField>[0]) => {
+  const [value, setValue] = useState<string | undefined>('2025-10-15');
+
+  const { min, max } = useMemo(() => {
+    const base = new Date(2025, 9, 15); // Oct (0-based)
+    const min = new Date(base);
+    min.setDate(min.getDate() - 7);
+    const max = new Date(base);
+    max.setDate(max.getDate() + 7);
+    return { min, max };
+  }, []);
+
+  return (
+    <DateField
+      {...args}
+      value={value}
+      onChange={setValue}
+      minimumDate={min}
+      maximumDate={max}
+    />
+  );
 };
 
 export const WithMinMax: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string | undefined>('2025-10-15');
+  render: (args) => <WithMinMaxRender {...args} />,
+};
 
-    const { min, max } = useMemo(() => {
-      const base = new Date(2025, 9, 15); // Oct (0-based)
-      const min = new Date(base);
-      min.setDate(min.getDate() - 7);
-      const max = new Date(base);
-      max.setDate(max.getDate() + 7);
-      return { min, max };
-    }, []);
-
-    return (
-      <DateField
-        {...args}
-        value={value}
-        onChange={setValue}
-        minimumDate={min}
-        maximumDate={max}
-      />
-    );
-  },
+const LabeledRender = (args: Parameters<typeof DateField>[0]) => {
+  const [value, setValue] = useState<string | undefined>(undefined);
+  return (
+    <DateField {...args} label="Due date" value={value} onChange={setValue} />
+  );
 };
 
 export const Labeled: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string | undefined>(undefined);
-    return (
-      <DateField {...args} label="Due date" value={value} onChange={setValue} />
-    );
-  },
+  render: (args) => <LabeledRender {...args} />,
+};
+
+const ClearableDemoRender = (args: Parameters<typeof DateField>[0]) => {
+  const [value, setValue] = useState<string | undefined>('2025-12-01');
+
+  return (
+    <View style={{ gap: 12 }}>
+      <DateField {...args} label="Pick a date" value={value} onChange={setValue} />
+
+      {/* Small RN button to clear */}
+      <TouchableOpacity
+        onPress={() => setValue(undefined)}
+        style={{
+          alignSelf: 'flex-start',
+          paddingHorizontal: 12,
+          paddingVertical: 8,
+          borderRadius: 8,
+          borderWidth: 1,
+          borderColor: 'rgba(0,0,0,0.1)',
+        }}
+        activeOpacity={0.8}
+      >
+        <Text style={{ fontSize: 12, opacity: 0.85 }}>Clear date</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 export const ClearableDemo: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string | undefined>('2025-12-01');
-
-    return (
-      <View style={{ gap: 12 }}>
-        <DateField
-          {...args}
-          label="Pick a date"
-          value={value}
-          onChange={setValue}
-        />
-
-        {/* Small RN button to clear */}
-        <TouchableOpacity
-          onPress={() => setValue(undefined)}
-          style={{
-            alignSelf: 'flex-start',
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            borderRadius: 8,
-            borderWidth: 1,
-            borderColor: 'rgba(0,0,0,0.1)',
-          }}
-          activeOpacity={0.8}
-        >
-          <Text style={{ fontSize: 12, opacity: 0.85 }}>Clear date</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  },
+  render: (args) => <ClearableDemoRender {...args} />,
 };

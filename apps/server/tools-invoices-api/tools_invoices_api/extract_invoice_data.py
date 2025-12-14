@@ -3,6 +3,7 @@
 import fitz  # PyMuPDF
 import re
 
+
 def extract_invoice_data_from_bytes(file_bytes, file_name=""):
     doc = fitz.open("pdf", file_bytes)
     text = "\n".join(page.get_text() for page in doc)

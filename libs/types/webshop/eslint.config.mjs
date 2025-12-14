@@ -14,7 +14,7 @@ const config = [
         'error',
         {
           type: 'attribute',
-          prefix: 'lib',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'camelCase',
         },
       ],
@@ -22,7 +22,7 @@ const config = [
         'error',
         {
           type: 'element',
-          prefix: 'lib',
+          prefix: ['app', 'platform', 'lib', 'crm', 'webshop', 'dashboard', 'shell', 'wc', 'edb'],
           style: 'kebab-case',
         },
       ],

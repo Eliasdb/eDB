@@ -2,7 +2,7 @@
 // admin-dashboard.component.ts   (breadcrumb text animation 🌀)
 // ─────────────────────────────────────────────────────────────
 import { TitleCasePipe } from '@angular/common';
-import { Component, ViewChild, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -24,7 +24,8 @@ import { AdminOrdersListComponent } from '../webshop/order-collection/order.coll
 import { AdminSidebarComponent } from './admin-sidebar.component';
 
 @Component({
-  selector: 'admin-dashboard',
+  standalone: true,
+  selector: 'edb-admin-dashboard',
   imports: [
     MatDrawerContent,
     MatDrawerContainer,
@@ -52,11 +53,11 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
         class="drawer bg-gray-900 text-white"
         [class.closed]="!isDrawerOpen"
       >
-        <admin-sidebar
+        <edb-admin-sidebar
           [isOpen]="drawer.opened"
           (toggleSidebar)="drawer.toggle()"
           (itemSelected)="switchDrawerContent($event)"
-        ></admin-sidebar>
+        ></edb-admin-sidebar>
       </mat-drawer>
 
       <!-- Main content ------------------------------------------------------- -->
@@ -111,7 +112,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
             <div class="p-6">
               <h2 class="mb-4 text-2xl font-medium">Dashboard</h2>
               <cds-tile class="flex-1 border rounded-[0.375rem] p-4 mb-4">
-                <notifications-panel></notifications-panel>
+                <edb-notifications-panel></edb-notifications-panel>
               </cds-tile>
 
               <div class="flex flex-col md:flex-row gap-4 mb-4">
@@ -222,7 +223,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
                 <cds-tile class="border rounded-[0.375rem] p-4 col-span-1">
                   <h4 class="mb-4 text-lg font-medium">Orders</h4>
                   <div class="max-h-[28rem] overflow-y-auto pr-2">
-                    <admin-orders-list />
+                    <edb-admin-orders-list />
                   </div>
                 </cds-tile>
               </div>
@@ -233,7 +234,7 @@ import { AdminSidebarComponent } from './admin-sidebar.component';
     </mat-drawer-container>
   `,
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
   /* Drawer */
   @ViewChild('drawer') private drawer!: MatDrawer;
   isDrawerOpen = false;

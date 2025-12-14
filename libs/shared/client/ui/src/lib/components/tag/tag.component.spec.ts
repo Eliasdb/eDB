@@ -5,7 +5,6 @@ import { UiTagComponent } from './tag.component';
 
 describe('UiTagComponent', () => {
   let fixture: ComponentFixture<UiTagComponent>;
-  let component: UiTagComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -13,7 +12,6 @@ describe('UiTagComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(UiTagComponent);
-    component = fixture.componentInstance;
   });
 
   it('should render the tag with default inputs', () => {

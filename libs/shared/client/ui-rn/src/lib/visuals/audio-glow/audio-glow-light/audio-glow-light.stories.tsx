@@ -9,7 +9,9 @@ import AudioGlowLight from './audio-glow-light';
 /* ---------------- helpers ---------------- */
 
 // Force NativeWind’s light theme for all stories here
-const forceLight: Decorator = (Story) => {
+const ForceLightWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   useEffect(() => {
     const prev = colorScheme.get();
     colorScheme.set('light');
@@ -26,11 +28,17 @@ const forceLight: Decorator = (Story) => {
           backgroundColor: '#f9fafb',
         }}
       >
-        <Story />
+        {children}
       </View>
     </SafeAreaProvider>
   );
 };
+
+const forceLight: Decorator = (Story) => (
+  <ForceLightWrapper>
+    <Story />
+  </ForceLightWrapper>
+);
 
 /* ---------------- meta ---------------- */
 

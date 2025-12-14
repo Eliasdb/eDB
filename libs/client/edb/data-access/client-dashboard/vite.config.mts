@@ -7,7 +7,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/libs/client-dashboard',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],

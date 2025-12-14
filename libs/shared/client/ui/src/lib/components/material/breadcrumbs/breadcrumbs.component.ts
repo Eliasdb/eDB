@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { UiIconComponent } from '@edb/shared-ui';
+import { UiIconComponent } from '../../icon/icon.component';
 import { Breadcrumb } from './breadcrumb.model';
 
 @Component({

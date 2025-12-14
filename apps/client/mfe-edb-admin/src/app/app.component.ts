@@ -1,9 +1,9 @@
-// import { Component } from '@angular/core';
-// import { ShellComponent } from '@eDB/feature-shell';
+import { Component } from '@angular/core';
 
-// @Component({
-//   selector: 'app-root',
-//   template: `<app-shell></app-shell>`,
-//   imports: [ShellComponent],
-// })
-// export class AppComponent {}
+@Component({
+  // Dev-only host shell... In prod the remote is loaded via module federation routes.
+  selector: 'app-admin-root',
+  template: ``,
+  imports: [],
+})
+export class AppComponent {}

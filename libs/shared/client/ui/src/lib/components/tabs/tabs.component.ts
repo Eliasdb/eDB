@@ -18,5 +18,5 @@ import { TabsModule } from 'carbon-components-angular';
   `,
 })
 export class UiTabsComponent {
-  @Input() tabs: { label: string; content: TemplateRef<any> }[] = [];
+  @Input() tabs: { label: string; content: TemplateRef<unknown> }[] = [];
 }

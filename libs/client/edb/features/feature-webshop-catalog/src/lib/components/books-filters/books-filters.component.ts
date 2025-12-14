@@ -15,17 +15,23 @@ import { Genre, mappedGenres } from '@eDB-webshop/shared-data';
 import { UiToggleComponent } from '@edb/shared-ui';
 
 @Component({
-  selector: 'book-filters',
+  selector: 'webshop-book-filters',
   imports: [ReactiveFormsModule, UiToggleComponent, FormsModule, NgClass],
   template: `
     <section class="flex flex-col gap-6 text-sm rounded-xl w-full xl:w-[14rem]">
       <!-- ── Search ─────────────────────────────────────────── -->
       <div>
-        <label class="block mb-1 font-medium text-black">Title / Author</label>
+        <label
+          class="block mb-1 font-medium text-black"
+          [attr.for]="searchInputId"
+        >
+          Title / Author
+        </label>
         <div class="relative">
           <input
             [formControl]="searchControl"
             placeholder="Search"
+            [id]="searchInputId"
             class="w-full text-sm pl-10 pr-4 py-2 rounded-xl border border-slate-300 bg-white/60 hover:bg-slate-100 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent transition-all"
           />
           <img
@@ -100,7 +106,7 @@ export class BooksFiltersComponent implements OnInit {
   @Input() activeGenre: Genre | string | null = null;
   @Input() bookStatus: string | null = null;
 
-  @Output() search = new EventEmitter<string>();
+  @Output() searchChange = new EventEmitter<string>();
   @Output() filterGenre = new EventEmitter<string>();
   @Output() filterStatus = new EventEmitter<string>();
   @Output() clearFilters = new EventEmitter<void>();
@@ -109,6 +115,7 @@ export class BooksFiltersComponent implements OnInit {
   isChecked = signal(true);
   private fb = inject(FormBuilder);
   searchControl = this.fb.control('');
+  readonly searchInputId = 'webshop-books-search';
 
   ngOnInit(): void {
     this.searchControl.valueChanges
@@ -117,7 +124,7 @@ export class BooksFiltersComponent implements OnInit {
         debounceTime(250),
         distinctUntilChanged(),
       )
-      .subscribe((v) => this.search.emit(v));
+      .subscribe((v) => this.searchChange.emit(v));
 
     if (this.bookStatus === 'loaned') this.isChecked.set(false);
   }

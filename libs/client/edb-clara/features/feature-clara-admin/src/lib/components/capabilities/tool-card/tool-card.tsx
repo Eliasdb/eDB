@@ -31,7 +31,7 @@ export function ToolCard({
     <View style={{ flex: 1 }}>
       {/* Make the Card itself fill, and lay its contents as a column */}
       <Card className="rounded-2xl" style={{ flex: 1 }}>
-        <View style={{ flex: 1, display: 'flex' } as any}>
+        <View style={{ flex: 1, display: 'flex' }}>
           {/* --- Title row --- */}
           <View className="flex-row items-center">
             {/* left cluster occupies the available width and can wrap */}
@@ -49,7 +49,11 @@ export function ToolCard({
               {/* 👇 allow wrapping; no ellipsis */}
               <Text
                 className="text-[14px] font-extrabold"
-                style={{ color: text, flexShrink: 1, flexWrap: 'wrap' } as any}
+                style={{
+                  color: text,
+                  flexShrink: 1,
+                  flexWrap: 'wrap',
+                }}
               >
                 {title}
               </Text>
@@ -161,7 +165,7 @@ function RowMini({ label, value }: { label: string; value: string }) {
               ios: { fontFamily: 'Menlo' },
               android: { fontFamily: 'monospace' },
               web: { fontFamily: 'monospace' },
-            }) as any),
+            }) as Record<string, unknown>),
           }}
         >
           {value}

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SideNavModule } from 'carbon-components-angular';
+import { vi } from 'vitest';
 import { UiIconComponent } from '../../icon/icon.component';
 import { UiSidenavComponent } from './side-nav.component';
 

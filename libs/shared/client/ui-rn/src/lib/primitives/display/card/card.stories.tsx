@@ -160,13 +160,13 @@ export const WithActionsRow: Story = {
       <View style={{ height: 12 }} />
       <View style={{ flexDirection: 'row', gap: 8 }}>
         <Pressable
-          onPress={() => {}}
+          onPress={() => undefined}
           style={{ paddingVertical: 8, paddingHorizontal: 12 }}
         >
           <Text>Primary</Text>
         </Pressable>
         <Pressable
-          onPress={() => {}}
+          onPress={() => undefined}
           style={{ paddingVertical: 8, paddingHorizontal: 12 }}
         >
           <Text>Secondary</Text>

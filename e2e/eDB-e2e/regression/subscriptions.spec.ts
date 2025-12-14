@@ -1,31 +1,58 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
+
+async function ensureUnsubscribed(params: {
+  isSubscribed: () => Promise<boolean>;
+  waitToastGone: () => Promise<void>;
+  unsubscribeBtn: Locator;
+  toast: Locator;
+}) {
+  const { isSubscribed, waitToastGone, unsubscribeBtn, toast } = params;
+  if (!(await isSubscribed())) return;
+  await waitToastGone();
+  await unsubscribeBtn.scrollIntoViewIfNeeded();
+  await unsubscribeBtn.click();
+  await expect(toast).toContainText(/unsubscribed|removed|success/i);
+  await expect.poll(isSubscribed).toBe(false);
+}
+
+async function subscribeOnce(params: {
+  waitToastGone: () => Promise<void>;
+  subscribeBtn: Locator;
+  toast: Locator;
+  isSubscribed: () => Promise<boolean>;
+}) {
+  const { waitToastGone, subscribeBtn, toast, isSubscribed } = params;
+  await waitToastGone();
+  await subscribeBtn.scrollIntoViewIfNeeded();
+  await subscribeBtn.click();
+  await expect(toast).toContainText(/subscribed|success/i);
+  await expect.poll(isSubscribed).toBe(true);
+}
+
+async function waitToastHidden(toast: Locator) {
+  if ((await toast.count()) === 0) return;
+  await toast
+    .first()
+    .waitFor({ state: 'hidden', timeout: 6000 })
+    .catch(() => undefined);
+}
 
 test.describe('@regression @auth @mutates', () => {
   test('subscribe → dashboard shows app → unsubscribe (idempotent)', async ({
     page,
   }) => {
     await page.goto('/catalog');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const card = page.getByTestId('catalog-card').first();
     await expect(card).toBeVisible();
 
-    // card exposes data-subscribed="true|false"
     const isSubscribed = async () =>
       (await card.getAttribute('data-subscribed')) === 'true';
 
-    // Carbon toasts live here (success/error)
     const toast = page.locator('.notification-overlay [role="status"]').first();
-    const waitToastGone = async () => {
-      if ((await toast.count()) > 0) {
-        await toast
-          .first()
-          .waitFor({ state: 'hidden', timeout: 6000 })
-          .catch(() => {});
-      }
-    };
+    const waitToastGone = () => waitToastHidden(toast);
 
-    // target the OUTER cds-icon-button only (single element)
     const subscribeBtn = card.locator(
       'cds-icon-button[data-testid="subscribe-btn"]',
     );
@@ -33,34 +60,24 @@ test.describe('@regression @auth @mutates', () => {
       'cds-icon-button[data-testid="unsubscribe-btn"]',
     );
 
-    // Normalize to UNsubscribed
-    if (await isSubscribed()) {
-      await waitToastGone();
-      await unsubscribeBtn.scrollIntoViewIfNeeded();
-      await unsubscribeBtn.click();
-      await expect(toast).toContainText(/unsubscribed|removed|success/i);
-      await expect.poll(isSubscribed).toBe(false);
-    }
+    await ensureUnsubscribed({
+      isSubscribed,
+      waitToastGone,
+      unsubscribeBtn,
+      toast,
+    });
 
-    // Subscribe
-    await waitToastGone();
-    await subscribeBtn.scrollIntoViewIfNeeded();
-    await subscribeBtn.click();
-    await expect(toast).toContainText(/subscribed|success/i);
-    await expect.poll(isSubscribed).toBe(true);
+    await subscribeOnce({ waitToastGone, subscribeBtn, toast, isSubscribed });
 
-    // Dashboard shows the app
     await page.getByRole('link', { name: /my edb|home|dashboard/i }).click();
     await expect(page).toHaveURL(/\/($|\?)/);
 
-    // Prefer stable test ids in your dashboard list (add them if you haven’t)
     const list = page.getByTestId('my-apps-list');
     await expect(list).toBeVisible();
     await expect(list.getByTestId('my-app-card').first()).toBeVisible();
 
-    // Cleanup (so the test is idempotent)
     await page.getByRole('link', { name: /catalog/i }).click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
     await waitToastGone();
     await unsubscribeBtn.scrollIntoViewIfNeeded();
     await unsubscribeBtn.click();

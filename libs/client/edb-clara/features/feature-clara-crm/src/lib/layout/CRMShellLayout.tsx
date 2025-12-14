@@ -19,12 +19,13 @@ export function CRMShellLayout() {
   const current = getActiveCrmTab(pathname);
 
   return (
-    <ResponsiveTabsLayout<CrmTabKey>
+    <ResponsiveTabsLayout
       tabs={CRM_LAYOUT_CONFIG.tabs.map((t) => ({ key: t.key, label: t.label }))}
       value={current}
       onChange={(next) => {
-        setNext(current, next);
-        router.replace(pathForCrmTab(next));
+        const tab = next as CrmTabKey;
+        setNext(current, tab);
+        router.replace(pathForCrmTab(tab));
       }}
       sidebarTitle={CRM_LAYOUT_CONFIG.sidebarTitle}
       sidebarFooter={

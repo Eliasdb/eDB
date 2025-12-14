@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSwitcherModule } from 'carbon-components-angular';
+import { vi } from 'vitest';
 import { UiContentSwitcherComponent } from './content-switcher.component';
 
 describe('UiContentSwitcherComponent', () => {

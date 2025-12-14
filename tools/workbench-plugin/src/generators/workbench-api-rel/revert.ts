@@ -335,7 +335,7 @@ function revertDrizzleSchema(
   const schemaPath = `libs/server/workbench-api/infra/src/lib/db/schemas/${childPlural}.ts`;
   if (!tree.exists(schemaPath)) return false;
 
-  let src = read(tree, schemaPath);
+  const src = read(tree, schemaPath);
 
   const tb = findPgTableBlock(src, childPlural);
   if (!tb) return false;
@@ -457,7 +457,7 @@ function revertRepoPg(
   src = src.replace(
     /(\.values\s*\(\s*\{)([\s\S]*?)(\}\s*\))/m,
     (m, head, body, tail) => {
-      let next = body
+      const next = body
         .replace(
           new RegExp(
             String.raw`\s*${reEscape(fkSnake)}\s*:\s*data\.${reEscape(

@@ -3,7 +3,7 @@ import type { Decorator, Meta, StoryObj } from '@storybook/react';
 import { colorScheme } from 'nativewind';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import BottomNav from './bottom-nav';
+import BottomNav, { type BottomNavProps } from './bottom-nav';
 import type { BottomNavItemModel as BottomNavItem } from './bottom-nav-item';
 
 /* ---------------- helpers ---------------- */
@@ -91,133 +91,130 @@ type Story = StoryObj<typeof BottomNav>;
 
 /* ---------------- stories ---------------- */
 
-export const Basic: Story = {
-  render: (args) => {
-    const [active, setActive] = useState('home');
-    const items: BottomNavItem[] = [
-      { key: 'home', label: 'Home', icon: tabIcon('home-outline') },
-      { key: 'tasks', label: 'Tasks', icon: tabIcon('checkbox-outline') },
-      { key: 'crm', label: 'CRM', icon: tabIcon('briefcase-outline') },
-      {
-        key: 'chat',
-        label: 'Chat',
-        icon: tabIcon('chatbubble-ellipses-outline'),
-      },
-      { key: 'settings', label: 'Settings', icon: tabIcon('settings-outline') },
-    ];
-    return (
-      <BottomNav
-        {...args}
-        items={items}
-        activeKey={active}
-        onChange={setActive}
-      />
-    );
+const useBaseItems = (): BottomNavItem[] => [
+  { key: 'home', label: 'Home', icon: tabIcon('home-outline') },
+  { key: 'tasks', label: 'Tasks', icon: tabIcon('checkbox-outline') },
+  { key: 'crm', label: 'CRM', icon: tabIcon('briefcase-outline') },
+  {
+    key: 'chat',
+    label: 'Chat',
+    icon: tabIcon('chatbubble-ellipses-outline'),
   },
+  { key: 'settings', label: 'Settings', icon: tabIcon('settings-outline') },
+];
+
+const BasicRender = (args: BottomNavProps) => {
+  const [active, setActive] = useState('home');
+  return (
+    <BottomNav
+      {...args}
+      items={useBaseItems()}
+      activeKey={active}
+      onChange={setActive}
+    />
+  );
+};
+
+export const Basic: Story = {
+  render: (args) => <BasicRender {...args} />,
+};
+
+const WithBadgesRender = (args: BottomNavProps) => {
+  const [active, setActive] = useState('tasks');
+
+  // Simple badge wrapper (dot or number)
+  const withBadge =
+    (
+      name: React.ComponentProps<typeof Ionicons>['name'],
+      badge?: number | string | boolean,
+    ) =>
+    ({ color, size }: { color: string; size: number; focused: boolean }) => (
+      <View>
+        <Ionicons name={name} size={size} color={color} />
+        {badge ? (
+          <View
+            style={{
+              position: 'absolute',
+              right: -6,
+              top: -4,
+              minWidth: 16,
+              height: 16,
+              paddingHorizontal: 4,
+              borderRadius: 8,
+              backgroundColor: '#ef4444',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {typeof badge === 'boolean' ? null : (
+              <Text
+                style={{
+                  fontSize: 10,
+                  fontWeight: '700',
+                  color: 'white',
+                  includeFontPadding: false,
+                }}
+              >
+                {String(badge)}
+              </Text>
+            )}
+          </View>
+        ) : null}
+      </View>
+    );
+
+  const items: BottomNavItem[] = [
+    { key: 'home', label: 'Home', icon: tabIcon('home-outline') },
+    {
+      key: 'tasks',
+      label: 'Tasks',
+      icon: withBadge('checkbox-outline', 3),
+      badge: 3,
+    },
+    {
+      key: 'crm',
+      label: 'CRM',
+      icon: withBadge('briefcase-outline', true),
+      badge: true,
+    },
+    {
+      key: 'chat',
+      label: 'Chat',
+      icon: tabIcon('chatbubble-ellipses-outline'),
+    },
+    { key: 'settings', label: 'Settings', icon: tabIcon('settings-outline') },
+  ];
+
+  return (
+    <BottomNav
+      {...args}
+      items={items}
+      activeKey={active}
+      onChange={setActive}
+    />
+  );
 };
 
 export const WithBadges: Story = {
-  render: (args) => {
-    const [active, setActive] = useState('tasks');
+  render: (args) => <WithBadgesRender {...args} />,
+};
 
-    // Simple badge wrapper (dot or number)
-    const withBadge =
-      (
-        name: React.ComponentProps<typeof Ionicons>['name'],
-        badge?: number | string | boolean,
-      ) =>
-      ({ color, size }: { color: string; size: number; focused: boolean }) => (
-        <View>
-          <Ionicons name={name} size={size} color={color} />
-          {badge ? (
-            <View
-              style={{
-                position: 'absolute',
-                right: -6,
-                top: -4,
-                minWidth: 16,
-                height: 16,
-                paddingHorizontal: 4,
-                borderRadius: 8,
-                backgroundColor: '#ef4444',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {typeof badge === 'boolean' ? null : (
-                <Text
-                  style={{
-                    fontSize: 10,
-                    fontWeight: '700',
-                    color: 'white',
-                    includeFontPadding: false as any,
-                  }}
-                >
-                  {String(badge)}
-                </Text>
-              )}
-            </View>
-          ) : null}
-        </View>
-      );
-
-    const items: BottomNavItem[] = [
-      { key: 'home', label: 'Home', icon: tabIcon('home-outline') },
-      {
-        key: 'tasks',
-        label: 'Tasks',
-        icon: withBadge('checkbox-outline', 3),
-        badge: 3,
-      },
-      {
-        key: 'crm',
-        label: 'CRM',
-        icon: withBadge('briefcase-outline', true),
-        badge: true,
-      },
-      {
-        key: 'chat',
-        label: 'Chat',
-        icon: tabIcon('chatbubble-ellipses-outline'),
-      },
-      { key: 'settings', label: 'Settings', icon: tabIcon('settings-outline') },
-    ];
-
-    return (
-      <BottomNav
-        {...args}
-        items={items}
-        activeKey={active}
-        onChange={setActive}
-      />
-    );
-  },
+const DarkModeRender = (args: BottomNavProps) => {
+  const [active, setActive] = useState('chat');
+  const items = useBaseItems();
+  return (
+    <BottomNav
+      {...args}
+      items={items}
+      activeKey={active}
+      onChange={setActive}
+      activeTint="#8B85FF"
+      inactiveTint="#A3A3A3"
+    />
+  );
 };
 
 export const DarkMode: Story = {
   decorators: [forceTheme('dark')],
-  render: (args) => {
-    const [active, setActive] = useState('chat');
-    const items: BottomNavItem[] = [
-      { key: 'home', label: 'Home', icon: tabIcon('home-outline') },
-      { key: 'tasks', label: 'Tasks', icon: tabIcon('checkbox-outline') },
-      { key: 'crm', label: 'CRM', icon: tabIcon('briefcase-outline') },
-      {
-        key: 'chat',
-        label: 'Chat',
-        icon: tabIcon('chatbubble-ellipses-outline'),
-      },
-      { key: 'settings', label: 'Settings', icon: tabIcon('settings-outline') },
-    ];
-    return (
-      <BottomNav
-        {...args}
-        items={items}
-        activeKey={active}
-        onChange={setActive}
-        activeTint="#8B85FF"
-        inactiveTint="#A3A3A3"
-      />
-    );
-  },
+  render: (args) => <DarkModeRender {...args} />,
 };

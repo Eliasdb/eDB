@@ -55,47 +55,45 @@ export function EditableProfileRow({
       {/* Input or Value */}
       <div className="flex flex-col gap-2">
         {isEditing ? (
-          <>
-            {isName ? (
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="firstName">First name</Label>
-                  <Input
-                    id="firstName"
-                    name="firstName"
-                    placeholder="First name"
-                    value={value}
-                    onChange={onChange}
-                    className="h-10 text-base"
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="lastName">Last name</Label>
-                  <Input
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Last name"
-                    value={secondaryValue}
-                    onChange={onChange}
-                    className="h-10 text-base"
-                  />
-                </div>
-              </div>
-            ) : (
+          isName ? (
+            <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <Label htmlFor={fieldKey}>{label}</Label>
+                <Label htmlFor="firstName">First name</Label>
                 <Input
-                  id={fieldKey}
-                  name={fieldKey}
-                  type={fieldKey === 'email' ? 'email' : 'text'}
-                  placeholder={`Enter ${label.toLowerCase()}`}
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First name"
                   value={value}
                   onChange={onChange}
                   className="h-10 text-base"
                 />
               </div>
-            )}
-          </>
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="lastName">Last name</Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last name"
+                  value={secondaryValue}
+                  onChange={onChange}
+                  className="h-10 text-base"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <Label htmlFor={fieldKey}>{label}</Label>
+              <Input
+                id={fieldKey}
+                name={fieldKey}
+                type={fieldKey === 'email' ? 'email' : 'text'}
+                placeholder={`Enter ${label.toLowerCase()}`}
+                value={value}
+                onChange={onChange}
+                className="h-10 text-base"
+              />
+            </div>
+          )
         ) : (
           <div className="flex items-center gap-2 text-sm">
             <span>

@@ -41,7 +41,7 @@ export function ThemePreferenceProvider({
 
   // persist override
   useEffect(() => {
-    AsyncStorage.setItem(KEY, override).catch(() => {});
+    AsyncStorage.setItem(KEY, override).catch(() => undefined);
   }, [override]);
 
   const effective: 'light' | 'dark' =

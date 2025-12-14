@@ -44,7 +44,7 @@ export class UiIconComponent {
   // Helper method to get valid icons
   private getValidIcons(): Record<string, IconDefinition> {
     return Object.entries(solidIcons)
-      .filter(([_, value]) => typeof value === 'object' && 'icon' in value)
+      .filter(([, value]) => typeof value === 'object' && 'icon' in value)
       .reduce(
         (acc, [key, value]) => {
           acc[key] = value as IconDefinition;

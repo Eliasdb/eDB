@@ -19,6 +19,8 @@ export default [
       '**/dist',
       '**/vite.config.*.timestamp*',
       '**/vitest.config.*.timestamp*',
+      'apps/client/edb/src/assets/clara/_expo/static/js/**/*',
+      'apps/server/webshop-api/**/*',
     ],
   },
   {

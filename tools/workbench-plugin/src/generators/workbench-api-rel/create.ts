@@ -47,7 +47,7 @@ function ensureFkInContract(
 
   // discover or add FK field
   let fkField = json.fields.find((f) => f.fieldName === fk);
-  let requiredForCreate = fkField ? fkField.required : true;
+  const requiredForCreate = fkField ? fkField.required : true;
 
   if (!fkField) {
     fkField = {
@@ -177,7 +177,7 @@ function patchModelZod(
   // update schema
   src = src.replace(
     new RegExp(
-      `(export\\s+const\\s+update${CapChild}BodySchema\\s*=\\s*z\\.object\\s*\$begin:math:text$\\\\s*\\\\{)([\\\\s\\\\S]*?)(\\\\n\\\\s*\\\\}\\$end:math:text$\\s*;?)`,
+      `(export\\s+const\\s+update${CapChild}BodySchema\\s*=\\s*z\\.object\\s*\\(\\s*\\{)([\\s\\S]*?)(\\n\\s*\\}\\)\\s*;?)`,
       'm',
     ),
     (_m, head, body, tail) => {

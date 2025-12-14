@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'ui-webshop-books-loading-state',
+  standalone: true,
   imports: [MatProgressSpinnerModule],
   template: `
     <div class="books-loader">

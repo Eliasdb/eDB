@@ -6,13 +6,11 @@
   "tags": ["scope:server", "context:workbench-api", "type:core"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/libs/server/workbench-api/resources"],
       "options": {
-        "outputPath": "dist/libs/server/workbench-api/resources",
-        "main": "libs/server/workbench-api/resources/src/index.ts",
-        "tsConfig": "libs/server/workbench-api/resources/tsconfig.lib.json",
-        "assets": ["libs/server/workbench-api/resources/*.md"]
+        "command": "tsc -p libs/server/workbench-api/resources/tsconfig.lib.json",
+        "color": true
       }
     },
     "test": {

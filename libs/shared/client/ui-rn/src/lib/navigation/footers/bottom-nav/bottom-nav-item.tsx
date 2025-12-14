@@ -143,7 +143,7 @@ export function BottomNavItem({
             lineHeight: 14,
             fontWeight: '700',
             color: labelColor,
-            includeFontPadding: false as any,
+            includeFontPadding: false,
           }}
         >
           {item.label}

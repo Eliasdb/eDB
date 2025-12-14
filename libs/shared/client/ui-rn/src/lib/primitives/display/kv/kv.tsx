@@ -2,7 +2,7 @@
 import { Text, View } from 'react-native';
 import { MonoText } from './mono-text';
 
-export function MonoKV({ label, value }: { label: string; value: any }) {
+export function MonoKV({ label, value }: { label: string; value: unknown }) {
   return (
     <View className="mb-[10px]">
       <Text className="text-[12px] text-text-dim dark:text-text-dimDark font-extrabold mb-[2px]">
@@ -29,7 +29,7 @@ export function KV({ label, value }: { label: string; value: string }) {
   );
 }
 
-function pretty(v: any) {
+function pretty(v: unknown) {
   try {
     return typeof v === 'string' ? v : JSON.stringify(v, null, 2);
   } catch {

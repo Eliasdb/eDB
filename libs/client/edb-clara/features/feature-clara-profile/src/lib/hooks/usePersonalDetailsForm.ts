@@ -2,10 +2,9 @@
 import { useMemo, useState } from 'react';
 import { INITIAL_PERSONAL_DETAILS, makePersonalDetailsCards } from '../config';
 import type { CardDef } from '../types/profile-details.types';
+import type { TFunction } from 'i18next';
 
-type TFunc = (key: string, defaultOrOpts?: any) => string;
-
-export function usePersonalDetailsForm(t: TFunc) {
+export function usePersonalDetailsForm(t: TFunction<'translation'>) {
   const [firstName, setFirstName] = useState(
     INITIAL_PERSONAL_DETAILS.firstName,
   );

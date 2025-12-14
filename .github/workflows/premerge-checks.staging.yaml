@@ -42,7 +42,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20.19'
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
@@ -96,7 +96,7 @@ jobs:
         run: |
           pnpm nx affected --target=lint \
             --base=origin/dev --head=HEAD \
-            --parallel --exclude=mfe-edb-admin || true
+            --parallel --exclude=mfe-edb-admin,mfe-edb-admin-e2e || true
 
   # ─────────────────────────────────────────────
   test:
@@ -170,7 +170,7 @@ jobs:
           # IMPORTANT: comma-separated, NO spaces
           DOCKER_APPS=$(pnpm nx show projects --affected --type=app \
             --base=origin/dev --head=HEAD --plain \
-            --exclude=mfe-edb-admin,mobile,wc-edb-user-account)
+            --exclude=mfe-edb-admin,mobile,wc-edb-user-account,workbench-api)
 
           echo "Docker apps: $DOCKER_APPS"
 
@@ -178,7 +178,7 @@ jobs:
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
             # Only run Nx build for apps that actually use it (skip python services)
-            if [ "$lower_app" != "webshop-api" ] && [ "$lower_app" != "tools-invoices-api" ]; then
+            if [ "$lower_app" != "webshop-api" ] && [ "$lower_app" != "tools-invoices-api" ] && [ "$lower_app" != "workbench-api" ]; then
               echo "🏗️ Nx build for $app"
               pnpm nx run "$app":build --configuration=staging
             else
@@ -217,7 +217,7 @@ jobs:
     if: needs.detect-affected.outputs.admin_changed == 'true'
     uses: ./.github/workflows/admin-ci.staging.yml
     with:
-      image_tag: ${{ needs.version.outputs.image_tag }}
+      image_tag: ${{ needs.version.outputs.pretty_tag != '' && needs.version.outputs.pretty_tag || needs.version.outputs.image_tag }}
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

@@ -9,6 +9,7 @@ import {
 import { useMemo, useState } from 'react';
 import { useColorScheme, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import type { MarkedDates } from 'react-native-calendars/src/types';
 
 type CalendarDay = {
   dateString: string;
@@ -40,7 +41,7 @@ const toYMD = (iso?: string | null): string | null => {
   if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
   let s = iso.replace(' ', 'T');
   if (/[+-]\d{2}$/.test(s)) s += ':00';
-  if (!/[zZ]|[+\-]\d{2}:\d{2}$/.test(s)) s += 'Z';
+  if (!/[zZ]|[+-]\d{2}:\d{2}$/.test(s)) s += 'Z';
   const d = new Date(s);
   return Number.isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
 };
@@ -72,14 +73,12 @@ export default function ActivityCalendarPanel({
 
   // calendar dots + selection
   const marked = useMemo(() => {
-    const m: Record<
-      string,
-      {
-        dots?: { key: string; color: string }[];
-        selected?: boolean;
-        selectedColor?: string;
-      }
-    > = {};
+    type DotMarking = {
+      dots?: { key: string; color: string }[];
+      selected?: boolean;
+      selectedColor?: string;
+    };
+    const m: Record<string, DotMarking> = {};
     for (const d of dates) {
       const kinds = new Set((byDate[d] ?? []).map((a) => a.type));
       m[d] = {
@@ -111,7 +110,7 @@ export default function ActivityCalendarPanel({
         <View className="p-0 overflow-hidden">
           <Calendar
             markingType="multi-dot"
-            markedDates={marked as any}
+            markedDates={marked as MarkedDates}
             onDayPress={(d: CalendarDay) => setSelected(d.dateString)}
             theme={{
               calendarBackground: 'transparent',

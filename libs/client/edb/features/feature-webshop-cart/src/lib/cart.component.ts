@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { CartItem } from '@edb/shared-types';
 import { UiButtonComponent, UiIconButtonComponent } from '@edb/shared-ui';
@@ -26,13 +27,21 @@ import { Subscription } from 'rxjs';
       <!-- Back-drop -->
       <div
         class="fixed inset-0 z-[8999] bg-black/30 backdrop-blur-sm"
+        role="button"
+        tabindex="0"
         (click)="toggleCart()"
+        (keydown.enter)="toggleCart()"
+        (keydown.space)="toggleCart()"
       ></div>
 
       <!-- Wrapper that captures clicks outside the panel -->
       <div
         class="fixed inset-0 z-[9000] flex flex-col items-start md:items-center justify-start md:justify-center overflow-y-auto"
+        role="button"
+        tabindex="0"
         (click)="toggleCart()"
+        (keydown.enter)="toggleCart()"
+        (keydown.space)="toggleCart()"
       >
         <!-- Re-usable cart markup extracted into a template -->
         <ng-template #cartContent>
@@ -207,6 +216,10 @@ import { Subscription } from 'rxjs';
           <aside
             animate.enter.animate-leave
             (click)="$event.stopPropagation()"
+            (keydown.enter)="$event.stopPropagation()"
+            (keydown.space)="$event.stopPropagation()"
+            tabindex="0"
+            role="presentation"
             class="cart-fade-lift w-full max-w-5xl md:max-h-[90vh] bg-[var(--accent)] text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5 rounded-lg flex flex-col overflow-hidden self-center"
           >
             <ng-container [ngTemplateOutlet]="cartContent" />
@@ -216,6 +229,10 @@ import { Subscription } from 'rxjs';
           <aside
             animate.enter.animate-leave
             (click)="$event.stopPropagation()"
+            (keydown.enter)="$event.stopPropagation()"
+            (keydown.space)="$event.stopPropagation()"
+            tabindex="0"
+            role="presentation"
             class="cart-sheet-slide w-full bg-[var(--accent)] text-[var(--accent-complimentary)] shadow-xl ring-1 ring-black/5 rounded-t-2xl flex flex-col overflow-hidden mt-auto transition-transform"
             [style.max-height]="hasItems() ? '75vh' : null"
             [style.transform]="
@@ -299,7 +316,7 @@ export class CartComponent implements OnInit, OnDestroy {
   sheetTranslate: number | null = null;
   private dragging = false;
 
-  constructor(private bo: BreakpointObserver) {}
+  private bo = inject(BreakpointObserver);
 
   ngOnInit() {
     this.sub = this.bo.observe('(max-width: 768px)').subscribe((res) => {

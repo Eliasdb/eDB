@@ -67,7 +67,8 @@ function buildWhere({
       parts.push(eq(gadgetsTable.name, val));
     }
     if (key === 'category') {
-      parts.push(eq(gadgetsTable.category as any, val as any));
+      const cat = val as Gadget['category'];
+      parts.push(eq(gadgetsTable.category, cat));
     }
     if (key === 'weightGr') {
       const n = Number(val);
@@ -177,8 +178,6 @@ export const GadgetRepoPg: GadgetRepo = {
     const updated = await db
       .update(gadgetsTable)
       .set({
-        ...(patch.supplierId !== undefined ? {} : {}),
-
         ...(patch.name !== undefined ? { name: patch.name } : {}),
         ...(patch.category !== undefined ? { category: patch.category } : {}),
         ...(patch.weightGr !== undefined ? { weight_gr: patch.weightGr } : {}),

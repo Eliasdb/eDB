@@ -256,14 +256,14 @@ function Row({
           <TwoLineRow
             primary={primary}
             secondary={secondary}
-            icon={undefined as any}
+            icon={undefined}
           />
         </Pressable>
       ) : (
         <TwoLineRow
           primary={primary}
           secondary={secondary}
-          icon={undefined as any}
+          icon={undefined}
         />
       )}
     </View>

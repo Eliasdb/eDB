@@ -18,7 +18,7 @@ const meta: Meta<UiNzModalComponent> = {
   },
   argTypes: {
     ok: { action: 'ok' },
-    cancel: { action: 'cancel' },
+    cancelled: { action: 'cancel' },
     openChange: { action: 'openChange' },
   },
 };
@@ -49,7 +49,7 @@ export const Basic: Story = {
         [closable]="closable"
         [maskClosable]="maskClosable"
         (ok)="ok()"
-        (cancel)="cancel()"
+        (cancelled)="cancelled()"
         (openChange)="isOpen = $event; openChange($event)"
       >
         <p class="text-sm leading-6 text-slate-600">
@@ -78,7 +78,7 @@ export const LoadingState: Story = {
         [cancelText]="cancelText"
         [okLoading]="okLoading"
         (ok)="ok()"
-        (cancel)="cancel()"
+        (cancelled)="cancelled()"
         (openChange)="openChange($event)"
       >
         <p class="text-sm text-slate-600">Processing request…</p>

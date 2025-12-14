@@ -24,14 +24,14 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20.19'
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'
       - run: npm install -g pnpm
       - run: pnpm install --frozen-lockfile
       - name: Lint mfe-edb-admin
-        run: pnpm nx lint mfe-edb-admin --verbose
+        run: pnpm nx lint mfe-edb-admin
 
   # ─────────────────────────────────────────────
   test:

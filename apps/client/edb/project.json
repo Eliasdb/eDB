@@ -13,6 +13,7 @@
         "flatpickr",
         "flatpickr/dist/plugins/rangePlugin"
       ],
+      "dependsOn": ["wc-edb-user-account:build"],
       "executor": "@nx/angular:webpack-browser",
       "options": {
         "outputPath": "dist/apps/client/edb",
@@ -184,7 +185,10 @@
       "continuous": true,
       "executor": "@angular/build:dev-server",
       "options": {
-        "proxyConfig": "apps/client/edb/proxy.conf.json"
+        "proxyConfig": "apps/client/edb/proxy.conf.json",
+        "hmr": true,
+        "liveReload": true,
+        "poll": 1000
       },
       "configurations": {
         "production": {
@@ -234,7 +238,7 @@
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "options": {
         "vitestConfig": "apps/client/edb/vitest.config.ts",
         "passWithNoTests": true

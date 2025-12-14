@@ -1,5 +1,5 @@
 // apps/client/edb/src/app/wrappers/iframe-wrapper/iframe-wrapper.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -21,7 +21,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       }
 
       .clara-frame {
-        position: fixed; /* take over the whole viewport */
+        position: fixed; /* take over the whole viewport. */
         inset: 0; /* top, right, bottom, left = 0 */
         width: 100%;
         height: 100%;
@@ -33,7 +33,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class IframeWrapperComponent {
   src: SafeResourceUrl;
-  constructor(s: DomSanitizer) {
-    this.src = s.bypassSecurityTrustResourceUrl('assets/clara/index.html');
+  private readonly sanitizer = inject(DomSanitizer);
+
+  constructor() {
+    this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'assets/clara/index.html',
+    );
   }
 }

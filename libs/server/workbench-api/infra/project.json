@@ -12,7 +12,8 @@
         "outputPath": "dist/libs/server/workbench-api/infra",
         "main": "libs/server/workbench-api/infra/src/index.ts",
         "tsConfig": "libs/server/workbench-api/infra/tsconfig.lib.json",
-        "assets": ["libs/server/workbench-api/infra/*.md"]
+        "assets": ["libs/server/workbench-api/infra/*.md"],
+        "rootDir": "libs"
       }
     },
     "test": {

@@ -9,7 +9,9 @@ import { AudioGlowDark } from './audio-glow-dark';
 /* ---------------- helpers ---------------- */
 
 // Force NativeWind’s dark theme for all stories here
-const forceDark: Decorator = (Story) => {
+const ForceDarkWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   useEffect(() => {
     const prev = colorScheme.get();
     colorScheme.set('dark');
@@ -26,11 +28,17 @@ const forceDark: Decorator = (Story) => {
           backgroundColor: '#0b0c0f',
         }}
       >
-        <Story />
+        {children}
       </View>
     </SafeAreaProvider>
   );
 };
+
+const forceDark: Decorator = (Story) => (
+  <ForceDarkWrapper>
+    <Story />
+  </ForceDarkWrapper>
+);
 
 /* ---------------- meta ---------------- */
 

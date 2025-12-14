@@ -29,7 +29,11 @@ export const Basic: Story = {
   render: (args) => (
     <Screen {...args}>
       <Text className="text-[16px] text-text dark:text-text-dark">
-        Hello from Screen 👋
+        Hello from Screen{' '}
+        {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+        <Text accessibilityRole="image" accessibilityLabel="waving hand">
+          👋
+        </Text>
       </Text>
     </Screen>
   ),

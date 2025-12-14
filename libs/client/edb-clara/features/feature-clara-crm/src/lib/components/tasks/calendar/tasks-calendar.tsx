@@ -18,6 +18,19 @@ type Props = {
   title?: string;
 };
 
+type AgendaEntry = {
+  name: string;
+  height: number;
+  day: string;
+  _task?: Task;
+};
+
+type AgendaItems = Record<string, AgendaEntry[]>;
+type AgendaMarks = Record<
+  string,
+  { marked?: boolean; dots?: { key: string; color: string }[] }
+>;
+
 function toYMD(d: string | Date) {
   const dt = typeof d === 'string' ? new Date(d) : d;
   const y = dt.getFullYear();
@@ -45,11 +58,8 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
 
   // Build a normalized schedule & marks from tasks (pure, no identity churn in render)
   const computed = useMemo(() => {
-    const schedule: Record<string, any[]> = {};
-    const marks: Record<
-      string,
-      { marked?: boolean; dots?: { key: string; color: string }[] }
-    > = {};
+    const schedule: AgendaItems = {};
+    const marks: AgendaMarks = {};
 
     for (const t of tasks) {
       const day = toYMD(t.due);
@@ -62,9 +72,11 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
       (schedule[day] ??= []).push(entry);
 
       const dot = { key: t.id, color: t.done ? C.dotDone : C.dotTodo };
-      if (!marks[day]) marks[day] = { marked: true, dots: [dot] };
-      else if (marks[day].dots && marks[day].dots!.length < 3)
-        marks[day].dots!.push(dot);
+      if (!marks[day]) {
+        marks[day] = { marked: true, dots: [dot] };
+      } else if (marks[day].dots && marks[day].dots.length < 3) {
+        marks[day].dots = [...marks[day].dots, dot];
+      }
     }
 
     // Ensure "today" exists so Agenda has an initial bucket
@@ -72,22 +84,21 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
     schedule[today] ??= [];
 
     return { schedule, marks };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tasks, isDark]);
+  }, [tasks, C.dotDone, C.dotTodo]);
 
   // Stable items object that Agenda can diff without throwing
-  const [items, setItems] = useState<Record<string, any[]>>(() => {
+  const [items, setItems] = useState<AgendaItems>(() => {
     const today = toYMD(new Date());
     return { [today]: [] };
   });
 
-  const [markedDates, setMarkedDates] = useState<Record<string, any>>({});
+  const [markedDates, setMarkedDates] = useState<AgendaMarks>({});
   const [selected, setSelected] = useState<string>(toYMD(new Date()));
 
   // Apply computed schedule/marks in an effect (avoid re-creating objects during render)
   useEffect(() => {
     // clone to guarantee new reference, but keep a consistent shape (all arrays)
-    const nextItems: Record<string, any[]> = {};
+    const nextItems: AgendaItems = {};
     for (const [k, v] of Object.entries(computed.schedule)) {
       nextItems[k] = Array.isArray(v) ? v.slice() : [];
     }
@@ -98,7 +109,7 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
   }, [computed, selected]);
 
   // Make sure selecting a day always creates an array so Agenda doesn't blow up
-  const handleDayPress = (d: any) => {
+  const handleDayPress = (d: { dateString?: string; timestamp?: number }) => {
     const ds = d?.dateString || toYMD(new Date(d?.timestamp ?? Date.now()));
     setSelected(ds);
     setItems((prev) => {
@@ -107,7 +118,7 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
     });
   };
 
-  const theme: Record<string, any> = {
+  const theme: Record<string, unknown> = {
     backgroundColor: C.bg,
     calendarBackground: C.bg,
     textSectionTitleColor: C.dim,
@@ -143,20 +154,20 @@ export function TasksCalendar({ tasks, title = 'Calendar' }: Props) {
       </View>
 
       <Agenda
-        items={items as any}
-        markedDates={markedDates as any}
+    items={items}
+    markedDates={markedDates}
         markingType="multi-dot"
         selected={selected}
         onDayPress={handleDayPress}
         // Help the legacy ListView diff rows safely
-        rowHasChanged={(r1: any, r2: any) =>
+        rowHasChanged={(r1: AgendaEntry, r2: AgendaEntry) =>
           r1?.name !== r2?.name || r1?._task?.done !== r2?._task?.done
         }
         // Optional bounds to reduce internal paging surprises
         pastScrollRange={12}
         futureScrollRange={12}
         // Renderers
-        renderItem={(reservation: any /* AgendaEntry */) => {
+        renderItem={(reservation: AgendaEntry) => {
           const t: Task | undefined = reservation?._task;
           return (
             <View

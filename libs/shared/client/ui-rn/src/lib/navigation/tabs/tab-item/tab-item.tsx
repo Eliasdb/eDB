@@ -1,5 +1,12 @@
 import { ReactNode, useEffect } from 'react';
-import { Pressable, Text, View, useColorScheme } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  Text,
+  TextStyle,
+  View,
+  useColorScheme,
+} from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -25,7 +32,7 @@ function SafeTextOrNode({
   style,
 }: {
   value?: ReactNode | string | number;
-  style?: any;
+  style?: StyleProp<TextStyle>;
 }) {
   if (value == null) return null;
   if (typeof value === 'string' || typeof value === 'number') {

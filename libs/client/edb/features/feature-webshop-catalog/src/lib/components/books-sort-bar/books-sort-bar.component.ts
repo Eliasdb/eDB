@@ -12,7 +12,7 @@ import { UiSelectComponent } from '@edb/shared-ui';
 import { SORT_BY_MAP, SORT_BY_ORDER } from './books-sort-bar.config';
 
 @Component({
-  selector: 'books-sort-bar',
+  selector: 'webshop-books-sort-bar',
   host: { class: 'w-full' },
   imports: [FormsModule, NgClass, UiSelectComponent],
   template: `

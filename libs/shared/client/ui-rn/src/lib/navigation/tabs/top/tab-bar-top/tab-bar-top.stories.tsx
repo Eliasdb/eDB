@@ -1,18 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { View } from 'react-native';
-import type { TabDef } from '../../tab.types';
 import { TabBarTop } from './tab-bar-top';
 
-type K = 'overview' | 'activity' | 'settings';
-
-const sampleTabs: TabDef<K>[] = [
+const sampleTabs = [
   { key: 'overview', label: 'Overview' },
   { key: 'activity', label: 'Activity' },
   { key: 'settings', label: 'Settings' },
 ];
 
-const meta: Meta<typeof TabBarTop<K>> = {
+const meta: Meta<typeof TabBarTop> = {
   title: 'Navigation/Tab Bar Top',
   component: TabBarTop,
   args: {
@@ -34,26 +31,32 @@ const meta: Meta<typeof TabBarTop<K>> = {
   ],
 };
 export default meta;
-type Story = StoryObj<typeof TabBarTop<K>>;
+type Story = StoryObj<typeof TabBarTop>;
+type TabBarTopProps = Parameters<typeof TabBarTop>[0];
+
+const DefaultRender = (args: TabBarTopProps) => {
+  const [value, setValue] = useState('overview');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
+};
 
 /** Basic usage with three tabs */
 export const Default: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<K>('overview');
-    return (
-      <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />
-    );
-  },
+  render: (args) => <DefaultRender {...args} />,
+};
+
+const StartWithActivityRender = (args: TabBarTopProps) => {
+  const [value, setValue] = useState('activity');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Start with a different active tab */
 export const StartWithActivity: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<K>('activity');
-    return (
-      <TabBarTop<K> {...args} value={value} onChange={(k) => setValue(k)} />
-    );
-  },
+  render: (args) => <StartWithActivityRender {...args} />,
+};
+
+const LongLabelsRender = (args: TabBarTopProps) => {
+  const [value, setValue] = useState('overview');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Long labels to test spacing and truncation */
@@ -63,12 +66,14 @@ export const LongLabels: Story = {
       { key: 'overview', label: 'Overview of your dashboard' },
       { key: 'activity', label: 'Recent activity and logs' },
       { key: 'settings', label: 'Application & User Settings' },
-    ] as any,
+    ],
   },
-  render: (args) => {
-    const [value, setValue] = useState('overview');
-    return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
-  },
+  render: (args) => <LongLabelsRender {...args} />,
+};
+
+const ManyTabsRender = (args: TabBarTopProps) => {
+  const [value, setValue] = useState('billing');
+  return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
 };
 
 /** Four or more tabs */
@@ -80,10 +85,7 @@ export const ManyTabs: Story = {
       { key: 'settings', label: 'Settings' },
       { key: 'billing', label: 'Billing' },
       { key: 'support', label: 'Support' },
-    ] as any,
+    ],
   },
-  render: (args) => {
-    const [value, setValue] = useState('billing');
-    return <TabBarTop {...args} value={value} onChange={(k) => setValue(k)} />;
-  },
+  render: (args) => <ManyTabsRender {...args} />,
 };

@@ -2,8 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  Inject,
   input,
+  inject,
   OnDestroy,
   OnInit,
   Output,
@@ -150,11 +150,8 @@ export class UiPlatformHeaderComponent implements OnInit, OnDestroy {
   targetUrl = '';
 
   private subscription!: Subscription;
-
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private router: Router,
-  ) {}
+  private readonly document = inject(DOCUMENT);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.updateTarget();

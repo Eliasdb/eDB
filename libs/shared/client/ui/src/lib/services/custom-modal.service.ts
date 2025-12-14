@@ -11,8 +11,8 @@ export class CustomModalService {
   openModal(options: {
     header?: string;
     content?: string;
-    template?: TemplateRef<any>;
-    context?: any;
+    template?: TemplateRef<unknown>;
+    context?: unknown;
     onSave?: () => void;
     onClose?: () => void;
   }) {
@@ -30,7 +30,7 @@ export class CustomModalService {
       modalRef.destroy();
     });
 
-    modalRef.instance.close.subscribe(() => {
+    modalRef.instance.dismissed.subscribe(() => {
       options.onClose?.();
       modalRef.destroy();
     });

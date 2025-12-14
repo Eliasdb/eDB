@@ -5,7 +5,7 @@ import { Book } from '@edb/shared-types';
 import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-item.component';
 
 @Component({
-  selector: 'books-collection-grid-overview',
+  selector: 'webshop-books-collection-grid-overview',
   standalone: true,
   imports: [BooksGridItemComponent, NgClass],
   template: `
@@ -13,7 +13,7 @@ import { BooksGridItemComponent } from './books-collection-grid-item/books-grid-
       class="grid auto-rows-fr gap-x-1 gap-y-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-6"
     >
       @for (book of books(); track book.id; let idx = $index) {
-        <books-grid-item
+        <webshop-books-grid-item
           [book]="book"
           class="xl:col-span-2"
           [ngClass]="{ 'xl:col-span-3': isWide(idx) }"

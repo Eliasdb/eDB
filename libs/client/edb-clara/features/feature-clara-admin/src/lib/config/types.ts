@@ -10,7 +10,11 @@ export type Summarized = {
 };
 
 export type ToolScope = 'internal' | 'hubspot' | 'salesforce';
-export type JSONSchema = any;
+export type JSONSchema = {
+  properties?: Record<string, unknown>;
+  required?: string[];
+  oneOf?: JSONSchema[];
+};
 
 /* ---------- display types ---------- */
 export type CapabilityItem = {

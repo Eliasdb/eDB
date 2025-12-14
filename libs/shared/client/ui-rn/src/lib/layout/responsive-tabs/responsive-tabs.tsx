@@ -3,7 +3,7 @@ import { useWindowDimensions, View } from 'react-native';
 import type { TabDef, TabKey } from '../../navigation';
 import { SidebarTabs, TabBarTop } from '../../navigation';
 
-export function ResponsiveTabsLayout<K extends TabKey>({
+export function ResponsiveTabsLayout({
   tabs,
   value,
   onChange,
@@ -13,9 +13,9 @@ export function ResponsiveTabsLayout<K extends TabKey>({
   children,
   tabIdPrefix, // 👈 NEW
 }: {
-  tabs: TabDef<K>[];
-  value: K;
-  onChange: (k: K) => void;
+  tabs: TabDef[];
+  value: TabKey;
+  onChange: (k: TabKey) => void;
   sidebarBreakpoint?: number;
   sidebarTitle?: string;
   sidebarFooter?: ReactNode;

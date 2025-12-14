@@ -45,7 +45,9 @@ export type RequestContext = {
 };
 
 // internal helper to check login depending on REQUIRE_AUTH
-function ensureLoggedIn(ctx: RequestContext): void {
+function ensureLoggedIn(
+  ctx: RequestContext,
+): asserts ctx is RequestContext & { userId: string } {
   if (REQUIRE_AUTH && !ctx.userId) {
     throw new UnauthorizedError('Login required');
   }
@@ -132,7 +134,7 @@ export function createItem(
 
   // real mode: enforce login
   ensureLoggedIn(ctx);
-  const created = createDemoItemRepo(ctx.userId!, body.title);
+  const created = createDemoItemRepo(ctx.userId, body.title);
   return { item: created };
 }
 

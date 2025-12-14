@@ -7,7 +7,8 @@ export function useToolLogsInfinite(limit = 10) {
     queryKey: toolLogKeys.list(limit),
     queryFn: ({ pageParam = 0 }) => fetchToolLogsPage({ pageParam, limit }),
     initialPageParam: 0,
-    getNextPageParam: (last) => (last.hasMore ? last.nextOffset! : undefined),
+    getNextPageParam: (last) =>
+      last.hasMore && last.nextOffset != null ? last.nextOffset : undefined,
     staleTime: 1_000,
     refetchOnWindowFocus: false,
   });

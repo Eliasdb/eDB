@@ -6,7 +6,7 @@ import { NavigationService } from '@eDB/util-navigation';
 import { MENU_OPTIONS } from './shell.config';
 
 @Component({
-  selector: 'ui-shell-host',
+  selector: 'edb-shell-host',
   imports: [UiShellComponent, AsyncPipe],
   template: `
     <ui-shell

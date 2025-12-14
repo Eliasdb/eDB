@@ -10,7 +10,7 @@ export type CompanyHQ = {
   postalCode?: string | null;
   country?: string | null;
   /** Allow extra keys from enrichment, etc. */
-  [k: string]: any;
+  [k: string]: unknown;
 };
 
 /** Core Company record returned by the API. */
@@ -73,7 +73,11 @@ export type TaskSummary = {
   id: string;
   title: string;
   due?: string;
+  dueAt?: string;
+  dueDate?: string;
   done?: boolean;
+  status?: string;
+  state?: string;
   companyId?: string | null;
   contactId?: string | null;
 };

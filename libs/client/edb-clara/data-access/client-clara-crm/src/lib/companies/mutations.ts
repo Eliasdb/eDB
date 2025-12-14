@@ -1,7 +1,8 @@
 // api/crm/companies/mutations.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { companyKeys } from './keys';
-import { createCompany, type CreateCompanyInput } from './service';
+import { createCompany } from './service';
+import type { CreateCompanyInput } from './types';
 
 export function useCreateCompany() {
   const qc = useQueryClient();

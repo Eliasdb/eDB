@@ -27,7 +27,7 @@ export function AddTaskRow({ onAdd, isSaving, placeholder }: Props) {
 
   return (
     <Pressable
-      onPress={() => {}}
+      onPress={Keyboard.dismiss}
       accessible={false} // 👈 important so the TextInput is the target
       className={`
         flex-row items-center px-3 py-2

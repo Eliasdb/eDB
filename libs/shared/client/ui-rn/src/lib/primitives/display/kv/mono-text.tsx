@@ -7,11 +7,11 @@ export function MonoText({ children }: { children: string }) {
       selectable
       className="text-[12px] text-text dark:text-text-dark bg-gray-100 dark:bg-gray-800 border border-border dark:border-border-dark rounded-md p-2 leading-4"
       style={{
-        fontFamily: Platform.select({
+        fontFamily: Platform.select<string>({
           ios: 'Menlo',
           android: 'monospace',
           web: 'monospace',
-        }) as any,
+        }),
       }}
     >
       {children}

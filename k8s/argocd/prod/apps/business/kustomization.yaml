@@ -3,7 +3,8 @@ kind: Kustomization
 resources:
   - admin-api-prod.yaml
   - admin-client-prod.yaml
-  - platform-client-prod.yaml
+- platform-client-prod.yaml
+- clara-client-prod.yaml
   - platform-api-prod.yaml
   - webshop-api-prod.yaml
   - tools-invoices-api-prod.yaml

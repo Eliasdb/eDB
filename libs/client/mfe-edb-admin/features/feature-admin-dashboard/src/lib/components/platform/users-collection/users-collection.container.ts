@@ -102,7 +102,7 @@ import {
         </section>
       }
 
-      @if (!(hasMore$ | async)) {
+      @if ((hasMore$ | async) === false) {
         <section class="no-more-users">
           <p>No more users to load.</p>
         </section>
@@ -119,7 +119,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   private breakpointObserver = inject(BreakpointObserver);
   isSmallScreen = false;
   @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate!: TemplateRef<any>;
+  actionsTemplate!: TemplateRef<unknown>;
 
   @ViewChild('loader', { static: true }) loaderElement!: ElementRef;
 
@@ -133,10 +133,10 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   private sortChange$ = new Subject<SortEvent>();
   private searchChange$ = new Subject<string>();
 
-  private adminService = inject(AdminService);
-  private modalUtils = inject(CustomModalService);
-  private usersParamsService = inject(UsersParamsService);
-  private tableUtilsService = inject(TableUtilsService);
+  private adminService: AdminService = inject(AdminService);
+  private modalUtils: CustomModalService = inject(CustomModalService);
+  private usersParamsService: UsersParamsService = inject(UsersParamsService);
+  private tableUtilsService: TableUtilsService = inject(TableUtilsService);
   private router = inject(Router);
 
   onViewMoreEvent(id: number): void {
@@ -189,10 +189,7 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
         return null;
       }
 
-      const [uiSortField, sortDirection] = this.sortParam().split(',') as [
-        string,
-        'asc' | 'desc',
-      ];
+      const [uiSortField] = this.sortParam().split(',') as [string];
       const sortField = this.adminService.mapSortFieldToBackend(uiSortField);
       const lastItem = lastPage.data[lastPage.data.length - 1];
       const value = lastItem[sortField];
@@ -271,7 +268,9 @@ export class UsersCollectionContainer implements OnInit, OnDestroy {
   onMenuOptionSelected(action: string, user: UserProfile): void {
     if (action === 'view') {
       this.router.navigate([`/users/${user.id}`]);
-    } else if (action === 'delete') {
+      return;
+    }
+    if (action === 'delete') {
       this.router.navigateByUrl(this.router.url, { replaceUrl: true });
       this.openDeleteConfirmationModal(user);
     }

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
@@ -14,7 +14,5 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
   styleUrl: './book-snackbar.component.scss',
 })
 export class BookSnackbarComponent {
-  constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: { book: string; action: string },
-  ) {}
+  data = inject<{ book: string; action: string }>(MAT_SNACK_BAR_DATA);
 }

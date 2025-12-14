@@ -41,7 +41,7 @@ export function attachRemoteLevelMeter(
 
     if (!audioCtx) audioCtx = new Ctx();
     // try to resume in case context was created without a user gesture
-    audioCtx.resume().catch(() => {});
+    audioCtx.resume().catch(() => undefined);
 
     const src = audioCtx.createMediaStreamSource(remoteStream);
 
@@ -115,15 +115,9 @@ export function attachRemoteLevelMeter(
     pc.removeEventListener('track', handleTrack);
     if (raf) cancelAnimationFrame(raf);
     raf = undefined;
-    try {
-      analyser?.disconnect();
-    } catch {}
-    try {
-      zeroGain?.disconnect();
-    } catch {}
-    try {
-      audioCtx?.close();
-    } catch {}
+    analyser?.disconnect();
+    zeroGain?.disconnect();
+    audioCtx?.close().catch(() => undefined);
     analyser = null;
     zeroGain = null;
     audioCtx = null;

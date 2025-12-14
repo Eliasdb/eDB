@@ -99,7 +99,10 @@ export class CheckoutService {
       return {
         queryKey: ['order', id], // key includes the real string
         enabled: !!id, // only run when we have an id
-        queryFn: () => this.getOrderConfirmation(id!),
+        queryFn: () => {
+          if (!id) throw new Error('No session id yet');
+          return this.getOrderConfirmation(id);
+        },
         staleTime: 5 * 60 * 1000,
         refetchOnMount: false,
 

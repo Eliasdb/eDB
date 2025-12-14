@@ -38,6 +38,9 @@ export function useSessions() {
   // replace with react-query / SWR later
   const data = getMockSessions();
   const isLoading = false;
-  const refetch = () => {};
+  const refetch = () => {
+    // placeholder for future data fetch
+    return data;
+  };
   return { data, isLoading, refetch };
 }

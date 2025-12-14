@@ -9,6 +9,24 @@ export default composePlugins(
   withModuleFederation({ ...baseConfig }, { dts: false }),
 
   (config) => {
+    // ✅ reduce file watchers (fixes EMFILE)
+    config.watchOptions = {
+      ...(config.watchOptions ?? {}),
+      ignored: [
+        '**/node_modules/**',
+        '**/.pnpm/**',
+        '**/.git/**',
+        '**/dist/**',
+        '**/.nx/**',
+        '**/.angular/**',
+        '**/.cache/**',
+        '**/tmp/**',
+
+        // optional: don’t watch backend stuff while serving frontend
+        '**/apps/server/**',
+      ],
+    };
+
     config.plugins ??= [];
 
     // 👇 patch Angular dev flags
@@ -19,15 +37,16 @@ export default composePlugins(
       }),
     );
 
-    // 👇 add analyzer only if enabled
-
-    config.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'server',
-        analyzerPort: 8888,
-        openAnalyzer: true,
-      }),
-    );
+    // 👇 analyzer only when requested (prevents default port collisions)
+    if (process.env.ANALYZE === 'true') {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerPort: Number(process.env.ANALYZE_PORT ?? 8889),
+          openAnalyzer: true,
+        }),
+      );
+    }
 
     return config;
   },

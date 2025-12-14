@@ -13,9 +13,10 @@ export function useCompanies() {
 
 export function useCompanyOverview(id?: string) {
   const enabled = Boolean(id);
+  const companyId = id ?? '';
   return useQuery({
-    queryKey: enabled ? companyKeys.overview(id!) : companyKeys.overview(''),
-    queryFn: () => fetchCompanyOverview(id!),
+    queryKey: companyKeys.overview(companyId),
+    queryFn: () => fetchCompanyOverview(companyId),
     enabled,
     staleTime: 60_000,
   });

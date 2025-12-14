@@ -18,7 +18,7 @@ export function getSecuritySections({
   setTwoFA: (v: boolean) => void;
   passkeys: boolean;
   setPasskeys: (v: boolean) => void;
-  router: any;
+  router: { push(path: string): void };
 }): SecuritySection[] {
   return [
     {
@@ -61,7 +61,7 @@ export function getSecuritySections({
           borderPosition: 'bottom',
           label: 'Export my data',
           icon: 'download-outline',
-          onPress: () => {},
+          onPress: () => router.push('/profile/security/export-data'),
         },
         {
           kind: 'item',

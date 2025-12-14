@@ -7,7 +7,7 @@ import { defineConfig } from 'vitest/config'; // ✅ use vitest/config instead o
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/libs/feature-dashboard',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     watch: false,
     globals: true,

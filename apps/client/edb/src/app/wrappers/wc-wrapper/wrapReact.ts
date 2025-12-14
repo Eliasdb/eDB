@@ -14,8 +14,7 @@ import { KeycloakService } from '@edb/client-auth';
 export class WrapperComponent implements AfterContentInit {
   @ViewChild('vc', { read: ElementRef, static: true }) vc!: ElementRef;
 
-  constructor(private route: ActivatedRoute) {}
-
+  private readonly route = inject(ActivatedRoute);
   private keycloakService = inject(KeycloakService);
 
   async ngAfterContentInit(): Promise<void> {
@@ -34,6 +33,7 @@ export class WrapperComponent implements AfterContentInit {
   private loadScript(src: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
+      // script.type = 'module';
       script.src = src;
       script.onload = () => resolve();
       script.onerror = () => reject(new Error(`Failed to load ${src}`));

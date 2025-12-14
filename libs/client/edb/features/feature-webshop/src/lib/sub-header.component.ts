@@ -14,7 +14,7 @@ import { UiIconButtonComponent } from '@edb/shared-ui';
 import { filter } from 'rxjs';
 
 @Component({
-  selector: 'ui-platform-subheader',
+  selector: 'webshop-subheader',
   imports: [UiIconButtonComponent, RouterLink],
   template: `
     <header

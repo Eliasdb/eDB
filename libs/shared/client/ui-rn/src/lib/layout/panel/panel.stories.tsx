@@ -69,13 +69,13 @@ export const WithRows: Story = {
             first
             label="Profile"
             icon="person-outline"
-            onPress={() => {}}
+            onPress={() => undefined}
           />
           <PanelGroupItemRow
             label="Notifications"
             icon="notifications-outline"
             value="Enabled"
-            onPress={() => {}}
+            onPress={() => undefined}
           />
           <PanelGroupItemRow
             label="Storage"
@@ -99,7 +99,7 @@ export const WithToggleAndAccordion: Story = {
             label="Dark mode"
             icon="moon-outline"
             value={true}
-            onValueChange={() => {}}
+            onValueChange={() => undefined}
           />
           <PanelGroupItemAccordionRow
             label="Appearance"
@@ -142,7 +142,7 @@ export const DenseGroup: Story = {
             compact
             label="Integrations"
             icon="sparkles-outline"
-            onPress={() => {}}
+            onPress={() => undefined}
           />
         </PanelGroup>
       </View>
@@ -174,7 +174,7 @@ export const MixedExample: Story = {
             label="2-factor authentication"
             icon="shield-checkmark-outline"
             value
-            onValueChange={() => {}}
+            onValueChange={() => undefined}
           />
           <PanelGroupItemAccordionRow
             label="Connected apps"

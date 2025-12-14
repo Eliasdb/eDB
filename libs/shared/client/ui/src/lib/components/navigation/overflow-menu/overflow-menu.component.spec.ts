@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { DialogModule } from 'carbon-components-angular';
+import { vi } from 'vitest';
 import { UiIconComponent } from '../../../components/icon/icon.component';
 import { UiPlatformOverflowMenuComponent } from './overflow-menu.component';
 
 describe('UiPlatformOverflowMenuComponent', () => {
   let component: UiPlatformOverflowMenuComponent;
   let fixture: ComponentFixture<UiPlatformOverflowMenuComponent>;
-  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,7 +28,6 @@ describe('UiPlatformOverflowMenuComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UiPlatformOverflowMenuComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

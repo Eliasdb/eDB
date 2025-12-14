@@ -17,8 +17,8 @@ async function makeApp() {
 describe('demo-items feature (e2e-ish)', () => {
   beforeEach(() => {
     // wipe in-memory store before every test
-    if (typeof (repo as any).__clearAllDemoItemsForTests === 'function') {
-      (repo as any).__clearAllDemoItemsForTests();
+    if (typeof repo.__clearAllDemoItemsForTests === 'function') {
+      repo.__clearAllDemoItemsForTests();
     }
   });
 

@@ -16,6 +16,7 @@ import {
   useColorScheme,
   View,
   ViewStyle,
+  type LayoutChangeEvent,
 } from 'react-native';
 import Reanimated, {
   Easing,
@@ -180,7 +181,7 @@ export function Segmented<T extends string>({
 
   // Keep viewport width up to date
   const onScrollViewLayout = useCallback(
-    (e: any) => {
+    (e: LayoutChangeEvent) => {
       setViewportW(e.nativeEvent.layout.width);
     },
     [setViewportW],

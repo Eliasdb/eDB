@@ -136,14 +136,14 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
             } @else {
               <crm-add-activity-form
                 (saveActivity)="handleNewActivity($event); showAdd.set(false)"
-                (cancel)="showAdd.set(false)"
+                (cancelRequested)="showAdd.set(false)"
               />
             }
           } @else {
             <crm-contact-edit-form
               [contact]="draft"
               (save)="saveEdit($event)"
-              (cancel)="cancelEdit()"
+              (cancelRequested)="cancelEdit()"
             />
           }
         </section>
@@ -152,7 +152,7 @@ import { ContactEditFormComponent } from '../forms/contact-edit-form.component';
   `,
 })
 export class ContactSidebarComponent implements AfterViewInit {
-  @Input({ alias: 'embedded' }) embedded = false;
+  @Input() embedded = false;
 
   readonly contact = model<Contact>();
   readonly isOpen = signal(false);

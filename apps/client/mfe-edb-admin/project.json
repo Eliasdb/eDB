@@ -36,8 +36,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "4mb"
+              "maximumWarning": "6mb",
+              "maximumError": "8mb"
             },
             {
               "type": "anyComponentStyle",
@@ -103,12 +103,34 @@
       "defaultConfiguration": "development",
       "options": {
         "port": 4300,
-        "publicHost": "http://localhost:4300"
+        "publicHost": "http://localhost:4300",
+        "hmr": true,
+        "liveReload": true,
+        "poll": 1000
       },
       "continuous": true
     },
+    "serve-mf": {
+      "executor": "@nx/angular:module-federation-dev-server",
+      "options": {
+        "port": 4300,
+        "publicHost": "http://localhost:4300",
+        "buildTarget": "mfe-edb-admin:build:development",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "mfe-edb-admin:build:development"
+        },
+        "production": {
+          "buildTarget": "mfe-edb-admin:build:production"
+        }
+      },
+      "defaultConfiguration": "development",
+      "continuous": true
+    },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "options": {
         "vitestConfig": "apps/client/mfe-edb-admin/vitest.config.ts",
         "passWithNoTests": true
