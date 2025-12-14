@@ -46,6 +46,8 @@ jobs:
           EXPO_NO_TELEMETRY: 1
           EXPO_USE_WATCHMAN: 0
         run: pnpm nx run mobile:build:web
+      - name: Flatten vector-icon fonts (avoid __node_modules paths)
+        run: node apps/mobile/_tools/flatten-vector-icons.mjs apps/mobile/dist apps/mobile/dist/fonts
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
