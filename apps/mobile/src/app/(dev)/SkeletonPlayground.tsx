@@ -1,4 +1,4 @@
-// apps/mobile/src/app/(dev)/SkeletonPlayground.tsx
+// apps/mobile/src/app/(dev)/SkeletonPlayground.tsx..
 import React, { useMemo, useRef, useState } from 'react';
 import {
   LayoutChangeEvent,
