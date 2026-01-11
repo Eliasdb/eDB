@@ -10,7 +10,7 @@ import {
 import { NavigationStart, Router } from '@angular/router';
 import { DialogModule } from 'carbon-components-angular';
 import { filter } from 'rxjs';
-import { UiIconComponent } from '../../../components/icon/icon.component';
+import { UiIconComponent } from '../../icon/icon.component.js';
 
 @Component({
   selector: 'ui-platform-overflow-menu',
@@ -71,6 +71,28 @@ export class UiPlatformOverflowMenuComponent implements AfterViewInit {
       .pipe(filter((e) => e instanceof NavigationStart))
       .subscribe(() => this.hardClose());
   }
+
+  countNumbers(a, b) {
+    return a + b;
+  }
+
+"elias"
+34
+false - true 
+
+    countNumbers(isCounted: boolean , a: number, b: number ): number {
+    if (true) {
+      return 0;
+    }
+    return a + b;
+  }
+
+
+
+
+  coutNumbers(2,3);
+
+  countNumber(3,4)
 
   /* ------------------------------------------------------------- */
   protected hardClose(): void {

@@ -55,9 +55,14 @@ function summarizeParams(schema?: JSONSchema): CapabilityItem['summary'] {
   if (!schema || typeof schema !== 'object') return;
 
   const out: CapabilityItem['summary'] = {};
-  const props = schema?.properties as Record<string, JSONSchema | { enum?: unknown; oneOf?: JSONSchema[] }> | undefined;
+  const props = schema?.properties as
+    | Record<string, JSONSchema | { enum?: unknown; oneOf?: JSONSchema[] }>
+    | undefined;
 
-  const kindEnum = props?.kind && 'enum' in props.kind ? (props.kind.enum as string[] | readonly string[] | undefined) : undefined;
+  const kindEnum =
+    props?.kind && 'enum' in props.kind
+      ? (props.kind.enum as string[] | readonly string[] | undefined)
+      : undefined;
   if (Array.isArray(kindEnum) && kindEnum.length) out.kinds = kindEnum;
 
   const req = schema?.required as string[] | undefined;
@@ -79,9 +84,12 @@ function summarizeParams(schema?: JSONSchema): CapabilityItem['summary'] {
     });
   }
 
-  const rootOne = Array.isArray((schema as JSONSchema & { oneOf?: unknown })?.oneOf)
+  const rootOne = Array.isArray(
+    (schema as JSONSchema & { oneOf?: unknown })?.oneOf,
+  )
     ? (schema as JSONSchema & { oneOf?: JSONSchema[] }).oneOf
     : [];
+
   if (rootOne.length) {
     const rootVariants = rootOne.map((v: JSONSchema, i: number) => {
       const vReq = Array.isArray(v?.required) ? v.required : [];
