@@ -8,9 +8,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { UiIconComponent } from '@edb/shared-ui';
 import { DialogModule } from 'carbon-components-angular';
 import { filter } from 'rxjs';
-import { UiIconComponent } from '../../icon/icon.component.js';
 
 @Component({
   selector: 'ui-platform-overflow-menu',
@@ -35,7 +35,6 @@ import { UiIconComponent } from '../../icon/icon.component.js';
     </cds-overflow-menu>
 
     <ng-template #customTriggerTemplate>
-      <!-- wrapper adds the padding -->
       <div class="p-[9px] flex items-center justify-center">
         <ui-icon
           [name]="icon()"
@@ -48,7 +47,6 @@ import { UiIconComponent } from '../../icon/icon.component.js';
   `,
 })
 export class UiPlatformOverflowMenuComponent implements AfterViewInit {
-  /* ------------- existing @inputs / @outputs ------------------ */
   readonly menuOptions = input<{ id: string; label: string }[]>([]);
   readonly placement = input<'bottom' | 'top'>('bottom');
   readonly flip = input<boolean>(true);
@@ -56,66 +54,46 @@ export class UiPlatformOverflowMenuComponent implements AfterViewInit {
   readonly icon = input<string>('');
   readonly iconSize = input<string>('1rem');
   readonly iconColor = input<string>('white');
+
   @Output() menuOptionSelected = new EventEmitter<string>();
 
-  /* ------------------------------------------------------------- */
   isMenuOpen = false;
 
   @ViewChild('menu', { static: true })
-  private menuEl!: HTMLElement & { open: boolean };
+  private menuEl?: HTMLElement & { open: boolean };
+
   private readonly router = inject(Router);
 
-  /* close the popover on every navigation ----------------------- */
   ngAfterViewInit(): void {
     this.router.events
-      .pipe(filter((e) => e instanceof NavigationStart))
+      .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe(() => this.hardClose());
   }
 
-  countNumbers(a, b) {
-    return a + b;
-  }
-
-"elias"
-34
-false - true 
-
-    countNumbers(isCounted: boolean , a: number, b: number ): number {
-    if (true) {
-      return 0;
-    }
-    return a + b;
-  }
-
-
-
-
-  coutNumbers(2,3);
-
-  countNumber(3,4)
-
-  /* ------------------------------------------------------------- */
   protected hardClose(): void {
     this.isMenuOpen = false;
-    if (this.menuEl) this.menuEl.open = false;
+
+    if (this.menuEl) {
+      this.menuEl.open = false;
+    }
   }
 
-  /* unchanged click helpers ------------------------------------- */
-  handleOptionSelect(opt: { id: string }) {
+  handleOptionSelect(option: { id: string }): void {
     this.hardClose();
-    this.onOptionClick(opt.id);
+    this.onOptionClick(option.id);
   }
 
   onMenuSelect(): void {
     this.hardClose();
   }
 
-  onOptionClick(id: string) {
+  onOptionClick(id: string): void {
     if (id === 'logout') {
       console.log('Logging out…');
     } else {
       this.router.navigate([id]);
     }
+
     this.menuOptionSelected.emit(id);
   }
 }
