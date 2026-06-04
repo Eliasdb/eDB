@@ -7,4 +7,4 @@ resources:
 images:
   - name: eliasdb/clara-client
     newName: eliasdb/clara-client
-    newTag: v2.3
+    newTag: v2.4
