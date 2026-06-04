@@ -21,3 +21,4 @@ EXPOSE 9102
 
 # Entry point waits for DB then runs the app
 ENTRYPOINT ["./wait-for-postgres.sh", "postgres-service-prod", "dotnet", "/app/EDb.AdminApi.dll"]
+
