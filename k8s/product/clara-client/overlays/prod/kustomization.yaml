@@ -5,6 +5,6 @@ namespace: default
 resources:
 - ../../base
 images:
-- name: eliasdb/clara-client
-  newName: eliasdb/clara-client
-  newTag: v2.2
+  - name: eliasdb/clara-client
+    newName: eliasdb/clara-client
+    newTag: v2.3
