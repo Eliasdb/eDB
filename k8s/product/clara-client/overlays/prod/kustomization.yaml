@@ -3,7 +3,7 @@ kind: Kustomization
 nameSuffix: -prod
 namespace: default
 resources:
-  - ../../base
+- ../../base
 images:
   - name: eliasdb/clara-client
     newName: eliasdb/clara-client

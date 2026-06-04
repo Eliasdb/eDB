@@ -4,10 +4,10 @@ nameSuffix: -prod
 namespace: default
 
 resources:
-  - ../../base
+- ../../base
 
 patches:
-  - path: patch-deployment.yaml
+- path: patch-deployment.yaml
 
 images:
   - name: eliasdb/clara-api
