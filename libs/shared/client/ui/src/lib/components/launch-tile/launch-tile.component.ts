@@ -68,9 +68,15 @@ import { UiTagComponent } from '../tag/tag.component';
         </div>
 
         <div class="launch-btn-container w-full">
-          <a routerLink="{{ routePath() }}">
-            <ui-button [fullWidth]="true" size="sm">Launch</ui-button>
-          </a>
+          @if (isExternalRoute()) {
+            <a [href]="routePath()" rel="noopener noreferrer">
+              <ui-button [fullWidth]="true" size="sm">Launch</ui-button>
+            </a>
+          } @else {
+            <a [routerLink]="routePath()">
+              <ui-button [fullWidth]="true" size="sm">Launch</ui-button>
+            </a>
+          }
         </div>
       </div>
     </cds-tile>
@@ -84,4 +90,9 @@ export class UiLaunchTileComponent {
   readonly skeleton = input<boolean>(false);
   readonly routePath = input<string>();
   readonly iconUrl = input<string>();
+
+  isExternalRoute(): boolean {
+    const route = this.routePath()?.trim();
+    return !!route && /^https?:\/\//i.test(route);
+  }
 }

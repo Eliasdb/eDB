@@ -46,7 +46,7 @@ import { filter } from 'rxjs';
             [description]="'Toggle AI Mode'"
             [iconSize]="'16px'"
             [iconColor]="'var(--accent)'"
-            (click)="onAiToggleClick()"
+            (iconButtonClick)="onAiToggleClick()"
             class="hover:scale-105 transition-transform"
           />
 
@@ -99,7 +99,7 @@ import { filter } from 'rxjs';
               [description]="'View cart'"
               [iconSize]="'16px'"
               [iconColor]="'var(--accent)'"
-              (click)="toggleCart()"
+              (iconButtonClick)="toggleCart()"
               class="hover:scale-105 transition-transform"
             />
             @if (cartItems()?.length) {
@@ -125,7 +125,6 @@ export class UiPlatformSubHeaderComponent {
 
   readonly isDialogOpen = model(false);
 
-  @Output() openDialog = new EventEmitter<boolean>();
   @Output() ordersClick = new EventEmitter<void>();
   @Output() wishlistClick = new EventEmitter<void>();
 
@@ -145,9 +144,7 @@ export class UiPlatformSubHeaderComponent {
   });
 
   toggleCart() {
-    const next = !this.isDialogOpen();
-    this.isDialogOpen.set(next);
-    this.openDialog.emit(next);
+    this.isDialogOpen.set(!this.isDialogOpen());
   }
 
   onOrdersClick() {

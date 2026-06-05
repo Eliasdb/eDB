@@ -41,6 +41,7 @@ Chart.register(
 console.log('✅ Chart.js registered once in host:', Chart);
 
 @Component({
+  standalone: true,
   selector: 'platform-admin',
   template: `
     <ibm-modal-placeholder></ibm-modal-placeholder>

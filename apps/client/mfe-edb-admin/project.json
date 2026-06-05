@@ -116,7 +116,8 @@
         "port": 4300,
         "publicHost": "http://localhost:4300",
         "buildTarget": "mfe-edb-admin:build:development",
-        "hmr": true
+        "hmr": false,
+        "liveReload": true
       },
       "configurations": {
         "development": {

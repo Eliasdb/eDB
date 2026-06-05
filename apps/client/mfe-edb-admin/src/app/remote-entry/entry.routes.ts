@@ -3,12 +3,15 @@ import { Route } from '@angular/router';
 export const adminRemoteRoutes: Route[] = [
   {
     path: '',
-    loadChildren: () =>
-      import('@eDB/feature-admin-dashboard').then(
-        (m) => m.featureAdminDashboardRoutes,
-      ),
+    loadComponent: () =>
+      import('@eDB/feature-admin-dashboard').then((m) => m.AdminPage),
   },
-  { path: '**', redirectTo: 'not-found' },
+  // {
+  //   path: 'users/:id',
+  //   loadComponent: () =>
+  //     import('@eDB/feature-admin-dashboard').then((m) => m.UserDetailPage),
+  // },
+  { path: '**', redirectTo: '' },
 ];
 
 export default adminRemoteRoutes;

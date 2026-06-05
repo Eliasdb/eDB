@@ -46,7 +46,9 @@ import { CartItem } from '@edb/shared-types';
           <div class="absolute inset-0 flex flex-col text-white p-10 space-y-6">
             <!-- Header -->
             <div>
-              <h2 class="text-4xl font-extrabold mb-2">Order Summary</h2>
+              <h2 class="text-4xl font-extrabold text-white mb-2">
+                Order Summary
+              </h2>
               <p class="opacity-80 mb-6">
                 Review your selected books before checkout.
               </p>
@@ -143,7 +145,7 @@ import { CartItem } from '@edb/shared-types';
             <!-- Mobile Order Summary -->
             @if (!loading && cartItems.length) {
               <div class="lg:hidden border-t mt-10 space-y-4">
-                <h2 class="text-2xl font-bold text-gray-800">Order Summary</h2>
+                <h2 class="text-2xl font-bold text-white">Order Summary</h2>
                 @for (item of cartItems; track item.id) {
                   <webshop-order-summary-item
                     [item]="item"

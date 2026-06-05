@@ -8,9 +8,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { UiIconComponent } from '@edb/shared-ui';
 import { DialogModule } from 'carbon-components-angular';
 import { filter } from 'rxjs';
+import { UiIconComponent } from '../../icon/icon.component';
 
 @Component({
   selector: 'ui-platform-overflow-menu',
