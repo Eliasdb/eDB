@@ -59,7 +59,7 @@ export default {
       return loose;
     }
 
-    // 5. Everything else – do not share
+    // 5. Everything else – do not share.
     return false;
   },
 } satisfies ModuleFederationConfig;
