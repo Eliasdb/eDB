@@ -21,7 +21,7 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
   template: `
     <div class="flex flex-col min-h-[100dvh] bg-[#f4f4f7]">
       <webshop-subheader
-        (openDialog)="toggleCart()"
+        [(isDialogOpen)]="showCart"
         [cartItems]="cartItems()"
         [orderCount]="orderCount()"
         (ordersClick)="goToOrders()"
@@ -62,8 +62,6 @@ export class WebshopAppComponent {
   showCart = false;
   private _aiView = signal(false);
   aiView = this._aiView.asReadonly();
-
-  toggleCart = () => (this.showCart = !this.showCart);
 
   toggleAiView = () => {
     const next = !this._aiView();

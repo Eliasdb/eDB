@@ -282,13 +282,12 @@ export class AdminService {
           this.http.get<RawApiDataBooks>(`${environment.bookAPIUrl}/books`),
         );
 
-        // Pull out the array while still fetching the whole object
         const books = res?.data.items ?? [];
 
         if (!books.length) {
           throw new Error('Books not found');
         }
-        return books; // <— always Book[]
+        return books;
       },
       refetchOnWindowFocus: false,
       refetchOnMount: false,

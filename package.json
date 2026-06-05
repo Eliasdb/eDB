@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:web": "nx serve eDB",
+    "start:edb": "nx serve edb",
+    "start:edb-admin": "nx serve mfe-edb-admin",
+    "start:web": "nx serve edb",
+    "start:admin": "nx serve mfe-edb-admin",
+    "start:mf": "concurrently \"nx serve mfe-edb-admin\" \"nx serve edb\"",
     "start:webshop": "nx serve eDB-webshop",
     "start:webshop-api": "nx serve webshop-api",
     "start:platform-api": "nx serve platform-api",

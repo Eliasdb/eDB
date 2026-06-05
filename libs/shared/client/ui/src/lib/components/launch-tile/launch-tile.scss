@@ -2,3 +2,9 @@
   background-color: white;
   padding: 0 !important;
 }
+
+.tile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

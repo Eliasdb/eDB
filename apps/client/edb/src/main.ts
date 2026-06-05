@@ -1,4 +1,7 @@
-import { createInstance, registerRemotes } from '@module-federation/enhanced/runtime';
+import {
+  createInstance,
+  registerRemotes,
+} from '@module-federation/enhanced/runtime';
 import { environment } from './environments/environment';
 
 const manifestUrl = `${environment.mfManifestBaseUrl}/mf-manifest.json`;

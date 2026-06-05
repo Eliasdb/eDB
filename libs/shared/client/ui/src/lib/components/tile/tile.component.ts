@@ -90,7 +90,7 @@ import { UiTagComponent } from '../tag/tag.component';
                 iconSize="16px"
                 iconColor="var(--accent)"
                 description="Subscribe"
-                (click)="emitSubscribe()"
+                (iconButtonClick)="emitSubscribe()"
               ></ui-icon-button>
             </div>
           </div>

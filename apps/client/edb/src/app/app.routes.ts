@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import { loadRemote } from '@module-federation/enhanced/runtime';
 import { AuthGuard } from './guards/auth.guard';
 import { WrapperComponent } from './wrappers/wc-wrapper/wrapReact';
 
@@ -30,25 +29,16 @@ export const routes: Route[] = [
       },
 
       /* Remote admin (Dynamic Module Federation) */
+      // {
+      //   path: 'admin',
+      //   loadChildren: loadAdminRemoteRoutes,
+      // },
+
       {
         path: 'admin',
         loadChildren: () =>
-          loadRemote<{ default: Route[] }>('mfe-edb-admin/Routes').then(
-            (m) => m?.default ?? [],
-          ),
+          import('mfe-edb-admin/Routes').then((m) => m.default),
       },
-
-      // ...(environment.mfEnableRemotes
-      //   ? [
-      //       {
-      //         path: 'admin',
-      //         loadChildren: () =>
-      //           loadRemote<{ default: Route[] }>('mfe-edb-admin/Routes').then(
-      //             (m) => m!.default,
-      //           ),
-      //       },
-      //     ]
-      //   : []),
 
       /* Demo applications. */
       {
