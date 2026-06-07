@@ -82,7 +82,7 @@ import {
                 Manage applications, launch routes, tags and subscribers.
               </p>
             </div>
-            <ui-button size="sm" disabled>Add</ui-button>
+            <ui-button size="sm" [disabled]="true">Add</ui-button>
           </div>
 
           <div class="applications-table-skeleton" role="status">
