@@ -20,6 +20,24 @@ const loose: SharedLibraryConfig = {
   requiredVersion: false,
 };
 
+const looseSingletonPackages = new Set([
+  '@carbon/styles',
+  '@eDB/client-admin',
+  '@eDB/shared-env',
+  '@edb/shared-types',
+  '@edb/shared-ui',
+  '@edb/util-common',
+  '@edb/util-user-params',
+  '@fortawesome/angular-fontawesome',
+  '@microsoft/signalr',
+  '@tanstack/angular-query-experimental',
+  '@tanstack/query-core',
+  'carbon-components',
+  'carbon-components-angular',
+  'chart.js',
+  'ng2-charts',
+]);
+
 export default {
   name: 'mfe-edb-admin',
 
@@ -48,15 +66,8 @@ export default {
 
     // 4. Your shared libs / UI kits – loose singleton
     if (
-      pkg === '@edb/shared-ui' ||
-      pkg === '@edb/shared-types' ||
-      pkg === 'carbon-components-angular' ||
-      pkg === 'carbon-components' ||
-      pkg === '@carbon/styles' ||
-      pkg === '@tanstack/angular-query-experimental' ||
-      pkg === '@tanstack/query-core' ||
-      pkg === 'chart.js' ||
-      pkg === 'ng2-charts'
+      looseSingletonPackages.has(pkg) ||
+      pkg.startsWith('carbon-components-angular/')
     ) {
       return loose;
     }

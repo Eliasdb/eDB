@@ -28,7 +28,9 @@ import { Order } from '@edb/shared-types';
               >
                 <div class="flex items-center justify-between mb-4">
                   <div>
-                    <h2 class="text-xl font-semibold">Order #{{ order.id }}</h2>
+                    <h2 class="text-xl font-semibold text-white">
+                      Order #{{ order.id }}
+                    </h2>
                     <p class="text-sm opacity-70">Placed on {{ order.date }}</p>
                   </div>
 

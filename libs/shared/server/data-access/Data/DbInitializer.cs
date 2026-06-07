@@ -19,6 +19,12 @@ namespace EDb.DataAccess.Data
             var propertyManagerUrl =
                 configuration["CatalogApplications:PropertyManagerUrl"]?.Trim()
                 ?? "https://property.eliasdebock.com";
+            var smostrAdminUrl =
+                configuration["CatalogApplications:SmostrAdminUrl"]?.Trim()
+                ?? "https://admin.smostr.com";
+            var smostrShopUrl =
+                configuration["CatalogApplications:SmostrShopUrl"]?.Trim()
+                ?? "https://shop.smostr.com";
 
             var seededApplications = new[]
             {
@@ -69,6 +75,22 @@ namespace EDb.DataAccess.Data
                     IconUrl = "https://unpkg.com/lucide-static/icons/building-2.svg",
                     RoutePath = propertyManagerUrl,
                     Tags = ["Property", "Management", "Operations"],
+                },
+                new Application
+                {
+                    Name = "Smostr Admin",
+                    Description = "Smostr administration portal",
+                    IconUrl = "https://unpkg.com/lucide-static/icons/shield-check.svg",
+                    RoutePath = smostrAdminUrl,
+                    Tags = ["Angular", ".NET"],
+                },
+                new Application
+                {
+                    Name = "Smostr Shop",
+                    Description = "Smostr mobile shop",
+                    IconUrl = "https://unpkg.com/lucide-static/icons/store.svg",
+                    RoutePath = smostrShopUrl,
+                    Tags = ["React Native", ".NET"],
                 },
             };
 

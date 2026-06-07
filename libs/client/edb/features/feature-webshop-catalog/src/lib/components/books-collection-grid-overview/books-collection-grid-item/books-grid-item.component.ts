@@ -1,6 +1,7 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { WishlistService } from '@edb/client-books';
 import { Book } from '@edb/shared-types';
 
 @Component({
@@ -14,8 +15,15 @@ import { Book } from '@edb/shared-types';
     >
       <!-- ♥ wishlist icon -->
       <button
-        class="absolute top-4 right-4 text-gray-400 hover:text-pink-500 focus:outline-none"
-        aria-label="Save to wishlist"
+        type="button"
+        class="absolute top-4 right-4 focus:outline-none transition-colors"
+        [class.text-pink-500]="isWishlisted()"
+        [class.text-gray-400]="!isWishlisted()"
+        [attr.aria-label]="
+          isWishlisted() ? 'Remove from wishlist' : 'Save to wishlist'
+        "
+        [attr.aria-pressed]="isWishlisted()"
+        (click)="toggleWishlist()"
         data-testid="wishlist-btn"
       >
         <svg
@@ -91,4 +99,14 @@ import { Book } from '@edb/shared-types';
 export class BooksGridItemComponent {
   readonly book = input<Book>();
   readonly imageLoaded = signal(false);
+
+  private readonly wishlistService = inject(WishlistService);
+
+  readonly isWishlisted = computed(() =>
+    this.wishlistService.isWishlisted(this.book()?.id),
+  );
+
+  toggleWishlist(): void {
+    this.wishlistService.toggle(this.book());
+  }
 }

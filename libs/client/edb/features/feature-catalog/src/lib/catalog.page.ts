@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CatalogService } from '@eDB/client-catalog';
 import { UiComboboxComponent, UiTileComponent } from '@edb/shared-ui';
 import {
@@ -26,7 +26,12 @@ import {
       >
         <section>
           <h1 class="my-4 mt-8 text-3xl font-light text-black">Catalog</h1>
-          <ui-combobox label="Filter by tags." [items]="items"></ui-combobox>
+          <ui-combobox
+            label="Filter by tags."
+            [items]="tagItems()"
+            (comboBoxSelected)="onTagSelection($event)"
+            (comboBoxClear)="clearTagSelection()"
+          ></ui-combobox>
         </section>
       </section>
 
@@ -37,9 +42,9 @@ import {
               <ui-tile [loading]="true"></ui-tile>
             }
           </div>
-        } @else if (catalog() && catalog().length > 0) {
+        } @else if (filteredCatalog().length > 0) {
           <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            @for (item of catalog(); track item.id) {
+            @for (item of filteredCatalog(); track item.id) {
               <ui-tile
                 [title]="item.name"
                 data-testid="catalog-card"
@@ -64,16 +69,28 @@ export class CatalogPageComponent {
   private catalogService = inject(CatalogService);
   private notificationService = inject(NotificationService);
 
-  protected items: ListItem[] = [
-    { content: '.NET', selected: false },
-    { content: 'Angular', selected: false },
-    { content: 'React', selected: false },
-    { content: 'Postgres', selected: false },
-  ];
-
   protected catalog = this.catalogService.catalog;
   protected isLoading = this.catalogService.isLoading;
   protected error = this.catalogService.error;
+  protected selectedTags = signal<string[]>([]);
+
+  protected tagItems = computed<ListItem[]>(() =>
+    Array.from(new Set(this.catalog().flatMap((item) => item.tags)))
+      .sort((a, b) => a.localeCompare(b))
+      .map((tag) => ({
+        content: tag,
+        selected: this.selectedTags().includes(tag),
+      })),
+  );
+
+  protected filteredCatalog = computed(() => {
+    const selectedTags = this.selectedTags();
+    if (selectedTags.length === 0) return this.catalog();
+
+    return this.catalog().filter((item) =>
+      selectedTags.every((tag) => item.tags.includes(tag)),
+    );
+  });
 
   private toggleSubscribeMutation =
     this.catalogService.subscribeToApplicationMutation();
@@ -96,6 +113,28 @@ export class CatalogPageComponent {
         console.error('Failed to toggle subscription', error);
       },
     });
+  }
+
+  onTagSelection(selection: ListItem | ListItem[]): void {
+    if (Array.isArray(selection)) {
+      this.selectedTags.set(
+        selection
+          .filter((item) => item.selected)
+          .map((item) => String(item.content)),
+      );
+      return;
+    }
+
+    const tag = String(selection.content);
+    this.selectedTags.update((tags) =>
+      tags.includes(tag)
+        ? tags.filter((selectedTag) => selectedTag !== tag)
+        : [...tags, tag],
+    );
+  }
+
+  clearTagSelection(): void {
+    this.selectedTags.set([]);
   }
 
   private handleSubscriptionToggle(): void {

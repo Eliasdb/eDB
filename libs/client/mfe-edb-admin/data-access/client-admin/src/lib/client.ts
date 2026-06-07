@@ -127,6 +127,7 @@ export class AdminService {
       },
       onSuccess: () => {
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
+        this.queryClient.refetchQueries({ queryKey: ['applications'] });
       },
     }));
   }
@@ -148,7 +149,9 @@ export class AdminService {
         return subscriptions;
       },
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
+      refetchOnMount: true,
+      staleTime: 0,
+      retry: 1,
     }));
   }
 
@@ -164,6 +167,7 @@ export class AdminService {
       },
       onSuccess: () => {
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
+        this.queryClient.refetchQueries({ queryKey: ['applications'] });
       },
     }));
   }
@@ -180,6 +184,7 @@ export class AdminService {
       },
       onSuccess: () => {
         this.queryClient.invalidateQueries({ queryKey: ['applications'] });
+        this.queryClient.refetchQueries({ queryKey: ['applications'] });
       },
     }));
   }
@@ -345,8 +350,9 @@ export class AdminService {
         );
         return res.data.map(mapOrderDtoToOrder);
       },
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnWindowFocus: false,
+      staleTime: 0,
     }));
   }
 }

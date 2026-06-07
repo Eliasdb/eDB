@@ -1,6 +1,7 @@
 // webshop-app.component.ts
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { WishlistService } from '@edb/client-books';
 import { CartService } from '@edb/client-cart';
 import { OrderService } from '@edb/client-orders';
 import {
@@ -24,7 +25,9 @@ import { UiPlatformSubHeaderComponent } from './sub-header.component';
         [(isDialogOpen)]="showCart"
         [cartItems]="cartItems()"
         [orderCount]="orderCount()"
+        [wishlistCount]="wishlistCount()"
         (ordersClick)="goToOrders()"
+        (wishlistClick)="goToWishlist()"
         (aiToggleClick)="toggleAiView()"
       />
 
@@ -54,10 +57,12 @@ export class WebshopAppComponent {
   private router = inject(Router);
   private cartService: CartService = inject(CartService);
   private orderService: OrderService = inject(OrderService);
+  private wishlistService = inject(WishlistService);
   private aiSvc: AiSearchService = inject(AiSearchService);
 
   cartItems = this.cartService.cartItems;
   orderCount = this.orderService.orderCount;
+  wishlistCount = this.wishlistService.count;
 
   showCart = false;
   private _aiView = signal(false);
@@ -81,5 +86,8 @@ export class WebshopAppComponent {
   }
   goToOrders() {
     this.router.navigate(['/webshop/orders']);
+  }
+  goToWishlist() {
+    this.router.navigate(['/webshop/wishlist']);
   }
 }
