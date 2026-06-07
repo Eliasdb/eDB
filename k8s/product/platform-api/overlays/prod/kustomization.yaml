@@ -9,4 +9,4 @@ patches:
 images:
 - name: eliasdb/platform-api
   newName: eliasdb/platform-api
-  newTag: v2.3
+  newTag: v2.4
