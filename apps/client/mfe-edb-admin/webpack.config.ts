@@ -9,7 +9,7 @@ export default composePlugins(
   withModuleFederation({ ...baseConfig }, { dts: false }),
 
   (config) => {
-    // ✅ reduce file watchers (fixes EMFILE)
+    // ✅ reduce file watchers (fixes EMFILE).
     config.watchOptions = {
       ...(config.watchOptions ?? {}),
       ignored: [

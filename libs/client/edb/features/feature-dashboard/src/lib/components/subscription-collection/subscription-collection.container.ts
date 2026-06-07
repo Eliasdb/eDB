@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { DashboardService } from '@eDB/client-dashboard';
 import { UiLaunchTileComponent } from '@edb/shared-ui';
 import { SubscribedApplication } from '../../types/dashboard.types';
@@ -16,13 +16,12 @@ import { SubscribedApplication } from '../../types/dashboard.types';
       } @else {
         <div class="subscriptions-tiles" data-testid="my-apps-list">
           @if (isLoading()) {
-            <!-- Render fixed number of skeleton tiles while loading -->
-            @for (i of [1]; track $index) {
+            @for (i of skeletonTiles; track $index) {
               <ui-launch-tile [skeleton]="true"></ui-launch-tile>
             }
           } @else {
-            @if (subscriptions().length > 0) {
-              @for (app of subscriptions(); track $index) {
+            @if (displayedSubscriptions().length > 0) {
+              @for (app of displayedSubscriptions(); track $index) {
                 <ui-launch-tile
                   [title]="app.name"
                   data-testid="my-app-card"
@@ -45,8 +44,13 @@ import { SubscribedApplication } from '../../types/dashboard.types';
 })
 export class SubscriptionsCollectionContainer {
   private dashboardService = inject(DashboardService);
+  protected readonly skeletonTiles = Array.from({ length: 6 });
 
-  subscriptions = this.dashboardService.subscriptions;
+  readonly subscriptions = input<SubscribedApplication[] | null>(null);
+
+  displayedSubscriptions = computed(
+    () => this.subscriptions() ?? this.dashboardService.subscriptions(),
+  );
 
   trackByApp(index: number, app: SubscribedApplication): number {
     console.log(index);
