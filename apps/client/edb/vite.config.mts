@@ -11,7 +11,11 @@ export default defineConfig({
 
   cacheDir: join(__dirname, '../node_modules/.vite/edb'),
 
-  plugins: [angular({ tsconfig: './tsconfig.lib.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [
+    angular({ tsconfig: '../tsconfig.spec.json' }),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+  ],
 
   server: {
     port: 4200,

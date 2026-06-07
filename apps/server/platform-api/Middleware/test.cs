@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Edb.PlatformAPI.Middleware;
 
+// test
 public class TokenLoggingMiddleware(RequestDelegate next, ILogger<TokenLoggingMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
