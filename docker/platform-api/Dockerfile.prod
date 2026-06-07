@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd 
 
 WORKDIR /app
 
-# Copy published output
-COPY dist/apps/server/platform-api ./
+# Copy published output (net8.0 assets)
+COPY dist/apps/server/platform-api/net8.0 ./
 
 # Copy DB wait script
 COPY apps/server/platform-api/wait-for-postgres.sh ./wait-for-postgres.sh
