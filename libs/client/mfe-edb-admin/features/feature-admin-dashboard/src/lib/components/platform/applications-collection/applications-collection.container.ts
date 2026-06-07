@@ -74,9 +74,60 @@ import {
       </section>
     } @else {
       @if (applicationsQuery.isLoading()) {
-        <section class="py-6">
-          <h3 class="text-2xl">Applications</h3>
-          <p class="mt-2 text-sm text-gray-600">Loading applications…</p>
+        <section class="applications-table-shell" aria-busy="true">
+          <div class="applications-table-shell__header">
+            <div>
+              <h3 class="applications-table-shell__title">Applications</h3>
+              <p class="applications-table-shell__description">
+                Manage applications, launch routes, tags and subscribers.
+              </p>
+            </div>
+            <ui-button size="sm" disabled>Add</ui-button>
+          </div>
+
+          <div class="applications-table-skeleton" role="status">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Application Name</th>
+                  <th>Description</th>
+                  <th>Route</th>
+                  <th>Tags</th>
+                  <th>Subscribers</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of skeletonRows; track row) {
+                  <tr>
+                    <td>
+                      <span class="skeleton-chevron"></span>
+                    </td>
+                    <td>
+                      <span class="skeleton-cell skeleton-cell--name"></span>
+                    </td>
+                    <td>
+                      <span class="skeleton-cell skeleton-cell--description"></span>
+                    </td>
+                    <td>
+                      <span class="skeleton-cell skeleton-cell--route"></span>
+                    </td>
+                    <td>
+                      <span class="skeleton-cell skeleton-cell--tags"></span>
+                    </td>
+                    <td>
+                      <span class="skeleton-cell skeleton-cell--count"></span>
+                    </td>
+                    <td>
+                      <span class="skeleton-action"></span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+            <span class="sr-only">Loading applications</span>
+          </div>
         </section>
       } @else if (applicationsQuery.isError()) {
         <section class="py-6">
@@ -100,6 +151,7 @@ import {
 
     <ng-template #deleteTemplate let-data="data">
       <ui-platform-overflow-menu
+        class="application-action-menu"
         icon="faEllipsisV"
         [menuOptions]="menuOptions"
         (menuOptionSelected)="onMenuOptionSelected($event, data)"
@@ -260,6 +312,172 @@ import {
         display: block;
       }
 
+      .applications-table-shell {
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        background: #ffffff;
+        color: #111827;
+        padding: 1.25rem;
+      }
+
+      .applications-table-shell__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.75rem;
+      }
+
+      .applications-table-shell__title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.2;
+      }
+
+      .applications-table-shell__description {
+        margin: 0.25rem 0 0;
+        font-size: 1rem;
+        line-height: 1.35;
+      }
+
+      .applications-table-skeleton {
+        overflow-x: auto;
+      }
+
+      .applications-table-skeleton table {
+        width: 100%;
+        min-width: 64rem;
+        border-collapse: collapse;
+      }
+
+      .applications-table-skeleton th {
+        background: #eff6ff;
+        color: #262626;
+        font-size: 0.875rem;
+        font-weight: 700;
+        padding: 0.875rem 1.125rem;
+        text-align: left;
+      }
+
+      .applications-table-skeleton td {
+        border-bottom: 1px solid #d1d5db;
+        padding: 1.6rem 1.125rem;
+        vertical-align: middle;
+      }
+
+      .applications-table-skeleton th:first-child,
+      .applications-table-skeleton td:first-child {
+        width: 3rem;
+      }
+
+      .applications-table-skeleton th:nth-child(6),
+      .applications-table-skeleton td:nth-child(6),
+      .applications-table-skeleton th:nth-child(7),
+      .applications-table-skeleton td:nth-child(7) {
+        width: 8rem;
+      }
+
+      .skeleton-cell,
+      .skeleton-action,
+      .skeleton-chevron {
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+        background: #e5eefb;
+      }
+
+      .skeleton-cell,
+      .skeleton-action {
+        border-radius: 999px;
+        height: 0.9rem;
+      }
+
+      .skeleton-chevron {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 0.2rem;
+      }
+
+      .skeleton-action {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+      }
+
+      .skeleton-cell::after,
+      .skeleton-action::after,
+      .skeleton-chevron::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.72),
+          transparent
+        );
+        animation: skeleton-shimmer 1.35s infinite;
+      }
+
+      .skeleton-cell--name {
+        width: 9rem;
+      }
+
+      .skeleton-cell--description {
+        width: 15rem;
+      }
+
+      .skeleton-cell--route {
+        width: 13rem;
+      }
+
+      .skeleton-cell--tags {
+        width: 16rem;
+      }
+
+      .skeleton-cell--count {
+        width: 2.5rem;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      :host ::ng-deep ui-platform-overflow-menu.application-action-menu {
+        display: inline-flex;
+      }
+
+      :host ::ng-deep ui-platform-overflow-menu.application-action-menu .cds--overflow-menu {
+        width: 2.25rem;
+        height: 2.25rem;
+        min-height: 2.25rem;
+        border-radius: 0.5rem;
+      }
+
+      :host ::ng-deep ui-platform-overflow-menu.application-action-menu .cds--overflow-menu__trigger {
+        width: 2.25rem;
+        height: 2.25rem;
+      }
+
+      :host ::ng-deep ui-platform-overflow-menu.application-action-menu .cds--overflow-menu__trigger div {
+        padding: 0.5rem;
+      }
+
+      @keyframes skeleton-shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
       .application-modal-backdrop {
         position: fixed;
         inset: 0;
@@ -376,6 +594,7 @@ import {
 export class ApplicationsCollectionContainer implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   isSmallScreen = false;
+  protected readonly skeletonRows = Array.from({ length: 6 }, (_, index) => index);
 
   @ViewChild('deleteTemplate', { static: true })
   deleteTemplate!: TemplateRef<unknown>;
