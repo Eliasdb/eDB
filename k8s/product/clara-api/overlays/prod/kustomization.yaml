@@ -12,4 +12,4 @@ patches:
 images:
   - name: eliasdb/clara-api
     newName: eliasdb/clara-api
-    newTag: v2.5
+    newTag: v2.6
