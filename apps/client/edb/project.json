@@ -7,7 +7,7 @@
   "tags": [],
   "implicitDependencies": ["wc-edb-user-account"],
   "targets": {
-    // 🔹 keep your existing webpack+MF build as-is
+    // 🔹 keep your existing webpack+MF build as-is.
     "build": {
       "allowedCommonJsDependencies": [
         "flatpickr",
