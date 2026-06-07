@@ -20,7 +20,7 @@ builder.Services.AddCors(o =>
     o.AddPolicy(
         "DocsCors",
         p =>
-            p.WithOrigins("http://localhost:5098") // docs site origin
+            p.WithOrigins("http://localhost:5098") // docs site origin...
                 .AllowAnyHeader()
                 .AllowAnyMethod()
     )
