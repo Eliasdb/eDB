@@ -1,6 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import {
-  CustomModalService,
   UiButtonComponent,
   UiPlatformOverflowMenuComponent,
   UiTableComponent,
@@ -32,7 +31,6 @@ import {
 import { ApplicationsCollectionAccordionComponent } from '../applications-collection-mobile-accordion/applications-collection-mobile-accordion';
 import {
   APPLICATION_TABLE_CONFIG,
-  MODAL_CONFIG,
   OVERFLOW_MENU_CONFIG,
 } from './applications-collection.container.config';
 
@@ -203,7 +201,177 @@ import {
         </section>
       </div>
     }
+
+    @if (isDeleteModalOpen()) {
+      <div
+        class="application-modal-backdrop"
+        role="presentation"
+      >
+        <section
+          class="application-modal application-modal--confirm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Delete application"
+        >
+          <header class="application-modal__header">
+            <div>
+              <p class="application-modal__eyebrow">Application</p>
+              <h3 class="application-modal__title">Delete Application</h3>
+              <p class="application-modal__description">
+                This will permanently remove
+                <strong>{{ deletingApplication()?.name }}</strong>
+                from the catalog.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="application-modal__close"
+              aria-label="Close delete modal"
+              (click)="closeDeleteConfirmationModal()"
+            >
+              ×
+            </button>
+          </header>
+
+          <footer class="application-modal__footer">
+            <ui-button
+              variant="tertiary"
+              size="sm"
+              (buttonClick)="closeDeleteConfirmationModal()"
+            >
+              Cancel
+            </ui-button>
+            <ui-button
+              variant="primary"
+              size="sm"
+              [loading]="deleteApplicationMutation.isPending()"
+              (buttonClick)="confirmDeleteApplication()"
+            >
+              Delete
+            </ui-button>
+          </footer>
+        </section>
+      </div>
+    }
   `,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .application-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: rgba(17, 24, 39, 0.56);
+      }
+
+      .application-modal {
+        width: min(100%, 48rem);
+        max-height: calc(100vh - 3rem);
+        overflow-y: auto;
+        border-radius: 0.75rem;
+        background: #ffffff;
+        color: #1f2937;
+        box-shadow:
+          0 24px 80px rgba(15, 23, 42, 0.24),
+          0 8px 24px rgba(15, 23, 42, 0.16);
+        padding: 1.75rem;
+      }
+
+      .application-modal--confirm {
+        max-width: 36rem;
+      }
+
+      .application-modal__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .application-modal__eyebrow {
+        margin: 0;
+        color: #6b7280;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .application-modal__title {
+        margin: 0.75rem 0 0;
+        color: #262626;
+        font-size: clamp(1.75rem, 3vw, 2.25rem);
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      .application-modal__description {
+        margin: 0.75rem 0 0;
+        color: #4b5563;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .application-modal__close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: #6b7280;
+        cursor: pointer;
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .application-modal__close:hover {
+        background: #f3f4f6;
+        color: #111827;
+      }
+
+      .application-modal__footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 640px) {
+        .application-modal-backdrop {
+          align-items: flex-end;
+          padding: 0;
+        }
+
+        .application-modal {
+          width: 100%;
+          max-height: 92vh;
+          border-radius: 1rem 1rem 0 0;
+          padding: 1.25rem;
+        }
+
+        .application-modal__footer {
+          flex-direction: column-reverse;
+        }
+
+        .application-modal__footer ui-button {
+          width: 100%;
+        }
+      }
+    `,
+  ],
 })
 export class ApplicationsCollectionContainer implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
@@ -217,7 +385,6 @@ export class ApplicationsCollectionContainer implements OnInit {
 
   adminService: AdminService = inject(AdminService);
   tableUtils: TableUtilsService = inject(TableUtilsService);
-  modalUtils: CustomModalService = inject(CustomModalService);
   router = inject(Router);
   fb = inject(FormBuilder);
 
@@ -237,6 +404,8 @@ export class ApplicationsCollectionContainer implements OnInit {
   isApplicationModalOpen = signal(false);
   applicationModalMode = signal<'add' | 'edit'>('add');
   editingApplication = signal<Application | null>(null);
+  isDeleteModalOpen = signal(false);
+  deletingApplication = signal<Application | null>(null);
   applicationModalTitle = computed(() =>
     this.applicationModalMode() === 'add'
       ? 'Add Application'
@@ -375,10 +544,22 @@ export class ApplicationsCollectionContainer implements OnInit {
   }
 
   openDeleteConfirmationModal(application: Application) {
-    this.modalUtils.openModal({
-      ...MODAL_CONFIG.deleteApplication(application.name),
-      onSave: () => this.handleDeleteApplication(application.id),
-    });
+    this.deletingApplication.set(application);
+    this.isDeleteModalOpen.set(true);
+  }
+
+  closeDeleteConfirmationModal(): void {
+    this.isDeleteModalOpen.set(false);
+    this.deletingApplication.set(null);
+  }
+
+  confirmDeleteApplication(): void {
+    const application = this.deletingApplication();
+    if (!application) return;
+
+    this.handleDeleteApplication(application.id, () =>
+      this.closeDeleteConfirmationModal(),
+    );
   }
 
   handleAddApplication(formData: CreateApplicationDto, onSuccess?: () => void) {
@@ -392,11 +573,12 @@ export class ApplicationsCollectionContainer implements OnInit {
     });
   }
 
-  handleDeleteApplication(applicationId: number) {
+  handleDeleteApplication(applicationId: number, onSuccess?: () => void) {
     this.deleteApplicationMutation.mutate(applicationId, {
       onSuccess: async () => {
         console.log('Application deleted successfully');
         await this.applicationsQuery.refetch();
+        onSuccess?.();
       },
       onError: (err) => console.error('Failed to delete application', err),
     });

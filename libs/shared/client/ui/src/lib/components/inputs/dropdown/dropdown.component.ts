@@ -3,6 +3,10 @@ import { DropdownModule, I18nModule } from 'carbon-components-angular';
 
 // ✅ Type alias for dropdown items
 type DropdownItem = { content: string; selected: boolean };
+type DropdownSelectionEvent =
+  | DropdownItem
+  | DropdownItem[]
+  | { item?: DropdownItem; value?: DropdownItem | string; content?: string };
 
 @Component({
   selector: 'ui-dropdown',
@@ -58,10 +62,37 @@ export class UiDropdownComponent {
   @Output() dropdownClosed = new EventEmitter<void>();
 
   handleSelected(event: unknown): void {
-    this.selectionChange.emit(event as DropdownItem);
+    const item = this.normalizeSelection(event as DropdownSelectionEvent);
+    if (item) {
+      this.selectionChange.emit(item);
+    }
   }
 
   handleClose(): void {
     this.dropdownClosed.emit();
+  }
+
+  private normalizeSelection(event: DropdownSelectionEvent): DropdownItem | null {
+    if (Array.isArray(event)) {
+      return event.find((item) => item.selected) ?? event[0] ?? null;
+    }
+
+    if (event && typeof event === 'object') {
+      if ('item' in event && event.item) {
+        return event.item;
+      }
+
+      if ('value' in event && event.value) {
+        return typeof event.value === 'string'
+          ? { content: event.value, selected: true }
+          : event.value;
+      }
+
+      if ('content' in event && typeof event.content === 'string') {
+        return event as DropdownItem;
+      }
+    }
+
+    return null;
   }
 }
