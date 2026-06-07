@@ -9,4 +9,4 @@ patches:
 images:
 - name: eliasdb/webshop-api
   newName: eliasdb/webshop-api
-  newTag: v2.1
+  newTag: v2.3
