@@ -1,7 +1,14 @@
 // admin-orders-list.component.ts
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { AdminService } from '@eDB/client-admin';
 import { Order } from '@edb/shared-types';
 
@@ -30,9 +37,12 @@ import { Order } from '@edb/shared-types';
               <!-- ===== MOBILE PILL ===== -->
               @if (isMobile()) {
                 <div
+                  [attr.id]="orderElementId(order.id)"
                   (click)="toggle(order.id)"
                   class="group relative flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm transition
          hover:shadow-md active:bg-slate-50 cursor-pointer"
+                  [class.ring-2]="isSelected(order.id)"
+                  [class.ring-slate-900]="isSelected(order.id)"
                   tabindex="0"
                   (keyup.enter)="toggle(order.id)"
                 >
@@ -99,7 +109,11 @@ import { Order } from '@edb/shared-types';
               } @else {
                 <!-- ===== DESKTOP CARD ===== -->
                 <article
+                  [attr.id]="orderElementId(order.id)"
                   class="relative border border-slate-200 rounded-xl bg-white p-5 md:p-6 shadow-sm transition hover:shadow-md hover:ring-1 hover:ring-slate-300"
+                  [class.ring-2]="isSelected(order.id)"
+                  [class.ring-slate-900]="isSelected(order.id)"
+                  [class.border-slate-900]="isSelected(order.id)"
                 >
                   <!-- colored accent -->
                   <span
@@ -173,6 +187,7 @@ import { Order } from '@edb/shared-types';
 export class AdminOrdersListComponent {
   /* ───────── data ───────── */
   private readonly admin = inject(AdminService);
+  readonly selectedOrderId = input<string | null>(null);
   readonly ordersQuery = this.admin.queryAllOrders();
   readonly orders = computed(() => this.ordersQuery.data() ?? []);
 
@@ -185,6 +200,22 @@ export class AdminOrdersListComponent {
       this.bp
         .observe('(max-width: 767px)')
         .subscribe((r) => this.isMobile.set(r.matches));
+    });
+
+    effect(() => {
+      const selectedOrderId = this.selectedOrderId();
+      const orders = this.orders();
+      if (!selectedOrderId || orders.length === 0) return;
+
+      const order = orders.find((item) => item.id === selectedOrderId);
+      if (!order) return;
+
+      this.opened.add(order.id);
+      queueMicrotask(() => {
+        document
+          .getElementById(this.orderElementId(order.id))
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     });
   }
 
@@ -199,6 +230,13 @@ export class AdminOrdersListComponent {
   }
   open(id: string | number) {
     return this.opened.has(id);
+  }
+  isSelected(id: string | number) {
+    return this.selectedOrderId() === id;
+  }
+
+  orderElementId(id: string | number) {
+    return `admin-order-${id}`;
   }
 
   /* ───────── visual helpers ───────── */

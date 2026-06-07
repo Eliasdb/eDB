@@ -6,47 +6,38 @@ export const APPLICATION_TABLE_CONFIG: ExpandedDataConfig<Application> = {
   headers: [
     new TableHeaderItem({ data: 'Application Name', sortable: false }),
     new TableHeaderItem({ data: 'Description', sortable: false }),
+    new TableHeaderItem({ data: 'Route', sortable: false }),
+    new TableHeaderItem({ data: 'Tags', sortable: false }),
     new TableHeaderItem({ data: 'Subscribers', sortable: false }),
     new TableHeaderItem({ data: 'Actions', sortable: false }),
   ],
-  rowMapper: (
-    application: Application,
-    context?: Record<string, unknown>,
-  ) => [
+  rowMapper: (application: Application, context?: Record<string, unknown>) => [
     new TableItem({ data: application.name }),
     new TableItem({ data: application.description }),
+    new TableItem({ data: application.routePath }),
+    new TableItem({ data: application.tags?.join(', ') || '—' }),
     new TableItem({ data: application.subscriberCount }),
     new TableItem({
       data: { application },
       template: context?.['nonExpandedActionTemplate'], // Use non-expanded action template
     }),
   ],
-  expandedDataMapper: (
-    app: Application,
-    context?: Record<string, unknown>,
-  ) => {
-    const actionTemplate = context?.['expandedActionTemplate'];
-
+  expandedDataMapper: (app: Application) => {
     return [
       [
-        new TableItem({ data: 'ID' }),
-        new TableItem({ data: 'User Name' }),
+        new TableItem({ data: 'Identity ID' }),
+        new TableItem({ data: 'Email' }),
         new TableItem({ data: 'Subscription Date' }),
-        new TableItem({ data: 'Actions' }),
       ],
       ...app.subscribedUsers.map((user) => [
-        new TableItem({ data: user.userId }),
         new TableItem({ data: user.userName }),
+        new TableItem({ data: user.userEmail || '—' }),
         new TableItem({
           data: new Date(user.subscriptionDate).toLocaleDateString('en-GB', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
           }),
-        }),
-        new TableItem({
-          data: { userId: user.userId, applicationId: app.id },
-          template: actionTemplate, // Use expanded action template
         }),
       ]),
     ];
@@ -58,10 +49,6 @@ export const MODAL_CONFIG = {
     header: 'Add Application',
     hasForm: true,
   },
-  revokeAccess: (userId: number, applicationId: number) => ({
-    header: 'Confirm Revocation',
-    content: `Are you sure you want to revoke access for User ID: ${userId} from Application ID: ${applicationId}? This action cannot be undone.`,
-  }),
   deleteApplication: (applicationName: string) => ({
     header: 'Confirm Deletion',
     content: `Are you sure you want to delete the application "${applicationName}"? This action cannot be undone.`,

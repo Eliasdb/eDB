@@ -24,10 +24,13 @@ export class BooksService {
     const status = this.bookParamService.statusSignal();
     const sort = this.bookParamService.sortSignal();
 
-    // Build common query params
-    let params = new HttpParams().set('status', status || 'available');
+    // Build common query params. "all" means no filter for that field.
+    let params = new HttpParams();
 
-    if (genre) {
+    if (status && status !== 'all') {
+      params = params.set('status', status);
+    }
+    if (genre && genre !== 'all') {
       params = params.set('genre', genre);
     }
     if (search) {

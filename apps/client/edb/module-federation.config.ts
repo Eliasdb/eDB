@@ -21,9 +21,40 @@ const loose: SharedLibraryConfig = {
   requiredVersion: false,
 };
 
+const looseSingletonPackages = new Set([
+  '@carbon/styles',
+  '@eDB/client-admin',
+  '@eDB/shared-env',
+  '@edb/shared-types',
+  '@edb/shared-ui',
+  '@edb/util-common',
+  '@edb/util-user-params',
+  '@fortawesome/angular-fontawesome',
+  '@microsoft/signalr',
+  '@tanstack/angular-query-experimental',
+  '@tanstack/query-core',
+  'carbon-components',
+  'carbon-components-angular',
+  'chart.js',
+  'ng2-charts',
+]);
+
+const targetConfiguration =
+  process.env.NX_TASK_TARGET_CONFIGURATION ??
+  process.env.NODE_ENV ??
+  'development';
+
+const adminRemoteEntry =
+  process.env.MFE_EDB_ADMIN_REMOTE_ENTRY ??
+  (targetConfiguration === 'production'
+    ? 'https://app.eliasdebock.com/admin/remoteEntry.mjs'
+    : targetConfiguration === 'staging'
+      ? 'https://app.staging.eliasdebock.com/admin/remoteEntry.mjs'
+      : 'http://localhost:4300/remoteEntry.mjs');
+
 export default {
   name: 'edb',
-  remotes: ['mfe-edb-admin'],
+  remotes: [['mfe-edb-admin', adminRemoteEntry]],
   exposes: {},
 
   shared: (pkg?: string) => {
@@ -46,15 +77,8 @@ export default {
 
     // 4. Your shared libs / UI kits – loose singleton
     if (
-      pkg === '@edb/shared-ui' ||
-      pkg === '@edb/shared-types' ||
-      pkg === 'carbon-components-angular' ||
-      pkg === 'carbon-components' ||
-      pkg === '@carbon/styles' ||
-      pkg === '@tanstack/angular-query-experimental' ||
-      pkg === '@tanstack/query-core' ||
-      pkg === 'chart.js' ||
-      pkg === 'ng2-charts'
+      looseSingletonPackages.has(pkg) ||
+      pkg.startsWith('carbon-components-angular/')
     ) {
       return loose;
     }

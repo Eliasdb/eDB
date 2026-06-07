@@ -13,6 +13,7 @@ import {
   effect,
   inject,
   OnInit,
+  signal,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -20,7 +21,6 @@ import { Router } from '@angular/router';
 
 import { AdminService } from '@eDB/client-admin';
 import { TableUtilsService } from '@edb/util-common';
-import { PlaceholderModule, ModalModule } from 'carbon-components-angular';
 import { TableModel } from 'carbon-components-angular/table';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -41,10 +41,6 @@ import {
   imports: [
     UiTableComponent,
     UiButtonComponent,
-    // Carbon modal needs both the module (providers) and a placeholder in the
-    // view tree; keep it close to where the modal is opened.
-    ModalModule,
-    PlaceholderModule,
     UiPlatformOverflowMenuComponent,
     MatCardModule,
     ApplicationsCollectionAccordionComponent,
@@ -68,29 +64,41 @@ import {
           (editApplication)="onMobileEdit($event)"
           [items]="applications()"
         />
+        @if (applicationsQuery.isLoading()) {
+          <p class="text-sm text-gray-600">Loading applications…</p>
+        } @else if (applicationsQuery.isError()) {
+          <p class="text-sm text-red-600">
+            Could not load applications. Please try again.
+          </p>
+        } @else if (applications().length === 0) {
+          <p class="text-sm text-gray-600">No applications found.</p>
+        }
       </section>
     } @else {
-      <ui-table
-        title="Applications"
-        description="Manage applications and their subscribers."
-        [model]="tableModel"
-        [showSelectionColumn]="false"
-        [showButton]="true"
-        [primaryActionLabel]="'Add'"
-        (primaryActionClick)="openAddApplicationModal()"
-      ></ui-table>
+      @if (applicationsQuery.isLoading()) {
+        <section class="py-6">
+          <h3 class="text-2xl">Applications</h3>
+          <p class="mt-2 text-sm text-gray-600">Loading applications…</p>
+        </section>
+      } @else if (applicationsQuery.isError()) {
+        <section class="py-6">
+          <h3 class="text-2xl">Applications</h3>
+          <p class="mt-2 text-sm text-red-600">
+            Could not load applications. Please try again.
+          </p>
+        </section>
+      } @else {
+        <ui-table
+          title="Applications"
+          description="Manage applications, launch routes, tags and subscribers."
+          [model]="tableModel()"
+          [showSelectionColumn]="false"
+          [showButton]="true"
+          [primaryActionLabel]="'Add'"
+          (primaryActionClick)="openAddApplicationModal()"
+        ></ui-table>
+      }
     }
-
-    <ng-template #actionTemplate let-data="data">
-      <ui-button
-        size="sm"
-        icon="faBan"
-        variant="ghost"
-        (click)="onRevokeAccess(data.userId, data.applicationId)"
-      >
-        Revoke access
-      </ui-button>
-    </ng-template>
 
     <ng-template #deleteTemplate let-data="data">
       <ui-platform-overflow-menu
@@ -100,56 +108,112 @@ import {
       ></ui-platform-overflow-menu>
     </ng-template>
 
-    <ng-template #applicationFormTemplate let-form="form">
-      <form [formGroup]="applicationForm" class="space-y-4">
-        <ui-text-input
-          label="Application Name"
-          formControlName="name"
-          theme="light"
-          ngDefaultControl
-        />
-        <ui-text-input
-          label="Description"
-          formControlName="description"
-          theme="light"
-          ngDefaultControl
-        />
-        <ui-text-input
-          label="Icon URL"
-          formControlName="iconUrl"
-          theme="light"
-          ngDefaultControl
-        />
-        <ui-text-input
-          label="Route Path"
-          formControlName="routePath"
-          theme="light"
-          ngDefaultControl
-        />
-        <ui-text-input
-          label="Tags (comma-separated)"
-          formControlName="tags"
-          theme="light"
-          ngDefaultControl
-        />
-      </form>
-    </ng-template>
+    @if (isApplicationModalOpen()) {
+      <div
+        class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 p-4"
+        role="presentation"
+      >
+        <section
+          class="w-full max-w-2xl rounded-2xl bg-white p-6 text-black shadow-2xl"
+          role="dialog"
+          aria-modal="true"
+          [attr.aria-label]="applicationModalTitle()"
+        >
+          <header class="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm uppercase tracking-[0.18em] text-gray-500">
+                Application
+              </p>
+              <h3 class="mt-1 text-3xl font-semibold">
+                {{ applicationModalTitle() }}
+              </h3>
+              <p class="mt-2 text-sm text-gray-600">
+                Configure the catalog entry shown to users.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="rounded-full px-3 py-1 text-3xl leading-none text-gray-500 hover:bg-gray-100 hover:text-black"
+              aria-label="Close application modal"
+              (click)="closeApplicationModal()"
+            >
+              ×
+            </button>
+          </header>
 
+          <form [formGroup]="applicationForm" class="grid gap-4">
+            <ui-text-input
+              label="Application Name"
+              formControlName="name"
+              theme="light"
+              ngDefaultControl
+            />
+            <ui-text-input
+              label="Description"
+              formControlName="description"
+              theme="light"
+              ngDefaultControl
+            />
+            <ui-text-input
+              label="Icon URL"
+              formControlName="iconUrl"
+              theme="light"
+              ngDefaultControl
+            />
+            <ui-text-input
+              label="Route Path"
+              formControlName="routePath"
+              theme="light"
+              ngDefaultControl
+            />
+            <ui-text-input
+              label="Tags (comma-separated)"
+              formControlName="tags"
+              theme="light"
+              ngDefaultControl
+            />
+          </form>
+
+          @if (applicationForm.invalid && applicationForm.touched) {
+            <p class="mt-4 text-sm text-red-600">
+              Name, description and route path are required.
+            </p>
+          }
+
+          <footer class="mt-8 flex flex-wrap justify-end gap-3">
+            <ui-button
+              variant="tertiary"
+              size="sm"
+              (buttonClick)="closeApplicationModal()"
+            >
+              Cancel
+            </ui-button>
+            <ui-button
+              variant="primary"
+              size="sm"
+              [loading]="
+                addApplicationMutation.isPending() ||
+                editApplicationMutation.isPending()
+              "
+              (buttonClick)="submitApplicationModal()"
+            >
+              {{ applicationModalMode() === 'add' ? 'Add' : 'Save' }}
+            </ui-button>
+          </footer>
+        </section>
+      </div>
+    }
   `,
 })
 export class ApplicationsCollectionContainer implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   isSmallScreen = false;
 
-  @ViewChild('actionTemplate', { static: true })
-  actionTemplate!: TemplateRef<unknown>;
   @ViewChild('deleteTemplate', { static: true })
   deleteTemplate!: TemplateRef<unknown>;
-  @ViewChild('applicationFormTemplate', { static: true })
-  applicationFormTemplate!: TemplateRef<unknown>;
 
   menuOptions = OVERFLOW_MENU_CONFIG;
-  tableModel = new TableModel();
+  tableModel = signal(new TableModel());
 
   adminService: AdminService = inject(AdminService);
   tableUtils: TableUtilsService = inject(TableUtilsService);
@@ -159,18 +223,25 @@ export class ApplicationsCollectionContainer implements OnInit {
 
   applicationForm = this.fb.group({
     name: ['', Validators.required],
-    description: [''],
+    description: ['', Validators.required],
     iconUrl: [''],
-    routePath: [''],
+    routePath: ['', Validators.required],
     tags: [''],
   });
 
-  private applicationsQuery = this.adminService.queryApplications();
+  protected applicationsQuery = this.adminService.queryApplications();
   addApplicationMutation = this.adminService.addApplicationMutation();
   editApplicationMutation = this.adminService.editApplicationMutation();
   deleteApplicationMutation = this.adminService.deleteApplicationMutation();
-  revokeSubscriptionMutation = this.adminService.revokeSubscriptionMutation();
   applications = computed(() => this.applicationsQuery.data() || []);
+  isApplicationModalOpen = signal(false);
+  applicationModalMode = signal<'add' | 'edit'>('add');
+  editingApplication = signal<Application | null>(null);
+  applicationModalTitle = computed(() =>
+    this.applicationModalMode() === 'add'
+      ? 'Add Application'
+      : 'Edit Application',
+  );
 
   constructor() {
     effect(() => {
@@ -192,19 +263,23 @@ export class ApplicationsCollectionContainer implements OnInit {
   }
 
   initializeTable(applications: Application[]) {
-    this.tableModel.header = APPLICATION_TABLE_CONFIG.headers;
-    this.tableModel.data = this.tableUtils.createExpandedData(
+    const tableModel = new TableModel();
+    tableModel.header = APPLICATION_TABLE_CONFIG.headers;
+    tableModel.data = this.tableUtils.createExpandedData(
       applications,
       APPLICATION_TABLE_CONFIG,
       {
         nonExpandedActionTemplate: this.deleteTemplate,
-        expandedActionTemplate: this.actionTemplate,
       },
     );
+    this.tableModel.set(tableModel);
   }
 
   clearTable() {
-    this.tableModel.data = [];
+    const tableModel = new TableModel();
+    tableModel.header = APPLICATION_TABLE_CONFIG.headers;
+    tableModel.data = [];
+    this.tableModel.set(tableModel);
   }
 
   onMobileEdit(application: Application): void {
@@ -230,33 +305,13 @@ export class ApplicationsCollectionContainer implements OnInit {
     }
   }
 
-  onRevokeAccess(userId: number, applicationId: number): void {
-    this.openRevokeAccessConfirmationModal(userId, applicationId);
-  }
-
   openAddApplicationModal() {
     this.applicationForm.reset();
     this.applicationForm.markAsPristine();
     this.applicationForm.markAsUntouched();
-
-    this.modalUtils.openModal({
-      header: MODAL_CONFIG.addApplication.header,
-      template: this.applicationFormTemplate,
-      context: { form: this.applicationForm },
-      onSave: () => {
-        if (this.applicationForm.invalid) return;
-        const formValue = this.applicationForm.value;
-        this.handleAddApplication({
-          name: formValue.name ?? '',
-          description: formValue.description ?? '',
-          iconUrl: formValue.iconUrl ?? '',
-          routePath: formValue.routePath ?? '',
-          tags: formValue.tags
-            ? formValue.tags.split(',').map((tag) => tag.trim())
-            : [],
-        });
-      },
-    });
+    this.applicationModalMode.set('add');
+    this.editingApplication.set(null);
+    this.isApplicationModalOpen.set(true);
   }
 
   openEditApplicationModal(application: Application) {
@@ -267,26 +322,56 @@ export class ApplicationsCollectionContainer implements OnInit {
       routePath: application.routePath,
       tags: application.tags?.join(', ') || '',
     });
+    this.applicationForm.markAsPristine();
+    this.applicationForm.markAsUntouched();
+    this.applicationModalMode.set('edit');
+    this.editingApplication.set(application);
+    this.isApplicationModalOpen.set(true);
+  }
 
-    this.modalUtils.openModal({
-      header: MODAL_CONFIG.editApplication(application).header,
-      template: this.applicationFormTemplate,
-      context: { form: this.applicationForm },
-      onSave: () => {
-        if (this.applicationForm.invalid) return;
-        const formValue = this.applicationForm.value;
-        this.handleEditApplication({
-          ...application,
-          name: formValue.name ?? application.name,
-          description: formValue.description ?? application.description,
-          iconUrl: formValue.iconUrl ?? application.iconUrl,
-          routePath: formValue.routePath ?? application.routePath,
-          tags: formValue.tags
-            ? formValue.tags.split(',').map((tag) => tag.trim())
-            : application.tags ?? [],
-        });
+  closeApplicationModal(): void {
+    this.isApplicationModalOpen.set(false);
+    this.editingApplication.set(null);
+    this.applicationForm.reset();
+  }
+
+  submitApplicationModal(): void {
+    if (this.applicationForm.invalid) {
+      this.applicationForm.markAllAsTouched();
+      return;
+    }
+
+    const formValue = this.applicationForm.getRawValue();
+    const tags = this.parseTags(formValue.tags);
+
+    if (this.applicationModalMode() === 'add') {
+      this.handleAddApplication(
+        {
+          name: formValue.name ?? '',
+          description: formValue.description ?? '',
+          iconUrl: formValue.iconUrl ?? '',
+          routePath: formValue.routePath ?? '',
+          tags,
+        },
+        () => this.closeApplicationModal(),
+      );
+      return;
+    }
+
+    const application = this.editingApplication();
+    if (!application) return;
+
+    this.handleEditApplication(
+      {
+        ...application,
+        name: formValue.name ?? application.name,
+        description: formValue.description ?? application.description,
+        iconUrl: formValue.iconUrl ?? application.iconUrl,
+        routePath: formValue.routePath ?? application.routePath,
+        tags,
       },
-    });
+      () => this.closeApplicationModal(),
+    );
   }
 
   openDeleteConfirmationModal(application: Application) {
@@ -296,41 +381,42 @@ export class ApplicationsCollectionContainer implements OnInit {
     });
   }
 
-  openRevokeAccessConfirmationModal(userId: number, applicationId: number) {
-    this.modalUtils.openModal({
-      ...MODAL_CONFIG.revokeAccess(userId, applicationId),
-      onSave: () => this.handleRevokeAccess(userId, applicationId),
-    });
-  }
-
-  handleAddApplication(formData: CreateApplicationDto) {
+  handleAddApplication(formData: CreateApplicationDto, onSuccess?: () => void) {
     this.addApplicationMutation.mutate(formData, {
-      onSuccess: () => console.log('Application added successfully'),
+      onSuccess: async () => {
+        console.log('Application added successfully');
+        await this.applicationsQuery.refetch();
+        onSuccess?.();
+      },
       onError: (err) => console.error('Failed to add application', err),
     });
   }
 
   handleDeleteApplication(applicationId: number) {
     this.deleteApplicationMutation.mutate(applicationId, {
-      onSuccess: () => console.log('Application deleted successfully'),
+      onSuccess: async () => {
+        console.log('Application deleted successfully');
+        await this.applicationsQuery.refetch();
+      },
       onError: (err) => console.error('Failed to delete application', err),
     });
   }
 
-  handleEditApplication(newApplication: Application) {
+  handleEditApplication(newApplication: Application, onSuccess?: () => void) {
     this.editApplicationMutation.mutate(newApplication, {
-      onSuccess: () => console.log('Application edited successfully'),
+      onSuccess: async () => {
+        console.log('Application edited successfully');
+        await this.applicationsQuery.refetch();
+        onSuccess?.();
+      },
       onError: (err) => console.error('Failed to edit application', err),
     });
   }
 
-  handleRevokeAccess(userId: number, applicationId: number) {
-    this.revokeSubscriptionMutation.mutate(
-      { userId, applicationId },
-      {
-        onSuccess: () => console.log('Access successfully revoked'),
-        onError: (err) => console.error('Failed to revoke access', err),
-      },
-    );
+  private parseTags(tags: string | null | undefined): string[] {
+    return (tags ?? '')
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
   }
 }

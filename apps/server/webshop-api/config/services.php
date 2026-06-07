@@ -36,4 +36,16 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'checkout' => [
+        'frontend_url' => rtrim(env('FRONTEND_URL', 'http://localhost:4200'), '/'),
+        'success_url' => env(
+            'CHECKOUT_SUCCESS_URL',
+            rtrim(env('FRONTEND_URL', 'http://localhost:4200'), '/') . '/webshop/checkout/success?session_id={CHECKOUT_SESSION_ID}'
+        ),
+        'cancel_url' => env(
+            'CHECKOUT_CANCEL_URL',
+            rtrim(env('FRONTEND_URL', 'http://localhost:4200'), '/') . '/webshop/checkout'
+        ),
+    ],
+
 ];

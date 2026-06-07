@@ -13,20 +13,22 @@ export class CustomModalService {
     content?: string;
     template?: TemplateRef<unknown>;
     context?: unknown;
-    onSave?: () => void;
+    onSave?: () => boolean | void;
     onClose?: () => void;
   }) {
     const modalRef = this.modalService.create<UiModalComponent>({
       component: UiModalComponent,
     });
 
-    if (options.header) modalRef.instance.header.set(options.header);
-    if (options.content) modalRef.instance.content.set(options.content);
-    if (options.template) modalRef.instance.template.set(options.template);
-    if (options.context) modalRef.instance.context.set(options.context);
+    modalRef.setInput('header', options.header);
+    modalRef.setInput('content', options.content);
+    modalRef.setInput('template', options.template ?? null);
+    modalRef.setInput('context', options.context ?? null);
+    modalRef.changeDetectorRef.detectChanges();
 
     modalRef.instance.save.subscribe(() => {
-      options.onSave?.();
+      const shouldClose = options.onSave?.();
+      if (shouldClose === false) return;
       modalRef.destroy();
     });
 

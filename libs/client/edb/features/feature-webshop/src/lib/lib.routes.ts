@@ -31,6 +31,11 @@ export const featureWebshopRoutes: Route[] = [
             (m) => m.featureOrdersRoutes,
           ),
       },
+      {
+        path: 'wishlist',
+        loadComponent: () =>
+          import('./wishlist.page').then((m) => m.WishlistPageComponent),
+      },
     ],
   },
 ];

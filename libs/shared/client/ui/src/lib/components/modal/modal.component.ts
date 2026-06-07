@@ -76,6 +76,5 @@ export class UiModalComponent {
 
   onSave(): void {
     this.save.emit();
-    this.onCancel();
   }
 }
