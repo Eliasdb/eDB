@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.143" timestamp="2026-06-07T23:07:37.053637+02:00" hostname="Eliass-MacBook-Pro-3.local"><testcase classname="tests.test_hello" name="test_hello" time="0.001"><failure message="AssertionError: assert 'Hello tools-invoices-api' == 'Hello tools-invoices-api!!!'&#10;  &#10;  - Hello tools-invoices-api!!!&#10;  ?                         ---&#10;  + Hello tools-invoices-api">def test_hello():
+        """Test the hello function."""
+&gt;       assert hello() == "Hello tools-invoices-api!!!"
+#x1B[1m#x1B[31mE       AssertionError: assert 'Hello tools-invoices-api' == 'Hello tools-invoices-api!!!'#x1B[0m
+#x1B[1m#x1B[31mE         #x1B[0m
+#x1B[1m#x1B[31mE         - Hello tools-invoices-api!!!#x1B[0m
+#x1B[1m#x1B[31mE         ?                         ---#x1B[0m
+#x1B[1m#x1B[31mE         + Hello tools-invoices-api#x1B[0m
+
+#x1B[1m#x1B[31mtests/test_hello.py#x1B[0m:8: AssertionError</failure></testcase></testsuite></testsuites>

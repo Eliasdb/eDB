@@ -15,9 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "react-native": ["node_modules/react-native"],
-      "@data-access": ["apps/mobile/src/lib/data-access/index.ts"],
-      "@data-access/*": ["apps/mobile/src/lib/data-access/*"],
       "@e-db/generated-admin-api-types": [
         "libs/generated/admin-api-types/src/index.ts"
       ],
@@ -156,15 +153,8 @@
       ],
       "@edb/shared-types": ["libs/types/webshop/src/index.ts"],
       "@edb/shared-ui": ["libs/shared/client/ui/src/index.ts"],
-      "@edb/shared-ui-rn": ["libs/shared/client/ui-rn/src/index.ts"],
       "@edb/util-common": ["libs/utils/util-common/src/index.ts"],
-      "@edb/util-user-params": ["libs/utils/util-user-params/src/index.ts"],
-      "@features/*": ["apps/mobile/src/lib/features/*"],
-      "@ui": ["apps/mobile/src/lib/ui/index.ts"],
-      "@ui/*": ["apps/mobile/src/lib/ui/*"],
-      "@vm/*": ["apps/mobile/src/viewmodels/*"],
-      "@voice": ["apps/mobile/src/lib/voice/index.ts"],
-      "@voice/*": ["apps/mobile/src/lib/voice/*"]
+      "@edb/util-user-params": ["libs/utils/util-user-params/src/index.ts"]
     }
   },
   "exclude": ["tmp"],

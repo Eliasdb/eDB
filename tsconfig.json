@@ -11,8 +11,6 @@
     "tmp",
     "coverage",
     "build",
-    "apps/mobile/node_modules",
-    "apps/mobile/.expo",
     "apps/client/edb/src/assets"
   ]
 }
