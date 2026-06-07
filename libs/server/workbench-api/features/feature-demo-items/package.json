@@ -1,12 +1,12 @@
 {
-  "name": "@edb-workbench/api/feature-demo-items",
+  "name": "@edb-workbench/api-feature-demo-items",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@edb-workbench/api/shared": "workspace:*",
+    "@edb-workbench/api-shared": "workspace:*",
     "fastify": "^5.6.1",
     "tslib": "^2.3.0",
     "vitest": "^3.0.0",

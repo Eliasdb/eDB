@@ -1,12 +1,12 @@
 {
-  "name": "@edb-workbench/api/infra",
+  "name": "@edb-workbench/api-infra",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@edb-workbench/api/shared": "workspace:*",
+    "@edb-workbench/api-shared": "workspace:*",
     "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.6",
     "dotenv": "^16.4.5",

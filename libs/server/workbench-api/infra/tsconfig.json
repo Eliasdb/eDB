@@ -10,12 +10,10 @@
     "esModuleInterop": true,
     "types": ["vitest/globals", "vitest/importMeta", "node"],
     "paths": {
-      "@edb-workbench/api/models": [
-        "dist/libs/server/workbench-api/models/src/index.d.ts"
+      "@edb-workbench/api-shared": [
+        "libs/server/workbench-api/shared/src/index.ts"
       ],
-      "@edb-workbench/api/models/*": [
-        "dist/libs/server/workbench-api/models/src/*"
-      ]
+      "@edb-workbench/api-shared/*": ["libs/server/workbench-api/shared/src/*"]
     }
   }
 }

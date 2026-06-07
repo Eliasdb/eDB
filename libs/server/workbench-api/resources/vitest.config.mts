@@ -4,7 +4,10 @@ import url from 'node:url';
 import { defineConfig } from 'vitest/config';
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
-dotenv.config({ path: '.env.local' });
+
+dotenv.config({
+  path: path.resolve(dirname, '../../../../.env.local'),
+});
 
 export default defineConfig({
   test: {
@@ -12,11 +15,13 @@ export default defineConfig({
     globals: true,
     reporters: ['default', 'verbose'],
     include: ['src/**/*.spec.ts'],
-    pool: 'threads',
-    poolOptions: {
-      threads: { singleThread: true },
+
+    // Safer for DB/integration-style tests than threaded workers.
+    pool: 'forks',
+    fileParallelism: false,
+    sequence: {
+      concurrent: false,
     },
-    sequence: { concurrent: false },
   },
   resolve: {
     alias: {
