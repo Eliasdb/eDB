@@ -59,7 +59,7 @@ using (var scope = app.Services.CreateScope())
     {
         var dbContext = services.GetRequiredService<MyDbContext>();
         dbContext.Database.Migrate();
-        DbInitializer.Initialize(dbContext);
+        DbInitializer.Initialize(dbContext, builder.Configuration);
     }
     catch (Exception ex)
     {

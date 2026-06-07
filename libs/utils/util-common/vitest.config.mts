@@ -8,7 +8,7 @@ export default defineConfig({
   root: __dirname,
   cacheDir: '../node_modules/.vite/test',
   plugins: [
-    angular(),
+    angular({ tsconfig: 'libs/utils/util-common/tsconfig.lib.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ] as any,

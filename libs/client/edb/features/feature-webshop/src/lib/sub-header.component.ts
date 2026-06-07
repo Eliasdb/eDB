@@ -46,7 +46,7 @@ import { filter } from 'rxjs';
             [description]="'Toggle AI Mode'"
             [iconSize]="'16px'"
             [iconColor]="'var(--accent)'"
-            (click)="onAiToggleClick()"
+            (iconButtonClick)="onAiToggleClick()"
             class="hover:scale-105 transition-transform"
           />
 
@@ -59,17 +59,13 @@ import { filter } from 'rxjs';
               (iconButtonClick)="onWishlistClick()"
               class="hover:scale-105 transition-transform"
             />
-            <!-- Optional badge (e.g., if you want to show a count later) -->
-            <!--
-  @if (wishlistCount() > 0) {
-    <span
-      class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center
-             rounded-full bg-pink-500 text-xs font-medium text-white shadow-sm"
-    >
-      {{ wishlistCount() }}
-    </span>
-  }
-  -->
+            @if (wishlistCount()) {
+              <span
+                class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-pink-500 text-xs font-medium text-white shadow-sm"
+              >
+                {{ wishlistCount() }}
+              </span>
+            }
           </div>
 
           <!-- Orders icon -->
@@ -99,7 +95,7 @@ import { filter } from 'rxjs';
               [description]="'View cart'"
               [iconSize]="'16px'"
               [iconColor]="'var(--accent)'"
-              (click)="toggleCart()"
+              (iconButtonClick)="toggleCart()"
               class="hover:scale-105 transition-transform"
             />
             @if (cartItems()?.length) {
@@ -122,10 +118,10 @@ import { filter } from 'rxjs';
 export class UiPlatformSubHeaderComponent {
   readonly cartItems = input<CartItem[]>();
   readonly orderCount = input<number>();
+  readonly wishlistCount = input<number>();
 
   readonly isDialogOpen = model(false);
 
-  @Output() openDialog = new EventEmitter<boolean>();
   @Output() ordersClick = new EventEmitter<void>();
   @Output() wishlistClick = new EventEmitter<void>();
 
@@ -145,9 +141,7 @@ export class UiPlatformSubHeaderComponent {
   });
 
   toggleCart() {
-    const next = !this.isDialogOpen();
-    this.isDialogOpen.set(next);
-    this.openDialog.emit(next);
+    this.isDialogOpen.set(!this.isDialogOpen());
   }
 
   onOrdersClick() {

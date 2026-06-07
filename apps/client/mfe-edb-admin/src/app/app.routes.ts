@@ -1,17 +1,19 @@
-import { Route } from '@angular/router';
+// import { Route } from '@angular/router';
 
-export const adminRemoteRoutes: Route[] = [
-  {
-    path: '',
-    pathMatch: 'full',
-    loadChildren: () =>
-      import('@eDB/feature-admin-dashboard').then(
-        (m) => m.featureAdminDashboardRoutes,
-      ),
-  },
-  {
-    path: '**',
-    redirectTo: 'not-found',
-  },
-];
-export default adminRemoteRoutes;
+// export const adminRemoteRoutes: Route[] = [
+//   {
+//     path: '',
+//     loadComponent: () =>
+//       import('@eDB/feature-admin-dashboard').then((m) => m.AdminPage),
+//   },
+//   {
+//     path: 'users/:id',
+//     loadComponent: () =>
+//       import('@eDB/feature-admin-dashboard').then((m) => m.UserDetailPage),
+//   },
+//   {
+//     path: '**',
+//     redirectTo: '',
+//   },
+// ];
+// export default adminRemoteRoutes;

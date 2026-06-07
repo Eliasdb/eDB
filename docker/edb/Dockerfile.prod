@@ -4,6 +4,10 @@ FROM nginx:alpine
 # Copy built files from CI/CD pipeline output
 COPY dist/apps/client/edb /etc/nginx/html/app
 
+# Copy the React web-component assets explicitly. The Angular build also copies
+# these, but this makes the image fail fast if CI did not build the dependency.
+COPY dist/apps/client/edb-user-account /etc/nginx/html/app/assets/eDB-user-account
+
 # Copy custom nginx configuration for the platform app
 COPY docker/edb/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 

@@ -89,8 +89,8 @@ import { UiTagComponent } from '../tag/tag.component';
                 icon="faDownload"
                 iconSize="16px"
                 iconColor="var(--accent)"
-                description="Subscribe"
-                (click)="emitSubscribe()"
+                [description]="isSubscribed() ? 'Unsubscribe' : 'Subscribe'"
+                (iconButtonClick)="emitSubscribe()"
               ></ui-icon-button>
             </div>
           </div>

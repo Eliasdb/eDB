@@ -52,7 +52,7 @@ import {
           data-testid="books-filters-form"
           [value]="query()"
           [bookStatus]="status()"
-          [activeGenre]="genre()"
+          [activeGenre]="genre() || 'all'"
           (searchChange)="onSearch($event)"
           (filterGenre)="filterGenre($event)"
           (filterStatus)="filterStatus($event)"
@@ -137,7 +137,9 @@ export class BooksCollectionContainer implements AfterViewInit {
     this.bookParamService.navigate({ [SORT_QUERY_PARAM]: s });
   }
   filterGenre(g: string) {
-    this.bookParamService.navigate({ [GENRE_QUERY_PARAM]: g });
+    this.bookParamService.navigate({
+      [GENRE_QUERY_PARAM]: g === 'all' ? '' : g,
+    });
   }
   filterStatus(st: string) {
     this.bookParamService.navigate({ [STATUS_QUERY_PARAM]: st });

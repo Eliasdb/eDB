@@ -41,8 +41,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "4kb",
+              "maximumError": "6kb"
             }
           ],
           "outputHashing": "all",
@@ -57,7 +57,16 @@
           }
         },
         "staging": {
-          "optimization": true,
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": {
+              "inline": false
+            }
+          },
           "sourceMap": false,
           "outputHashing": "all",
           "namedChunks": true,
@@ -116,7 +125,8 @@
         "port": 4300,
         "publicHost": "http://localhost:4300",
         "buildTarget": "mfe-edb-admin:build:development",
-        "hmr": true
+        "hmr": false,
+        "liveReload": true
       },
       "configurations": {
         "development": {
@@ -156,6 +166,9 @@
       "configurations": {
         "development": {
           "buildTarget": "mfe-edb-admin:build:development"
+        },
+        "staging": {
+          "buildTarget": "mfe-edb-admin:build:staging"
         },
         "production": {
           "buildTarget": "mfe-edb-admin:build:production"

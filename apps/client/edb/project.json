@@ -5,9 +5,9 @@
   "prefix": "app",
   "sourceRoot": "apps/client/edb/src",
   "tags": [],
-  "implicitDependencies": ["wc-edb-user-account", "mobile"],
+  "implicitDependencies": ["wc-edb-user-account"],
   "targets": {
-    // 🔹 keep your existing webpack+MF build as-is
+    // 🔹 keep your existing webpack+MF build as-is.
     "build": {
       "allowedCommonJsDependencies": [
         "flatpickr",
@@ -209,9 +209,12 @@
       ],
       "executor": "@nx/angular:module-federation-dev-server",
       "options": {
+        "port": 4200,
         "proxyConfig": "apps/client/edb/proxy.conf.json",
         "publicHost": "http://localhost:4200",
-        "buildTarget": "edb:build:development"
+        "buildTarget": "edb:build:development",
+        "hmr": false,
+        "liveReload": true
       },
       "configurations": {
         "production": {
@@ -251,7 +254,19 @@
         "port": 4200,
         "staticFilePath": "dist/apps/client/edb/browser",
         "spa": true
-      }
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "edb:build:development"
+        },
+        "staging": {
+          "buildTarget": "edb:build:staging"
+        },
+        "production": {
+          "buildTarget": "edb:build:production"
+        }
+      },
+      "defaultConfiguration": "development"
     }
   }
 }

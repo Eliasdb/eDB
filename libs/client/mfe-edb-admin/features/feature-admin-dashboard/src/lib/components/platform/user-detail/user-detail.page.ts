@@ -14,6 +14,7 @@ type UserDetail = UserProfile & {
 };
 
 @Component({
+  standalone: true,
   selector: 'platform-user-profile',
   imports: [UiStructuredListComponent, UiButtonComponent],
   // Removed styleUrls; all styling is now applied using Tailwind classes.

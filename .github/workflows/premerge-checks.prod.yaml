@@ -15,7 +15,7 @@ jobs:
       - name: Set Version
         id: version
         run: |
-          VERSION=v2.2
+          VERSION=v2.3
           echo "image_tag=${VERSION}" >> $GITHUB_ENV
           echo "image_tag=${VERSION}" >> $GITHUB_OUTPUT
 
@@ -158,7 +158,7 @@ jobs:
       - name: Build & Push Docker images (skip admin)
         run: |
           AFFECTED=$(pnpm nx show projects --affected --type=app \
-            --base=origin/main --head=HEAD --plain --exclude=mfe-edb-admin,mobile)
+            --base=origin/main --head=HEAD --plain --exclude=mfe-edb-admin,mobile,workbench-api)
 
           echo "Affected apps (non-admin): $AFFECTED"
 
@@ -166,7 +166,7 @@ jobs:
             lower_app=$(echo "$app" | tr '[:upper:]' '[:lower:]')
 
 
-            if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ]; then
+            if [ "$lower_app" != "webshop-api" ] && [ "$app" != "wc-edb-user-account" ] && [ "$app" != "tools-invoices-api" ] && [ "$app" != "workbench-api" ]; then
               echo "🏗️ Building $app"
               pnpm nx run "$app":build --configuration=production
             else
@@ -206,15 +206,15 @@ jobs:
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
   # ─────────────────────────────────────────────
-  call-mobile:
-    name: Mobile Web CI
-    needs:
-      - detect-affected
-      - version
-    if: needs.detect-affected.outputs.mobile_changed == 'true'
-    uses: ./.github/workflows/mobile-ci.production.yml
-    with:
-      image_tag: ${{ needs.version.outputs.image_tag }}
-    secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  # call-mobile:
+  #   name: Mobile Web CI
+  #   needs:
+  #     - detect-affected
+  #     - version
+  #   if: needs.detect-affected.outputs.mobile_changed == 'true'
+  #   uses: ./.github/workflows/mobile-ci.production.yml
+  #   with:
+  #     image_tag: ${{ needs.version.outputs.image_tag }}
+  #   secrets:
+  #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

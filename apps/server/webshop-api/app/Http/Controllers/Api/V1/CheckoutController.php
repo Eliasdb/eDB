@@ -15,6 +15,7 @@ use Stripe\Checkout\Session as StripeSession;
 use App\Services\Messaging\AmqpPublisher;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Stripe\Exception\ApiErrorException;
 
 class CheckoutController extends Controller
 {
@@ -64,30 +65,48 @@ class CheckoutController extends Controller
         // Save shipping data in cache for webhook
         Cache::put("checkout_user_{$userId}", $shipping, now()->addMinutes(30));
 
-        // Create Stripe session
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $stripeSecret = config('services.stripe.secret');
+        if (!$stripeSecret) {
+            return response()->json(['error' => 'Stripe secret is not configured'], 500);
+        }
 
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => 'Book Order',
+        $successUrl = config('services.checkout.success_url');
+        $cancelUrl = config('services.checkout.cancel_url');
+
+        Stripe::setApiKey($stripeSecret);
+
+        try {
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => 'Book Order',
+                        ],
+                        'unit_amount' => (int) ($amount * 100),
                     ],
-                    'unit_amount' => (int) ($amount * 100),
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'customer_email' => $shipping['email'],
+                'metadata' => [
+                    'user_id' => $userId,
                 ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'customer_email' => $shipping['email'],
-            'metadata' => [
+                'success_url' => $successUrl,
+                'cancel_url' => $cancelUrl,
+            ]);
+        } catch (ApiErrorException $e) {
+            Log::error('Stripe checkout session creation failed', [
                 'user_id' => $userId,
-            ],
-             'success_url' => env('CHECKOUT_SUCCESS_URL'),
-'cancel_url'  => env('CHECKOUT_CANCEL_URL'),
+                'error' => $e->getMessage(),
+            ]);
 
-        ]);
+            return response()->json([
+                'error' => 'Could not create checkout session',
+                'details' => $e->getMessage(),
+            ], 502);
+        }
 
         return response()->json(['url' => $session->url]);
     }

@@ -1,4 +1,28 @@
 .launch-tile {
   background-color: white;
+  min-height: 13.5rem;
   padding: 0 !important;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tile-header {
+  min-height: 6.25rem;
+}
+
+.tile-footer {
+  margin-top: auto;
+}
+
+.skeleton-placeholder,
+.skeleton-placeholder cds-skeleton-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
 }

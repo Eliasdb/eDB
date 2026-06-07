@@ -25,7 +25,7 @@ public class MappingProfile : Profile
             )
             .ForMember(
                 dest => dest.UserEmail,
-                opt => opt.Ignore() // Or use a placeholder since email isn't available locally
+                opt => opt.MapFrom(_ => string.Empty)
             )
             .ForMember(
                 dest => dest.SubscriptionDate,

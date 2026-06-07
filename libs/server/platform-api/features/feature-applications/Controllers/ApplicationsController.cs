@@ -54,7 +54,10 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
     }
 
     [HttpGet("user")]
-    public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications()
+    public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetUserApplications(
+        [FromQuery] string? search,
+        [FromQuery] string? tag
+    )
     {
         var keycloakUserId = User.FindFirst("sub")?.Value;
 
@@ -64,8 +67,24 @@ public class ApplicationsController(IApplicationsService applicationsService) : 
         }
 
         var subscribedApps = await _applicationsService.GetSubscribedApplicationsAsync(
-            keycloakUserId
+            keycloakUserId,
+            search,
+            tag
         );
         return Ok(subscribedApps);
+    }
+
+    [HttpGet("user/tags")]
+    public async Task<ActionResult<IEnumerable<string>>> GetUserApplicationTags()
+    {
+        var keycloakUserId = User.FindFirst("sub")?.Value;
+
+        if (string.IsNullOrEmpty(keycloakUserId))
+        {
+            return Unauthorized(new { message = "User is not authenticated!" });
+        }
+
+        var tags = await _applicationsService.GetSubscribedApplicationTagsAsync(keycloakUserId);
+        return Ok(tags);
     }
 }
