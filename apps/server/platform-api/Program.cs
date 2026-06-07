@@ -7,7 +7,7 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Configuration Setup ---
+// --- Configuration Setup. ---
 if (builder.Environment.IsDevelopment())
 {
     Env.Load();
